@@ -1,18 +1,33 @@
 # .bashrc
 
+# check if this is first time to read bashrc or not {{{
+# (subshell, screen, etc...)
+if [ "$INIT_PATH" = "" ];then
+  # set initial values of PATH, LD_LIBRARY_PATH, PYTHONPATH
+  export INIT_PATH=$PATH
+  export INIT_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+  export INIT_PYTHONPATH=$PYTHONPATH
+else
+  # reset paths
+  export PATH=$INIT_PATH
+  export LD_LIBRARY_PATH=$INIT_LD_LIBRARY_PATH
+  export PYTHONPATH=$INIT_PYTHONPATH
+fi
+# }}}
+
 # function for sourcing with precheck of the file {{{
 function source_file() {
-  arg=$1
-  shift
-  flag=`echo $arg|sed -e 's|/|_|g'|sed -e 's|\.|_|g'`
-  if [ "`printenv $flag`" = 1 ];then
+  if [ $# -lt 1 ];then
+    echo "ERROR!!! source_file is called w/o an argument"
     return
   fi
-  export $flag=1
+  arg=$1
+  shift
   if [ -f $arg ]; then
     source $arg
   fi
-} # }}}
+}
+# }}}
 
 # Source global definitions {{{
 source_file /etc/bashrc
@@ -161,13 +176,12 @@ export MYCL="" #xsel/xclip
 # }}}
 
 # include files {{{
+# local path
+source_file ~/.localpath.sh
 
 # functions
 source_file ~/.functions.sh
 
 # file used in linux, working server
 source_file ~/.work.sh
-
-# local path
-source_file ~/.localpath.sh
 # }}}
