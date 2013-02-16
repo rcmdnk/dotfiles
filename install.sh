@@ -1,5 +1,5 @@
 #!/bin/sh
-exclude=('.' '..' '.svn')
+exclude=('.' '..' '.git' 'README.md')
 curdir=`pwd -P`
 for f in .*;do
   for e in ${exclude[*]};do
