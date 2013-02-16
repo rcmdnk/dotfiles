@@ -1,0 +1,144 @@
+### escape
+escape ^Tt
+
+### disable t
+bind t
+bind ^t
+
+### scroll back
+defscrollback 10000
+
+### don't show start up message
+startup_message off
+
+### auto detach
+autodetach on
+
+### show action in the hidden window
+defmonitor on
+
+### hardcopydir
+hardcopydir $HOME/.screenlog
+
+
+### time (second) to show message
+msgwait 10
+
+### remove background color
+#defbce "on"
+
+### kill
+bind K kill
+
+### use bright color for the characters
+attrcolor b ".I"
+
+### clear scrollback buffer
+bind F eval 'scrollback 0' 'scrollback 1000' 'echo "scrollback buffer cleared"'
+
+### source setup file
+bind q eval "source $HOME/.screenrc"
+
+### modify window list
+bind w  windowlist -b
+bind ^W windowlist -b
+#bind ^W windowlist -b -m # sorting by most-recentry-used list.
+##disable...
+#bind w 
+#bind ^W
+
+### clear display before detachment
+bind d eval 'only' 'clear' 'detach'
+
+
+### focus (like vi)
+bind j focus down
+bind k focus up
+#bind l focus next
+#bind h focus prev
+bind l focus right
+bind h focus left
+bind ^J focus down
+bind ^K focus up
+bind ^L focus right
+#bind ^H focus left #non
+#bind  focus left #non
+bind -k kb focus left #ok? needed?
+bind ^H focus left #? now it is working... (2012/05/21)
+
+### split
+bind V split -v
+bind S split
+
+### make 4 window with new 4 screen
+bind s eval 'only' 'screen' 'screen' 'screen' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
+bind ^s eval 'only' 'screen' 'screen' 'screen' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
+
+### make 4 window with no new screen
+bind r eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
+bind ^r eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
+
+#### resize window
+bind y eval 'echo "Resize window"' 'command -c resize'
+bind ^y eval 'echo "Resize window"' 'command -c resize'
+bind -c resize h eval 'resize -h -1' 'command -c resize'
+bind -c resize l eval 'resize -h +1' 'command -c resize'
+bind -c resize j eval 'resize -v +1' 'command -c resize'
+bind -c resize k eval 'resize -v -1' 'command -c resize'
+bind -c resize ^h eval 'resize -h -1' 'command -c resize'
+bind -c resize ^l eval 'resize -h +1' 'command -c resize'
+bind -c resize ^j eval 'resize -v +1' 'command -c resize'
+bind -c resize ^k eval 'resize -v -1' 'command -c resize'
+
+### clip board, xclip or xsel?
+### xsel (xclip also?) sometime remains like zombie...?
+bufferfile "$SCREENEXCHANGE"
+
+bindkey -m ' ' eval 'stuff \040' writebuf "exec !!! myClPutSC"
+bindkey -m Y eval 'stuff Y' writebuf "exec !!! myClPutSC"
+bindkey -m W eval 'stuff W' writebuf "exec !!! myClPutSC"
+
+bind a eval "exec !!! myClPopSC"
+bind ^a eval "exec !!! myClPopSC"
+
+###colors for other messages, including center line
+#sorendition "+rb .w"
+sorendition " .K"
+
+# term
+#term "screen-256color"
+
+## not change the window size when it is attached
+termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+termcapinfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
+#xterm understands both im/ic and doesn't have a status line.
+#Note: Do not specify im and ic in the real termcap/info file as
+#some programs (e.g. vi) will (no,no, may (jw)) not work anymore.
+termcap xterm|fptwist hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
+terminfo xterm|fptwist hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
+termcap xterm-256color|fptwist hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
+terminfo xterm-256color|fptwist hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
+
+# Long time I had this in my private screenrc file. But many people
+# seem to want it (jw):
+# we do not want the width to change to 80 characters on startup:
+# on suns, /etc/termcap has :is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;3;4;6l:
+termcap xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+terminfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+termcap xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+terminfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
+#
+# Do not use xterms alternate window buffer.
+# This one would not add lines to the scrollback buffer.
+termcap xterm|xterms|xs ti=\E7\E[?47l
+terminfo xterm|xterms|xs ti=\E7\E[?47l
+termcap xterm-256color|xterms|xs ti=\E7\E[?47l
+terminfo xterm-256color|xterms|xs ti=\E7\E[?47l
+
+### caption for each window
+caption splitonly '%?%F%{=d Wk}%:%{=d Kk}%?%? %h%:%2n %t%?%?%P *** copy/paste mode ***%:%?%='
+
+### hardstatus
+hardstatus alwayslastline "%{= Kk}%-w%40L>%{= Wk}%?%n %t%?%{-}%+w"
