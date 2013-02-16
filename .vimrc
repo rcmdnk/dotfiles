@@ -545,9 +545,9 @@ autocmd bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 """ normal mode (noremap)
 
 "" cursor move
-" Left (C-h default: same as h)
+" Left (C-h default: <BS> ~ h)
 "no <C-h> h
-" Right (C-j default: same as j)
+" Right (C-j default: <NL> ~ j)
 "no <C-j> j
 " Up (C-k default: Non)
 no <C-k> k
@@ -587,7 +587,7 @@ no <silent> ,d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
 no ,w :w<CR>
 no ,q :q<CR>
 no ,wq :wq<CR>
-
+no ,1 :q!<CR>
 
 " insert mode (inoremap)
 
