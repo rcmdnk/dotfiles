@@ -1,0 +1,40 @@
+set bell-style none
+#set editing-mode vi
+"\C-p": previous-history
+"\C-n": next-history
+"\M-<": beginning-of-history
+"\M->": end-of-history
+
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-b": backward-char
+"\C-f": forward-char
+"\M-b": backward-word
+"\M-f": forward-word
+
+"\M-c": capitalize-word
+"\M-u": upcase-word
+
+"\M-.": yank-last-arg
+"\M-_": yank-last-arg
+"\M-\C-y": yank-nth-arg
+"\M-y": yank-pop
+"\M-d": kill-word
+"\M-\C-h": backward-kill-word
+
+"\C-d": delete-char
+
+"\C-k": kill-line
+
+"\C-q": quoted-insert
+
+"\C-l": clear-screen
+"\C-]": character-search
+"\C-o": operate-and-get-next
+
+"\C-n":history-search-forward
+"\C-p":history-search-backward
+
+"\M-f": forward-word
+"\M-b": backward-word
+
