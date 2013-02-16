@@ -642,107 +642,125 @@ cno <C-a> <C-b>
 " tips {{{
 "" # startup tips
 "" * start w/o vimrc
-"" vim -u NONE
+""     vim -u NONE
 "" * start w/o viminfo
-"" vim -i NONE
+""     vim -i NONE
 "" * start w/o X connection
-"" vim -X
+""     vim -X
 "" * write startup timing to startup.log
-"" vim --startuptime startup.log
+""     vim --startuptime startup.log
 ""
 "" # check configurations
 "" * default commands (mappings)
-"" :help index.txt
+""     :help index.txt
 "" * my mappings
-"" :nmap " show mappings for normal mode
-"" show mappings for normal mode with name of file in which the mapping is defined
-"" :verbose nmap
+""     :nmap " show mappings for normal mode
+"" *show mappings for normal mode with name of file in which the mapping is defined
+""     :verbose nmap
 "" * for boolean parameters, use '?'
-"" :verbose wrap?
+""     :verbose wrap?
 ""
 "' # mapping
-"" * leader
-"" <leader> -> \
+"" * leader: default <leader> = \
 "" but leader can be changed by
-"" let mapleader = ","
+""     let mapleader = ","
 "" * special arguments:<silent>,<buffer>, etc...
-"" :no a <silent> echo 'hoge'<CR>
+""     :no a <silent> echo 'hoge'<CR>
 "" it doesn't show cmmands/results in command line (so above does nothing)
-"" :no a <buffer>... effective in the current buffer only
+""     :no a <buffer>... effective in the current buffer only
 "" 
 ""
 "" # Command line
 "" * shell command
-"" :! echo current file is %
+""     :! echo current file is %
 "" % will be replaced by name of current file
 ""
 "" * Insert command result
-"" :r ! echo % " insert current file name
-"" :r ! echo %:p " full path of file
-"" :r ! echo %:h " insert current directory (relative)
-"" :r ! echo %:p:h " insert current directory (absolute)
-"" :r ! echo expand(%:p:h) " expand such '~'
-"" :r !ls "files/directories in current directory
+""     :r ! echo % " insert current file name
+""     :r ! echo %:p " full path of file
+""     :r ! echo %:h " insert current directory (relative)
+""     :r ! echo %:p:h " insert current directory (absolute)
+""     :r ! echo expand(%:p:h) " expand such '~'
+""     :r !ls "files/directories in current directory
 ""
 ""
 ""
 "" # Completion
-"" i_C-X_C-F -> file name completion
-"" i_C-X_C-K -> dictionary completion
-"" i_C-V_tab -> insert tab
-"" i_C-R_%   -> insert current file name
-""    other C-R usages
-""    '"'     the unnamed register, containing the text of
-""            the last delete or yank
-""    '%'     the current file name
-""    '#'     the alternate file name
-""    '*'     the clipboard contents (X11: primary selection)
-""    '+'     the clipboard contents
-""    '/'     the last search pattern
-""    ':'     the last command-line
-""    '-'     the last small (less than a line) delete
-""    '.'     the last inserted text
-""                                    *c_CTRL-R_=*
-""    '='     the expression register: you are prompted to
-""            enter an expression (see |expression|)
-""            (doesn't work at the expression prompt; some
-""            things such as changing the buffer or current
+""     i_C-X_C-F -> file name completion
+""     i_C-X_C-K -> dictionary completion
+""     i_C-V_tab -> insert tab
+""     i_C-R_%   -> insert current file name
+""        other C-R usages
+""        '"'     the unnamed register, containing the text of
+""                the last delete or yank
+""        '%'     the current file name
+""        '#'     the alternate file name
+""        '*'     the clipboard contents (X11: primary selection)
+""        '+'     the clipboard contents
+""        '/'     the last search pattern
+""        ':'     the last command-line
+""        '-'     the last small (less than a line) delete
+""        '.'     the last inserted text
+""                                        *c_CTRL-R_=*
+""        '='     the expression register: you are prompted to
+""                enter an expression (see |expression|)
+""                (doesn't work at the expression prompt; some
+""                things such as changing the buffer or current
 ""
 "" # vimdiff
 "" * Open files
-"" vimdiff file1 file2 [file3 [file4]]
+""     vimdiff file1 file2 [file3 [file4]]
 "" * Open vimdiff during editing with vim
-"" :vertical diffsplit filename
-"" vimdiff file1 file2 [file3 [file4]]
+""     :vertical diffsplit filename
+""     vimdiff file1 file2 [file3 [file4]]
 "" * Go to Next Diff
-"" [c
+""     [c
 "" * Go to Previous Diff
-"" ]c
+""     ]c
 "" * Copy current buffer's structure to another structure
-"" do
+""     do
 "" * Copy another's buffer's structure to current structure
-"" dp
+""     dp
 ""
 "" # Register
 "" * Show words in register
-"" :reg
+""     :reg
 "" * Others
-"" Unnamed (") register is used for all copy/delete
-"" 0 register is only used for copy
-"" "0p makes it possible to paste what you copied even after you deleted something
-"" * register is used for clipboard
-"" / is used for word used for searching
-"" "ayy registers current line to register a
-"" "ap copies a register in normal mode
-"" <C-R>" : copy unnamed register in insert mode
-"" <C-R>a : copy a register in insert mode
+""   *Unnamed (") register is used for all copy/delete
+""   *0 register is only used for copy
+""   *"0p makes it possible to paste what you copied even after you deleted something
+""   ** register is used for clipboard
+""   */ is used for word used for searching
+""   *"ayy registers current line to register a
+""   *"ap copies a register in normal mode
+""   *<C-R>" : copy unnamed register in insert mode
+""   *<C-R>a : copy a register in insert mode
 ""
 "" # buffer
 "" * show buffers
-"" :ls
+""     :ls
 "" * go to next buffer, previous buffer
-"" :bn , :bp
+""     :bn , :bp
 "" * go to buffer N
-"" :b N or N<C-^>
+""     :b N or N<C-^>
+""
+"" # spell check
+"" * suggest correct words
+""     z=
+"" * next missspelled word
+""     ]s
+"" * previous missspelled word
+""     [s
+"" * add word under the cursor to good word list file
+""     zg
+"" * add word under the cursor to good internal-wordlis
+""     zG
+"" * mark word under the cursor as bad, remove word from good word list file
+""     zw
+"" * mark word under the cursor as bad, remove word from good internal-wordlist
+""     zW
+""
+"" * undo zg/G/w/W
+""    zug/zuG/zuw/zuW
 " }}} tips
 
