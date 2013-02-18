@@ -18,8 +18,7 @@ autodetach on
 defmonitor on
 
 ### hardcopydir
-hardcopydir $HOME/.screenlog
-
+hardcopydir $HOME/screenlog
 
 ### time (second) to show message
 msgwait 10
@@ -50,7 +49,6 @@ bind ^W windowlist -b
 ### clear display before detachment
 bind d eval 'only' 'clear' 'detach'
 
-
 ### focus (like vi)
 bind j focus down
 bind k focus up
@@ -79,8 +77,8 @@ bind r eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus'
 bind ^r eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
 
 #### resize window
-bind y eval 'echo "Resize window"' 'command -c resize'
-bind ^y eval 'echo "Resize window"' 'command -c resize'
+bind e eval 'echo "Resize window"' 'command -c resize'
+bind ^e eval 'echo "Resize window"' 'command -c resize'
 bind -c resize h eval 'resize -h -1' 'command -c resize'
 bind -c resize l eval 'resize -h +1' 'command -c resize'
 bind -c resize j eval 'resize -v +1' 'command -c resize'

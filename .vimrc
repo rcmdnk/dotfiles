@@ -11,22 +11,20 @@ set nocompatible
 " :NeoBundleInstall" install plugins below
 " :NeoBundleClean  " remove plugins removed from below
 
-filetype off                   " required for neobundle
+filetype off " required for neobundle
 "" set path
 if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-  let neobundledir=expand('~/.vim/bundle/neobundle.vim')
+  let bundledir=expand('~/.vim/bundle')
+  let neobundledir=bundledir . '/neobundle.vim'
   let &runtimepath = &runtimepath . ',' . neobundledir
   if ! isdirectory(neobundledir)
     echomsg 'Neobundle is not installed, install now '
-    call system('git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim')
+    call system('git clone https://github.com/Shougo/neobundle.vim ' .  neobundledir)
   endif
-  call neobundle#rc(expand('~/.vim/bundle'))
+  call neobundle#rc(bundledir)
 endif
 
 """"plugins"""""
-" repository on github
-
 " neobundle
 NeoBundle 'Shougo/neobundle.vim'
 
@@ -90,7 +88,7 @@ NeoBundle 'zhisheng/visualmark.vim'
 
 " Align
 " http://www.drchip.org/astronaut/vim/align.html#Examples
-"NeoBundle 'Align'
+NeoBundle 'Align'
 
 
 " add markdown
@@ -173,7 +171,14 @@ endif
 " }}} neobundle
 
 " basic settings {{{
+" enable plugin, iinden
 filetype plugin indent on
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+syntax on
+set hlsearch
+
 
 " allow backspacing over everything in insert mode
 " indent: spaces of the top of the line
@@ -189,7 +194,8 @@ set modelines=5   " number of lines to be read (form top and bottom) for modelin
 set tabstop=4     " width of <Tab> in view
 set shiftwidth=2  " width for indent
 set softtabstop=0 " if not 0, insert space instead of <Tab>
-set textwidth=0   " longer line than textwidth will be broken (0: disable)
+"set textwidth=0   " longer line than textwidth will be broken (0: disable)
+autocmd FileType *  setlocal textwidth=0 " overwrite ftplugin settings
 set colorcolumn=80 " put line on X
 "set colorcolumn=+1 " put line on textwidth+1
 set wrap          " the longer line is wrapped
@@ -225,11 +231,6 @@ set spell      " spell check highlight
 set wildmode=list:longest
 set wildmenu
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-syntax on
-set hlsearch
-
 " folding
 set foldmethod=marker
 "set foldmarker={{{,}}} "default
@@ -250,11 +251,25 @@ autocmd BufReadPost *
 autocmd FileType * setlocal formatoptions-=ro
 
 " INSERT (paste)
-"set paste
+"set paste " use 'paste at normal mode' in below, instead
 
 " arrow to open new file while current file is not saved
 set hidden
 
+" virtualedit (can move to non-editing places: i.e. right of $)
+set virtualedit=all
+" avoid to paste/insert in non-editing place
+if has('virtualedit') && &virtualedit =~# '\<all\>'
+  nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
+  nnoremap <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
+  nnoremap <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
+  " autocmd is needed to overwrite YRShow's map, and "_x to avoid register 1 letter
+  autocmd FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
+endif
+
+" max columns for syntax search 
+" Such XML file has too much syntax which make vim drastically slow
+set synmaxcol=500 "default 3000
 
 " }}} basic settings
 
@@ -280,7 +295,22 @@ hi PmenuSbar ctermbg=255 ctermfg=0 guifg=#000000 guibg=#FFFFFF
 " column
 hi ColorColumn ctermbg=233
 
+" colors for diff mode
+hi DiffAdd ctermbg=17 guibg=slateblue
+hi DiffChange ctermbg=22 guibg=darkgreen
+hi DiffText cterm=bold ctermbg=52 gui=bold guibg=olivedrab
+hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
+
+
 " }}} colorscheme
+
+" diff mode {{{
+if &diff
+  "set wrap "not work...?
+  set nospell
+endif
+autocmd FilterWritePre * if &diff | set wrap | endif
+" }}} diff mode
 
 " DiffOrig {{{
 " Convenient command to see the difference between the current buffer and the
@@ -291,6 +321,19 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 " }}} DiffOrig
+
+" undo {{{
+if has('persistent_undo')
+  let vimundodir=expand('~/.vim/undo')
+  let &undodir = vimundodir
+  if ! isdirectory(vimundodir)
+    call system('mkdir ' . vimundodir)
+  endif
+  set undofile
+  set undoreload=10000
+endif
+set undolevels=1000
+" }}} undo
 
 " Unite {{{
 autocmd FileType unite call s:unite_my_settings()
@@ -306,24 +349,24 @@ let g:unite_split_rule='botright' " default topleft
 let g:unite_winheight=10 " default 20
 let g:unite_winwidth=60 " default 90
 " show buffer
-no <silent> ,ub :Unite buffer<CR>
+nnoremap <silent> ,ub :Unite buffer<CR>
 " show files/directories with full path
 " -buffer-name-files enable to use wild card
-"no <silent> ,uf :UniteWithBufferDir -buffer-name=files file<CR>
+"nnoremap <silent> ,uf :UniteWithBufferDir -buffer-name=files file<CR>
 " WithBufferDir for file search freezes when try to delete even current
 " directory names in insert mode...
-no <silent> ,uf :Unite -buffer-name=files file<CR>
+nnoremap <silent> ,uf :Unite -buffer-name=files file<CR>
 " show register
-no <silent> ,ur :Unite -buffer-name=register register<CR>
+nnoremap <silent> ,ur :Unite -buffer-name=register register<CR>
 " show opened file history including current buffers
-no <silent> ,um :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
+nnoremap <silent> ,um :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
 " show lines of current file
-no <silent> ,ul :Unite line<CR>
+nnoremap <silent> ,ul :Unite line<CR>
 " }}} Unite
 
 " Align {{{
-no ,= :Align =<CR>
-no ,c :Align com<CR>
+noremap ,= :Align =<CR>
+noremap ,c :Align com<CR>
 " }}} Alig
 
 " vim-smartchr {{{
@@ -332,7 +375,7 @@ no ,c :Align com<CR>
 
 " YankRing {{{
 
-nmap ,y :YRShow<CR>
+nnoremap ,y :YRShow<CR>
 " avoid to store single letter to normal register
 let g:yankring_history_dir=$HOME.'/.vim/'
 "let g:yankring_n_keys = 'Y D' " Y D x X
@@ -546,96 +589,98 @@ autocmd bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 
 "" cursor move
 " Left (C-h default: <BS> ~ h)
-"no <C-h> h
+"nnoremap <C-h> h
 " Right (C-j default: <NL> ~ j)
-"no <C-j> j
+"nnoremap <C-j> j
 " Up (C-k default: Non)
-no <C-k> k
+nnoremap <C-k> k
 " Down (C-l default: Clear and redraw the screen)
-no <C-l> l
+nnoremap <C-l> l
 " Go to Head (C-a default: Increment)
-"no <C-a> 0
+nnoremap <C-a> 0
 " Go to End (C-e default: Scroll down)
-"no <C-e> <C-$>
+nnoremap <C-e> <C-$>
+" Substitute for C-a (C-q default: C-V alternative for gui mode)
+nnoremap <C-q> <C-a>
+
 
 " tag jump (avoid crash with screen's key bind, C-' default: Non?)
-no <C-'> <C-t>
+nnoremap <C-'> <C-t>
 " spell check toggle
-no <silent> <C-s> :set spell!<CR>
+nnoremap <silent> <C-s> :set spell!<CR>
 " stop highlight for search
-"no <C-/> :noh<CR> " can't use C-/ ?
-"no <Esc> :noh<CR> " this makes something wrong at start when using vim w/o screen...
-"no <silent> <Esc><Esc> :noh<CR> "Esc mapping may be used others, good to use others...
-no <silent> ,n :noh<CR>
+"nnoremap <C-/> :noh<CR> " can't use C-/ ?
+"nnoremap <Esc> :noh<CR> " this makes something wrong at start when using vim w/o screen...
+"nnoremap <silent> <Esc><Esc> :noh<CR> "Esc mapping may be used others, good to use others...
+nnoremap <silent> ,n :noh<CR>
 " direct indent
 " this makes trouble at visual mode (indent twice for current line)
-"no > >>
-"no < <<
+"nnoremap > >>
+"nnoremap < <<
 " alignment at normalmode
-no = v=
+nnoremap = v=
 " don't register single letter by x
-nn x "_x
+"nnoremap x "_x " set in virtualedit
 
 " window
-"no <C-w><C-c> <C-w><C-c> "not work, because <C-c> cancels the command
+"nnoremap <C-w><C-c> <C-w><C-c> "not work, because <C-c> cancels the command
 
 " insert file name
-no <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
-no <silent> ,d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
+nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
+nnoremap <silent> ,d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
 
 " save/quit
-no ,w :w<CR>
-no ,q :q<CR>
-no ,wq :wq<CR>
-no ,1 :q!<CR>
+nnoremap ,w :w<CR>
+nnoremap ,q :q<CR>
+nnoremap ,wq :wq<CR>
+nnoremap ,1 :q!<CR>
 
 " insert mode (inoremap)
 
 " emacs (bash) like move in insert mode
-ino <C-a> <Home>
-ino <C-e> <End>
-ino <C-d> <Delete>
-ino <C-h> <Backspace>
-ino <C-b> <Left>
-ino <C-f> <Right>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-d> <Delete>
+inoremap <C-h> <Backspace>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
 
 " insert file/directory name
-ino <silent> ,f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
-ino <silent> ,d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
-
+inoremap <silent> ,f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
+inoremap <silent> ,d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
 
 " < can't be used for mapping? (maybe < has special means in vim scripts and need special treatment)
-"ino <> <><Left>
-"ino '' ''<Left>
-"ino "" ""<Left>
-"ino () ()<Left>
-"ino [] []<Left>
-"ino {} {}<Left>
+"inoremap <> <><Left>
+"inoremap '' ''<Left>
+"inoremap "" ""<Left>
+"inoremap () ()<Left>
+"inoremap [] []<Left>
+"inoremap {} {}<Left>
 
-"ino < <><Left>
-""ino ' ''<Left>
-""ino " ""<Left>
-"ino ( ()<Left>
-"ino [ []<Left>
-"ino { {}<Left>
+"inoremap < <><Left>
+""inoremap ' ''<Left>
+""inoremap " ""<Left>
+"inoremap ( ()<Left>
+"inoremap [ []<Left>
+"inoremap { {}<Left>
 "
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
-ino <C-U> <C-G>u<C-U>
+inoremap <C-U> <C-G>u<C-U>
 
 """ visual mode (vnoremap)
 
 "  is not necessary?
-vn { "zdi{<C-R>z}<Esc>
-vn [ "zdi[<C-R>z]<Esc>
-vn ( "zdi(<C-R>z)<Esc>
-vn " "zdi"<C-R>z"<Esc>
-vn ' "zdi'<C-R>z'<Esc>
+vnoremap { "zdi{<C-R>z}<Esc>
+vnoremap [ "zdi[<C-R>z]<Esc>
+vnoremap ( "zdi(<C-R>z)<Esc>
+vnoremap " "zdi"<C-R>z"<Esc>
+vnoremap ' "zdi'<C-R>z'<Esc>
 
 """ command line mode (cnoremap)
-cno <C-b> <Left>
-cno <C-f> <Right>
-cno <C-a> <C-b>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-a> <C-b>
 
 " }}} map
 
@@ -763,4 +808,3 @@ cno <C-a> <C-b>
 "" * undo zg/G/w/W
 ""    zug/zuG/zuw/zuW
 " }}} tips
-

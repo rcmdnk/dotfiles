@@ -142,7 +142,8 @@ alias bc="bc -l"
 alias cl=". $HOME/usr/share/scripts/clwrapper.sh"
 alias ssh="ssh -X"
 alias svnHeadDiff="svn diff --revision=HEAD"
-alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X
+#alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
+alias vim="vim -X" # no X
 alias vi="vim -X" # no X
 #alias grep="grep --color=always"
 #export GREP_OPTIONS='--color=auto'
@@ -176,12 +177,12 @@ export MYCL="" #xsel/xclip
 # }}}
 
 # include files {{{
-# local path
-source_file ~/.localpath.sh
-
 # functions
 source_file ~/.functions.sh
 
 # file used in linux, working server
 source_file ~/.work.sh
+
+# local path
+source_file ~/.localpath.sh
 # }}}
