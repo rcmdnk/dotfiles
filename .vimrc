@@ -206,7 +206,7 @@ set wrap          " the longer line is wrapped
 set expandtab     " do :retab -> tab->space
 
 set nobackup          " do not keep a backup file, use versions instead
-set directory=$TMPDIR " directory for swap file
+"set directory=$TMPDIR " directory for swap file
 set history=100       " keep 100 lines of command line history
 
 set incsearch  " do incremental searching
