@@ -88,9 +88,9 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 #  fi
 #}
 #if [ "x$PROMPT_COMMAND" != "x" ];then
-#  PROMPT_COMMAND="$PROMPT_COMMAND;histRemoveFail"
+#  export PROMPT_COMMAND="$PROMPT_COMMAND;histRemoveFail"
 #else
-#  PROMPT_COMMAND="histRemoveFail"
+#  export PROMPT_COMMAND="histRemoveFail"
 #fi
 # }}}
 
@@ -110,14 +110,18 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 #  fi
 #}
 #if [ "x$PROMPT_COMMAND" != "x" ];then
-#  PROMPT_COMMAND="$PROMPT_COMMAND;share_history"
+#  export PROMPT_COMMAND="$PROMPT_COMMAND;share_history"
 #else
-#  PROMPT_COMMAND="share_history"
+#  export PROMPT_COMMAND="share_history"
 #fi
 # }}}
 
 # simple method to add history everytime {{{
-#export PROMPT_COMMAND="history -a"
+#if [ "x$PROMPT_COMMAND" != "x" ];then
+#  export PROMPT_COMMAND="$PROMPT_COMMAND;history -a"
+#else
+#  export PROMPT_COMMAND="history -a"
+#fi
 # }}}
 
 # }}}
@@ -131,15 +135,14 @@ if [ "$LS_COLORS" = "" ];then source_file $HOME/.lscolors;fi
 alias l='/bin/ls'
 alias ls='ls --color=auto --show-control-char'
 alias la='ls -a --color=auto --show-control-char'
-#alias targz="tar xzf" commented out to remember the command...
-#alias tarbz2="tar jxf" same as targz
+alias targz="tar xzf"
+alias tarbz2="tar jxf"
 alias g='gmake'
 alias gc="gmake clean"
 alias ch="$HOME/usr/bin/change"
-alias pmake='cmt make -s -j8 QUIET=1 PEDANTIC=1'
 alias del="$HOME/usr/bin/trash"
 alias bc="bc -l"
-alias cl=". $HOME/usr/share/scripts/clwrapper.sh"
+alias cl=". $HOME/usr/bin/clwrapper"
 alias ssh="ssh -X"
 alias svnHeadDiff="svn diff --revision=HEAD"
 #alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
@@ -156,14 +159,14 @@ tty -s && stty stop undef
 # }}}
 
 # for screen {{{
-#if [[ "$TERM" =~ "screen" ]]; then
-#  if [ "x$PROMPT_COMMAND" != "x" ];then
-#    PROMPT_COMMAND="$PROMPT_COMMAND;$HOME/usr/bin/showdir"
-#  else
-#    PROMPT_COMMAND="$HOME/usr/bin/showdir"
-#  fi
-#  #export PROMPT_COMMAND='echo -ne "\ek[$(pwd)]\e\\"'
-#fi
+if [[ "$TERM" =~ "screen" ]]; then
+  if [ "x$PROMPT_COMMAND" != "x" ];then
+    export PROMPT_COMMAND="$PROMPT_COMMAND;$HOME/usr/bin/showdir"
+  else
+    export PROMPT_COMMAND="$HOME/usr/bin/showdir"
+  fi
+  #export PROMPT_COMMAND='echo -ne "\ek[$(pwd)]\e\\"'
+fi
 export SCREENEXCHANGE=$HOME/.screen-exchange
 
 # terminfo
