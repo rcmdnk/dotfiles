@@ -19,7 +19,8 @@ if has('vim_starting')
   let &runtimepath = &runtimepath . ',' . neobundledir
   if ! isdirectory(neobundledir)
     echomsg 'Neobundle is not installed, install now '
-    call system('git clone https://github.com/Shougo/neobundle.vim ' .  neobundledir)
+    call system('git clone https://github.com/Shougo/neobundle.vim '
+          \ .  neobundledir)
   endif
   call neobundle#rc(bundledir)
 endif
@@ -30,25 +31,25 @@ NeoBundle 'Shougo/neobundle.vim'
 
 "" asynchronous execution library: need for vimshell, Gmail, unite, etc...?
 NeoBundleLazy 'Shougo/vimproc', {
-      \ 'build' : {
-      \     'windows' : 'make -f make_mingw32.mak',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
+      \  'build' : {
+      \    'windows' : 'make -f make_mingw32.mak',
+      \    'cygwin' : 'make -f make_cygwin.mak',
+      \    'mac' : 'make -f make_mac.mak',
+      \    'unix' : 'make -f make_unix.mak',
+      \  },
+      \}
 
 
 " use shell in vim
 NeoBundleLazy 'Shougo/vimshell',{
-      \ 'autoload' : {'commands': ['VimShell']},
-      \ 'depends' : ['Shougo/vimproc']
+      \  'autoload' : {'commands': ['VimShell']},
+      \  'depends' : ['Shougo/vimproc']
       \}
 
 " searches and display information->:help Unite
 " unlike 'fuzzyfinder' or 'ku', it doesn't use the built-lin completion of vim
 NeoBundleLazy 'Shougo/unite.vim',{
-      \ 'autoload' : {'commands': ['Unite','UniteWithBufferDir']}
+      \  'autoload' : {'commands': ['Unite','UniteWithBufferDir']}
       \}
 
 " completion
@@ -127,27 +128,29 @@ NeoBundle 'kana/vim-submode'
 
 " Gmail
 NeoBundleLazy 'yuratomo/gmail.vim',{
-      \ 'autoload' : {'commands': ['Gmail']},
-      \ 'depends' : ['Shougo/vimproc']
+      \  'autoload' : {'commands': ['Gmail']},
+      \  'depends' : ['Shougo/vimproc']
       \}
 
 " SimpleNote
 NeoBundle 'mattn/webapi-vim'
 NeoBundleLazy 'mattn/vimplenote-vim',{
-      \'autoload' : {'commands': ['VimpleNote']},
+      \  'autoload' : {'commands': ['VimpleNote']},
       \}
 NeoBundleLazy 'mrtazz/simplenote.vim',{
-      \'autoload' : {'commands': ['Simplenote']},
+      \  'autoload' : {'commands': ['Simplenote']},
       \}
 
 " evernote: need markdown library...
 NeoBundleLazy 'kakkyz81/evervim',{
-      \'autoload' : {'commands': ['EvervimNotebookList', 'EvervimListTags', 'EvervimSearchByQuery', 'EvervimCreateNote', 'EvervimOpenBrowser', 'EvervimSetup']},
+      \  'autoload' : {'commands': ['EvervimNotebookList', 'EvervimListTags',
+      \                             'EvervimSearchByQuery', 'EvervimCreateNote',
+      \                             'EvervimOpenBrowser', 'EvervimSetup']},
       \}
 
 " make benchmark result of vimrc
 NeoBundleLazy 'mattn/benchvimrc-vim',{
-      \'autoload' : {'commands': ['BenchVimrc']},
+      \  'autoload' : {'commands': ['BenchVimrc']},
       \}
 
 " color scheme
@@ -171,7 +174,7 @@ endif
 " }}} neobundle
 
 " basic settings {{{
-" enable plugin, iinden
+" enable plugin, indent
 filetype plugin indent on
 
 " Switch syntax highlighting on, when the terminal has colors
@@ -190,7 +193,8 @@ set modeline      " enable to use settings written in the file
                   " use with comment lines: e.g.)
                   " # vim set foldmethod=marker:
                   " # vim set foldmarker={{{,}}}:
-set modelines=5   " number of lines to be read (form top and bottom) for modeline
+set modelines=5   " number of lines to be read (form top and bottom) for
+                  " modeline
 set tabstop=4     " width of <Tab> in view
 set shiftwidth=2  " width for indent
 set softtabstop=0 " if not 0, insert space instead of <Tab>
@@ -222,10 +226,11 @@ set cursorline     " enable highlight on current line:
 "set number         " show line numbers
 set autoindent
 set scrolloff=999 " show cursor at middle 
-                  " (scrolloff is number of lines which should be shown above and below cursor.
+                  " (scrolloff is number of lines which should be shown above
+                  " and below cursor.
                   "  such large number force to stay a cursor at middle
 
-set spell      " spell check highlight
+set spell " spell check highlight
 
 " bash-like tab completion
 set wildmode=list:longest
@@ -245,7 +250,7 @@ autocmd BufReadPost *
   \ endif
 
 " set current directory as a directory of the file
-"au   BufEnter *   execute ":lcd " . expand("%:p:h")
+"autocmd   BufEnter *   execute ":lcd " . expand("%:p:h")
 
 " avoid automatic comment out for the next line after the comment lines
 autocmd FileType * setlocal formatoptions-=ro
@@ -263,7 +268,8 @@ if has('virtualedit') && &virtualedit =~# '\<all\>'
   nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
   nnoremap <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
   nnoremap <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
-  " autocmd is needed to overwrite YRShow's map, and "_x to avoid register 1 letter
+  " autocmd is needed to overwrite YRShow's map,
+  " and "_x to avoid register 1 letter
   autocmd FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
 endif
 
@@ -293,9 +299,9 @@ hi PmenuSbar ctermbg=0 ctermfg=9
 hi PmenuSbar ctermbg=255 ctermfg=0 guifg=#000000 guibg=#FFFFFF
 
 " column
-hi ColorColumn ctermbg=233
+hi ColorColumn ctermbg=234
 
-" colors for diff mode
+"" colors for diff mode
 hi DiffAdd ctermbg=17 guibg=slateblue
 hi DiffChange ctermbg=22 guibg=darkgreen
 hi DiffText cterm=bold ctermbg=52 gui=bold guibg=olivedrab
@@ -306,10 +312,18 @@ hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
 
 " diff mode {{{
 if &diff
-  "set wrap "not work...?
+  "set wrap " not work...
   set nospell
 endif
-autocmd FilterWritePre * if &diff | set wrap | endif
+function! SetDiffWrap()
+  if &diff
+    set wrap
+    wincmd w
+    set wrap
+    wincmd w
+  endif
+endfunction
+autocmd VimEnter,FilterWritePre * call SetDiffWrap()
 " }}} diff mode
 
 " DiffOrig {{{
@@ -318,7 +332,7 @@ autocmd FilterWritePre * if &diff | set wrap | endif
 " Only define it when not defined already.
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+        \ | wincmd p | diffthis
 endif
 " }}} DiffOrig
 
@@ -428,8 +442,9 @@ set statusline+=%=%l/%L,%c%V%8P
 "set matchpairs = (:),{:},[:]
 set matchpairs+=<:>
 source $VIMRUNTIME/macros/matchit.vim
-"let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,if:fi' " matchpairs is necessary...?
-let b:match_words = &matchpairs . ',<:>,<div.*>:</div>' " matchpairs is necessary...?
+" matchpairs is necessary...?
+"let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,if:fi'
+let b:match_words = &matchpairs . ',<:>,<div.*>:</div>'
 let b:match_ignorecase = 1
 " }}} matchpair, matchit
 
@@ -440,6 +455,15 @@ let g:hl_matchit_allow_ft_regexp = 'html\|vim\|ruby\|sh'
 "" }}} hl_matchit
 
 " paste at normal mode{{{
+
+" if not well work... (though it seems working)
+" need more understanding of vim/screen pasting...
+" can use :a! for temporally paste mode
+" or :set paste ,....., :set nopaste
+" or set noautoindent, ...., : set autoindent
+
+" it seems working in Mac, but not in Windows (putty+XWin)
+
 if &term =~ "screen" || &term =~ "xterm"
   if &term =~ "screen"
     let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
@@ -456,14 +480,6 @@ if &term =~ "screen" || &term =~ "xterm"
   endfunction
   imap <special> <expr> <Esc>[200~ XTermPasteBegin("")
 endif
-
-" if not well work... (though it seems working)
-" need more understanding of vim/screen pasting...
-" can use :a! for temporally paste mode
-" or :set paste ,....., :set nopaste
-" or set noautoindent, ...., : set autoindent
-
-" it seems working in Mac, but not in Windows (putty+XWin)
 
 " }}} paste
 
@@ -531,8 +547,8 @@ let g:indent_guides_auto_colors = 0
 
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=lightgray
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=233
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=234
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 "}}} vim-indent-guides
 
 " vim-submode{{{
@@ -601,8 +617,9 @@ nnoremap <C-a> 0
 " Go to End (C-e default: Scroll down)
 nnoremap <C-e> <C-$>
 " Substitute for C-a (C-q default: C-V alternative for gui mode)
-nnoremap <C-q> <C-a>
-
+nnoremap <C-q> <C-a> " not work...
+" Substitute for C-a (C-z default: suspend, same as :stop)
+nnoremap <C-z> <C-a>
 
 " tag jump (avoid crash with screen's key bind, C-' default: Non?)
 nnoremap <C-'> <C-t>
@@ -610,8 +627,10 @@ nnoremap <C-'> <C-t>
 nnoremap <silent> <C-s> :set spell!<CR>
 " stop highlight for search
 "nnoremap <C-/> :noh<CR> " can't use C-/ ?
-"nnoremap <Esc> :noh<CR> " this makes something wrong at start when using vim w/o screen...
-"nnoremap <silent> <Esc><Esc> :noh<CR> "Esc mapping may be used others, good to use others...
+"nnoremap <Esc> :noh<CR> " this makes something wrong
+                         " at start when using vim w/o screen...
+"nnoremap <silent> <Esc><Esc> :noh<CR> " Esc mapping may be used others,
+                                       " good to use others...
 nnoremap <silent> ,n :noh<CR>
 " direct indent
 " this makes trouble at visual mode (indent twice for current line)
@@ -649,7 +668,8 @@ inoremap <C-f> <Right>
 inoremap <silent> ,f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
 inoremap <silent> ,d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
 
-" < can't be used for mapping? (maybe < has special means in vim scripts and need special treatment)
+" < can't be used for mapping?
+" (maybe < has special means in vim scripts and need special treatment)
 "inoremap <> <><Left>
 "inoremap '' ''<Left>
 "inoremap "" ""<Left>
@@ -700,7 +720,8 @@ cnoremap <C-a> <C-b>
 ""     :help index.txt
 "" * my mappings
 ""     :nmap " show mappings for normal mode
-"" *show mappings for normal mode with name of file in which the mapping is defined
+"" *show mappings for normal mode with name of file
+""  in which the mapping is defined
 ""     :verbose nmap
 "" * for boolean parameters, use '?'
 ""     :verbose wrap?
@@ -773,7 +794,8 @@ cnoremap <C-a> <C-b>
 "" * Others
 ""   *Unnamed (") register is used for all copy/delete
 ""   *0 register is only used for copy
-""   *"0p makes it possible to paste what you copied even after you deleted something
+""   *"0p makes it possible to paste what you copied
+""    even after you deleted something
 ""   ** register is used for clipboard
 ""   */ is used for word used for searching
 ""   *"ayy registers current line to register a

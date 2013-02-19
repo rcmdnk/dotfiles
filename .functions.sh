@@ -1,9 +1,24 @@
+# noglob helpers {{{
+function mynoglob_helper {
+  "$@"
+  case $shopts in
+    *noglob*)
+      ;;
+    *)
+      set +f
+      ;;
+  esac
+  unset shopts
+}
+alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
+# }}}
+
 # emacs wrapper {{{
-#function emacs() { command emacs $* & }
+#function emacs { command emacs $@ & }
 # }}}
 
 # cd wrapper to use pushd {{{
-function cd(){
+function cd {
   if [ $# -eq 0 ];then
     pushd ~ >/dev/null
   elif [ $1 = "-P" ] || [ $1 = "-L" ];then
@@ -18,7 +33,7 @@ function cd(){
 alias bd="popd >/dev/null"
 
 # move to actual pwd
-function cdpwd (){
+function cdpwd {
   cd `pwd -P`
 }
 # }}}
@@ -74,7 +89,7 @@ function edit {
 # }}}
 
 # screen wrapper {{{
-function screen() {
+function screen {
   # This setting keeps the host name in which screen is running
   # for a case in the cluster,
   # in which the host can be changed at every log in
@@ -92,12 +107,12 @@ function screen() {
   echo "$DISPLAY"> ~/.display.txt
 
   # launch screen
-  command screen $*
+  command screen $@ 
 }
 # }}}
 
 # set display if screen is attached in other host than previous host {{{
-function setDisplay() {
+function setDisplay {
   if [ -f ~/.display.txt ];then
     #local d=`grep $HOSTNAME ~/.display.txt|awk '{print $2}'`
     local d=`cat ~/.display.txt`
@@ -108,7 +123,7 @@ function setDisplay() {
 
 # ssh to the host which launched screen previously {{{
 #alias sc='schost=`tail -n1 ~/.hostForScreen`;ssh $schost'
-function sc () {
+function sc {
   local n=1
   if [ $# -ne 0 ];then
     n=$1
@@ -133,7 +148,7 @@ alias rc=myClPopSC
 ## even at .bashrc sourcing...
 #if [[ "$TERM" =~ "screen" ]]; then
 #  function pwd {
-#    local curdir=`command pwd $*`
+#    local curdir=`command pwd $@`
 #    myClPut $curdir >/dev/null 2>&1
 #    myClPopSC -n >/dev/null 2>&1
 #    echo $curdir
@@ -144,7 +159,7 @@ alias rc=myClPopSC
 # path wrapper {{{
 if [[ "$TERM" =~ "screen" ]]; then
   function path {
-    local fullpath=`command path $*`
+    local fullpath=`command path $@`
     myClPut $fullpath
     myClPopSC -n
     echo $fullpath
