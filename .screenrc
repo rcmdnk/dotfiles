@@ -93,11 +93,12 @@ bind -c resize ^k eval 'resize -v -1' 'command -c resize'
 bufferfile "$SCREENEXCHANGE"
 
 bindkey -m ' ' eval 'stuff \040' writebuf "exec !!! myClPutSC"
+bindkey -m y eval 'stuff y' writebuf "exec !!! myClPutSC"
 bindkey -m Y eval 'stuff Y' writebuf "exec !!! myClPutSC"
 bindkey -m W eval 'stuff W' writebuf "exec !!! myClPutSC"
 
-bind a eval "exec !!! myClPopSC"
-bind ^a eval "exec !!! myClPopSC"
+#bind a eval "exec !!! myClPopSC"
+#bind ^a eval "exec !!! myClPopSC"
 
 ###colors for other messages, including center line
 #sorendition "+rb .w"
