@@ -127,14 +127,27 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # }}}
 
 # for ls colour {{{
-eval `dircolors ~/.colourrc`
-if [ "$LS_COLORS" = "" ];then source_file $HOME/.lscolors;fi
+if [ "$OS" = "Linux" ];then
+  # linux
+  eval `dircolors ~/.colourrc`
+  if [ "$LS_COLORS" = "" ];then
+    source_file $HOME/.lscolors
+  fi
+elif [[ "$OSTYPE" =~ "darwin" ]];then
+  # mac
+  export LSCOLORS=DxgxcxdxCxegedabagacad
+fi
 # }}}
 
 # aliases {{{
 alias l='/bin/ls'
-alias ls='ls --color=auto --show-control-char'
-alias la='ls -a --color=auto --show-control-char'
+if [ "$OS" = "Linux" ];then
+  alias ls='ls --color=auto --show-control-char'
+  alias la='ls -a --color=auto --show-control-char'
+elif [[ "$OSTYPE" =~ "darwin" ]];then
+  alias ls='ls -G'
+  alias la='ls -a -G'
+fi
 alias targz="tar xzf"
 alias tarbz2="tar jxf"
 alias g='gmake'
@@ -184,7 +197,14 @@ export MYCL="" #xsel/xclip
 source_file ~/.functions.sh
 
 # file used in linux, working server
-source_file ~/.work.sh
+if [ "$OS" = "Linux" ];then
+  source_file ~/.work.sh
+fi
+
+# file used in mac
+if [[ "$OSTYPE" =~ "darwin" ]];then
+  source_file ~/.mac.sh
+fi
 
 # local path
 source_file ~/.localpath.sh
