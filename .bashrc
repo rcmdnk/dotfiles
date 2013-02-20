@@ -54,6 +54,10 @@ export PAGER=less
 
 # python
 export PYTHONSTARTUP=~/.pythonstartup.py
+
+# trash
+export TRASH=~/.Trash
+export MAXTRASHSIZE=1024 #MB
 # }}}
 
 # shopt {{{

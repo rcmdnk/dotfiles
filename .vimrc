@@ -171,17 +171,16 @@ if neobundle#exists_not_installed_bundles()
   "finish
 endif
 
+" enable plugin, indent again
+filetype plugin indent on
 " }}} neobundle
 
 " basic settings {{{
-" enable plugin, indent
-filetype plugin indent on
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 syntax on
 set hlsearch
-
 
 " allow backspacing over everything in insert mode
 " indent: spaces of the top of the line
