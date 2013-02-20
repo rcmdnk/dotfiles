@@ -165,6 +165,7 @@ alias vi="vim -X" # no X
 #alias grep="grep --color=always"
 #export GREP_OPTIONS='--color=auto'
 #export LESS='-R'
+alias gitupdate="git commit -a -m \"update from $OSTYPE\";git pull --rebase;git push"
 # }}}
 
 # stty {{{
