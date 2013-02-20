@@ -42,8 +42,8 @@ export PS1="[\h \W]\$ "
 export XMODIFIERS="@im=kinput2"
 
 # lang
-export LANG=C
-#export LANG="en_US.UTF-8"
+#export LANG=C
+export LANG="en_US.UTF-8"
 #export LANG=ja_JP.eucJP
 #export LANG=ja_JP.UTF-8
 

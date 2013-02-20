@@ -19,12 +19,13 @@ alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 
 # cd wrapper to use pushd {{{
 function cd {
-  if [ $# -eq 0 ];then
-    pushd ~ >/dev/null
-  elif [ $1 = "-P" ] || [ $1 = "-L" ];then
-    command cd $1 $2
+  if [ "$1" = "-" ];then
+    local opwd=$OLDPWD
+    pushd . >/dev/null
+    command cd $opwd
   else
-    pushd $1 >/dev/null
+    pushd . >/dev/null
+    command cd "$@"
   fi
 }
 # }}}
@@ -34,7 +35,7 @@ alias bd="popd >/dev/null"
 
 # move to actual pwd
 function cdpwd {
-  cd `pwd -P`
+  cd -P .
 }
 # }}}
 
