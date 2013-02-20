@@ -39,7 +39,7 @@ for f in .*;do
   if [ "`ls $instdir/$f 2>/dev/null`" != "" ];then
     if [ "$backup" != "" ];then
       echo "$f exists, make backup ${f}.$backup"
-      mv $instdir/$f $HOME/${f}.$backup
+      mv $instdir/$f $instdir/${f}.$backup
     else
       echo "$f exists, replace it"
       rm $instdir/$f
