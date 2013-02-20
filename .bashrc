@@ -127,7 +127,7 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # }}}
 
 # for ls colour {{{
-if [ "$OS" = "Linux" ];then
+if [[ "$OSTYPE" =~ "linux" ]];then
   # linux
   eval `dircolors ~/.colourrc`
   if [ "$LS_COLORS" = "" ];then
@@ -141,7 +141,7 @@ fi
 
 # aliases {{{
 alias l='/bin/ls'
-if [ "$OS" = "Linux" ];then
+if [[ "$OSTYPE" =~ "linux" ]];then
   alias ls='ls --color=auto --show-control-char'
   alias la='ls -a --color=auto --show-control-char'
 elif [[ "$OSTYPE" =~ "darwin" ]];then
@@ -198,7 +198,7 @@ export MYCL="" #xsel/xclip
 source_file ~/.functions.sh
 
 # file used in linux, working server
-if [ "$OS" = "Linux" ];then
+if [[ "$OSTYPE" =~ "linux" ]];then
   source_file ~/.work.sh
 fi
 
