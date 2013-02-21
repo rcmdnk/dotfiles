@@ -137,9 +137,23 @@ termcap xterm-256color|xterms|xs ti=\E7\E[?47l
 terminfo xterm-256color|xterms|xs ti=\E7\E[?47l
 
 ### caption for each window
-#caption splitonly '%?%F%{=d Wk}%:%{=d Kk}%?%? %h%:%2n %t%?%?%P *** copy/paste mode ***%:%?%='
-caption '%?%F%{=d Wk}%:%{=d Kk}%?%? %h%:%2n %t%?%?%P *** copy/paste mode ***%:%?%='
+caption splitonly '%?%F%{=d Wk}%:%{=d Kk}%?%? %h%:%2n %t%?%?%P *** copy/paste mode ***%:%?%='
+# %?%F      # if the window has the focus
+#  %{=d Wk} #   set attribute = {dim, black on bright write}
+# %:        # else
+#  %{=d Kk} #   set attribute = {dim, black on bright black}
+# %?        # end if
+#
+# %?%h      # if hardstatus is set, draw hardstatus
+# %:        # else
+# %2n %t    # window number with width=2
+# %?        # end if
+#
+# %?%P      # if copy/paste mode
+#   *** copy/paste mode *** # draw this sentence
+# %:        # else (nothing)
+# %?        # end if
+# %=        # pad the string to the display 's width
 
 ### hardstatus
 hardstatus alwayslastline "%{= Kk}%-w%40L>%{= Wk}%?%n %t%?%{-}%+w"
-#hardstatus string "%{= Kk}%-w%40L>%{= Wk}%?%n %t%?%{-}%+w"
