@@ -181,7 +181,6 @@ tty -s && stty stop undef
 # for screen {{{
 if [[ "$TERM" =~ "screen" ]]; then
   if [ "x$PROMPT_COMMAND" != "x" ];then
-
     export PROMPT_COMMAND="$PROMPT_COMMAND;$HOME/usr/bin/showdir"
   else
     export PROMPT_COMMAND="$HOME/usr/bin/showdir"
