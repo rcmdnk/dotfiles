@@ -168,3 +168,29 @@ if [[ "$TERM" =~ "screen" ]]; then
 fi
 # }}}
 
+# function for prompt {{{
+function face_prompt {
+  if [ $? -eq 0 ];then
+    p="\e[m(-_-)\e[m \$ "
+  else
+    p="\e[41m(>_<)\e[m \$ "
+  fi
+  printf "$p"
+}
+# }}}
+
+# directory name for scren {{{
+function showdir {
+  maxlen=15
+  dir="${PWD/#$HOME/~}"
+  if [ ${#dir} -gt $maxlen ];then
+    dir=!`echo $dir | cut -b $((${#dir}-$maxlen+2))-${#dir}`
+  fi
+  if [[ "$TERM" =~ "screen" ]]; then
+    printf "\ek$dir\e\\"
+    #printf "\eP\e]0;%s@%s:%s\a\e\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"
+  else
+    printf "$dir\n"
+  fi
+}
+# }}}

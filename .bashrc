@@ -38,6 +38,9 @@ source_file /etc/bashrc
 #export PS1="[\u@\h \W]\$ "
 export PS1="[\h \W]\$ "
 
+# prompt command
+export PROMPT_COMMAND='printf "\e]0;%s@%s:%s\a" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+
 # XMODIFIERS
 export XMODIFIERS="@im=kinput2"
 
@@ -96,11 +99,7 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 #    fi
 #  fi
 #}
-#if [ "x$PROMPT_COMMAND" != "x" ];then
-#  export PROMPT_COMMAND="$PROMPT_COMMAND;histRemoveFail"
-#else
-#  export PROMPT_COMMAND="histRemoveFail"
-#fi
+#export PROMPT_COMMAND="$PROMPT_COMMAND;histRemoveFail"
 # }}}
 
 # method to share history at the same time,
@@ -118,19 +117,11 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 #    history -r
 #  fi
 #}
-#if [ "x$PROMPT_COMMAND" != "x" ];then
-#  export PROMPT_COMMAND="$PROMPT_COMMAND;share_history"
-#else
-#  export PROMPT_COMMAND="share_history"
-#fi
+#export PROMPT_COMMAND="$PROMPT_COMMAND;share_history"
 # }}}
 
 # simple method to add history everytime {{{
-#if [ "x$PROMPT_COMMAND" != "x" ];then
-#  export PROMPT_COMMAND="$PROMPT_COMMAND;history -a"
-#else
-#  export PROMPT_COMMAND="history -a"
-#fi
+#export PROMPT_COMMAND="$PROMPT_COMMAND;history -a"
 # }}}
 
 # }}}
@@ -182,17 +173,7 @@ alias gitupdate="git commit -a -m \"update from $OSTYPE\";git pull --rebase;git 
 tty -s && stty stop undef
 # }}}
 
-# for screen {{{
-if [[ "$TERM" =~ "screen" ]]; then
-  if [ "x$PROMPT_COMMAND" != "x" ];then
-    export PROMPT_COMMAND="$PROMPT_COMMAND;$HOME/usr/bin/showdir"
-  else
-    export PROMPT_COMMAND="$HOME/usr/bin/showdir"
-  fi
-fi
-export SCREENEXCHANGE=$HOME/.screen-exchange
-
-# terminfo
+# terminfo {{{
 export TERMINFO=/usr/share/terminfo
 # }}}
 
@@ -202,10 +183,26 @@ export CLMAXHIST=20
 export MYCL="" #xsel/xclip
 # }}}
 
-# include files {{{
+# basic include files {{{
 # functions
 source_file ~/.functions.sh
+# local path
+source_file ~/.localpath.sh
+# }}}
 
+# for screen {{{
+if [[ "$TERM" =~ "screen" ]]; then
+  if declare -F showdir >/dev/null;then
+    export PROMPT_COMMAND="$PROMPT_COMMAND;showdir"
+  fi
+  if declare -F face_prompt >/dev/null;then
+    export PS1='$(face_prompt)'
+  fi
+fi
+export SCREENEXCHANGE=$HOME/.screen-exchange
+# }}}
+
+# setup for each environment {{{
 # file used in linux, working server
 if [[ "$OSTYPE" =~ "linux" ]];then
   source_file ~/.work.sh
@@ -215,7 +212,4 @@ fi
 if [[ "$OSTYPE" =~ "darwin" ]];then
   source_file ~/.mac.sh
 fi
-
-# local path
-source_file ~/.localpath.sh
 # }}}
