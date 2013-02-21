@@ -380,7 +380,7 @@ nnoremap <silent> ,ul :Unite line<CR>
 " Align {{{
 noremap ,= :Align =<CR>
 noremap ,c :Align com<CR>
-" }}} Alig
+" }}} Align
 
 " vim-smartchr {{{
 "inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
