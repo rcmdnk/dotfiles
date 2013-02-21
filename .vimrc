@@ -616,7 +616,7 @@ nnoremap <C-a> 0
 " Go to End (C-e default: Scroll down)
 nnoremap <C-e> <C-$>
 " Substitute for C-a (C-q default: C-V alternative for gui mode)
-nnoremap <C-q> <C-a> " not work...
+"nnoremap <C-q> <C-a> " not work...
 " Substitute for C-a (C-z default: suspend, same as :stop)
 nnoremap <C-z> <C-a>
 

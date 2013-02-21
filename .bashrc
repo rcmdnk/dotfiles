@@ -53,6 +53,10 @@ export VISUAL=vim
 export EDITOR=vim
 export PAGER=less
 
+# less
+#export LESSCHARSET=utf-8
+#ascii,dos,ebcdic,IBM-1047,iso8859,koi8-r,latin1,next
+
 # python
 export PYTHONSTARTUP=~/.pythonstartup.py
 
