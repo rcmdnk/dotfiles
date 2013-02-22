@@ -168,17 +168,6 @@ if [[ "$TERM" =~ "screen" ]]; then
 fi
 # }}}
 
-# function for prompt {{{
-function face_prompt {
-  if [ $? -eq 0 ];then
-    p="\e[m(-_-)\e[m \$ "
-  else
-    p="\e[31m(>_<)\e[m \$ "
-  fi
-  printf "$p"
-}
-# }}}
-
 # directory name for scren {{{
 function showdir {
   maxlen=15
