@@ -244,6 +244,10 @@ if has('multi_byte_ime') || has('xim')
   inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 endif
 
+" encode
+set encoding=utf-8
+set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1
+
 " bash-like tab completion
 set wildmode=list:longest
 set wildmenu
