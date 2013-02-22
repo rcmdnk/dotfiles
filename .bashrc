@@ -195,22 +195,35 @@ if [[ "$TERM" =~ "screen" ]]; then
   if declare -F showdir >/dev/null;then
     export PROMPT_COMMAND="$PROMPT_COMMAND;showdir"
   fi
-<<<<<<< HEAD
-  # problem for long line command...
-  #if declare -F face_prompt >/dev/null;then
-  #  export PS1='$(face_prompt)'
-  #fi
-=======
-  if declare -F face_prompt >/dev/null;then
-    export PS1="\$(\
-      if [ \$? -eq 0 ];then\
+  export PS1="\$(\
+    ret=\$?
+    rand=\$((RANDOM%36));\
+    if [ \$ret -eq 0 ];then\
+      if [ \$rand -lt 3 ];then
+        printf '\[\e[m\](^_^)\[\e[m\] \$ ';\
+      elif [ \$rand -lt 5 ];then\
+        printf '\[\e[m\](^_-)\[\e[m\] \$ ';\
+      elif [ \$rand -lt 6 ];then\
+        printf '\[\e[m\](.^.)\[\e[m\] \$ ';\
+      else\
         printf '\[\e[m\](-_-)\[\e[m\] \$ ';\
+      fi;\
+    else\
+      if [ \$rand -lt 6 ];then\
+        printf '\[\e[31m\](@O@)\[\e[m\] \$ ';\
+      elif [ \$rand -lt 12 ];then\
+        printf '\[\e[31;1m\](>_<)\[\e[m\] \$ ';\
+      elif [ \$rand -lt 18 ];then\
+        printf '\[\e[35m\](*_*)\[\e[m\] \$ ';\
+      elif [ \$rand -lt 24 ];then\
+        printf '\[\e[34m\](T_T)\[\e[m\] \$ ';\
+      elif [ \$rand -eq 30 ];then\
+        printf '\[\e[34;1m\](/_T)\[\e[m\] \$ ';\
       else\
         printf '\[\e[31m\](>_<)\[\e[m\] \$ ';\
       fi\
-      )"
-  fi
->>>>>>> 7e0c950133255d5303d59e013ec7820174c61b6b
+    fi;\
+    )"
 fi
 export SCREENEXCHANGE=$HOME/.screen-exchange
 # }}}
