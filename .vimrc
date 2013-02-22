@@ -159,6 +159,7 @@ NeoBundle 'tomasr/molokai'
 "NeoBundle 'nanotech/jellybeans.vim'
 "NeoBundle 'altercation/vim-colors-solarized'
 "NeoBundle 'vim-scripts/newspaper.vim'
+NeoBundle 'w0ng/vim-hybrid'
 
 """"plugins"""""
 
@@ -176,6 +177,11 @@ filetype plugin indent on
 " }}} neobundle
 
 " basic settings {{{
+
+" set my auto group
+augroup myaugroup
+  autocmd!
+augroup END
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -198,7 +204,7 @@ set tabstop=4     " width of <Tab> in view
 set shiftwidth=2  " width for indent
 set softtabstop=0 " if not 0, insert space instead of <Tab>
 "set textwidth=0   " longer line than textwidth will be broken (0: disable)
-autocmd FileType *  setlocal textwidth=0 " overwrite ftplugin settings
+autocmd myaugroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
 set colorcolumn=80 " put line on X
 "set colorcolumn=+1 " put line on textwidth+1
 set wrap          " the longer line is wrapped
@@ -231,6 +237,13 @@ set scrolloff=999 " show cursor at middle
 
 set spell " spell check highlight
 
+" ime setting
+if has('multi_byte_ime') || has('xim')
+  set iminsert=0
+  set imsearch=0
+  inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+endif
+
 " bash-like tab completion
 set wildmode=list:longest
 set wildmenu
@@ -238,21 +251,21 @@ set wildmenu
 " folding
 set foldmethod=marker
 "set foldmarker={{{,}}} "default
-autocmd FileType cxx,C,py set foldmethod=syntax
+autocmd myaugroup FileType cxx,C,py set foldmethod=syntax
 set foldlevel=0
 set foldnestmax=1
 
 " When editing a file, always jump to the last known cursor position.
-autocmd BufReadPost *
+autocmd myaugroup BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
 
 " set current directory as a directory of the file
-"autocmd   BufEnter *   execute ":lcd " . expand("%:p:h")
+"autocmd myaugroup BufEnter *   execute ":lcd " . expand("%:p:h")
 
 " avoid automatic comment out for the next line after the comment lines
-autocmd FileType * setlocal formatoptions-=ro
+autocmd myaugroup FileType * setlocal formatoptions-=ro
 
 " INSERT (paste)
 "set paste " use 'paste at normal mode' in below, instead
@@ -269,7 +282,7 @@ if has('virtualedit') && &virtualedit =~# '\<all\>'
   nnoremap <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
   " autocmd is needed to overwrite YRShow's map,
   " and "_x to avoid register 1 letter
-  autocmd FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
+  autocmd myaugroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
 endif
 
 " max columns for syntax search 
@@ -290,6 +303,8 @@ hi SpellBad cterm=inverse ctermbg=0
 hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 " Set all white characters on black background for current line
 "hi CursorLine cterm=underline ctermfg=white ctermbg=black
+au myaugroup InsertEnter * hi CursorLine cterm=underline,bold ctermfg=NONE ctermbg=NONE
+au myaugroup InsertLeave * hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 
 " colors for completion
 hi Pmenu ctermbg=255 ctermfg=0 guifg=#000000 guibg=#999999
@@ -322,7 +337,7 @@ function! SetDiffWrap()
     wincmd w
   endif
 endfunction
-autocmd VimEnter,FilterWritePre * call SetDiffWrap()
+autocmd myaugroup VimEnter,FilterWritePre * call SetDiffWrap()
 " }}} diff mode
 
 " DiffOrig {{{
@@ -349,7 +364,7 @@ set undolevels=1000
 " }}} undo
 
 " Unite {{{
-autocmd FileType unite call s:unite_my_settings()
+autocmd myaugroup FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
   nmap <buffer><Esc> <Plug>(unite_exit)
   imap <buffer><Esc><Esc> <Plug>(unite_exit)
@@ -423,7 +438,7 @@ map <silent> sP :call YanktmpPaste_P()<CR>
 " }}} yanktmp
 
 " status line {{{
-set laststatus=0 " don't show
+set laststatus=2 " always show
 set statusline=%<%f\ %m%r%h%w
 set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
 set statusline+=%=%l/%L,%c%V%8P
@@ -544,10 +559,10 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 1
 let g:indent_guides_auto_colors = 0
 
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=lightgray
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=234
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+"autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=lightgray
+"autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
+autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=234
+autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 "}}} vim-indent-guides
 
 " vim-submode{{{
@@ -569,20 +584,24 @@ call submode#map('winsize', 'n', '', '=', '<C-w>=')
 "}}} vim-submode
 
 " applescript{{{
-autocmd bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
-"autocmd FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
+autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
+"autocmd myaugroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
 "}}} applescript
 
 " map (for other than each plugin){{{
 " remapping, tips
 
-" n  Normal mode map. Defined using ':nmap' or ':nnoremap'.
-" i  Insert mode map. Defined using ':imap' or ':inoremap'.
-" v  Visual and select mode map. Defined using ':vmap' or ':vnoremap'.
-" x  Visual mode map. Defined using ':xmap' or ':xnoremap'.
-" s  Select mode map. Defined using ':smap' or ':snoremap'.
-" c  Command-line mode map. Defined using ':cmap' or ':cnoremap'.
-" o  Operator pending mode map. Defined using ':omap' or ':onoremap'.
+" n  Normal mode map. Defined using ':nmap' and ':nnoremap'.
+" i  Insert mode map. Defined using ':imap' and ':inoremap'.
+" v  Visual and select mode map. Defined using ':vmap' and ':vnoremap'.
+" x  Visual mode map. Defined using ':xmap' and ':xnoremap'.
+" s  Select mode map. Defined using ':smap' and ':snoremap'.
+" c  Command-line mode map. Defined using ':cmap' and ':cnoremap'.
+" o  Operator pending mode map. Defined using ':omap' and ':onoremap'.
+"
+" map and noremap:  normal + visual
+" map! and noremap!:  command line + insert
+"
 " Note that if the 'paste' option is set, then insert mode maps are disabled.
 
 " <C-h> == <BS>
@@ -601,6 +620,9 @@ autocmd bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "map Q gq
 
 """ normal mode (noremap)
+
+" enter command line mode
+"nnoremap ; :
 
 "" cursor move
 " Left (C-h default: <BS> ~ h)
@@ -629,7 +651,7 @@ nnoremap <silent> <C-s> :set spell!<CR>
 "nnoremap <Esc> :noh<CR> " this makes something wrong
                          " at start when using vim w/o screen...
 "nnoremap <silent> <Esc><Esc> :noh<CR> " Esc mapping may be used others,
-                                       " good to use others...
+                                       " better to use others...
 nnoremap <silent> ,n :noh<CR>
 " direct indent
 " this makes trouble at visual mode (indent twice for current line)
