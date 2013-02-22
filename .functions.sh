@@ -95,20 +95,17 @@ function screen {
   # for a case in the cluster,
   # in which the host can be changed at every log in
   #
-  #if [[ $# = 0 ]];then
-  #  local lasthost=`tail -n1 ~/.hostForScreen`
-  #  if [ "$HOSTNAME" != "$lasthost" ];then
-  #    hostname >> ~/.hostForScreen
-  #    tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
-  #    mv ~/.hostForScreen.tmp ~/.hostForScreen
-  #  fi
+  #if [ $# = 0 ] || [ $1 = "-r" ] || [ $1 = "-R" ] || [ $1 = "x" ];then
+  #  sed -i -e "/^$(hostname).*/d" .hostForScreen
+  #  hostname >> ~/.hostForScreen
+  #  #tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
+  #  #mv ~/.hostForScreen.tmp ~/.hostForScreen
+  ## write out DISPLAY of current terminal
+  #  echo "$DISPLAY"> ~/.display.txt
   #fi
 
-  # write out DISPLAY of current terminal
-  echo "$DISPLAY"> ~/.display.txt
-
   # launch screen
-  command screen $@ 
+  command screen $@
 }
 # }}}
 
@@ -181,7 +178,7 @@ function face_prompt {
 
 # directory name for scren {{{
 function showdir {
-  maxlen=15
+  maxlen=20
   dir="${PWD/#$HOME/~}"
   if [ ${#dir} -gt $maxlen ];then
     dir=!`echo $dir | cut -b $((${#dir}-$maxlen+2))-${#dir}`
