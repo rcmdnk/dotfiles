@@ -233,7 +233,7 @@ set spell " spell check highlight
 
 " encode
 set encoding=utf-8
-set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,utf-8,default,latin1
+set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1
 
 " bash-like tab completion
 set wildmode=list:longest

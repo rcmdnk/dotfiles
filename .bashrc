@@ -196,7 +196,13 @@ if [[ "$TERM" =~ "screen" ]]; then
     export PROMPT_COMMAND="$PROMPT_COMMAND;showdir"
   fi
   if declare -F face_prompt >/dev/null;then
-    export PS1='$(face_prompt)'
+    export PS1="\$(\
+      if [ \$? -eq 0 ];then\
+        printf '\[\e[m\](-_-)\[\e[m\] \$ ';\
+      else\
+        printf '\[\e[31m\](>_<)\[\e[m\] \$ ';\
+      fi\
+      )"
   fi
 fi
 export SCREENEXCHANGE=$HOME/.screen-exchange
