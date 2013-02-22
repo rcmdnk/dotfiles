@@ -231,6 +231,10 @@ set scrolloff=999 " show cursor at middle
 
 set spell " spell check highlight
 
+" encode
+set encoding=utf-8
+set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,utf-8,default,latin1
+
 " bash-like tab completion
 set wildmode=list:longest
 set wildmenu
