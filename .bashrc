@@ -195,10 +195,22 @@ if [[ "$TERM" =~ "screen" ]]; then
   if declare -F showdir >/dev/null;then
     export PROMPT_COMMAND="$PROMPT_COMMAND;showdir"
   fi
+<<<<<<< HEAD
   # problem for long line command...
   #if declare -F face_prompt >/dev/null;then
   #  export PS1='$(face_prompt)'
   #fi
+=======
+  if declare -F face_prompt >/dev/null;then
+    export PS1="\$(\
+      if [ \$? -eq 0 ];then\
+        printf '\[\e[m\](-_-)\[\e[m\] \$ ';\
+      else\
+        printf '\[\e[31m\](>_<)\[\e[m\] \$ ';\
+      fi\
+      )"
+  fi
+>>>>>>> 7e0c950133255d5303d59e013ec7820174c61b6b
 fi
 export SCREENEXCHANGE=$HOME/.screen-exchange
 # }}}
