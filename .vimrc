@@ -3,9 +3,6 @@ set nocompatible
 
 " neobundle {{{
 
-"" prepare neobundle
-" git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
-
 "" usage:
 " :NeoBundle       " update plugins below
 " :NeoBundleInstall" install plugins below
@@ -19,7 +16,7 @@ if has('vim_starting')
   let &runtimepath = &runtimepath . ',' . neobundledir
   if ! isdirectory(neobundledir)
     echomsg 'Neobundle is not installed, install now '
-    call system('git clone https://github.com/Shougo/neobundle.vim '
+    call system('git clone git://github.com/Shougo/neobundle.vim '
           \ .  neobundledir)
   endif
   call neobundle#rc(bundledir)
