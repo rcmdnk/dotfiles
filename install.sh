@@ -53,26 +53,31 @@ for f in .*;do
     continue
   fi
 
+  if [ $f = ".gitignore_for_all" ];then
+    target="$instdir/.gitignore"
+  else
+    target="$instdir/$f"
+  fi
   install=1
   if [ $dryrun -eq 1 ];then
     install=0
   fi
-  if [ "`ls "$instdir/$f" 2>/dev/null`" != "" ];then
+  if [ "`ls "$target" 2>/dev/null`" != "" ];then
     exist=(${exist[@]} "$f")
     if [ $dryrun -eq 1 ];then
       echo -n ""
     elif [ $overwrite -eq 0 ];then
       install=0
     elif [ "$backup" != "" ];then
-      mv "$instdir/$f" "$instdir/${f}.$backup"
+      mv "$target" "${target}.$backup"
     else
-      rm "$instdir/$f"
+      rm "$target"
     fi
   else
     newlink=(${newlink[@]} "$f")
   fi
   if [ $install -eq 1 ];then
-    ln -s "$curdir/$f" "$instdir/$f"
+    ln -s "$curdir/$f" "$target"
   fi
 done
 echo ""
@@ -95,3 +100,4 @@ else
 fi
 echo "  ${exist[@]}"
 echo
+echo note: .gitignore_for_all is installed as .gitignore
