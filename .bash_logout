@@ -6,4 +6,4 @@ if [ -f ~/.hostForScreen ];then
     sed -i'' -e "/`hostname`/d" ~/.hostForScreen
   fi
 fi
-echo bye!
+echo "(-_-)/~ bye!"

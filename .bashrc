@@ -84,7 +84,7 @@ HISTSIZE=10000
 # ignorespace # ignore command starting with space
 # ignoreboth # ignore dups and space
 # erasedups # erase a duplication in the past
-export HISTCONTROL=ignoreboth:erasedups
+export HISTCONTROL=ignoredups:erasedups
 export HISTIGNORE="?:??:???:jobs:fg*:bg*:history:cd ../"
 shopt -s histappend # append to hist (not overwrite),
                     # don't use with below share_history
@@ -210,7 +210,7 @@ if [[ "$TERM" =~ "screen" ]]; then
       fi;\
     else\
       if [ \$rand -lt 6 ];then\
-        printf '\[\e[31m\](@O@)\[\e[m\] \$ ';\
+        printf '\[\e[31m\](@o@)\[\e[m\] \$ ';\
       elif [ \$rand -lt 12 ];then\
         printf '\[\e[31;1m\](>_<)\[\e[m\] \$ ';\
       elif [ \$rand -lt 18 ];then\
