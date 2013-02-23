@@ -127,7 +127,7 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # }}}
 
 # for ls colour {{{
-if [[ "$OSTYPE" =~ "linux" ]];then
+if [[ "$OSTYPE" =~ "linux" ]] || [[ "$OSTYPE" =~ "cygwin" ]];then
   # linux
   eval `dircolors ~/.colourrc`
   if [ "$LS_COLORS" = "" ];then
@@ -141,7 +141,7 @@ fi
 
 # aliases {{{
 alias l='/bin/ls'
-if [[ "$OSTYPE" =~ "linux" ]];then
+if [[ "$OSTYPE" =~ "linux" ]] || [[ "$OSTYPE" =~ "cygwin" ]];then
   alias ls='ls --color=auto --show-control-char'
   alias la='ls -a --color=auto --show-control-char'
 elif [[ "$OSTYPE" =~ "darwin" ]];then
