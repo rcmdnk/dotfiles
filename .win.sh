@@ -17,9 +17,9 @@ function ln {
     echo "       -s for symbolic link, otherwise make hard link"
     return
   fi
-  t_winpath=$(cygpath -w -a $target)
+  t_winpath=$(cygpath -w -a "$target")
   t_link=$(cygpath -w -a $link)
   echo "cmd /c mklink $opt $t_link $t_winpath"
-  cmd /c mklink $opt $t_link $t_winpath
+  cmd /c mklink $opt "$t_link" "$t_winpath"
 }
 # }}}

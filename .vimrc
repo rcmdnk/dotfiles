@@ -225,7 +225,7 @@ set showcmd        " display incomplete commands
 set novisualbell   " no visual bell
 set cursorline     " enable highlight on current line:
                    " but make moving cursor slow for heavily highlighted file...
-"set number         " show line numbers
+set nonumber       " don't show line numbers
 set autoindent
 set scrolloff=999 " show cursor at middle 
                   " (scrolloff is number of lines which should be shown above
@@ -242,8 +242,13 @@ if has('multi_byte_ime') || has('xim')
 endif
 
 " encode
-set encoding=utf-8
-set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1
+if has("win")
+  set encoding=utf-8
+  set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8,ucs-bom,default,latin1
+else " if has("unix") || has("max")
+  set encoding=utf-8
+  set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1
+endif
 
 " bash-like tab completion
 set wildmode=list:longest
