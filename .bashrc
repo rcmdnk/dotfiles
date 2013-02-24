@@ -238,4 +238,9 @@ fi
 if [[ "$OSTYPE" =~ "darwin" ]];then
   source_file ~/.mac.sh
 fi
+
+# file used in windows (cygwin)
+if [[ "$OSTYPE" =~ "cygwin" ]];then
+  source_file ~/.win.sh
+fi
 # }}}
