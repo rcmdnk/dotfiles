@@ -8,6 +8,9 @@ function ln {
     shift
   fi
   target=$1
+  if [ -d $target ];then
+    opt="/D $opt"
+  fi
   if [ $# -eq 2 ];then
     link=$2
   elif [ $# -eq 1 ];then
