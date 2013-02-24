@@ -57,6 +57,7 @@ if [[ "$OSTYPE" =~ "cygwin" ]];then
     cmd /c mklink $opt $t_link $t_winpath
   }
 # }}}
+fi
 
 
 
