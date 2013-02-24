@@ -32,7 +32,6 @@ while getopts b:e:i:ndh OPT;do
   esac
 done
 
-
 if [[ "$OSTYPE" =~ "cygwin" ]];then
   # ln wrapper{{{
   function ln {
@@ -61,9 +60,6 @@ if [[ "$OSTYPE" =~ "cygwin" ]];then
   }
 # }}}
 fi
-
-
-
 
 echo "**********************************************"
 echo "Install .X to $instdir"
