@@ -32,6 +32,35 @@ while getopts b:e:i:ndh OPT;do
   esac
 done
 
+
+if [[ "$OSTYPE" =~ "cygwin" ]];then
+  # ln wrapper{{{
+  function ln {
+    opt="/H"
+    if [ "$1" = "-s" ];then
+      opt=""
+      shift
+    fi
+    target=$1
+    if [ $# -eq 2 ];then
+      link=$2
+    elif [ $# -eq 1 ];then
+      link=`basename $target`
+    else
+      echo "usage: ln [-s] <target> [<link>]"
+      echo "       -s for symbolic link, otherwise make hard link"
+      return
+    fi
+    t_winpath=$(cygpath -w -a $target)
+    t_link=$(cygpath -w -a $link)
+    echo "cmd /c mklink $opt $t_link $t_winpath"
+    cmd /c mklink $opt $t_link $t_winpath
+  }
+# }}}
+
+
+
+
 echo "**********************************************"
 echo "Install .X to $instdir"
 echo "**********************************************"
