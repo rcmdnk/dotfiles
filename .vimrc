@@ -286,6 +286,8 @@ if has('virtualedit') && &virtualedit =~# '\<all\>'
   nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
   nnoremap <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
   nnoremap <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
+  nnoremap <expr> r (col('.') >= col('$') ? '$' : '') . 'r'
+  nnoremap <expr> R (col('.') >= col('$') ? '$' : '') . 'R'
   " autocmd is needed to overwrite YRShow's map,
   " and "_x to avoid register 1 letter
   autocmd myaugroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
