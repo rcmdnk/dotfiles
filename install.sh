@@ -1,5 +1,5 @@
 #!/bin/bash
-exclude=('.' '..' '.git' 'README.md' '.gitignore')
+exclude=('.' '..' '.svn' '.git' 'README.md' '.gitignore')
 instdir="$HOME"
 
 backup="bak"
