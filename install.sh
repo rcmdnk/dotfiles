@@ -41,7 +41,7 @@ if [[ "$OSTYPE" =~ "cygwin" ]];then
       shift
     fi
     target="$1"
-    if [ -d $target ];then
+    if [ -d "$target" ];then
       opt="/D $opt"
     fi
     if [ $# -eq 2 ];then
