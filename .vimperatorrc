@@ -1,4 +1,51 @@
-"KeyMapping
+set runtimepath=~/My\ Dropbox/08_Settings/vimpr/vimperator
+
+" basic settings {{{
+"set guioptions=mTBrb
+set titlestring=Firefox
+set focuscontent
+"set defsearch=googleall
+set! ui.caretWidth=2
+set gui+=noaddons
+
+" disable access key
+"set! ui.key.contentAcess=0
+"set! ui.key.chromeAcess=0
+
+" always ime off for command line mode
+style -name commandline-ime chrome://* #liberator-commandline-command input {ime-mode: inactive;}
+
+" start page
+set! browser.startup.page=1
+
+" complete
+set complete=slfb
+
+" next/previous patterns
+set nextpattern=^¥次,^¥続き,¥bnext,^>$,^(>>¥|??)$,^(>¥|??),(>¥|??),¥bmore¥b$
+set previouspattern=^¥前,^¥戻,¥bprev|previous¥b,^<$,^(<<¥|??)$,^(<¥|??),(<¥|??)$
+
+" for hint
+set hintchars=ifjklasdweuocvbnm
+
+" style
+"style chrome://* #statusbar-display:not([type="overLink"]) {display: none !important;}
+style chrome://* #statusbar-display {display: none !important;}
+
+" user_pref
+set! extensions.adblockplus.sidebar_key="Accel Shift Q"
+
+" qmarks
+" pocket
+qmark 
+
+
+ vascript:(function(){ISRIL_H='f3b9';PKT_D='getpocket.com';ISRIL_SCRIPT=document.createElement('SCRIPT');ISRIL_SCRIPT.type='text/javascript';ISRIL_SCRIPT.src='http://'+PKT_D+'/b/r.js';document.getElementsByTagName('head')[0].appendChild(ISRIL_SCRIPT)})();
+qmark g 
+
+" }}}
+
+" KeyMapping{{{
 
 "-----------------------------------------------------------------
 " mapname	normal	visual	 insert	commandline
@@ -10,35 +57,7 @@
 " cnoremap	x	x	 x	o
 "-----------------------------------------------------------------
 
-
-"ex mode
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
-cnoremap <C-j> <Nop>
-cnoremap <C-o> <Nop>
-"cnoremap <C-p> <Nop>
-"cnoremap <C-v> <C-v><C-v>
-"cnoremap <C-c> <C-v><C-c>
-"cnoremap <C-x> <C-v><C-x>
-
-"input mode
-inoremap <C-f> <Right>
-inoremap <C-b> <Left>
-inoremap <C-n> <Down>
-inoremap <C-p> <Up>
-inoremap <C-j> <Nop>
-inoremap <C-o> <Nop>
-inoremap <C-p> <Nop>
-"inoremap <C-v> <C-v><C-v>
-"inoremap <C-c> <C-v><C-c>
-"inoremap <C-x> <C-v><C-x>
-"inoremap <C-e> <C-i>
-inoremap <M-i> <C-i>
-inoremap <C-i> <Nop>
-
-"usual
+" normal mode
 "nnoremap <C-v> <C-v><C-v>
 "nnoremap <C-c> <C-v><C-c>
 nnoremap <C-h> h
@@ -59,42 +78,89 @@ nnoremap <M-b> <M-d>
 nnoremap <A-b> i<C-d>
 nnoremap <C-m> <CR>
 "nnoremap <C-j> <NL>
+nnoremap <C-[> <Esc>
+nnoremap Q :qmarks<CR>
 
-"caret mode
+" other than normal mode
+nnoremap! <C-[> <Esc>
+
+" commandline mode
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-j> <Nop>
+cnoremap <C-o> <Nop>
+"cnoremap <C-p> <Nop>
+"cnoremap <C-v> <C-v><C-v>
+"cnoremap <C-c> <C-v><C-c>
+"cnoremap <C-x> <C-v><C-x>
+
+" input mode
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
+inoremap <C-j> <Nop>
+inoremap <C-o> <Nop>
+inoremap <C-p> <Nop>
+"inoremap <C-v> <C-v><C-v>
+"inoremap <C-c> <C-v><C-c>
+"inoremap <C-x> <C-v><C-x>
+"inoremap <C-e> <C-i>
+inoremap <M-i> <C-i>
+inoremap <C-i> <Nop>
+
+" caret mode
 vnoremap <C-g> y<Esc><Esc>P
 
-"all mode
-noremap <C-[> <Esc>
-noremap! <C-[> <Esc>
+" }}}
 
-"set guioptions=mTBrb
-set titlestring=Firefox
-set focuscontent
-"set defsearch=googleall
-set! ui.caretWidth=2
-set gui+=noaddons
+" color scheme {{{
 
-""disable access key
-"set! ui.key.contentAcess=0
-"set! ui.key.chromeAcess=0
+hi Hint font-family: monospace; font-size: 15px; font-weight: normal; color: lightyellow; background-color: black; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 0px 5px 0px 5px; text-transform: uppercase;
+hi HintElem background-color: LightSkyBlue; color: black;
+hi HintActive background-color: DeepSkyBlue; color: white;
 
-"always ime off for command line mode
-style -name commandline-ime chrome://* #liberator-commandline-command input {ime-mode: inactive;}
+"" shadow, please comment out if it doesn't work smoothly
+hi -append Hint background-color: rgba(28, 28, 28, 0.7); border: 1px solid #1c1c1c; -moz-border-radius: 4px; -moz-box-shadow: 0px 0px 1px black; text-shadow: 1px 1px 2px black;
+hi -append HintElem text-decoration: none; -moz-border-radius: 4px; -moz-box-shadow: 0 0 2px #0c0c0c;
+hi -append HintActive text-decoration: none; -moz-border-radius: 4px; -moz-box-shadow: 0 0 2px #0c0c0c;
 
-"start page
-set! browser.startup.page=1
+"hi StatusLine color: CornflowerBlue; background: #000; font-weight: normal; font-size: 12pt;
+"hi StatusLineBroken color: black; background: #ffa0a0; font-weight: normal; font-size: 12pt;
+"hi StatusLineExtended color: black; background: #a0ffa0; font-weight: normal; font-size: 12pt;
+"hi StatusLineSecure color: black; background: #a0a0ff; font-weight: normal; font-size: 12pt;
 
-"complete
-set complete=slfb
+hi Normal color: LightYellow; background: Black; font-size: 12pt; opacity: 0.7;
+hi CmdLine color: LightYellow; background: Black; font-size: 14pt;
+hi InfoMsg color: LightYellow; background: Black; font-size: 12pt;
+hi ModeMsg color: LightYellow; background: Black; font-size: 12pt;
+hi MoreMsg color: LimeGreen; background: Black;
+hi LineNr color: DeepPink; background: Black; font-size: 12pt;
+hi Question color: Yellow; background: Black; font-size: 12pt;
+hi WarningMsg color: DeepPink; background: Black; font-size: 12pt;
+hi ErrorMsg color: white; background: red; font-size: 12pt;
+hi NonText background: #000;
+hi Null color: CornflowerBlue;
+hi Tag color: CornflowerBlue;
+hi Number color: CornflowerBlue;
 
-"next/previous patterns
-set nextpattern=^¥次,^¥続き,¥bnext,^>$,^(>>¥|??)$,^(>¥|??),(>¥|??),¥bmore¥b$
-set previouspattern=^¥前,^¥戻,¥bprev|previous¥b,^<$,^(<<¥|??)$,^(<¥|??),(<¥|??)$
+hi CompTitle background: DarkBlue;
+hi CompTitle>* color: white; border-bottom: 1px solid #3c3c3f; padding: 1px 0.5ex; text-shadow: 1px 1px 0px #0c0c0c;
+hi CompItem[selected] color: cyan; background: #333;
+hi CompDesc color: Pink;
 
-""for hint
-set hintchars=ifjklasdweuocvbnm
+hi Title color: white;
+hi Indicator color: DodgerBlue;
+hi String color: Orchid;
+hi Number color: Orchid;
+hi Object color: Khaki;
+hi Function color: SkyBlue;
+hi URL color: LightGreen;
+" }}}
 
-"for multi_requester.js
+" multi_requester.js {{{
 javascript <<EOM
 liberator.globalVariables.multi_requester_siteinfo = [
     {
@@ -169,8 +235,9 @@ liberator.registerObserver("enter", function() {
   );
 });
 EOM
+" }}}
 
-
+" caret hint {{{
 js <<EOM
 mappings.addUserMap(
   [modes.HINTS,modes.CARET],
@@ -198,67 +265,19 @@ mappings.addUserMap(
   }
 );
 EOM
+" }}}
 
-
-
-"remove popup
-"style chrome://* #statusbar-display:not([type="overLink"]) {display: none !important;}
-style chrome://* #statusbar-display {display: none !important;}
-
-" ==VimperatorColorSchema==
-
-hi Hint font-family: monospace; font-size: 15px; font-weight: normal; color: lightyellow; background-color: black; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 0px 5px 0px 5px; text-transform: uppercase;
-hi HintElem background-color: LightSkyBlue; color: black;
-hi HintActive background-color: DeepSkyBlue; color: white;
-
-"" shadow, please comment out if it doesn't work smoothly
-hi -append Hint background-color: rgba(28, 28, 28, 0.7); border: 1px solid #1c1c1c; -moz-border-radius: 4px; -moz-box-shadow: 0px 0px 1px black; text-shadow: 1px 1px 2px black;
-hi -append HintElem text-decoration: none; -moz-border-radius: 4px; -moz-box-shadow: 0 0 2px #0c0c0c;
-hi -append HintActive text-decoration: none; -moz-border-radius: 4px; -moz-box-shadow: 0 0 2px #0c0c0c;
-
-"hi StatusLine color: CornflowerBlue; background: #000; font-weight: normal; font-size: 12pt;
-"hi StatusLineBroken color: black; background: #ffa0a0; font-weight: normal; font-size: 12pt;
-"hi StatusLineExtended color: black; background: #a0ffa0; font-weight: normal; font-size: 12pt;
-"hi StatusLineSecure color: black; background: #a0a0ff; font-weight: normal; font-size: 12pt;
-
-hi Normal color: LightYellow; background: Black; font-size: 12pt; opacity: 0.7;
-hi CmdLine color: LightYellow; background: Black; font-size: 14pt;
-hi InfoMsg color: LightYellow; background: Black; font-size: 12pt;
-hi ModeMsg color: LightYellow; background: Black; font-size: 12pt;
-hi MoreMsg color: LimeGreen; background: Black;
-hi LineNr color: DeepPink; background: Black; font-size: 12pt;
-hi Question color: Yellow; background: Black; font-size: 12pt;
-hi WarningMsg color: DeepPink; background: Black; font-size: 12pt;
-hi ErrorMsg color: white; background: red; font-size: 12pt;
-hi NonText background: #000;
-hi Null color: CornflowerBlue;
-hi Tag color: CornflowerBlue;
-hi Number color: CornflowerBlue;
-
-hi CompTitle background: DarkBlue;
-hi CompTitle>* color: white; border-bottom: 1px solid #3c3c3f; padding: 1px 0.5ex; text-shadow: 1px 1px 0px #0c0c0c;
-hi CompItem[selected] color: cyan; background: #333;
-hi CompDesc color: Pink;
-
-hi Title color: white;
-hi Indicator color: DodgerBlue;
-hi String color: Orchid;
-hi Number color: Orchid;
-hi Object color: Khaki;
-hi Function color: SkyBlue;
-hi URL color: LightGreen;
-
-"user_pref
-set! extensions.adblockplus.sidebar_key="Accel Shift Q"
-
+" settings for each environment {{{
 "js<<EOM
-"if (liberator.has("MacUnix")) {
+"if (liberator.has("MacUnix"){
 "  " for mac
-"  liberator.execute("colorscheme scheme-for-mac");
+"else if (liberator.has("Unix"){
+"  " for linux
 "} else {
-"  " for others (liberator.has("Win32") for win32)
-"  liberator.execute("colorscheme scheme-for-other");
+"  " for others (liberator.has("win32") || liberator.has("win64"))
+"  " for windows
 "}
 "EOM
+" }}}
 
 "echo "_vimperatorrc sourced"

@@ -608,7 +608,7 @@ autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applesc
 " o  Operator pending mode map. Defined using ':omap' and ':onoremap'.
 "
 " map and noremap:  normal + visual
-" map! and noremap!:  command line + insert
+" nmap! and nnoremap!: other than normal mode
 "
 " Note that if the 'paste' option is set, then insert mode maps are disabled.
 

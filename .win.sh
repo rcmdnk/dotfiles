@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# settings {{{
+# for cmd.exe, change to UTF8 (default is 932:sjis)
+# 65000 UTF-7
+# 65001 UTF-8
+# 50220 JIS
+# 20932 EUC-JP
+#   932 SJIS
+chcp.com 65001 >/dev/null
+#}}}
+
+# alias {{{
+alias open='cygstart'
+#}}}
+
+# functions {{{
 # ln wrapper{{{
 function ln {
   opt="/H"
@@ -8,7 +23,7 @@ function ln {
     shift
   fi
   target="$1"
-  if [ -d $target ];then
+  if [ -d "$target" ];then
     opt="/D $opt"
   fi
   if [ $# -eq 2 ];then
@@ -25,4 +40,5 @@ function ln {
   echo "cmd /c mklink $opt $t_link $t_winpath"
   cmd /c mklink $opt "$t_link" "$t_winpath"
 }
+# }}}
 # }}}

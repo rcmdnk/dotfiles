@@ -228,10 +228,6 @@ fi
 export SCREENEXCHANGE=$HOME/.screen-exchange
 # }}}
 
-# for vimperatorrc {{{
-  export VIMPERATOR_RUNTIME=~/.vimperator
-# }}}
-
 # setup for each environment {{{
 # file used in linux, working server
 if [[ "$OSTYPE" =~ "linux" ]];then
