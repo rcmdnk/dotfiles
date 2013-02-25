@@ -148,7 +148,7 @@ elif [[ "$OSTYPE" =~ "darwin" ]];then
   alias ls='ls -G'
   alias la='ls -a -G'
 fi
-alias badlink='find -L . -type l -ls'
+alias badlink='find -L . -depth 1 -type l -ls'
 alias targz="tar xzf"
 alias tarbz2="tar jxf"
 alias g='gmake'
