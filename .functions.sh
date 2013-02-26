@@ -188,14 +188,24 @@ function gitupdate {
     for a in ${avoidword[@]};do
       if grep -q $a .* *;then
         echo "avoid word $a is included!!!"
+        pwd
         grep $a .* *
         return
       fi
     done
   fi
-  git commit -a -m "update from $OSTYPE"
-  git pull --rebase
-  git push
-  git gc
+  update=0
+  if [ "$(git diff)" != "" ];then
+    git commit -a -m "update from $OSTYPE"
+    update=1
+  fi
+  ret=$(git pull --rebase)
+  if ! echo $ret|grep -q "is up to date";then
+    echo $ret
+  fi
+  if [ $update -eq 1 ];then
+    git push
+  fi
+  git gc >/dev/null 2>&1
 }
 # }}}
