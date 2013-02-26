@@ -1,3 +1,4 @@
 # swap, backup files of vim
 *.swp
+*.swo
 *~
