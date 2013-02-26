@@ -187,8 +187,8 @@ function gitupdate {
     local avoidword=(`cat ~/.gitavoid`)
     for a in ${avoidword[@]};do
       if grep -q $a .* *;then
-        echo "avoid word $a is included!!!"
         pwd
+        echo "avoid word $a is included!!!"
         grep $a .* *
         return
       fi
