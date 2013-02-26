@@ -196,11 +196,15 @@ function gitupdate {
   fi
   update=0
   if [ "$(git diff)" != "" ];then
+    pwd
     git commit -a -m "update from $OSTYPE"
     update=1
   fi
   ret=$(git pull --rebase)
   if ! echo $ret|grep -q "is up to date";then
+    if [ $update -eq 0 ];then
+      pwd
+    fi
     echo $ret
   fi
   if [ $update -eq 1 ];then
