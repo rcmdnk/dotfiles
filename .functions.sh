@@ -180,3 +180,22 @@ function showdir {
   fi
 }
 # }}}
+
+# git{{{
+function gitupdate {
+  if [ -f ~/.gitavoid ];then
+    local avoidword=(`cat ~/.gitavoid`)
+    for a in ${avoidword[@]};do
+      if grep -q $a .* *;then
+        echo "avoid word $a is included!!!"
+        grep $a .* *
+        return
+      fi
+    done
+  fi
+  git commit -a -m "update from $OSTYPE"
+  git pull --rebase
+  git push
+  git gc
+}
+# }}}

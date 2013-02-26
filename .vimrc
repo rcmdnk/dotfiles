@@ -242,13 +242,19 @@ if has('multi_byte_ime') || has('xim')
 endif
 
 " encode
-if has("win")
-  set encoding=utf-8
-  set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8,ucs-bom,default,latin1
-else " if has("unix") || has("max")
-  set encoding=utf-8
-  set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1
-endif
+"if has("windows")
+"  scriptencoding cp932 " sjis
+"  set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
+"else " if has("unix") || has("mac")
+"  set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1,utf-8
+"endif
+"if has('gui_running') && !has('unix')
+"  set encoding=utf-8
+"endif
+set encoding=utf-8
+set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1,utf-8
+autocmd myaugroup FileType vbs :set fileencoding=sjis
+autocmd myaugroup FileType vbs :set encoding=sjis
 
 " bash-like tab completion
 set wildmode=list:longest
@@ -648,12 +654,14 @@ nnoremap <C-e> <C-$>
 " Substitute for C-a (C-q default: C-V alternative for gui mode)
 "nnoremap <C-q> <C-a> " not work...
 " Substitute for C-a (C-z default: suspend, same as :stop)
-nnoremap <C-z> <C-a>
+"nnoremap <C-z> <C-a>
+" Substitute for C-a (C-s default: non?)
+nnoremap <C-s> <C-a>
 
 " tag jump (avoid crash with screen's key bind, C-' default: Non?)
 nnoremap <C-'> <C-t>
 " spell check toggle
-nnoremap <silent> <C-s> :set spell!<CR>
+nnoremap <silent> ,s :set spell!<CR>
 " stop highlight for search
 "nnoremap <C-/> :noh<CR> " can't use C-/ ?
 "nnoremap <Esc> :noh<CR> " this makes something wrong
