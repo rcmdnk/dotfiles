@@ -195,9 +195,10 @@ function gitupdate {
     done
   fi
   update=0
-  if [ "$(git diff)" != "" ];then
+  difffiles=`git diff|grep diff|cut -d' ' -f4|cut -d'/' -f2`
+  if [ "$difffiles" != "" ];then
     pwd
-    git commit -a -m "update from $OSTYPE"
+    git commit -a -m "$difffiles, from $OSTYPE"
     update=1
   fi
   ret=$(git pull --rebase)
