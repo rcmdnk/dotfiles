@@ -1,4 +1,9 @@
-set runtimepath=~/My\ Dropbox/08_Settings/vimpr/vimperator,~/Dropbox/08_Settings/vimpr/vimperator
+" set runtime path {{{
+" ~/.vimperatorrc (linux/Mac) or ~/vimperatorrc are always used for info even 
+" runtimepath is set as below
+set runtimepath=~/My\ Dropbox/08_Settings/vimpr/vimperator,
+               \~/Dropbox/08_Settings/vimpr/vimperator
+" }}}
 
 " basic settings {{{
 "set guioptions=mTBrb
@@ -7,13 +12,16 @@ set focuscontent
 "set defsearch=googleall
 set! ui.caretWidth=2
 set gui+=noaddons
+set suggestengines=google
+set wildoptions=auto
 
 " disable access key
 "set! ui.key.contentAcess=0
 "set! ui.key.chromeAcess=0
 
 " always ime off for command line mode
-style -name commandline-ime chrome://* #liberator-commandline-command input {ime-mode: inactive;}
+style -name commandline-ime chrome://*
+  \ #liberator-commandline-command input {ime-mode: inactive;}
 
 " start page
 set! browser.startup.page=1
