@@ -89,25 +89,26 @@ function edit {
 #alias sn='vim -c "call Sn()"'
 # }}}
 
-# screen wrapper {{{
-function screen {
-  # This setting keeps the host name in which screen is running
-  # for a case in the cluster,
-  # in which the host can be changed at every log in
-  #
-  #if [ $# = 0 ] || [ $1 = "-r" ] || [ $1 = "-R" ] || [ $1 = "x" ];then
-  #  sed -i -e "/^$(hostname).*/d" .hostForScreen
-  #  hostname >> ~/.hostForScreen
-  #  #tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
-  #  #mv ~/.hostForScreen.tmp ~/.hostForScreen
-  ## write out DISPLAY of current terminal
-  #  echo "$DISPLAY"> ~/.display.txt
-  #fi
-
-  # launch screen
-  command screen $@
-}
-# }}}
+## screen wrapper {{{
+#function screen {
+#  # This setting keeps the host name in which screen is running
+#  # for a case in the cluster,
+#  # in which the host can be changed at every login
+#  #
+#  if [ $# = 0 ] || [ $1 = "-r" ] || [ $1 = "-R" ] || [ $1 = "x" ];then
+#    sed -i -e "/^$(hostname).*/d" .hostForScreen
+#    hostname >> ~/.hostForScreen
+#    # keep 10 histories
+#    #tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
+#    #mv ~/.hostForScreen.tmp ~/.hostForScreen
+#  # write out DISPLAY of current terminal
+#    echo "$DISPLAY"> ~/.display.txt
+#  fi
+#
+#  # launch screen
+#  command screen $@
+#}
+## }}}
 
 # set display if screen is attached in other host than previous host {{{
 function setDisplay {
