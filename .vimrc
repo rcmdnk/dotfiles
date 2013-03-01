@@ -251,10 +251,10 @@ endif
 "if has('gui_running') && !has('unix')
 "  set encoding=utf-8
 "endif
-set encoding=utf-8
-set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1,utf-8
-autocmd myaugroup FileType vbs :set fileencoding=sjis
-autocmd myaugroup FileType vbs :set encoding=sjis
+"set encoding=utf-8
+"set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1,utf-8
+"autocmd myaugroup FileType vbs :set fileencoding=sjis
+"autocmd myaugroup FileType vbs :set encoding=sjis
 
 " bash-like tab completion
 set wildmode=list:longest
