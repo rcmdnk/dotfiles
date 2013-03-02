@@ -208,14 +208,14 @@ function cdpwd {
 # }}}
 
 # show output result with w3m {{{
-function lw {
-  sed -e 's/</\&lt;/g' |\
-  sed -e 's/>/\&gt;/g' |\
-  sed -e 's/\&/\&amp;/g' |\
-  sed -e 's/[^:]*/<a href="\0">\0<\/a>/' |\
-  sed -e 's/$/<br\/>/' |\
-  EDITOR='vi' w3m -T text/html
-}
+#function lw {
+#  sed -e 's/</\&lt;/g' |\
+#  sed -e 's/>/\&gt;/g' |\
+#  sed -e 's/\&/\&amp;/g' |\
+#  sed -e 's/[^:]*/<a href="\0">\0<\/a>/' |\
+#  sed -e 's/$/<br\/>/' |\
+#  EDITOR='vi' w3m -T text/html
+#}
 # }}}
 
 # copy to clipboard {{{
