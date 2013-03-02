@@ -1,8 +1,7 @@
 " set runtime path {{{
 " ~/.vimperatorrc (linux/Mac) or ~/vimperatorrc are always used for info even 
 " runtimepath is set as below
-set runtimepath=~/My\ Dropbox/08_Settings/vimpr/vimperator,
-               \~/Dropbox/08_Settings/vimpr/vimperator
+set runtimepath=~/My\ Dropbox/08_Settings/vimpr/vimperator,~/Dropbox/08_Settings/vimpr/vimperator
 " }}}
 
 " basic settings {{{
@@ -13,21 +12,24 @@ set focuscontent
 set! ui.caretWidth=2
 set gui+=noaddons
 set suggestengines=google
-set wildoptions=auto
 
 " disable access key
 "set! ui.key.contentAcess=0
 "set! ui.key.chromeAcess=0
 
 " always ime off for command line mode
-style -name commandline-ime chrome://*
-  \ #liberator-commandline-command input {ime-mode: inactive;}
+style -name commandline-ime chrome://* #liberator-commandline-command input {ime-mode: inactive;}
 
 " start page
 set! browser.startup.page=1
 
 " complete
-set complete=slfb
+" l: location bar completions
+" b: bookmarks
+" S: suggestion of search engines
+" s: search engine names
+" f: local files
+set complete=lbSsf
 
 " next/previous patterns
 set nextpattern=^¥次,^¥続き,¥bnext,^>$,^(>>¥|??)$,^(>¥|??),(>¥|??),¥bmore¥b$
