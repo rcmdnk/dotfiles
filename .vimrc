@@ -209,7 +209,7 @@ set expandtab     " do :retab -> tab->space
 
 set nobackup          " do not keep a backup file, use versions instead
 "set directory=$TMPDIR " directory for swap file
-set viminfo+=n~/.vim/vininfo.txt
+set viminfo+=n~/.vim/viminfo.txt
 
 
 set history=100       " keep 100 lines of command line history
@@ -693,8 +693,12 @@ nnoremap = v=
 "nnoremap <C-w><C-c> <C-w><C-c> "not work, because <C-c> cancels the command
 
 " insert file name
-nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
+"nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
+nnoremap <silent> ,f "%P
 nnoremap <silent> ,d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
+nnoremap <silent> "+ "+P
+nnoremap <silent> "* "*P
+nnoremap <silent> "a "aP
 
 " save/quit
 nnoremap ,w :w<CR>
@@ -713,8 +717,10 @@ inoremap <C-b> <Left>
 inoremap <C-f> <Right>
 
 " insert file/directory name
-inoremap <silent> ,f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
+"inoremap <silent> ,f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
+inoremap <silent> ,f <C-R>%
 inoremap <silent> ,d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
+
 
 " < can't be used for mapping?
 " (maybe < has special means in vim scripts and need special treatment)
