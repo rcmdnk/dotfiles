@@ -209,7 +209,7 @@ set expandtab     " do :retab -> tab->space
 
 set nobackup          " do not keep a backup file, use versions instead
 "set directory=$TMPDIR " directory for swap file
-set viminfo+=n~/.vim/viminfo.txt
+"set viminfo+=n~/.vim/viminfo.txt
 
 
 set history=100       " keep 100 lines of command line history
@@ -698,7 +698,6 @@ nnoremap <silent> ,f "%P
 nnoremap <silent> ,d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
 nnoremap <silent> "+ "+P
 nnoremap <silent> "* "*P
-nnoremap <silent> "a "aP
 
 " save/quit
 nnoremap ,w :w<CR>
