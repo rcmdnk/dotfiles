@@ -288,8 +288,7 @@ EOM
 " settings for each environment {{{
 js<<EOM
   if (liberator.has("MacUnix")) {
-    liberator.execute("set editor='/Applications/MacVim.app/Contents/MacOS/mvim'");
-    //liberator.execute("set editor='/Applications/MacVim.app/Contents/MacOS/mvim -f'");
+    liberator.execute("set editor='/Applications/MacVim.app/Contents/MacOS/mvim -f'");
   } else if (liberator.has("Win32") || liberator.has("Win64")) {
     liberator.execute("set editor=gvim.exe\\ --remote-tab-silent");
   }else if(liberator.has("Unix")){
