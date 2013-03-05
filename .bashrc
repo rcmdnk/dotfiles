@@ -151,8 +151,10 @@ fi
 alias badlink='find -L . -depth 1 -type l -ls'
 alias targz="tar xzf"
 alias tarbz2="tar jxf"
-alias g='gmake'
-alias gc="gmake clean"
+#alias g='gmake'
+alias g='make'
+alias gc="make clean"
+alias gcg="make clean && make"
 alias ch="$HOME/usr/bin/change"
 alias del="$HOME/usr/bin/trash"
 alias bc="bc -l"
