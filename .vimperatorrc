@@ -1,6 +1,6 @@
 " set runtime path {{{
-" ~/.vimperatorrc (linux/Mac) or ~/vimperatorrc are always used for info even 
-" runtimepath is set as below
+" note: ~/.vimperatorrc (linux/Mac) or ~/vimperatorrc are always used for info
+"       even when runtimepath is set as below
 set runtimepath=~/My\ Dropbox/08_Settings/vimpr/vimperator,~/Dropbox/08_Settings/vimpr/vimperator
 " }}}
 
