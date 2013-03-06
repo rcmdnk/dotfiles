@@ -371,17 +371,17 @@ function gitupdate {
     git commit -a -m "$difffiles, from $OSTYPE"
     update=1
   fi
-  #ret=$(git pull --rebase)
-  #if ! echo $ret|grep -q "is up to date";then
-  #  if [ $update -eq 0 ];then
-  #    pwd
-  #  fi
-  #  echo $ret
-  #fi
-  #if [ $update -eq 1 ];then
-  #  git push
-  #fi
-  #git gc >/dev/null 2>&1
+  ret=$(git pull --rebase)
+  if ! echo $ret|grep -q "is up to date";then
+    if [ $update -eq 0 ];then
+      pwd
+    fi
+    echo $ret
+  fi
+  if [ $update -eq 1 ];then
+    git push
+  fi
+  git gc >/dev/null 2>&1
 }
 # }}}
 
