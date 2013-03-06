@@ -354,21 +354,20 @@ function showdir {
 
 # git{{{
 function gitupdate {
-  if [ -f ~/.gitavoid ];then
-    local avoidword=(`cat ~/.gitavoid`)
-    for a in ${avoidword[@]};do
-      if grep -q $a .* *;then
-        pwd
-        echo "avoid word $a is included!!!"
-        grep $a .* *
-        return
-      fi
-    done
-  fi
   update=0
   difffiles=`git diff|grep diff|cut -d' ' -f4|cut -d'/' -f2`
   if [ "$difffiles" != "" ];then
     pwd
+    if [ -f ~/.gitavoid ];then
+      local avoidword=(`cat ~/.gitavoid`)
+      for a in ${avoidword[@]};do
+        if grep -q $a $difffiles;then
+          echo "avoid word $a is included!!!"
+          grep $a $difffiles
+          return
+        fi
+      done
+    fi
     git commit -a -m "$difffiles, from $OSTYPE"
     update=1
   fi
