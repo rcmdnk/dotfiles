@@ -257,7 +257,7 @@ endif
 "set encoding=utf-8
 "set encoding=cp932
 "set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
-set fileencodings=iso-2022-jp,utf-8,cp932,euc-jp,default,latin
+set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
 "set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1,utf-8
 "autocmd myaugroup FileType vbs :set fileencoding=sjis
 "autocmd myaugroup FileType vbs :set encoding=sjis
