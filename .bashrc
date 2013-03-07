@@ -35,7 +35,6 @@ source_file /etc/bashrc
 
 # Environmental variables {{{
 # prompt
-#export PS1="[\u@\h \W]\$ "
 export PS1="[\h \W]\$ "
 
 # prompt command
@@ -240,19 +239,19 @@ alias put=putToClopboard
 # }}}
 
 # editor wrapper {{{
-function edit {
-  if [ $# -eq 0 ];then
-    echo "usage: edit file"
-  else
-    file=`basename $1`
-    dir=`dirname $1`
-    mkdir -p $TMPDIR/edit/$dir
-    rm -rf $TMPDIR/edit/$dir/$file
-    cp $dir/$file $TMPDIR/edit/$dir/$file
-    vi $TMPDIR/edit/$dir/$file
-    cp $TMPDIR/edit/$dir/$file $dir/$file
-  fi
-}
+#function edit {
+#  if [ $# -eq 0 ];then
+#    echo "usage: edit file"
+#  else
+#    file=`basename $1`
+#    dir=`dirname $1`
+#    mkdir -p $TMPDIR/edit/$dir
+#    rm -rf $TMPDIR/edit/$dir/$file
+#    cp $dir/$file $TMPDIR/edit/$dir/$file
+#    vi $TMPDIR/edit/$dir/$file
+#    cp $TMPDIR/edit/$dir/$file $dir/$file
+#  fi
+#}
 # }}}
 
 # SimpleNote {{{
@@ -411,12 +410,15 @@ export CLMAXHIST=20
 export MYCL="" #xsel/xclip
 # }}}
 
-# basic include files {{{
-# local path
-# PATH, LD_LIBRARY_PATH under HOME
+# local path {{{
+# settings under HOME
 export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/usr/lib:$HOME/usr/local/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
+if [ -s $HOME/.rvm/scripts/rvm ];then
+  source $HOME/.rvm/scripts/rvm
+fi
+
 # }}}
 
 # for screen {{{
@@ -473,3 +475,5 @@ if [[ "$OSTYPE" =~ "cygwin" ]];then
   source_file ~/.win.sh
 fi
 # }}}
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
