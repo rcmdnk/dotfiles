@@ -385,14 +385,14 @@ function gitupdate {
 # }}}
 
 # man wrapper{{{
-function man {
-  # open man file with vim
-  # col -b -x: remove backspace, replace tab->space
-  # vim -R -: read only mode, read from stdin
-  command man $1|col -b -x|vim -R -
-}
+#function man {
+#  # open man file with vim
+#  # col -b -x: remove backspace, replace tab->space
+#  # vim -R -: read only mode, read from stdin
+#  command man $1|col -b -x|vim -R -
+#}
 # }}}
-#alias man='LANG=C man'
+alias man='LANG=C man'
 # }}}
 
 # stty {{{
