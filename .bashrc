@@ -33,7 +33,6 @@ source_file /etc/bashrc
 # }}}
 
 # Environmental variables {{{
-
 # Prompt
 #export PS1="[\u@\h \W]\$ "
 export PS1="[\h \W]\$ "
@@ -329,22 +328,6 @@ function putToClopboard {
 alias put=putToClopboard
 # }}}
 
-# Editor wrapper {{{
-function edit {
-  if [ $# -eq 0 ];then
-    echo "usage: edit file"
-  else
-    file=`basename $1`
-    dir=`dirname $1`
-    mkdir -p $TMPDIR/edit/$dir
-    rm -rf $TMPDIR/edit/$dir/$file
-    cp $dir/$file $TMPDIR/edit/$dir/$file
-    vi $TMPDIR/edit/$dir/$file
-    cp $TMPDIR/edit/$dir/$file $dir/$file
-  fi
-}
-# }}}
-
 ## emacs wrapper {{{
 #function emacs { command emacs $@ & }
 # }}}
@@ -505,6 +488,8 @@ export MYCL="" #xsel/xclip
 export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/usr/lib:$HOME/usr/local/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
+
+export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # }}} Local path
 
 # For screen {{{
