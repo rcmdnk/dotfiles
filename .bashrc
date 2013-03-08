@@ -33,13 +33,8 @@ source_file /etc/bashrc
 # }}}
 
 # Environmental variables {{{
-<<<<<<< HEAD
-# prompt
-=======
-
 # Prompt
 #export PS1="[\u@\h \W]\$ "
->>>>>>> origin/master
 export PS1="[\h \W]\$ "
 
 # Prompt command
@@ -333,39 +328,6 @@ function putToClopboard {
 alias put=putToClopboard
 # }}}
 
-<<<<<<< HEAD
-# editor wrapper {{{
-#function edit {
-#  if [ $# -eq 0 ];then
-#    echo "usage: edit file"
-#  else
-#    file=`basename $1`
-#    dir=`dirname $1`
-#    mkdir -p $TMPDIR/edit/$dir
-#    rm -rf $TMPDIR/edit/$dir/$file
-#    cp $dir/$file $TMPDIR/edit/$dir/$file
-#    vi $TMPDIR/edit/$dir/$file
-#    cp $TMPDIR/edit/$dir/$file $dir/$file
-#  fi
-#}
-=======
-# Editor wrapper {{{
-function edit {
-  if [ $# -eq 0 ];then
-    echo "usage: edit file"
-  else
-    file=`basename $1`
-    dir=`dirname $1`
-    mkdir -p $TMPDIR/edit/$dir
-    rm -rf $TMPDIR/edit/$dir/$file
-    cp $dir/$file $TMPDIR/edit/$dir/$file
-    vi $TMPDIR/edit/$dir/$file
-    cp $TMPDIR/edit/$dir/$file $dir/$file
-  fi
-}
->>>>>>> origin/master
-# }}}
-
 ## emacs wrapper {{{
 #function emacs { command emacs $@ & }
 # }}}
@@ -499,16 +461,6 @@ function gitupdate {
 # }}}
 
 # man wrapper{{{
-<<<<<<< HEAD
-#function man {
-#  # open man file with vim
-#  # col -b -x: remove backspace, replace tab->space
-#  # vim -R -: read only mode, read from stdin
-#  command man $1|col -b -x|vim -R -
-#}
-# }}}
-alias man='LANG=C man'
-=======
 function man {
   # Open man file with vim
   # col -b -x: remove backspace, replace tab->space
@@ -516,7 +468,6 @@ function man {
   LANG=C command man $1|col -b -x|vim -R -
 }
 #alias man='LANG=C man'
->>>>>>> origin/master
 # }}}
 
 # }}} Alias, Function
@@ -532,23 +483,14 @@ export CLMAXHIST=20
 export MYCL="" #xsel/xclip
 # }}} For my clipboards
 
-<<<<<<< HEAD
-# local path {{{
-# settings under HOME
+# Local path {{{
+# PATH, LD_LIBRARY_PATH under HOME
 export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/usr/lib:$HOME/usr/local/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 if [ -s $HOME/.rvm/scripts/rvm ];then
   source $HOME/.rvm/scripts/rvm
 fi
-
-# }}}
-=======
-# Local path {{{
-# PATH, LD_LIBRARY_PATH under HOME
-export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
-export LD_LIBRARY_PATH=$HOME/usr/lib:$HOME/usr/local/lib:$LD_LIBRARY_PATH
-export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 # }}} Local path
 
 # For screen {{{
@@ -609,7 +551,6 @@ export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 #  fi
 #} # }}}
 ## }}}
->>>>>>> origin/master
 
 # functions/settings only for screen sessions {{{
 if [[ "$TERM" =~ "screen" ]]; then
@@ -712,10 +653,4 @@ fi
 if [[ "$OSTYPE" =~ "cygwin" ]];then
   source_file ~/.win.sh
 fi
-<<<<<<< HEAD
-# }}}
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-=======
 # }}} Setup for each environment
->>>>>>> origin/master
