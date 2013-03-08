@@ -191,33 +191,32 @@ set hlsearch
 " start : character before the starting point of the insert mode
 set backspace=indent,eol,start
 
-set modeline      " enable to use settings written in the file
-                  " use with comment lines: e.g.)
-                  " # vim set foldmethod=marker:
-                  " # vim set foldmarker={{{,}}}:
-set modelines=5   " number of lines to be read (form top and bottom) for
-                  " modeline
-set tabstop=4     " width of <Tab> in view
-set shiftwidth=2  " width for indent
-set softtabstop=0 " if not 0, insert space instead of <Tab>
-"set textwidth=0   " longer line than textwidth will be broken (0: disable)
+set modeline       " enable to use settings written in the file
+                   " use with comment lines: e.g.)
+                   " # vim set foldmethod=marker:
+                   " # vim set foldmarker={{{,}}}:
+set modelines=5    " number of lines to be read (form top and bottom) for
+                   " modeline
+set tabstop=4      " width of <Tab> in view
+set shiftwidth=2   " width for indent
+set softtabstop=0  " if not 0, insert space instead of <Tab>
+"set textwidth=0    " longer line than textwidth will be broken (0: disable)
 autocmd myaugroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
 set colorcolumn=80 " put line on X
 "set colorcolumn=+1 " put line on textwidth+1
-set wrap          " the longer line is wrapped
-set expandtab     " do :retab -> tab->space
+set wrap           " the longer line is wrapped
+set expandtab      " do :retab -> tab->space
 
-set nobackup          " do not keep a backup file, use versions instead
+set nobackup       " do not keep a backup file, use versions instead
 "set directory=$TMPDIR " directory for swap file
 "set viminfo+=n~/.vim/viminfo.txt
 
+set history=100    " keep 100 lines of command line history
 
-set history=100       " keep 100 lines of command line history
-
-set incsearch  " do incremental searching
-set ignorecase " ignore case for search
-set smartcase  " noignorecase, if the pattern include Capital
-set nowrapscan " stop search at the edge of the file
+"set incsearch      " do incremental searching
+"set ignorecase     " ignore case for search
+set smartcase      " noignorecase, if the pattern include Capital
+set nowrapscan     " stop search at the edge of the file
 
 set nrformats=hex  " not use cotal, alpha for increment or decrement
 set t_Co=256       " enable 256 colors
@@ -230,12 +229,12 @@ set cursorline     " enable highlight on current line:
                    " but make moving cursor slow for heavily highlighted file...
 set nonumber       " don't show line numbers
 set autoindent
-set scrolloff=999 " show cursor at middle 
-                  " (scrolloff is number of lines which should be shown above
-                  " and below cursor.
-                  "  such large number force to stay a cursor at middle
+set scrolloff=999  " show cursor at middle 
+                   " (scrolloff is number of lines which should be shown above
+                   " and below cursor.
+                   "  such large number force to stay a cursor at middle
 
-set spell " spell check highlight
+set spell          " spell check highlight
 
 " ime setting
 if has('multi_byte_ime') || has('xim')
@@ -399,8 +398,8 @@ let g:unite_enable_start_insert=1
 " window
 "let g:unite_enable_split_vertically=1
 let g:unite_split_rule='botright' " default topleft
-let g:unite_winheight=10 " default 20
-let g:unite_winwidth=60 " default 90
+let g:unite_winheight=10          " default 20
+let g:unite_winwidth=60           " default 90
 " show buffer
 nnoremap <silent> ,ub :Unite buffer<CR>
 " show files/directories with full path
@@ -418,8 +417,9 @@ nnoremap <silent> ,ul :Unite line<CR>
 " }}} Unite
 
 " Align {{{
-noremap ,= :Align =<CR>
-noremap ,c :Align com<CR>
+noremap ,a= :Align =<CR>
+noremap ,a" :Align "<CR>
+noremap ,a# :Align #<CR>
 " }}} Align
 
 " vim-smartchr {{{
