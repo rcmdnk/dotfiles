@@ -488,8 +488,9 @@ export MYCL="" #xsel/xclip
 export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/usr/lib:$HOME/usr/local/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
-
-export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+if [ -s $HOME/.rvm/scripts/rvm ];then
+  source $HOME/.rvm/scripts/rvm
+fi
 # }}} Local path
 
 # For screen {{{
