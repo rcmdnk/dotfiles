@@ -2,7 +2,7 @@
 
 # Check if this is first time to read bashrc or not {{{
 # (subshell, screen, etc...)
-if [ "$INIT_PATH" = "" ];then
+if [ ! "$INIT_PATH" ];then
   # Set initial values of PATH, LD_LIBRARY_PATH, PYTHONPATH
   export INIT_PATH=$PATH
   export INIT_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
@@ -99,9 +99,9 @@ shopt -s histappend # append to hist (not overwrite),
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # Method to remove failed command {{{
 #function histRemoveFail {
-#  result=$?
+#  local result=$?
 #  if [ $result -ne 0 ];then
-#    n=`history 1|awk '{print $1}'`
+#    local n=`history 1|awk '{print $1}'`
 #    if [ "x$n" != "x" ];then
 #      history -d $n
 #    fi
@@ -114,7 +114,7 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # w/o failed command (bit too strong...) {{{
 #shopt -u histappend # Overwrite
 #function share_history {
-#  result=$?
+#  local result=$?
 #  if [ $result -eq 0 ];then # put only when the command succeeded
 #    history -a # append history to the file
 #    history -c # remove current history
@@ -188,7 +188,7 @@ alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 
 # Use temporally trash box {{{
 function trash {
-  if [ "$TRASH" = "" ];then
+  if [ ! "$TRASH" ];then
     echo "please set TRASH"
     return
   fi
@@ -223,8 +223,8 @@ function trash {
 }
 alias del="$HOME/usr/bin/trash"
 
-function cleanTrash {
-  if [ "$TRASH" = "" ];then
+function clean_trash {
+  if [ ! "$TRASH" ];then
     echo "please set TRASH"
     return
   fi
@@ -265,7 +265,7 @@ alias ch="$HOME/usr/bin/change"
 # }}}
 
 # Delete trailing white space {{{
-function delTrail {
+function del_tail {
   sed -i 's/ \+$//g' $1
 }
 # }}}
@@ -332,19 +332,13 @@ function cdpwd {
 # }}}
 
 # Pop clip board {{{
-function myClPop {
-  local clb=$HOMOE/.clipboard
-  local max=10
-  local mycl=
-  if [ "$CLIPBOARD" != "" ];then
-    clb=$CLIPBOARD
-  fi
-  if [ "$CLMAXHIST" != "" ];then
-    max=$CLMAXHIST
-  fi
-  if [ "$MYCL" != "" ];then
-    mycl=$MYCL
-  fi
+function myclpop {
+  # Set values
+  local clb=${CLIPBOARD:-$HOMOE/.clipboard}
+  local max=${CLMAXHIST:-10}
+  local mycl=${MYCL:-""}
+
+  # Show stored words
   local i=$(($max-1))
   while [ $i -ge 0 ];do
     printf "%4d: " $i
@@ -353,6 +347,8 @@ function myClPop {
     echo
     i=$(($i-1))
   done
+
+  # Choose buffer
   echo ""
   echo -n "choose buffer:"
   local n
@@ -361,11 +357,12 @@ function myClPop {
   local j=$(($max-1))
   if [ ! -f $f ];then
     echo "$f doesn't exist"
-    echo "use myClPop <0-$j>"
+    echo "use myclpop <0-$j>"
     return
   fi
   local c=`cat $f`
 
+  # Align clipboards
   local i=$(($n-1))
   while [ $i -ge 0 ];do
     local j=$(($i+1))
@@ -374,28 +371,19 @@ function myClPop {
     i=$(($i-1))
   done
   echo -n $c > $clb/clb.0
-  if [ "$mycl" != "" ];then
+
+  # Copy to clipboard of X
+  if [ "$mycl" ];then
     cat $clb/clb.0 | $mycl
   fi
 } # }}}
 
 # Push clip board {{{
-function myClPut {
-  # default values
-  local clb=$HOME/.clipboard
-  local max=10
-  local mycl=
-
-  # values from environment settings
-  if [ "$CLIPBOARD" != "" ];then
-    clb=$CLIPBOARD
-  fi
-  if [ "$CLMAXHIST" != "" ];then
-    max=$CLMAXHIST
-  fi
-  if [ "$MYCL" != "" ];then
-    mycl=$MYCL
-  fi
+function myclput {
+  # set values
+  local clb=${CLIPBOARD:-$HOMOE/.clipboard}
+  local max=${CLMAXHIST:-10}
+  local mycl=${MYCL:-""}
 
   # check new words
   mkdir -p $clb
@@ -414,7 +402,7 @@ function myClPut {
     echo -n $* > $clb/clb.0
   fi
 
-  # copy to clipboard
+  # Copy to clipboard of X
   if [ "$mycl" != "" ];then
     #echo "echo -n $* | $mycl"
     echo -n $* | $mycl
@@ -422,22 +410,16 @@ function myClPut {
 } # }}}
 
 # Force to copy in clipboard of X {{{
-function putToClopboard {
-  local clb="$HOME/.clipboard"
-  local mycl=xclip
-  if [ "$CLIPBOARD" != "" ];then
-    clb=$CLIPBOARD
-  fi
-  if [ "$MYCL" != "" ];then
-    mycl=$MYCL
-  fi
+function put_to_clopboard {
+  local clb=${CLIPBOARD:-$HOME/.clipboard}
+  local mycl=${MYCL:-xclip}
   mkdir -p $clb
   touch $clb/clb.0
   cat $clb/clb.0
   echo
   cat $clb/clb.0 | $mycl
 }
-alias put=putToClopboard
+alias put=put_to_clopboard
 # }}}
 
 ## Show output result with w3m {{{
@@ -472,11 +454,8 @@ function path {
 ## Directory save/move in different terminal {{{
 LASTDIRFILE=$HOME/.lastDir
 function sd { # save dir {{{
-  if [ "$LASTDIRFILE" = "" ];then
-    export LASTDIRFILE=$HOME/.lastDir
-  fi
-  touch $LASTDIRFILE
-  local lastdirfiletmp=$TMPDIR/.lastDir.tmp
+  touch ${LASTDIRFILE:-$HOME/.lastDir}
+  local lastdirfiletmp=${TMPDIR:-/tmp}/.lastDir.tmp
   tail -n19 $LASTDIRFILE > $lastdirfiletmp
   local lastdir=`tail -n1 $LASTDIRFILE`
   local curdir=`pwd -P`
@@ -501,10 +480,7 @@ function cl {
 "
 
   # Check LASTDIRFILE
-  if [ "$LASTDIRFILE" = "" ];then
-    export LASTDIRFILE=$HOME/.lastDir
-  fi
-  touch $LASTDIRFILE
+  touch ${LASTDIRFILE:-$HOME/.lastDir}
 
   # Initialize variables
   local nth=1
@@ -554,7 +530,7 @@ function cl {
 function gitupdate {
   update=0
   difffiles=`git diff|grep diff|cut -d' ' -f4|cut -d'/' -f2`
-  if [ "$difffiles" != "" ];then
+  if [ ! "$difffiles" ];then
     pwd
     if [ -f ~/.gitavoid ];then
       local avoidword=(`cat ~/.gitavoid`)
@@ -714,7 +690,7 @@ fi
 ## }}}
 #
 ## Function to check remaining screen sessions in a cluster{{{
-#function screenCheck {
+#function screen_check {
 #  for h in `cat ~/.hostForScreen`;do
 #    echo "checking $h..."
 #    ping $h -c 2 -w2 >/dev/null 2>&1
@@ -754,48 +730,40 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 # Following functions/alias are also enabled before screen {{{
 
 # For clipboard management with screen, Read from previous Clipboard {{{
-function myClPopSC {
-  local scex=$HOME/.screen-exchange
-  if [ "$SCREENEXCHANGE" != "" ];then
-    local scex=$SCREENEXCHANGE
-  fi
-  if [ "$CLIPBOARD" != "" ];then
-    local clb=$CLIPBOARD
-  fi
+function myclpopsc {
+  local scex=${SCREENEXCHANGE:-$HOME/.screen-exchange}
+  local clb=${CLIPBOARD:-$HOME/.clipboard}
   if [ "$1" != "-n" ];then
-    myClPop
+    myclpop
   fi
   cp $clb/clb.0 $scex
   screen -X readbuf
 }
-alias rc=myClPopSC
+alias rc=myclpopsc
 # }}}
 
 # Wrapper of path for screen {{{
 function path {
   local fullpath=`command path $@`
   echo $fullpath
-  myClPut $fullpath
-  myClPopSC -n
+  myclput $fullpath
+  myclpopsc -n
 } # }}}
 
 # For clipboard management with screen, put current screen's exchange to clipboard {{{
-function myClPutSC {
-  local scex=$HOME/.screen-exchange
-  if [ "$SCREENEXCHANGE" != "" ];then
-    scex=$SCREENEXCHANGE
-  fi
+function myclputsc {
+  local scex=${SCREENEXCHANGE:-$HOME/.screen-exchange}
   local c=`cat $scex`
-  myClPut $c
+  myclput $c
 } # }}}
 
-## pwd wrapper: myClPut/Pop sometime take too much time {{{
+## pwd wrapper: myclput/pop sometime take too much time {{{
 ## even at .bashrc sourcing...
 #if [[ "$TERM" =~ "screen" ]]; then
 #  function pwd {
 #    local curdir=`command pwd $@`
-#    myClPut $curdir >/dev/null 2>&1
-#    myClPopSC -n >/dev/null 2>&1
+#    myclput $curdir >/dev/null 2>&1
+#    myclpopsc -n >/dev/null 2>&1
 #    echo $curdir
 #  }
 #fi
@@ -850,7 +818,7 @@ if [[ "$TERM" =~ "screen" ]]; then
   # }}}
 
   # Set display if screen is attached in other host than previous host {{{
-  function setDisplay {
+  function set_display {
     if [ -f ~/.display.txt ];then
       #local d=`grep $HOSTNAME ~/.display.txt|awk '{print $2}'`
       local d=`cat ~/.display.txt`
