@@ -190,7 +190,7 @@ alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 function trash {
   if [ "$TRASH" = "" ];then
     echo "please set TRASH"
-    exit
+    return
   fi
   if [ "$#" -lt 1 ]
   then
@@ -226,7 +226,7 @@ alias del="$HOME/usr/bin/trash"
 function cleanTrash {
   if [ "$TRASH" = "" ];then
     echo "please set TRASH"
-    exit
+    return
   fi
   local flag="FALSE"
   while [ $flag = "FALSE" ];do
@@ -362,7 +362,7 @@ function myClPop {
   if [ ! -f $f ];then
     echo "$f doesn't exist"
     echo "use myClPop <0-$j>"
-    exit
+    return
   fi
   local c=`cat $f`
 
@@ -593,8 +593,8 @@ function man {
 #alias man='LANG=C man'
 # }}}
 
-# Show 256 olors{{{
-function 256col {
+# Show 256 colors{{{
+function col256 {
   for c in {0..255};do
     local num=`printf " %03d" $c`
     printf "\e[38;5;${c}m$num\e[m"
@@ -619,7 +619,7 @@ function calc {
 "
   if [ "$#" -lt 2 ];then
     echo "$HELP"
-    exit
+    return
   fi
 
   case $2 in
@@ -691,7 +691,6 @@ fi
 # }}} Local path
 
 # For screen {{{
-
 ## For cluster {{{
 ## Wrapper of screen for a cluster {{{
 #function screen {
@@ -749,6 +748,61 @@ fi
 #} # }}}
 ## }}}
 
+# screen exchange file
+export SCREENEXCHANGE=$HOME/.screen-exchange
+
+# Following functions/alias are also enabled before screen {{{
+
+# For clipboard management with screen, Read from previous Clipboard {{{
+function myClPopSC {
+  local scex=$HOME/.screen-exchange
+  if [ "$SCREENEXCHANGE" != "" ];then
+    local scex=$SCREENEXCHANGE
+  fi
+  if [ "$CLIPBOARD" != "" ];then
+    local clb=$CLIPBOARD
+  fi
+  if [ "$1" != "-n" ];then
+    myClPop
+  fi
+  cp $clb/clb.0 $scex
+  screen -X readbuf
+}
+alias rc=myClPopSC
+# }}}
+
+# Wrapper of path for screen {{{
+function path {
+  local fullpath=`command path $@`
+  echo $fullpath
+  myClPut $fullpath
+  myClPopSC -n
+} # }}}
+
+# For clipboard management with screen, put current screen's exchange to clipboard {{{
+function myClPutSC {
+  local scex=$HOME/.screen-exchange
+  if [ "$SCREENEXCHANGE" != "" ];then
+    scex=$SCREENEXCHANGE
+  fi
+  local c=`cat $scex`
+  myClPut $c
+} # }}}
+
+## pwd wrapper: myClPut/Pop sometime take too much time {{{
+## even at .bashrc sourcing...
+#if [[ "$TERM" =~ "screen" ]]; then
+#  function pwd {
+#    local curdir=`command pwd $@`
+#    myClPut $curdir >/dev/null 2>&1
+#    myClPopSC -n >/dev/null 2>&1
+#    echo $curdir
+#  }
+#fi
+## }}}
+
+# }}} Following functions/alias are also enabled before screen
+
 # functions/settings only for screen sessions {{{
 if [[ "$TERM" =~ "screen" ]]; then
   # PROMPT for screen {{{
@@ -805,40 +859,6 @@ if [[ "$TERM" =~ "screen" ]]; then
   }
   # }}}
 
-  # Wrapper of path for screen {{{
-  function path {
-    local fullpath=`command path $@`
-    echo $fullpath
-    myClPut $fullpath
-    myClPopSC -n
-  } # }}}
-
-  # For clipboard management with screen, Read from previous Clipboard {{{
-  function myClPut {
-    scex=$HOME/.screen-exchange
-    if [ "$SCREENEXCHANGE" != "" ];then
-      scex=$SCREENEXCHANGE
-    fi
-    c=`cat $scex`
-    myClPut $c
-  }
-  #function rc {
-  #  myClPopSC
-  #}
-  alias rc=myClPopSC
-  # }}}
-
-  ## pwd wrapper: myClPut/Pop sometime take too much time {{{
-  ## even at .bashrc sourcing...
-  #if [[ "$TERM" =~ "screen" ]]; then
-  #  function pwd {
-  #    local curdir=`command pwd $@`
-  #    myClPut $curdir >/dev/null 2>&1
-  #    myClPopSC -n >/dev/null 2>&1
-  #    echo $curdir
-  #  }
-  #fi
-  ## }}}
 fi # }}}
 
 # }}} For screen
