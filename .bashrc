@@ -661,9 +661,9 @@ tty -s && stty stop undef
 export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/usr/lib:$HOME/usr/local/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
-if [ -s $HOME/.rvm/scripts/rvm ];then
-  source $HOME/.rvm/scripts/rvm
-fi
+
+# Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 # }}} Local path
 
 # For screen {{{
