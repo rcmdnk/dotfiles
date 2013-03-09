@@ -68,6 +68,12 @@ export PYTHONSTARTUP=~/.pythonstartup.py
 # Trash
 export TRASH=~/.Trash
 export MAXTRASHSIZE=1024 #MB
+
+# For my clipboards
+export CLIPBOARD=$HOME/.clipboard/
+export CLMAXHIST=20
+export MYCL="" #xsel/xclip
+
 # }}} Environmental variables
 
 # shopt {{{
@@ -196,26 +202,43 @@ function trash {
     fi
 
     while [ "$#" -gt 0 ];do
-      NAME=`echo $1 | sed -e "s|/$||" | sed -e "s|.*/||"`
-      TRASH_HEAD=${TRASH}/${NAME}
-      TRASH_NAME=${TRASH_HEAD}
+      local name=`echo $1 | sed -e "s|/$||" | sed -e "s|.*/||"`
+      local trash_head=${TRASH}/${name}
+      local trash_name=${trash_head}
       i=1
       while true;do
-        if [ -s ${TRASH_NAME} ];then
-          TRASH_NAME=${TRASH_HEAD}.${i}
+        if [ -s ${trash_name} ];then
+          trash_name=${trash_head}.${i}
           i=`expr ${i} + 1`
         else
           break
         fi
       done
 
-      mv -i $1 ${TRASH_NAME}
-      echo $1 was moved to ${TRASH_NAME}
+      mv -i $1 ${trash_name}
+      echo $1 was moved to ${trash_name}
       shift
     done
   fi
 }
 alias del="$HOME/usr/bin/trash"
+
+function cleanTrash {
+  if [ "$TRASH" = "" ];then
+    echo "please set TRASH"
+    exit
+  fi
+  local flag="FALSE"
+  while [ $flag = "FALSE" ];do
+    local trash_box_size=`du -ms ${TRASH} |awk '{print $1}'`
+    if [ ${trash_box_size} -gt ${MAXTRASHSIZE} ];then
+      local delete_dir=`ls ${TRASH} | head -1`
+      rm -rf ${TRASH}/${delete_dir}
+    else
+      flag="TRUE"
+    fi
+  done
+}
 # }}}
 
 # Change words in file by sed{{{
@@ -239,6 +262,12 @@ function change {
   esac
 }
 alias ch="$HOME/usr/bin/change"
+# }}}
+
+# Delete trailing white space {{{
+function delTrail {
+  sed -i 's/ \+$//g' $1
+}
 # }}}
 
 # File compression/decompression {{{
@@ -294,25 +323,105 @@ function cd {
 
 # Alias for popd {{{
 alias bd="popd >/dev/null"
+# }}}
 
-# Move to actual pwd
+# Move to actual pwd {{{
 function cdpwd {
   cd -P .
 }
 # }}}
 
-## Show output result with w3m {{{
-#function lw {
-#  sed -e 's/</\&lt;/g' |\
-#  sed -e 's/>/\&gt;/g' |\
-#  sed -e 's/\&/\&amp;/g' |\
-#  sed -e 's/[^:]*/<a href="\0">\0<\/a>/' |\
-#  sed -e 's/$/<br\/>/' |\
-#  EDITOR='vi' w3m -T text/html
-#}
-# }}}
+# Pop clip board {{{
+function myClPop {
+  local clb=$HOMOE/.clipboard
+  local max=10
+  local mycl=
+  if [ "$CLIPBOARD" != "" ];then
+    clb=$CLIPBOARD
+  fi
+  if [ "$CLMAXHIST" != "" ];then
+    max=$CLMAXHIST
+  fi
+  if [ "$MYCL" != "" ];then
+    mycl=$MYCL
+  fi
+  local i=$(($max-1))
+  while [ $i -ge 0 ];do
+    printf "%4d: " $i
+    touch $clb/clb.$i
+    cat $clb/clb.$i
+    echo
+    i=$(($i-1))
+  done
+  echo ""
+  echo -n "choose buffer:"
+  local n
+  read n
+  local f="$clb/clb.$n"
+  local j=$(($max-1))
+  if [ ! -f $f ];then
+    echo "$f doesn't exist"
+    echo "use myClPop <0-$j>"
+    exit
+  fi
+  local c=`cat $f`
 
-# Copy to clipboard {{{
+  local i=$(($n-1))
+  while [ $i -ge 0 ];do
+    local j=$(($i+1))
+    touch $clb/clb.$i
+    mv $clb/clb.$i $clb/clb.$j
+    i=$(($i-1))
+  done
+  echo -n $c > $clb/clb.0
+  if [ "$mycl" != "" ];then
+    cat $clb/clb.0 | $mycl
+  fi
+} # }}}
+
+# Push clip board {{{
+function myClPut {
+  # default values
+  local clb=$HOME/.clipboard
+  local max=10
+  local mycl=
+
+  # values from environment settings
+  if [ "$CLIPBOARD" != "" ];then
+    clb=$CLIPBOARD
+  fi
+  if [ "$CLMAXHIST" != "" ];then
+    max=$CLMAXHIST
+  fi
+  if [ "$MYCL" != "" ];then
+    mycl=$MYCL
+  fi
+
+  # check new words
+  mkdir -p $clb
+  touch $clb/clb.0
+  local old=`cat $clb/clb.0`
+  local new=`echo $*`
+  if [ "$old" != "$new" ];then
+    #add new words
+    local i=$(($max-2))
+    while [ $i -ge 0 ];do
+      local j=$(($i+1))
+      touch $clb/clb.$i
+      mv $clb/clb.$i $clb/clb.$j
+      i=$(($i-1))
+    done
+    echo -n $* > $clb/clb.0
+  fi
+
+  # copy to clipboard
+  if [ "$mycl" != "" ];then
+    #echo "echo -n $* | $mycl"
+    echo -n $* | $mycl
+  fi
+} # }}}
+
+# Force to copy in clipboard of X {{{
 function putToClopboard {
   local clb="$HOME/.clipboard"
   local mycl=xclip
@@ -329,6 +438,17 @@ function putToClopboard {
   cat $clb/clb.0 | $mycl
 }
 alias put=putToClopboard
+# }}}
+
+## Show output result with w3m {{{
+#function lw {
+#  sed -e 's/</\&lt;/g' |\
+#  sed -e 's/>/\&gt;/g' |\
+#  sed -e 's/\&/\&amp;/g' |\
+#  sed -e 's/[^:]*/<a href="\0">\0<\/a>/' |\
+#  sed -e 's/$/<br\/>/' |\
+#  EDITOR='vi' w3m -T text/html
+#}
 # }}}
 
 ## emacs wrapper {{{
@@ -369,7 +489,7 @@ function sd { # save dir {{{
 
 # Change directory to lastdir {{{
 function cl {
-HELP="
+  local HELP="
   Usage: cl [-l] [-n <number> ]
   If there are no arguments, you move to the last saved dirctory
 
@@ -473,18 +593,92 @@ function man {
 #alias man='LANG=C man'
 # }}}
 
+# Show 256 olors{{{
+function 256col {
+  for c in {0..255};do
+    local num=`printf " %03d" $c`
+    printf "\e[38;5;${c}m$num\e[m"
+    printf "\e[48;5;${c}m$num\e[m"
+    if [ $(($c%8)) -eq 7 ];then
+      echo
+    fi
+  done
+} # }}}
+
+# Function to calculate with perl (for decimal, etc...) {{{
+function calc {
+  local HELP="
+   usage: calc num1 (add, sub, mul or div) num2
+      or: calc num1 rem num2 (num1%num2)
+      or: calc num1 sqrt (root num1)
+      or: calc num1 sqr (num1*num1)
+      or: calc num1 comp num2 (retun->num1>num2:1,num1=num2:0,num1<num2:-1)
+      or: calc num1 to num2 (num1^num2)
+      or: calc num1 (+, -, \* or /) num2
+  notice: you must use \"*\" or \* instead of asterisk only
+"
+  if [ "$#" -lt 2 ];then
+    echo "$HELP"
+    exit
+  fi
+
+  case $2 in
+    "add")
+       echo -n '$xx = '$1' + '$3';print "$xx \n"'|perl
+    ;;
+    "+")
+       echo -n '$xx = '$1' + '$3';print "$xx \n"'|perl
+    ;;
+    "sub")
+       echo -n '$xx = '$1' - '$3';print "$xx \n"'|perl
+    ;;
+    "-")
+       echo -n '$xx = '$1' - '$3';print "$xx \n"'|perl
+    ;;
+    "mul")
+       echo -n '$xx = '$1' * '$3';print "$xx \n"'|perl
+    ;;
+    "*")
+       echo -n '$xx = '$1' * '$3';print "$xx \n"'|perl
+    ;;
+    "div")
+       echo -n '$xx = '$1' / '$3';print "$xx \n"'|perl
+    ;;
+    "/")
+       echo -n '$xx = '$1' / '$3';print "$xx \n"'|perl
+    ;;
+    "sqrt")
+       local flag=`echo '$xx = '$1' <=> 0;print "$xx \n"'|perl`
+       if [ $flag -eq -1 ];then
+         echo -n 0
+       else
+         echo -n '$xx = sqrt '$1';print "$xx \n"'|perl
+       fi
+    ;;
+    "sqr")
+       echo -n '$xx = '$1' ** '2';print "$xx \n"'|perl
+    ;;
+    "comp")
+       echo -n '$xx = '$1' <=> '$3';print "$xx \n"'|perl
+    ;;
+    "to")
+       echo -n '$xx = '$1' ** '$3';print "$xx \n"'|perl
+    ;;
+    "rem")
+       echo -n '$xx = '$1' % '$3';print "$xx \n"'|perl
+    ;;
+    *)
+       echo "$HELP"
+    ;;
+  esac
+} # }}}
+
 # }}} Alias, Function
 
 # stty {{{
 # Disable terminal lock
 tty -s && stty stop undef
 # }}}
-
-# For my clipboards {{{
-export CLIPBOARD=$HOME/.clipboard/
-export CLMAXHIST=20
-export MYCL="" #xsel/xclip
-# }}} For my clipboards
 
 # Local path {{{
 # PATH, LD_LIBRARY_PATH under HOME
@@ -559,8 +753,8 @@ fi
 if [[ "$TERM" =~ "screen" ]]; then
   # PROMPT for screen {{{
   function showdir {
-    maxlen=20
-    dir="${PWD/#$HOME/~}"
+    local maxlen=20
+    local dir="${PWD/#$HOME/~}"
     if [ ${#dir} -gt $maxlen ];then
       dir=!`echo $dir | cut -b $((${#dir}-$maxlen+2))-${#dir}`
     fi
@@ -620,6 +814,14 @@ if [[ "$TERM" =~ "screen" ]]; then
   } # }}}
 
   # For clipboard management with screen, Read from previous Clipboard {{{
+  function myClPut {
+    scex=$HOME/.screen-exchange
+    if [ "$SCREENEXCHANGE" != "" ];then
+      scex=$SCREENEXCHANGE
+    fi
+    c=`cat $scex`
+    myClPut $c
+  }
   #function rc {
   #  myClPopSC
   #}
