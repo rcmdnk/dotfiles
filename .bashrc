@@ -535,6 +535,8 @@ function gitupdate {
     if [ -f ~/.gitavoid ];then
       local avoidword=(`cat ~/.gitavoid`)
       for a in ${avoidword[@]};do
+        echo a=$a
+        echo difffiles=$difffiles
         if grep -q $a $difffiles;then
           echo "avoid word $a is included!!!"
           grep $a $difffiles
