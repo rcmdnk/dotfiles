@@ -186,7 +186,7 @@ function mynoglob_helper {
 alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 # }}}
 
-# Use temporally trash box {{{
+# Use trash box {{{
 function trash {
   if [ ! "$TRASH" ];then
     echo "please set TRASH"
@@ -530,7 +530,7 @@ function cl {
 function gitupdate {
   update=0
   difffiles=`git diff|grep diff|cut -d' ' -f4|cut -d'/' -f2`
-  if [ ! "$difffiles" ];then
+  if [ "$difffiles" ];then
     pwd
     if [ -f ~/.gitavoid ];then
       local avoidword=(`cat ~/.gitavoid`)
@@ -564,7 +564,26 @@ function man {
   # Open man file with vim
   # col -b -x: remove backspace, replace tab->space
   # vim -R -: read only mode, read from stdin
-  LANG=C command man $1|col -b -x|vim -R -
+  if [ $# -eq 0 ];then
+    command man
+  else
+    # If there are any -* arguments,
+    # use original man
+    for m in $@;do
+      if [[ $m =~ ^- ]];then
+        command man $@
+        return
+      fi
+    done
+    # Then open each manual
+    for m in $@;do
+      if command man -d $m > /dev/null 2>&1;then
+        LANG=C command man $@|col -b -x|vim -R -
+      else
+        command man $@
+      fi
+    done
+  fi
 }
 #alias man='LANG=C man'
 # }}}

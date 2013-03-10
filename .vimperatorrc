@@ -31,7 +31,7 @@ set! browser.startup.page=1
 " f: local files
 set complete=lbSsf
 
-" next/previous patterns
+" next/previous patterns (by ]]/[[)
 set nextpattern=^¥次,^¥続き,¥bnext,^>$,^(>>¥|??)$,^(>¥|??),(>¥|??),¥bmore¥b$
 set previouspattern=^¥前,^¥戻,¥bprev|previous¥b,^<$,^(<<¥|??)$,^(<¥|??),(<¥|??)$
 
@@ -45,7 +45,9 @@ style chrome://* #statusbar-display {display: none !important;}
 " user_pref
 set! extensions.adblockplus.sidebar_key="Accel Shift Q"
 
-" qmarks
+" }}}
+
+" qmarks {{{
 " google mail/reader/task/calendar
 silent qmark m https://mail.google.com
 silent qmark r http://www.google.co.jp/reader/view/#stream/
@@ -215,15 +217,18 @@ liberator.globalVariables.multi_requester_siteinfo = [
     },
 ];
 liberator.globalVariables.multi_requester_mappings = [
-    [',ml', 'lo'],              // <-- :mr lo
-    [',ma', 'alc',,"args"],             // <-- :mr alc
-    [',mg', 'goo', '!'],        // <-- :mr! goo
-    ['a', 'alc'],                   // == :mr alc
-    ['ma', 'alc', '!'],              // == :mr! alc
-    ['gf', 'gf'],           // == :mr! gf
-    ['mgf', 'gf', '!'],           // == :mr! gf
-    ['ge', 'ge'],           // == :mr! ge
-    ['mge', 'ge', '!'],           // == :mr! ge
+    [',ml', 'lo'],          // <-- :mr lo
+    [',ma', 'alc',,"args"], // <-- :mr alc
+    [',mg', 'goo', '!'],    // <-- :mr! goo
+    ['a', 'alc'],           // == :mr alc
+    [',a', 'alc'],           // == :mr alc
+    ['ma', 'alc', '!'],     // == :mr! alc
+    [',f', 'gf'],           // == :mr gf
+    ['gf', 'gf'],           // == :mr gf
+    ['mgf', 'gf', '!'],     // == :mr! gf
+    [',e', 'ge'],           // == :mr ge
+    ['ge', 'ge'],           // == :mr ge
+    ['mge', 'ge', '!'],     // == :mr! ge
     ['gm', 'gmap', '!'],
     ['mgm', 'gmap'],
 ];
