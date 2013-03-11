@@ -447,9 +447,7 @@ function path {
       echo "usage: path file/directory"
   fi
   echo "$(cd "$(dirname $1)";pwd -P)/$(basename $1)"
-}
-
-# }}}
+} # }}}
 
 ## Directory save/move in different terminal {{{
 LASTDIRFILE=$HOME/.lastDir
