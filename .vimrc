@@ -202,13 +202,13 @@ set shiftwidth=2   " width for indent
 set softtabstop=0  " if not 0, insert space instead of <Tab>
 "set textwidth=0    " longer line than textwidth will be broken (0: disable)
 autocmd myaugroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
-set colorcolumn=80 " put line on X
+set colorcolumn=80 " put line on 80
 "set colorcolumn=+1 " put line on textwidth+1
 set wrap           " the longer line is wrapped
 set expandtab      " do :retab -> tab->space
 
 set nobackup       " do not keep a backup file, use versions instead
-"set directory=$TMPDIR " directory for swap file
+set directory=$TMPDIR " directory for swap file
 "set viminfo+=n~/.vim/viminfo.txt
 
 set history=100    " keep 100 lines of command line history
