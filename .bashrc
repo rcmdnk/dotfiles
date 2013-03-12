@@ -442,7 +442,7 @@ alias put=put_to_clopboard
 ## }}}
 
 # path: function to get full path {{{
-function path {
+function fpath {
   if [ $# -eq 0 ];then
       echo "usage: path file/directory"
   fi
