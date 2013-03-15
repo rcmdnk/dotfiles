@@ -208,10 +208,10 @@ set wrap           " the longer line is wrapped
 set expandtab      " do :retab -> tab->space
 
 set nobackup       " do not keep a backup file, use versions instead
-if has("unix") || has("mac")
-  set directory=$TMPDIR " directory for swap file for unix/mac
-else " windows
-  set directory=$TMP " for windows
+if has("win32") || has ("win64")
+  set directory=$TMP/ " for windows
+elseif has("unix") || has("mac")
+  set directory=$TMPDIR/ " directory for swap file for unix/mac
 endif
 "set viminfo+=n~/.vim/viminfo.txt
 
