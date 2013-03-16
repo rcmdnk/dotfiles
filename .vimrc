@@ -1,6 +1,463 @@
 " disable vi compatible mode (much better!)
 set nocompatible
 
+"" Feature check {{{
+"if has("all_builtin_terms")
+"  echomsg 'all_builtin_terms'
+"endif
+"if has("amiga")
+"  echomsg 'amiga'
+"endif
+"if has("arabic")
+"  echomsg 'arabic'
+"endif
+"if has("arp")
+"  echomsg 'arp'
+"endif
+"if has("autocmd")
+"  echomsg 'autocmd'
+"endif
+"if has("balloon_eval")
+"  echomsg 'balloon_eval'
+"endif
+"if has("balloon_multiline")
+"  echomsg 'balloon_multiline'
+"endif
+"if has("beos")
+"  echomsg 'beos'
+"endif
+"if has("browse")
+"  echomsg 'browse'
+"endif
+"if has("builtin_terms")
+"  echomsg 'builtin_terms'
+"endif
+"if has("byte_offset")
+"  echomsg 'byte_offset'
+"endif
+"if has("cindent")
+"  echomsg 'cindent'
+"endif
+"if has("clientserver")
+"  echomsg 'clientserver'
+"endif
+"if has("clipboard")
+"  echomsg 'clipboard'
+"endif
+"if has("cmdline_compl")
+"  echomsg 'cmdline_compl'
+"endif
+"if has("cmdline_hist")
+"  echomsg 'cmdline_hist'
+"endif
+"if has("cmdline_info")
+"  echomsg 'cmdline_info'
+"endif
+"if has("comments")
+"  echomsg 'comments'
+"endif
+"if has("cryptv")
+"  echomsg 'cryptv'
+"endif
+"if has("cscope")
+"  echomsg 'cscope'
+"endif
+"if has("compatible")
+"  echomsg 'compatible'
+"endif
+"if has("debug")
+"  echomsg 'debug'
+"endif
+"if has("dialog_con")
+"  echomsg 'dialog_con'
+"endif
+"if has("dialog_gui")
+"  echomsg 'dialog_gui'
+"endif
+"if has("diff")
+"  echomsg 'diff'
+"endif
+"if has("digraphs")
+"  echomsg 'digraphs'
+"endif
+"if has("dnd")
+"  echomsg 'dnd'
+"endif
+"if has("dos32")
+"  echomsg 'dos32'
+"endif
+"if has("dos16")
+"  echomsg 'dos16'
+"endif
+"if has("ebcdic")
+"  echomsg 'ebcdic'
+"endif
+"if has("emacs_tags")
+"  echomsg 'emacs_tags'
+"endif
+"if has("eval")
+"  echomsg 'eval'
+"endif
+"if has("ex_extra")
+"  echomsg 'ex_extra'
+"endif
+"if has("extra_search")
+"  echomsg 'extra_search'
+"endif
+"if has("farsi")
+"  echomsg 'farsi'
+"endif
+"if has("file_in_path")
+"  echomsg 'file_in_path'
+"endif
+"if has("filterpipe")
+"  echomsg 'filterpipe'
+"endif
+"if has("find_in_path")
+"  echomsg 'find_in_path'
+"endif
+"if has("float")
+"  echomsg 'float'
+"endif
+"if has("fname_case")
+"  echomsg 'fname_case'
+"endif
+"if has("folding")
+"  echomsg 'folding'
+"endif
+"if has("footer")
+"  echomsg 'footer'
+"endif
+"if has("fork")
+"  echomsg 'fork'
+"endif
+"if has("gettext")
+"  echomsg 'gettext'
+"endif
+"if has("gui")
+"  echomsg 'gui'
+"endif
+"if has("gui_athena")
+"  echomsg 'gui_athena'
+"endif
+"if has("gui_gtk")
+"  echomsg 'gui_gtk'
+"endif
+"if has("gui_gtk2")
+"  echomsg 'gui_gtk2'
+"endif
+"if has("gui_gnome")
+"  echomsg 'gui_gnome'
+"endif
+"if has("gui_mac")
+"  echomsg 'gui_mac'
+"endif
+"if has("gui_motif")
+"  echomsg 'gui_motif'
+"endif
+"if has("gui_photon")
+"  echomsg 'gui_photon'
+"endif
+"if has("gui_win32")
+"  echomsg 'gui_win32'
+"endif
+"if has("gui_win32s")
+"  echomsg 'gui_win32s'
+"endif
+"if has("gui_running")
+"  echomsg 'gui_running'
+"endif
+"if has("hangul_input")
+"  echomsg 'hangul_input'
+"endif
+"if has("iconv")
+"  echomsg 'iconv'
+"endif
+"if has("insert_expand")
+"  echomsg 'insert_expand'
+"endif
+"if has("jumplist")
+"  echomsg 'jumplist'
+"endif
+"if has("keymap")
+"  echomsg 'keymap'
+"endif
+"if has("langmap")
+"  echomsg 'langmap'
+"endif
+"if has("libcall")
+"  echomsg 'libcall'
+"endif
+"if has("linebreak")
+"  echomsg 'linebreak'
+"endif
+"if has("lispindent")
+"  echomsg 'lispindent'
+"endif
+"if has("listcmds")
+"  echomsg 'listcmds'
+"endif
+"if has("localmap")
+"  echomsg 'localmap'
+"endif
+"if has("lua")
+"  echomsg 'lua'
+"endif
+"if has("mac")
+"  echomsg 'mac'
+"endif
+"if has("macunix")
+"  echomsg 'macunix'
+"endif
+"if has("menu")
+"  echomsg 'menu'
+"endif
+"if has("mksession")
+"  echomsg 'mksession'
+"endif
+"if has("modify_fname")
+"  echomsg 'modify_fname'
+"endif
+"if has("mouse")
+"  echomsg 'mouse'
+"endif
+"if has("mouseshape")
+"  echomsg 'mouseshape'
+"endif
+"if has("mouse_dec")
+"  echomsg 'mouse_dec'
+"endif
+"if has("mouse_gpm")
+"  echomsg 'mouse_gpm'
+"endif
+"if has("mouse_netterm")
+"  echomsg 'mouse_netterm'
+"endif
+"if has("mouse_pterm")
+"  echomsg 'mouse_pterm'
+"endif
+"if has("mouse_sysmouse")
+"  echomsg 'mouse_sysmouse'
+"endif
+"if has("mouse_xterm")
+"  echomsg 'mouse_xterm'
+"endif
+"if has("multi_byte")
+"  echomsg 'multi_byte'
+"endif
+"if has("multi_byte_encoding")
+"  echomsg 'multi_byte_encoding'
+"endif
+"if has("multi_byte_ime")
+"  echomsg 'multi_byte_ime'
+"endif
+"if has("multi_lang")
+"  echomsg 'multi_lang'
+"endif
+"if has("mzscheme")
+"  echomsg 'mzscheme'
+"endif
+"if has("netbeans_intg")
+"  echomsg 'netbeans_intg'
+"endif
+"if has("netbeans_enabled")
+"  echomsg 'netbeans_enabled'
+"endif
+"if has("ole")
+"  echomsg 'ole'
+"endif
+"if has("os2")
+"  echomsg 'os2'
+"endif
+"if has("osfiletype")
+"  echomsg 'osfiletype'
+"endif
+"if has("path_extra")
+"  echomsg 'path_extra'
+"endif
+"if has("perl")
+"  echomsg 'perl'
+"endif
+"if has("persistent_undo")
+"  echomsg 'persistent_undo'
+"endif
+"if has("postscript")
+"  echomsg 'postscript'
+"endif
+"if has("printer")
+"  echomsg 'printer'
+"endif
+"if has("profile")
+"  echomsg 'profile'
+"endif
+"if has("python")
+"  echomsg 'python'
+"endif
+"if has("qnx")
+"  echomsg 'qnx'
+"endif
+"if has("quickfix")
+"  echomsg 'quickfix'
+"endif
+"if has("reltime")
+"  echomsg 'reltime'
+"endif
+"if has("rightleft")
+"  echomsg 'rightleft'
+"endif
+"if has("ruby")
+"  echomsg 'ruby'
+"endif
+"if has("scrollbind")
+"  echomsg 'scrollbind'
+"endif
+"if has("showcmd")
+"  echomsg 'showcmd'
+"endif
+"if has("signs")
+"  echomsg 'signs'
+"endif
+"if has("smartindent")
+"  echomsg 'smartindent'
+"endif
+"if has("sniff")
+"  echomsg 'sniff'
+"endif
+"if has("startuptime")
+"  echomsg 'startuptime'
+"endif
+"if has("statusline")
+"  echomsg 'statusline'
+"endif
+"if has("sun_workshop")
+"  echomsg 'sun_workshop'
+"endif
+"if has("spell")
+"  echomsg 'spell'
+"endif
+"if has("syntax")
+"  echomsg 'syntax'
+"endif
+"if has("syntax_items")
+"  echomsg 'syntax_items'
+"endif
+"if has("system")
+"  echomsg 'system'
+"endif
+"if has("tag_binary")
+"  echomsg 'tag_binary'
+"endif
+"if has("tag_old_static")
+"  echomsg 'tag_old_static'
+"endif
+"if has("tag_any_white")
+"  echomsg 'tag_any_white'
+"endif
+"if has("tcl")
+"  echomsg 'tcl'
+"endif
+"if has("terminfo")
+"  echomsg 'terminfo'
+"endif
+"if has("termresponse")
+"  echomsg 'termresponse'
+"endif
+"if has("textobjects")
+"  echomsg 'textobjects'
+"endif
+"if has("tgetent")
+"  echomsg 'tgetent'
+"endif
+"if has("title")
+"  echomsg 'title'
+"endif
+"if has("toolbar")
+"  echomsg 'toolbar'
+"endif
+"if has("unix")
+"  echomsg 'unix'
+"endif
+"if has("user_commands")
+"  echomsg 'user_commands'
+"endif
+"if has("viminfo")
+"  echomsg 'viminfo'
+"endif
+"if has("vim_starting")
+"  echomsg 'vim_starting'
+"endif
+"if has("vertsplit")
+"  echomsg 'vertsplit'
+"endif
+"if has("virtualedit")
+"  echomsg 'virtualedit'
+"endif
+"if has("visual")
+"  echomsg 'visual'
+"endif
+"if has("visualextra")
+"  echomsg 'visualextra'
+"endif
+"if has("vms")
+"  echomsg 'vms'
+"endif
+"if has("vreplace")
+"  echomsg 'vreplace'
+"endif
+"if has("wildignore")
+"  echomsg 'wildignore'
+"endif
+"if has("wildmenu")
+"  echomsg 'wildmenu'
+"endif
+"if has("windows")
+"  echomsg 'windows'
+"endif
+"if has("winaltkeys")
+"  echomsg 'winaltkeys'
+"endif
+"if has("win16")
+"  echomsg 'win16'
+"endif
+"if has("win32")
+"  echomsg 'win32'
+"endif
+"if has("win64")
+"  echomsg 'win64'
+"endif
+"if has("win32unix")
+"  echomsg 'win32unix'
+"endif
+"if has("win95")
+"  echomsg 'win95'
+"endif
+"if has("writebackup")
+"  echomsg 'writebackup'
+"endif
+"if has("xfontset")
+"  echomsg 'xfontset'
+"endif
+"if has("xim")
+"  echomsg 'xim'
+"endif
+"if has("xsmp")
+"  echomsg 'xsmp'
+"endif
+"if has("xsmp_interact")
+"  echomsg 'xsmp_interact'
+"endif
+"if has("xterm_clipboard")
+"  echomsg 'xterm_clipboard'
+"endif
+"if has("xterm_save")
+"  echomsg 'xterm_save'
+"endif
+"if has("x11")
+"  echomsg 'x11'
+"endif
+"" }}}
+
+
 " neobundle {{{
 
 "" usage:
@@ -208,7 +665,8 @@ set wrap           " the longer line is wrapped
 set expandtab      " do :retab -> tab->space
 
 set nobackup       " do not keep a backup file, use versions instead
-if has("win32") || has ("win64")
+
+if has("win32unix") || has ("win64unix") || has("win32") || has ("win64")
   set directory=$TMP/ " for windows
 elseif has("unix") || has("mac")
   set directory=$TMPDIR/ " directory for swap file for unix/mac
