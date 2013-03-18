@@ -757,8 +757,8 @@ autocmd myaugroup FileType * setlocal formatoptions-=ro
 " arrow to open new file while current file is not saved
 set hidden
 
-" virtualedit (can move to non-editing places: i.e. right of $)
-set virtualedit=all
+" virtualedit (can move to non-editing places: e.x. right of $)
+"set virtualedit=all
 " avoid to paste/insert in non-editing place
 if has('virtualedit') && &virtualedit =~# '\<all\>'
   nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
