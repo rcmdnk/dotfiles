@@ -338,6 +338,22 @@ function myclpop {
   local max=${CLMAXHIST:-10}
   local mycl=${MYCL:-""}
 
+  ## Show stored words
+  #cat -d -n $clb|sed '1!G;h;$!d'
+
+  ## Choose buffer
+  #echo ""
+  #echo -n "choose buffer:"
+  #local n
+  #read n
+  #local c=`sed -n '${n},${n}p' $clb`
+  #sed -e '${n}d' $clb|sed '1i\$c'|tail -n $max > $clb
+
+  ## Copy to clipboard of X
+  #if [ "$mycl" ];then
+  #  echo $c | $mycl
+  #fi
+
   # Show stored words
   local i=$(($max-1))
   while [ $i -ge 0 ];do
@@ -442,7 +458,7 @@ alias put=put_to_clopboard
 ## }}}
 
 # path: function to get full path {{{
-function fpath {
+function path {
   if [ $# -eq 0 ];then
       echo "usage: path file/directory"
   fi
