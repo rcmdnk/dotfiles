@@ -261,7 +261,7 @@ function change {
     ;;
   esac
 }
-alias ch="$HOME/usr/bin/change"
+alias ch="change"
 # }}}
 
 # Delete trailing white space {{{
