@@ -556,6 +556,7 @@ function gitupdate {
         fi
       done
     fi
+    printf "\n\n"
     git commit -a -m "$difffiles, from $OSTYPE"
     update=1
   fi
@@ -564,6 +565,7 @@ function gitupdate {
     if [ $update -eq 0 ];then
       pwd
     fi
+    printf "\n\n"
     echo $ret
   fi
   if [ $update -eq 1 ];then
