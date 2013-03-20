@@ -38,6 +38,9 @@ bind F eval 'scrollback 0' 'scrollback 1000' 'echo "scrollback buffer cleared"'
 ### source setup file
 bind q eval "source $HOME/.screenrc"
 
+### Don't clear after finishing application
+#altscreen on
+
 ### modify window list
 bind w  windowlist -b
 bind ^W windowlist -b
