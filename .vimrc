@@ -758,7 +758,7 @@ autocmd myaugroup FileType * setlocal formatoptions-=ro
 set hidden
 
 " virtualedit (can move to non-editing places: e.x. right of $)
-"set virtualedit=all
+set virtualedit=all
 " avoid to paste/insert in non-editing place
 if has('virtualedit') && &virtualedit =~# '\<all\>'
   nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'

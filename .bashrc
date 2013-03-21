@@ -35,10 +35,7 @@ source_file /etc/bashrc
 # Environmental variables {{{
 # Prompt
 #export PS1="[\u@\h \W]\$ "
-export PS1="[\h \W]\$ "
-
-# Prompt command
-export PROMPT_COMMAND='printf "\e]0;%s@%s:%s\a" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+export PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
 
 # XMODIFIERS
 export XMODIFIERS="@im=kinput2"
@@ -107,7 +104,7 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 #    fi
 #  fi
 #}
-#export PROMPT_COMMAND="$PROMPT_COMMAND;histRemoveFail"
+#export PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}histRemoveFail"
 # }}}
 
 # Method to share history at the same time,
@@ -125,11 +122,11 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 #    history -r
 #  fi
 #}
-#export PROMPT_COMMAND="$PROMPT_COMMAND;share_history"
+#export PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}share history"
 # }}}
 
 # Simple method to add history everytime {{{
-#export PROMPT_COMMAND="$PROMPT_COMMAND;history -a"
+#export PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
 # }}}
 
 # }}} history
@@ -701,28 +698,34 @@ export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 # }}} Local path
 
 # For screen {{{
-## For cluster {{{
-## Wrapper of screen for a cluster {{{
-#function screen {
-#  # This setting keeps the host name in which screen is running
-#  # for a case in the cluster,
-#  # in which the host can be changed at every login
-#  #
-#  if [ $# = 0 ] || [ $1 = "-r" ] || [ $1 = "-R" ] || [ $1 = "x" ];then
-#    sed -i -e "/^$(hostname).*/d" .hostForScreen
-#    hostname >> ~/.hostForScreen
-#    # keep 10 histories
-#    #tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
-#    #mv ~/.hostForScreen.tmp ~/.hostForScreen
-#  # write out DISPLAY of current terminal
-#    echo "$DISPLAY"> ~/.display.txt
-#  fi
-#
-#  # launch screen
-#  command screen $@
-#}
-## }}}
-#
+# Screen wrapper {{{
+function screen {
+  # Tips of screen for a cluster
+  # This setting keeps the host name in which screen is running
+  # for a case in the cluster,
+  # in which the host can be changed at every login
+  #
+  #if [ $# = 0 ] || [ $1 = "-r" ] || [ $1 = "-R" ] || [ $1 = "-x" ];then
+  #  sed -i -e "/^$(hostname).*/d" .hostForScreen
+  #  hostname >> ~/.hostForScreen
+  #  # keep 10 histories
+  #  #tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
+  #  #mv ~/.hostForScreen.tmp ~/.hostForScreen
+  ## write out DISPLAY of current terminal
+  #  echo "$DISPLAY"> ~/.display.txt
+  #fi
+
+  options="$@"
+  if [ $# = 0 ];then
+    # Don't make another screen session
+    options="-R"
+  fi
+
+  # launch screen
+  command screen $options
+}
+# }}}
+
 ## Function to check remaining screen sessions in a cluster{{{
 #function screen_check {
 #  for h in `cat ~/.hostForScreen`;do
@@ -741,7 +744,7 @@ export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 #  touch ~/.hostForScreen.tmp
 #  mv ~/.hostForScreen.tmp ~/.hostForScreen
 ## }}}
-#
+
 ## ssh to the host which launched screen previously {{{
 ##alias sc='schost=`tail -n1 ~/.hostForScreen`;ssh $schost'
 #function sc {
@@ -756,7 +759,6 @@ export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 #    ssh $schost
 #  fi
 #} # }}}
-## }}}
 
 # screen exchange file
 export SCREENEXCHANGE=$HOME/.screen-exchange
@@ -809,16 +811,20 @@ function myclputsc {
 if [[ "$TERM" =~ "screen" ]]; then
   # PROMPT for screen {{{
   function showdir {
-    local maxlen=20
+    local maxlen=60
     local dir="${PWD/#$HOME/~}"
     if [ ${#dir} -gt $maxlen ];then
       dir=!`echo $dir | cut -b $((${#dir}-$maxlen+2))-${#dir}`
     fi
-    printf "\ek$dir\e\\"
+    # Shown as window's title (\t) in screen
+    printf "\ek$(basename $dir)\e\\"
+    # Shown as hardstatus (\h) in screen
+    printf "\e]0;$dir\a"
+    # Send to external (to the title bar of terminal, normal)
     #printf "\eP\e]0;%s@%s:%s\a\e\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"
   }
   if declare -F showdir >/dev/null;then
-    export PROMPT_COMMAND="$PROMPT_COMMAND;showdir"
+    export PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}showdir"
   fi
   export PS1="\$(\
     ret=\$?
@@ -849,7 +855,7 @@ if [[ "$TERM" =~ "screen" ]]; then
       fi\
     fi;\
     )"
-  # }}}
+# }}}
 
   # Set display if screen is attached in other host than previous host {{{
   function set_display {
