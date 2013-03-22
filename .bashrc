@@ -34,7 +34,7 @@ source_file /etc/bashrc
 
 # Environmental variables {{{
 # Prompt
-export PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
+PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
 
 # XMODIFIERS
 export XMODIFIERS="@im=kinput2"
@@ -69,6 +69,13 @@ export MAXTRASHSIZE=1024 #MB
 export CLIPBOARD=$HOME/.clipboard/
 export CLMAXHIST=20
 export MYCL="" #xsel/xclip
+if [[ "$OSTYPE" =~ "linux" ]];then
+  export MYCLOS="xsel"
+elif [[ "$OSTYPE" =~ "cygwin" ]];then
+  export MYCLOS="putclip"
+elif [[ "$OSTYPE" =~ "darwin" ]];then
+  export MYCLOS="pbcopy"
+fi
 
 # }}} Environmental variables
 
@@ -103,7 +110,7 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 #    fi
 #  fi
 #}
-#export PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}histRemoveFail"
+#PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}histRemoveFail"
 # }}}
 
 # Method to share history at the same time,
@@ -121,11 +128,11 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 #    history -r
 #  fi
 #}
-#export PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}share history"
+#PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}share history"
 # }}}
 
 # Simple method to add history everytime {{{
-#export PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
+#PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
 # }}}
 
 # }}} history
@@ -423,7 +430,11 @@ function myclput {
 # Force to copy in clipboard of X {{{
 function put_to_clopboard {
   local clb=${CLIPBOARD:-$HOME/.clipboard}
-  local mycl=${MYCL:-xclip}
+  local mycl=${MYCL:-${MYCLOS}}
+  if [ ! "$mycl" ];then
+    echo "No clip board application is assigned!"
+    return
+  fi
   mkdir -p $clb
   touch $clb/clb.0
   cat $clb/clb.0
@@ -811,7 +822,7 @@ function myclputsc {
 # functions/settings only for screen sessions {{{
 if [[ "$TERM" =~ "screen" ]]; then
   # "\\" doesn't work well, use \134 instead
-  export PS1="\[\ek\W\e\134\e]0;\w\a\]\$(\
+  PS1="\[\ek\W\e\134\e]0;\w\a\]\$(\
     ret=\$?
     rand=\$((RANDOM%36));\
     if [ \$ret -eq 0 ];then\
