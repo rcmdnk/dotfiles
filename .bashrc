@@ -34,7 +34,6 @@ source_file /etc/bashrc
 
 # Environmental variables {{{
 # Prompt
-#export PS1="[\u@\h \W]\$ "
 export PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
 
 # XMODIFIERS
@@ -705,6 +704,7 @@ function screen {
   # for a case in the cluster,
   # in which the host can be changed at every login
   #
+  #touch .hostForScreen
   #if [ $# = 0 ] || [ $1 = "-r" ] || [ $1 = "-R" ] || [ $1 = "-x" ];then
   #  sed -i -e "/^$(hostname).*/d" .hostForScreen
   #  hostname >> ~/.hostForScreen
@@ -728,6 +728,7 @@ function screen {
 
 ## Function to check remaining screen sessions in a cluster{{{
 #function screen_check {
+#  touch .hostForScreen
 #  for h in `cat ~/.hostForScreen`;do
 #    echo "checking $h..."
 #    ping $h -c 2 -w2 >/dev/null 2>&1
@@ -746,8 +747,8 @@ function screen {
 ## }}}
 
 ## ssh to the host which launched screen previously {{{
-##alias sc='schost=`tail -n1 ~/.hostForScreen`;ssh $schost'
 #function sc {
+#  touch .hostForScreen
 #  local n=1
 #  if [ $# -ne 0 ];then
 #    n=$1
