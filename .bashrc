@@ -810,24 +810,8 @@ function myclputsc {
 
 # functions/settings only for screen sessions {{{
 if [[ "$TERM" =~ "screen" ]]; then
-  # PROMPT for screen {{{
-  function showdir {
-    local maxlen=60
-    local dir="${PWD/#$HOME/~}"
-    if [ ${#dir} -gt $maxlen ];then
-      dir=!`echo $dir | cut -b $((${#dir}-$maxlen+2))-${#dir}`
-    fi
-    # Shown as window's title (\t) in screen
-    printf "\ek$(basename $dir)\e\\"
-    # Shown as hardstatus (\h) in screen
-    printf "\e]0;$dir\a"
-    # Send to external (to the title bar of terminal, normal)
-    #printf "\eP\e]0;%s@%s:%s\a\e\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"
-  }
-  if declare -F showdir >/dev/null;then
-    export PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}showdir"
-  fi
-  export PS1="\$(\
+  # "\\" doesn't work well, use \134 instead
+  export PS1="\[\ek\W\e\134\e]0;\w\a\]\$(\
     ret=\$?
     rand=\$((RANDOM%36));\
     if [ \$ret -eq 0 ];then\
