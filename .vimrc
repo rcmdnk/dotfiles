@@ -457,7 +457,6 @@ set nocompatible
 "endif
 "" }}}
 
-
 " neobundle {{{
 
 "" usage:
@@ -523,7 +522,7 @@ NeoBundle 'vimtaku/hl_matchit.vim'
 NeoBundle 'surround.vim'
 
 " easy to use history of yanks (see below seeting)
-NeoBundle 'vim-scripts/YankRing.vim'
+"NeoBundle 'vim-scripts/YankRing.vim'
 
 " use yanks in different processes (see below setting)
 NeoBundle 'yanktmp.vim'
@@ -888,34 +887,34 @@ noremap ,a# :Align #<CR>
 "inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
 " }}} vim-smartchr
 
-" YankRing {{{
-
-nnoremap ,y :YRShow<CR>
-" avoid to store single letter to normal register
-let g:yankring_history_dir=$HOME.'/.vim/'
-"let g:yankring_n_keys = 'Y D' " Y D x X
-"let g:yankring_enabled=0 " 1
-let g:yankring_max_history=50 " 100
-let g:yankring_max_display=50 " 500
-"let g:yankring_ignore_duplicate=0 " 1
-let g:yankring_dot_repeat_yank=1
-let g:yankring_clipboard_monitor=0 " 1
-let g:yankring_min_element_length=2 " 1, :skip all single letter copy
-"let g:yankring_persist=0 " 1
-"let g:yankring_share_between_instances=0 " 1
-"let g:yankring_window_use_separate=0 " 1
-"let g:yankring_window_use_horiz=0
-"let g:yankring_window_auto_close=0 " 1
-let g:yankring_window_width=50 " 30
-"let g:yankring_window_use_right=0 " 1
-"let g:yankring_window_increment=15 " 1
-let g:yankring_manage_numbered_reg = 1 " 0
-"let g:yankring_paste_check_default_register = 0 "1
-
-" for warning :The yankring can only persist if the viminfo setting has a !
-"set viminfo+=!
-
-" }}} YankRing
+"" YankRing {{{
+"
+"nnoremap ,y :YRShow<CR>
+"" avoid to store single letter to normal register
+"let g:yankring_history_dir=$HOME.'/.vim/'
+""let g:yankring_n_keys = 'Y D' " Y D x X
+""let g:yankring_enabled=0 " 1
+"let g:yankring_max_history=50 " 100
+"let g:yankring_max_display=50 " 500
+""let g:yankring_ignore_duplicate=0 " 1
+"let g:yankring_dot_repeat_yank=1
+"let g:yankring_clipboard_monitor=0 " 1
+"let g:yankring_min_element_length=2 " 1, :skip all single letter copy
+""let g:yankring_persist=0 " 1
+""let g:yankring_share_between_instances=0 " 1
+""let g:yankring_window_use_separate=0 " 1
+""let g:yankring_window_use_horiz=0
+""let g:yankring_window_auto_close=0 " 1
+"let g:yankring_window_width=50 " 30
+""let g:yankring_window_use_right=0 " 1
+""let g:yankring_window_increment=15 " 1
+"let g:yankring_manage_numbered_reg = 1 " 0
+""let g:yankring_paste_check_default_register = 0 "1
+"
+"" for warning :The yankring can only persist if the viminfo setting has a !
+""set viminfo+=!
+"
+"" }}} YankRing
 
 " yanktmp {{{
 let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
