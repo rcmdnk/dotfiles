@@ -71,13 +71,24 @@ export CLMAXHIST=20
 export CLSEP="" # Use bell as a separator
 export CLX="" #xsel/xclip
 if [[ "$OSTYPE" =~ "linux" ]];then
-  export CLXOS="xsel"
+  if which -s xsel;then
+    export CLXOS="xsel"
+  elif which -s xsel;then
+    export CLXOS="xclip"
+  fi
 elif [[ "$OSTYPE" =~ "cygwin" ]];then
-  export CLXOS="putclip"
+  if which -s putclip;then
+    export CLXOS="putclip"
+  elif which -s xsel;then
+    export CLXOS="xsel"
+  elif which -s xsel;then
+    export CLXOS="xclip"
+  fi
 elif [[ "$OSTYPE" =~ "darwin" ]];then
-  export CLXOS="pbcopy"
+  if which -s pbcopy;then
+    export CLXOS="pbcopy"
+  fi
 fi
-
 # }}} Environmental variables
 
 # shopt {{{
