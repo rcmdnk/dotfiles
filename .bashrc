@@ -67,7 +67,7 @@ export MAXTRASHSIZE=1024 #MB
 
 # For my clipboards
 export CLIPBOARD=$HOME/.clipboard
-export CLMAXHIST=10
+export CLMAXHIST=20
 export CLSEP="" # Use bell as a separator
 export CLX="" #xsel/xclip
 if [[ "$OSTYPE" =~ "linux" ]];then
