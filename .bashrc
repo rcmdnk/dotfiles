@@ -186,6 +186,8 @@ alias vi="vim -X" # vi->vim,no X
 #export GREP_OPTIONS='--color=auto'
 #export LESS='-R'
 
+alias c="multi_clipboards"
+
 # noglob helpers {{{
 function mynoglob_helper {
   "$@"
@@ -700,13 +702,13 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 function path {
   local fullpath=`command path $@`
   echo $fullpath
-  mc -s $fullpath
+  multi_clipboards -s $fullpath
 } # }}}
 
 # pwd wrapper (named as wc) to push pwd to the clipboard list{{{
 function wd {
   local curdir=`pwd`
-  mc -s $curdir
+  multi_clipboards -s $curdir
   echo $curdir
 }
 # }}}

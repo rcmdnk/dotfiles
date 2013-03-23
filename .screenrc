@@ -96,13 +96,13 @@ bind -c resize ^k eval 'resize -v -1' 'command -c resize'
 bufferfile "$SCREENEXCHANGE"
 
 #bindkey -m ' ' eval 'stuff \040' 'writebuf' "!bash -c 'source ~/.bashrc && myclpushsc'"
-bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec !!! mc -I'
-bindkey -m Y eval 'stuff Y' 'writebuf' 'exec !!! mc -I'
-bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! mc -I'
+bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec !!! multi_clipboards -I'
+bindkey -m Y eval 'stuff Y' 'writebuf' 'exec !!! multi_clipboards -I'
+bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! multi_clipboards -I'
 
 #bind a eval "!bash -c 'source ~/.bashrc && myclpopsc'"
-bind a eval "!bash -c 'mc -O;echo -n \"$SCREEN_PS1\"'"
-bind ^a eval "!bash -c 'mc -O;echo -n \"$SCREEN_PS1\"'"
+bind a eval "!bash -c 'multi_clipboards -O;echo -n \"$SCREEN_PS1\"'"
+bind ^a eval "!bash -c 'multi_clipboards -O;echo -n \"$SCREEN_PS1\"'"
 
 ###colors for other messages, including center line
 #sorendition "+rb .w"
