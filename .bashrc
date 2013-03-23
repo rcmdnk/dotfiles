@@ -685,17 +685,17 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 
 # Following functions/alias are also enabled before screen {{{
 
-# Wrapper of path for screen {{{
+# Wrapper of path to push to the clipboard list{{{
 function path {
   local fullpath=`command path $@`
   echo $fullpath
-  mc -i $fullpath
+  mc -s $fullpath
 } # }}}
 
-# pwd wrapper: myclpush/pop sometime take too much time {{{
+# pwd wrapper (named as wc) to push pwd to the clipboard list{{{
 function wd {
   local curdir=`pwd`
-  mc -I $curdir
+  mc -s $curdir
   echo $curdir
 }
 # }}}
