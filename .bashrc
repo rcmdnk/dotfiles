@@ -71,21 +71,21 @@ export CLMAXHIST=20
 export CLSEP="" # Use bell as a separator
 export CLX="" #xsel/xclip
 if [[ "$OSTYPE" =~ "linux" ]];then
-  if which -s xsel;then
+  if which xsel >/dev/null 2>&1;then
     export CLXOS="xsel"
-  elif which -s xsel;then
+  elif which xsel >/dev/null 2>&1;then
     export CLXOS="xclip"
   fi
 elif [[ "$OSTYPE" =~ "cygwin" ]];then
-  if which -s putclip;then
+  if which putclip >/dev/null 2>&1;then
     export CLXOS="putclip"
-  elif which -s xsel;then
+  elif which xsel >/dev/null 2>&1;then
     export CLXOS="xsel"
-  elif which -s xsel;then
+  elif which xsel >/dev/null 2>&1;then
     export CLXOS="xclip"
   fi
 elif [[ "$OSTYPE" =~ "darwin" ]];then
-  if which -s pbcopy;then
+  if which pbcopy >/dev/null 2>&1;then
     export CLXOS="pbcopy"
   fi
 fi
