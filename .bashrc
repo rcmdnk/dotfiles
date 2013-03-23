@@ -333,7 +333,7 @@ function cdpwd {
 }
 # }}}
 
-# Pop clip board {{{
+# Pop cli: board {{{
 function myclpop {
   # Set values
   local clb=${CLIPBOARD:-$HOMOE/.clipboard}
