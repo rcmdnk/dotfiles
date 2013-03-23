@@ -34,7 +34,7 @@ source_file /etc/bashrc
 
 # Environmental variables {{{
 # Prompt
-PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
+export PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
 
 # XMODIFIERS
 export XMODIFIERS="@im=kinput2"
@@ -67,15 +67,15 @@ export MAXTRASHSIZE=1024 #MB
 
 # For my clipboards
 export CLIPBOARD=$HOME/.clipboard
-export CLMAXHIST=5
+export CLMAXHIST=10
 export CLSEP="" # Use bell as a separator
-export MYCL="" #xsel/xclip
+export CLX="" #xsel/xclip
 if [[ "$OSTYPE" =~ "linux" ]];then
-  export MYCLOS="xsel"
+  export CLXOS="xsel"
 elif [[ "$OSTYPE" =~ "cygwin" ]];then
-  export MYCLOS="putclip"
+  export CLXOS="putclip"
 elif [[ "$OSTYPE" =~ "darwin" ]];then
-  export MYCLOS="pbcopy"
+  export CLXOS="pbcopy"
 fi
 
 # }}} Environmental variables
@@ -334,108 +334,11 @@ function cdpwd {
 }
 # }}}
 
-# Push clipboard {{{
-function myclpush {
-  # Set values
-  echo $CLMAXHIST
-  local clb=${CLIPBOARD:-$HOMOE/.clipboard}
-  local max=${CLMAXHIST:-10}
-  local mycl=${MYCL:-""}
-
-  local input="$*"
-
-  # Get old words
-  touch $clb
-  local orig_ifs=$IFS
-  IFS="$CLSEP"
-  touch $clb
-  local clbs=(`cat $clb`)
-  IFS=$orig_ifs
-  local nclbs=${#clbs[*]}
-
-  echo
-  printf "input: $input"
-  echo
-  # Renew words
-  local i=0
-  local j=1
-  printf "$input$CLSEP" > $clb
-  while [ $i -lt $nclbs ] && [ $j -le $((CLMAXHIST)) ] ;do
-    local iuse=$i
-    i=$((i+1))
-
-    #echo "try $iuse, ${clbs[$iuse]}"
-    # Remove duplications
-    if [ "$input" = "${clbs[$iuse]}" ];then
-      #echo
-      #echo "$iuse      : no use"
-      #echo "\$\*    : $input"
-      #echo "clbs[$iuse]: ${clbs[$iuse]}"
-      continue
-    fi
-    printf "${clbs[$iuse]}$CLSEP" >> $clb
-    j=$((j+1))
-  done
-
-  # Copy to clipboard of X
-  if [ "$mycl" != "" ];then
-    printf "$*" | $mycl
-  fi
-} # }}}
-
-# Pop clipboard {{{
-function myclpop {
-  # Set values
-  local clb=${CLIPBOARD:-$HOMOE/.clipboard}
-  local max=${CLMAXHIST:-10}
-  local mycl=${MYCL:-""}
-
-  ## Show stored words
-  local orig_ifs=$IFS
-  IFS="$CLSEP"
-  touch $clb
-  local clbs=(`cat $clb`)
-  IFS=$orig_ifs
-  local nclbs=${#clbs[*]}
-  local i=$((nclbs-1))
-  while [ $i -ge 0 ];do
-    printf "$i: ${clbs[$i]}\n"
-    i=$((i-1))
-  done
-
-  # Choose buffer
-  echo ""
-  echo -n "choose buffer:"
-  local n
-  read n
-  if ! echo $n|grep -q "^[0-9]\+$" || [ "$n" -ge "$nclbs" ];then
-    echo "$f is not valid"
-    echo "Use myclpop [0-$((nclbs-1))]"
-    return 1
-  fi
-  local c="${clbs[$n]}"
-
-  # Align clipboards
-  printf "$c$CLSEP" > $clb
-  local i=0
-  while [ $i -lt $nclbs ];do
-    if [ ! $i -eq $n ];then
-      printf "${clbs[$i]}$CLSEP" >> $clb
-    fi
-    i=$((i+1))
-  done
-
-  # Copy to clipboard of X
-  if [ "$mycl" ];then
-    printf "$c" | $mycl
-  fi
-} # }}}
-
 # Force to copy in clipboard of X {{{
 function put_to_clopboard {
   local clb=${CLIPBOARD:-$HOME/.clipboard}
-  local mycl=${MYCL:-${MYCLOS}}
-  if [ ! "$mycl" ];then
+  local clx=${CLX:-${CLXOS}}
+  if [ ! "$clx" ];then
     echo "No clip board application is assigned!"
     return
   fi
@@ -444,7 +347,7 @@ function put_to_clopboard {
   touch $clb
   local clbs=(`cat $clb`)
   IFS=$orig_ifs
-  printf "${clbs[0]}" | $mycl
+  printf "${clbs[0]}" | $clx
 }
 alias put=put_to_clopboard
 # }}}
@@ -491,7 +394,7 @@ function sd { # save dir {{{
   rm -rf $lastdirfiletmp
 } # }}}
 
-# Change directory to lastdir {{{
+# Change directory to the Last directory {{{
 function cl {
   local HELP="
   Usage: cl [-l] [-n <number> ]
@@ -782,60 +685,29 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 
 # Following functions/alias are also enabled before screen {{{
 
-# For clipboard management with screen, Read from previous Clipboard {{{
-function myclpopsc {
-  local scex=${SCREENEXCHANGE:-$HOME/.screen-exchange}
-  local clb=${CLIPBOARD:-$HOME/.clipboard}
-  myclpop
-  local ret=$?
-  if [ $ret -ne 0 ];then
-    return $ret
-  fi
-  local orig_ifs=$IFS
-  IFS="$CLSEP"
-  touch $clb
-  local clbs=(`cat $clb`)
-  IFS=$orig_ifs
-  printf "${clbs[0]}"
-  printf "${clbs[0]}" > $scex
-  screen -X readbuf
-}
-alias rc=myclpopsc
-# }}}
-
-# For clipboard management with screen, put current screen's exchange to clipboard {{{
-function myclpushsc {
-  local scex=${SCREENEXCHANGE:-$HOME/.screen-exchange}
-  local c=`cat $scex`
-  myclpush "$c"
-} # }}}
-
 # Wrapper of path for screen {{{
 function path {
   local fullpath=`command path $@`
   echo $fullpath
-  myclpush $fullpath
-  myclpopsc -n
+  mc -i $fullpath
 } # }}}
 
-## pwd wrapper: myclpush/pop sometime take too much time {{{
-## even at .bashrc sourcing...
-#if [[ "$TERM" =~ "screen" ]]; then
-#  function pwd {
-#    local curdir=`command pwd $@`
-#    myclpush $curdir >/dev/null 2>&1
-#    myclpopsc -n >/dev/null 2>&1
-#    echo $curdir
-#  }
-#fi
-## }}}
+# pwd wrapper: myclpush/pop sometime take too much time {{{
+function wd {
+  local curdir=`pwd`
+  mc -I $curdir
+  echo $curdir
+}
+# }}}
 
 # }}} Following functions/alias are also enabled before screen
 
 # functions/settings only for screen sessions {{{
-if [[ "$TERM" =~ "screen" ]]; then
+
+export SCREEN_PS1="(-_-) $ " # used for screen command in .screenrc
+if [[ "$TERM" =~ "screen" ]]; then # {{{
   # "\\" doesn't work well, use \134 instead
-  PS1="\[\ek\W\e\134\e]0;\w\a\]\$(\
+  export PS1="\[\ek\W\e\134\e]0;\w\a\]\$(\
     ret=\$?
     rand=\$((RANDOM%36));\
     if [ \$ret -eq 0 ];then\
@@ -864,7 +736,7 @@ if [[ "$TERM" =~ "screen" ]]; then
       fi\
     fi;\
     )"
-# }}}
+  # }}}
 
   # Set display if screen is attached in other host than previous host {{{
   function set_display {
