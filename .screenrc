@@ -95,12 +95,11 @@ bind -c resize ^k eval 'resize -v -1' 'command -c resize'
 ### xsel (xclip also?) sometime remains like zombie...?
 bufferfile "$SCREENEXCHANGE"
 
-bindkey -m ' ' eval 'stuff \040' writebuf "!bash -c 'source ~/.bashrc && myclputsc'"
-bindkey -m y eval 'stuff y' writebuf "!bash -c 'source ~/.bashrc && myclputsc'"
-bindkey -m Y eval 'stuff Y' writebuf "!bash -c 'source ~/.bashrc && myclputsc'"
-bindkey -m W eval 'stuff W' writebuf "!bash -c 'source ~/.bashrc && myclputsc'"
+bindkey -m ' ' eval 'stuff \040' 'writebuf' "!bash -c 'source ~/.bashrc && myclpushsc'" 'msgwait 2'
+bindkey -m Y eval 'stuff Y' 'writebuf' "!bash -c 'source ~/.bashrc && myclpushsc'"
+bindkey -m W eval 'stuff W' 'writebuf' "!bash -c 'source ~/.bashrc && myclpushsc'"
 
-bind a eval "exec !!! myclpopsc"
+bind a eval "!bash -c 'source ~/.bashrc && myclpopsc'"
 #bind ^a eval "exec !!! myclpopsc"
 
 ###colors for other messages, including center line
