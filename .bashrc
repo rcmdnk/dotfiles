@@ -42,9 +42,9 @@ export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 # }}} Local path
 
-# Environmental variables {{{
+# Shell/Environmental variables {{{
 # Prompt
-export PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
+PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
 
 # XMODIFIERS
 export XMODIFIERS="@im=kinput2"
@@ -78,7 +78,7 @@ export MAXTRASHSIZE=1024 #MB
 # For my clipboards
 export CLIPBOARD=$HOME/.clipboard
 export CLMAXHIST=20
-export CLSEP="" # Use bell as a separator
+export CLSEP="" # (C-v C-g) Use bell as a separator
 export CLX="" #xsel/xclip
 if [[ "$OSTYPE" =~ "linux" ]];then
   if which xsel >/dev/null 2>&1;then
@@ -100,6 +100,10 @@ elif [[ "$OSTYPE" =~ "darwin" ]];then
     export CLX=$CLXOS
   fi
 fi
+
+#export GREP_OPTIONS='--color=auto'
+#export LESS='-R'
+
 # }}} Environmental variables
 
 # shopt {{{
@@ -193,10 +197,8 @@ alias svnHeadDiff="svn diff --revision=HEAD"
 #alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
 alias vim="vim -X" # no X
 alias vi="vim -X" # vi->vim,no X
+alias memo="vim -X ~/.memo.md"
 #alias grep="grep --color=always"
-#export GREP_OPTIONS='--color=auto'
-#export LESS='-R'
-
 alias c="multi_clipboards"
 
 # noglob helpers {{{
@@ -721,7 +723,7 @@ function wd {
 export SCREEN_PS1="(-_-) $ " # used for screen command in .screenrc
 if [[ "$TERM" =~ "screen" ]]; then # {{{
   # "\\" doesn't work well, use \134 instead
-  export PS1="\[\ek\W\e\134\e]0;\w\a\]\$(\
+  PS1="\[\ek\W\e\134\e]0;\w\a\]\$(\
     ret=\$?
     rand=\$((RANDOM%36));\
     if [ \$ret -eq 0 ];then\
