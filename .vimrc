@@ -774,6 +774,9 @@ endif
 " Such XML file has too much syntax which make vim drastically slow
 set synmaxcol=500 "default 3000
 
+" Disable highlight italic in Markdown
+autocmd! FileType markdown hi! def link markdownItalic LineNr
+
 " }}} basic settings
 
 " colors {{{
