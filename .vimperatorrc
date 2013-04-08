@@ -290,6 +290,23 @@ mappings.addUserMap(
 EOM
 " }}}
 
+" dont-kill-me-my-lovely-input.js {{{
+" https://gist.github.com/anekos/2944628
+js <<EOM
+mappings.addUserMap(
+  [modes.COMMAND_LINE],
+  ['<Esc>'],
+  'I wish to escape to the blue sky.',
+  (function () {
+    if (this._history && this._history.save)
+      this._history.save();
+    events.onEscape();
+  }).bind(commandline),
+  {}
+);
+EOM
+" }}}
+
 "" settings for each environment {{{
 "set editor="C:/Program\\\ Files/vim/gvim.exe"
 set editor="gvim.exe"
