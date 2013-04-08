@@ -460,7 +460,7 @@ set nocompatible
 " neobundle {{{
 
 "" usage:
-" :NeoBundle       " update plugins below
+" :NeoBundleUpdate " update plugins below
 " :NeoBundleInstall" install plugins below
 " :NeoBundleClean  " remove plugins removed from below
 
@@ -565,6 +565,9 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 
 " sub mode
 NeoBundle 'kana/vim-submode'
+
+" open browser
+"NeoBundle 'tyru/open-browser.vim'
 
 " easymotion
 "NeoBundle 'Lokaltog/vim-easymotion'
@@ -1072,6 +1075,12 @@ call submode#map('winsize', 'n', '', 'k', '<C-w>+')
 call submode#map('winsize', 'n', '', '=', '<C-w>=')
 "}}} vim-submode
 
+" open-browser{{{
+let g:netrw_nogx = 1 " disable netrw's gx mapping.
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+"}}} open-browser
+
 " applescript{{{
 autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd myaugroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
@@ -1168,6 +1177,9 @@ nnoremap ,w :w<CR>
 nnoremap ,q :q<CR>
 nnoremap ,wq :wq<CR>
 nnoremap ,1 :q!<CR>
+
+" remove trail spaces
+nnoremap ,<Space>  :%s/<Space>\+$//g<CR><C-o>
 
 " insert mode (inoremap)
 
