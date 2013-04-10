@@ -344,6 +344,9 @@ function cd {
     local opwd=$OLDPWD
     pushd . >/dev/null
     command cd $opwd
+  elif [ -f "$1" ];then
+    pushd . >/dev/null
+    command cd $(dirname "$@")
   else
     pushd . >/dev/null
     command cd "$@"
