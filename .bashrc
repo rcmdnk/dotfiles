@@ -23,7 +23,7 @@ function source_file() {
   fi
   arg=$1
   shift
-  if [ -f $arg ]; then
+  if [ -r $arg ]; then
     source $arg
   fi
 } # }}} Function for sourcing with precheck of the file
@@ -159,7 +159,7 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # }}}
 
 # Simple method to add history everytime {{{
-#PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
+PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
 # }}}
 
 # }}} history
