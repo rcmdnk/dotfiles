@@ -81,21 +81,21 @@ export CLMAXHIST=20
 export CLSEP="" # (C-v C-g) Use bell as a separator
 export CLX="" #xsel/xclip
 if [[ "$OSTYPE" =~ "linux" ]];then
-  if which xsel >/dev/null 2>&1;then
+  if type xsel >/dev/null 2>&1;then
     export CLXOS="xsel"
-  elif which xclip >/dev/null 2>&1;then
+  elif type xsel >/dev/null 2>&1;then
     export CLXOS="xclip"
   fi
 elif [[ "$OSTYPE" =~ "cygwin" ]];then
-  if which putclip >/dev/null 2>&1;then
+  if type putclip >/dev/null 2>&1;then
     export CLXOS="putclip"
-  elif which xsel >/dev/null 2>&1;then
+  elif type xsel >/dev/null 2>&1;then
     export CLXOS="xsel"
-  elif which xsel >/dev/null 2>&1;then
+  elif type xsel >/dev/null 2>&1;then
     export CLXOS="xclip"
   fi
 elif [[ "$OSTYPE" =~ "darwin" ]];then
-  if which pbcopy >/dev/null 2>&1;then
+  if type pbcopy >/dev/null 2>&1;then
     export CLXOS="pbcopy"
     export CLX=$CLXOS
   fi
@@ -186,7 +186,8 @@ elif [[ "$OSTYPE" =~ "darwin" ]];then
   alias ls='ls -G'
   alias la='ls -a -G'
 fi
-alias badlink='find -L . -depth 1 -type l -ls'
+#alias badlink='find -L . -depth 1 -type l -ls'
+alias badlink='find -xtype l'
 #alias g='gmake'
 alias g='make'
 alias gc="make clean"
