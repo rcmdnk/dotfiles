@@ -407,22 +407,46 @@ function path {
 } # }}}
 
 ## Directory save/move in different terminal {{{
-LASTDIRFILE=$HOME/.lastDir
-function sd { # save dir {{{
-  touch ${LASTDIRFILE:-$HOME/.lastDir}
-  local lastdirfiletmp=${TMPDIR:-/tmp}/.lastDir.tmp
-  tail -n19 $LASTDIRFILE > $lastdirfiletmp
-  local lastdir=`tail -n1 $LASTDIRFILE`
+# Directory store file
+export LASTDIRFILE=$HOME/.lastDir
+# Number of store directories
+export NLASTDIR=20
+# Separator for directories in the file
+export LDSEP="" # (C-v C-g) Use bell as a separator
+
+function sd { # Save dir {{{
+  # Set values
+  local ldf=${LASTDIRFILE:-$HOME/.lastDir}
+  local nld="${NLASTDIR:-20}"
+  local lds="${LDSEP:-}"
+
+  # Get last directories
+  touch $ldf
+  local orig_ifs=$IFS
+  IFS="$lds"
+  local dirs=(`cat $ldf`)
+  IFS=$orig_ifs
+  local ld=${dirs[0]}
+
+  # Push current directory
   local curdir=`pwd -P`
-  if [ "$lastdir" != $curdir ];then
-    cat $lastdirfiletmp > $LASTDIRFILE
-    echo $curdir >> $LASTDIRFILE
+  if [ "$ld" != "$curdir" ];then
+    dirs=("$curdir" "${dirs[@]}")
   fi
-  rm -rf $lastdirfiletmp
+
+  # Store directories
+  local i=0
+  while [ $i -lt ${#dirs[@]} ] && [ $i -lt $NLASTDIR ];do
+    if [ $i -eq 0 ];then
+      printf ${dirs[$i]} > $ldf
+    else
+      echo $lds${dirs[$i]} >> $ldf
+    fi
+    i=$((i+1))
+  done
 } # }}}
 
-# Change directory to the Last directory {{{
-function cl {
+function cl { # Change directory to the Last directory {{{
   local HELP="
   Usage: cl [-l] [-n <number> ]
   If there are no arguments, you move to the last saved dirctory
@@ -434,11 +458,12 @@ function cl {
      -h              Print this HELP and exit
 "
 
-  # Check LASTDIRFILE
-  touch ${LASTDIRFILE:-$HOME/.lastDir}
+  # Set values
+  local ldf=${LASTDIRFILE:-$HOME/.lastDir}
+  local lds="${LDSEP:-}"
 
   # Initialize variables
-  local nth=1
+  local nth=0
   local list=0
   local choice=0
 
@@ -458,25 +483,34 @@ function cl {
   done
   OPTIND=$optind_tmp
 
+  # Get last directories
+  touch $ldf
+  local orig_ifs=$IFS
+  IFS="$lds"
+  local dirs=(`cat $ldf`)
+  IFS=$orig_ifs
+  local ld=${dirs[0]}
+
   # List up and choose directory
   if [ $choice -eq  1 ] || [ $list -eq 1 ];then
     # List up stored directories
-    local listnum=`wc $LASTDIRFILE|awk '{print $1}'`
-    while read dir;do
-      printf "%4d %s %4d\n" $listnum $dir $listnum
-      listnum=`expr $listnum - 1`
-    done < $LASTDIRFILE
+    local listnum=${#dirs[@]}
+    local i=$((listnum-1))
+    while [ $i -ge 0 ];do
+      printf "%4d %s %4d\n" $i ${dirs[$i]} $i
+      i=$((i-1))
+    done
 
     # Choose from STDIN
     if [ $choice -eq 1 ];then
-      echo "choose directory number"
+      echo -n "choose directory number:"
       read nth
     fi
   fi
 
   # Change directory
   if [ $list != 1 ];then
-    cd "$(tail -n${nth} $LASTDIRFILE|head -n1)"
+    cd ${dirs[$nth]}
   fi
 } # }}}
 # }}}
