@@ -32,6 +32,16 @@ function source_file() {
 source_file /etc/bashrc
 # }}}
 
+# Local path {{{
+# PATH, LD_LIBRARY_PATH under HOME
+export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/usr/lib:$HOME/usr/local/lib:$LD_LIBRARY_PATH
+export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
+
+# Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+# }}} Local path
+
 # Environmental variables {{{
 # Prompt
 export PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
@@ -73,7 +83,7 @@ export CLX="" #xsel/xclip
 if [[ "$OSTYPE" =~ "linux" ]];then
   if which xsel >/dev/null 2>&1;then
     export CLXOS="xsel"
-  elif which xsel >/dev/null 2>&1;then
+  elif which xclip >/dev/null 2>&1;then
     export CLXOS="xclip"
   fi
 elif [[ "$OSTYPE" =~ "cygwin" ]];then
@@ -306,7 +316,7 @@ function press {
     remove=1
     shift
   fi
-  local dir=${$1%/*}
+  local dir=${1%/*}
   case "$#" in
           0)
     echo $HELP
@@ -521,7 +531,7 @@ function man {
     done
     # Then open each manual
     for m in $@;do
-      if command man -d $m > /dev/null 2>&1;then
+      if command man -W $m > /dev/null 2>&1;then
         LANG=C command man $@|col -b -x|vim -R -
       else
         command man $@
@@ -618,16 +628,6 @@ function calc {
 # Disable terminal lock
 tty -s && stty stop undef
 # }}}
-
-# Local path {{{
-# PATH, LD_LIBRARY_PATH under HOME
-export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
-export LD_LIBRARY_PATH=$HOME/usr/lib:$HOME/usr/local/lib:$LD_LIBRARY_PATH
-export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
-
-# Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-# }}} Local path
 
 # For screen {{{
 # Screen wrapper {{{
