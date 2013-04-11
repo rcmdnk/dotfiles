@@ -414,19 +414,16 @@ function path {
 export LASTDIRFILE=$HOME/.lastDir
 # Number of store directories
 export NLASTDIR=20
-# Separator for directories in the file
-export LDSEP="" # (C-v C-g) Use bell as a separator
 
 function sd { # Save dir {{{
   # Set values
   local ldf=${LASTDIRFILE:-$HOME/.lastDir}
   local nld="${NLASTDIR:-20}"
-  local lds="${LDSEP:-}"
 
   # Get last directories
   touch $ldf
   local orig_ifs=$IFS
-  IFS="$lds"
+  IFS=$'\n'
   local dirs=(`cat $ldf`)
   IFS=$orig_ifs
   local ld=${dirs[0]}
@@ -439,12 +436,9 @@ function sd { # Save dir {{{
 
   # Store directories
   local i=0
+  rm -f $ldf
   while [ $i -lt ${#dirs[@]} ] && [ $i -lt $NLASTDIR ];do
-    if [ $i -eq 0 ];then
-      printf ${dirs[$i]} > $ldf
-    else
-      echo $lds${dirs[$i]} >> $ldf
-    fi
+    echo ${dirs[$i]} >> $ldf
     i=$((i+1))
   done
 } # }}}
@@ -463,7 +457,6 @@ function cl { # Change directory to the Last directory {{{
 
   # Set values
   local ldf=${LASTDIRFILE:-$HOME/.lastDir}
-  local lds="${LDSEP:-}"
 
   # Initialize variables
   local nth=0
@@ -489,7 +482,7 @@ function cl { # Change directory to the Last directory {{{
   # Get last directories
   touch $ldf
   local orig_ifs=$IFS
-  IFS="$lds"
+  IFS=$'\n'
   local dirs=(`cat $ldf`)
   IFS=$orig_ifs
   local ld=${dirs[0]}
