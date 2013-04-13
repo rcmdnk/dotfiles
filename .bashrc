@@ -186,8 +186,7 @@ elif [[ "$OSTYPE" =~ "darwin" ]];then
   alias ls='ls -G'
   alias la='ls -a -G'
 fi
-#alias badlink='find -L . -depth 1 -type l -ls'
-alias badlink='find -xtype l'
+alias badlink='find -L . -depth 1 -type l -ls'
 #alias g='gmake'
 alias g='make'
 alias gc="make clean"
@@ -405,6 +404,7 @@ alias put=put_to_clopboard
 function path {
   if [ $# -eq 0 ];then
       echo "usage: path file/directory"
+      return 1
   fi
   echo "$(cd "$(dirname $1)";pwd -P)/$(basename $1)"
 } # }}}
@@ -732,9 +732,13 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 
 # Following functions/alias are also enabled before screen {{{
 
-# Wrapper of path to push to the clipboard list{{{
+# Overwrite path to push to the clipboard list{{{
 function path {
-  local fullpath=`command path $@`
+  if [ $# -eq 0 ];then
+      echo "usage: path file/directory"
+      return 1
+  fi
+  fullpath="$(cd "$(dirname $1)";pwd -P)/$(basename $1)"
   echo $fullpath
   multi_clipboards -s $fullpath
 } # }}}
