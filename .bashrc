@@ -532,7 +532,7 @@ function gitupdate {
     update=1
   fi
   ret=$(git pull)
-  if ! echo $ret|grep -q "is up to date";then
+  if ! echo $ret|grep -q "Already up-to-date";then
     if [ $update -eq 0 ];then
       pwd
     fi
