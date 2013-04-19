@@ -72,8 +72,13 @@ export TERMINFO=/usr/share/terminfo
 export PYTHONSTARTUP=~/.pythonstartup.py
 
 # Trash
-export TRASH=~/.Trash
-export MAXTRASHSIZE=1024 #MB
+export TRASHLIST=~/.trashlist # Where trash list is written
+export TRASHBOX=~/.Trash # Where trash will be moved in
+                         # (.Trash is Mac's trash box)
+export MAXTRASHBOXSIZE=1024 # Max trash box size in MB
+                            # Used for clean up
+export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.5|bc -l|cut -d. -f1`
+    # Trashes larger than MAXTRASHBOXSIZE will be removed by 'rm' directly
 
 # For my clipboards
 export CLIPBOARD=$HOME/.clipboard
@@ -216,59 +221,247 @@ function mynoglob_helper {
 alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 # }}}
 
+# Use common function in Mac/Unix for sed -i... w/o backup {{{
+# Unix uses GNU sed
+# Mac uses BSD sed
+# BSD sed requires suffix for backup file when "-i" option is given
+# while GNU sed can run w/o suffix and doesn't make backup file
+function sedi {
+  sed -i.bak "$1" "$2"
+  rm -f "$2".bak
+}
+# }}}
+
 # Use trash box {{{
 function trash {
-  if [ ! "$TRASH" ];then
-    echo "please set TRASH"
+  # default variables
+  local def_rdir=0
+  local def_force=1
+  local def_confirm=0
+  local def_tbox="~/.Trash"
+  local def_tlist="~/.trashlist"
+
+  # Help
+  local HELP="
+  Usage: trash [-rficClb] [-t <trash_box>] <file/directory>
+
+  Arguments:
+     -r              Remove directory (default: $def_rdir)
+     -f              Remove w/o confirmation (default: $def_force)
+     -i              Remove w/ confirmation (default: $def_confirm)
+     -t              Use given trash box instead of ${TRASHBOX:-$def_tbox}
+     -c              Clean up trash box (make it less than MAXTRASHBOXSIZE)
+     -C              Clean up trash box (make it empty)
+     -l              List up deleted files/directories in the trash box
+     -b              Restore (turn Back) the file from the trash box
+     -h              Print this HELP and exit
+
+  To use trash, please specify following variables
+  in .bashrc or your setting file like:
+
+  export TRASHLIST=~/.trashlist # Where trash list is written
+  export TRASHBOX=~/.Trash # Where trash will be moved in
+                           # (.Trash is Mac's trash box)
+  export MAXTRASHBOXSIZE=1024 # Max trash box size in MB
+                              # Used for clean up
+  export MAXTRASHSIZE=\`echo \$MAXTRASHBOXSIZE \"*\" 0.5|bc -l|cut -d. -f1\`
+      # Trashes larger than MAXTRASHBOXSIZE will be removed by 'rm' directly
+
+"
+
+  # Initialize variables
+  local rdir=$def_rdir
+  local force=$def_rdir
+  local confirm=$def_rdir
+  local tbox=""
+  local tlist=$def_tlist
+  local clean=0
+  local clean_full=0
+  local list=0
+  local back=0
+
+  # OPTIND must be reset in function
+  local optind_tmp=$OPTIND
+  OPTIND=1
+
+  # Get option
+  while getopts rfit:cClbh OPT;do
+    case $OPT in
+      "r" ) rdir=1 ;;
+      "f" ) force=1;confirm=0 ;;
+      "i" ) confirm=1;force=1 ;;
+      "t" ) tbox="$OPTARG" ;;
+      "c" ) clean=1 ;;
+      "C" ) clean_full=1 ;;
+      "l" ) list=1 ;;
+      "b" ) back=1 ;;
+      "h" ) echo "$HELP" 1>&2;OPTIND=$optind_tmp;return 1;;
+      * ) echo "$HELP" 1>&2;OPTIND=$optind_tmp;return 1;;
+    esac
+  done
+  shift $(($OPTIND - 1))
+  OPTIND=$optind_tmp
+
+  # Set trash box/list
+  tbox="${tbox:-$TRASHBOX}"
+  if [ ! "$tbox" ];then
+    echo "please set TRASHBOX"
     return
   fi
-  if [ "$#" -lt 1 ]
-  then
-    echo "enter junk files or directories"
-  else
-    if [ ! -d $TRASH ];
-    then
-      mkdir -p $TRASH
-    fi
+  tlist="${TRASHLIST:-$tlist}"
+  touch $tlist
 
-    while [ "$#" -gt 0 ];do
-      local name=`echo $1 | sed -e "s|/$||" | sed -e "s|.*/||"`
-      local trash_head=${TRASH}/${name}
-      local trash_name=${trash_head}
-      i=1
-      while true;do
-        if [ -s ${trash_name} ];then
-          trash_name=${trash_head}.${i}
-          i=`expr ${i} + 1`
-        else
-          break
-        fi
-      done
+  # Use more one depth directory to distinguish from other trash
+  # (especially for Mac's ~/.Trash case)
+  local mytbox="$tbox/my_trash_box"
 
-      mv -i $1 ${trash_name}
-      echo $1 was moved to ${trash_name}
-      shift
+  # Clean up the trash box
+  if [ $clean_full -eq 1 ];then
+    rm -rf $mytbox
+    rm -rf $tlist
+    return 0
+  elif [ $clean -eq 1 ];then
+    while [ 1 ];do
+      local trash_box_size=`du -ms ${mytbox} |awk '{print $1}'`
+      if [ ${trash_box_size} -gt ${MAXTRASHBOXSIZE} ];then
+        local delete_dir=`ls -tr ${TRASHBOX} | head -1`
+        rm -rf ${mytbox}/${delete_dir}
+        sed -i.bak "\!${mybox}/${delete_dir}!d" $tlist
+        rm -f $tlist.bak
+      else
+        return 0
+      fi
     done
   fi
-}
-alias del="trash"
 
-function clean_trash {
-  if [ ! "$TRASH" ];then
-    echo "please set TRASH"
-    return
-  fi
-  local flag="FALSE"
-  while [ $flag = "FALSE" ];do
-    local trash_box_size=`du -ms ${TRASH} |awk '{print $1}'`
-    if [ ${trash_box_size} -gt ${MAXTRASHSIZE} ];then
-      local delete_dir=`ls ${TRASH} | head -1`
-      rm -rf ${TRASH}/${delete_dir}
-    else
-      flag="TRUE"
+  # List up deleted files/directories
+  if [ $list -eq 1 ] || [ $back -eq 1 ];then
+    cat -n $tlist|tail -r
+    if [ $back -ne 1 ];then
+      return 0
     fi
+
+    # Choose from STDIN
+    local ntrashes=`wc $tlist|awk '{print $1}'`
+    echo -n "choose trash number:"
+    read nth
+
+    if ! echo $nth|grep -q "^[0-9]\+$" || [ $nth -eq 0 ] || [ "$nth" -gt "$ntrashes" ];then
+      echo "Wrong number was given"
+      return 1
+    fi
+    local line=`sed -n ${nth}p $tlist`
+    local tinfo=(`echo ${line}|sed 's/,/ /g'`)
+    local origin_name_short=${tinfo[1]}
+    local trash_name_short=${tinfo[2]}
+    local origin_name="${origin_name_short/#~/$HOME}"
+    local trash_name="${trash_name_short/#~/$HOME}"
+    if [ "$origin_name" = "" ] || [ "$trash_name" = "" ];then
+      echo "Wrong number was given or $tlist was corrupted"
+      return 1
+    elif [ ! -e "$trash_name" ];then
+      echo "$trash_name_short doesn't exist, remove from the list"
+      sed -i.bak "\!${trash_name_short}\$!d" $tlist
+      rm -f $tlist.bak
+      return 1
+    fi
+    if [ $confirm -eq 1 ];then
+      if [ -e "$origin_name" ];then
+        echo "$origin_name_short exists. Do you want to overwrite from trash box?"
+        read yes
+        if ! [[ "$yes" =~ ^[yY] ]];then
+          return 0
+        fi
+      fi
+    fi
+    mv "$trash_name" "$origin_name"
+    echo ${origin_name_short} was restored from  ${trash_name_short}
+    sed -i.bak "\!${trash_name_short}\$!d" $tlist
+    rm -f $tlist.bak
+    return 0
+  fi
+
+  # Check arguments
+  if [ "$#" -lt 1 ];then
+    echo "$HELP" 1>&2;
+    return 1
+  fi
+
+  # Set rm flags
+  if [ $force -eq 1 ];then
+    rmflag="-f"
+  else
+    rmflag="-i"
+  fi
+  if [ $rdir -eq 1 ];then
+    rmflag="$rmflag -r"
+  fi
+
+  # Set today's trash box
+  tboxtoday="$mytbox/`date +%Y%m%d`"
+  if [ ! -d $tboxtoday ];then
+    mkdir -p $tboxtoday
+  fi
+
+  # Iterate on arguments
+  while [ "$#" -gt 0 ];do
+    if [ ! -e "$1" ];then
+      echo $1: No such file or directory
+      if [ $force -ne 1 ];then
+        return 1
+      fi
+      shift
+      continue
+    fi
+    local trash_size=`du -ms "${1}" |awk '{print $1}'`
+    if [ ${trash_size} -gt ${MAXTRASHSIZE} ];then
+      echo $1 is larger than $MAXTRASHSIZE MB, then I delete it directly
+      rm $rmflag $1
+      shift
+      continue
+    fi
+
+    if [ -d "$1" ] && [ $rdir -ne 1 ];then
+      echo $1: is a directory, use "-r" for directory
+      shift
+      continue
+    fi
+
+    if [ $confirm -eq 1 ];then
+      echo remove ${1}?
+      read yes
+      if ! [[ "$yes" =~ ^[yY] ]];then
+        shift
+        continue
+      fi
+    fi
+
+    local origin_name=`echo $(cd "$(dirname $1)";pwd -P)/$(basename $1)`
+    local name=`echo $1 | sed -e "s|/$||" | sed -e "s|.*/||"`
+    local trash_head=${tboxtoday}/${name}
+    local trash_name=${trash_head}
+    i=1
+    while true;do
+      if [ -e ${trash_name} ];then
+        trash_name=${trash_head}.${i}
+        i=`expr ${i} + 1`
+      else
+        break
+      fi
+    done
+
+    mv "$origin_name" "$trash_name"
+    local origin_name_short="${origin_name/#$HOME/~}"
+    local trash_name_short="${trash_name/#$HOME/~}"
+    echo $origin_name_short was moved to $trash_name_short
+    mv $tlist $tlist.bak
+    echo "`date +%Y%m%d-%H-%M-%S`,$origin_name_short,$trash_name_short" > $tlist
+    cat $tlist.bak >> $tlist
+    rm -f $tlist.bak
+    shift
   done
 }
+alias del="trash"
 # }}}
 
 # Change words in file by sed{{{
@@ -281,10 +474,12 @@ function change {
       echo "enter words of before and after"
     ;;
     2)
-      sed -i s!"$2"!!g "$1"
+      sed -i.bak "s!$2!!g" "$1"
+      rm -f "$1".bak
     ;;
     3)
-      sed -i s!$2!$3!g "$1"
+      sed -i.bak "s!$2!$3!g" "$1"
+      rm -f "$1".bak
     ;;
     *)
       echo "enter file name and words of before and after"
@@ -295,7 +490,8 @@ function change {
 
 # Delete trailing white space {{{
 function del_tail {
-  sed -i 's/ \+$//g' $1
+  sed -i.bak 's/ \+$//g' $1
+  rm -f "$1".bak
 }
 # }}}
 
@@ -445,7 +641,7 @@ function sd { # Save dir {{{
 
 function cl { # Change directory to the Last directory {{{
   local HELP="
-  Usage: cl [-l] [-n <number> ]
+  Usage: cl [-lch] [-n <number> ]
   If there are no arguments, you move to the last saved dirctory
 
   Arguments:
@@ -473,10 +669,11 @@ function cl { # Change directory to the Last directory {{{
       "c" ) choice=1 ;;
       "l" ) list=1 ;;
       "n" ) nth="$OPTARG" ;;
-      "h" ) echo "$HELP" 1>&2;return ;;
-      * ) echo "$HELP" 1>&2;return ;;
+      "h" ) echo "$HELP" 1>&2;OPTIND=$optind_tmp;return ;;
+      * ) echo "$HELP" 1>&2;OPTIND=$optind_tmp;return ;;
     esac
   done
+  shift $(($OPTIND - 1))
   OPTIND=$optind_tmp
 
   # Get last directories
@@ -502,6 +699,12 @@ function cl { # Change directory to the Last directory {{{
       echo -n "choose directory number:"
       read nth
     fi
+  fi
+
+  # Check nth
+  if ! echo $nth|grep -q "^[0-9]\+$" || [ "$nth" -ge "${#dirs[*]}" ];then
+    echo "Wrong number was given"
+    return 1
   fi
 
   # Change directory
