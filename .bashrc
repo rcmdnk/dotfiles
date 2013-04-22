@@ -321,6 +321,9 @@ function trash {
     rm -rf $tlist
     return 0
   elif [ $clean -eq 1 ];then
+    if [ ! -d ${mytbox} ];then
+      return 0
+    fi
     while [ 1 ];do
       local trash_box_size=`du -ms ${mytbox} |awk '{print $1}'`
       if [ ${trash_box_size} -gt ${MAXTRASHBOXSIZE} ];then
