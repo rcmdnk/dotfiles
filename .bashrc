@@ -77,7 +77,7 @@ export TRASHBOX=~/.Trash # Where trash will be moved in
                          # (.Trash is Mac's trash box)
 export MAXTRASHBOXSIZE=1024 # Max trash box size in MB
                             # Used for clean up
-export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.5|bc -l|cut -d. -f1`
+export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
     # Trashes larger than MAXTRASHBOXSIZE will be removed by 'rm' directly
 
 # For my clipboards
