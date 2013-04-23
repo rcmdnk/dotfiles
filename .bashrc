@@ -448,7 +448,7 @@ function cl { # Change directory to the Last directory {{{
 
     # Choose from STDIN
     if [ $choice -eq 1 ];then
-      echo -n "choose directory number:"
+      echo -n "choose directory number: "
       read nth
     fi
   fi
