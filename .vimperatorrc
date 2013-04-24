@@ -2,6 +2,12 @@
 " note: ~/.vimperatorrc (linux/Mac) or ~/vimperatorrc are always used for info
 "       even when runtimepath is set as below
 set runtimepath=~/My\ Dropbox/08_Settings/vimpr/vimperator,~/Dropbox/08_Settings/vimpr/vimperator
+
+"js<<EOM
+"// for path_to/info/default
+"liberator.modules.storage.infoPath.initWithPath(File.expandPath("~/vimperator"));
+"EOM
+
 " }}}
 
 " basic settings {{{
