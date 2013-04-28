@@ -15,6 +15,7 @@ set runtimepath=~/My\ Dropbox/08_Settings/vimpr/vimperator,~/Dropbox/08_Settings
 set titlestring=Firefox
 set focuscontent
 "set defsearch=googleall
+set defsearch=google
 set! ui.caretWidth=2
 set gui+=noaddons
 set suggestengines=google

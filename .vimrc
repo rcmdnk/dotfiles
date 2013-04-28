@@ -582,6 +582,9 @@ NeoBundle 'kana/vim-submode'
 " python complete (don't work?)
 "NeoBundle 'davidhalter/jedi'
 
+" LanguageTool
+NeoBundle 'vim-scripts/LanguageTool'
+
 " Gmail
 NeoBundleLazy 'yuratomo/gmail.vim',{
       \  'autoload' : {'commands': ['Gmail']},
@@ -598,11 +601,11 @@ NeoBundleLazy 'mrtazz/simplenote.vim',{
       \}
 
 " evernote: need markdown library...
-NeoBundleLazy 'kakkyz81/evervim',{
-      \  'autoload' : {'commands': ['EvervimNotebookList', 'EvervimListTags',
-      \                             'EvervimSearchByQuery', 'EvervimCreateNote',
-      \                             'EvervimOpenBrowser', 'EvervimSetup']},
-      \}
+"NeoBundleLazy 'kakkyz81/evervim',{
+"      \  'autoload' : {'commands': ['EvervimNotebookList', 'EvervimListTags',
+"      \                             'EvervimSearchByQuery', 'EvervimCreateNote',
+"      \                             'EvervimOpenBrowser', 'EvervimSetup']},
+"      \}
 
 " make benchmark result of vimrc
 NeoBundleLazy 'mattn/benchvimrc-vim',{
