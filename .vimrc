@@ -1084,6 +1084,10 @@ nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 "}}} open-browser
 
+" LanguageTool{{{
+let g:languagetool_jar='$HOME/.languagetool/LanguageTool-2.1/languagetool-commandline.jar'
+"}}} LanguageTool
+
 " applescript{{{
 autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd myaugroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
