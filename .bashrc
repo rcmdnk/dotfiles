@@ -474,36 +474,38 @@ function cl { # Change directory to the Last directory {{{
 
 # git functions {{{
 function gitupdate {
-  update=0
-  difffiles=`git diff|grep diff|cut -d' ' -f4|cut -d'/' -f2`
-  if [ "$difffiles" ];then
-    pwd
-    if [ -f ~/.gitavoid ];then
-      local avoidword=(`cat ~/.gitavoid`)
-      for a in ${avoidword[@]};do
-        if grep -q $a $difffiles;then
-          echo "avoid word $a is included!!!"
-          grep $a $difffiles
-          return
-        fi
-      done
-    fi
-    printf "\n\n"
-    git commit -a -m "$difffiles, from $OSTYPE"
-    update=1
-  fi
-  ret=$(git pull)
-  if ! echo $ret|grep -q "Already up-to-date";then
-    if [ $update -eq 0 ];then
-      pwd
-    fi
-    printf "\n\n"
-    echo $ret
-  fi
-  if [ $update -eq 1 ];then
-    git push
-  fi
-  git gc >/dev/null 2>&1
+  git commit -a -m "update"
+  git push
+  #update=0
+  #difffiles=`git diff|grep diff|cut -d' ' -f4|cut -d'/' -f2`
+  #if [ "$difffiles" ];then
+  #  pwd
+  #  if [ -f ~/.gitavoid ];then
+  #    local avoidword=(`cat ~/.gitavoid`)
+  #    for a in ${avoidword[@]};do
+  #      if grep -q $a $difffiles;then
+  #        echo "avoid word $a is included!!!"
+  #        grep $a $difffiles
+  #        return
+  #      fi
+  #    done
+  #  fi
+  #  printf "\n\n"
+  #  git commit -a -m "$difffiles, from $OSTYPE"
+  #  update=1
+  #fi
+  #ret=$(git pull)
+  #if ! echo $ret|grep -q "Already up-to-date";then
+  #  if [ $update -eq 0 ];then
+  #    pwd
+  #  fi
+  #  printf "\n\n"
+  #  echo $ret
+  #fi
+  #if [ $update -eq 1 ];then
+  #  git push
+  #fi
+  #git gc >/dev/null 2>&1
 }
 # }}}
 
