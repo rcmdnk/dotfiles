@@ -475,6 +475,7 @@ function cl { # Change directory to the Last directory {{{
 # git functions {{{
 function gitupdate {
   git commit -a -m "update"
+  git pull --rebase
   git push
   #update=0
   #difffiles=`git diff|grep diff|cut -d' ' -f4|cut -d'/' -f2`
