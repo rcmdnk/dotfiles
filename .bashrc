@@ -29,7 +29,13 @@ function source_file() {
 } # }}} Function for sourcing with precheck of the file
 
 # Source global definitions {{{
-source_file /etc/bashrc
+
+# In Mac, it is already read.
+if [[ ! "$OSTYPE" =~ "darwin" ]];then
+  source_file /etc/bashrc
+fi
+# Remove the last ";" from PROMPT_COMMAND
+PROMPT_COMMAND=`echo ${PROMPT_COMMAND}|sed 's/;$//'`
 # }}}
 
 # Local path {{{
