@@ -505,6 +505,10 @@ NeoBundleLazy 'Shougo/unite.vim',{
       \  'autoload' : {'commands': ['Unite','UniteWithBufferDir']}
       \}
 
+" File Explorer
+"NeoBundle 'kien/ctrlp.vim'
+"NeoBundle 'scrooloose/nerdtree'
+
 " completion
 "NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'Shougo/neosnippet'
@@ -543,7 +547,6 @@ NeoBundle 'zhisheng/visualmark.vim'
 " Align
 " http://www.drchip.org/astronaut/vim/align.html#Examples
 NeoBundle 'Align'
-
 
 " add markdown
 NeoBundle 'tpope/vim-markdown'
@@ -586,19 +589,19 @@ NeoBundle 'kana/vim-submode'
 NeoBundle 'vim-scripts/LanguageTool'
 
 " Gmail
-NeoBundleLazy 'yuratomo/gmail.vim',{
-      \  'autoload' : {'commands': ['Gmail']},
-      \  'depends' : ['Shougo/vimproc']
-      \}
+"NeoBundleLazy 'yuratomo/gmail.vim',{
+"      \  'autoload' : {'commands': ['Gmail']},
+"      \  'depends' : ['Shougo/vimproc']
+"      \}
 
 " SimpleNote
-NeoBundle 'mattn/webapi-vim'
-NeoBundleLazy 'mattn/vimplenote-vim',{
-      \  'autoload' : {'commands': ['VimpleNote']},
-      \}
-NeoBundleLazy 'mrtazz/simplenote.vim',{
-      \  'autoload' : {'commands': ['Simplenote']},
-      \}
+"NeoBundle 'mattn/webapi-vim'
+"NeoBundleLazy 'mattn/vimplenote-vim',{
+"      \  'autoload' : {'commands': ['VimpleNote']},
+"      \}
+"NeoBundleLazy 'mrtazz/simplenote.vim',{
+"      \  'autoload' : {'commands': ['Simplenote']},
+"      \}
 
 " evernote: need markdown library...
 "NeoBundleLazy 'kakkyz81/evervim',{
@@ -608,9 +611,15 @@ NeoBundleLazy 'mrtazz/simplenote.vim',{
 "      \}
 
 " make benchmark result of vimrc
-NeoBundleLazy 'mattn/benchvimrc-vim',{
-      \  'autoload' : {'commands': ['BenchVimrc']},
-      \}
+"NeoBundleLazy 'mattn/benchvimrc-vim',{
+"      \  'autoload' : {'commands': ['BenchVimrc']},
+"      \}
+
+" Syntax
+NeoBundle 'scrooloose/syntastic'
+
+" Count searching objects
+NeoBundle 'osyo-manga/vim-anzu'
 
 " color scheme
 "NeoBundle 'ujihisa/unite-colorscheme'
@@ -1086,6 +1095,13 @@ vmap gx <Plug>(openbrowser-smart-search)
 
 " LanguageTool{{{
 let g:languagetool_jar='$HOME/.languagetool/LanguageTool-2.1/languagetool-commandline.jar'
+"}}} LanguageTool
+
+" vim-anzu{{{
+nmap n <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N-with-echo)
+nmap * <Plug>(anzu-star-with-echo)
+nmap # <Plug>(anzu-sharp-with-echo)
 "}}} LanguageTool
 
 " applescript{{{
