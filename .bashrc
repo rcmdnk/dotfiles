@@ -212,7 +212,7 @@ alias memo="vim -X ~/.memo.md"
 #alias grep="grep --color=always"
 alias c="multi_clipboards"
 alias put='multi_clipboards -x'
-alias del="trash"
+alias del="trash -r"
 
 # noglob helpers {{{
 function mynoglob_helper {
