@@ -493,15 +493,21 @@ function gitupdate {
     update=1
   fi
   ret=$(git pull --rebase)
-  if ! echo $ret|grep -q "Already up-to-date";then
+  if [ "$(echo $ret|grep "Already up-to-date")" == "" ] &&\
+     [ "$(echo $ret|grep "is up to date")" == "" ];then
     if [ $update -eq 0 ];then
       pwd
     fi
-    printf "\n\n"
+    printf "\n"
     echo $ret
+    update=1
   fi
-  ret=$(git push )
+  ret=$(git push)
   if ! echo $ret|grep -q "Everything up-to-date";then
+    if [ $update -eq 0 ];then
+      pwd
+    fi
+    printf "\n"
     echo $ret
   fi
 

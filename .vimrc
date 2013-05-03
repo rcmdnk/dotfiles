@@ -549,7 +549,8 @@ NeoBundle 'zhisheng/visualmark.vim'
 NeoBundle 'Align'
 
 " add markdown
-NeoBundle 'tpope/vim-markdown'
+"NeoBundle 'tpope/vim-markdown'
+NeoBundle 'plasticboy/vim-markdown'
 
 " folding method for python, but makes completion too slow...?
 "NeoBundle 'vim-scripts/python_fold'
