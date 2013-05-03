@@ -525,10 +525,10 @@ NeoBundle 'vimtaku/hl_matchit.vim'
 " easy to change surround
 NeoBundle 'surround.vim'
 
-" easy to use history of yanks (see below seeting)
+" easy to use history of yanks (see below settings)
 "NeoBundle 'vim-scripts/YankRing.vim'
 
-" use yanks in different processes (see below setting)
+" use yanks in different processes (see below settings)
 NeoBundle 'yanktmp.vim'
 
 " check undo: there seems trouble on python setting...
