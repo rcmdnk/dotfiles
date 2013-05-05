@@ -1,462 +1,6 @@
 " disable vi compatible mode (much better!)
 set nocompatible
 
-"" Feature check {{{
-"if has("all_builtin_terms")
-"  echomsg 'all_builtin_terms'
-"endif
-"if has("amiga")
-"  echomsg 'amiga'
-"endif
-"if has("arabic")
-"  echomsg 'arabic'
-"endif
-"if has("arp")
-"  echomsg 'arp'
-"endif
-"if has("autocmd")
-"  echomsg 'autocmd'
-"endif
-"if has("balloon_eval")
-"  echomsg 'balloon_eval'
-"endif
-"if has("balloon_multiline")
-"  echomsg 'balloon_multiline'
-"endif
-"if has("beos")
-"  echomsg 'beos'
-"endif
-"if has("browse")
-"  echomsg 'browse'
-"endif
-"if has("builtin_terms")
-"  echomsg 'builtin_terms'
-"endif
-"if has("byte_offset")
-"  echomsg 'byte_offset'
-"endif
-"if has("cindent")
-"  echomsg 'cindent'
-"endif
-"if has("clientserver")
-"  echomsg 'clientserver'
-"endif
-"if has("clipboard")
-"  echomsg 'clipboard'
-"endif
-"if has("cmdline_compl")
-"  echomsg 'cmdline_compl'
-"endif
-"if has("cmdline_hist")
-"  echomsg 'cmdline_hist'
-"endif
-"if has("cmdline_info")
-"  echomsg 'cmdline_info'
-"endif
-"if has("comments")
-"  echomsg 'comments'
-"endif
-"if has("cryptv")
-"  echomsg 'cryptv'
-"endif
-"if has("cscope")
-"  echomsg 'cscope'
-"endif
-"if has("compatible")
-"  echomsg 'compatible'
-"endif
-"if has("debug")
-"  echomsg 'debug'
-"endif
-"if has("dialog_con")
-"  echomsg 'dialog_con'
-"endif
-"if has("dialog_gui")
-"  echomsg 'dialog_gui'
-"endif
-"if has("diff")
-"  echomsg 'diff'
-"endif
-"if has("digraphs")
-"  echomsg 'digraphs'
-"endif
-"if has("dnd")
-"  echomsg 'dnd'
-"endif
-"if has("dos32")
-"  echomsg 'dos32'
-"endif
-"if has("dos16")
-"  echomsg 'dos16'
-"endif
-"if has("ebcdic")
-"  echomsg 'ebcdic'
-"endif
-"if has("emacs_tags")
-"  echomsg 'emacs_tags'
-"endif
-"if has("eval")
-"  echomsg 'eval'
-"endif
-"if has("ex_extra")
-"  echomsg 'ex_extra'
-"endif
-"if has("extra_search")
-"  echomsg 'extra_search'
-"endif
-"if has("farsi")
-"  echomsg 'farsi'
-"endif
-"if has("file_in_path")
-"  echomsg 'file_in_path'
-"endif
-"if has("filterpipe")
-"  echomsg 'filterpipe'
-"endif
-"if has("find_in_path")
-"  echomsg 'find_in_path'
-"endif
-"if has("float")
-"  echomsg 'float'
-"endif
-"if has("fname_case")
-"  echomsg 'fname_case'
-"endif
-"if has("folding")
-"  echomsg 'folding'
-"endif
-"if has("footer")
-"  echomsg 'footer'
-"endif
-"if has("fork")
-"  echomsg 'fork'
-"endif
-"if has("gettext")
-"  echomsg 'gettext'
-"endif
-"if has("gui")
-"  echomsg 'gui'
-"endif
-"if has("gui_athena")
-"  echomsg 'gui_athena'
-"endif
-"if has("gui_gtk")
-"  echomsg 'gui_gtk'
-"endif
-"if has("gui_gtk2")
-"  echomsg 'gui_gtk2'
-"endif
-"if has("gui_gnome")
-"  echomsg 'gui_gnome'
-"endif
-"if has("gui_mac")
-"  echomsg 'gui_mac'
-"endif
-"if has("gui_motif")
-"  echomsg 'gui_motif'
-"endif
-"if has("gui_photon")
-"  echomsg 'gui_photon'
-"endif
-"if has("gui_win32")
-"  echomsg 'gui_win32'
-"endif
-"if has("gui_win32s")
-"  echomsg 'gui_win32s'
-"endif
-"if has("gui_running")
-"  echomsg 'gui_running'
-"endif
-"if has("hangul_input")
-"  echomsg 'hangul_input'
-"endif
-"if has("iconv")
-"  echomsg 'iconv'
-"endif
-"if has("insert_expand")
-"  echomsg 'insert_expand'
-"endif
-"if has("jumplist")
-"  echomsg 'jumplist'
-"endif
-"if has("keymap")
-"  echomsg 'keymap'
-"endif
-"if has("langmap")
-"  echomsg 'langmap'
-"endif
-"if has("libcall")
-"  echomsg 'libcall'
-"endif
-"if has("linebreak")
-"  echomsg 'linebreak'
-"endif
-"if has("lispindent")
-"  echomsg 'lispindent'
-"endif
-"if has("listcmds")
-"  echomsg 'listcmds'
-"endif
-"if has("localmap")
-"  echomsg 'localmap'
-"endif
-"if has("lua")
-"  echomsg 'lua'
-"endif
-"if has("mac")
-"  echomsg 'mac'
-"endif
-"if has("macunix")
-"  echomsg 'macunix'
-"endif
-"if has("menu")
-"  echomsg 'menu'
-"endif
-"if has("mksession")
-"  echomsg 'mksession'
-"endif
-"if has("modify_fname")
-"  echomsg 'modify_fname'
-"endif
-"if has("mouse")
-"  echomsg 'mouse'
-"endif
-"if has("mouseshape")
-"  echomsg 'mouseshape'
-"endif
-"if has("mouse_dec")
-"  echomsg 'mouse_dec'
-"endif
-"if has("mouse_gpm")
-"  echomsg 'mouse_gpm'
-"endif
-"if has("mouse_netterm")
-"  echomsg 'mouse_netterm'
-"endif
-"if has("mouse_pterm")
-"  echomsg 'mouse_pterm'
-"endif
-"if has("mouse_sysmouse")
-"  echomsg 'mouse_sysmouse'
-"endif
-"if has("mouse_xterm")
-"  echomsg 'mouse_xterm'
-"endif
-"if has("multi_byte")
-"  echomsg 'multi_byte'
-"endif
-"if has("multi_byte_encoding")
-"  echomsg 'multi_byte_encoding'
-"endif
-"if has("multi_byte_ime")
-"  echomsg 'multi_byte_ime'
-"endif
-"if has("multi_lang")
-"  echomsg 'multi_lang'
-"endif
-"if has("mzscheme")
-"  echomsg 'mzscheme'
-"endif
-"if has("netbeans_intg")
-"  echomsg 'netbeans_intg'
-"endif
-"if has("netbeans_enabled")
-"  echomsg 'netbeans_enabled'
-"endif
-"if has("ole")
-"  echomsg 'ole'
-"endif
-"if has("os2")
-"  echomsg 'os2'
-"endif
-"if has("osfiletype")
-"  echomsg 'osfiletype'
-"endif
-"if has("path_extra")
-"  echomsg 'path_extra'
-"endif
-"if has("perl")
-"  echomsg 'perl'
-"endif
-"if has("persistent_undo")
-"  echomsg 'persistent_undo'
-"endif
-"if has("postscript")
-"  echomsg 'postscript'
-"endif
-"if has("printer")
-"  echomsg 'printer'
-"endif
-"if has("profile")
-"  echomsg 'profile'
-"endif
-"if has("python")
-"  echomsg 'python'
-"endif
-"if has("qnx")
-"  echomsg 'qnx'
-"endif
-"if has("quickfix")
-"  echomsg 'quickfix'
-"endif
-"if has("reltime")
-"  echomsg 'reltime'
-"endif
-"if has("rightleft")
-"  echomsg 'rightleft'
-"endif
-"if has("ruby")
-"  echomsg 'ruby'
-"endif
-"if has("scrollbind")
-"  echomsg 'scrollbind'
-"endif
-"if has("showcmd")
-"  echomsg 'showcmd'
-"endif
-"if has("signs")
-"  echomsg 'signs'
-"endif
-"if has("smartindent")
-"  echomsg 'smartindent'
-"endif
-"if has("sniff")
-"  echomsg 'sniff'
-"endif
-"if has("startuptime")
-"  echomsg 'startuptime'
-"endif
-"if has("statusline")
-"  echomsg 'statusline'
-"endif
-"if has("sun_workshop")
-"  echomsg 'sun_workshop'
-"endif
-"if has("spell")
-"  echomsg 'spell'
-"endif
-"if has("syntax")
-"  echomsg 'syntax'
-"endif
-"if has("syntax_items")
-"  echomsg 'syntax_items'
-"endif
-"if has("system")
-"  echomsg 'system'
-"endif
-"if has("tag_binary")
-"  echomsg 'tag_binary'
-"endif
-"if has("tag_old_static")
-"  echomsg 'tag_old_static'
-"endif
-"if has("tag_any_white")
-"  echomsg 'tag_any_white'
-"endif
-"if has("tcl")
-"  echomsg 'tcl'
-"endif
-"if has("terminfo")
-"  echomsg 'terminfo'
-"endif
-"if has("termresponse")
-"  echomsg 'termresponse'
-"endif
-"if has("textobjects")
-"  echomsg 'textobjects'
-"endif
-"if has("tgetent")
-"  echomsg 'tgetent'
-"endif
-"if has("title")
-"  echomsg 'title'
-"endif
-"if has("toolbar")
-"  echomsg 'toolbar'
-"endif
-"if has("unix")
-"  echomsg 'unix'
-"endif
-"if has("user_commands")
-"  echomsg 'user_commands'
-"endif
-"if has("viminfo")
-"  echomsg 'viminfo'
-"endif
-"if has("vim_starting")
-"  echomsg 'vim_starting'
-"endif
-"if has("vertsplit")
-"  echomsg 'vertsplit'
-"endif
-"if has("virtualedit")
-"  echomsg 'virtualedit'
-"endif
-"if has("visual")
-"  echomsg 'visual'
-"endif
-"if has("visualextra")
-"  echomsg 'visualextra'
-"endif
-"if has("vms")
-"  echomsg 'vms'
-"endif
-"if has("vreplace")
-"  echomsg 'vreplace'
-"endif
-"if has("wildignore")
-"  echomsg 'wildignore'
-"endif
-"if has("wildmenu")
-"  echomsg 'wildmenu'
-"endif
-"if has("windows")
-"  echomsg 'windows'
-"endif
-"if has("winaltkeys")
-"  echomsg 'winaltkeys'
-"endif
-"if has("win16")
-"  echomsg 'win16'
-"endif
-"if has("win32")
-"  echomsg 'win32'
-"endif
-"if has("win64")
-"  echomsg 'win64'
-"endif
-"if has("win32unix")
-"  echomsg 'win32unix'
-"endif
-"if has("win95")
-"  echomsg 'win95'
-"endif
-"if has("writebackup")
-"  echomsg 'writebackup'
-"endif
-"if has("xfontset")
-"  echomsg 'xfontset'
-"endif
-"if has("xim")
-"  echomsg 'xim'
-"endif
-"if has("xsmp")
-"  echomsg 'xsmp'
-"endif
-"if has("xsmp_interact")
-"  echomsg 'xsmp_interact'
-"endif
-"if has("xterm_clipboard")
-"  echomsg 'xterm_clipboard'
-"endif
-"if has("xterm_save")
-"  echomsg 'xterm_save'
-"endif
-"if has("x11")
-"  echomsg 'x11'
-"endif
-"" }}}
-
 " neobundle {{{
 
 "" usage:
@@ -571,7 +115,7 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'kana/vim-submode'
 
 " open browser
-"NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'tyru/open-browser.vim'
 
 " easymotion
 "NeoBundle 'Lokaltog/vim-easymotion'
@@ -624,11 +168,11 @@ NeoBundle 'osyo-manga/vim-anzu'
 
 " color scheme
 "NeoBundle 'ujihisa/unite-colorscheme'
-NeoBundle 'tomasr/molokai'
+"NeoBundle 'tomasr/molokai'
 "NeoBundle 'nanotech/jellybeans.vim'
 "NeoBundle 'altercation/vim-colors-solarized'
 "NeoBundle 'vim-scripts/newspaper.vim'
-NeoBundle 'w0ng/vim-hybrid'
+"NeoBundle 'w0ng/vim-hybrid'
 
 """"plugins"""""
 
@@ -656,6 +200,10 @@ augroup END
 " Also switch on highlighting the last used search pattern.
 syntax on
 set hlsearch
+
+""" mapleaader (<Leader>)
+let mapleader = ","
+noremap \ , " use \ as ,
 
 " allow backspacing over everything in insert mode
 " indent: spaces of the top of the line
@@ -706,7 +254,7 @@ set cursorline     " enable highlight on current line:
                    " but make moving cursor slow for heavily highlighted file...
 set nonumber       " don't show line numbers
 set autoindent
-set scrolloff=999  " show cursor at middle 
+set scrolloff=999  " show cursor at middle
                    " (scrolloff is number of lines which should be shown above
                    " and below cursor.
                    "  such large number force to stay a cursor at middle
@@ -786,7 +334,7 @@ if has('virtualedit') && &virtualedit =~# '\<all\>'
   autocmd myaugroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
 endif
 
-" max columns for syntax search 
+" max columns for syntax search
 " Such XML file has too much syntax which make vim drastically slow
 set synmaxcol=500 "default 3000
 
@@ -880,27 +428,26 @@ let g:unite_enable_start_insert=1
 let g:unite_split_rule='botright' " default topleft
 let g:unite_winheight=10          " default 20
 let g:unite_winwidth=60           " default 90
+
+" Unite prefix
+nnoremap [unite] <Nop>
+nmap <Leader>u [unite]
+
 " show buffer
-nnoremap <silent> ,ub :Unite buffer<CR>
+nnoremap <silent> [unite]b :Unite buffer<CR>
 " show files/directories with full path
 " -buffer-name-files enable to use wild card
-"nnoremap <silent> ,uf :UniteWithBufferDir -buffer-name=files file<CR>
+"nnoremap <silent> <Leader>uf :UniteWithBufferDir -buffer-name=files file<CR>
 " WithBufferDir for file search freezes when try to delete even current
 " directory names in insert mode...
-nnoremap <silent> ,uf :Unite -buffer-name=files file<CR>
+nnoremap <silent> [unite]f :Unite -buffer-name=files file<CR>
 " show register
-nnoremap <silent> ,ur :Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
 " show opened file history including current buffers
-nnoremap <silent> ,um :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
+nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
 " show lines of current file
-nnoremap <silent> ,ul :Unite line<CR>
+nnoremap <silent> [unite]l :Unite line<CR>
 " }}} Unite
-
-" Align {{{
-noremap ,a= :Align =<CR>
-noremap ,a" :Align "<CR>
-noremap ,a# :Align #<CR>
-" }}} Align
 
 " vim-smartchr {{{
 "inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
@@ -908,7 +455,7 @@ noremap ,a# :Align #<CR>
 
 "" YankRing {{{
 "
-"nnoremap ,y :YRShow<CR>
+"nnoremap <Leader>y :YRShow<CR>
 "" avoid to store single letter to normal register
 "let g:yankring_history_dir=$HOME.'/.vim/'
 ""let g:yankring_n_keys = 'Y D' " Y D x X
@@ -937,10 +484,45 @@ noremap ,a# :Align #<CR>
 
 " yanktmp {{{
 let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
-map <silent> sy :call YanktmpYank()<CR>
-map <silent> sp :call YanktmpPaste_p()<CR>
-map <silent> sP :call YanktmpPaste_P()<CR>
+
+" yanktmp prefix
+noremap [yanktmp] <Nop>
+map s [yanktmp]
+
+" show buffer
+noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
+noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
+noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
 " }}} yanktmp
+
+" yank share with wviminfo/rviminfo {{{
+"
+"" yankshare prefix
+"noremap [yshare] <Nop>
+"map s [yshare]
+"
+"nnoremap <silent> [yshare]yy "syy:wv!<CR>
+"nnoremap <silent> [yshare]yY "syY:wv!<CR>
+"nnoremap <silent> [yshare]y$ "sy$:wv!<CR>
+"nnoremap <silent> [yshare]y0 "sy0:wv!<CR>
+"nnoremap <silent> [yshare]yw "syw:wv!<CR>
+"nnoremap <silent> [yshare]cc "scc<ESC>:wv!<CR>i
+"nnoremap <silent> [yshare]c$ "sc$<ESC>:wv!<CR>i
+"nnoremap <silent> [yshare]c0 "sc0<ESC>:wv!<CR>i
+"nnoremap <silent> [yshare]cw "scw<ESC>:wv!<CR>i
+"nnoremap <silent> [yshare]dd "sdd:wv!<CR>
+"nnoremap <silent> [yshare]d$ "sd$:wv!<CR>
+"nnoremap <silent> [yshare]d0 "sd0:wv!<CR>
+"nnoremap <silent> [yshare]dw "sdw:wv!<CR>
+"
+"vnoremap <silent> [yshare]y "sy:wv!<CR>
+"vnoremap <silent> [yshare]Y "sY:wv!<CR>
+"
+"nnoremap <silent> [yshare]p :rv<CR>"sp
+"nnoremap <silent> [yshare]P :rv<CR>"sP
+"nnoremap <silent> [yshare]gp :rv<CR>"sgp
+"nnoremap <silent> [yshare]gP :rv<CR>"sgP
+"" }}} yankshare
 
 " status line {{{
 set laststatus=2 " always show
@@ -951,8 +533,8 @@ set statusline+=%=%l/%L,%c%V%8P
 
 " neocomplcache {{{
 "let g:neocomplcache_enable_at_startup = 1 " enable at start up
-"let g:neocomplcache_smartcase = 1 " distinguish capital and 
-"let g:neocomplcache_enable_camel_case_completion = 1 
+"let g:neocomplcache_smartcase = 1 " distinguish capital and
+"let g:neocomplcache_enable_camel_case_completion = 1
 "let g:neocomplcache_enable_underbar_completion = 1
 "let g:neocomplcache_min_syntax_length = 3
 " }}}
@@ -1012,51 +594,51 @@ hi EasyMotionTarget ctermbg=none ctermfg=red
 hi EasyMotionShade  ctermbg=none ctermfg=blue
 " }}} vim-easymotion
 
-" jedi-vim{{{
+"" jedi-vim{{{
 "let g:jedi#auto_initialization = 0
 "let g:jedi#auto_vim_configuration = 0
 "let g:jedi#goto_command = "<leader>g"
 "let g:jedi#get_definition_command = "<leader>d"
 "let g:jedi#pydoc = "K"
 "let g:jedi#autocompletion_command = "<C-Space>"
-" }}} jedi-vim
+"" }}} jedi-vim
 
-" SimpleNote{{{
-" for simplenote.vim
-"let g:SimplenoteUsername = ''
-"let g:SimplenotePassword = ''
-if filereadable(expand('$HOME/.Simplenote.vim'))
-  source $HOME/.Simplenote.vim
-endif
+"" SimpleNote{{{
+"" for simplenote.vim
+""let g:SimplenoteUsername = ''
+""let g:SimplenotePassword = ''
+"if filereadable(expand('$HOME/.Simplenote.vim'))
+"  source $HOME/.Simplenote.vim
+"endif
+"
+"" for vimplenote-vim
+""let g:VimpleNoteUsername = ''
+""let g:VimpleNotePassword = ''
+"" move to $HOME/.VimpleNote
+"if filereadable(expand('$HOME/.VimpleNote.vim'))
+"  " in vimplenote/autoload/vimplenote.vim:get_email(),
+"  " email must be input even if VimpleNoteUsername was defined,
+"  " because it checks self.token, it is always 0 here...
+"  source $HOME/.VimpleNote.vim
+"endif
+"
+"function! Sn()
+"  VimpleNote -l
+"  wincmd w
+"  wincmd q
+"endfunction
+"
+"" }}} Simplenote
 
-" for vimplenote-vim
-"let g:VimpleNoteUsername = ''
-"let g:VimpleNotePassword = ''
-" move to $HOME/.VimpleNote
-if filereadable(expand('$HOME/.VimpleNote.vim'))
-  " in vimplenote/autoload/vimplenote.vim:get_email(),
-  " email must be input even if VimpleNoteUsername was defined,
-  " because it checks self.token, it is always 0 here...
-  source $HOME/.VimpleNote.vim
-endif
-
-function! Sn()
-  VimpleNote -l
-  wincmd w
-  wincmd q
-endfunction
-
-" }}} Simplenote
-
-" Gmail{{{
-let g:gmail_imap = 'imap.gmail.com:993'
-let g:gmail_smtp = 'smtp.gmail.com:465'
-" path for openssl
-let &path = $path.'/usr/bin'
-if filereadable(expand('$HOME/.Gmail.vim'))
-  source $HOME/.Gmail.vim
-endif
-" }}} Gmail
+"" Gmail{{{
+"let g:gmail_imap = 'imap.gmail.com:993'
+"let g:gmail_smtp = 'smtp.gmail.com:465'
+"" path for openssl
+"let &path = $path.'/usr/bin'
+"if filereadable(expand('$HOME/.Gmail.vim'))
+"  source $HOME/.Gmail.vim
+"endif
+"" }}} Gmail
 
 " vim-indent-guides{{{
 let g:indent_guides_enable_on_vim_startup = 1
@@ -1113,13 +695,13 @@ autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applesc
 " map (for other than each plugin){{{
 " remapping, tips
 
-" n  Normal mode map. Defined using ':nmap' and ':nnoremap'.
-" i  Insert mode map. Defined using ':imap' and ':inoremap'.
-" v  Visual and select mode map. Defined using ':vmap' and ':vnoremap'.
-" x  Visual mode map. Defined using ':xmap' and ':xnoremap'.
-" s  Select mode map. Defined using ':smap' and ':snoremap'.
-" c  Command-line mode map. Defined using ':cmap' and ':cnoremap'.
-" o  Operator pending mode map. Defined using ':omap' and ':onoremap'.
+" n   Normal mode map. Defined using ':nmap' and ':nnoremap'.
+" i   Insert mode map. Defined using ':imap' and ':inoremap'.
+" v   Visual and select mode map. Defined using ':vmap' and ':vnoremap'.
+" x   Visual mode map. Defined using ':xmap' and ':xnoremap'.
+" s   Select mode map. Defined using ':smap' and ':snoremap'.
+" c   Command-line mode map. Defined using ':cmap' and ':cnoremap'.
+" o   Operator pending mode map. Defined using ':omap' and ':onoremap'.
 "
 " map and noremap:  normal + visual
 " nmap! and nnoremap!: other than normal mode
@@ -1166,17 +748,21 @@ nnoremap <C-e> <C-$>
 " Substitute for C-a (C-s default: non?)
 nnoremap <C-s> <C-a>
 
+" Swap colon <-> semicolon
+noremap ; :
+noremap : ;
+
 " tag jump (avoid crash with screen's key bind, C-' default: Non?)
 nnoremap <C-'> <C-t>
 " spell check toggle
-nnoremap <silent> ,s :set spell!<CR>
+nnoremap <silent> <Leader>s :set spell!<CR>
 " stop highlight for search
 "nnoremap <C-/> :noh<CR> " can't use C-/ ?
 "nnoremap <Esc> :noh<CR> " this makes something wrong
                          " at start when using vim w/o screen...
 "nnoremap <silent> <Esc><Esc> :noh<CR> " Esc mapping may be used others,
                                        " better to use others...
-nnoremap <silent> ,n :noh<CR>
+nnoremap <silent> <Leader>/ :noh<CR>
 " direct indent
 " this makes trouble at visual mode (indent twice for current line)
 "nnoremap > >>
@@ -1191,19 +777,19 @@ nnoremap = v=
 
 " insert file name
 "nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
-nnoremap <silent> ,f "%P
-nnoremap <silent> ,d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
+nnoremap <silent> <Leader>f "%P
+nnoremap <silent> <Leader>d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
 nnoremap <silent> "+ "+P
 nnoremap <silent> "* "*P
 
 " save/quit
-nnoremap ,w :w<CR>
-nnoremap ,q :q<CR>
-nnoremap ,wq :wq<CR>
-nnoremap ,1 :q!<CR>
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>wq :wq<CR>
+nnoremap <Leader>1 :q!<CR>
 
 " remove trail spaces
-nnoremap ,<Space>  :%s/<Space>\+$//g<CR><C-o>
+nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
 
 " insert mode (inoremap)
 
@@ -1216,10 +802,9 @@ inoremap <C-b> <Left>
 inoremap <C-f> <Right>
 
 " insert file/directory name
-"inoremap <silent> ,f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
-inoremap <silent> ,f <C-R>%
-inoremap <silent> ,d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
-
+"inoremap <silent> <Leader>f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
+inoremap <silent> <Leader>f <C-R>%
+inoremap <silent> <Leader>d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
 
 " < can't be used for mapping?
 " (maybe < has special means in vim scripts and need special treatment)
@@ -1287,7 +872,7 @@ cnoremap <C-a> <C-b>
 ""     :no a <silent> echo 'hoge'<CR>
 "" it doesn't show cmmands/results in command line (so above does nothing)
 ""     :no a <buffer>... effective in the current buffer only
-"" 
+""
 ""
 "" # Command line
 "" * shell command
