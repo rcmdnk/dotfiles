@@ -502,7 +502,7 @@ function gitupdate {
     echo $ret
     update=1
   fi
-  ret=$(git push)
+  ret=$(git push 2>&1)
   if ! echo $ret|grep -q "Everything up-to-date";then
     if [ $update -eq 0 ];then
       pwd
