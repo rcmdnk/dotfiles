@@ -298,7 +298,8 @@ set wildmenu
 " folding
 set foldmethod=marker
 "set foldmarker={{{,}}} "default
-autocmd myaugroup FileType cxx,C,py set foldmethod=syntax
+autocmd myaugroup FileType py set foldmethod=syntax
+autocmd myaugroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
 set foldlevel=0
 set foldnestmax=1
 
