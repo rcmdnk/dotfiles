@@ -688,6 +688,11 @@ nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
 "}}} LanguageTool
 
+" vim-anzu{{{
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=2
+"}}} LanguageTool
+
 " applescript{{{
 autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd myaugroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
