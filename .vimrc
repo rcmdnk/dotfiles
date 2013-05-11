@@ -411,7 +411,7 @@ if has('persistent_undo')
     call system('mkdir ' . vimundodir)
   endif
   set undofile
-  set undoreload=10000
+  set undoreload=1000
 endif
 set undolevels=1000
 " }}} undo

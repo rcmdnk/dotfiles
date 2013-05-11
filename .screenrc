@@ -141,15 +141,14 @@ termcap xterm-256color|xterms|xs ti=\E7\E[?47l
 terminfo xterm-256color|xterms|xs ti=\E7\E[?47l
 
 ### caption for each window
-caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%:%?%2n %h%-0L>%=%?%P *** copy/paste mode ***%:%?%-0='
+caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%2n %h%-0L>%=%?%P *** copy/paste mode ***%?%?%E *** command mode ***%?%-0='
 # %?%F      # if the window has the focus
 #  %{=d Wk} #   set attribute = {dim, black(k) on bright Write(W)}
 # %:        # else
 #  %{=d Kk} #   set attribute = {dim, black(k) on bright Black(K)}
 # %?        # end if
 # %?%P      # if copy/paste mode
-#   %{=d Bk}#   set attribute = {dim, black(k) on bright Blue(K)}
-# %:        # else (nothing)
+#   %{=d Bk}#   set attribute = {dim, black(k) on bright Blue(B)}
 # %?        # end if
 # %2n       # window number with width=2
 #           # space
@@ -159,7 +158,9 @@ caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%:%?%2n %h%-0L>%=%?%P *** co
 # %=        # Padding point
 # %?%P      # if copy/paste mode
 #   *** copy/paste mode *** # draw this sentence
-# %:        # else (nothing)
+# %?        # end if
+# %?%E      # if copy/paste mode
+#   *** command mode *** # draw this sentence
 # %?        # end if
 # %-0=      # pad the string to the display's width. "-0" means start from
 #           # the rightest side 
