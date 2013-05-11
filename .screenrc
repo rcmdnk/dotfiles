@@ -143,9 +143,9 @@ terminfo xterm-256color|xterms|xs ti=\E7\E[?47l
 ### caption for each window
 caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%:%?%2n %h%-0L>%=%?%P *** copy/paste mode ***%:%?%-0='
 # %?%F      # if the window has the focus
-#  %{=d Wk} #   set attribute = {dim, black(k) on bright write(W)}
+#  %{=d Wk} #   set attribute = {dim, black(k) on bright Write(W)}
 # %:        # else
-#  %{=d Kk} #   set attribute = {dim, black(k) on bright black(K)}
+#  %{=d Kk} #   set attribute = {dim, black(k) on bright Black(K)}
 # %?        # end if
 # %?%P      # if copy/paste mode
 #   %{=d Bk}#   set attribute = {dim, black(k) on bright Blue(K)}
@@ -170,11 +170,11 @@ caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%:%?%2n %h%-0L>%=%?%P *** co
 
 ### hardstatus
 hardstatus alwayslastline "%{= Kk}%-w%40L>%{= Wk}%n %t%{-}%+w"
-# %{= Kk}   # set attribute = {black(k) on bright black(K)}
+# %{= Kk}   # set attribute = {black(k) on bright Black(K)}
 # %-w       # windows' list up to the current window (shown as "%n %t")
 # %40L>     # Mark here as a point to move when truncation
 #           # Try to move this point to the 40% point
-# %{= Wk}   # set attribute = {black(k) on bright write(W)}
+# %{= Wk}   # set attribute = {black(k) on bright Write(W)}
 # %n        # current window number
 # %t        # current window title
 # %{-}      # remove the set from the current attributes
