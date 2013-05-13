@@ -73,7 +73,7 @@ NeoBundle 'surround.vim'
 "NeoBundle 'vim-scripts/YankRing.vim'
 
 " use yanks in different processes (see below settings)
-NeoBundle 'yanktmp.vim'
+"NeoBundle 'yanktmp.vim'
 
 " check undo: there seems trouble on python setting...
 "NeoBundle 'Gundo'
@@ -483,47 +483,52 @@ nnoremap <silent> [unite]l :Unite line<CR>
 "
 "" }}} YankRing
 
-" yanktmp {{{
-let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
-
-" yanktmp prefix
-noremap [yanktmp] <Nop>
-map s [yanktmp]
-
-" show buffer
-noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
-noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
-noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
-" }}} yanktmp
+"" yanktmp {{{
+"let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
+"
+"" yanktmp prefix
+"noremap [yanktmp] <Nop>
+"map s [yanktmp]
+"
+"" show buffer
+"noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
+"noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
+"noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
+"" }}} yanktmp
 
 " yank share with wviminfo/rviminfo {{{
 "
-"" yankshare prefix
-"noremap [yshare] <Nop>
-"map s [yshare]
-"
-"nnoremap <silent> [yshare]yy "syy:wv!<CR>
-"nnoremap <silent> [yshare]yY "syY:wv!<CR>
-"nnoremap <silent> [yshare]y$ "sy$:wv!<CR>
-"nnoremap <silent> [yshare]y0 "sy0:wv!<CR>
-"nnoremap <silent> [yshare]yw "syw:wv!<CR>
-"nnoremap <silent> [yshare]cc "scc<ESC>:wv!<CR>i
-"nnoremap <silent> [yshare]c$ "sc$<ESC>:wv!<CR>i
-"nnoremap <silent> [yshare]c0 "sc0<ESC>:wv!<CR>i
-"nnoremap <silent> [yshare]cw "scw<ESC>:wv!<CR>i
-"nnoremap <silent> [yshare]dd "sdd:wv!<CR>
-"nnoremap <silent> [yshare]d$ "sd$:wv!<CR>
-"nnoremap <silent> [yshare]d0 "sd0:wv!<CR>
-"nnoremap <silent> [yshare]dw "sdw:wv!<CR>
-"
-"vnoremap <silent> [yshare]y "sy:wv!<CR>
-"vnoremap <silent> [yshare]Y "sY:wv!<CR>
-"
-"nnoremap <silent> [yshare]p :rv<CR>"sp
-"nnoremap <silent> [yshare]P :rv<CR>"sP
-"nnoremap <silent> [yshare]gp :rv<CR>"sgp
-"nnoremap <silent> [yshare]gP :rv<CR>"sgP
-"" }}} yankshare
+" yankshare prefix
+noremap [yshare] <Nop>
+map s [yshare]
+let g:yankshare_file = ''
+
+nnoremap <silent> [yshare]y  "syy:wv!<CR>
+nnoremap <silent> [yshare]yy "syy:wv!<CR>
+nnoremap <silent> [yshare]Y  "sY:wv!<CR>
+nnoremap <silent> [yshare]y$ "sy$:wv!<CR>
+nnoremap <silent> [yshare]y0 "sy0:wv!<CR>
+nnoremap <silent> [yshare]yw "syw:wv!<CR>
+nnoremap <silent> [yshare]cc "scc<ESC>:wv!<CR>i
+nnoremap <silent> [yshare]C  "sC<ESC>:wv!<CR>i
+nnoremap <silent> [yshare]c$ "sc$<ESC>:wv!<CR>i
+nnoremap <silent> [yshare]c0 "sc0<ESC>:wv!<CR>i
+nnoremap <silent> [yshare]cw "scw<ESC>:wv!<CR>i
+nnoremap <silent> [yshare]dd "sdd:wv!<CR>
+nnoremap <silent> [yshare]D  "sD:wv!<CR>
+nnoremap <silent> [yshare]d$ "sd$:wv!<CR>
+nnoremap <silent> [yshare]d0 "sd0:wv!<CR>
+nnoremap <silent> [yshare]dw "sdw:wv!<CR>
+
+vnoremap <silent> [yshare]y "sy:wv!<CR>
+vnoremap <silent> [yshare]c "sc<ESC>:wv!<CR>i
+vnoremap <silent> [yshare]d "sd:wv!<CR>
+
+nnoremap <silent> [yshare]p :rv!<CR>"sp
+nnoremap <silent> [yshare]P :rv!<CR>"sP
+nnoremap <silent> [yshare]gp :rv!<CR>"sgp
+nnoremap <silent> [yshare]gP :rv!<CR>"sgP
+" }}} yankshare
 
 " status line {{{
 set laststatus=2 " always show
