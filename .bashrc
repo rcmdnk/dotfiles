@@ -725,7 +725,7 @@ function wd {
 export SCREEN_PS1="(-_-) $ " # used for screen command in .screenrc
 if [[ "$TERM" =~ "screen" ]]; then # {{{
   # "\\" doesn't work well, use \134 instead
-  PS1="\[\ek\h \W\e\134\e]0;\h \w\a\]\$(\
+  PS1="\[\ek\W\e\134\e]0;\w\a\]\$(\
     ret=\$?
     rand=\$((RANDOM%36));\
     if [ \$ret -eq 0 ];then\

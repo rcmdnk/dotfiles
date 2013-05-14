@@ -141,7 +141,7 @@ termcap xterm-256color|xterms|xs ti=\E7\E[?47l
 terminfo xterm-256color|xterms|xs ti=\E7\E[?47l
 
 ### caption for each window
-caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%2n %h%-0L>%=%?%P *** copy/paste mode ***%?%?%E *** command mode ***%?%-0='
+caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%n %H %h%-0L>%=%?%P *** copy/paste mode ***%?%?%E *** command mode ***%?%-0='
 # %?%F      # if the window has the focus
 #  %{=d Wk} #   set attribute = {dim, black(k) on bright Write(W)}
 # %:        # else
@@ -150,7 +150,9 @@ caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%2n %h%-0L>%=%?%P *** copy
 # %?%P      # if copy/paste mode
 #   %{=d Bk}#   set attribute = {dim, black(k) on bright Blue(B)}
 # %?        # end if
-# %2n       # window number with width=2
+# %n        # window number
+#           # space
+# %H        # hostname of the system
 #           # space
 # %h        # window' hardstatus
 # %L>       # Mark the current text position for the next truncation
@@ -170,13 +172,16 @@ caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%2n %h%-0L>%=%?%P *** copy
 #           # in the left of "%L>"
 
 ### hardstatus
-hardstatus alwayslastline "%{= Kk}%-w%40L>%{= Wk}%n %t%{-}%+w"
+hardstatus alwayslastline "%{= Kk}%-w%40L>%{= Wk}%n %H %t%{-}%+w"
 # %{= Kk}   # set attribute = {black(k) on bright Black(K)}
 # %-w       # windows' list up to the current window (shown as "%n %t")
 # %40L>     # Mark here as a point to move when truncation
 #           # Try to move this point to the 40% point
 # %{= Wk}   # set attribute = {black(k) on bright Write(W)}
 # %n        # current window number
+#           # space
+# %H        # hostname of the system
+#           # space
 # %t        # current window title
 # %{-}      # remove the set from the current attributes
 # %+w       # windows' list starting with the window after the current one (shown as "%n %t")
