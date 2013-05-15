@@ -141,7 +141,7 @@ termcap xterm-256color|xterms|xs ti=\E7\E[?47l
 terminfo xterm-256color|xterms|xs ti=\E7\E[?47l
 
 ### caption for each window
-caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%n %H %L=%h%>%?%P *** copy/paste mode ***%?%?%E *** command mode ***%?%-0='
+caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%n %L=%h%>%?%P *** copy/paste mode ***%?%?%E *** command mode ***%?%-0='
 # %?%F      # if the window has the focus
 #  %{=d Wk} #   set attribute = {dim, black(k) on bright Write(W)}
 # %:        # else
@@ -151,8 +151,6 @@ caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%n %H %L=%h%>%?%P *** copy
 #   %{=d Bk}#   set attribute = {dim, black(k) on bright Blue(B)}
 # %?        # end if
 # %n        # window number
-#           # space
-# %H        # hostname of the system
 #           # space
 # %L=       # Mark the position for the next truncation
 # %h        # window' hardstatus
