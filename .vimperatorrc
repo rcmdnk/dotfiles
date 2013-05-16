@@ -108,6 +108,14 @@ nnoremap <C-m> <CR>
 nnoremap <C-[> <Esc>
 nnoremap Q :qmarks<CR>
 
+js<<EOM
+  if (liberator.has("MacUnix")) {
+    liberator.execute("nnoremap yo y:open <M-v>");
+  } else {
+    liberator.execute("nnoremap yo y:open <C-v>");
+  }
+EOM
+
 " other than normal mode
 nnoremap! <C-[> <Esc>
 

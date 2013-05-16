@@ -41,5 +41,5 @@ set bell-style none
 # meta
 set convert-meta off
 set input-meta on
-set meta-flag on
 set output-meta on
+set meta-flag on
