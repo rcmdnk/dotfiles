@@ -698,6 +698,19 @@ let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
 "}}} LanguageTool
 
+" undotree{{{
+"nmap <Leader>u :UndotreeToggle<CR>
+"let g:undotree_SetFocusWhenToggle = 1
+"let g:undotree_SplitLocation = 'topleft'
+"let g:undotree_SplitWidth = 35
+"let g:undotree_diffAutoOpen = 1
+"let g:undotree_diffpanelHeight = 25
+"let g:undotree_RelativeTimestamp = 1
+"let g:undotree_TreeNodeShape = '*'
+"let g:undotree_HighlightChangedText = 1
+"let g:undotree_HighlightSyntax = "UnderLined"
+"}}}
+
 " applescript{{{
 autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd myaugroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
