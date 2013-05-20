@@ -161,7 +161,7 @@ NeoBundle 'vim-scripts/LanguageTool'
 "      \}
 
 " Syntax
-NeoBundle 'scrooloose/syntastic'
+"NeoBundle 'scrooloose/syntastic'
 
 " Count searching objects
 NeoBundle 'osyo-manga/vim-anzu'
@@ -691,12 +691,12 @@ nmap n <Plug>(anzu-n-with-echo)
 nmap N <Plug>(anzu-N-with-echo)
 nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
-"}}} LanguageTool
+"}}} vim-anzu
 
-" vim-anzu{{{
+" syntastic{{{
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
-"}}} LanguageTool
+"}}} syntastic
 
 " undotree{{{
 "nmap <Leader>u :UndotreeToggle<CR>
@@ -740,7 +740,7 @@ autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applesc
 " *** should not use <C-i> and <C-m> for mappings!
 " If you set mappings for <C-i> and <C-m>,
 " the mapping will also be enabled for <Tab> and <CR>, respectively.
-" Others seems no having such functionality...?
+" Others can be mapped separately.
 
 
 
@@ -814,6 +814,12 @@ nnoremap <Leader>1 :q!<CR>
 
 " remove trail spaces
 nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
+
+" search: very magic mode
+nnoremap / /\v
+" to check patterns:
+" :h pattern-overview 
+
 
 " insert mode (inoremap)
 
