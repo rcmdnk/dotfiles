@@ -483,19 +483,19 @@ function gitupdate {
     if [ -f ~/.gitavoid ];then
       local avoidword=(`cat ~/.gitavoid`)
       for a in ${avoidword[@]};do
+        echo 'hoge0'
         if ret=`grep -q $a $difffiles`;then
           echo "avoid word $a is included!!!"
           echo $ret
           return
         fi
+        echo 'hoge1'
       done
     fi
     printf "\n"
     update=1
   fi
-  echo 'hoge0'
   ret=`git commit -a -m "$difffiles, from $OSTYPE"`
-  echo 'hoge1'
   if echo $ret|grep -q "changed";then
     if [ $update -eq 0 ];then
       pwd
@@ -503,7 +503,6 @@ function gitupdate {
     echo $ret
     update=1
   fi
-  echo 'hoge2'
 
   ret=$(git pull --rebase)
   if [ "$(echo $ret|grep "Already up-to-date")" == "" ] &&\
