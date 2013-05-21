@@ -166,6 +166,9 @@ NeoBundle 'vim-scripts/LanguageTool'
 " Count searching objects
 NeoBundle 'osyo-manga/vim-anzu'
 
+" Singletop
+NeoBundle 'thinca/vim-singleton'
+
 " color scheme
 "NeoBundle 'ujihisa/unite-colorscheme'
 "NeoBundle 'tomasr/molokai'
