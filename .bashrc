@@ -488,7 +488,6 @@ function gitupdate {
           echo $ret
           return
         fi
-        echo 'hoge1'
       done
     fi
     printf "\n"
