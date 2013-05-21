@@ -482,12 +482,21 @@ function gitupdate {
     pwd
     if [ -f ~/.gitavoid ];then
       local avoidword=(`cat ~/.gitavoid`)
-      for a in ${avoidword[@]};do
-        if ret=`grep -q $a $difffiles`;then
-          echo "avoid word $a is included!!!"
-          echo $ret
-          return
-        fi
+      #for a in ${avoidword[@]};do
+      #  if ret=`grep -q $a $difffiles`;then
+      #    echo "avoid word $a is included!!!"
+      #    echo $ret
+      #    return
+      #  fi
+      #done
+      for f in `git ls-files`;do
+        for a in ${avoidword[@]};do
+          if ret=`grep -q $a $difffiles`;then
+            echo "avoid word $a is included!!!"
+            echo $ret
+            return
+          fi
+        done
       done
     fi
     printf "\n"
