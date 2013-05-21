@@ -493,7 +493,9 @@ function gitupdate {
     printf "\n"
     update=1
   fi
+  echo 'hoge0'
   ret=`git commit -a -m "$difffiles, from $OSTYPE"`
+  echo 'hoge1'
   if echo $ret|grep -q "nothing to commit";then
     if [ $update -eq 0 ];then
       pwd
@@ -501,6 +503,7 @@ function gitupdate {
     echo $ret
     update=1
   fi
+  echo 'hoge2'
 
   ret=$(git pull --rebase)
   if [ "$(echo $ret|grep "Already up-to-date")" == "" ] &&\
