@@ -59,8 +59,10 @@ export XMODIFIERS="@im=kinput2"
 #export LANG=C
 export LANG="en_GB.UTF-8"
 #export LANG="en_US.UTF-8"
-#export LANG=ja_JP.eucJP
-#export LANG=ja_JP.UTF-8
+#export LANG="ja_JP.eucJP"
+#export LANG="ja_JP.UTF-8"
+
+#export LC_ALL="ja_JP.UTF-8"
 
 # Editors
 export VISUAL=vim
@@ -480,18 +482,35 @@ function gitupdate {
     pwd
     if [ -f ~/.gitavoid ];then
       local avoidword=(`cat ~/.gitavoid`)
-      for a in ${avoidword[@]};do
-        if grep -q $a $difffiles;then
-          echo "avoid word $a is included!!!"
-          grep $a $difffiles
-          return
-        fi
+      #for a in ${avoidword[@]};do
+      #  if ret=`grep -q $a $difffiles`;then
+      #    echo "avoid word $a is included!!!"
+      #    echo $ret
+      #    return
+      #  fi
+      #done
+      for f in `git ls-files`;do
+        for a in ${avoidword[@]};do
+          if ret=`grep -q $a $difffiles`;then
+            echo "avoid word $a is included!!!"
+            echo $ret
+            return
+          fi
+        done
       done
     fi
     printf "\n"
-    git commit -a -m "$difffiles, from $OSTYPE"
     update=1
   fi
+  ret=`git commit -a -m "$difffiles, from $OSTYPE"`
+  if echo $ret|grep -q "changed";then
+    if [ $update -eq 0 ];then
+      pwd
+    fi
+    echo $ret
+    update=1
+  fi
+
   ret=$(git pull --rebase)
   if [ "$(echo $ret|grep "Already up-to-date")" == "" ] &&\
      [ "$(echo $ret|grep "is up to date")" == "" ];then
