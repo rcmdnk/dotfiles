@@ -496,7 +496,7 @@ function gitupdate {
   echo 'hoge0'
   ret=`git commit -a -m "$difffiles, from $OSTYPE"`
   echo 'hoge1'
-  if echo $ret|grep -q "nothing to commit";then
+  if echo $ret|grep -q -v "nothing to commit";then
     if [ $update -eq 0 ];then
       pwd
     fi
