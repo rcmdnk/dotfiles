@@ -167,7 +167,7 @@ NeoBundle 'vim-scripts/LanguageTool'
 NeoBundle 'osyo-manga/vim-anzu'
 
 " Singletop
-NeoBundle 'thinca/vim-singleton'
+"NeoBundle 'thinca/vim-singleton'
 
 " color scheme
 "NeoBundle 'ujihisa/unite-colorscheme'
