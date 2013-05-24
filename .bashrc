@@ -110,7 +110,7 @@ elif [[ "$OSTYPE" =~ "cygwin" ]];then
 elif [[ "$OSTYPE" =~ "darwin" ]];then
   if type pbcopy >/dev/null 2>&1;then
     export CLXOS="pbcopy"
-    export CLX=$CLXOS
+    #export CLX=$CLXOS
   fi
 fi
 
