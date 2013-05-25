@@ -355,12 +355,13 @@ colorscheme ron
 " for spell checks
 hi SpellBad cterm=inverse ctermbg=0
 
+hi CursorLine cterm=none ctermfg=NONE ctermbg=NONE
 " only underline for cursorline
-hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+"hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 " Set all white characters on black background for current line
 "hi CursorLine cterm=underline ctermfg=white ctermbg=black
-au myaugroup InsertEnter * hi CursorLine cterm=underline,bold ctermfg=NONE ctermbg=NONE
-au myaugroup InsertLeave * hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+"au myaugroup InsertEnter * hi CursorLine cterm=underline,bold ctermfg=NONE ctermbg=NONE
+"au myaugroup InsertLeave * hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 
 " colors for completion
 hi Pmenu ctermbg=255 ctermfg=0 guifg=#000000 guibg=#999999
