@@ -169,6 +169,9 @@ NeoBundle 'osyo-manga/vim-anzu'
 " Singletop
 "NeoBundle 'thinca/vim-singleton'
 
+" splash
+"NeoBundle 'thinca/vim-splash'
+
 " color scheme
 "NeoBundle 'ujihisa/unite-colorscheme'
 "NeoBundle 'tomasr/molokai'
@@ -719,6 +722,22 @@ let g:syntastic_auto_loc_list=2
 autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd myaugroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
 "}}} applescript
+
+" splash{{{
+let g:splash#path = $HOME . '/.vimrc'
+"}}} splash
+
+" open .vimrc when starting w/o argument {{{
+autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | edit $MYVIMRC | endif
+function! s:GetBufByte()
+    let byte = line2byte(line('$') + 1)
+    if byte == -1
+        return 0
+    else
+        return byte - 1
+    endif
+endfunction
+" }}}
 
 " map (for other than each plugin){{{
 " remapping, tips

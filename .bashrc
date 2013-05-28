@@ -402,7 +402,7 @@ function sd { # Save dir {{{
 function cl { # Change directory to the Last directory {{{
   local HELP="
   Usage: cl [-lch] [-n <number> ]
-  If there are no arguments, you move to the last saved dirctory
+  If there are no arguments, you will move to the last saved dirctory
 
   Arguments:
      -l              Show saved directories
