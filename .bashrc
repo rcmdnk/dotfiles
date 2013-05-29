@@ -53,11 +53,11 @@ export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
 
 # XMODIFIERS
-export XMODIFIERS="@im=kinput2"
+#export XMODIFIERS="@im=kinput2"
 
 # Lang
 #export LANG=C
-export LANG="en_GB.UTF-8"
+#export LANG="en_GB.UTF-8"
 #export LANG="en_US.UTF-8"
 #export LANG="ja_JP.eucJP"
 #export LANG="ja_JP.UTF-8"

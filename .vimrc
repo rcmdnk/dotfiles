@@ -166,6 +166,10 @@ NeoBundle 'vim-scripts/LanguageTool'
 " Count searching objects
 NeoBundle 'osyo-manga/vim-anzu'
 
+" Git
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'gregsexton/gitv'
+
 " Singletop
 "NeoBundle 'thinca/vim-singleton'
 
