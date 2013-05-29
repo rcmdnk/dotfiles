@@ -1,0 +1,13 @@
+[user]
+  name = rcmdnk
+  email = rcmdnk@gmail.com
+
+[alias]
+  br = branch
+  co = clone
+  ci = commit -am
+  st = status
+
+[core]
+	filemode = false
+	autocrlf = false
