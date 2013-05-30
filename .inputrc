@@ -52,7 +52,11 @@ set expand-tilde off
 #"\M-b": backward-word
 
 # meta
-set convert-meta off
+#set convert-meta off
+#set input-meta on
+#set output-meta on
+#set meta-flag on
+
+set convert-meta on
 set input-meta on
 set output-meta on
-set meta-flag on
