@@ -50,6 +50,10 @@ set expand-tilde off
 #
 #"\M-f": forward-word
 #"\M-b": backward-word
+#"\M-f": backward-word
+#"\M-b": forward-word
+#"\ef": backward-char
+#"\eb": forward-char
 
 # meta
 #set convert-meta off
