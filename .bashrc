@@ -65,8 +65,8 @@ PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
 #export LC_ALL="ja_JP.UTF-8"
 
 # Editors
-export VISUAL=vim
-export EDITOR=vim
+#export VISUAL=vim
+#export EDITOR=vim
 export PAGER=less
 
 # Terminfo
@@ -646,6 +646,10 @@ function calc {
 # stty {{{
 # Disable terminal lock
 tty -s && stty stop undef
+tty -s && stty start undef
+if [[ "$OSTYPE" =~ "darwin" ]];then
+  tty -s && stty discard undef
+fi
 # }}}
 
 # For screen {{{
