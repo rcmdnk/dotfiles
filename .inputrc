@@ -56,11 +56,7 @@ set expand-tilde off
 #"\eb": forward-char
 
 # meta
-#set convert-meta off
-#set input-meta on
-#set output-meta on
-#set meta-flag on
-
-set convert-meta on
+set convert-meta off
 set input-meta on
 set output-meta on
+#set meta-flag on
