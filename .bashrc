@@ -646,6 +646,10 @@ function calc {
 # stty {{{
 # Disable terminal lock
 tty -s && stty stop undef
+tty -s && stty start undef
+if [[ "$OSTYPE" =~ "darwin" ]];then
+  tty -s && stty discard undef
+fi
 # }}}
 
 # For screen {{{
