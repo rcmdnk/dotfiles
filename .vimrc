@@ -860,8 +860,8 @@ inoremap <C-f> <Right>
 
 " insert file/directory name
 "inoremap <silent> <Leader>f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
-inoremap <silent> <Leader>f <C-R>%
-inoremap <silent> <Leader>d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
+"inoremap <silent> <Leader>f <C-R>%
+"inoremap <silent> <Leader>d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
 
 " < can't be used for mapping?
 " (maybe < has special means in vim scripts and need special treatment)
