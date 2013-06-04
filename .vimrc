@@ -213,7 +213,8 @@ set hlsearch
 
 """ mapleaader (<Leader>)
 let mapleader = ","
-noremap \ , " use \ as ,
+" use \ as ,
+noremap \ ,
 
 " allow backspacing over everything in insert mode
 " indent: spaces of the top of the line
@@ -225,7 +226,7 @@ set modeline       " enable to use settings written in the file
                    " use with comment lines: e.g.)
                    " # vim set foldmethod=marker:
                    " # vim set foldmarker={{{,}}}:
-set modelines=5    " number of lines to be read (form top and bottom) for
+set modelines=3    " number of lines to be read (form top and bottom) for
                    " modeline
 set tabstop=4      " width of <Tab> in view
 set shiftwidth=2   " width for indent
@@ -244,7 +245,7 @@ if has("win32unix") || has ("win64unix") || has("win32") || has ("win64")
 elseif has("unix") || has("mac")
   set directory=$TMPDIR/ " directory for swap file for unix/mac
 endif
-"set viminfo+=n~/.vim/viminfo.txt
+set viminfo+=n~/.viminfo
 
 set history=100    " keep 100 lines of command line history
 
@@ -340,6 +341,7 @@ if has('virtualedit') && &virtualedit =~# '\<all\>'
   nnoremap <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
   nnoremap <expr> r (col('.') >= col('$') ? '$' : '') . 'r'
   nnoremap <expr> R (col('.') >= col('$') ? '$' : '') . 'R'
+  nnoremap <expr> . (col('.') >= col('$') ? '$' : '') . '.'
   " autocmd is needed to overwrite YRShow's map,
   " and "_x to avoid register 1 letter
   autocmd myaugroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
@@ -428,6 +430,8 @@ set undolevels=1000
 " }}} undo
 
 " Unite {{{
+if ! empty(neobundle#get("Unite"))
+
 autocmd myaugroup FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
   nmap <buffer><Esc> <Plug>(unite_exit)
@@ -459,53 +463,63 @@ nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
 " show lines of current file
 nnoremap <silent> [unite]l :Unite line<CR>
+
+endif
 " }}} Unite
 
 " vim-smartchr {{{
-"inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
+if ! empty(neobundle#get("vim-smartchr"))
+inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
+endif
 " }}} vim-smartchr
 
-"" YankRing {{{
-"
-"nnoremap <Leader>y :YRShow<CR>
-"" avoid to store single letter to normal register
-"let g:yankring_history_dir=$HOME.'/.vim/'
-""let g:yankring_n_keys = 'Y D' " Y D x X
-""let g:yankring_enabled=0 " 1
-"let g:yankring_max_history=50 " 100
-"let g:yankring_max_display=50 " 500
-""let g:yankring_ignore_duplicate=0 " 1
-"let g:yankring_dot_repeat_yank=1
-"let g:yankring_clipboard_monitor=0 " 1
-"let g:yankring_min_element_length=2 " 1, :skip all single letter copy
-""let g:yankring_persist=0 " 1
-""let g:yankring_share_between_instances=0 " 1
-""let g:yankring_window_use_separate=0 " 1
-""let g:yankring_window_use_horiz=0
-""let g:yankring_window_auto_close=0 " 1
-"let g:yankring_window_width=50 " 30
-""let g:yankring_window_use_right=0 " 1
-""let g:yankring_window_increment=15 " 1
-"let g:yankring_manage_numbered_reg = 1 " 0
-""let g:yankring_paste_check_default_register = 0 "1
-"
-"" for warning :The yankring can only persist if the viminfo setting has a !
-""set viminfo+=!
-"
-"" }}} YankRing
+" YankRing {{{
+if ! empty(neobundle#get("YankRing"))
 
-"" yanktmp {{{
-"let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
-"
-"" yanktmp prefix
-"noremap [yanktmp] <Nop>
-"map s [yanktmp]
-"
-"" show buffer
-"noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
-"noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
-"noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
-"" }}} yanktmp
+nnoremap <Leader>y :YRShow<CR>
+" avoid to store single letter to normal register
+let g:yankring_history_dir=$HOME.'/.vim/'
+"let g:yankring_n_keys = 'Y D' " Y D x X
+"let g:yankring_enabled=0 " 1
+let g:yankring_max_history=50 " 100
+let g:yankring_max_display=50 " 500
+"let g:yankring_ignore_duplicate=0 " 1
+let g:yankring_dot_repeat_yank=1
+let g:yankring_clipboard_monitor=0 " 1
+let g:yankring_min_element_length=2 " 1, :skip all single letter copy
+"let g:yankring_persist=0 " 1
+"let g:yankring_share_between_instances=0 " 1
+"let g:yankring_window_use_separate=0 " 1
+"let g:yankring_window_use_horiz=0
+"let g:yankring_window_auto_close=0 " 1
+let g:yankring_window_width=50 " 30
+"let g:yankring_window_use_right=0 " 1
+"let g:yankring_window_increment=15 " 1
+let g:yankring_manage_numbered_reg = 1 " 0
+"let g:yankring_paste_check_default_register = 0 "1
+
+" for warning :The yankring can only persist if the viminfo setting has a !
+"set viminfo+=!
+
+endif
+" }}} YankRing
+
+" yanktmp {{{
+if ! empty(neobundle#get("yanktmp"))
+
+let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
+
+" yanktmp prefix
+noremap [yanktmp] <Nop>
+map s [yanktmp]
+
+" show buffer
+noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
+noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
+noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
+
+endif
+" }}} yanktmp
 
 " yank share with wviminfo/rviminfo {{{
 "
@@ -549,11 +563,15 @@ set statusline+=%=%l/%L,%c%V%8P
 " }}} status line
 
 " neocomplcache {{{
-"let g:neocomplcache_enable_at_startup = 1 " enable at start up
-"let g:neocomplcache_smartcase = 1 " distinguish capital and
-"let g:neocomplcache_enable_camel_case_completion = 1
-"let g:neocomplcache_enable_underbar_completion = 1
-"let g:neocomplcache_min_syntax_length = 3
+if ! empty(neobundle#get("neocomplcache"))
+
+let g:neocomplcache_enable_at_startup = 1 " enable at start up
+let g:neocomplcache_smartcase = 1 " distinguish capital and
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_min_syntax_length = 3
+
+endif
 " }}}
 
 " matchpair, matchit {{{
@@ -567,9 +585,13 @@ let b:match_ignorecase = 1
 " }}} matchpair, matchit
 
 " for hl_matchit {{{
+if ! empty(neobundle#get("hl_matchit"))
+
 let g:hl_matchit_enable_on_vim_startup = 1
 let g:hl_matchit_hl_groupname = 'Title'
 let g:hl_matchit_allow_ft_regexp = 'html\|vim\|ruby\|sh'
+
+endif
 "" }}} hl_matchit
 
 " paste at normal mode{{{
@@ -602,6 +624,8 @@ endif
 " }}} paste
 
 " vim-easymotion{{{
+if ! empty(neobundle#get("vim-easymotion"))
+
 let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
 "let g:EasyMotion_keys='ifjklasdweuocvbnm'
 let g:EasyMotion_do_mapping=0
@@ -609,55 +633,75 @@ let g:EasyMotion_leader_key=","
 let g:EasyMotion_grouping=1
 hi EasyMotionTarget ctermbg=none ctermfg=red
 hi EasyMotionShade  ctermbg=none ctermfg=blue
+
+endif
 " }}} vim-easymotion
 
-"" jedi-vim{{{
-"let g:jedi#auto_initialization = 0
-"let g:jedi#auto_vim_configuration = 0
-"let g:jedi#goto_command = "<leader>g"
-"let g:jedi#get_definition_command = "<leader>d"
-"let g:jedi#pydoc = "K"
-"let g:jedi#autocompletion_command = "<C-Space>"
-"" }}} jedi-vim
+" jedi-vim{{{
+if ! empty(neobundle#get("jedi-vim"))
 
-"" SimpleNote{{{
-"" for simplenote.vim
-""let g:SimplenoteUsername = ''
-""let g:SimplenotePassword = ''
-"if filereadable(expand('$HOME/.Simplenote.vim'))
-"  source $HOME/.Simplenote.vim
-"endif
-"
-"" for vimplenote-vim
-""let g:VimpleNoteUsername = ''
-""let g:VimpleNotePassword = ''
-"" move to $HOME/.VimpleNote
-"if filereadable(expand('$HOME/.VimpleNote.vim'))
-"  " in vimplenote/autoload/vimplenote.vim:get_email(),
-"  " email must be input even if VimpleNoteUsername was defined,
-"  " because it checks self.token, it is always 0 here...
-"  source $HOME/.VimpleNote.vim
-"endif
-"
-"function! Sn()
-"  VimpleNote -l
-"  wincmd w
-"  wincmd q
-"endfunction
-"
-"" }}} Simplenote
+let g:jedi#auto_initialization = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#goto_command = "<leader>g"
+let g:jedi#get_definition_command = "<leader>d"
+let g:jedi#pydoc = "K"
+let g:jedi#autocompletion_command = "<C-Space>"
 
-"" Gmail{{{
-"let g:gmail_imap = 'imap.gmail.com:993'
-"let g:gmail_smtp = 'smtp.gmail.com:465'
-"" path for openssl
-"let &path = $path.'/usr/bin'
-"if filereadable(expand('$HOME/.Gmail.vim'))
-"  source $HOME/.Gmail.vim
-"endif
-"" }}} Gmail
+endif
+" }}} jedi-vim
+
+" SimpleNote{{{
+if ! empty(neobundle#get("simplenote"))
+
+" for simplenote.vim
+"let g:SimplenoteUsername = ''
+"let g:SimplenotePassword = ''
+if filereadable(expand('$HOME/.Simplenote.vim'))
+  source $HOME/.Simplenote.vim
+endif
+
+endif
+
+if ! empty(neobundle#get("vimnote"))
+
+" for vimplenote-vim
+"let g:VimpleNoteUsername = ''
+"let g:VimpleNotePassword = ''
+" move to $HOME/.VimpleNote
+if filereadable(expand('$HOME/.VimpleNote.vim'))
+  " in vimplenote/autoload/vimplenote.vim:get_email(),
+  " email must be input even if VimpleNoteUsername was defined,
+  " because it checks self.token, it is always 0 here...
+  source $HOME/.VimpleNote.vim
+endif
+
+function! Sn()
+  VimpleNote -l
+  wincmd w
+  wincmd q
+endfunction
+
+endif
+
+" }}} Simplenote
+
+" Gmail{{{
+if ! empty(neobundle#get("gmail"))
+
+let g:gmail_imap = 'imap.gmail.com:993'
+let g:gmail_smtp = 'smtp.gmail.com:465'
+" path for openssl
+let &path = $path.'/usr/bin'
+if filereadable(expand('$HOME/.Gmail.vim'))
+  source $HOME/.Gmail.vim
+endif
+
+endif
+" }}} Gmail
 
 " vim-indent-guides{{{
+if ! empty(neobundle#get("vim-indent-guides"))
+
 let g:indent_guides_enable_on_vim_startup = 1
 "let g:indent_guides_guide_size =  1
 let g:indent_guides_start_level = 1
@@ -667,9 +711,13 @@ let g:indent_guides_auto_colors = 0
 "autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
 autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=234
 autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+
+endif
 "}}} vim-indent-guides
 
 " vim-submode{{{
+if ! empty(neobundle#get("vim-submode"))
+
 call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
 call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
 call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
@@ -685,23 +733,33 @@ call submode#map('winsize', 'n', '', 'h', '<C-w><')
 call submode#map('winsize', 'n', '', 'j', '<C-w>-')
 call submode#map('winsize', 'n', '', 'k', '<C-w>+')
 call submode#map('winsize', 'n', '', '=', '<C-w>=')
+
+endif
 "}}} vim-submode
 
 " open-browser{{{
+if ! empty(neobundle#get("open-browser"))
+  
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
+
+endif
 "}}} open-browser
 
 " LanguageTool{{{
+if ! empty(neobundle#get("LanguageTool"))
 let g:languagetool_jar='$HOME/.languagetool/LanguageTool-2.1/languagetool-commandline.jar'
+endif
 "}}} LanguageTool
 
 " vim-anzu{{{
+if ! empty(neobundle#get("vim-anzu"))
 nmap n <Plug>(anzu-n-with-echo)
 nmap N <Plug>(anzu-N-with-echo)
 nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
+endif
 "}}} vim-anzu
 
 " syntastic{{{
@@ -710,21 +768,27 @@ let g:syntastic_auto_loc_list=2
 "}}} syntastic
 
 " undotree{{{
-"nmap <Leader>u :UndotreeToggle<CR>
-"let g:undotree_SetFocusWhenToggle = 1
-"let g:undotree_SplitLocation = 'topleft'
-"let g:undotree_SplitWidth = 35
-"let g:undotree_diffAutoOpen = 1
-"let g:undotree_diffpanelHeight = 25
-"let g:undotree_RelativeTimestamp = 1
-"let g:undotree_TreeNodeShape = '*'
-"let g:undotree_HighlightChangedText = 1
-"let g:undotree_HighlightSyntax = "UnderLined"
-"}}}
+if ! empty(neobundle#get("undotree"))
+
+nmap <Leader>u :UndotreeToggle<CR>
+let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_SplitLocation = 'topleft'
+let g:undotree_SplitWidth = 35
+let g:undotree_diffAutoOpen = 1
+let g:undotree_diffpanelHeight = 25
+let g:undotree_RelativeTimestamp = 1
+let g:undotree_TreeNodeShape = '*'
+let g:undotree_HighlightChangedText = 1
+let g:undotree_HighlightSyntax = "UnderLined"
+
+endif
+}}}
 
 " applescript{{{
+if ! empty(neobundle#get("applescript"))
 autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd myaugroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
+endif
 "}}} applescript
 
 " splash{{{
