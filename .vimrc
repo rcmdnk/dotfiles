@@ -430,7 +430,7 @@ set undolevels=1000
 " }}} undo
 
 " Unite {{{
-if ! empty(neobundle#get("Unite"))
+if ! empty(neobundle#get("unite.vim"))
 
 autocmd myaugroup FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
@@ -474,7 +474,7 @@ endif
 " }}} vim-smartchr
 
 " YankRing {{{
-if ! empty(neobundle#get("YankRing"))
+if ! empty(neobundle#get("YankRing.vim"))
 
 nnoremap <Leader>y :YRShow<CR>
 " avoid to store single letter to normal register
@@ -505,7 +505,7 @@ endif
 " }}} YankRing
 
 " yanktmp {{{
-if ! empty(neobundle#get("yanktmp"))
+if ! empty(neobundle#get("yanktmp.vim"))
 
 let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
 
@@ -585,7 +585,7 @@ let b:match_ignorecase = 1
 " }}} matchpair, matchit
 
 " for hl_matchit {{{
-if ! empty(neobundle#get("hl_matchit"))
+if ! empty(neobundle#get("hl_matchit.vim"))
 
 let g:hl_matchit_enable_on_vim_startup = 1
 let g:hl_matchit_hl_groupname = 'Title'
@@ -638,7 +638,7 @@ endif
 " }}} vim-easymotion
 
 " jedi-vim{{{
-if ! empty(neobundle#get("jedi-vim"))
+if ! empty(neobundle#get("jedi"))
 
 let g:jedi#auto_initialization = 0
 let g:jedi#auto_vim_configuration = 0
@@ -651,7 +651,7 @@ endif
 " }}} jedi-vim
 
 " SimpleNote{{{
-if ! empty(neobundle#get("simplenote"))
+if ! empty(neobundle#get("simplenote.vim"))
 
 " for simplenote.vim
 "let g:SimplenoteUsername = ''
@@ -662,7 +662,7 @@ endif
 
 endif
 
-if ! empty(neobundle#get("vimnote"))
+if ! empty(neobundle#get("vimplenote-vim"))
 
 " for vimplenote-vim
 "let g:VimpleNoteUsername = ''
@@ -686,7 +686,7 @@ endif
 " }}} Simplenote
 
 " Gmail{{{
-if ! empty(neobundle#get("gmail"))
+if ! empty(neobundle#get("gmail.vim"))
 
 let g:gmail_imap = 'imap.gmail.com:993'
 let g:gmail_smtp = 'smtp.gmail.com:465'
@@ -738,8 +738,8 @@ endif
 "}}} vim-submode
 
 " open-browser{{{
-if ! empty(neobundle#get("open-browser"))
-  
+if ! empty(neobundle#get("open-browser.vim"))
+
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
@@ -782,17 +782,19 @@ let g:undotree_HighlightChangedText = 1
 let g:undotree_HighlightSyntax = "UnderLined"
 
 endif
-}}}
+" }}}
 
 " applescript{{{
-if ! empty(neobundle#get("applescript"))
+if ! empty(neobundle#get("applescript.vim"))
 autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd myaugroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
 endif
 "}}} applescript
 
 " splash{{{
+if ! empty(neobundle#get("vim-splash"))
 let g:splash#path = $HOME . '/.vimrc'
+endif
 "}}} splash
 
 " open .vimrc when starting w/o argument {{{

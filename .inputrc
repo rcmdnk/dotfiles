@@ -7,109 +7,73 @@ set output-meta on
 
 # vim mode
 set editing-mode vi
-#vi-append-eol is not bound to any keys
-#vi-append-mode is not bound to any keys
-#vi-arg-digit is not bound to any keys
-#vi-back-to-indent is not bound to any keys
-#vi-bword is not bound to any keys
-#vi-bWord is not bound to any keys
-#vi-change-case is not bound to any keys
-#vi-change-char is not bound to any keys
-#vi-change-to is not bound to any keys
-#vi-char-search is not bound to any keys
-#vi-column is not bound to any keys
-#vi-complete is not bound to any keys
-#vi-delete is not bound to any keys
-#vi-delete-to is not bound to any keys
-#vi-editing-mode is not bound to any keys
-#vi-end-word is not bound to any keys
-#vi-eof-maybe can be found on "\C-d".
-#vi-eword is not bound to any keys
-#vi-eWord is not bound to any keys
-#vi-fetch-history is not bound to any keys
-#vi-first-print is not bound to any keys
-#vi-fword is not bound to any keys
-#vi-fWord is not bound to any keys
-#vi-goto-mark is not bound to any keys
-#vi-insert-beg is not bound to any keys
-#vi-insertion-mode is not bound to any keys
-#vi-match is not bound to any keys
-#vi-movement-mode can be found on "\e".
-#vi-next-word is not bound to any keys
-#vi-overstrike is not bound to any keys
-#vi-overstrike-delete is not bound to any keys
-#vi-prev-word is not bound to any keys
-#vi-put is not bound to any keys
-#vi-redo is not bound to any keys
-#vi-replace is not bound to any keys
-#vi-rubout is not bound to any keys
-#vi-search is not bound to any keys
-#vi-search-again is not bound to any keys
-#vi-set-mark is not bound to any keys
-#vi-subst is not bound to any keys
-#vi-tilde-expand is not bound to any keys
-#vi-yank-arg is not bound to any keys
-#vi-yank-to is not bound to any keys
 
-"\C-b": backward-char
-"\eb": backward-word
-"\e<": beginning-of-history
-"\C-a": beginning-of-line
-"\C-xe": call-last-kbd-macro
-"\ec": capitalize-word
-"\C-]": character-search
-"\e\C-]": character-search-backward
-"\C-l": clear-screen
-"\e\e": complete
-"\e!": complete-command
-"\e/": complete-filename
-"\e@": complete-hostname
-"\e{": complete-into-braces
-"\e~": complete-username
-"\e$": complete-variable
-"\C-d": delete-char
-"\e\\": delete-horizontal-space
-"\e\C-i": dynamic-complete-history
-"\C-x\C-e": edit-and-execute-command
-"\C-x)": end-kbd-macro
-"\e>": end-of-history
-"\C-e": end-of-line
-"\C-x\C-x": exchange-point-and-mark
-"\C-f": forward-char
-"\ef": forward-word
-"\C-x*": glob-expand-word
-"\C-xg": glob-list-expansions
-"\e^": history-expand-line
-"\e#": insert-comment
-"\e*": insert-completions
-"\C-k": kill-line
-"\ed": kill-word
-"\C-n": next-history
-"\en": non-incremental-forward-search-history
-"\ep": non-incremental-reverse-search-history
-"\C-o": operate-and-get-next
-"\C-x!": possible-command-completions
-"\e=": possible-completions
-"\e?": possible-completions
-"\C-x/": possible-filename-completions
-"\C-x@": possible-hostname-completions
-"\C-x~": possible-username-completions
-"\C-x$": possible-variable-completions
-"\C-p": previous-history
-"\C-x\C-r": re-read-init-file
-"\e\C-r": revert-line
-"\C-@": set-mark
-"\e ": set-mark
-"\e\C-e": shell-expand-line
-"\C-x(": start-kbd-macro
-"\e&": tilde-expand
-"\et": transpose-words
-"\C-x\C-u": undo
-"\C-_": undo
-"\e.": yank-last-arg
-"\e_": yank-last-arg
-"\e\C-y": yank-nth-arg
-"\ey": yank-pop
+$if mode=vi
+  set keymap vi-command
+
+  set keymap vi-insert
+
+  "\C-b": backward-char
+  "\eb": backward-word
+  "\e<": beginning-of-history
+  "\C-a": beginning-of-line
+  "\C-xe": call-last-kbd-macro
+  "\ec": capitalize-word
+  "\C-]": character-search
+  "\e\C-]": character-search-backward
+  "\C-l": clear-screen
+  "\e\e": complete
+  "\e!": complete-command
+  "\e/": complete-filename
+  "\e@": complete-hostname
+  "\e{": complete-into-braces
+  "\e~": complete-username
+  "\e$": complete-variable
+  "\C-d": delete-char
+  "\e\\": delete-horizontal-space
+  "\e\C-i": dynamic-complete-history
+  "\C-x\C-e": edit-and-execute-command
+  "\C-x)": end-kbd-macro
+  "\e>": end-of-history
+  "\C-e": end-of-line
+  "\C-x\C-x": exchange-point-and-mark
+  "\C-f": forward-char
+  "\ef": forward-word
+  "\C-x*": glob-expand-word
+  "\C-xg": glob-list-expansions
+  "\e^": history-expand-line
+  "\e#": insert-comment
+  "\e*": insert-completions
+  "\C-k": kill-line
+  "\ed": kill-word
+  "\C-n": next-history
+  "\en": non-incremental-forward-search-history
+  "\ep": non-incremental-reverse-search-history
+  "\C-o": operate-and-get-next
+  "\C-x!": possible-command-completions
+  "\e=": possible-completions
+  "\e?": possible-completions
+  "\C-x/": possible-filename-completions
+  "\C-x@": possible-hostname-completions
+  "\C-x~": possible-username-completions
+  "\C-x$": possible-variable-completions
+  "\C-p": previous-history
+  "\C-x\C-r": re-read-init-file
+  "\e\C-r": revert-line
+  "\C-@": set-mark
+  "\e ": set-mark
+  "\e\C-e": shell-expand-line
+  "\C-x(": start-kbd-macro
+  "\e&": tilde-expand
+  "\et": transpose-words
+  "\C-x\C-u": undo
+  "\C-_": undo
+  "\e.": yank-last-arg
+  "\e_": yank-last-arg
+  "\e\C-y": yank-nth-arg
+  "\ey": yank-pop
+$endif
+
 
 # grep prefix
 "\C-g": ""
@@ -134,9 +98,10 @@ set editing-mode vi
 "\e\)": "\eb\(\ef\)"
 
 # Variable ${}
-"\C-q": ""
-"\C-q4": "${}\C-b"
-"\C-q$": "${}\C-b"
+#"\C-q": ""
+#"\C-q4": "${}\C-b"
+#"\C-q$": "${}\C-b"
+#"\eq": "${}\C-b"
 "\eq": "${}\C-b"
 
 # less
