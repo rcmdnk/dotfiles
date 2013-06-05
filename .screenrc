@@ -1,9 +1,10 @@
 ### escape
-escape ^Tt
+#escape ^Tt
+escape ^Qq
 
 ### disable t
-bind t
-bind ^t
+#bind t
+#bind ^t
 
 ### scroll back
 defscrollback 10000
@@ -78,6 +79,7 @@ bind ^s eval 'only' 'screen' 'screen' 'screen' 'split' 'split -v' 'focus' 'focus
 ### make 4 window with no new screen
 bind r eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
 bind ^r eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
+bind ^q eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
 
 #### resize window
 bind e eval 'echo "Resize window"' 'command -c resize'
