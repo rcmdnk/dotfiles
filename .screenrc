@@ -36,9 +36,6 @@ attrcolor b ".I"
 ### clear scrollback buffer
 bind F eval 'scrollback 0' 'scrollback 1000' 'echo "scrollback buffer cleared"'
 
-### source setup file
-bind q eval "source $HOME/.screenrc"
-
 ### Don't clear after finishing application
 #altscreen on
 
@@ -79,7 +76,14 @@ bind ^s eval 'only' 'screen' 'screen' 'screen' 'split' 'split -v' 'focus' 'focus
 ### make 4 window with no new screen
 bind r eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
 bind ^r eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
-bind ^q eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
+
+# only Q (default) and ^Q
+bind ^Q only
+
+### source setup file
+#bind q eval "source $HOME/.screenrc"
+bind t eval "source $HOME/.screenrc"
+
 
 #### resize window
 bind e eval 'echo "Resize window"' 'command -c resize'
