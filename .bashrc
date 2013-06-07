@@ -32,7 +32,6 @@ function source_file() {
 
 # In Mac, it is already read.
 if [[ ! "$OSTYPE" =~ "darwin" ]];then
-  echo LANG=$LANG
   source_file /etc/bashrc
 fi
 # Remove the last ";" from PROMPT_COMMAND
