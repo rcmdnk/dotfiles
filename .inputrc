@@ -121,3 +121,5 @@ $endif
 "\e;": ">/dev/null\C-m"
 "\e:": ">& /dev/null\C-m"
 
+# disable C-t
+"\C-t:": ""
