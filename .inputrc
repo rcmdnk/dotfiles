@@ -1,12 +1,14 @@
 #$if Bash
 set bell-style none
 set expand-tilde off
+
 set convert-meta off
 set input-meta on
+      <autogen>__ShowStatusMessage__ -- VIM </autogen>
 set output-meta on
 
 # vim mode
-set editing-mode vi
+#set editing-mode vi
 
 $if mode=vi
   set keymap vi-command
@@ -121,3 +123,5 @@ $endif
 "\e;": ">/dev/null\C-m"
 "\e:": ">& /dev/null\C-m"
 
+# disable C-t
+"\C-t:": ""
