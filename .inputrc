@@ -1,8 +1,10 @@
 #$if Bash
 set bell-style none
 set expand-tilde off
+
 set convert-meta off
 set input-meta on
+      <autogen>__ShowStatusMessage__ -- VIM </autogen>
 set output-meta on
 
 # vim mode
