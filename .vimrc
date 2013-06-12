@@ -176,6 +176,12 @@ NeoBundle 'gregsexton/gitv'
 " splash
 "NeoBundle 'thinca/vim-splash'
 
+" Habatobi 
+NeoBundleLazy 'mattn/habatobi-vim',{
+      \  'autoload' : {'commands': ['Habatobi']},
+      \}
+
+
 " color scheme
 "NeoBundle 'ujihisa/unite-colorscheme'
 "NeoBundle 'tomasr/molokai'
