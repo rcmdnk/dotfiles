@@ -78,6 +78,9 @@ NeoBundle 'surround.vim'
 " check undo: there seems trouble on python setting...
 "NeoBundle 'Gundo'
 
+" gundo (dfferent from Gundo?)
+NeoBundle 'sjl/gundo.vim'
+
 " another undo, need vim7.3+patch005
 "NeoBundle 'mbbill/undotree'
 
@@ -1098,4 +1101,12 @@ cnoremap <C-a> <C-b>
 ""
 "" * undo zg/G/w/W
 ""    zug/zuG/zuw/zuW
+""
+"" # undo/redo
+"" * show tree
+""   :undol[ist]
+"" * Go to older/newer
+""   g-/g+
+"" * Go to older/newer with arguments
+""   earlier/later
 " }}} tips
