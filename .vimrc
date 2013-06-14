@@ -433,6 +433,8 @@ if has('persistent_undo')
   set undoreload=1000
 endif
 set undolevels=1000
+nnoremap u g-
+nnoremap <C-r> g+
 " }}} undo
 
 " Unite {{{

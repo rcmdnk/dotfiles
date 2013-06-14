@@ -1,6 +1,7 @@
 #$if Bash
 set bell-style none
 set expand-tilde off
+set completion-ignore-case on
 
 set convert-meta off
 set input-meta on
