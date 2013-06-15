@@ -78,8 +78,8 @@ NeoBundle 'surround.vim'
 " check undo: there seems trouble on python setting...
 "NeoBundle 'Gundo'
 
-" gundo (dfferent from Gundo?)
-NeoBundle 'sjl/gundo.vim'
+" gundo (same as Gundo?)
+"NeoBundle 'sjl/gundo.vim'
 
 " another undo, need vim7.3+patch005
 "NeoBundle 'mbbill/undotree'
@@ -98,6 +98,7 @@ NeoBundle 'Align'
 " add markdown
 "NeoBundle 'tpope/vim-markdown'
 NeoBundle 'plasticboy/vim-markdown'
+"NeoBundle 'kannokanno/previm'
 
 " folding method for python, but makes completion too slow...?
 "NeoBundle 'vim-scripts/python_fold'
