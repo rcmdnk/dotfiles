@@ -79,7 +79,7 @@ NeoBundle 'surround.vim'
 "NeoBundle 'Gundo'
 
 " gundo (same as Gundo?)
-"NeoBundle 'sjl/gundo.vim'
+NeoBundle 'sjl/gundo.vim'
 
 " another undo, need vim7.3+patch005
 "NeoBundle 'mbbill/undotree'
