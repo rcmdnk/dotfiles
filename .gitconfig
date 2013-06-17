@@ -4,6 +4,7 @@
 
 [alias]
   br = branch
+  ch = checkout
   co = clone
   ci = commit -am
   st = status
