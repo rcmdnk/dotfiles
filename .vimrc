@@ -280,7 +280,8 @@ set scrolloff=999  " show cursor at middle
                    " and below cursor.
                    "  such large number force to stay a cursor at middle
 
-set spell          " spell check highlight
+"set spell          " spell check highlight
+set nospell        " no spell check
 
 " ime setting
 if has('multi_byte_ime') || has('xim')
@@ -318,7 +319,7 @@ set wildmenu
 
 " folding
 set foldmethod=marker
-"set foldmarker={{{,}}} "default
+set foldmarker={{{,}}} "default
 autocmd myaugroup FileType py set foldmethod=syntax
 autocmd myaugroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
 set foldlevel=0
@@ -440,6 +441,14 @@ set undolevels=1000
 nnoremap u g-
 nnoremap <C-r> g+
 " }}} undo
+
+" gundo {{{
+if ! empty(neobundle#get("gundo.vim"))
+nnoremap U :GundoToggle<CR>
+" Don't show preview by moving history. Use r to see differences
+let g:gundo_auto_preview = 0
+endif
+" }}} gundo
 
 " Unite {{{
 if ! empty(neobundle#get("unite.vim"))
@@ -1111,3 +1120,7 @@ cnoremap <C-a> <C-b>
 "" * Go to older/newer with arguments
 ""   earlier/later
 " }}} tips
+
+" vim: foldmethod=marker
+" vim: foldmarker={{{,}}}
+" vim: foldlevel=0
