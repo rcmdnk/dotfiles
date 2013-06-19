@@ -280,7 +280,7 @@ set scrolloff=999  " show cursor at middle
                    " and below cursor.
                    "  such large number force to stay a cursor at middle
 
-set spell          " spell check highlight
+set nospell          " spell check highlight
 
 " ime setting
 if has('multi_byte_ime') || has('xim')
