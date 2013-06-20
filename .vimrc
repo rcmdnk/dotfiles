@@ -55,6 +55,7 @@ NeoBundleLazy 'Shougo/unite.vim',{
 
 " completion
 "NeoBundle 'Shougo/neocomplcache'
+"NeoBundle 'Shougo/neocomplete'
 "NeoBundle 'Shougo/neosnippet'
 
 " for git/svn status, log
@@ -168,7 +169,7 @@ NeoBundle 'vim-scripts/LanguageTool'
 "      \}
 
 " Syntax
-"NeoBundle 'scrooloose/syntastic'
+NeoBundle 'scrooloose/syntastic'
 
 " Count searching objects
 NeoBundle 'osyo-manga/vim-anzu'
@@ -447,6 +448,7 @@ nnoremap <C-r> g+
 
 " gundo {{{
 if ! empty(neobundle#get("gundo.vim"))
+
 nnoremap U :GundoToggle<CR>
 " Don't show preview by moving history. Use r to see differences
 let g:gundo_auto_preview = 0
