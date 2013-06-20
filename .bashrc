@@ -55,12 +55,12 @@ PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
 
 # Lang
 #export LANG=C
-#export LANG="en_GB.UTF-8"
+export LANG="en_GB.UTF-8"
 #export LANG="en_US.UTF-8"
 #export LANG="ja_JP.eucJP"
 #export LANG="ja_JP.UTF-8"
-
 #export LC_ALL="ja_JP.UTF-8"
+export LC_ALL="en_GB.UTF-8"
 
 # Editors
 export VISUAL=vim
@@ -83,8 +83,12 @@ export TRASHBOX=~/.Trash # Where trash will be moved in
                          # (.Trash is Mac's trash box)
 export MAXTRASHBOXSIZE=1024 # Max trash box size in MB
                             # Used for clean up
-export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
-    # Trashes larger than MAXTRASHBOXSIZE will be removed by 'rm' directly
+if type bc >& /dev/null;then
+  export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
+else
+  export MAXTRASHSIZE=100
+fi
+# Trashes larger than MAXTRASHBOXSIZE will be removed by 'rm' directly
 
 # For my clipboards
 export CLIPBOARD=$HOME/.clipboard
@@ -528,7 +532,11 @@ function gitupdate {
     echo $ret
   fi
 
+<<<<<<< HEAD
   git gc >& /dev/null
+=======
+  git gc >& /dev/nul
+>>>>>>> 97eef25c83b824721543d839371761a60d18e910
 }
 # }}}
 
@@ -687,7 +695,11 @@ function screen {
 #  touch .hostForScreen
 #  for h in `cat ~/.hostForScreen`;do
 #    echo "checking $h..."
+<<<<<<< HEAD
 #    ping $h -c 2 -w2 >& /dev/null
+=======
+#    ping $h -c 2 -w2 >& /dev/nul
+>>>>>>> 97eef25c83b824721543d839371761a60d18e910
 #    if [ $? -eq 0 ];then
 #      local checklog="$(ssh -x $h "screen -ls")"
 #      echo $checklog

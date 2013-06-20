@@ -189,6 +189,13 @@ NeoBundleLazy 'mattn/habatobi-vim',{
       \  'autoload' : {'commands': ['Habatobi']},
       \}
 
+" For IDE
+NeoBundle 'Source-Explorer-srcexpl.vim'
+NeoBundle 'trinity.vim'
+NeoBundle 'The-NERD-tree'
+NeoBundle 'taglist.vim'
+NeoBundle 'ctags.vim'
+
 
 " color scheme
 "NeoBundle 'ujihisa/unite-colorscheme'
@@ -262,7 +269,7 @@ endif
 if ! isdirectory(&directory)
   set directory=./
 endif
-set viminfo+=n~/.viminfo
+set viminfo+=n~/.vim/viminfo
 
 set history=100    " keep 100 lines of command line history
 
@@ -278,8 +285,8 @@ set listchars=tab:>-,extends:<,trail:- " set words for above
 set ruler          " show the cursor position all the time
 set showcmd        " display incomplete commands
 set novisualbell   " no visual bell
-set cursorline     " enable highlight on current line:
-                   " but make moving cursor slow for heavily highlighted file...
+"set cursorline     " enable highlight on current line:
+"                   " but make moving cursor slow for heavily highlighted file...
 set nonumber       " don't show line numbers
 set autoindent
 set scrolloff=999  " show cursor at middle
@@ -290,8 +297,10 @@ set scrolloff=999  " show cursor at middle
 "set spell          " spell check highlight
 set nospell        " no spell check
 
+set mouse=         " disable mouse
+
 " ime setting
-if has('multi_byte_ime') || has('xim')
+if has('multi_byte_ime') || has('xim') || has('gui_macvim')
   set iminsert=0
   set imsearch=0
   inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
@@ -382,7 +391,7 @@ colorscheme ron
 " for spell checks
 hi SpellBad cterm=inverse ctermbg=0
 
-hi CursorLine cterm=none ctermfg=NONE ctermbg=NONE
+"hi CursorLine cterm=none ctermfg=NONE ctermbg=NONE
 " only underline for cursorline
 "hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 " Set all white characters on black background for current line
@@ -512,7 +521,6 @@ call smartinput#define_rule({
 \   })
 endif
 " }}} vim-smartinput
-
 
 " YankRing {{{
 if ! empty(neobundle#get("YankRing.vim"))
@@ -838,17 +846,28 @@ let g:splash#path = $HOME . '/.vimrc'
 endif
 "}}} splash
 
-" open .vimrc when starting w/o argument {{{
-autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | edit $MYVIMRC | endif
-function! s:GetBufByte()
-    let byte = line2byte(line('$') + 1)
-    if byte == -1
-        return 0
-    else
-        return byte - 1
-    endif
-endfunction
-" }}}
+" taglist{{{
+if ! empty(neobundle#get("taglist.vim"))
+"set tags = tags
+"let Tlist_Ctags_Cmd = "/usr/bin/ctags""
+let Tlist_Show_One_File = 1
+let Tlist_Use_Right_Window = 1
+let Tlist_Exit_OnlyWindow = 1
+map <silent> <leader>l :TlistToggle<CR>
+endif
+"}}} taglist
+
+"" open .vimrc when starting w/o argument {{{
+"autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | edit $MYVIMRC | endif
+"function! s:GetBufByte()
+"    let byte = line2byte(line('$') + 1)
+"    if byte == -1
+"        return 0
+"    else
+"        return byte - 1
+"    endif
+"endfunction
+"" }}}
 
 " map (for other than each plugin){{{
 " remapping, tips
