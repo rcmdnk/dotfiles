@@ -3,7 +3,7 @@ dotfiles
 
 **Setting files for bash**
 
-# Install
+# Installation
 
 Below commands will make links to dotfiles in $HOME directory
 If there is a file, it makes backup file (.bak)
