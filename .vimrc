@@ -258,7 +258,7 @@ if has("win32unix") || has ("win64unix") || has("win32") || has ("win64")
 elseif has("unix") || has("mac")
   set directory=$TMPDIR/ " directory for swap file for unix/mac
 endif
-set viminfo+=n~/.viminfo
+set viminfo+=n~/.vim/viminfo
 
 set history=100    " keep 100 lines of command line history
 
@@ -274,8 +274,8 @@ set listchars=tab:>-,extends:<,trail:- " set words for above
 set ruler          " show the cursor position all the time
 set showcmd        " display incomplete commands
 set novisualbell   " no visual bell
-set cursorline     " enable highlight on current line:
-                   " but make moving cursor slow for heavily highlighted file...
+"set cursorline     " enable highlight on current line:
+"                   " but make moving cursor slow for heavily highlighted file...
 set nonumber       " don't show line numbers
 set autoindent
 set scrolloff=999  " show cursor at middle
@@ -378,7 +378,7 @@ colorscheme ron
 " for spell checks
 hi SpellBad cterm=inverse ctermbg=0
 
-hi CursorLine cterm=none ctermfg=NONE ctermbg=NONE
+"hi CursorLine cterm=none ctermfg=NONE ctermbg=NONE
 " only underline for cursorline
 "hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 " Set all white characters on black background for current line
