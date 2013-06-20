@@ -189,6 +189,13 @@ NeoBundleLazy 'mattn/habatobi-vim',{
       \  'autoload' : {'commands': ['Habatobi']},
       \}
 
+" For IDE
+NeoBundle 'Source-Explorer-srcexpl.vim'
+NeoBundle 'trinity.vim'
+NeoBundle 'The-NERD-tree'
+NeoBundle 'taglist.vim'
+NeoBundle 'ctags.vim'
+
 
 " color scheme
 "NeoBundle 'ujihisa/unite-colorscheme'
@@ -287,8 +294,10 @@ set scrolloff=999  " show cursor at middle
 "set spell          " spell check highlight
 set nospell        " no spell check
 
+set mouse=         " disable mouse
+
 " ime setting
-if has('multi_byte_ime') || has('xim')
+if has('multi_byte_ime') || has('xim') || has('gui_macvim')
   set iminsert=0
   set imsearch=0
   inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
@@ -509,7 +518,6 @@ call smartinput#define_rule({
 \   })
 endif
 " }}} vim-smartinput
-
 
 " YankRing {{{
 if ! empty(neobundle#get("YankRing.vim"))
@@ -835,17 +843,28 @@ let g:splash#path = $HOME . '/.vimrc'
 endif
 "}}} splash
 
-" open .vimrc when starting w/o argument {{{
-autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | edit $MYVIMRC | endif
-function! s:GetBufByte()
-    let byte = line2byte(line('$') + 1)
-    if byte == -1
-        return 0
-    else
-        return byte - 1
-    endif
-endfunction
-" }}}
+" taglist{{{
+if ! empty(neobundle#get("taglist.vim"))
+"set tags = tags
+"let Tlist_Ctags_Cmd = "/usr/bin/ctags""
+let Tlist_Show_One_File = 1
+let Tlist_Use_Right_Window = 1
+let Tlist_Exit_OnlyWindow = 1
+map <silent> <leader>l :TlistToggle<CR>
+endif
+"}}} taglist
+
+"" open .vimrc when starting w/o argument {{{
+"autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | edit $MYVIMRC | endif
+"function! s:GetBufByte()
+"    let byte = line2byte(line('$') + 1)
+"    if byte == -1
+"        return 0
+"    else
+"        return byte - 1
+"    endif
+"endfunction
+"" }}}
 
 " map (for other than each plugin){{{
 " remapping, tips

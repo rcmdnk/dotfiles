@@ -55,12 +55,12 @@ PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
 
 # Lang
 #export LANG=C
-#export LANG="en_GB.UTF-8"
+export LANG="en_GB.UTF-8"
 #export LANG="en_US.UTF-8"
 #export LANG="ja_JP.eucJP"
 #export LANG="ja_JP.UTF-8"
-
 #export LC_ALL="ja_JP.UTF-8"
+export LC_ALL="en_GB.UTF-8"
 
 # Editors
 export VISUAL=vim
