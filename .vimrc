@@ -88,6 +88,9 @@ NeoBundle 'sjl/gundo.vim'
 " toggle insert words
 "NeoBundle 'kana/vim-smartchr'
 
+" smart input
+NeoBundle 'kana/vim-smartinput'
+
 " visualize marks
 NeoBundle 'zhisheng/visualmark.vim'
 "NeoBundle 'Visual-Mark'
@@ -495,6 +498,18 @@ if ! empty(neobundle#get("vim-smartchr"))
 inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
 endif
 " }}} vim-smartchr
+
+" vim-smartinput {{{
+if ! empty(neobundle#get("vim-smartinput"))
+" Remove spaces at the end of line
+call smartinput#define_rule({
+\   'at': '\s\+\%#',
+\   'char': '<CR>',
+\   'input': "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>",
+\   })
+endif
+" }}} vim-smartinput
+
 
 " YankRing {{{
 if ! empty(neobundle#get("YankRing.vim"))
@@ -934,7 +949,7 @@ nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
 " search: very magic mode
 nnoremap / /\v
 " to check patterns:
-" :h pattern-overview 
+" :h pattern-overview
 
 
 " insert mode (inoremap)
@@ -952,6 +967,7 @@ inoremap <C-f> <Right>
 "inoremap <silent> <Leader>f <C-R>%
 "inoremap <silent> <Leader>d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
 
+""""""" -> use smartinput
 " < can't be used for mapping?
 " (maybe < has special means in vim scripts and need special treatment)
 "inoremap <> <><Left>
