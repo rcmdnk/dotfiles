@@ -92,21 +92,21 @@ export CLMAXHIST=20
 export CLSEP="" # (C-v C-g) Use bell as a separator
 export CLX="" #xsel/xclip
 if [[ "$OSTYPE" =~ "linux" ]];then
-  if type xsel >/dev/null 2>&1;then
+  if type xsel >& /dev/null;then
     export CLXOS="xsel"
-  elif type xsel >/dev/null 2>&1;then
+  elif type xsel >& /dev/null;then
     export CLXOS="xclip"
   fi
 elif [[ "$OSTYPE" =~ "cygwin" ]];then
-  if type putclip >/dev/null 2>&1;then
+  if type putclip >& /dev/null;then
     export CLXOS="putclip"
-  elif type xsel >/dev/null 2>&1;then
+  elif type xsel >& /dev/null;then
     export CLXOS="xsel"
-  elif type xsel >/dev/null 2>&1;then
+  elif type xsel >& /dev/null;then
     export CLXOS="xclip"
   fi
 elif [[ "$OSTYPE" =~ "darwin" ]];then
-  if type pbcopy >/dev/null 2>&1;then
+  if type pbcopy >& /dev/null;then
     export CLXOS="pbcopy"
     #export CLX=$CLXOS
   fi
@@ -528,7 +528,7 @@ function gitupdate {
     echo $ret
   fi
 
-  git gc >/dev/null 2>&1
+  git gc >& /dev/null
 }
 # }}}
 
@@ -550,7 +550,7 @@ function man {
     done
     # Then open each manual
     for m in $@;do
-      if command man -W $m > /dev/null 2>&1;then
+      if command man -W $m >&  /dev/null;then
         LANG=C command man $@|col -b -x|vim -R -
       else
         command man $@
@@ -687,7 +687,7 @@ function screen {
 #  touch .hostForScreen
 #  for h in `cat ~/.hostForScreen`;do
 #    echo "checking $h..."
-#    ping $h -c 2 -w2 >/dev/null 2>&1
+#    ping $h -c 2 -w2 >& /dev/null
 #    if [ $? -eq 0 ];then
 #      local checklog="$(ssh -x $h "screen -ls")"
 #      echo $checklog

@@ -259,6 +259,9 @@ if has("win32unix") || has ("win64unix") || has("win32") || has ("win64")
 elseif has("unix") || has("mac")
   set directory=$TMPDIR/ " directory for swap file for unix/mac
 endif
+if ! isdirectory(&directory)
+  set directory=./
+endif
 set viminfo+=n~/.viminfo
 
 set history=100    " keep 100 lines of command line history
