@@ -12,3 +12,5 @@
 [core]
 	filemode = false
 	autocrlf = false
+[push]
+	default = matching
