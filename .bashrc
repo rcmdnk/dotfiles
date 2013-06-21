@@ -37,9 +37,9 @@ PROMPT_COMMAND=`echo ${PROMPT_COMMAND}|sed 's/;$//'`
 
 # Local path {{{
 # PATH, LD_LIBRARY_PATH under HOME
-export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
-export LD_LIBRARY_PATH=$HOME/usr/lib:$HOME/usr/local/lib:$LD_LIBRARY_PATH
-export PYTHONPATH=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
+export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/usr/local/bin:/usr/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/usr/local/lib:$HOME/usr/lib:/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+export PYTHONPATH=$HOME/usr/local/lib:$HOME/usr/lib/python:/usr/local/lib:/usr/lib/python:$PYTHONPATH
 #export PYTHONHOME=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 
 # Load RVM into a shell session *as a function*
