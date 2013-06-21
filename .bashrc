@@ -532,7 +532,7 @@ function gitupdate {
     echo $ret
   fi
 
-  git gc >& /dev/nul
+  git gc >& /dev/null
 }
 # }}}
 
@@ -691,7 +691,7 @@ function screen {
 #  touch .hostForScreen
 #  for h in `cat ~/.hostForScreen`;do
 #    echo "checking $h..."
-#    ping $h -c 2 -w2 >& /dev/nul
+#    ping $h -c 2 -w2 >& /dev/null
 #    if [ $? -eq 0 ];then
 #      local checklog="$(ssh -x $h "screen -ls")"
 #      echo $checklog

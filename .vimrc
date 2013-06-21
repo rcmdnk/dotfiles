@@ -266,6 +266,9 @@ if has("win32unix") || has ("win64unix") || has("win32") || has ("win64")
 elseif has("unix") || has("mac")
   set directory=$TMPDIR/ " directory for swap file for unix/mac
 endif
+if ! isdirectory(&directory)
+  set directory=./
+endif
 set viminfo+=n~/.vim/viminfo
 
 set history=100    " keep 100 lines of command line history
@@ -816,7 +819,7 @@ let g:syntastic_auto_loc_list=2
 " undotree{{{
 if ! empty(neobundle#get("undotree"))
 
-nmap <Leader>u :UndotreeToggle<CR>
+nmap <Leader>U :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_SplitLocation = 'topleft'
 let g:undotree_SplitWidth = 35
@@ -845,12 +848,12 @@ endif
 
 " taglist{{{
 if ! empty(neobundle#get("taglist.vim"))
-"set tags = tags
-"let Tlist_Ctags_Cmd = "/usr/bin/ctags""
+set tags=tags
+let Tlist_Ctags_Cmd = "/usr/bin/ctags""
 let Tlist_Show_One_File = 1
 let Tlist_Use_Right_Window = 1
 let Tlist_Exit_OnlyWindow = 1
-map <silent> <leader>l :TlistToggle<CR>
+nnoremap <silent> <leader>l :TlistToggle<CR>
 endif
 "}}} taglist
 
