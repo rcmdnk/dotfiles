@@ -13,4 +13,4 @@
 	filemode = false
 	autocrlf = false
 [push]
-	default = matching
+	default = simple
