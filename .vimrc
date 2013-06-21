@@ -164,9 +164,9 @@ NeoBundle 'vim-scripts/LanguageTool'
 "      \}
 
 " make benchmark result of vimrc
-"NeoBundleLazy 'mattn/benchvimrc-vim',{
-"      \  'autoload' : {'commands': ['BenchVimrc']},
-"      \}
+NeoBundleLazy 'mattn/benchvimrc-vim',{
+      \  'autoload' : {'commands': ['BenchVimrc']},
+      \}
 
 " Syntax
 NeoBundle 'scrooloose/syntastic'
@@ -254,8 +254,10 @@ set shiftwidth=2   " width for indent
 set softtabstop=0  " if not 0, insert space instead of <Tab>
 "set textwidth=0    " longer line than textwidth will be broken (0: disable)
 autocmd myaugroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
-set colorcolumn=80 " put line on 80
+"set colorcolumn=80 " put line on 80
 "set colorcolumn=+1 " put line on textwidth+1
+" Change background for 81-
+execute "set colorcolumn=" . join(range(81, 999), ',')
 set wrap           " the longer line is wrapped
 set expandtab      " do :retab -> tab->space
 
@@ -273,8 +275,8 @@ set viminfo+=n~/.vim/viminfo
 
 set history=100    " keep 100 lines of command line history
 
-"set incsearch      " do incremental searching
-"set ignorecase     " ignore case for search
+set incsearch      " do incremental searching
+set ignorecase     " ignore case for search
 set smartcase      " noignorecase, if the pattern include Capital
 set nowrapscan     " stop search at the edge of the file
 
@@ -293,11 +295,14 @@ set scrolloff=999  " show cursor at middle
                    " (scrolloff is number of lines which should be shown above
                    " and below cursor.
                    "  such large number force to stay a cursor at middle
-
+set scroll=12      " Number of lines to scroll with C-U/C-D
 "set spell          " spell check highlight
 set nospell        " no spell check
-
 set mouse=         " disable mouse
+set ambiwidth=double  " For UTF-8, width for East Asian Characters
+set cmdheight=1    " Command line height
+set showmatch      " Show maching one for inserted bracket
+
 
 " ime setting
 if has('multi_byte_ime') || has('xim') || has('gui_macvim')
@@ -413,6 +418,9 @@ hi DiffAdd ctermbg=17 guibg=slateblue
 hi DiffChange ctermbg=22 guibg=darkgreen
 hi DiffText cterm=bold ctermbg=52 gui=bold guibg=olivedrab
 hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
+
+"" Colors for search
+hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
 
 
 " }}} colorscheme
