@@ -12,5 +12,9 @@
 [core]
 	filemode = false
 	autocrlf = false
+
 [push]
 	default = simple
+
+[github]
+	user = rcmdnk
