@@ -11,22 +11,22 @@ set nocompatible
 filetype off " required for neobundle
 "" set path
 if has('vim_starting')
-  let bundledir=expand('~/.vim/bundle')
-  let neobundledir=bundledir . '/neobundle.vim'
-  let &runtimepath = &runtimepath . ',' . neobundledir
-  if ! isdirectory(neobundledir)
+  let s:bundledir=expand('~/.vim/bundle')
+  let s:neobundledir=s:bundledir . '/neobundle.vim'
+  let &runtimepath = &runtimepath . ',' . s:neobundledir
+  if ! isdirectory(s:neobundledir)
     echomsg 'Neobundle is not installed, install now '
     call system('git clone git://github.com/Shougo/neobundle.vim '
-          \ .  neobundledir)
+          \ .  s:neobundledir)
   endif
-  call neobundle#rc(bundledir)
+  call neobundle#rc(s:bundledir)
 endif
 
 """"plugins"""""
 " neobundle
 NeoBundle 'Shougo/neobundle.vim'
 
-"" asynchronous execution library: need for vimshell, Gmail, unite, etc...?
+"" Asynchronous execution library: need for vimshell, Gmail, unite, etc...?
 NeoBundleLazy 'Shougo/vimproc', {
       \  'build' : {
       \    'windows' : 'make -f make_mingw32.mak',
@@ -37,14 +37,14 @@ NeoBundleLazy 'Shougo/vimproc', {
       \}
 
 
-" use shell in vim
+" Use shell in vim
 NeoBundleLazy 'Shougo/vimshell',{
       \  'autoload' : {'commands': ['VimShell']},
       \  'depends' : ['Shougo/vimproc']
       \}
 
-" searches and display information->:help Unite
-" unlike 'fuzzyfinder' or 'ku', it doesn't use the built-lin completion of vim
+" Searches and display information->:help Unite
+" Unlike 'fuzzyfinder' or 'ku', it doesn't use the built-lin completion of vim
 NeoBundleLazy 'Shougo/unite.vim',{
       \  'autoload' : {'commands': ['Unite','UniteWithBufferDir']}
       \}
@@ -53,43 +53,42 @@ NeoBundleLazy 'Shougo/unite.vim',{
 "NeoBundle 'kien/ctrlp.vim'
 "NeoBundle 'scrooloose/nerdtree'
 
-" completion
+" Completion
 "NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'Shougo/neocomplete'
 "NeoBundle 'Shougo/neosnippet'
 
-" for git/svn status, log
+" For git/svn status, log
 "NeoBundle 'hrsh7th/vim-versions.git'
 
-" quick run
+" Quick run
 "NeoBundle 'thinca/vim-quickrun'
 
 " Vim plugin to highlight matchit.vim
 NeoBundle 'vimtaku/hl_matchit.vim'
 
-" easy to change surround
-NeoBundle 'surround.vim'
+" Easy to use history of yanks (see below settings)
+NeoBundle 'vim-scripts/YankRing.vim'
 
-" easy to use history of yanks (see below settings)
-"NeoBundle 'vim-scripts/YankRing.vim'
-
-" use yanks in different processes (see below settings)
+" Use yanks in different processes (see below settings)
 "NeoBundle 'yanktmp.vim'
 
-" check undo: there seems trouble on python setting...
-"NeoBundle 'Gundo'
+" gundo
+NeoBundleLazy 'sjl/gundo.vim', {
+    \ "autoload": {"commands": ["GundoToggle"]}}
 
-" gundo (same as Gundo?)
-NeoBundle 'sjl/gundo.vim'
-
-" another undo, need vim7.3+patch005
+" Another undo, need vim7.3+patch005
 "NeoBundle 'mbbill/undotree'
 
-" toggle insert words
+" Toggle insert words
 "NeoBundle 'kana/vim-smartchr'
 
 " smart input
 NeoBundle 'kana/vim-smartinput'
+
+" Easy to change surround
+NeoBundle 'surround.vim'
+
 
 " visualize marks
 NeoBundle 'zhisheng/visualmark.vim'
@@ -99,44 +98,49 @@ NeoBundle 'zhisheng/visualmark.vim'
 " http://www.drchip.org/astronaut/vim/align.html#Examples
 NeoBundle 'Align'
 
-" add markdown
+" Add markdown
 "NeoBundle 'tpope/vim-markdown'
 NeoBundle 'plasticboy/vim-markdown'
 "NeoBundle 'kannokanno/previm'
 
-" folding method for python, but makes completion too slow...?
+" Folding method for python, but makes completion too slow...?
 "NeoBundle 'vim-scripts/python_fold'
 
-" currently use only for python indent...
+" Currently use only for python indent...
 NeoBundle 'yuroyoro/vim-python'
 
-" applescript
+" Applescript
 NeoBundle 'applescript.vim'
 
 " Cool Status Line
 "NeoBundle 'Lokaltog/vim-powerline'
 
-" visual indent guides
+" Visual indent guides
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
-" sub mode
+" Sub mode
 NeoBundle 'kana/vim-submode'
 
-" open browser
+" Open browser
 NeoBundle 'tyru/open-browser.vim'
 
-" easymotion
+" Easymotion
 "NeoBundle 'Lokaltog/vim-easymotion'
 
-" can use f instead of ;, after fx move
-" can move even to other lines
+" Can use f instead of ;, after fx move
+" Can move even to other lines
 "NeoBundle 'rhysd/clever-f.vim'
 
-" jump to letters (two letters) after 's'
+" Jump to letters (two letters) after 's'
 "NeoBundle 'goldfeld/vim-seek'
 
-" python complete (don't work?)
-"NeoBundle 'davidhalter/jedi'
+" Python complete (don't work?)
+"NeoBundleLazy "davidhalter/jedi-vim", {
+"      \ "autoload": {
+"      \   "filetypes": ["python", "python3", "djangohtml"],
+"      \ }}
+
+
 
 " LanguageTool
 NeoBundle 'vim-scripts/LanguageTool'
@@ -163,7 +167,7 @@ NeoBundle 'vim-scripts/LanguageTool'
 "      \                             'EvervimOpenBrowser', 'EvervimSetup']},
 "      \}
 
-" make benchmark result of vimrc
+" Make benchmark result of vimrc
 NeoBundleLazy 'mattn/benchvimrc-vim',{
       \  'autoload' : {'commands': ['BenchVimrc']},
       \}
@@ -178,10 +182,19 @@ NeoBundle 'osyo-manga/vim-anzu'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv'
 
+" Gist
+NeoBundle 'mattn/webapi-vim'
+NeoBundleLazy "mattn/gist-vim", {
+      \ "depends": ["mattn/webapi-vim"],
+      \ "autoload": {
+      \   "commands": ["Gist"],
+      \ }}
+
+
 " Singletop
 "NeoBundle 'thinca/vim-singleton'
 
-" splash
+" Splash
 "NeoBundle 'thinca/vim-splash'
 
 " Habatobi 
@@ -197,7 +210,8 @@ NeoBundle 'taglist.vim'
 NeoBundle 'ctags.vim'
 
 
-" color scheme
+
+" Color scheme
 "NeoBundle 'ujihisa/unite-colorscheme'
 "NeoBundle 'tomasr/molokai'
 "NeoBundle 'nanotech/jellybeans.vim'
@@ -208,19 +222,13 @@ NeoBundle 'ctags.vim'
 """"plugins"""""
 
 " Installation check.
-if neobundle#exists_not_installed_bundles()
-  echomsg 'Not installed bundles : ' .
-    \ string(neobundle#get_not_installed_bundle_names())
-  "echomsg 'Please execute ":NeoBundleInstall" command.'
-  NeoBundleInstall
-  "finish
-endif
+NeoBundleCheck
 
 " enable plugin, indent again
 filetype plugin indent on
 " }}} neobundle
 
-" basic settings {{{
+" Basic settings {{{
 
 " set my auto group
 augroup myaugroup
@@ -272,46 +280,48 @@ if ! isdirectory(&directory)
   set directory=./
 endif
 set viminfo+=n~/.vim/viminfo
+" set viminfo=expand('~/.viminfo')
 
-set history=100    " keep 100 lines of command line history
+set history=100    " Keep 100 lines of command line history
 
-set incsearch      " do incremental searching
-set ignorecase     " ignore case for search
-set smartcase      " noignorecase, if the pattern include Capital
-set nowrapscan     " stop search at the edge of the file
+set incsearch      " Do incremental searching
+set ignorecase     " Ignore case for search
+set smartcase      " Noignorecase, if the pattern include Capital
+set nowrapscan     " Stop search at the edge of the file
+set infercase      " Ignore case for completion
 
-set nrformats=hex  " not use cotal, alpha for increment or decrement
-set t_Co=256       " enable 256 colors
-set list           " show tab, end, trail empty
-set listchars=tab:>-,extends:<,trail:- " set words for above
-set ruler          " show the cursor position all the time
-set showcmd        " display incomplete commands
-set novisualbell   " no visual bell
-"set cursorline     " enable highlight on current line:
+set nrformats=hex  " Not use cotal, alpha for increment or decrement
+set t_Co=256       " Enable 256 colors
+set list           " Show tab, end, trail empty
+set listchars=tab:>-,extends:<,trail:- " Set words for above
+set ruler          " Show the cursor position all the time
+set showcmd        " Display incomplete commands
+set novisualbell   " No visual bell
+"set cursorline     " Enable highlight on current line:
 "                   " but make moving cursor slow for heavily highlighted file...
-set nonumber       " don't show line numbers
+set nonumber       " Don't show line numbers
 set autoindent
-set scrolloff=999  " show cursor at middle
+set scrolloff=999  " Show cursor at middle
                    " (scrolloff is number of lines which should be shown above
                    " and below cursor.
                    "  such large number force to stay a cursor at middle
 set scroll=12      " Number of lines to scroll with C-U/C-D
-"set spell          " spell check highlight
-set nospell        " no spell check
-set mouse=         " disable mouse
+"set spell          " Spell check highlight
+set nospell        " No spell check
+set mouse=         " Disable mouse
 set ambiwidth=double  " For UTF-8, width for East Asian Characters
 set cmdheight=1    " Command line height
 set showmatch      " Show maching one for inserted bracket
 
 
-" ime setting
+" IME setting
 if has('multi_byte_ime') || has('xim') || has('gui_macvim')
   set iminsert=0
   set imsearch=0
   inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 endif
 
-" encode
+" Encode
 "if has("windows")
 "  scriptencoding cp932 " sjis
 "  set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
@@ -329,7 +339,7 @@ set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
 "autocmd myaugroup FileType vbs :set fileencoding=sjis
 "autocmd myaugroup FileType vbs :set encoding=sjis
 
-" automatic ime off
+" Automatic ime off
 if has("mac")
   set noimdisableactivate
 endif
@@ -338,7 +348,7 @@ endif
 set wildmode=list:longest
 set wildmenu
 
-" folding
+" Folding
 set foldmethod=marker
 set foldmarker={{{,}}} "default
 autocmd myaugroup FileType py set foldmethod=syntax
@@ -352,21 +362,24 @@ autocmd myaugroup BufReadPost *
   \   exe "normal! g`\"" |
   \ endif
 
-" set current directory as a directory of the file
+" Set current directory as a directory of the file
 "autocmd myaugroup BufEnter *   execute ":lcd " . expand("%:p:h")
 
-" avoid automatic comment out for the next line after the comment lines
+" Avoid automatic comment out for the next line after the comment lines
 autocmd myaugroup FileType * setlocal formatoptions-=ro
 
 " INSERT (paste)
 "set paste " use 'paste at normal mode' in below, instead
 
-" arrow to open new file while current file is not saved
+" Arrow to open new file while current file is not saved
 set hidden
+
+" Jump to the first open window
+set switchbuf=useopen
 
 " virtualedit (can move to non-editing places: e.x. right of $)
 set virtualedit=all
-" avoid to paste/insert in non-editing place
+" Avoid to paste/insert in non-editing place
 if has('virtualedit') && &virtualedit =~# '\<all\>'
   nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
   nnoremap <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
@@ -379,16 +392,16 @@ if has('virtualedit') && &virtualedit =~# '\<all\>'
   autocmd myaugroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
 endif
 
-" max columns for syntax search
+" Max columns for syntax search
 " Such XML file has too much syntax which make vim drastically slow
 set synmaxcol=500 "default 3000
 
 " Disable highlight italic in Markdown
 autocmd! FileType markdown hi! def link markdownItalic LineNr
 
-" }}} basic settings
+" }}} Basic settings
 
-" colors {{{
+" Colors {{{
 "colorscheme molokai
 colorscheme ron
 "colorscheme blue
@@ -535,7 +548,8 @@ if ! empty(neobundle#get("YankRing.vim"))
 
 nnoremap <Leader>y :YRShow<CR>
 " avoid to store single letter to normal register
-let g:yankring_history_dir=$HOME.'/.vim/'
+  let s:bundledir=expand('~/.vim/bundle')
+let g:yankring_history_dir=expand('~/.vim/')
 "let g:yankring_n_keys = 'Y D' " Y D x X
 "let g:yankring_enabled=0 " 1
 let g:yankring_max_history=50 " 100
@@ -583,7 +597,19 @@ endif
 " yankshare prefix
 noremap [yshare] <Nop>
 map s [yshare]
-let g:yankshare_file = ''
+
+let g:yankshare_file = '/tmp/yankshare'
+if !exists('g:yankshare_file')
+  let g:yankshare_file = '/tmp/yankshare'
+endif
+
+function! YSStore() range
+  call writefile(getreg('s'), g:yankshare_file, 'b')
+endfunction
+
+function! YSLoad() range
+  call append(setreg('s'), readfile(g:yankshare_file, "b"))
+endfunction
 
 nnoremap <silent> [yshare]y  "syy:wv!<CR>
 nnoremap <silent> [yshare]yy "syy:wv!<CR>
@@ -910,10 +936,7 @@ endif
 
 """ normal mode (noremap)
 
-" enter command line mode
-"nnoremap ; :
-
-"" cursor move
+" cursor move
 " Left (C-h default: <BS> ~ h)
 "nnoremap <C-h> h
 " Right (C-j default: <NL> ~ j)
@@ -932,6 +955,17 @@ nnoremap <C-e> <C-$>
 "nnoremap <C-z> <C-a>
 " Substitute for C-a (C-s default: non?)
 nnoremap <C-s> <C-a>
+nnoremap <C-k> k
+
+" Window move
+nnoremap <M-h> <C-w><<CR>
+nnoremap <M-j> <C-w>+<CR>
+nnoremap <M-k> <C-w>-<CR>
+nnoremap <M-l> <C-w>><CR>
+nnoremap <D-h> <C-w><<CR>
+nnoremap <D-j> <C-w>+<CR>
+nnoremap <D-k> <C-w>-<CR>
+nnoremap <D-l> <C-w>><CR>
 
 " Swap colon <-> semicolon
 noremap ; :
@@ -980,6 +1014,9 @@ nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
 nnoremap / /\v
 " to check patterns:
 " :h pattern-overview
+
+" Close help with q
+autocmd myaugroup FileType help,qf nnoremap <buffer> q <C-w>c
 
 
 " insert mode (inoremap)
@@ -1031,6 +1068,10 @@ vnoremap ' "zdi'<C-R>z'<Esc>
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 cnoremap <C-a> <C-b>
+
+" Write as root
+cnoremap w!! w !sudo tee > /dev/null %
+
 
 " }}} map
 
