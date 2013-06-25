@@ -203,11 +203,11 @@ NeoBundleLazy 'mattn/habatobi-vim',{
       \}
 
 " For IDE
-NeoBundle 'Source-Explorer-srcexpl.vim'
-NeoBundle 'trinity.vim'
-NeoBundle 'The-NERD-tree'
-NeoBundle 'taglist.vim'
-NeoBundle 'ctags.vim'
+"NeoBundle 'Source-Explorer-srcexpl.vim'
+"NeoBundle 'trinity.vim'
+"NeoBundle 'The-NERD-tree'
+"NeoBundle 'taglist.vim'
+"NeoBundle 'ctags.vim'
 
 
 
