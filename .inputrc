@@ -125,3 +125,6 @@ $endif
 
 # disable C-t
 "\C-t:": ""
+
+"\ef": "find . -print0 | xargs -0 "
+

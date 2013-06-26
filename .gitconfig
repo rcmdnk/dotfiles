@@ -8,6 +8,8 @@
   co = clone
   ci = commit -am
   st = status
+  d = difftool --tool=vimdiff --no-prompt
+
 
 [core]
 	filemode = false

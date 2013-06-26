@@ -89,7 +89,6 @@ NeoBundle 'kana/vim-smartinput'
 " Easy to change surround
 NeoBundle 'surround.vim'
 
-
 " visualize marks
 NeoBundle 'zhisheng/visualmark.vim'
 "NeoBundle 'Visual-Mark'
@@ -543,12 +542,20 @@ call smartinput#define_rule({
 endif
 " }}} vim-smartinput
 
+" vim-surround {{{
+if ! empty(neobundle#get("YankRing.vim"))
+  " Numbers for characters can be found by :ascii on each character
+  let g:surround_96 = "hoge \r hoge" " use ``
+  "doesn't work, any plugins conflict?
+endif
+" }}} vim-surround
+
 " YankRing {{{
 if ! empty(neobundle#get("YankRing.vim"))
 
 nnoremap <Leader>y :YRShow<CR>
 " avoid to store single letter to normal register
-  let s:bundledir=expand('~/.vim/bundle')
+let s:bundledir=expand('~/.vim/bundle')
 let g:yankring_history_dir=expand('~/.vim/')
 "let g:yankring_n_keys = 'Y D' " Y D x X
 "let g:yankring_enabled=0 " 1
@@ -1018,6 +1025,9 @@ nnoremap / /\v
 
 " Close help with q
 autocmd myaugroup FileType help,qf nnoremap <buffer> q <C-w>c
+
+" Paste mode
+nnoremap <Leader>p :set paste!<CR>
 
 
 " insert mode (inoremap)
