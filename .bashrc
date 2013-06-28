@@ -42,6 +42,11 @@ export LD_LIBRARY_PATH=$HOME/usr/local/lib:$HOME/usr/lib:/usr/local/lib:/usr/lib
 export PYTHONPATH=$HOME/usr/local/lib:$HOME/usr/lib/python:/usr/local/lib:/usr/lib/python:$PYTHONPATH
 #export PYTHONHOME=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 
+#For MacVim
+if [[ "$OSTYPE" =~ "darwin" ]] && [ -d /Applications/MacVim.app/Contents/MacOS ];then
+  export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
+fi
+
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 # }}} Local path
@@ -214,6 +219,7 @@ alias svnHeadDiff="svn diff --revision=HEAD"
 alias vim="vim -X" # no X
 alias vi="vim -X" # vi->vim,no X
 alias memo="vim -X ~/.memo.md"
+alias vid="vim -X -d"
 #alias grep="grep --color=always"
 alias c="multi_clipboards"
 alias put='multi_clipboards -x'
@@ -232,17 +238,6 @@ function mynoglob_helper {
   unset shopts
 }
 alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
-# }}}
-
-# Use common function in Mac/Unix for sed -i... w/o backup {{{
-# Unix uses GNU sed
-# Mac uses BSD sed
-# BSD sed requires suffix for backup file when "-i" option is given
-# while GNU sed can run w/o suffix and doesn't make backup file
-function sedi {
-  sed -i.bak "$1" "$2"
-  rm -f "$2".bak
-}
 # }}}
 
 # Change words in file by sed{{{
@@ -645,6 +640,59 @@ function calc {
   esac
 } # }}}
 
+# For GNU-BSD compatibility {{{
+
+# cp wraper for BSD cp (make it like GNU cp){{{
+# Remove the end "/" and change -r to -R
+if ! cp --version 2>/dev/null |grep -q GNU;then
+  function cp {
+    local opt=""
+    local source=""
+    local dest=""
+    while [ $# -gt 0 ];do
+      if [[ "$1" == -* ]];then
+        if [ "$1" == "-r" ];then
+          opt="$opt -R"
+        else
+          opt="$opt $1"
+        fi
+      elif [ $# -eq 1 ];then
+        dest="$1"
+      else
+        source="${source} ${1%/}"
+      fi
+      shift
+    done
+    command cp $opt $source $dest
+  }
+fi
+# }}}
+
+# Use common function in Mac/Unix for sed -i... w/o backup {{{
+# Unix uses GNU sed
+# Mac uses BSD sed
+# BSD sed requires suffix for backup file when "-i" option is given
+# (for no backup, need ""),
+# while GNU sed can run w/o suffix and doesn't make backup file
+if sed --version 2>/dev/null |grep -q GNU;then
+  alias sedi='sed -i"" '
+else
+  alias sedi='sed -i "" '
+fi
+# }}}
+
+# Revert lines in the file/std input
+# Note: There is "rev" command which
+#       reversing the order of characters in every line.
+# Set reverse command
+if ! type tac >/dev/null 2>&1;then
+  alias revlines="tac"
+elif ! tail --version 2>/dev/null |grep -q GNU;then
+  alias revlines="tail -r"
+fi
+
+# }}}
+
 # }}} Alias, Function
 
 # stty {{{
@@ -800,9 +848,12 @@ fi # }}}
 # }}} For screen
 
 # Setup for each environment {{{
-# File used in linux, working server
+# Note: such PATH setting should be placed
+#       at above Local path settings (before alias/function definitions)
+
+# File used in linux
 if [[ "$OSTYPE" =~ "linux" ]];then
-  source_file ~/.work.sh
+  source_file ~/.linux.sh
 fi
 
 # File used in mac
@@ -814,4 +865,11 @@ fi
 if [[ "$OSTYPE" =~ "cygwin" ]];then
   source_file ~/.win.sh
 fi
+
+# File used for working server
+source_file ~/.work.sh
+
+# File for special settings for each machine
+source_file ~/.local.sh
+
 # }}} Setup for each environment
