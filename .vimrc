@@ -200,7 +200,7 @@ NeoBundleLazy 'mattn/benchvimrc-vim',{
       \}
 
 " File Explorer
-"NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'kien/ctrlp.vim'
 "NeoBundle 'scrooloose/nerdtree'
 "NeoBundle 'Source-Explorer-srcexpl.vim'
 "NeoBundle 'trinity.vim'
@@ -547,6 +547,16 @@ if ! empty(neobundle#get("surround.vim"))
   " Numbers for characters can be found by :ascii on each character
   let g:surround_96 = "`\r`" " use `
 
+  vmap { S{
+  vmap } S}
+  vmap [ S[
+  vmap ] S]
+  vmap ( S(
+  vmap ) S)
+  vmap < S<
+  vmap > S>
+  vmap " S"
+  vmap ' S'
   vmap ` S`
 endif
 " }}} surround.vim
@@ -896,10 +906,10 @@ if ! empty(neobundle#get("vim-ref"))
   " vim-ref prefix
   nnoremap [ref] <Nop>
   nmap <Leader>r [ref]
-  nnoremap [ref]rj :<C-u>Ref webdict je<Space>
-  nnoremap [ref]re :<C-u>Ref webdict ej<Space>
-  nnoremap [ref]rw :<C-u>Ref webdict wiki<Space>
-  nnoremap [ref]rm :<C-u>Ref man<Space>
+  nnoremap [ref]j :<C-u>Ref webdict je<Space>
+  nnoremap [ref]e :<C-u>Ref webdict ej<Space>
+  nnoremap [ref]w :<C-u>Ref webdict wiki<Space>
+  nnoremap [ref]m :<C-u>Ref man<Space>
 endif
 "}}}
 
@@ -1091,11 +1101,12 @@ inoremap <C-U> <C-G>u<C-U>
 """ visual mode (vnoremap)
 
 "  is not necessary?
-''vnoremap { "zdi{<C-R>z}<Esc>
-vnoremap [ "zdi[<C-R>z]<Esc>
-vnoremap ( "zdi(<C-R>z)<Esc>
-vnoremap " "zdi"<C-R>z"<Esc>
-vnoremap ' "zdi'<C-R>z'<Esc>
+" Move to surround
+"vnoremap { "zdi{<C-R>z}<Esc>
+"vnoremap [ "zdi[<C-R>z]<Esc>
+"vnoremap ( "zdi(<C-R>z)<Esc>
+"vnoremap " "zdi"<C-R>z"<Esc>
+"vnoremap ' "zdi'<C-R>z'<Esc>
 
 " remove trail spaces
 vnoremap <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
