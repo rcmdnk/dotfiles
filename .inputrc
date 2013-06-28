@@ -107,10 +107,11 @@ $endif
 "\eq": "${}\C-b"
 
 # less
-"\el":"\C-e | less\C-m"
+#"\el":"\C-e | less\C-m"
 
 # ls
 "\es":"\C-e\C-uls\C-m"
+"\el":"ls -ltr\C-m"
 
 # cd
 #"\eu":"\C-e\C-ucd ../\C-mls\C-m"
@@ -126,5 +127,6 @@ $endif
 # disable C-t
 "\C-t:": ""
 
-"\ef": "find . -print0 | xargs -0 "
+# xargs
+"\ex": "find . -print0 | xargs -0 "
 

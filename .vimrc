@@ -36,7 +36,6 @@ NeoBundleLazy 'Shougo/vimproc', {
       \  },
       \}
 
-
 " Use shell in vim
 NeoBundleLazy 'Shougo/vimshell',{
       \  'autoload' : {'commands': ['VimShell']},
@@ -49,10 +48,6 @@ NeoBundleLazy 'Shougo/unite.vim',{
       \  'autoload' : {'commands': ['Unite','UniteWithBufferDir']}
       \}
 
-" File Explorer
-"NeoBundle 'kien/ctrlp.vim'
-"NeoBundle 'scrooloose/nerdtree'
-
 " Completion
 "NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'Shougo/neocomplete'
@@ -60,9 +55,6 @@ NeoBundleLazy 'Shougo/unite.vim',{
 
 " For git/svn status, log
 "NeoBundle 'hrsh7th/vim-versions.git'
-
-" Quick run
-"NeoBundle 'thinca/vim-quickrun'
 
 " Vim plugin to highlight matchit.vim
 NeoBundle 'vimtaku/hl_matchit.vim'
@@ -123,6 +115,9 @@ NeoBundle 'kana/vim-submode'
 " Open browser
 NeoBundle 'tyru/open-browser.vim'
 
+" MRU, fle history
+NeoBundle 'mru.vim'
+
 " Easymotion
 "NeoBundle 'Lokaltog/vim-easymotion'
 
@@ -138,11 +133,6 @@ NeoBundle 'tyru/open-browser.vim'
 "      \ "autoload": {
 "      \   "filetypes": ["python", "python3", "djangohtml"],
 "      \ }}
-
-
-
-" LanguageTool
-NeoBundle 'vim-scripts/LanguageTool'
 
 " Gmail
 "NeoBundleLazy 'yuratomo/gmail.vim',{
@@ -166,11 +156,6 @@ NeoBundle 'vim-scripts/LanguageTool'
 "      \                             'EvervimOpenBrowser', 'EvervimSetup']},
 "      \}
 
-" Make benchmark result of vimrc
-NeoBundleLazy 'mattn/benchvimrc-vim',{
-      \  'autoload' : {'commands': ['BenchVimrc']},
-      \}
-
 " Syntax
 NeoBundle 'scrooloose/syntastic'
 
@@ -189,6 +174,8 @@ NeoBundleLazy "mattn/gist-vim", {
       \   "commands": ["Gist"],
       \ }}
 
+" Quick run
+"NeoBundle 'thinca/vim-quickrun'
 
 " Singletop
 "NeoBundle 'thinca/vim-singleton'
@@ -196,16 +183,32 @@ NeoBundleLazy "mattn/gist-vim", {
 " Splash
 "NeoBundle 'thinca/vim-splash'
 
-" Habatobi 
+" vim-ref
+NeoBundle 'thinca/vim-ref'
+
+" LanguageTool
+NeoBundle 'vim-scripts/LanguageTool'
+
+" Habatobi
 NeoBundleLazy 'mattn/habatobi-vim',{
       \  'autoload' : {'commands': ['Habatobi']},
       \}
 
-" For IDE
+" Make benchmark result of vimrc
+NeoBundleLazy 'mattn/benchvimrc-vim',{
+      \  'autoload' : {'commands': ['BenchVimrc']},
+      \}
+
+" File Explorer
+"NeoBundle 'kien/ctrlp.vim'
+"NeoBundle 'scrooloose/nerdtree'
 "NeoBundle 'Source-Explorer-srcexpl.vim'
 "NeoBundle 'trinity.vim'
 "NeoBundle 'The-NERD-tree'
-"NeoBundle 'taglist.vim'
+"NeoBundle 'wesleyche/SrcExpl'
+
+" For Tags
+NeoBundle 'taglist.vim'
 "NeoBundle 'ctags.vim'
 
 
@@ -480,122 +483,116 @@ nnoremap <C-r> g+
 
 " gundo {{{
 if ! empty(neobundle#get("gundo.vim"))
-
-nnoremap U :GundoToggle<CR>
-" Don't show preview by moving history. Use r to see differences
-let g:gundo_auto_preview = 0
+  nnoremap U :GundoToggle<CR>
+  " Don't show preview by moving history. Use r to see differences
+  let g:gundo_auto_preview = 0
 endif
 " }}} gundo
 
 " Unite {{{
 if ! empty(neobundle#get("unite.vim"))
+  autocmd myaugroup FileType unite call s:unite_my_settings()
+  function! s:unite_my_settings()
+    nmap <buffer><Esc> <Plug>(unite_exit)
+    imap <buffer><Esc><Esc> <Plug>(unite_exit)
+  endfunction
+  " start with insert mode (can start narrow result in no time)
+  let g:unite_enable_start_insert=1
+  " window
+  "let g:unite_enable_split_vertically=1
+  let g:unite_split_rule='botright' " default topleft
+  let g:unite_winheight=10          " default 20
+  let g:unite_winwidth=60           " default 90
 
-autocmd myaugroup FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()
-  nmap <buffer><Esc> <Plug>(unite_exit)
-  imap <buffer><Esc><Esc> <Plug>(unite_exit)
-endfunction
-" start with insert mode (can start narrow result in no time)
-let g:unite_enable_start_insert=1
-" window
-"let g:unite_enable_split_vertically=1
-let g:unite_split_rule='botright' " default topleft
-let g:unite_winheight=10          " default 20
-let g:unite_winwidth=60           " default 90
+  " Unite prefix
+  nnoremap [unite] <Nop>
+  nmap <Leader>u [unite]
 
-" Unite prefix
-nnoremap [unite] <Nop>
-nmap <Leader>u [unite]
-
-" show buffer
-nnoremap <silent> [unite]b :Unite buffer<CR>
-" show files/directories with full path
-" -buffer-name-files enable to use wild card
-"nnoremap <silent> <Leader>uf :UniteWithBufferDir -buffer-name=files file<CR>
-" WithBufferDir for file search freezes when try to delete even current
-" directory names in insert mode...
-nnoremap <silent> [unite]f :Unite -buffer-name=files file<CR>
-" show register
-nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
-" show opened file history including current buffers
-nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
-" show lines of current file
-nnoremap <silent> [unite]l :Unite line<CR>
-
+  " show buffer
+  nnoremap <silent> [unite]b :Unite buffer<CR>
+  " show files/directories with full path
+  " -buffer-name-files enable to use wild card
+  "nnoremap <silent> <Leader>uf :UniteWithBufferDir -buffer-name=files file<CR>
+  " WithBufferDir for file search freezes when try to delete even current
+  " directory names in insert mode...
+  nnoremap <silent> [unite]f :Unite -buffer-name=files file<CR>
+  " show register
+  nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
+  " show opened file history including current buffers
+  nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
+  " show lines of current file
+  nnoremap <silent> [unite]l :Unite line<CR>
 endif
 " }}} Unite
 
 " vim-smartchr {{{
 if ! empty(neobundle#get("vim-smartchr"))
-inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
+  inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
 endif
 " }}} vim-smartchr
 
 " vim-smartinput {{{
 if ! empty(neobundle#get("vim-smartinput"))
-" Remove spaces at the end of line
-call smartinput#define_rule({
-\   'at': '\s\+\%#',
-\   'char': '<CR>',
-\   'input': "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>",
-\   })
+  " Remove spaces at the end of line
+  call smartinput#define_rule({
+  \   'at': '\s\+\%#',
+  \   'char': '<CR>',
+  \   'input': "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>",
+  \   })
 endif
 " }}} vim-smartinput
 
-" vim-surround {{{
-if ! empty(neobundle#get("YankRing.vim"))
+" surround.vim {{{
+if ! empty(neobundle#get("surround.vim"))
   " Numbers for characters can be found by :ascii on each character
-  let g:surround_96 = "hoge \r hoge" " use ``
-  "doesn't work, any plugins conflict?
+  let g:surround_96 = "`\r`" " use `
+
+  vmap ` S`
 endif
-" }}} vim-surround
+" }}} surround.vim
 
 " YankRing {{{
 if ! empty(neobundle#get("YankRing.vim"))
+  nnoremap <Leader>y :YRShow<CR>
+  " avoid to store single letter to normal register
+  let s:bundledir=expand('~/.vim/bundle')
+  let g:yankring_history_dir=expand('~/.vim/')
+  "let g:yankring_n_keys = 'Y D' " Y D x X
+  "let g:yankring_enabled=0 " 1
+  let g:yankring_max_history=50 " 100
+  let g:yankring_max_display=50 " 500
+  "let g:yankring_ignore_duplicate=0 " 1
+  let g:yankring_dot_repeat_yank=1
+  let g:yankring_clipboard_monitor=0 " 1
+  let g:yankring_min_element_length=2 " 1, :skip all single letter copy
+  "let g:yankring_persist=0 " 1
+  "let g:yankring_share_between_instances=0 " 1
+  "let g:yankring_window_use_separate=0 " 1
+  "let g:yankring_window_use_horiz=0
+  "let g:yankring_window_auto_close=0 " 1
+  let g:yankring_window_width=50 " 30
+  "let g:yankring_window_use_right=0 " 1
+  "let g:yankring_window_increment=15 " 1
+  let g:yankring_manage_numbered_reg = 1 " 0
+  "let g:yankring_paste_check_default_register = 0 "1
 
-nnoremap <Leader>y :YRShow<CR>
-" avoid to store single letter to normal register
-let s:bundledir=expand('~/.vim/bundle')
-let g:yankring_history_dir=expand('~/.vim/')
-"let g:yankring_n_keys = 'Y D' " Y D x X
-"let g:yankring_enabled=0 " 1
-let g:yankring_max_history=50 " 100
-let g:yankring_max_display=50 " 500
-"let g:yankring_ignore_duplicate=0 " 1
-let g:yankring_dot_repeat_yank=1
-let g:yankring_clipboard_monitor=0 " 1
-let g:yankring_min_element_length=2 " 1, :skip all single letter copy
-"let g:yankring_persist=0 " 1
-"let g:yankring_share_between_instances=0 " 1
-"let g:yankring_window_use_separate=0 " 1
-"let g:yankring_window_use_horiz=0
-"let g:yankring_window_auto_close=0 " 1
-let g:yankring_window_width=50 " 30
-"let g:yankring_window_use_right=0 " 1
-"let g:yankring_window_increment=15 " 1
-let g:yankring_manage_numbered_reg = 1 " 0
-"let g:yankring_paste_check_default_register = 0 "1
-
-" for warning :The yankring can only persist if the viminfo setting has a !
-"set viminfo+=!
-
+  " for warning :The yankring can only persist if the viminfo setting has a !
+  "set viminfo+=!
 endif
 " }}} YankRing
 
 " yanktmp {{{
 if ! empty(neobundle#get("yanktmp.vim"))
+  let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
 
-let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
+  " yanktmp prefix
+  noremap [yanktmp] <Nop>
+  map s [yanktmp]
 
-" yanktmp prefix
-noremap [yanktmp] <Nop>
-map s [yanktmp]
-
-" show buffer
-noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
-noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
-noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
-
+  " show buffer
+  noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
+  noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
+  noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
 endif
 " }}} yanktmp
 
@@ -655,13 +652,11 @@ set statusline+=%=%l/%L,%c%V%8P
 
 " neocomplcache {{{
 if ! empty(neobundle#get("neocomplcache"))
-
-let g:neocomplcache_enable_at_startup = 1 " enable at start up
-let g:neocomplcache_smartcase = 1 " distinguish capital and
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_min_syntax_length = 3
-
+  let g:neocomplcache_enable_at_startup = 1 " enable at start up
+  let g:neocomplcache_smartcase = 1 " distinguish capital and
+  let g:neocomplcache_enable_camel_case_completion = 1
+  let g:neocomplcache_enable_underbar_completion = 1
+  let g:neocomplcache_min_syntax_length = 3
 endif
 " }}}
 
@@ -677,11 +672,9 @@ let b:match_ignorecase = 1
 
 " for hl_matchit {{{
 if ! empty(neobundle#get("hl_matchit.vim"))
-
-let g:hl_matchit_enable_on_vim_startup = 1
-let g:hl_matchit_hl_groupname = 'Title'
-let g:hl_matchit_allow_ft_regexp = 'html\|vim\|ruby\|sh'
-
+  let g:hl_matchit_enable_on_vim_startup = 1
+  let g:hl_matchit_hl_groupname = 'Title'
+  let g:hl_matchit_allow_ft_regexp = 'html\|vim\|ruby\|sh'
 endif
 "" }}} hl_matchit
 
@@ -716,186 +709,215 @@ endif
 
 " vim-easymotion{{{
 if ! empty(neobundle#get("vim-easymotion"))
-
-let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
-"let g:EasyMotion_keys='ifjklasdweuocvbnm'
-let g:EasyMotion_do_mapping=0
-let g:EasyMotion_leader_key=","
-let g:EasyMotion_grouping=1
-hi EasyMotionTarget ctermbg=none ctermfg=red
-hi EasyMotionShade  ctermbg=none ctermfg=blue
-
+  let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
+  "let g:EasyMotion_keys='ifjklasdweuocvbnm'
+  let g:EasyMotion_do_mapping=0
+  let g:EasyMotion_leader_key=","
+  let g:EasyMotion_grouping=1
+  hi EasyMotionTarget ctermbg=none ctermfg=red
+  hi EasyMotionShade  ctermbg=none ctermfg=blue
 endif
 " }}} vim-easymotion
 
 " jedi-vim{{{
 if ! empty(neobundle#get("jedi"))
-
-let g:jedi#auto_initialization = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#goto_command = "<leader>g"
-let g:jedi#get_definition_command = "<leader>d"
-let g:jedi#pydoc = "K"
-let g:jedi#autocompletion_command = "<C-Space>"
-
+  let g:jedi#auto_initialization = 0
+  let g:jedi#auto_vim_configuration = 0
+  let g:jedi#goto_command = "<leader>g"
+  let g:jedi#get_definition_command = "<leader>d"
+  let g:jedi#pydoc = "K"
+  let g:jedi#autocompletion_command = "<C-Space>"
 endif
 " }}} jedi-vim
 
 " SimpleNote{{{
 if ! empty(neobundle#get("simplenote.vim"))
-
-" for simplenote.vim
-"let g:SimplenoteUsername = ''
-"let g:SimplenotePassword = ''
-if filereadable(expand('$HOME/.Simplenote.vim'))
-  source $HOME/.Simplenote.vim
-endif
-
+  " for simplenote.vim
+  "let g:SimplenoteUsername = ''
+  "let g:SimplenotePassword = ''
+  if filereadable(expand('$HOME/.Simplenote.vim'))
+    source $HOME/.Simplenote.vim
+  endif
 endif
 
 if ! empty(neobundle#get("vimplenote-vim"))
+  " for vimplenote-vim
+  "let g:VimpleNoteUsername = ''
+  "let g:VimpleNotePassword = ''
+  " move to $HOME/.VimpleNote
+  if filereadable(expand('$HOME/.VimpleNote.vim'))
+    " in vimplenote/autoload/vimplenote.vim:get_email(),
+    " email must be input even if VimpleNoteUsername was defined,
+    " because it checks self.token, it is always 0 here...
+    source $HOME/.VimpleNote.vim
+  endif
 
-" for vimplenote-vim
-"let g:VimpleNoteUsername = ''
-"let g:VimpleNotePassword = ''
-" move to $HOME/.VimpleNote
-if filereadable(expand('$HOME/.VimpleNote.vim'))
-  " in vimplenote/autoload/vimplenote.vim:get_email(),
-  " email must be input even if VimpleNoteUsername was defined,
-  " because it checks self.token, it is always 0 here...
-  source $HOME/.VimpleNote.vim
+  function! Sn()
+    VimpleNote -l
+    wincmd w
+    wincmd q
+  endfunction
 endif
-
-function! Sn()
-  VimpleNote -l
-  wincmd w
-  wincmd q
-endfunction
-
-endif
-
 " }}} Simplenote
 
 " Gmail{{{
 if ! empty(neobundle#get("gmail.vim"))
-
-let g:gmail_imap = 'imap.gmail.com:993'
-let g:gmail_smtp = 'smtp.gmail.com:465'
-" path for openssl
-let &path = $path.'/usr/bin'
-if filereadable(expand('$HOME/.Gmail.vim'))
-  source $HOME/.Gmail.vim
-endif
-
+  let g:gmail_imap = 'imap.gmail.com:993'
+  let g:gmail_smtp = 'smtp.gmail.com:465'
+  " path for openssl
+  let &path = $path.'/usr/bin'
+  if filereadable(expand('$HOME/.Gmail.vim'))
+    source $HOME/.Gmail.vim
+  endif
 endif
 " }}} Gmail
 
 " vim-indent-guides{{{
 if ! empty(neobundle#get("vim-indent-guides"))
+  let g:indent_guides_enable_on_vim_startup = 1
+  "let g:indent_guides_guide_size =  1
+  let g:indent_guides_start_level = 1
+  let g:indent_guides_auto_colors = 0
 
-let g:indent_guides_enable_on_vim_startup = 1
-"let g:indent_guides_guide_size =  1
-let g:indent_guides_start_level = 1
-let g:indent_guides_auto_colors = 0
-
-"autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=lightgray
-"autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
-autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=234
-autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
-
+  "autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=lightgray
+  "autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
+  autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=234
+  autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 endif
 "}}} vim-indent-guides
 
 " vim-submode{{{
 if ! empty(neobundle#get("vim-submode"))
-
-call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
-call submode#enter_with('winsize', 'n', '', '<C-w>e', '<C-w>><C-w><')
-call submode#enter_with('winsize', 'n', '', '<C-w><C-e>', '<C-w>><C-w><')
-call submode#map('winsize', 'n', '', '>', '<C-w>>')
-call submode#map('winsize', 'n', '', '<', '<C-w><')
-call submode#map('winsize', 'n', '', '+', '<C-w>-')
-call submode#map('winsize', 'n', '', '-', '<C-w>+')
-call submode#map('winsize', 'n', '', 'l', '<C-w>>')
-call submode#map('winsize', 'n', '', 'h', '<C-w><')
-call submode#map('winsize', 'n', '', 'j', '<C-w>-')
-call submode#map('winsize', 'n', '', 'k', '<C-w>+')
-call submode#map('winsize', 'n', '', '=', '<C-w>=')
-
+  call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+  call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+  call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+  call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+  call submode#enter_with('winsize', 'n', '', '<C-w>e', '<C-w>><C-w><')
+  call submode#enter_with('winsize', 'n', '', '<C-w><C-e>', '<C-w>><C-w><')
+  call submode#map('winsize', 'n', '', '>', '<C-w>>')
+  call submode#map('winsize', 'n', '', '<', '<C-w><')
+  call submode#map('winsize', 'n', '', '+', '<C-w>-')
+  call submode#map('winsize', 'n', '', '-', '<C-w>+')
+  call submode#map('winsize', 'n', '', 'l', '<C-w>>')
+  call submode#map('winsize', 'n', '', 'h', '<C-w><')
+  call submode#map('winsize', 'n', '', 'j', '<C-w>-')
+  call submode#map('winsize', 'n', '', 'k', '<C-w>+')
+  call submode#map('winsize', 'n', '', '=', '<C-w>=')
 endif
 "}}} vim-submode
 
 " open-browser{{{
 if ! empty(neobundle#get("open-browser.vim"))
-
-let g:netrw_nogx = 1 " disable netrw's gx mapping.
-nmap gx <Plug>(openbrowser-smart-search)
-vmap gx <Plug>(openbrowser-smart-search)
-
+  let g:netrw_nogx = 1 " disable netrw's gx mapping.
+  nmap gx <Plug>(openbrowser-smart-search)
+  vmap gx <Plug>(openbrowser-smart-search)
 endif
 "}}} open-browser
 
 " LanguageTool{{{
 if ! empty(neobundle#get("LanguageTool"))
-let g:languagetool_jar='$HOME/.languagetool/LanguageTool-2.1/languagetool-commandline.jar'
+  let g:languagetool_jar='$HOME/.languagetool/LanguageTool-2.1/languagetool-commandline.jar'
 endif
 "}}} LanguageTool
 
 " vim-anzu{{{
 if ! empty(neobundle#get("vim-anzu"))
-nmap n <Plug>(anzu-n-with-echo)
-nmap N <Plug>(anzu-N-with-echo)
-nmap * <Plug>(anzu-star-with-echo)
-nmap # <Plug>(anzu-sharp-with-echo)
+  nmap n <Plug>(anzu-n-with-echo)
+  nmap N <Plug>(anzu-N-with-echo)
+  nmap * <Plug>(anzu-star-with-echo)
+  nmap # <Plug>(anzu-sharp-with-echo)
 endif
 "}}} vim-anzu
 
 " syntastic{{{
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=2
+if ! empty(neobundle#get("syntastic"))
+  let g:syntastic_enable_signs=1
+  let g:syntastic_auto_loc_list=2
+endif
 "}}} syntastic
 
 " undotree{{{
 if ! empty(neobundle#get("undotree"))
-
-nmap <Leader>U :UndotreeToggle<CR>
-let g:undotree_SetFocusWhenToggle = 1
-let g:undotree_SplitLocation = 'topleft'
-let g:undotree_SplitWidth = 35
-let g:undotree_diffAutoOpen = 1
-let g:undotree_diffpanelHeight = 25
-let g:undotree_RelativeTimestamp = 1
-let g:undotree_TreeNodeShape = '*'
-let g:undotree_HighlightChangedText = 1
-let g:undotree_HighlightSyntax = "UnderLined"
-
+  nmap <Leader>U :UndotreeToggle<CR>
+  let g:undotree_SetFocusWhenToggle = 1
+  let g:undotree_SplitLocation = 'topleft'
+  let g:undotree_SplitWidth = 35
+  let g:undotree_diffAutoOpen = 1
+  let g:undotree_diffpanelHeight = 25
+  let g:undotree_RelativeTimestamp = 1
+  let g:undotree_TreeNodeShape = '*'
+  let g:undotree_HighlightChangedText = 1
+  let g:undotree_HighlightSyntax = "UnderLined"
 endif
 " }}}
 
 " applescript{{{
 if ! empty(neobundle#get("applescript.vim"))
-autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
+  autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd myaugroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
 endif
 "}}} applescript
 
 " splash{{{
 if ! empty(neobundle#get("vim-splash"))
-let g:splash#path = $HOME . '/.vimrc'
+  let g:splash#path = $HOME . '/.vimrc'
 endif
 "}}} splash
 
+" vim-ref {{{
+if ! empty(neobundle#get("vim-ref"))
+  " Set webdict sources
+  let g:ref_source_webdict_sites = {
+  \   'je': {
+  \     'url': 'http://dictionary.infoseek.ne.jp/jeword/%s',
+  \   },
+  \   'ej': {
+  \     'url': 'http://dictionary.infoseek.ne.jp/ejword/%s',
+  \   },
+  \   'wiki': {
+  \     'url': 'http://ja.wikipedia.org/wiki/%s',
+  \   },
+  \ }
+
+  " Set default
+  let g:ref_source_webdict_sites.default = 'ej'
+
+  " Filter
+  function! g:ref_source_webdict_sites.je.filter(output)
+    return join(split(a:output, "\n")[15 :], "\n")
+  endfunction
+  function! g:ref_source_webdict_sites.ej.filter(output)
+    return join(split(a:output, "\n")[15 :], "\n")
+  endfunction
+  function! g:ref_source_webdict_sites.wiki.filter(output)
+    return join(split(a:output, "\n")[17 :], "\n")
+  endfunction
+
+  " vim-ref prefix
+  nnoremap [ref] <Nop>
+  nmap <Leader>r [ref]
+  nnoremap [ref]rj :<C-u>Ref webdict je<Space>
+  nnoremap [ref]re :<C-u>Ref webdict ej<Space>
+  nnoremap [ref]rw :<C-u>Ref webdict wiki<Space>
+  nnoremap [ref]rm :<C-u>Ref man<Space>
+endif
+"}}}
+
+" SrcExpl  {{{
+if ! empty(neobundle#get("SrcExpl"))
+ let g:SrcExpl_RefreshTime = 1
+ let g:SrcExpl_UpdateTags = 1
+endif
+"}}}
+
 " taglist{{{
 if ! empty(neobundle#get("taglist.vim"))
-set tags=tags
-let Tlist_Ctags_Cmd = "/usr/bin/ctags""
-let Tlist_Show_One_File = 1
-let Tlist_Use_Right_Window = 1
-let Tlist_Exit_OnlyWindow = 1
-nnoremap <silent> <leader>l :TlistToggle<CR>
+  set tags=tags
+  let Tlist_Ctags_Cmd = "/usr/bin/ctags""
+  let Tlist_Show_One_File = 1
+  let Tlist_Use_Right_Window = 1
+  let Tlist_Exit_OnlyWindow = 1
+  nnoremap <silent> <leader>l :TlistToggle<CR>
 endif
 "}}} taglist
 
@@ -1069,11 +1091,15 @@ inoremap <C-U> <C-G>u<C-U>
 """ visual mode (vnoremap)
 
 "  is not necessary?
-vnoremap { "zdi{<C-R>z}<Esc>
+''vnoremap { "zdi{<C-R>z}<Esc>
 vnoremap [ "zdi[<C-R>z]<Esc>
 vnoremap ( "zdi(<C-R>z)<Esc>
 vnoremap " "zdi"<C-R>z"<Esc>
 vnoremap ' "zdi'<C-R>z'<Esc>
+
+" remove trail spaces
+vnoremap <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
+
 
 """ command line mode (cnoremap)
 cnoremap <C-b> <Left>
