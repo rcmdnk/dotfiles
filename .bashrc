@@ -657,6 +657,8 @@ fi
 # }}}
 
 # For screen {{{
+alias screenr="screen -r"
+
 # Screen wrapper {{{
 function screen {
   # Tips of screen for a cluster
