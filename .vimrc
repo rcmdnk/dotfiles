@@ -1091,11 +1091,15 @@ inoremap <C-U> <C-G>u<C-U>
 """ visual mode (vnoremap)
 
 "  is not necessary?
-vnoremap { "zdi{<C-R>z}<Esc>
+''vnoremap { "zdi{<C-R>z}<Esc>
 vnoremap [ "zdi[<C-R>z]<Esc>
 vnoremap ( "zdi(<C-R>z)<Esc>
 vnoremap " "zdi"<C-R>z"<Esc>
 vnoremap ' "zdi'<C-R>z'<Esc>
+
+" remove trail spaces
+vnoremap <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
+
 
 """ command line mode (cnoremap)
 cnoremap <C-b> <Left>
