@@ -1155,7 +1155,7 @@ cnoremap w!! w !sudo tee > /dev/null %
 ""                (doesn't work at the expression prompt; some
 ""                things such as changing the buffer or current
 ""
-"" # vimdiff
+"" # vimdiff (vim -d)
 "" * Open files
 ""     vimdiff file1 file2 [file3 [file4]]
 "" * Open vimdiff during editing with vim
@@ -1169,6 +1169,12 @@ cnoremap w!! w !sudo tee > /dev/null %
 ""     do
 "" * Copy another's buffer's structure to current structure
 ""     dp
+"" * Diff to original when it was opened
+""   :DiffOrig
+"" * Stop diff
+""   :diffoff
+"" * Update diff
+""   :diffupdate
 ""
 "" # Register
 "" * Show words in register
