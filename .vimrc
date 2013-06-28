@@ -115,9 +115,6 @@ NeoBundle 'kana/vim-submode'
 " Open browser
 NeoBundle 'tyru/open-browser.vim'
 
-" MRU, fle history
-NeoBundle 'mru.vim'
-
 " Easymotion
 "NeoBundle 'Lokaltog/vim-easymotion'
 
@@ -202,10 +199,12 @@ NeoBundleLazy 'mattn/benchvimrc-vim',{
 " File Explorer
 NeoBundle 'kien/ctrlp.vim'
 "NeoBundle 'scrooloose/nerdtree'
-"NeoBundle 'Source-Explorer-srcexpl.vim'
 "NeoBundle 'trinity.vim'
 "NeoBundle 'The-NERD-tree'
-"NeoBundle 'wesleyche/SrcExpl'
+"NeoBundle 'Source-Explorer-srcexpl.vim'
+NeoBundle 'wesleyche/SrcExpl'
+"NeoBundle 'mru.vim'
+
 
 " For Tags
 NeoBundle 'taglist.vim'
@@ -916,20 +915,45 @@ endif
 " SrcExpl  {{{
 if ! empty(neobundle#get("SrcExpl"))
  let g:SrcExpl_RefreshTime = 1
- let g:SrcExpl_UpdateTags = 1
+ let g:SrcExpl_UpdateTags = 0
+ nnoremap <Leader>e :SrcExplToggle<CR>
 endif
 "}}}
 
 " taglist{{{
 if ! empty(neobundle#get("taglist.vim"))
   set tags=tags
-  let Tlist_Ctags_Cmd = "/usr/bin/ctags""
+  "let Tlist_Ctags_Cmd = "/usr/bin/ctags""
   let Tlist_Show_One_File = 1
   let Tlist_Use_Right_Window = 1
   let Tlist_Exit_OnlyWindow = 1
   nnoremap <silent> <leader>l :TlistToggle<CR>
 endif
 "}}} taglist
+
+" tag {{{
+if has('path_extra')
+  set tags+=tags;
+endif
+"}}} tag
+
+" cscope {{{
+if has("cscope")
+  set csprg=/usr/local/bin/cscope
+  set csto=0
+  set cst
+  set nocsverb
+  " add any database in current directory
+  if filereadable("cscope.out")
+    cs add cscope.out
+  " else add database pointed to by environment 
+  elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+  endif
+  set csverb
+  set cscopequickfix=s-,c-,d-,i-,t-,e-
+endif
+" }}} cscope
 
 "" open .vimrc when starting w/o argument {{{
 "autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | edit $MYVIMRC | endif
