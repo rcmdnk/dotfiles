@@ -129,6 +129,10 @@ NeoBundle 'tyru/open-browser.vim'
 "NeoBundleLazy "davidhalter/jedi-vim", {
 "      \ "autoload": {
 "      \   "filetypes": ["python", "python3", "djangohtml"],
+"      \   "build": {
+"      \   "mac": "pip install jedi",
+"      \   "unix": "pip install jedi",
+"      \   }
 "      \ }}
 
 " Gmail
@@ -154,7 +158,11 @@ NeoBundle 'tyru/open-browser.vim'
 "      \}
 
 " Syntax
-NeoBundle 'scrooloose/syntastic'
+NeoBundle 'scrooloose/syntastic', {
+      \ "build": {
+      \   "mac": ["pip install flake8", "npm -g install coffeelint"],
+      \   "unix": ["pip install flake8", "npm -g install coffeelint"],
+      \ }}
 
 " Count searching objects
 NeoBundle 'osyo-manga/vim-anzu'
@@ -164,7 +172,6 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv'
 
 " Gist
-NeoBundle 'mattn/webapi-vim'
 NeoBundleLazy "mattn/gist-vim", {
       \ "depends": ["mattn/webapi-vim"],
       \ "autoload": {
@@ -207,10 +214,12 @@ NeoBundle 'wesleyche/SrcExpl'
 
 
 " For Tags
-NeoBundle 'taglist.vim'
+"NeoBundle 'taglist.vim'
 "NeoBundle 'ctags.vim'
-
-
+NeoBundleLazy 'majutsushi/tagbar', {
+      \ "autload": {
+      \   "commands": ["TagbarToggle"],
+      \ }}
 
 " Color scheme
 "NeoBundle 'ujihisa/unite-colorscheme'
@@ -532,12 +541,12 @@ endif
 
 " vim-smartinput {{{
 if ! empty(neobundle#get("vim-smartinput"))
-  " Remove spaces at the end of line
-  call smartinput#define_rule({
-  \   'at': '\s\+\%#',
-  \   'char': '<CR>',
-  \   'input': "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>",
-  \   })
+  "" Remove spaces at the end of line
+  "call smartinput#define_rule({
+  "\   'at': '\s\+\%#',
+  "\   'char': '<CR>',
+  "\   'input': "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>",
+  "\   })
 endif
 " }}} vim-smartinput
 
@@ -729,11 +738,11 @@ endif
 " }}} vim-easymotion
 
 " jedi-vim{{{
-if ! empty(neobundle#get("jedi"))
+if ! empty(neobundle#get("jedi-vim"))
   let g:jedi#auto_initialization = 0
   let g:jedi#auto_vim_configuration = 0
-  let g:jedi#goto_command = "<leader>g"
-  let g:jedi#get_definition_command = "<leader>d"
+  let g:jedi#goto_command = "<Leader>g"
+  let g:jedi#get_definition_command = "<Leader>d"
   let g:jedi#pydoc = "K"
   let g:jedi#autocompletion_command = "<C-Space>"
 endif
@@ -931,6 +940,12 @@ if ! empty(neobundle#get("taglist.vim"))
 endif
 "}}} taglist
 
+" tagbar{{{
+if ! empty(neobundle#get("tagbar"))
+  nnoremap <silent> <leader>t :TagbarToggle<CR>
+endif
+"}}} taglist
+
 " tag {{{
 if has('path_extra')
   set tags+=tags;
@@ -1095,8 +1110,8 @@ inoremap <C-d> <Delete>
 inoremap <C-h> <Backspace>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
-
 " insert file/directory name
+" -> Use <C-o><Leader>f, instead
 "inoremap <silent> <Leader>f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
 "inoremap <silent> <Leader>f <C-R>%
 "inoremap <silent> <Leader>d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
@@ -1134,6 +1149,10 @@ inoremap <C-U> <C-G>u<C-U>
 
 " remove trail spaces
 vnoremap <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
+
+" Select word
+vnoremap w <Esc>bve
+vnoremap W <Esc>BvE
 
 
 """ command line mode (cnoremap)
