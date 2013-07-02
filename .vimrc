@@ -289,8 +289,12 @@ endif
 if ! isdirectory(&directory)
   set directory=./
 endif
-set viminfo+=n~/.vim/viminfo
-" set viminfo=expand('~/.viminfo')
+
+if has("gui_running") && ( has("win32unix") || has ("win64unix") || has("win32") || has ("win64") )
+  set viminfo+=n~/.vim/gviminfo
+else
+  set viminfo+=n~/.vim/viminfo
+endif
 
 set history=100    " Keep 100 lines of command line history
 
