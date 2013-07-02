@@ -121,8 +121,8 @@ $endif
 "\e\C-d": "for a in *;do du -s $a;done\C-m"
 
 # /dev/null
-"\e;": ">/dev/null\C-m"
-"\e:": ">& /dev/null\C-m"
+"\e;": ">& /dev/null\C-m"
+"\e:": ">/dev/null\C-m"
 
 # disable C-t
 "\C-t:": ""
