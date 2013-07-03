@@ -1145,6 +1145,18 @@ nnoremap / /\v
 " Close help with q
 autocmd myaugroup FileType help,qf nnoremap <buffer> q <C-w>c
 
+" Surround at Normal mode
+nnoremap <Leader>{ bi{<Space><Esc>ea<Space>}<Esc>
+nnoremap <Leader>} bi{<Esc>ea}<Esc>
+nnoremap <Leader>[ bi[<Space><Esc>ea<Space>]<Esc>
+nnoremap <Leader>] bi[<Esc>ea]<Esc>
+nnoremap <Leader>( bi(<Space><Esc>ea<Space>)<Esc>
+nnoremap <Leader>) bi(<Esc>ea)<Esc>
+nnoremap <Leader>< bi<<Space><Esc>ea<Space>><Esc>
+nnoremap <Leader>> bi<<Esc>ea><Esc>
+nnoremap <Leader>" bi"<Esc>ea"<Esc>
+nnoremap <Leader>' bi'<Esc>ea'<Esc>
+nnoremap <Leader>` bi`<Esc>ea`<Esc>
 
 " insert mode (inoremap)
 
