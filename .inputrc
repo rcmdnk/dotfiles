@@ -118,7 +118,7 @@ $endif
 "\eu":"\C-e\C-ucd ../\C-m"
 
 # du
-"\e\C-d": "for a in *;do du -s $a;done\C-m"
+"\ed": "for a in *;do du -s $a;done\C-m"
 
 # /dev/null
 "\e;": ">& /dev/null\C-m"
