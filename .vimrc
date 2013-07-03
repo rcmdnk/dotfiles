@@ -1,6 +1,15 @@
 " disable vi compatible mode (much better!)
 set nocompatible
 
+" Prepare .vim dir {{{
+if has('vim_starting')
+  let g:vimdir=$HOME . '/.vim'
+  if ! isdirectory(g:vimdir)
+    call system('mkdir ' . g:vimdir)
+  endif
+endif
+" }}}
+
 " neobundle {{{
 
 "" usage:
@@ -11,11 +20,13 @@ set nocompatible
 filetype off " required for neobundle
 "" set path
 if has('vim_starting')
-  let s:bundledir=expand('~/.vim/bundle')
+  let s:bundledir=g:vimdir . '/bundle'
   let s:neobundledir=s:bundledir . '/neobundle.vim'
   let &runtimepath = &runtimepath . ',' . s:neobundledir
   if ! isdirectory(s:neobundledir)
     echomsg 'Neobundle is not installed, install now '
+    echo 'git clone git://github.com/Shougo/neobundle.vim '
+          \ .  s:neobundledir
     call system('git clone git://github.com/Shougo/neobundle.vim '
           \ .  s:neobundledir)
   endif
@@ -76,7 +87,7 @@ NeoBundleLazy 'sjl/gundo.vim', {
 "NeoBundle 'kana/vim-smartchr'
 
 " smart input
-NeoBundle 'kana/vim-smartinput'
+"NeoBundle 'kana/vim-smartinput'
 
 " Easy to change surround
 NeoBundle 'surround.vim'
@@ -233,6 +244,14 @@ NeoBundleLazy 'majutsushi/tagbar', {
 
 " Installation check.
 NeoBundleCheck
+"" Installation check.
+"if neobundle#exists_not_installed_bundles()
+"  echomsg 'Not installed bundles : ' .
+"    \ string(neobundle#get_not_installed_bundle_names())
+""echomsg 'Please execute ":NeoBundleInstall" command.'
+"  NeoBundleInstall
+""finish
+"endif
 
 " enable plugin, indent again
 filetype plugin indent on
@@ -974,6 +993,21 @@ if has("cscope")
 endif
 " }}} cscope
 
+" gist-vim {{{
+if ! empty(neobundle#get("gist-vim"))
+  let g:gist_detect_filetype = 1
+  let g:gist_open_browser_after_post = 1
+  " Disable default Gist command
+  cnoremap <silent> Gist<CR> <CR>
+endif
+"}}} gist-vim
+
+" ctrlp {{{
+if ! empty(neobundle#get("ctrlp.vim"))
+  let g:ctrlp_map = '<c-;>'
+endif
+"}}} ctrlp
+
 "" open .vimrc when starting w/o argument {{{
 "autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | edit $MYVIMRC | endif
 "function! s:GetBufByte()
@@ -1093,6 +1127,16 @@ nnoremap <Leader>1 :q!<CR>
 " remove trail spaces
 nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
 
+" Paste mode
+nnoremap <silent> <Leader>p "+gP
+nnoremap <silent> <Leader>P :set paste!<CR>:set paste?<CR>
+
+" Open vimrc
+nnoremap <Leader><Leader> :<C-u>tabedit $MYVIMRC<CR>
+
+" Source vimrc
+nnoremap <Leader>. :source $MYVIMRC<CR>
+
 " search: very magic mode
 nnoremap / /\v
 " to check patterns:
@@ -1100,9 +1144,6 @@ nnoremap / /\v
 
 " Close help with q
 autocmd myaugroup FileType help,qf nnoremap <buffer> q <C-w>c
-
-" Paste mode
-nnoremap <Leader>p :set paste!<CR>
 
 
 " insert mode (inoremap)
@@ -1144,7 +1185,7 @@ inoremap <C-U> <C-G>u<C-U>
 """ visual mode (vnoremap)
 
 "  is not necessary?
-" Move to surround
+" -> use to surround
 "vnoremap { "zdi{<C-R>z}<Esc>
 "vnoremap [ "zdi[<C-R>z]<Esc>
 "vnoremap ( "zdi(<C-R>z)<Esc>
