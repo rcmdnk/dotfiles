@@ -71,6 +71,7 @@ silent qmark p http://getpocket.com/a/queue/
 " pocket
 " silent qmark q ... " in vimperator.local
 " nnoremap p goq
+silent qmark g http://github.com/rcmdnk
 
 " }}}
 
