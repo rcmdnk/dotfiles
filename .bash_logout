@@ -7,7 +7,8 @@ if [ -f ~/.hostForScreen ];then
       alias sedi='sed -i"" '
     else
       alias sedi='sed -i "" '
-   fi
+    fi
+    sedi -e "/`hostname`/d" ~/.hostForScreen
   fi
 fi
 echo "(-_-)/~ bye!"
