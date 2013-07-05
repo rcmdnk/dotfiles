@@ -124,7 +124,9 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'kana/vim-submode'
 
 " Open browser
-NeoBundle 'tyru/open-browser.vim'
+NeoBundleLazy 'tyru/open-browser.vim', { 'autoload' : {
+      \ 'mappings' : '<Plug>(open-browser-wwwsearch)',
+      \ }}
 
 " Easymotion
 "NeoBundle 'Lokaltog/vim-easymotion'
@@ -209,13 +211,11 @@ NeoBundle 'vim-scripts/LanguageTool'
 
 " Habatobi
 NeoBundleLazy 'mattn/habatobi-vim',{
-      \  'autoload' : {'commands': ['Habatobi']},
-      \}
+      \  'autoload' : {'commands': ['Habatobi']}}
 
 " Make benchmark result of vimrc
 NeoBundleLazy 'mattn/benchvimrc-vim',{
-      \  'autoload' : {'commands': ['BenchVimrc']},
-      \}
+      \  'autoload' : {'commands': ['BenchVimrc']}}
 
 " File Explorer
 NeoBundle 'kien/ctrlp.vim'
