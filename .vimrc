@@ -137,14 +137,17 @@ NeoBundle 'tyru/open-browser.vim'
 "NeoBundle 'goldfeld/vim-seek'
 
 " Python complete (don't work?)
-"NeoBundleLazy "davidhalter/jedi-vim", {
-"      \ "autoload": {
-"      \   "filetypes": ["python", "python3", "djangohtml"],
-"      \   "build": {
-"      \   "mac": "pip install jedi",
-"      \   "unix": "pip install jedi",
-"      \   }
-"      \ }}
+NeoBundleLazy "davidhalter/jedi-vim", {
+      \ "autoload": {
+      \   "filetypes": [ "python", "python3", "djangohtml"],
+      \   "build": {
+      \   "mac": "pip install jedi",
+      \   "unix": "pip install jedi",
+      \   }
+      \ }}
+
+" virtual env
+NeoBundle 'jmcantrell/vim-virtualenv'
 
 " Gmail
 "NeoBundleLazy 'yuratomo/gmail.vim',{
@@ -762,8 +765,8 @@ endif
 
 " jedi-vim{{{
 if ! empty(neobundle#get("jedi-vim"))
-  let g:jedi#auto_initialization = 0
-  let g:jedi#auto_vim_configuration = 0
+  let g:jedi#auto_initialization = 1
+  let g:jedi#auto_vim_configuration = 1
   let g:jedi#goto_command = "<Leader>g"
   let g:jedi#get_definition_command = "<Leader>d"
   let g:jedi#pydoc = "K"
