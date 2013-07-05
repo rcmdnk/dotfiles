@@ -173,14 +173,8 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'kana/vim-submode'
 
 " Open browser
-<<<<<<< HEAD
 NeoBundleLazy 'tyru/open-browser.vim', { 'autoload': {
       \ 'mappings' : '<Plug>(open-browser-wwwsearch)'}}
-=======
-NeoBundleLazy 'tyru/open-browser.vim', { 'autoload' : {
-      \ 'mappings' : '<Plug>(open-browser-wwwsearch)',
-      \ }}
->>>>>>> c98eb000e0d71e1a17b3542ea2a7cbc3f5a474f9
 
 " Easymotion
 "NeoBundle 'Lokaltog/vim-easymotion'
