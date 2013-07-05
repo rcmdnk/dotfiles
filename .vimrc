@@ -1,5 +1,9 @@
-" disable vi compatible mode (much better!)
-set nocompatible
+" vi compatiblity {{{
+if !&compatible
+  " disable vi compatible mode (much better!)
+  set nocompatible
+endif
+" }}}
 
 " Prepare .vim dir {{{
 if has('vim_starting')
@@ -30,39 +34,83 @@ if has('vim_starting')
     call system('git clone git://github.com/Shougo/neobundle.vim '
           \ .  s:neobundledir)
   endif
-  call neobundle#rc(s:bundledir)
 endif
 
+call neobundle#rc(s:bundledir)
+
 """"plugins"""""
+
 " neobundle
-NeoBundle 'Shougo/neobundle.vim'
+NeoBundleFetch 'Shougo/neobundle.vim'
 
 "" Asynchronous execution library: need for vimshell, Gmail, unite, etc...?
-NeoBundleLazy 'Shougo/vimproc', {
-      \  'build' : {
-      \    'windows' : 'make -f make_mingw32.mak',
-      \    'cygwin' : 'make -f make_cygwin.mak',
-      \    'mac' : 'make -f make_mac.mak',
-      \    'unix' : 'make -f make_unix.mak',
-      \  },
-      \}
+NeoBundle 'Shougo/vimproc', '', 'default'
+call neobundle#config('vimproc', {
+      \ 'build' : {
+      \ 'windows' : 'make -f make_mingw32.mak',
+      \ 'cygwin' : 'make -f make_cygwin.mak',
+      \ 'mac' : 'make -f make_mac.mak',
+      \ 'unix' : 'make -f make_unix.mak',
+      \ },
+      \ })
 
 " Use shell in vim
-NeoBundleLazy 'Shougo/vimshell',{
-      \  'autoload' : {'commands': ['VimShell']},
-      \  'depends' : ['Shougo/vimproc']
-      \}
+"NeoBundle 'Shougo/vimshell', '', 'default'
+"call neobundle#config('vimshell', {
+"      \ 'lazy' : 1,
+"      \ 'autoload' : {
+"      \ 'commands' : [{ 'name' : 'VimShell',
+"      \ 'complete' : 'customlist,vimshell#complete'},
+"      \ 'VimShellExecute', 'VimShellInteractive',
+"      \ 'VimShellTerminal', 'VimShellPop'],
+"      \ 'mappings' : ['<Plug>(vimshell_switch)']}})
 
 " Searches and display information->:help Unite
 " Unlike 'fuzzyfinder' or 'ku', it doesn't use the built-lin completion of vim
-NeoBundleLazy 'Shougo/unite.vim',{
-      \  'autoload' : {'commands': ['Unite','UniteWithBufferDir']}
-      \}
+NeoBundle 'Shougo/unite.vim', '', 'default'
+call neobundle#config('unite.vim',{
+      \ 'lazy' : 1,
+      \ 'autoload' : {
+      \ 'commands' : [{ 'name' : 'Unite',
+      \ 'complete' : 'customlist,unite#complete_source'},
+      \ 'UniteWithCursorWord', 'UniteWithInput']}})
+
+" Echo
+"NeoBundle 'Shougo/echodoc', '', 'default'
+"call neobundle#config('echodoc', {
+"      \ 'lazy' : 1,
+"      \ 'autoload' : {
+"      \ 'insert' : 1}})
 
 " Completion
-"NeoBundle 'Shougo/neocomplcache'
-"NeoBundle 'Shougo/neocomplete'
-"NeoBundle 'Shougo/neosnippet'
+"NeoBundle 'Shougo/neocomplcache', '', 'default'
+"call neobundle#config('neocomplcache', {
+"      \ 'lazy' : 1,
+"      \ 'autoload' : {'commands' : 'NeoComplCacheEnable'}})
+"
+"NeoBundle 'Shougo/neocomplete.vim', '', 'default'
+"" call neobundle#config('neocomplete.vim', {
+"" \ 'lazy' : 1,
+"" \ 'autoload' : {
+"" \ 'insert' : 1,
+"" \ }})
+"
+"NeoBundle 'Shougo/neocomplcache-rsense', '', 'default'
+"call neobundle#config('neocomplcache-rsense', {
+"      \ 'lazy' : 1,
+"      \ 'depends' : 'Shougo/neocomplcache',
+"      \ 'autoload' : { 'filetypes' : 'ruby' }})
+"
+"NeoBundle 'Shougo/neosnippet', '', 'default'
+"call neobundle#config('neosnippet', {
+"      \ 'lazy' : 1,
+"      \ 'autoload' : {
+"      \ 'insert' : 1,
+"      \ 'filetypes' : 'snippet',
+"      \ 'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
+"      \ }})
+"
+"NeoBundle 'Shougo/neobundle-vim-scripts', '', 'default'
 
 " For git/svn status, log
 "NeoBundle 'hrsh7th/vim-versions.git'
@@ -91,6 +139,7 @@ NeoBundleLazy 'sjl/gundo.vim', {
 
 " Easy to change surround
 NeoBundle 'surround.vim'
+"NeoBundle 'anyakichi/vim-surround'
 
 " visualize marks
 NeoBundle 'zhisheng/visualmark.vim'
@@ -124,7 +173,8 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'kana/vim-submode'
 
 " Open browser
-NeoBundle 'tyru/open-browser.vim'
+NeoBundleLazy 'tyru/open-browser.vim', { 'autoload': {
+      \ 'mappings' : '<Plug>(open-browser-wwwsearch)'}}
 
 " Easymotion
 "NeoBundle 'Lokaltog/vim-easymotion'
@@ -142,8 +192,7 @@ NeoBundleLazy "davidhalter/jedi-vim", {
       \   "filetypes": [ "python", "python3", "djangohtml"],
       \   "build": {
       \   "mac": "pip install jedi",
-      \   "unix": "pip install jedi",
-      \   }
+      \   "unix": "pip install jedi"}
       \ }}
 
 " virtual env
@@ -152,31 +201,26 @@ NeoBundle 'jmcantrell/vim-virtualenv'
 " Gmail
 "NeoBundleLazy 'yuratomo/gmail.vim',{
 "      \  'autoload' : {'commands': ['Gmail']},
-"      \  'depends' : ['Shougo/vimproc']
-"      \}
+"      \  'depends' : ['Shougo/vimproc']}
 
 " SimpleNote
-"NeoBundle 'mattn/webapi-vim'
+"NeoBundleLazy 'mattn/webapi-vim'
 "NeoBundleLazy 'mattn/vimplenote-vim',{
-"      \  'autoload' : {'commands': ['VimpleNote']},
-"      \}
+"      \  'autoload' : {'commands': ['VimpleNote']}}
 "NeoBundleLazy 'mrtazz/simplenote.vim',{
-"      \  'autoload' : {'commands': ['Simplenote']},
-"      \}
+"      \  'autoload' : {'commands': ['Simplenote']}}
 
 " evernote: need markdown library...
 "NeoBundleLazy 'kakkyz81/evervim',{
 "      \  'autoload' : {'commands': ['EvervimNotebookList', 'EvervimListTags',
 "      \                             'EvervimSearchByQuery', 'EvervimCreateNote',
-"      \                             'EvervimOpenBrowser', 'EvervimSetup']},
-"      \}
+"      \                             'EvervimOpenBrowser', 'EvervimSetup']}}
 
 " Syntax
-NeoBundle 'scrooloose/syntastic', {
-      \ "build": {
-      \   "mac": ["pip install flake8", "npm -g install coffeelint"],
-      \   "unix": ["pip install flake8", "npm -g install coffeelint"],
-      \ }}
+"NeoBundle 'scrooloose/syntastic', {
+"      \ "build": {
+"      \   "mac": ["pip install flake8", "npm -g install coffeelint"],
+"      \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
 
 " Count searching objects
 NeoBundle 'osyo-manga/vim-anzu'
@@ -189,11 +233,12 @@ NeoBundle 'gregsexton/gitv'
 NeoBundleLazy "mattn/gist-vim", {
       \ "depends": ["mattn/webapi-vim"],
       \ "autoload": {
-      \   "commands": ["Gist"],
-      \ }}
+      \   "commands": ["Gist"] }}
 
 " Quick run
-"NeoBundle 'thinca/vim-quickrun'
+"NeoBundleLazy 'thinca/vim-quickrun', { 'autoload' : {
+"      \ 'mappings' : [
+"      \ ['nxo', '<Plug>(quickrun)']] }}
 
 " Singletop
 "NeoBundle 'thinca/vim-singleton'
@@ -202,23 +247,23 @@ NeoBundleLazy "mattn/gist-vim", {
 "NeoBundle 'thinca/vim-splash'
 
 " vim-ref
-NeoBundle 'thinca/vim-ref'
+NeoBundleLazy 'thinca/vim-ref', {
+      \  'autoload' : {'commands': ['Ref']},
+      \}
 
 " LanguageTool
 NeoBundle 'vim-scripts/LanguageTool'
 
 " Habatobi
 NeoBundleLazy 'mattn/habatobi-vim',{
-      \  'autoload' : {'commands': ['Habatobi']},
-      \}
+      \  'autoload' : {'commands': ['Habatobi']}}
 
 " Make benchmark result of vimrc
 NeoBundleLazy 'mattn/benchvimrc-vim',{
-      \  'autoload' : {'commands': ['BenchVimrc']},
-      \}
+      \  'autoload' : {'commands': ['BenchVimrc']}}
 
 " File Explorer
-NeoBundle 'kien/ctrlp.vim'
+NeoBundleLazy 'kien/ctrlp.vim'
 "NeoBundle 'scrooloose/nerdtree'
 "NeoBundle 'trinity.vim'
 "NeoBundle 'The-NERD-tree'
@@ -243,6 +288,9 @@ NeoBundleLazy 'majutsushi/tagbar', {
 "NeoBundle 'vim-scripts/newspaper.vim'
 "NeoBundle 'w0ng/vim-hybrid'
 
+
+" local plugins
+NeoBundleLocal ~/.vim/local/bundle
 """"plugins"""""
 
 " Installation check.
@@ -263,7 +311,7 @@ filetype plugin indent on
 " Basic settings {{{
 
 " set my auto group
-augroup myaugroup
+augroup MyAutoGroup
   autocmd!
 augroup END
 
@@ -274,7 +322,7 @@ set hlsearch
 
 """ mapleaader (<Leader>)
 let mapleader = ","
-" use \ as ,
+" use \ as ,, instead
 noremap \ ,
 
 " allow backspacing over everything in insert mode
@@ -293,7 +341,7 @@ set tabstop=4      " width of <Tab> in view
 set shiftwidth=2   " width for indent
 set softtabstop=0  " if not 0, insert space instead of <Tab>
 "set textwidth=0    " longer line than textwidth will be broken (0: disable)
-autocmd myaugroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
+autocmd MyAutoGroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
 "set colorcolumn=80 " put line on 80
 "set colorcolumn=+1 " put line on textwidth+1
 " Change background for 81-
@@ -372,8 +420,8 @@ endif
 "set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
 set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
 "set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1,utf-8
-"autocmd myaugroup FileType vbs :set fileencoding=sjis
-"autocmd myaugroup FileType vbs :set encoding=sjis
+"autocmd MyAutoGroup FileType vbs :set fileencoding=sjis
+"autocmd MyAutoGroup FileType vbs :set encoding=sjis
 
 " Automatic ime off
 " noimdisableactivate was thrown in the latest MacVim?
@@ -390,22 +438,22 @@ set wildmenu
 " Folding
 set foldmethod=marker
 set foldmarker={{{,}}} "default
-autocmd myaugroup FileType py set foldmethod=syntax
-autocmd myaugroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
+autocmd MyAutoGroup FileType py set foldmethod=syntax
+autocmd MyAutoGroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
 set foldlevel=0
 set foldnestmax=1
 
 " When editing a file, always jump to the last known cursor position.
-autocmd myaugroup BufReadPost *
+autocmd MyAutoGroup BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
 
 " Set current directory as a directory of the file
-"autocmd myaugroup BufEnter *   execute ":lcd " . expand("%:p:h")
+"autocmd MyAutoGroup BufEnter *   execute ":lcd " . expand("%:p:h")
 
 " Avoid automatic comment out for the next line after the comment lines
-autocmd myaugroup FileType * setlocal formatoptions-=ro
+autocmd MyAutoGroup FileType * setlocal formatoptions-=ro
 
 " INSERT (paste)
 "set paste " use 'paste at normal mode' in below, instead
@@ -428,7 +476,7 @@ if has('virtualedit') && &virtualedit =~# '\<all\>'
   nnoremap <expr> . (col('.') >= col('$') ? '$' : '') . '.'
   " autocmd is needed to overwrite YRShow's map,
   " and "_x to avoid register 1 letter
-  autocmd myaugroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
+  autocmd MyAutoGroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
 endif
 
 " Max columns for syntax search
@@ -453,8 +501,8 @@ hi SpellBad cterm=inverse ctermbg=0
 "hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 " Set all white characters on black background for current line
 "hi CursorLine cterm=underline ctermfg=white ctermbg=black
-"au myaugroup InsertEnter * hi CursorLine cterm=underline,bold ctermfg=NONE ctermbg=NONE
-"au myaugroup InsertLeave * hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+"au MyAutoGroup InsertEnter * hi CursorLine cterm=underline,bold ctermfg=NONE ctermbg=NONE
+"au MyAutoGroup InsertLeave * hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 
 " colors for completion
 hi Pmenu ctermbg=255 ctermfg=0 guifg=#000000 guibg=#999999
@@ -490,7 +538,7 @@ function! SetDiffWrap()
     wincmd w
   endif
 endfunction
-autocmd myaugroup VimEnter,FilterWritePre * call SetDiffWrap()
+autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffWrap()
 " }}} diff mode
 
 " DiffOrig {{{
@@ -528,7 +576,7 @@ endif
 
 " Unite {{{
 if ! empty(neobundle#get("unite.vim"))
-  autocmd myaugroup FileType unite call s:unite_my_settings()
+  autocmd MyAutoGroup FileType unite call s:unite_my_settings()
   function! s:unite_my_settings()
     nmap <buffer><Esc> <Plug>(unite_exit)
     imap <buffer><Esc><Esc> <Plug>(unite_exit)
@@ -579,10 +627,14 @@ if ! empty(neobundle#get("vim-smartinput"))
 endif
 " }}} vim-smartinput
 
-" surround.vim {{{
-if ! empty(neobundle#get("surround.vim"))
+" surround.vim/vim-surround {{{
+if ! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround"))
   " Numbers for characters can be found by :ascii on each character
   let g:surround_96 = "`\r`" " use `
+
+  if ! empty(neobundle#get("vim-surround"))
+    let g:surround_old_mappings = 1
+  endif
 
   vmap { S{
   vmap } S}
@@ -826,10 +878,10 @@ if ! empty(neobundle#get("vim-indent-guides"))
   let g:indent_guides_start_level = 1
   let g:indent_guides_auto_colors = 0
 
-  "autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=lightgray
-  "autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
-  autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=234
-  autocmd myaugroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+  "autocmd MyAutoGroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=lightgray
+  "autocmd MyAutoGroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
+  autocmd MyAutoGroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=234
+  autocmd MyAutoGroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 endif
 "}}} vim-indent-guides
 
@@ -900,8 +952,8 @@ endif
 
 " applescript{{{
 if ! empty(neobundle#get("applescript.vim"))
-  autocmd myaugroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
-"autocmd myaugroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
+  autocmd MyAutoGroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
+"autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
 endif
 "}}} applescript
 
@@ -1010,7 +1062,7 @@ endif
 
 " ctrlp {{{
 if ! empty(neobundle#get("ctrlp.vim"))
-  let g:ctrlp_map = '<c-;>'
+  "let g:ctrlp_map = '<c-p>'
 endif
 "}}} ctrlp
 
@@ -1149,7 +1201,7 @@ nnoremap / /\v
 " :h pattern-overview
 
 " Close help with q
-autocmd myaugroup FileType help,qf nnoremap <buffer> q <C-w>c
+autocmd MyAutoGroup FileType help,qf nnoremap <buffer> q <C-w>c
 
 " Surround at Normal mode
 nnoremap <Leader>{ bi{<Space><Esc>ea<Space>}<Esc>
@@ -1228,6 +1280,19 @@ cnoremap w!! w !sudo tee > /dev/null %
 
 
 " }}} map
+
+" local settings {{{
+if filereadable(expand('~/.local_vimrc'))
+  execute 'source' expand('~/.local_vimrc')
+endif
+" }}}
+
+" neobundle on_source {{{
+if !has('vim_starting')
+  " Call on_source hook when reloading .vimrc.
+  call neobundle#call_hook('on_source')
+endif
+" }}}
 
 " tips {{{
 "" # startup tips
