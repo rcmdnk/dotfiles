@@ -376,9 +376,12 @@ set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
 "autocmd myaugroup FileType vbs :set encoding=sjis
 
 " Automatic ime off
-if has("mac")
-  set noimdisableactivate
-endif
+" noimdisableactivate was thrown in the latest MacVim?
+" noimdisable should be used instead.
+" but it seems not necessary anyway (all IME related things are done in KeyRemap4MacBook.
+"if has("mac")
+"  set noimdisableactivate
+"endif
 
 " bash-like tab completion
 set wildmode=list:longest
