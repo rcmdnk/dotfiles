@@ -416,6 +416,7 @@ endif
 "  set encoding=utf-8
 "endif
 "set encoding=utf-8
+set encoding=utf8
 "set encoding=cp932
 "set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
 set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
@@ -1282,8 +1283,8 @@ cnoremap w!! w !sudo tee > /dev/null %
 " }}} map
 
 " local settings {{{
-if filereadable(expand('~/.local_vimrc'))
-  execute 'source' expand('~/.local_vimrc')
+if filereadable(expand('~/.vimrc.local'))
+  execute 'source' expand('~/.vimrc.local')
 endif
 " }}}
 
