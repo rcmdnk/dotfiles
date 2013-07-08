@@ -489,6 +489,9 @@ function gitupdate {
       #  fi
       #done < ~/.gitavoid
       for f in `git ls-files`;do
+        if [ ! -f $f ];then
+          continue
+        fi
         while read a;do
           if ret=`grep -i -q $a $difffiles`;then
             echo "avoid word $a is included!!!"
