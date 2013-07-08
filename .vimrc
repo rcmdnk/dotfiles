@@ -21,8 +21,8 @@ endif
 " :NeoBundleInstall" install plugins below
 " :NeoBundleClean  " remove plugins removed from below
 
-"filetype off " required for neobundle 
-              " included in neobundle#rc
+" NeoBundle configuration ref:
+" http://qiita.com/rbtnn/items/39d9ba817329886e626b
 
 if v:version > 700
   "" set path
@@ -38,14 +38,14 @@ if v:version > 700
             \ .  s:neobundledir)
     endif
   endif
-  
+
   call neobundle#rc(s:bundledir)
-  
+
   """"plugins"""""
-  
+
   " neobundle
   NeoBundleFetch 'Shougo/neobundle.vim'
-  
+
   "" Asynchronous execution library: need for vimshell, Gmail, unite, etc...?
   NeoBundle 'Shougo/vimproc', '', 'default'
   call neobundle#config('vimproc', {
@@ -56,7 +56,7 @@ if v:version > 700
         \ 'unix' : 'make -f make_unix.mak',
         \ },
         \ })
-  
+
   " Use shell in vim
   "NeoBundle 'Shougo/vimshell', '', 'default'
   "call neobundle#config('vimshell', {
@@ -67,7 +67,7 @@ if v:version > 700
   "      \ 'VimShellExecute', 'VimShellInteractive',
   "      \ 'VimShellTerminal', 'VimShellPop'],
   "      \ 'mappings' : ['<Plug>(vimshell_switch)']}})
-  
+
   " Searches and display information->:help Unite
   " Unlike 'fuzzyfinder' or 'ku', it doesn't use the built-lin completion of vim
   NeoBundle 'Shougo/unite.vim', '', 'default'
@@ -77,14 +77,14 @@ if v:version > 700
         \ 'commands' : [{ 'name' : 'Unite',
         \ 'complete' : 'customlist,unite#complete_source'},
         \ 'UniteWithCursorWord', 'UniteWithInput']}})
-  
+
   " Echo
   "NeoBundle 'Shougo/echodoc', '', 'default'
   "call neobundle#config('echodoc', {
   "      \ 'lazy' : 1,
   "      \ 'autoload' : {
   "      \ 'insert' : 1}})
-  
+
   " Completion
   "NeoBundle 'Shougo/neocomplcache', '', 'default'
   "call neobundle#config('neocomplcache', {
@@ -114,81 +114,81 @@ if v:version > 700
   "      \ }})
   "
   "NeoBundle 'Shougo/neobundle-vim-scripts', '', 'default'
-  
+
   " For git/svn status, log
   "NeoBundle 'hrsh7th/vim-versions.git'
-  
+
   " Vim plugin to highlight matchit.vim
   NeoBundle 'vimtaku/hl_matchit.vim'
-  
+
   " Easy to use history of yanks (see below settings)
   "NeoBundle 'vim-scripts/YankRing.vim'
-  
+
   " Use yanks in different processes (see below settings)
   "NeoBundle 'yanktmp.vim'
-  
+
   " gundo
   NeoBundleLazy 'sjl/gundo.vim', {
       \ "autoload": {"commands": ["GundoToggle"]}}
-  
+
   " Another undo, need vim7.3+patch005
   "NeoBundle 'mbbill/undotree'
-  
+
   " Toggle insert words
   "NeoBundle 'kana/vim-smartchr'
-  
+
   " smart input
   "NeoBundle 'kana/vim-smartinput'
-  
+
   " Easy to change surround
   NeoBundle 'surround.vim'
   "NeoBundle 'anyakichi/vim-surround'
-  
+
   " visualize marks
   NeoBundle 'zhisheng/visualmark.vim'
   "NeoBundle 'Visual-Mark'
-  
+
   " Align
   " http://www.drchip.org/astronaut/vim/align.html#Examples
   NeoBundle 'Align'
-  
+
   " Add markdown
   "NeoBundle 'tpope/vim-markdown'
   NeoBundle 'plasticboy/vim-markdown'
   "NeoBundle 'kannokanno/previm'
-  
+
   " Folding method for python, but makes completion too slow...?
   "NeoBundle 'vim-scripts/python_fold'
-  
+
   " Currently use only for python indent...
   NeoBundle 'yuroyoro/vim-python'
-  
+
   " Applescript
   NeoBundle 'applescript.vim'
-  
+
   " Cool Status Line
   "NeoBundle 'Lokaltog/vim-powerline'
-  
+
   " Visual indent guides
   NeoBundle 'nathanaelkane/vim-indent-guides'
-  
+
   " Sub mode
   NeoBundle 'kana/vim-submode'
-  
+
   " Open browser
   NeoBundleLazy 'tyru/open-browser.vim', { 'autoload': {
         \ 'mappings' : '<Plug>(open-browser-wwwsearch)'}}
-  
+
   " Easymotion
   "NeoBundle 'Lokaltog/vim-easymotion'
-  
+
   " Can use f instead of ;, after fx move
   " Can move even to other lines
   "NeoBundle 'rhysd/clever-f.vim'
-  
+
   " Jump to letters (two letters) after 's'
   "NeoBundle 'goldfeld/vim-seek'
-  
+
   " Python complete (don't work?)
   NeoBundleLazy "davidhalter/jedi-vim", {
         \ "autoload": {
@@ -197,74 +197,74 @@ if v:version > 700
         \   "mac": "pip install jedi",
         \   "unix": "pip install jedi"}
         \ }}
-  
+
   " virtual env
   NeoBundle 'jmcantrell/vim-virtualenv'
-  
+
   " Gmail
   "NeoBundleLazy 'yuratomo/gmail.vim',{
   "      \  'autoload' : {'commands': ['Gmail']},
   "      \  'depends' : ['Shougo/vimproc']}
-  
+
   " SimpleNote
   "NeoBundleLazy 'mattn/webapi-vim'
   "NeoBundleLazy 'mattn/vimplenote-vim',{
   "      \  'autoload' : {'commands': ['VimpleNote']}}
   "NeoBundleLazy 'mrtazz/simplenote.vim',{
   "      \  'autoload' : {'commands': ['Simplenote']}}
-  
+
   " evernote: need markdown library...
   "NeoBundleLazy 'kakkyz81/evervim',{
   "      \  'autoload' : {'commands': ['EvervimNotebookList', 'EvervimListTags',
   "      \                             'EvervimSearchByQuery', 'EvervimCreateNote',
   "      \                             'EvervimOpenBrowser', 'EvervimSetup']}}
-  
+
   " Syntax
   "NeoBundle 'scrooloose/syntastic', {
   "      \ "build": {
   "      \   "mac": ["pip install flake8", "npm -g install coffeelint"],
   "      \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
-  
+
   " Count searching objects
   NeoBundle 'osyo-manga/vim-anzu'
-  
+
   " Git
   NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'gregsexton/gitv'
-  
+
   " Gist
   NeoBundleLazy "mattn/gist-vim", {
         \ "depends": ["mattn/webapi-vim"],
         \ "autoload": {
         \   "commands": ["Gist"] }}
-  
+
   " Quick run
   "NeoBundleLazy 'thinca/vim-quickrun', { 'autoload' : {
   "      \ 'mappings' : [
   "      \ ['nxo', '<Plug>(quickrun)']] }}
-  
+
   " Singletop
   "NeoBundle 'thinca/vim-singleton'
-  
+
   " Splash
   "NeoBundle 'thinca/vim-splash'
-  
+
   " vim-ref
   NeoBundleLazy 'thinca/vim-ref', {
         \  'autoload' : {'commands': ['Ref']},
         \}
-  
+
   " LanguageTool
   NeoBundle 'vim-scripts/LanguageTool'
-  
+
   " Habatobi
   NeoBundleLazy 'mattn/habatobi-vim',{
         \  'autoload' : {'commands': ['Habatobi']}}
-  
+
   " Make benchmark result of vimrc
   NeoBundleLazy 'mattn/benchvimrc-vim',{
         \  'autoload' : {'commands': ['BenchVimrc']}}
-  
+
   " File Explorer
   NeoBundleLazy 'kien/ctrlp.vim'
   "NeoBundle 'scrooloose/nerdtree'
@@ -273,8 +273,7 @@ if v:version > 700
   "NeoBundle 'Source-Explorer-srcexpl.vim'
   NeoBundle 'wesleyche/SrcExpl'
   "NeoBundle 'mru.vim'
-  
-  
+
   " For Tags
   "NeoBundle 'taglist.vim'
   "NeoBundle 'ctags.vim'
@@ -282,7 +281,7 @@ if v:version > 700
         \ "autload": {
         \   "commands": ["TagbarToggle"],
         \ }}
-  
+
   " Color scheme
   "NeoBundle 'ujihisa/unite-colorscheme'
   "NeoBundle 'tomasr/molokai'
@@ -290,12 +289,12 @@ if v:version > 700
   "NeoBundle 'altercation/vim-colors-solarized'
   "NeoBundle 'vim-scripts/newspaper.vim'
   "NeoBundle 'w0ng/vim-hybrid'
-  
-  
+
+
   " local plugins
   NeoBundleLocal ~/.vim/local/bundle
   """"plugins"""""
-  
+
   " Installation check.
   NeoBundleCheck
   "" Installation check.
@@ -308,8 +307,7 @@ if v:version > 700
   "endif
 endif
 
-  
-  " enable plugin, indent again
+" enable plugin, indent again
 filetype plugin indent on
 " }}} neobundle
 
@@ -573,7 +571,7 @@ nnoremap <C-r> g+
 " }}} undo
 
 " gundo {{{
-if ! empty(neobundle#get("gundo.vim"))
+if v:version > 700 && ! empty(neobundle#get("gundo.vim"))
   nnoremap U :GundoToggle<CR>
   " Don't show preview by moving history. Use r to see differences
   let g:gundo_auto_preview = 0
@@ -581,7 +579,7 @@ endif
 " }}} gundo
 
 " Unite {{{
-if ! empty(neobundle#get("unite.vim"))
+if v:version > 700 && ! empty(neobundle#get("unite.vim"))
   autocmd MyAutoGroup FileType unite call s:unite_my_settings()
   function! s:unite_my_settings()
     nmap <buffer><Esc> <Plug>(unite_exit)
@@ -617,13 +615,13 @@ endif
 " }}} Unite
 
 " vim-smartchr {{{
-if ! empty(neobundle#get("vim-smartchr"))
+if v:version > 700 && ! empty(neobundle#get("vim-smartchr"))
   inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
 endif
 " }}} vim-smartchr
 
 " vim-smartinput {{{
-if ! empty(neobundle#get("vim-smartinput"))
+if v:version > 700 && ! empty(neobundle#get("vim-smartinput"))
   "" Remove spaces at the end of line
   "call smartinput#define_rule({
   "\   'at': '\s\+\%#',
@@ -634,7 +632,7 @@ endif
 " }}} vim-smartinput
 
 " surround.vim/vim-surround {{{
-if ! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround"))
+if v:version > 700 && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
   " Numbers for characters can be found by :ascii on each character
   let g:surround_96 = "`\r`" " use `
 
@@ -657,7 +655,7 @@ endif
 " }}} surround.vim
 
 " YankRing {{{
-if ! empty(neobundle#get("YankRing.vim"))
+if v:version > 700 && ! empty(neobundle#get("YankRing.vim"))
   nnoremap <Leader>y :YRShow<CR>
   " avoid to store single letter to normal register
   let s:bundledir=expand('~/.vim/bundle')
@@ -687,7 +685,7 @@ endif
 " }}} YankRing
 
 " yanktmp {{{
-if ! empty(neobundle#get("yanktmp.vim"))
+if v:version > 700 && ! empty(neobundle#get("yanktmp.vim"))
   let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
 
   " yanktmp prefix
@@ -756,7 +754,7 @@ set statusline+=%=%l/%L,%c%V%8P
 " }}} status line
 
 " neocomplcache {{{
-if ! empty(neobundle#get("neocomplcache"))
+if v:version > 700 && ! empty(neobundle#get("neocomplcache"))
   let g:neocomplcache_enable_at_startup = 1 " enable at start up
   let g:neocomplcache_smartcase = 1 " distinguish capital and
   let g:neocomplcache_enable_camel_case_completion = 1
@@ -776,7 +774,7 @@ let b:match_ignorecase = 1
 " }}} matchpair, matchit
 
 " for hl_matchit {{{
-if ! empty(neobundle#get("hl_matchit.vim"))
+if v:version > 700 && ! empty(neobundle#get("hl_matchit.vim"))
   let g:hl_matchit_enable_on_vim_startup = 1
   let g:hl_matchit_hl_groupname = 'Title'
   let g:hl_matchit_allow_ft_regexp = 'html\|vim\|ruby\|sh'
@@ -813,7 +811,7 @@ endif
 " }}} paste
 
 " vim-easymotion{{{
-if ! empty(neobundle#get("vim-easymotion"))
+if v:version > 700 && ! empty(neobundle#get("vim-easymotion"))
   let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
   "let g:EasyMotion_keys='ifjklasdweuocvbnm'
   let g:EasyMotion_do_mapping=0
@@ -825,7 +823,7 @@ endif
 " }}} vim-easymotion
 
 " jedi-vim{{{
-if ! empty(neobundle#get("jedi-vim"))
+if v:version > 700 && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#auto_initialization = 1
   let g:jedi#auto_vim_configuration = 1
   let g:jedi#goto_command = "<Leader>g"
@@ -836,7 +834,7 @@ endif
 " }}} jedi-vim
 
 " SimpleNote{{{
-if ! empty(neobundle#get("simplenote.vim"))
+if v:version > 700 && ! empty(neobundle#get("simplenote.vim"))
   " for simplenote.vim
   "let g:SimplenoteUsername = ''
   "let g:SimplenotePassword = ''
@@ -845,7 +843,7 @@ if ! empty(neobundle#get("simplenote.vim"))
   endif
 endif
 
-if ! empty(neobundle#get("vimplenote-vim"))
+if v:version > 700 && ! empty(neobundle#get("vimplenote-vim"))
   " for vimplenote-vim
   "let g:VimpleNoteUsername = ''
   "let g:VimpleNotePassword = ''
@@ -866,7 +864,7 @@ endif
 " }}} Simplenote
 
 " Gmail{{{
-if ! empty(neobundle#get("gmail.vim"))
+if v:version > 700 && ! empty(neobundle#get("gmail.vim"))
   let g:gmail_imap = 'imap.gmail.com:993'
   let g:gmail_smtp = 'smtp.gmail.com:465'
   " path for openssl
@@ -878,7 +876,7 @@ endif
 " }}} Gmail
 
 " vim-indent-guides{{{
-if ! empty(neobundle#get("vim-indent-guides"))
+if v:version > 700 && ! empty(neobundle#get("vim-indent-guides"))
   let g:indent_guides_enable_on_vim_startup = 1
   "let g:indent_guides_guide_size =  1
   let g:indent_guides_start_level = 1
@@ -892,7 +890,7 @@ endif
 "}}} vim-indent-guides
 
 " vim-submode{{{
-if ! empty(neobundle#get("vim-submode"))
+if v:version > 700 && ! empty(neobundle#get("vim-submode"))
   call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
   call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
   call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
@@ -912,7 +910,7 @@ endif
 "}}} vim-submode
 
 " open-browser{{{
-if ! empty(neobundle#get("open-browser.vim"))
+if v:version > 700 && ! empty(neobundle#get("open-browser.vim"))
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
@@ -920,13 +918,13 @@ endif
 "}}} open-browser
 
 " LanguageTool{{{
-if ! empty(neobundle#get("LanguageTool"))
+if v:version > 700 && ! empty(neobundle#get("LanguageTool"))
   let g:languagetool_jar='$HOME/.languagetool/LanguageTool-2.1/languagetool-commandline.jar'
 endif
 "}}} LanguageTool
 
 " vim-anzu{{{
-if ! empty(neobundle#get("vim-anzu"))
+if v:version > 700 && ! empty(neobundle#get("vim-anzu"))
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
   nmap * <Plug>(anzu-star-with-echo)
@@ -935,14 +933,14 @@ endif
 "}}} vim-anzu
 
 " syntastic{{{
-if ! empty(neobundle#get("syntastic"))
+if v:version > 700 && ! empty(neobundle#get("syntastic"))
   let g:syntastic_enable_signs=1
   let g:syntastic_auto_loc_list=2
 endif
 "}}} syntastic
 
 " undotree{{{
-if ! empty(neobundle#get("undotree"))
+if v:version > 700 && ! empty(neobundle#get("undotree"))
   nmap <Leader>U :UndotreeToggle<CR>
   let g:undotree_SetFocusWhenToggle = 1
   let g:undotree_SplitLocation = 'topleft'
@@ -957,20 +955,20 @@ endif
 " }}}
 
 " applescript{{{
-if ! empty(neobundle#get("applescript.vim"))
+if v:version > 700 && ! empty(neobundle#get("applescript.vim"))
   autocmd MyAutoGroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
 endif
 "}}} applescript
 
 " splash{{{
-if ! empty(neobundle#get("vim-splash"))
+if v:version > 700 && ! empty(neobundle#get("vim-splash"))
   let g:splash#path = $HOME . '/.vimrc'
 endif
 "}}} splash
 
 " vim-ref {{{
-if ! empty(neobundle#get("vim-ref"))
+if v:version > 700 && ! empty(neobundle#get("vim-ref"))
   " Set webdict sources
   let g:ref_source_webdict_sites = {
   \   'je': {
@@ -1009,7 +1007,7 @@ endif
 "}}}
 
 " SrcExpl  {{{
-if ! empty(neobundle#get("SrcExpl"))
+if v:version > 700 && ! empty(neobundle#get("SrcExpl"))
  let g:SrcExpl_RefreshTime = 1
  let g:SrcExpl_UpdateTags = 0
  nnoremap <Leader>e :SrcExplToggle<CR>
@@ -1017,7 +1015,7 @@ endif
 "}}}
 
 " taglist{{{
-if ! empty(neobundle#get("taglist.vim"))
+if v:version > 700 && ! empty(neobundle#get("taglist.vim"))
   set tags=tags
   "let Tlist_Ctags_Cmd = "/usr/bin/ctags""
   let Tlist_Show_One_File = 1
@@ -1028,7 +1026,7 @@ endif
 "}}} taglist
 
 " tagbar{{{
-if ! empty(neobundle#get("tagbar"))
+if v:version > 700 && ! empty(neobundle#get("tagbar"))
   nnoremap <silent> <leader>t :TagbarToggle<CR>
 endif
 "}}} taglist
@@ -1048,7 +1046,7 @@ if has("cscope")
   " add any database in current directory
   if filereadable("cscope.out")
     cs add cscope.out
-  " else add database pointed to by environment 
+  " else add database pointed to by environment
   elseif $CSCOPE_DB != ""
     cs add $CSCOPE_DB
   endif
@@ -1058,7 +1056,7 @@ endif
 " }}} cscope
 
 " gist-vim {{{
-if ! empty(neobundle#get("gist-vim"))
+if v:version > 700 && ! empty(neobundle#get("gist-vim"))
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
   " Disable default Gist command
@@ -1067,7 +1065,7 @@ endif
 "}}} gist-vim
 
 " ctrlp {{{
-if ! empty(neobundle#get("ctrlp.vim"))
+if v:version > 700 && ! empty(neobundle#get("ctrlp.vim"))
   "let g:ctrlp_map = '<c-p>'
 endif
 "}}} ctrlp
