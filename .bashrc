@@ -497,6 +497,8 @@ function gitupdate {
           fi
         done
       done < ~/.gitavoid
+    else
+      echo "WARNING: There is no ~/.gitavoid file!"
     fi
     printf "\n"
     update=1

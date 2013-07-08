@@ -21,290 +21,295 @@ endif
 " :NeoBundleInstall" install plugins below
 " :NeoBundleClean  " remove plugins removed from below
 
-filetype off " required for neobundle
-"" set path
-if has('vim_starting')
-  let s:bundledir=g:vimdir . '/bundle'
-  let s:neobundledir=s:bundledir . '/neobundle.vim'
-  let &runtimepath = &runtimepath . ',' . s:neobundledir
-  if ! isdirectory(s:neobundledir)
-    echomsg 'Neobundle is not installed, install now '
-    echo 'git clone git://github.com/Shougo/neobundle.vim '
-          \ .  s:neobundledir
-    call system('git clone git://github.com/Shougo/neobundle.vim '
-          \ .  s:neobundledir)
+"filetype off " required for neobundle 
+              " included in neobundle#rc
+
+if v:version > 700
+  "" set path
+  if has('vim_starting')
+    let s:bundledir=g:vimdir . '/bundle'
+    let s:neobundledir=s:bundledir . '/neobundle.vim'
+    let &runtimepath = &runtimepath . ',' . s:neobundledir
+    if ! isdirectory(s:neobundledir)
+      echomsg 'Neobundle is not installed, install now '
+      echo 'git clone git://github.com/Shougo/neobundle.vim '
+            \ .  s:neobundledir
+      call system('git clone git://github.com/Shougo/neobundle.vim '
+            \ .  s:neobundledir)
+    endif
   endif
+  
+  call neobundle#rc(s:bundledir)
+  
+  """"plugins"""""
+  
+  " neobundle
+  NeoBundleFetch 'Shougo/neobundle.vim'
+  
+  "" Asynchronous execution library: need for vimshell, Gmail, unite, etc...?
+  NeoBundle 'Shougo/vimproc', '', 'default'
+  call neobundle#config('vimproc', {
+        \ 'build' : {
+        \ 'windows' : 'make -f make_mingw32.mak',
+        \ 'cygwin' : 'make -f make_cygwin.mak',
+        \ 'mac' : 'make -f make_mac.mak',
+        \ 'unix' : 'make -f make_unix.mak',
+        \ },
+        \ })
+  
+  " Use shell in vim
+  "NeoBundle 'Shougo/vimshell', '', 'default'
+  "call neobundle#config('vimshell', {
+  "      \ 'lazy' : 1,
+  "      \ 'autoload' : {
+  "      \ 'commands' : [{ 'name' : 'VimShell',
+  "      \ 'complete' : 'customlist,vimshell#complete'},
+  "      \ 'VimShellExecute', 'VimShellInteractive',
+  "      \ 'VimShellTerminal', 'VimShellPop'],
+  "      \ 'mappings' : ['<Plug>(vimshell_switch)']}})
+  
+  " Searches and display information->:help Unite
+  " Unlike 'fuzzyfinder' or 'ku', it doesn't use the built-lin completion of vim
+  NeoBundle 'Shougo/unite.vim', '', 'default'
+  call neobundle#config('unite.vim',{
+        \ 'lazy' : 1,
+        \ 'autoload' : {
+        \ 'commands' : [{ 'name' : 'Unite',
+        \ 'complete' : 'customlist,unite#complete_source'},
+        \ 'UniteWithCursorWord', 'UniteWithInput']}})
+  
+  " Echo
+  "NeoBundle 'Shougo/echodoc', '', 'default'
+  "call neobundle#config('echodoc', {
+  "      \ 'lazy' : 1,
+  "      \ 'autoload' : {
+  "      \ 'insert' : 1}})
+  
+  " Completion
+  "NeoBundle 'Shougo/neocomplcache', '', 'default'
+  "call neobundle#config('neocomplcache', {
+  "      \ 'lazy' : 1,
+  "      \ 'autoload' : {'commands' : 'NeoComplCacheEnable'}})
+  "
+  "NeoBundle 'Shougo/neocomplete.vim', '', 'default'
+  "" call neobundle#config('neocomplete.vim', {
+  "" \ 'lazy' : 1,
+  "" \ 'autoload' : {
+  "" \ 'insert' : 1,
+  "" \ }})
+  "
+  "NeoBundle 'Shougo/neocomplcache-rsense', '', 'default'
+  "call neobundle#config('neocomplcache-rsense', {
+  "      \ 'lazy' : 1,
+  "      \ 'depends' : 'Shougo/neocomplcache',
+  "      \ 'autoload' : { 'filetypes' : 'ruby' }})
+  "
+  "NeoBundle 'Shougo/neosnippet', '', 'default'
+  "call neobundle#config('neosnippet', {
+  "      \ 'lazy' : 1,
+  "      \ 'autoload' : {
+  "      \ 'insert' : 1,
+  "      \ 'filetypes' : 'snippet',
+  "      \ 'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
+  "      \ }})
+  "
+  "NeoBundle 'Shougo/neobundle-vim-scripts', '', 'default'
+  
+  " For git/svn status, log
+  "NeoBundle 'hrsh7th/vim-versions.git'
+  
+  " Vim plugin to highlight matchit.vim
+  NeoBundle 'vimtaku/hl_matchit.vim'
+  
+  " Easy to use history of yanks (see below settings)
+  "NeoBundle 'vim-scripts/YankRing.vim'
+  
+  " Use yanks in different processes (see below settings)
+  "NeoBundle 'yanktmp.vim'
+  
+  " gundo
+  NeoBundleLazy 'sjl/gundo.vim', {
+      \ "autoload": {"commands": ["GundoToggle"]}}
+  
+  " Another undo, need vim7.3+patch005
+  "NeoBundle 'mbbill/undotree'
+  
+  " Toggle insert words
+  "NeoBundle 'kana/vim-smartchr'
+  
+  " smart input
+  "NeoBundle 'kana/vim-smartinput'
+  
+  " Easy to change surround
+  NeoBundle 'surround.vim'
+  "NeoBundle 'anyakichi/vim-surround'
+  
+  " visualize marks
+  NeoBundle 'zhisheng/visualmark.vim'
+  "NeoBundle 'Visual-Mark'
+  
+  " Align
+  " http://www.drchip.org/astronaut/vim/align.html#Examples
+  NeoBundle 'Align'
+  
+  " Add markdown
+  "NeoBundle 'tpope/vim-markdown'
+  NeoBundle 'plasticboy/vim-markdown'
+  "NeoBundle 'kannokanno/previm'
+  
+  " Folding method for python, but makes completion too slow...?
+  "NeoBundle 'vim-scripts/python_fold'
+  
+  " Currently use only for python indent...
+  NeoBundle 'yuroyoro/vim-python'
+  
+  " Applescript
+  NeoBundle 'applescript.vim'
+  
+  " Cool Status Line
+  "NeoBundle 'Lokaltog/vim-powerline'
+  
+  " Visual indent guides
+  NeoBundle 'nathanaelkane/vim-indent-guides'
+  
+  " Sub mode
+  NeoBundle 'kana/vim-submode'
+  
+  " Open browser
+  NeoBundleLazy 'tyru/open-browser.vim', { 'autoload': {
+        \ 'mappings' : '<Plug>(open-browser-wwwsearch)'}}
+  
+  " Easymotion
+  "NeoBundle 'Lokaltog/vim-easymotion'
+  
+  " Can use f instead of ;, after fx move
+  " Can move even to other lines
+  "NeoBundle 'rhysd/clever-f.vim'
+  
+  " Jump to letters (two letters) after 's'
+  "NeoBundle 'goldfeld/vim-seek'
+  
+  " Python complete (don't work?)
+  NeoBundleLazy "davidhalter/jedi-vim", {
+        \ "autoload": {
+        \   "filetypes": [ "python", "python3", "djangohtml"],
+        \   "build": {
+        \   "mac": "pip install jedi",
+        \   "unix": "pip install jedi"}
+        \ }}
+  
+  " virtual env
+  NeoBundle 'jmcantrell/vim-virtualenv'
+  
+  " Gmail
+  "NeoBundleLazy 'yuratomo/gmail.vim',{
+  "      \  'autoload' : {'commands': ['Gmail']},
+  "      \  'depends' : ['Shougo/vimproc']}
+  
+  " SimpleNote
+  "NeoBundleLazy 'mattn/webapi-vim'
+  "NeoBundleLazy 'mattn/vimplenote-vim',{
+  "      \  'autoload' : {'commands': ['VimpleNote']}}
+  "NeoBundleLazy 'mrtazz/simplenote.vim',{
+  "      \  'autoload' : {'commands': ['Simplenote']}}
+  
+  " evernote: need markdown library...
+  "NeoBundleLazy 'kakkyz81/evervim',{
+  "      \  'autoload' : {'commands': ['EvervimNotebookList', 'EvervimListTags',
+  "      \                             'EvervimSearchByQuery', 'EvervimCreateNote',
+  "      \                             'EvervimOpenBrowser', 'EvervimSetup']}}
+  
+  " Syntax
+  "NeoBundle 'scrooloose/syntastic', {
+  "      \ "build": {
+  "      \   "mac": ["pip install flake8", "npm -g install coffeelint"],
+  "      \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
+  
+  " Count searching objects
+  NeoBundle 'osyo-manga/vim-anzu'
+  
+  " Git
+  NeoBundle 'tpope/vim-fugitive'
+  NeoBundle 'gregsexton/gitv'
+  
+  " Gist
+  NeoBundleLazy "mattn/gist-vim", {
+        \ "depends": ["mattn/webapi-vim"],
+        \ "autoload": {
+        \   "commands": ["Gist"] }}
+  
+  " Quick run
+  "NeoBundleLazy 'thinca/vim-quickrun', { 'autoload' : {
+  "      \ 'mappings' : [
+  "      \ ['nxo', '<Plug>(quickrun)']] }}
+  
+  " Singletop
+  "NeoBundle 'thinca/vim-singleton'
+  
+  " Splash
+  "NeoBundle 'thinca/vim-splash'
+  
+  " vim-ref
+  NeoBundleLazy 'thinca/vim-ref', {
+        \  'autoload' : {'commands': ['Ref']},
+        \}
+  
+  " LanguageTool
+  NeoBundle 'vim-scripts/LanguageTool'
+  
+  " Habatobi
+  NeoBundleLazy 'mattn/habatobi-vim',{
+        \  'autoload' : {'commands': ['Habatobi']}}
+  
+  " Make benchmark result of vimrc
+  NeoBundleLazy 'mattn/benchvimrc-vim',{
+        \  'autoload' : {'commands': ['BenchVimrc']}}
+  
+  " File Explorer
+  NeoBundleLazy 'kien/ctrlp.vim'
+  "NeoBundle 'scrooloose/nerdtree'
+  "NeoBundle 'trinity.vim'
+  "NeoBundle 'The-NERD-tree'
+  "NeoBundle 'Source-Explorer-srcexpl.vim'
+  NeoBundle 'wesleyche/SrcExpl'
+  "NeoBundle 'mru.vim'
+  
+  
+  " For Tags
+  "NeoBundle 'taglist.vim'
+  "NeoBundle 'ctags.vim'
+  NeoBundleLazy 'majutsushi/tagbar', {
+        \ "autload": {
+        \   "commands": ["TagbarToggle"],
+        \ }}
+  
+  " Color scheme
+  "NeoBundle 'ujihisa/unite-colorscheme'
+  "NeoBundle 'tomasr/molokai'
+  "NeoBundle 'nanotech/jellybeans.vim'
+  "NeoBundle 'altercation/vim-colors-solarized'
+  "NeoBundle 'vim-scripts/newspaper.vim'
+  "NeoBundle 'w0ng/vim-hybrid'
+  
+  
+  " local plugins
+  NeoBundleLocal ~/.vim/local/bundle
+  """"plugins"""""
+  
+  " Installation check.
+  NeoBundleCheck
+  "" Installation check.
+  "if neobundle#exists_not_installed_bundles()
+  "  echomsg 'Not installed bundles : ' .
+  "    \ string(neobundle#get_not_installed_bundle_names())
+  ""echomsg 'Please execute ":NeoBundleInstall" command.'
+  "  NeoBundleInstall
+  ""finish
+  "endif
 endif
 
-call neobundle#rc(s:bundledir)
-
-""""plugins"""""
-
-" neobundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-"" Asynchronous execution library: need for vimshell, Gmail, unite, etc...?
-NeoBundle 'Shougo/vimproc', '', 'default'
-call neobundle#config('vimproc', {
-      \ 'build' : {
-      \ 'windows' : 'make -f make_mingw32.mak',
-      \ 'cygwin' : 'make -f make_cygwin.mak',
-      \ 'mac' : 'make -f make_mac.mak',
-      \ 'unix' : 'make -f make_unix.mak',
-      \ },
-      \ })
-
-" Use shell in vim
-"NeoBundle 'Shougo/vimshell', '', 'default'
-"call neobundle#config('vimshell', {
-"      \ 'lazy' : 1,
-"      \ 'autoload' : {
-"      \ 'commands' : [{ 'name' : 'VimShell',
-"      \ 'complete' : 'customlist,vimshell#complete'},
-"      \ 'VimShellExecute', 'VimShellInteractive',
-"      \ 'VimShellTerminal', 'VimShellPop'],
-"      \ 'mappings' : ['<Plug>(vimshell_switch)']}})
-
-" Searches and display information->:help Unite
-" Unlike 'fuzzyfinder' or 'ku', it doesn't use the built-lin completion of vim
-NeoBundle 'Shougo/unite.vim', '', 'default'
-call neobundle#config('unite.vim',{
-      \ 'lazy' : 1,
-      \ 'autoload' : {
-      \ 'commands' : [{ 'name' : 'Unite',
-      \ 'complete' : 'customlist,unite#complete_source'},
-      \ 'UniteWithCursorWord', 'UniteWithInput']}})
-
-" Echo
-"NeoBundle 'Shougo/echodoc', '', 'default'
-"call neobundle#config('echodoc', {
-"      \ 'lazy' : 1,
-"      \ 'autoload' : {
-"      \ 'insert' : 1}})
-
-" Completion
-"NeoBundle 'Shougo/neocomplcache', '', 'default'
-"call neobundle#config('neocomplcache', {
-"      \ 'lazy' : 1,
-"      \ 'autoload' : {'commands' : 'NeoComplCacheEnable'}})
-"
-"NeoBundle 'Shougo/neocomplete.vim', '', 'default'
-"" call neobundle#config('neocomplete.vim', {
-"" \ 'lazy' : 1,
-"" \ 'autoload' : {
-"" \ 'insert' : 1,
-"" \ }})
-"
-"NeoBundle 'Shougo/neocomplcache-rsense', '', 'default'
-"call neobundle#config('neocomplcache-rsense', {
-"      \ 'lazy' : 1,
-"      \ 'depends' : 'Shougo/neocomplcache',
-"      \ 'autoload' : { 'filetypes' : 'ruby' }})
-"
-"NeoBundle 'Shougo/neosnippet', '', 'default'
-"call neobundle#config('neosnippet', {
-"      \ 'lazy' : 1,
-"      \ 'autoload' : {
-"      \ 'insert' : 1,
-"      \ 'filetypes' : 'snippet',
-"      \ 'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
-"      \ }})
-"
-"NeoBundle 'Shougo/neobundle-vim-scripts', '', 'default'
-
-" For git/svn status, log
-"NeoBundle 'hrsh7th/vim-versions.git'
-
-" Vim plugin to highlight matchit.vim
-NeoBundle 'vimtaku/hl_matchit.vim'
-
-" Easy to use history of yanks (see below settings)
-"NeoBundle 'vim-scripts/YankRing.vim'
-
-" Use yanks in different processes (see below settings)
-"NeoBundle 'yanktmp.vim'
-
-" gundo
-NeoBundleLazy 'sjl/gundo.vim', {
-    \ "autoload": {"commands": ["GundoToggle"]}}
-
-" Another undo, need vim7.3+patch005
-"NeoBundle 'mbbill/undotree'
-
-" Toggle insert words
-"NeoBundle 'kana/vim-smartchr'
-
-" smart input
-"NeoBundle 'kana/vim-smartinput'
-
-" Easy to change surround
-NeoBundle 'surround.vim'
-"NeoBundle 'anyakichi/vim-surround'
-
-" visualize marks
-NeoBundle 'zhisheng/visualmark.vim'
-"NeoBundle 'Visual-Mark'
-
-" Align
-" http://www.drchip.org/astronaut/vim/align.html#Examples
-NeoBundle 'Align'
-
-" Add markdown
-"NeoBundle 'tpope/vim-markdown'
-NeoBundle 'plasticboy/vim-markdown'
-"NeoBundle 'kannokanno/previm'
-
-" Folding method for python, but makes completion too slow...?
-"NeoBundle 'vim-scripts/python_fold'
-
-" Currently use only for python indent...
-NeoBundle 'yuroyoro/vim-python'
-
-" Applescript
-NeoBundle 'applescript.vim'
-
-" Cool Status Line
-"NeoBundle 'Lokaltog/vim-powerline'
-
-" Visual indent guides
-NeoBundle 'nathanaelkane/vim-indent-guides'
-
-" Sub mode
-NeoBundle 'kana/vim-submode'
-
-" Open browser
-NeoBundleLazy 'tyru/open-browser.vim', { 'autoload': {
-      \ 'mappings' : '<Plug>(open-browser-wwwsearch)'}}
-
-" Easymotion
-"NeoBundle 'Lokaltog/vim-easymotion'
-
-" Can use f instead of ;, after fx move
-" Can move even to other lines
-"NeoBundle 'rhysd/clever-f.vim'
-
-" Jump to letters (two letters) after 's'
-"NeoBundle 'goldfeld/vim-seek'
-
-" Python complete (don't work?)
-NeoBundleLazy "davidhalter/jedi-vim", {
-      \ "autoload": {
-      \   "filetypes": [ "python", "python3", "djangohtml"],
-      \   "build": {
-      \   "mac": "pip install jedi",
-      \   "unix": "pip install jedi"}
-      \ }}
-
-" virtual env
-NeoBundle 'jmcantrell/vim-virtualenv'
-
-" Gmail
-"NeoBundleLazy 'yuratomo/gmail.vim',{
-"      \  'autoload' : {'commands': ['Gmail']},
-"      \  'depends' : ['Shougo/vimproc']}
-
-" SimpleNote
-"NeoBundleLazy 'mattn/webapi-vim'
-"NeoBundleLazy 'mattn/vimplenote-vim',{
-"      \  'autoload' : {'commands': ['VimpleNote']}}
-"NeoBundleLazy 'mrtazz/simplenote.vim',{
-"      \  'autoload' : {'commands': ['Simplenote']}}
-
-" evernote: need markdown library...
-"NeoBundleLazy 'kakkyz81/evervim',{
-"      \  'autoload' : {'commands': ['EvervimNotebookList', 'EvervimListTags',
-"      \                             'EvervimSearchByQuery', 'EvervimCreateNote',
-"      \                             'EvervimOpenBrowser', 'EvervimSetup']}}
-
-" Syntax
-"NeoBundle 'scrooloose/syntastic', {
-"      \ "build": {
-"      \   "mac": ["pip install flake8", "npm -g install coffeelint"],
-"      \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
-
-" Count searching objects
-NeoBundle 'osyo-manga/vim-anzu'
-
-" Git
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'gregsexton/gitv'
-
-" Gist
-NeoBundleLazy "mattn/gist-vim", {
-      \ "depends": ["mattn/webapi-vim"],
-      \ "autoload": {
-      \   "commands": ["Gist"] }}
-
-" Quick run
-"NeoBundleLazy 'thinca/vim-quickrun', { 'autoload' : {
-"      \ 'mappings' : [
-"      \ ['nxo', '<Plug>(quickrun)']] }}
-
-" Singletop
-"NeoBundle 'thinca/vim-singleton'
-
-" Splash
-"NeoBundle 'thinca/vim-splash'
-
-" vim-ref
-NeoBundleLazy 'thinca/vim-ref', {
-      \  'autoload' : {'commands': ['Ref']},
-      \}
-
-" LanguageTool
-NeoBundle 'vim-scripts/LanguageTool'
-
-" Habatobi
-NeoBundleLazy 'mattn/habatobi-vim',{
-      \  'autoload' : {'commands': ['Habatobi']}}
-
-" Make benchmark result of vimrc
-NeoBundleLazy 'mattn/benchvimrc-vim',{
-      \  'autoload' : {'commands': ['BenchVimrc']}}
-
-" File Explorer
-NeoBundleLazy 'kien/ctrlp.vim'
-"NeoBundle 'scrooloose/nerdtree'
-"NeoBundle 'trinity.vim'
-"NeoBundle 'The-NERD-tree'
-"NeoBundle 'Source-Explorer-srcexpl.vim'
-NeoBundle 'wesleyche/SrcExpl'
-"NeoBundle 'mru.vim'
-
-
-" For Tags
-"NeoBundle 'taglist.vim'
-"NeoBundle 'ctags.vim'
-NeoBundleLazy 'majutsushi/tagbar', {
-      \ "autload": {
-      \   "commands": ["TagbarToggle"],
-      \ }}
-
-" Color scheme
-"NeoBundle 'ujihisa/unite-colorscheme'
-"NeoBundle 'tomasr/molokai'
-"NeoBundle 'nanotech/jellybeans.vim'
-"NeoBundle 'altercation/vim-colors-solarized'
-"NeoBundle 'vim-scripts/newspaper.vim'
-"NeoBundle 'w0ng/vim-hybrid'
-
-
-" local plugins
-NeoBundleLocal ~/.vim/local/bundle
-""""plugins"""""
-
-" Installation check.
-NeoBundleCheck
-"" Installation check.
-"if neobundle#exists_not_installed_bundles()
-"  echomsg 'Not installed bundles : ' .
-"    \ string(neobundle#get_not_installed_bundle_names())
-""echomsg 'Please execute ":NeoBundleInstall" command.'
-"  NeoBundleInstall
-""finish
-"endif
-
-" enable plugin, indent again
+  
+  " enable plugin, indent again
 filetype plugin indent on
 " }}} neobundle
 
