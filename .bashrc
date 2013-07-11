@@ -240,6 +240,8 @@ alias vid="vim -X -d"
 alias c="multi_clipboards"
 alias put='multi_clipboards -x'
 alias del="trash -r"
+alias hischeck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
+alias hischeckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}'|sort|uniq -c|sort -n"
 
 # noglob helpers {{{
 function mynoglob_helper {
