@@ -116,7 +116,7 @@ if v:version > 700
   "NeoBundle 'Shougo/neobundle-vim-scripts', '', 'default'
 
   " For git/svn status, log
-  "NeoBundle 'hrsh7th/vim-versions.git'
+  NeoBundle 'hrsh7th/vim-versions.git'
 
   " Vim plugin to highlight matchit.vim
   NeoBundle 'vimtaku/hl_matchit.vim'
@@ -126,6 +126,9 @@ if v:version > 700
 
   " Use yanks in different processes (see below settings)
   "NeoBundle 'yanktmp.vim'
+
+  " File Edit History
+  NeoBundle 'savevers.vim'
 
   " gundo
   NeoBundleLazy 'sjl/gundo.vim', {
@@ -177,7 +180,13 @@ if v:version > 700
 
   " Open browser
   NeoBundleLazy 'tyru/open-browser.vim', { 'autoload': {
-        \ 'mappings' : '<Plug>(open-browser-wwwsearch)'}}
+        \ 'mappings' : '<Plug>(openbrowser-smart-search)'}}
+
+  " Open browser GitHub
+  NeoBundleLazy 'tyru/open-browser-github.vim', {
+        \ 'depends': ['tryu/open-browser.vim'],
+        \ 'autoload': {
+        \ 'commands' : ['OpenGithubFile','OpenGithubIssue']}}
 
   " Easymotion
   "NeoBundle 'Lokaltog/vim-easymotion'
@@ -235,8 +244,7 @@ if v:version > 700
   " Gist
   NeoBundleLazy "mattn/gist-vim", {
         \ "depends": ["mattn/webapi-vim"],
-        \ "autoload": {
-        \   "commands": ["Gist"] }}
+        \ "autoload": {"commands": ["Gist"]}}
 
   " Quick run
   "NeoBundleLazy 'thinca/vim-quickrun', { 'autoload' : {
@@ -354,14 +362,17 @@ set expandtab      " do :retab -> tab->space
 
 set nobackup       " do not keep a backup file, use versions instead
 
-if has("win32unix") || has ("win64unix") || has("win32") || has ("win64")
-  set directory=$TMP/ " for windows
-elseif has("unix") || has("mac")
-  set directory=$TMPDIR/ " directory for swap file for unix/mac
+if ! empty($TMP) && isdirectory($TMP)
+  let s:tmpdir=$TMP
+elseif ! empty($TMPDIR) && isdirectory($TMPDIR)
+  let s:tmpdir=$TMPDIR
+elseif ! empty($TEMP) && isdirectory($TEMP)
+  let s:tmpdir=$TEMP
+else
+  let s:tmpdir='./'
 endif
-if ! isdirectory(&directory)
-  set directory=./
-endif
+let &directory=s:tmpdir
+let &backupdir=s:tmpdir
 
 if has("gui_running") && ( has("win32unix") || has ("win64unix") || has("win32") || has ("win64") )
   set viminfo+=n~/.vim/gviminfo
@@ -658,8 +669,7 @@ endif
 if v:version > 700 && ! empty(neobundle#get("YankRing.vim"))
   nnoremap <Leader>y :YRShow<CR>
   " avoid to store single letter to normal register
-  let s:bundledir=expand('~/.vim/bundle')
-  let g:yankring_history_dir=expand('~/.vim/')
+  let g:yankring_history_dir=g:vimdir
   "let g:yankring_n_keys = 'Y D' " Y D x X
   "let g:yankring_enabled=0 " 1
   let g:yankring_max_history=50 " 100
@@ -745,6 +755,15 @@ nnoremap <silent> [yshare]P :call YSLoad()<CR>"sP
 nnoremap <silent> [yshare]gp :call YSLoad()<CR>"sgp
 nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " }}} yankshare
+
+" savevers {{{
+if v:version > 700 && ! empty(neobundle#get("savevers.vim"))
+  set patchmode=.clean
+  set backup
+  let savevers_types = "*"
+  let savevers_dirs = &backupdir
+endif
+" }}}
 
 " status line {{{
 set laststatus=2 " always show
