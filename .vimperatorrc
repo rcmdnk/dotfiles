@@ -110,6 +110,8 @@ nnoremap <C-m> <CR>
 "nnoremap <C-j> <NL>
 nnoremap <C-[> <Esc>
 nnoremap Q :qmarks<CR>
+nnoremap ; :
+nnoremap : ;
 
 js<<EOM
   if (liberator.has("MacUnix")) {
