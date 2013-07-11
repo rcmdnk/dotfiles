@@ -122,6 +122,7 @@ if v:version > 700
   NeoBundle 'vimtaku/hl_matchit.vim'
 
   " Easy to use history of yanks (see below settings)
+  " Strange behavior
   "NeoBundle 'vim-scripts/YankRing.vim'
 
   " Use yanks in different processes (see below settings)
@@ -1019,11 +1020,16 @@ if v:version > 700 && ! empty(neobundle#get("vim-ref"))
 
   " vim-ref prefix
   nnoremap [ref] <Nop>
+  vnoremap [ref] <Nop>
   nmap <Leader>r [ref]
-  nnoremap [ref]j :<C-u>Ref webdict je<Space>
-  nnoremap [ref]e :<C-u>Ref webdict ej<Space>
-  nnoremap [ref]w :<C-u>Ref webdict wiki<Space>
-  nnoremap [ref]m :<C-u>Ref man<Space>
+  vmap <Leader>r [ref]
+  nnoremap [ref]j :Ref webdict je<Space>
+  nnoremap [ref]e :Ref webdict ej<Space>
+  nnoremap [ref]w :Ref webdict wiki<Space>
+  nnoremap [ref]m :Ref man<Space>
+  vnoremap [ref]j :<C-u>Ref webdict je <C-R><C-w><CR>
+  vnoremap [ref]e :<C-u>Ref webdict ej <C-R><C-w><CR>
+  vnoremap [ref]w :<C-u>Ref webdict wiki <C-R><C-w><CR>
 endif
 "}}}
 
@@ -1214,8 +1220,9 @@ nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
 nnoremap <silent> <Leader>p "+gP
 nnoremap <silent> <Leader>P :set paste!<CR>:set paste?<CR>
 
-" Open vimrc
-nnoremap <Leader><Leader> :<C-u>tabedit $MYVIMRC<CR>
+" Open vimrc (is <C-u> necessary for command map?
+"nnoremap <Leader><Leader> :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <Leader><Leader> :tabedit $MYVIMRC<CR>
 
 " Source vimrc
 nnoremap <Leader>. :source $MYVIMRC<CR>
