@@ -75,11 +75,28 @@ export EDITOR=vim
 export PAGER=less
 
 # Terminfo
-export TERMINFO=/usr/share/terminfo
+#export TERMINFO=/usr/share/terminfo
 
 # For less
 #export LESSCHARSET=utf-8
 #ascii,dos,ebcdic,IBM-1047,iso8859,koi8-r,latin1,next
+
+#export GREP_OPTIONS='--color=auto'
+#export LESS='-R'
+
+# TMP directory
+if [ ! "$TMP" ];then
+  if [ "$TMPDIR" ];then
+    export TMP=$TMPDIR
+  elif [ "$TEMP" ];then
+    export TMP=$TEMP
+  elif [ -d /tmp ];then
+    export TMP=/tmp
+  else
+    mkdir -p ~/tmp
+    export TMP=~/tmp
+  fi
+fi
 
 # Python
 export PYTHONSTARTUP=~/.pythonstartup.py
@@ -122,9 +139,6 @@ elif [[ "$OSTYPE" =~ "darwin" ]];then
     #export CLX=$CLXOS
   fi
 fi
-
-#export GREP_OPTIONS='--color=auto'
-#export LESS='-R'
 
 # }}} Environmental variables
 
@@ -380,10 +394,10 @@ function sd { # Save dir {{{
 
   # Get last directories
   touch $ldf
-  local orig_ifs=$IFS
-  IFS=$'\n'
-  local dirs=(`cat $ldf`)
-  IFS=$orig_ifs
+  local dirs=()
+  while read d;do
+    dirs=("$dirs" "$d")
+  done < $ldf
   local ld=${dirs[0]}
 
   # Push current directory
@@ -396,7 +410,7 @@ function sd { # Save dir {{{
   local i=0
   rm -f $ldf
   while [ $i -lt ${#dirs[@]} ] && [ $i -lt $NLASTDIR ];do
-    echo ${dirs[$i]} >> $ldf
+    echo "${dirs[$i]}" >> $ldf
     i=$((i+1))
   done
 } # }}}
@@ -440,10 +454,10 @@ function cl { # Change directory to the Last directory {{{
 
   # Get last directories
   touch $ldf
-  local orig_ifs=$IFS
-  IFS=$'\n'
-  local dirs=(`cat $ldf`)
-  IFS=$orig_ifs
+  local dirs=()
+  while read d;do
+    dirs=("$dirs" "$d")
+  done < $ldf
   local ld=${dirs[0]}
 
   # List up and choose directory
@@ -452,7 +466,7 @@ function cl { # Change directory to the Last directory {{{
     local listnum=${#dirs[@]}
     local i=$((listnum-1))
     while [ $i -ge 0 ];do
-      printf "%4d %s %4d\n" $i ${dirs[$i]} $i
+      printf "%4d %s %4d\n" $i "${dirs[$i]}" $i
       i=$((i-1))
     done
 
@@ -471,7 +485,7 @@ function cl { # Change directory to the Last directory {{{
 
   # Change directory
   if [ $list != 1 ];then
-    cd ${dirs[$nth]}
+    cd "${dirs[$nth]}"
   fi
 } # }}}
 # }}}
