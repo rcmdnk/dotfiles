@@ -75,7 +75,17 @@ export EDITOR=vim
 export PAGER=less
 
 # Terminfo
-#export TERMINFO=/usr/share/terminfo
+if [ -d $HOME/.terminfo/ ];then
+  export TERMINFO=$HOME/.terminfo
+elif [ -d $HOME/usr/share/terminfo/ ];then
+  export TERMINFO=$HOME/usr/share/terminfo
+elif [ -d $HOME/usr/share/lib/terminfo/ ];then
+  export TERMINFO=$HOME/usr/share/lib/terminfo
+elif [ -d /usr/share/terminfo/ ];then
+  export TERMINFO=/usr/share/terminfo
+elif [ -d /usr/share/lib/terminfo/ ];then
+  export TERMINFO=/usr/share/lib/terminfo
+fi
 
 # For less
 #export LESSCHARSET=utf-8

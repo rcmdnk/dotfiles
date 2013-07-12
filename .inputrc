@@ -111,14 +111,15 @@ $endif
 
 # ls
 "\es":"\C-e\C-uls\C-m"
-"\el":"ls -ltr\C-m"
+"\el":"\C-e\C-uls -ltr\C-m"
 
 # cd
 #"\eu":"\C-e\C-ucd ../\C-mls\C-m"
 "\eu":"\C-e\C-ucd ../\C-m"
+"\e-":"\C-e\C-ucd -\C-m"
 
 # du
-"\ed": "for a in *;do du -s -m $a;done\C-m"
+"\ed": "\C-e\C-ufor a in *;do du -s -m $a;done\C-m"
 
 # /dev/null
 "\e:": ">& /dev/null\C-m"
