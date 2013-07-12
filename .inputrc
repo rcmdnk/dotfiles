@@ -76,6 +76,7 @@ $if mode=vi
   "\ey": yank-pop
 $endif
 
+# "\C-x\C-r": re-read-init-file # default to re-read .inputrc
 
 # grep prefix
 "\C-g": ""
@@ -110,8 +111,8 @@ $endif
 #"\el":"\C-e | less\C-m"
 
 # ls
-"\es":"\C-e\C-uls\C-m"
-"\el":"ls -ltr\C-m"
+"\el":"\C-e\C-uls\C-m"
+"\es":"\C-e\C-uls -ltr\C-m"
 
 # cd
 #"\eu":"\C-e\C-ucd ../\C-mls\C-m"
