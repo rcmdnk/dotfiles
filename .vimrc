@@ -1212,6 +1212,9 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>wq :wq<CR>
 nnoremap <Leader>1 :q!<CR>
+nnoremap Z ZZ
+" don't enter Ex mode but quit w/o check by Q
+nnoremap Q ZQ
 
 " remove trail spaces
 nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
