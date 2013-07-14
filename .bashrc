@@ -408,7 +408,7 @@ function sd { # Save dir {{{
   touch $ldf
   local dirs=()
   while read d;do
-    dirs=("$dirs" "$d")
+    dirs=("${dirs[@]}" "$d")
   done < $ldf
   local ld=${dirs[0]}
 
@@ -430,7 +430,7 @@ function sd { # Save dir {{{
 function cl { # Change directory to the Last directory {{{
   local HELP="
   Usage: cl [-lch] [-n <number> ]
-  If there are no arguments, you will move to the last saved dirctory
+  If there are no arguments, you will move to the last saved dirctory by sd command
 
   Arguments:
      -l              Show saved directories
@@ -468,7 +468,7 @@ function cl { # Change directory to the Last directory {{{
   touch $ldf
   local dirs=()
   while read d;do
-    dirs=("$dirs" "$d")
+    dirs=("${dirs[@]}" "$d")
   done < $ldf
   local ld=${dirs[0]}
 
@@ -490,7 +490,7 @@ function cl { # Change directory to the Last directory {{{
   fi
 
   # Check nth
-  if ! echo $nth|grep -q "^[0-9]\+$" || [ "$nth" -ge "${#dirs[*]}" ];then
+  if ! echo $nth|grep -q "^[0-9]\+$" || [ "$nth" -ge "${#dirs[@]}" ];then
     echo "Wrong number was given"
     return 1
   fi

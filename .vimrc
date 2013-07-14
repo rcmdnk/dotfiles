@@ -1301,8 +1301,8 @@ inoremap <C-U> <C-G>u<C-U>
 vnoremap <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
 
 " Select word
-vnoremap w <Esc>bve
-vnoremap W <Esc>BvE
+vnoremap w <Esc>evb
+vnoremap W <Esc>EvB
 
 
 """ command line mode (cnoremap)
