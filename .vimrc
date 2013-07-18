@@ -200,13 +200,13 @@ if v:version > 700
   "NeoBundle 'goldfeld/vim-seek'
 
   " Python complete (don't work?)
-  NeoBundleLazy "davidhalter/jedi-vim", {
-        \ "autoload": {
-        \   "filetypes": [ "python", "python3", "djangohtml"],
-        \   "build": {
-        \   "mac": "pip install jedi",
-        \   "unix": "pip install jedi"}
-        \ }}
+  "NeoBundleLazy "davidhalter/jedi-vim", {
+  "      \ "autoload": {
+  "      \   "filetypes": [ "python", "python3", "djangohtml"],
+  "      \   "build": {
+  "      \   "mac": "pip install jedi",
+  "      \   "unix": "pip install jedi"}
+  "      \ }}
 
   " virtual env
   NeoBundle 'jmcantrell/vim-virtualenv'

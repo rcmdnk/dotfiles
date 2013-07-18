@@ -32,7 +32,7 @@ function source_file() {
 } # }}} Function for sourcing with precheck of the file
 
 # Source global definitions {{{
-#source_file /etc/bashrc
+source_file /etc/bashrc
 # Remove the last ";" from PROMPT_COMMAND
 # Necessary for Mac Terminal.app
 PROMPT_COMMAND=`echo ${PROMPT_COMMAND}|sed 's/;$//'`
