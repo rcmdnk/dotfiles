@@ -199,28 +199,11 @@ if v:version > 700
   " Jump to letters (two letters) after 's'
   "NeoBundle 'goldfeld/vim-seek'
 
-  " Python complete (don't work?)
-  function! Jedi()
-    echomsg 'Enable jedi!'
-  endfunction
-  command! -nargs=0 Jedi call Jedi()
+  " Python complete
   NeoBundleLazy "davidhalter/jedi-vim", {
+        \ "rev" : 'dev',
         \ "autoload": {
-        \   "filetypes": [ "python", "python3", "djangohtml"],
-        \ }}
-
-        "\   "commands": ['Jedi'],
-        "\   "build": {
-        "\   "mac": "pip install jedi",
-        "\   "unix": "pip install jedi"}
-        "\ }}
-
-        "\ "autoload": {
-        "\   "filetypes": [ "python", "python3", "djangohtml"],
-        "\   "build": {
-        "\   "mac": "pip install jedi",
-        "\   "unix": "pip install jedi"}
-        "\ }}
+        \ "filetypes": [ "python", "python3", "djangohtml"]}}
 
   " virtual env
   NeoBundle 'jmcantrell/vim-virtualenv'
