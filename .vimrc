@@ -171,7 +171,10 @@ if v:version > 700
   NeoBundle 'applescript.vim'
 
   " Cool Status Line
-  "NeoBundle 'Lokaltog/vim-powerline'
+  "NeoBundle 'Lokaltog/vim-pcompleteowerline'
+
+  " Another status line
+  NeoBundle 'bling/vim-airline'
 
   " Visual indent guides
   NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -199,7 +202,7 @@ if v:version > 700
   " Jump to letters (two letters) after 's'
   "NeoBundle 'goldfeld/vim-seek'
 
-  " Python complete
+  " Python autocompletion
   NeoBundleLazy "davidhalter/jedi-vim", {
         \ "rev" : 'dev',
         \ "autoload": {
@@ -977,6 +980,12 @@ endif
 if v:version > 700 && ! empty(neobundle#get("applescript.vim"))
   autocmd MyAutoGroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
+endif
+"}}} applescript
+
+" vim-airline{{{
+if v:version > 700 && ! empty(neobundle#get("vim-airline"))
+  "let g:airline_theme='dark'
 endif
 "}}} applescript
 
