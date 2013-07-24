@@ -119,7 +119,8 @@ if v:version > 700
   NeoBundle 'hrsh7th/vim-versions.git'
 
   " Vim plugin to highlight matchit.vim
-  NeoBundle 'vimtaku/hl_matchit.vim'
+  " Make it too slow especially for files which have many brackets
+  "NeoBundle 'vimtaku/hl_matchit.vim'
 
   " Easy to use history of yanks (see below settings)
   " Strange behavior
@@ -391,7 +392,7 @@ set smartcase      " Noignorecase, if the pattern include Capital
 set nowrapscan     " Stop search at the edge of the file
 set infercase      " Ignore case for completion
 
-set nrformats=hex,alpha  " Not use cotal, alpha for increment or decrement
+set nrformats=hex  " Not use cotal, alpha for increment or decrement
 set t_Co=256       " Enable 256 colors
 set list           " Show tab, end, trail empty
 set listchars=tab:>-,extends:<,trail:- " Set words for above
