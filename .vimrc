@@ -183,6 +183,12 @@ if v:version > 700
   " Sub mode
   NeoBundle 'kana/vim-submode'
 
+  " Operator
+  NeoBundle 'kana/vim-operator-user'
+
+  " Replace with the text object
+  NeoBundle "kana/vim-operator-replace"
+
   " Open browser
   NeoBundleLazy 'tyru/open-browser.vim', { 'autoload': {
         \ 'mappings' : '<Plug>(openbrowser-smart-search)'}}
@@ -507,6 +513,213 @@ autocmd! FileType markdown hi! def link markdownItalic LineNr
 
 " }}} Basic settings
 
+" map (for other than each plugin){{{
+" remapping, tips
+
+" n   Normal mode map. Defined using ':nmap' and ':nnoremap'.
+" i   Insert mode map. Defined using ':imap' and ':inoremap'.
+" v   Visual and select mode map. Defined using ':vmap' and ':vnoremap'.
+" x   Visual mode map. Defined using ':xmap' and ':xnoremap'.
+" s   Select mode map. Defined using ':smap' and ':snoremap'.
+" c   Command-line mode map. Defined using ':cmap' and ':cnoremap'.
+" o   Operator pending mode map. Defined using ':omap' and ':onoremap'.
+"
+" map and noremap:  normal + visual
+" nmap! and nnoremap!: other than normal mode
+"
+" Note that if the 'paste' option is set, then insert mode maps are disabled.
+
+" <C-h> == <BS>
+" <C-i> == <Tab>
+" <C=l> == <FF> (formfeed)
+" <C-j> == <NL> (next line)
+" <C=m> == <CR> (return)
+" *** should not use <C-i> and <C-m> for mappings!
+" If you set mappings for <C-i> and <C-m>,
+" the mapping will also be enabled for <Tab> and <CR>, respectively.
+" Others can be mapped separately.
+
+
+
+" Don't use Ex mode, use Q for formatting
+"map Q gq
+
+""" normal mode (noremap)
+
+" cursor move
+" Left (C-h default: <BS> ~ h)
+"nnoremap <C-h> h
+" Right (C-j default: <NL> ~ j)
+"nnoremap <C-j> j
+" Up (C-k default: Non)
+nnoremap <C-k> k
+" Down (C-l default: Clear and redraw the screen)
+nnoremap <C-l> l
+" Go to Head (C-a default: Increment)
+nnoremap <C-a> 0
+" Go to End (C-e default: Scroll down)
+nnoremap <C-e> <C-$>
+" Substitute for C-a (C-q default: C-V alternative for gui mode)
+"nnoremap <C-q> <C-a> " not work...
+" Substitute for C-a (C-z default: suspend, same as :stop)
+"nnoremap <C-z> <C-a>
+" Substitute for C-a (C-s default: non?)
+nnoremap <C-s> <C-a>
+nnoremap <C-k> k
+
+" Window move
+nnoremap <M-h> <C-w><<CR>
+nnoremap <M-j> <C-w>+<CR>
+nnoremap <M-k> <C-w>-<CR>
+nnoremap <M-l> <C-w>><CR>
+nnoremap <D-h> <C-w><<CR>
+nnoremap <D-j> <C-w>+<CR>
+nnoremap <D-k> <C-w>-<CR>
+nnoremap <D-l> <C-w>><CR>
+
+" Swap colon <-> semicolon
+noremap ; :
+noremap : ;
+
+" tag jump (avoid crash with screen's key bind, C-' default: Non?)
+nnoremap <C-'> <C-t>
+" spell check toggle
+nnoremap <silent> <Leader>s :set spell!<CR>
+" stop highlight for search
+"nnoremap <C-/> :noh<CR> " can't use C-/ ?
+"nnoremap <Esc> :noh<CR> " this makes something wrong
+                         " at start when using vim w/o screen...
+"nnoremap <silent> <Esc><Esc> :noh<CR> " Esc mapping may be used others,
+                                       " better to use others...
+nnoremap <silent> <Leader>/ :noh<CR>
+" direct indent
+" this makes trouble at visual mode (indent twice for current line)
+"nnoremap > >>
+"nnoremap < <<
+" alignment at normalmode
+nnoremap = v=
+" don't register single letter by x
+"nnoremap x "_x " set in virtualedit
+
+" window
+"nnoremap <C-w><C-c> <C-w><C-c> "not work, because <C-c> cancels the command
+
+" insert file name
+"nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
+nnoremap <silent> <Leader>f "%P
+nnoremap <silent> <Leader>d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
+nnoremap <silent> "+ "+P
+nnoremap <silent> "* "*P
+
+" save/quit
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>wq :wq<CR>
+nnoremap <Leader>1 :q!<CR>
+nnoremap Z ZZ
+" don't enter Ex mode but quit w/o check by Q
+nnoremap Q ZQ
+
+" remove trail spaces
+nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
+
+" Paste mode
+nnoremap <silent> <Leader>p "+gP
+nnoremap <silent> <Leader>P :set paste!<CR>:set paste?<CR>
+
+" Open vimrc (is <C-u> necessary for command map?
+"nnoremap <Leader><Leader> :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <Leader><Leader> :tabedit $MYVIMRC<CR>
+
+" Source vimrc
+nnoremap <Leader>. :source $MYVIMRC<CR>
+
+" search: very magic mode
+nnoremap / /\v
+" to check patterns:
+" :h pattern-overview
+
+" Close help with q
+autocmd MyAutoGroup FileType help,qf nnoremap <buffer> q <C-w>c
+
+" Surround at Normal mode
+nnoremap <Leader>{ bi{<Space><Esc>ea<Space>}<Esc>
+nnoremap <Leader>} bi{<Esc>ea}<Esc>
+nnoremap <Leader>[ bi[<Space><Esc>ea<Space>]<Esc>
+nnoremap <Leader>] bi[<Esc>ea]<Esc>
+nnoremap <Leader>( bi(<Space><Esc>ea<Space>)<Esc>
+nnoremap <Leader>) bi(<Esc>ea)<Esc>
+nnoremap <Leader>< bi<<Space><Esc>ea<Space>><Esc>
+nnoremap <Leader>> bi<<Esc>ea><Esc>
+nnoremap <Leader>" bi"<Esc>ea"<Esc>
+nnoremap <Leader>' bi'<Esc>ea'<Esc>
+nnoremap <Leader>` bi`<Esc>ea`<Esc>
+
+" insert mode (inoremap)
+
+" emacs (bash) like move in insert mode
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-d> <Delete>
+inoremap <C-h> <Backspace>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+" insert file/directory name
+" -> Use <C-o><Leader>f, instead
+"inoremap <silent> <Leader>f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
+"inoremap <silent> <Leader>f <C-R>%
+"inoremap <silent> <Leader>d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
+
+""""""" -> use smartinput
+" < can't be used for mapping?
+" (maybe < has special means in vim scripts and need special treatment)
+"inoremap <> <><Left>
+"inoremap '' ''<Left>
+"inoremap "" ""<Left>
+"inoremap () ()<Left>
+"inoremap [] []<Left>
+"inoremap {} {}<Left>
+
+"inoremap < <><Left>
+""inoremap ' ''<Left>
+""inoremap " ""<Left>
+"inoremap ( ()<Left>
+"inoremap [ []<Left>
+"inoremap { {}<Left>
+"
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
+
+""" visual mode (vnoremap)
+
+"  is not necessary?
+" -> use to surround
+"vnoremap { "zdi{<C-R>z}<Esc>
+"vnoremap [ "zdi[<C-R>z]<Esc>
+"vnoremap ( "zdi(<C-R>z)<Esc>
+"vnoremap " "zdi"<C-R>z"<Esc>
+"vnoremap ' "zdi'<C-R>z'<Esc>
+
+" remove trail spaces
+vnoremap <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
+
+" Select word
+"vnoremap w iw
+"vnoremap W iW
+
+
+""" command line mode (cnoremap)
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-a> <C-b>
+
+" Write as root
+cnoremap w!! w !sudo tee > /dev/null %
+
+
+" }}} map
+
 " Colors {{{
 "colorscheme molokai
 colorscheme ron
@@ -625,7 +838,7 @@ if v:version > 700 && ! empty(neobundle#get("unite.vim"))
   " show opened file history including current buffers
   nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
   " show lines of current file
-  nnoremap <silent> [unite]l :Unite line<CR>
+  nnore <silent> [unite]l :Unite line<CR>
 endif
 " }}} Unite
 
@@ -932,6 +1145,12 @@ if v:version > 700 && ! empty(neobundle#get("vim-submode"))
 endif
 "}}} vim-submode
 
+" vim-operator-replace{{{
+if v:version > 700 && ! empty(neobundle#get("vim-operator-replace"))
+  map R  <Plug>(operator-replace)
+endif
+"}}} vim-operator-replace
+
 " open-browser{{{
 if v:version > 700 && ! empty(neobundle#get("open-browser.vim"))
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
@@ -1115,213 +1334,6 @@ endif
 "    endif
 "endfunction
 "" }}}
-
-" map (for other than each plugin){{{
-" remapping, tips
-
-" n   Normal mode map. Defined using ':nmap' and ':nnoremap'.
-" i   Insert mode map. Defined using ':imap' and ':inoremap'.
-" v   Visual and select mode map. Defined using ':vmap' and ':vnoremap'.
-" x   Visual mode map. Defined using ':xmap' and ':xnoremap'.
-" s   Select mode map. Defined using ':smap' and ':snoremap'.
-" c   Command-line mode map. Defined using ':cmap' and ':cnoremap'.
-" o   Operator pending mode map. Defined using ':omap' and ':onoremap'.
-"
-" map and noremap:  normal + visual
-" nmap! and nnoremap!: other than normal mode
-"
-" Note that if the 'paste' option is set, then insert mode maps are disabled.
-
-" <C-h> == <BS>
-" <C-i> == <Tab>
-" <C=l> == <FF> (formfeed)
-" <C-j> == <NL> (next line)
-" <C=m> == <CR> (return)
-" *** should not use <C-i> and <C-m> for mappings!
-" If you set mappings for <C-i> and <C-m>,
-" the mapping will also be enabled for <Tab> and <CR>, respectively.
-" Others can be mapped separately.
-
-
-
-" Don't use Ex mode, use Q for formatting
-"map Q gq
-
-""" normal mode (noremap)
-
-" cursor move
-" Left (C-h default: <BS> ~ h)
-"nnoremap <C-h> h
-" Right (C-j default: <NL> ~ j)
-"nnoremap <C-j> j
-" Up (C-k default: Non)
-nnoremap <C-k> k
-" Down (C-l default: Clear and redraw the screen)
-nnoremap <C-l> l
-" Go to Head (C-a default: Increment)
-nnoremap <C-a> 0
-" Go to End (C-e default: Scroll down)
-nnoremap <C-e> <C-$>
-" Substitute for C-a (C-q default: C-V alternative for gui mode)
-"nnoremap <C-q> <C-a> " not work...
-" Substitute for C-a (C-z default: suspend, same as :stop)
-"nnoremap <C-z> <C-a>
-" Substitute for C-a (C-s default: non?)
-nnoremap <C-s> <C-a>
-nnoremap <C-k> k
-
-" Window move
-nnoremap <M-h> <C-w><<CR>
-nnoremap <M-j> <C-w>+<CR>
-nnoremap <M-k> <C-w>-<CR>
-nnoremap <M-l> <C-w>><CR>
-nnoremap <D-h> <C-w><<CR>
-nnoremap <D-j> <C-w>+<CR>
-nnoremap <D-k> <C-w>-<CR>
-nnoremap <D-l> <C-w>><CR>
-
-" Swap colon <-> semicolon
-noremap ; :
-noremap : ;
-
-" tag jump (avoid crash with screen's key bind, C-' default: Non?)
-nnoremap <C-'> <C-t>
-" spell check toggle
-nnoremap <silent> <Leader>s :set spell!<CR>
-" stop highlight for search
-"nnoremap <C-/> :noh<CR> " can't use C-/ ?
-"nnoremap <Esc> :noh<CR> " this makes something wrong
-                         " at start when using vim w/o screen...
-"nnoremap <silent> <Esc><Esc> :noh<CR> " Esc mapping may be used others,
-                                       " better to use others...
-nnoremap <silent> <Leader>/ :noh<CR>
-" direct indent
-" this makes trouble at visual mode (indent twice for current line)
-"nnoremap > >>
-"nnoremap < <<
-" alignment at normalmode
-nnoremap = v=
-" don't register single letter by x
-"nnoremap x "_x " set in virtualedit
-
-" window
-"nnoremap <C-w><C-c> <C-w><C-c> "not work, because <C-c> cancels the command
-
-" insert file name
-"nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
-nnoremap <silent> <Leader>f "%P
-nnoremap <silent> <Leader>d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
-nnoremap <silent> "+ "+P
-nnoremap <silent> "* "*P
-
-" save/quit
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>wq :wq<CR>
-nnoremap <Leader>1 :q!<CR>
-nnoremap Z ZZ
-" don't enter Ex mode but quit w/o check by Q
-nnoremap Q ZQ
-
-" remove trail spaces
-nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
-
-" Paste mode
-nnoremap <silent> <Leader>p "+gP
-nnoremap <silent> <Leader>P :set paste!<CR>:set paste?<CR>
-
-" Open vimrc (is <C-u> necessary for command map?
-"nnoremap <Leader><Leader> :<C-u>tabedit $MYVIMRC<CR>
-nnoremap <Leader><Leader> :tabedit $MYVIMRC<CR>
-
-" Source vimrc
-nnoremap <Leader>. :source $MYVIMRC<CR>
-
-" search: very magic mode
-nnoremap / /\v
-" to check patterns:
-" :h pattern-overview
-
-" Close help with q
-autocmd MyAutoGroup FileType help,qf nnoremap <buffer> q <C-w>c
-
-" Surround at Normal mode
-nnoremap <Leader>{ bi{<Space><Esc>ea<Space>}<Esc>
-nnoremap <Leader>} bi{<Esc>ea}<Esc>
-nnoremap <Leader>[ bi[<Space><Esc>ea<Space>]<Esc>
-nnoremap <Leader>] bi[<Esc>ea]<Esc>
-nnoremap <Leader>( bi(<Space><Esc>ea<Space>)<Esc>
-nnoremap <Leader>) bi(<Esc>ea)<Esc>
-nnoremap <Leader>< bi<<Space><Esc>ea<Space>><Esc>
-nnoremap <Leader>> bi<<Esc>ea><Esc>
-nnoremap <Leader>" bi"<Esc>ea"<Esc>
-nnoremap <Leader>' bi'<Esc>ea'<Esc>
-nnoremap <Leader>` bi`<Esc>ea`<Esc>
-
-" insert mode (inoremap)
-
-" emacs (bash) like move in insert mode
-inoremap <C-a> <Home>
-inoremap <C-e> <End>
-inoremap <C-d> <Delete>
-inoremap <C-h> <Backspace>
-inoremap <C-b> <Left>
-inoremap <C-f> <Right>
-" insert file/directory name
-" -> Use <C-o><Leader>f, instead
-"inoremap <silent> <Leader>f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
-"inoremap <silent> <Leader>f <C-R>%
-"inoremap <silent> <Leader>d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
-
-""""""" -> use smartinput
-" < can't be used for mapping?
-" (maybe < has special means in vim scripts and need special treatment)
-"inoremap <> <><Left>
-"inoremap '' ''<Left>
-"inoremap "" ""<Left>
-"inoremap () ()<Left>
-"inoremap [] []<Left>
-"inoremap {} {}<Left>
-
-"inoremap < <><Left>
-""inoremap ' ''<Left>
-""inoremap " ""<Left>
-"inoremap ( ()<Left>
-"inoremap [ []<Left>
-"inoremap { {}<Left>
-"
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
-
-""" visual mode (vnoremap)
-
-"  is not necessary?
-" -> use to surround
-"vnoremap { "zdi{<C-R>z}<Esc>
-"vnoremap [ "zdi[<C-R>z]<Esc>
-"vnoremap ( "zdi(<C-R>z)<Esc>
-"vnoremap " "zdi"<C-R>z"<Esc>
-"vnoremap ' "zdi'<C-R>z'<Esc>
-
-" remove trail spaces
-vnoremap <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
-
-" Select word
-vnoremap w <Esc>evb
-vnoremap W <Esc>EvB
-
-
-""" command line mode (cnoremap)
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
-cnoremap <C-a> <C-b>
-
-" Write as root
-cnoremap w!! w !sudo tee > /dev/null %
-
-
-" }}} map
 
 " local settings {{{
 if filereadable(expand('~/.vimrc.local'))
