@@ -16,8 +16,8 @@
 	autocrlf = false
 	editor = vim
 
-[push]
-	default = simple
+#[push]
+#	default = simple
 
 [github]
 	user = rcmdnk
