@@ -274,7 +274,7 @@ if v:version > 700
   NeoBundle 'vim-scripts/LanguageTool'
 
   " look - display lines beginning with a given string
-  "NeoBundle 'ujihisa/neco-look'
+  NeoBundle 'ujihisa/neco-look'
 
   " Excite Translate
   NeoBundleLazy 'mattn/excitetranslate-vim', {
