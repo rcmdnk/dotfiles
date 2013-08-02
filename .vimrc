@@ -25,7 +25,7 @@ endif
 " http://qiita.com/rbtnn/items/39d9ba817329886e626b
 
 if v:version > 700
-  "" set path
+  " set path
   if has('vim_starting')
     let s:bundledir=g:vimdir . '/bundle'
     let s:neobundledir=s:bundledir . '/neobundle.vim'
@@ -43,10 +43,10 @@ if v:version > 700
 
   """"plugins"""""
 
-  " neobundle
+  " Neobundle
   NeoBundleFetch 'Shougo/neobundle.vim'
 
-  "" Asynchronous execution library: need for vimshell, Gmail, unite, etc...?
+  " Asynchronous execution library: need for vimshell, Gmail, unite, etc...?
   NeoBundle 'Shougo/vimproc', '', 'default'
   call neobundle#config('vimproc', {
         \ 'build' : {
@@ -134,7 +134,7 @@ if v:version > 700
 
   " gundo
   NeoBundleLazy 'sjl/gundo.vim', {
-      \ "autoload": {"commands": ["GundoToggle"]}}
+      \ 'autoload': {'commands': ['GundoToggle']}}
 
   " Another undo, need vim7.3+patch005
   "NeoBundle 'mbbill/undotree'
@@ -187,7 +187,7 @@ if v:version > 700
   NeoBundle 'kana/vim-operator-user'
 
   " Replace with the text object
-  NeoBundle "kana/vim-operator-replace"
+  NeoBundle 'kana/vim-operator-replace'
 
   " Open browser
   NeoBundleLazy 'tyru/open-browser.vim', { 'autoload': {
@@ -210,10 +210,10 @@ if v:version > 700
   "NeoBundle 'goldfeld/vim-seek'
 
   " Python autocompletion
-  NeoBundleLazy "davidhalter/jedi-vim", {
-        \ "rev" : 'dev',
-        \ "autoload": {
-        \ "filetypes": [ "python", "python3", "djangohtml"]}}
+  NeoBundleLazy 'davidhalter/jedi-vim', {
+        \ 'rev' : 'dev',
+        \ 'autoload': {
+        \ 'filetypes': [ 'python', 'python3', 'djangohtml']}}
 
   " virtual env
   NeoBundle 'jmcantrell/vim-virtualenv'
@@ -238,9 +238,9 @@ if v:version > 700
 
   " Syntax
   "NeoBundle 'scrooloose/syntastic', {
-  "      \ "build": {
-  "      \   "mac": ["pip install flake8", "npm -g install coffeelint"],
-  "      \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
+  "      \ 'build': {
+  "      \   'mac': ['pip install flake8', 'npm -g install coffeelint'],
+  "      \   'unix': ['pip install flake8', 'npm -g install coffeelint'] }}
 
   " Count searching objects
   NeoBundle 'osyo-manga/vim-anzu'
@@ -250,9 +250,9 @@ if v:version > 700
   NeoBundle 'gregsexton/gitv'
 
   " Gist
-  NeoBundleLazy "mattn/gist-vim", {
-        \ "depends": ["mattn/webapi-vim"],
-        \ "autoload": {"commands": ["Gist"]}}
+  NeoBundleLazy 'mattn/gist-vim', {
+        \ 'depends': ['mattn/webapi-vim'],
+        \ 'autoload': {'commands': ['Gist']}}
 
   " Quick run
   "NeoBundleLazy 'thinca/vim-quickrun', { 'autoload' : {
@@ -272,6 +272,15 @@ if v:version > 700
 
   " LanguageTool
   NeoBundle 'vim-scripts/LanguageTool'
+
+  " look - display lines beginning with a given string
+  "NeoBundle 'ujihisa/neco-look'
+
+  " Excite Translate
+  NeoBundleLazy 'mattn/excitetranslate-vim', {
+        \ 'depends': 'mattn/webapi-vim',
+        \ 'autoload' : { 'commands': ['ExciteTranslate']}
+        \ }
 
   " Habatobi
   NeoBundleLazy 'mattn/habatobi-vim',{
@@ -294,8 +303,8 @@ if v:version > 700
   "NeoBundle 'taglist.vim'
   "NeoBundle 'ctags.vim'
   NeoBundleLazy 'majutsushi/tagbar', {
-        \ "autload": {
-        \   "commands": ["TagbarToggle"],
+        \ 'autload': {
+        \   'commands': ['TagbarToggle'],
         \ }}
 
   " Color scheme
@@ -309,15 +318,15 @@ if v:version > 700
 
   " local plugins
   NeoBundleLocal ~/.vim/local/bundle
-  """"plugins"""""
+  """"plugins end"""""
 
   " Installation check.
   NeoBundleCheck
-  "" Installation check.
+  " Installation check.
   "if neobundle#exists_not_installed_bundles()
   "  echomsg 'Not installed bundles : ' .
   "    \ string(neobundle#get_not_installed_bundle_names())
-  ""echomsg 'Please execute ":NeoBundleInstall" command.'
+  ""echomsg 'Please execute ':NeoBundleInstall' command.'
   "  NeoBundleInstall
   ""finish
   "endif
@@ -339,8 +348,8 @@ augroup END
 syntax on
 set hlsearch
 
-""" mapleaader (<Leader>)
-let mapleader = ","
+" mapleaader (<Leader>)
+let mapleader = ','
 " use \ as ,, instead
 noremap \ ,
 
@@ -365,7 +374,7 @@ if exists ('&colorcolumn')
   "set colorcolumn=80 " put line on 80
   "set colorcolumn=+1 " put line on textwidth+1
   " Change background for 81-
-  execute "set colorcolumn=" . join(range(81, 999), ',')
+  execute 'set colorcolumn=' . join(range(81, 999), ',')
 endif
 set wrap           " the longer line is wrapped
 set expandtab      " do :retab -> tab->space
@@ -384,7 +393,7 @@ endif
 let &directory=s:tmpdir
 let &backupdir=s:tmpdir
 
-if has("gui_running") && ( has("win32unix") || has ("win64unix") || has("win32") || has ("win64") )
+if has('gui_running') && ( has('win32unix') || has ('win64unix') || has('win32') || has ("win64") )
   set viminfo+=n~/.vim/gviminfo
 else
   set viminfo+=n~/.vim/viminfo
@@ -430,10 +439,10 @@ if has('multi_byte_ime') || has('xim') || has('gui_macvim')
 endif
 
 " Encode
-"if has("windows")
+"if has('windows')
 "  scriptencoding cp932 " sjis
 "  set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
-"else " if has("unix") || has("mac")
+"else " if has('unix') || has('mac')
 "  set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1,utf-8
 "endif
 "if has('gui_running') && !has('unix')
@@ -452,7 +461,7 @@ set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
 " noimdisableactivate was thrown in the latest MacVim?
 " noimdisable should be used instead.
 " but it seems not necessary anyway (all IME related things are done in KeyRemap4MacBook.
-"if has("mac")
+"if has('mac')
 "  set noimdisableactivate
 "endif
 
@@ -799,7 +808,7 @@ nnoremap <C-r> g+
 " }}} undo
 
 " gundo {{{
-if v:version > 700 && ! empty(neobundle#get("gundo.vim"))
+if v:version > 700 && ! empty(neobundle#get('gundo.vim'))
   nnoremap U :GundoToggle<CR>
   " Don't show preview by moving history. Use r to see differences
   let g:gundo_auto_preview = 0
@@ -807,7 +816,7 @@ endif
 " }}} gundo
 
 " Unite {{{
-if v:version > 700 && ! empty(neobundle#get("unite.vim"))
+if v:version > 700 && ! empty(neobundle#get('unite.vim'))
   autocmd MyAutoGroup FileType unite call s:unite_my_settings()
   function! s:unite_my_settings()
     nmap <buffer><Esc> <Plug>(unite_exit)
@@ -843,28 +852,28 @@ endif
 " }}} Unite
 
 " vim-smartchr {{{
-if v:version > 700 && ! empty(neobundle#get("vim-smartchr"))
+if v:version > 700 && ! empty(neobundle#get('vim-smartchr'))
   inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
 endif
 " }}} vim-smartchr
 
 " vim-smartinput {{{
-if v:version > 700 && ! empty(neobundle#get("vim-smartinput"))
+if v:version > 700 && ! empty(neobundle#get('vim-smartinput'))
   "" Remove spaces at the end of line
   "call smartinput#define_rule({
   "\   'at': '\s\+\%#',
   "\   'char': '<CR>',
-  "\   'input': "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>",
+  "\   'input': '<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>',
   "\   })
 endif
 " }}} vim-smartinput
 
 " surround.vim/vim-surround {{{
-if v:version > 700 && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
+if v:version > 700 && (! empty(neobundle#get('surround.vim')) || ! empty(neobundle#get('vim-surround')))
   " Numbers for characters can be found by :ascii on each character
-  let g:surround_96 = "`\r`" " use `
+  let g:surround_96 = '`\r`' " use `
 
-  if ! empty(neobundle#get("vim-surround"))
+  if ! empty(neobundle#get('vim-surround'))
     let g:surround_old_mappings = 1
   endif
 
@@ -883,7 +892,7 @@ endif
 " }}} surround.vim
 
 " YankRing {{{
-if v:version > 700 && ! empty(neobundle#get("YankRing.vim"))
+if v:version > 700 && ! empty(neobundle#get('YankRing.vim'))
   nnoremap <Leader>y :YRShow<CR>
   " avoid to store single letter to normal register
   let g:yankring_history_dir=g:vimdir
@@ -912,7 +921,7 @@ endif
 " }}} YankRing
 
 " yanktmp {{{
-if v:version > 700 && ! empty(neobundle#get("yanktmp.vim"))
+if v:version > 700 && ! empty(neobundle#get('yanktmp.vim'))
   let g:yanktmp_file = $HOME.'/.vim/vimyanktmp'
 
   " yanktmp prefix
@@ -943,7 +952,7 @@ function! YSStore() range
 endfunction
 
 function! YSLoad() range
-  call setreg('s', readfile(g:yankshare_file, "b")[0])
+  call setreg('s', readfile(g:yankshare_file, 'b')[0])
 endfunction
 
 nnoremap <silent> [yshare]y  "syy:call YSStore()<CR>
@@ -974,10 +983,10 @@ nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " }}} yankshare
 
 " savevers {{{
-if v:version > 700 && ! empty(neobundle#get("savevers.vim"))
+if v:version > 700 && ! empty(neobundle#get('savevers.vim'))
   set patchmode=.clean
   set backup
-  let savevers_types = "*"
+  let savevers_types = '*'
   let savevers_dirs = &backupdir
 endif
 " }}}
@@ -990,7 +999,7 @@ set statusline+=%=%l/%L,%c%V%8P
 " }}} status line
 
 " neocomplcache {{{
-if v:version > 700 && ! empty(neobundle#get("neocomplcache"))
+if v:version > 700 && ! empty(neobundle#get('neocomplcache'))
   let g:neocomplcache_enable_at_startup = 1 " enable at start up
   let g:neocomplcache_smartcase = 1 " distinguish capital and
   let g:neocomplcache_enable_camel_case_completion = 1
@@ -1010,7 +1019,7 @@ let b:match_ignorecase = 1
 " }}} matchpair, matchit
 
 " for hl_matchit {{{
-if v:version > 700 && ! empty(neobundle#get("hl_matchit.vim"))
+if v:version > 700 && ! empty(neobundle#get('hl_matchit.vim'))
   let g:hl_matchit_enable_on_vim_startup = 1
   let g:hl_matchit_hl_groupname = 'Title'
   let g:hl_matchit_allow_ft_regexp = 'html\|vim\|ruby\|sh'
@@ -1027,31 +1036,31 @@ endif
 
 " it seems working in Mac, but not in Windows (putty+XWin)
 
-if &term =~ "screen" || &term =~ "xterm"
-  if &term =~ "screen"
-    let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
-    let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
-    let &pastetoggle = "\e[201~"
+if &term =~ 'screen' || &term =~ 'xterm'
+  if &term =~ 'screen'
+    let &t_SI = &t_SI . '\eP\e[?2004h\e\\'
+    let &t_EI = '\eP\e[?2004l\e\\' . &t_EI
+    let &pastetoggle = '\e[201~'
   else
-    let &t_SI .= &t_SI . "\e[?2004h"
-    let &t_EI .= "\e[?2004l" . &t_EI
-    let &pastetoggle = "\e[201~"
+    let &t_SI .= &t_SI . '\e[?2004h'
+    let &t_EI .= '\e[?2004l' . &t_EI
+    let &pastetoggle = '\e[201~'
   endif
   function! XTermPasteBegin(ret)
     set paste
     return a:ret
   endfunction
-  imap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+  imap <special> <expr> <Esc>[200~ XTermPasteBegin('')
 endif
 
 " }}} paste
 
 " vim-easymotion{{{
-if v:version > 700 && ! empty(neobundle#get("vim-easymotion"))
+if v:version > 700 && ! empty(neobundle#get('vim-easymotion'))
   let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
   "let g:EasyMotion_keys='ifjklasdweuocvbnm'
   let g:EasyMotion_do_mapping=0
-  let g:EasyMotion_leader_key=","
+  let g:EasyMotion_leader_key=','
   let g:EasyMotion_grouping=1
   hi EasyMotionTarget ctermbg=none ctermfg=red
   hi EasyMotionShade  ctermbg=none ctermfg=blue
@@ -1059,18 +1068,18 @@ endif
 " }}} vim-easymotion
 
 " jedi-vim{{{
-if v:version > 700 && ! empty(neobundle#get("jedi-vim"))
+if v:version > 700 && ! empty(neobundle#get('jedi-vim'))
   let g:jedi#auto_initialization = 1
   let g:jedi#auto_vim_configuration = 1
-  let g:jedi#goto_command = "<Leader>g"
-  let g:jedi#get_definition_command = "<Leader>d"
-  let g:jedi#pydoc = "K"
-  let g:jedi#autocompletion_command = "<C-Space>"
+  let g:jedi#goto_command = '<Leader>g'
+  let g:jedi#get_definition_command = '<Leader>d'
+  let g:jedi#pydoc = 'K'
+  let g:jedi#autocompletion_command = '<C-Space>'
 endif
 " }}} jedi-vim
 
 " SimpleNote{{{
-if v:version > 700 && ! empty(neobundle#get("simplenote.vim"))
+if v:version > 700 && ! empty(neobundle#get('simplenote.vim'))
   " for simplenote.vim
   "let g:SimplenoteUsername = ''
   "let g:SimplenotePassword = ''
@@ -1079,7 +1088,7 @@ if v:version > 700 && ! empty(neobundle#get("simplenote.vim"))
   endif
 endif
 
-if v:version > 700 && ! empty(neobundle#get("vimplenote-vim"))
+if v:version > 700 && ! empty(neobundle#get('vimplenote-vim'))
   " for vimplenote-vim
   "let g:VimpleNoteUsername = ''
   "let g:VimpleNotePassword = ''
@@ -1100,7 +1109,7 @@ endif
 " }}} Simplenote
 
 " Gmail{{{
-if v:version > 700 && ! empty(neobundle#get("gmail.vim"))
+if v:version > 700 && ! empty(neobundle#get('gmail.vim'))
   let g:gmail_imap = 'imap.gmail.com:993'
   let g:gmail_smtp = 'smtp.gmail.com:465'
   " path for openssl
@@ -1112,7 +1121,7 @@ endif
 " }}} Gmail
 
 " vim-indent-guides{{{
-if v:version > 700 && ! empty(neobundle#get("vim-indent-guides"))
+if v:version > 700 && ! empty(neobundle#get('vim-indent-guides'))
   let g:indent_guides_enable_on_vim_startup = 1
   "let g:indent_guides_guide_size =  1
   let g:indent_guides_start_level = 1
@@ -1126,7 +1135,7 @@ endif
 "}}} vim-indent-guides
 
 " vim-submode{{{
-if v:version > 700 && ! empty(neobundle#get("vim-submode"))
+if v:version > 700 && ! empty(neobundle#get('vim-submode'))
   call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
   call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
   call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
@@ -1146,13 +1155,13 @@ endif
 "}}} vim-submode
 
 " vim-operator-replace{{{
-if v:version > 700 && ! empty(neobundle#get("vim-operator-replace"))
+if v:version > 700 && ! empty(neobundle#get('vim-operator-replace'))
   map R  <Plug>(operator-replace)
 endif
 "}}} vim-operator-replace
 
 " open-browser{{{
-if v:version > 700 && ! empty(neobundle#get("open-browser.vim"))
+if v:version > 700 && ! empty(neobundle#get('open-browser.vim'))
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
@@ -1160,13 +1169,19 @@ endif
 "}}} open-browser
 
 " LanguageTool{{{
-if v:version > 700 && ! empty(neobundle#get("LanguageTool"))
+if v:version > 700 && ! empty(neobundle#get('LanguageTool'))
   let g:languagetool_jar='$HOME/.languagetool/LanguageTool-2.1/languagetool-commandline.jar'
 endif
 "}}} LanguageTool
 
+" ExciteTranslate{{{
+if v:version > 700 && ! empty(neobundle#get('excitetranslate-vim'))
+  xnoremap <Leader>x :ExciteTranslate<CR>
+endif
+"}}} LanguageTool
+
 " vim-anzu{{{
-if v:version > 700 && ! empty(neobundle#get("vim-anzu"))
+if v:version > 700 && ! empty(neobundle#get('vim-anzu'))
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
   nmap * <Plug>(anzu-star-with-echo)
@@ -1175,14 +1190,14 @@ endif
 "}}} vim-anzu
 
 " syntastic{{{
-if v:version > 700 && ! empty(neobundle#get("syntastic"))
+if v:version > 700 && ! empty(neobundle#get('syntastic'))
   let g:syntastic_enable_signs=1
   let g:syntastic_auto_loc_list=2
 endif
 "}}} syntastic
 
 " undotree{{{
-if v:version > 700 && ! empty(neobundle#get("undotree"))
+if v:version > 700 && ! empty(neobundle#get('undotree'))
   nmap <Leader>U :UndotreeToggle<CR>
   let g:undotree_SetFocusWhenToggle = 1
   let g:undotree_SplitLocation = 'topleft'
@@ -1192,31 +1207,31 @@ if v:version > 700 && ! empty(neobundle#get("undotree"))
   let g:undotree_RelativeTimestamp = 1
   let g:undotree_TreeNodeShape = '*'
   let g:undotree_HighlightChangedText = 1
-  let g:undotree_HighlightSyntax = "UnderLined"
+  let g:undotree_HighlightSyntax = 'UnderLined'
 endif
 " }}}
 
 " applescript{{{
-if v:version > 700 && ! empty(neobundle#get("applescript.vim"))
+if v:version > 700 && ! empty(neobundle#get('applescript.vim'))
   autocmd MyAutoGroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ￢<CR>
 endif
 "}}} applescript
 
 " vim-airline{{{
-if v:version > 700 && ! empty(neobundle#get("vim-airline"))
+if v:version > 700 && ! empty(neobundle#get('vim-airline'))
   "let g:airline_theme='dark'
 endif
 "}}} applescript
 
 " splash{{{
-if v:version > 700 && ! empty(neobundle#get("vim-splash"))
+if v:version > 700 && ! empty(neobundle#get('vim-splash'))
   let g:splash#path = $HOME . '/.vimrc'
 endif
 "}}} splash
 
 " vim-ref {{{
-if v:version > 700 && ! empty(neobundle#get("vim-ref"))
+if v:version > 700 && ! empty(neobundle#get('vim-ref'))
   " Set webdict sources
   let g:ref_source_webdict_sites = {
   \   'je': {
@@ -1235,13 +1250,13 @@ if v:version > 700 && ! empty(neobundle#get("vim-ref"))
 
   " Filter
   function! g:ref_source_webdict_sites.je.filter(output)
-    return join(split(a:output, "\n")[15 :], "\n")
+    return join(split(a:output, '\n')[15 :], '\n')
   endfunction
   function! g:ref_source_webdict_sites.ej.filter(output)
-    return join(split(a:output, "\n")[15 :], "\n")
+    return join(split(a:output, '\n')[15 :], '\n')
   endfunction
   function! g:ref_source_webdict_sites.wiki.filter(output)
-    return join(split(a:output, "\n")[17 :], "\n")
+    return join(split(a:output, '\n')[17 :], '\n')
   endfunction
 
   " vim-ref prefix
@@ -1260,7 +1275,7 @@ endif
 "}}}
 
 " SrcExpl  {{{
-if v:version > 700 && ! empty(neobundle#get("SrcExpl"))
+if v:version > 700 && ! empty(neobundle#get('SrcExpl'))
  let g:SrcExpl_RefreshTime = 1
  let g:SrcExpl_UpdateTags = 0
  nnoremap <Leader>e :SrcExplToggle<CR>
@@ -1268,9 +1283,9 @@ endif
 "}}}
 
 " taglist{{{
-if v:version > 700 && ! empty(neobundle#get("taglist.vim"))
+if v:version > 700 && ! empty(neobundle#get('taglist.vim'))
   set tags=tags
-  "let Tlist_Ctags_Cmd = "/usr/bin/ctags""
+  "let Tlist_Ctags_Cmd = '/usr/bin/ctags'
   let Tlist_Show_One_File = 1
   let Tlist_Use_Right_Window = 1
   let Tlist_Exit_OnlyWindow = 1
@@ -1279,7 +1294,7 @@ endif
 "}}} taglist
 
 " tagbar{{{
-if v:version > 700 && ! empty(neobundle#get("tagbar"))
+if v:version > 700 && ! empty(neobundle#get('tagbar'))
   nnoremap <silent> <leader>t :TagbarToggle<CR>
 endif
 "}}} taglist
@@ -1291,16 +1306,16 @@ endif
 "}}} tag
 
 " cscope {{{
-if has("cscope")
+if has('cscope')
   set csprg=/usr/local/bin/cscope
   set csto=0
   set cst
   set nocsverb
   " add any database in current directory
-  if filereadable("cscope.out")
+  if filereadable('cscope.out')
     cs add cscope.out
   " else add database pointed to by environment
-  elseif $CSCOPE_DB != ""
+  elseif $CSCOPE_DB != ''
     cs add $CSCOPE_DB
   endif
   set csverb
@@ -1309,7 +1324,7 @@ endif
 " }}} cscope
 
 " gist-vim {{{
-if v:version > 700 && ! empty(neobundle#get("gist-vim"))
+if v:version > 700 && ! empty(neobundle#get('gist-vim'))
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
   " Disable default Gist command
@@ -1318,7 +1333,7 @@ endif
 "}}} gist-vim
 
 " ctrlp {{{
-if v:version > 700 && ! empty(neobundle#get("ctrlp.vim"))
+if v:version > 700 && ! empty(neobundle#get('ctrlp.vim'))
   "let g:ctrlp_map = '<c-p>'
 endif
 "}}} ctrlp
