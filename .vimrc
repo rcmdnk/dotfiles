@@ -91,12 +91,12 @@ if v:version > 700
   "      \ 'lazy' : 1,
   "      \ 'autoload' : {'commands' : 'NeoComplCacheEnable'}})
   "
-  "NeoBundle 'Shougo/neocomplete.vim', '', 'default'
-  "" call neobundle#config('neocomplete.vim', {
-  "" \ 'lazy' : 1,
-  "" \ 'autoload' : {
-  "" \ 'insert' : 1,
-  "" \ }})
+  NeoBundle 'Shougo/neocomplete.vim', '', 'default'
+          call neobundle#config('neocomplete.vim', {
+          \ 'lazy' : 1,
+          \ 'autoload' : {
+          \ 'insert' : 1,
+          \ }})
   "
   "NeoBundle 'Shougo/neocomplcache-rsense', '', 'default'
   "call neobundle#config('neocomplcache-rsense', {
@@ -274,7 +274,7 @@ if v:version > 700
   NeoBundle 'vim-scripts/LanguageTool'
 
   " look - display lines beginning with a given string
-  "NeoBundle 'ujihisa/neco-look'
+  NeoBundle 'ujihisa/neco-look'
 
   " Excite Translate
   NeoBundleLazy 'mattn/excitetranslate-vim', {
