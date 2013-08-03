@@ -91,20 +91,21 @@ if v:version > 700
   "      \ "lazy" : 1,
   "      \ "autoload" : {"commands" : "NeoComplCacheEnable"}})
   "
-  NeoBundle "Shougo/neocomplete.vim", "", "default"
-          call neobundle#config("neocomplete.vim", {
-          \ "lazy" : 1,
-          \ "autoload" : {
-          \ "insert" : 1,
-          \ }})
 
-  NeoBundle "Shougo/neocomplcache-rsense", "", "default"
-  call neobundle#config("neocomplcache-rsense", {
-        \ "lazy" : 1,
-        \ "depends" : "Shougo/neocomplcache",
-        \ "autoload" : { "filetypes" : "ruby" }})
+  "NeoBundle "Shougo/neocomplcache-rsense", "", "default"
+  "call neobundle#config("neocomplcache-rsense", {
+  "      \ "lazy" : 1,
+  "      \ "depends" : "Shougo/neocomplcache",
+  "      \ "autoload" : { "filetypes" : "ruby" }})
 
-  
+  NeoBundle "Shougo/neocomplete.vim"
+  "NeoBundle "Shougo/neocomplete.vim", "", "default"
+  "        call neobundle#config("neocomplete.vim", {
+  "        \ "lazy" : 1,
+  "        \ "autoload" : {
+  "        \ "insert" : 1,
+  "        \ }})
+
   NeoBundle "Shougo/neosnippet", "", "default"
   call neobundle#config("neosnippet", {
         \ "lazy" : 1,
@@ -1006,6 +1007,15 @@ if v:version > 700 && ! empty(neobundle#get("neocomplcache"))
   let g:neocomplcache_enable_camel_case_completion = 1
   let g:neocomplcache_enable_underbar_completion = 1
   let g:neocomplcache_min_syntax_length = 3
+endif
+" }}}
+
+" neocomlete {{{
+if v:version > 700 && ! empty(neobundle#get("neocomplete.vim"))
+  let g:acp_enableAtStartup = 0 " Disable AutoComplPop
+  let g:neocomplte#enable_at_startup = 1 " enable at start up
+  let g:neocomplte#cache_smart_case = 1 " enable smartcase
+  let g:neocomplete#sources#syntax#min_keyword_length = 3 " minimum syntax keyword length
 endif
 " }}}
 
