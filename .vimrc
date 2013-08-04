@@ -46,7 +46,7 @@ if v:version > 700
   " Neobundle
   NeoBundleFetch "Shougo/neobundle.vim"
 
-  " Asynchronous execution library: need for vimshell, Gmail, unite, etc...?
+  " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
   NeoBundle "Shougo/vimproc", "", "default"
   call neobundle#config("vimproc", {
         \ "build" : {
@@ -86,11 +86,6 @@ if v:version > 700
   "      \ "insert" : 1}})
 
   " Completion
-  "NeoBundle "Shougo/neocomplcache", "", "default"
-  "call neobundle#config("neocomplcache", {
-  "      \ "lazy" : 1,
-  "      \ "autoload" : {"commands" : "NeoComplCacheEnable"}})
-  "
 
   "NeoBundle "Shougo/neocomplcache-rsense", "", "default"
   "call neobundle#config("neocomplcache-rsense", {
@@ -98,22 +93,18 @@ if v:version > 700
   "      \ "depends" : "Shougo/neocomplcache",
   "      \ "autoload" : { "filetypes" : "ruby" }})
 
-  NeoBundle "Shougo/neocomplete.vim"
-  "NeoBundle "Shougo/neocomplete.vim", "", "default"
-  "        call neobundle#config("neocomplete.vim", {
-  "        \ "lazy" : 1,
-  "        \ "autoload" : {
-  "        \ "insert" : 1,
-  "        \ }})
+  if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version > 704))
+    NeoBundleLazy "Shougo/neocomplete.vim", {
+        \ "autoload": {"insert": 1}}
+  else
+    NeoBundleLazy "Shougo/neocomplcache", {
+        \ "autoload" : {"commands" : "NeoComplCacheEnable"}}
+  endif
 
-  NeoBundle "Shougo/neosnippet", "", "default"
-  call neobundle#config("neosnippet", {
-        \ "lazy" : 1,
-        \ "autoload" : {
-        \ "insert" : 1,
-        \ "filetypes" : "snippet",
-        \ "unite_sources" : ["snippet", "neosnippet/user", "neosnippet/runtime"],
-        \ }})
+  NeoBundleLazy "Shougo/neosnippet", {
+      \ "autoload": {
+      \   "insert": 1,
+      \ }}
 
   NeoBundle "Shougo/neobundle-vim-scripts", "", "default"
 
