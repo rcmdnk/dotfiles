@@ -806,7 +806,7 @@ nnoremap <C-r> g+
 if s:neobundle_enable && ! empty(neobundle#get("gundo.vim"))
   nnoremap U :GundoToggle<CR>
   let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
-  let g:gundo_preview_bottom = 1 " Show preview at the bottom
+  "let g:gundo_preview_bottom = 1 " Show preview at the bottom
 endif
 " }}} gundo
 
