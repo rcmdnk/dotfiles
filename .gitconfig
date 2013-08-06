@@ -3,6 +3,7 @@
   email = rcmdnk@gmail.com
 
 [alias]
+  sb = show-branch
   br = branch
   ch = checkout
   co = clone
