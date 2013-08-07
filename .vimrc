@@ -95,9 +95,8 @@ if v:version > 700
   "      \ "depends" : "Shougo/neocomplcache",
   "      \ "autoload" : { "filetypes" : "ruby" }})
 
-  if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version > 704))
-    NeoBundleLazy "Shougo/neocomplete.vim", {
-        \ "autoload": {"insert": 1}}
+  if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
+    NeoBundle "Shougo/neocomplete.vim"
   else
     NeoBundleLazy "Shougo/neocomplcache", {
         \ "autoload" : {"commands" : "NeoComplCacheEnable"}}

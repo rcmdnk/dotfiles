@@ -1,45 +1,53 @@
-### escape
+# Escape
 #escape ^Tt
 escape ^Qq
 
-### disable t
+# Disable t
 #bind t
 #bind ^t
 
-### scroll back
+# Only: Q (default)
+bind q only
+#bind ^q only
+
+# source setup file
+#bind q eval "source $HOME/.screenrc"
+bind t eval "source $HOME/.screenrc"
+
+# Scroll back
 defscrollback 10000
 
-### don't show start up message
+# Don't show start up message
 startup_message off
 
-### auto detach
+# Auto detach
 autodetach on
 
-### show action in the hidden window
+# Show action in the hidden window
 defmonitor on
 
-### hardcopydir
+# hardcopydir
 hardcopydir $HOME/screenlog
 
-### time (second) to show message
+# Time (second) to show message
 msgwait 10
 
-### remove background color
+# Remove background color
 #defbce "on"
 
-### kill
+# kill
 bind K kill
 
-### use bright color for the characters
+# Use bright color for the characters
 attrcolor b ".I"
 
-### clear scrollback buffer
+# Clear scrollback buffer
 bind F eval 'scrollback 0' 'scrollback 1000' 'echo "scrollback buffer cleared"'
 
-### Don't clear after finishing application
+# Don't clear after finishing application
 #altscreen on
 
-### modify window list
+# Modify window list
 bind w  windowlist -b
 bind ^W windowlist -b
 #bind ^W windowlist -b -m # sorting by most-recentry-used list.
@@ -47,10 +55,10 @@ bind ^W windowlist -b
 #bind w 
 #bind ^W
 
-### clear display before detachment
+# Clear display before detachment
 bind d eval 'only' 'clear' 'detach'
 
-### focus (like vi)
+# Focus (like vi)
 bind j focus down
 bind k focus up
 #bind l focus next
@@ -63,29 +71,45 @@ bind ^L focus right
 #bind ^H focus left #non
 #bind  focus left #non
 bind -k kb focus left #ok? needed?
-bind ^H focus left #? now it is working... (2012/05/21)
+bind ^H focus left #? now it is working...
 
-### split
+# Split
 bind V split -v
 bind S split
 
-### make 4 window with new 4 screen
-bind s eval 'only' 'screen' 'screen' 'screen' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
-bind ^s eval 'only' 'screen' 'screen' 'screen' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
+# Layout
+bind ^q eval 'command -c layout' 'layout show'
+bind -c layout c eval 'layout new' 'layout show'
+bind -c layout x eval 'layout remove' 'layout show'
+bind -c layout T colon 'layout title '
+bind -c layout N colon 'layout number '
+bind -c layout n eval 'layout next' 'command -c layout' 'layout show'
+bind -c layout p eval 'layout prev' 'command -c layout' 'layout show'
+bind -c layout ^N eval 'layout next' 'command -c layout' 'layout show'
+bind -c layout ^P eval 'layout prev' 'command -c layout' 'layout show'
+bind -c layout 0 eval 'layout select 0' 'layout show'
+bind -c layout 1 eval 'layout select 1' 'layout show'
+bind -c layout 2 eval 'layout select 2' 'layout show'
+bind -c layout 3 eval 'layout select 3' 'layout show'
+bind -c layout 4 eval 'layout select 4' 'layout show'
+bind -c layout 5 eval 'layout select 5' 'layout show'
+bind -c layout 6 eval 'layout select 6' 'layout show'
+bind -c layout 7 eval 'layout select 7' 'layout show'
+bind -c layout 8 eval 'layout select 8' 'layout show'
+bind -c layout 9 eval 'layout select 9' 'layout show'
+bind -c layout i eval 'echo "initialize layouts..."' 'screen' 'screen' 'screen' 'layout new only' 'only' 'select 0' 'layout new 4-windows' 'only' 'select 0' 'split' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus' 'layout new 3-win_1-top' 'only' 'select 0' 'split' 'focus' 'select 1' 'split -v' 'focus' 'select 2' 'focus' 'layout new 3-win_1-left' 'only' 'select 0' 'split -v' 'focus' 'select 1' 'split' 'focus' 'select 2' 'focus' 'layout new monitor' 'only' 'select 0' 'split' 'resize -v 80%' 'focus' 'select 1' 'split -v' 'split -v' 'focus' 'select 2' 'focus' 'select 3' 'focus' 'layout select 4-windows'
 
-### make 4 window with no new screen
-bind r eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
-bind ^r eval 'only' 'split' 'split -v' 'focus' 'focus' 'split -v' 'focus' 'focus' 'select 0' 'focus' 'select 1' 'focus' 'select 2' 'focus' 'select 3' 'focus'
+# Make 4 window with new 4 screen
+bind s eval 'layout select 4-windows' 'screen' 'screen' 'screen' 'only' 'split' 'select 0' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus'
+bind ^s eval 'layout select 4-windows' 'screen' 'screen' 'screen' 'only' 'split' 'select 0' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus'
 
-# only Q (default) and ^Q
-bind ^Q only
-
-### source setup file
-#bind q eval "source $HOME/.screenrc"
-bind t eval "source $HOME/.screenrc"
+# Make 4 window with no new screen
+bind r eval 'layout select 4-windows' 'only' 'split' 'select 0' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus'
+bind ^r eval 'layout select 4-windows' 'only' 'split' 'select 0' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus'
 
 
-#### resize window
+
+# Resize window
 bind e eval 'echo "Resize window"' 'command -c resize'
 bind ^e eval 'echo "Resize window"' 'command -c resize'
 bind -c resize h eval 'resize -h -1' 'command -c resize'
@@ -97,8 +121,8 @@ bind -c resize ^l eval 'resize -h +1' 'command -c resize'
 bind -c resize ^j eval 'resize -v +1' 'command -c resize'
 bind -c resize ^k eval 'resize -v -1' 'command -c resize'
 
-### clip board, xclip or xsel?
-### xsel (xclip also?) sometime remains like zombie...?
+# Clip board, xclip or xsel?
+# xsel (xclip also?) sometime remains like zombie...?
 bufferfile "$SCREENEXCHANGE"
 
 #bindkey -m ' ' eval 'stuff \040' 'writebuf' "!bash -c 'source ~/.bashrc && myclpushsc'"
@@ -114,16 +138,16 @@ bind ^a eval "!bash -c 'multi_clipboards -O;echo -n \"$SCREEN_PS1\"'"
 #sorendition "+rb .w"
 sorendition " .K"
 
-# term
+# Term
 #term "screen-256color"
 
-## not change the window size when it is attached
+# not change the window size when it is attached
 termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 termcapinfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 
-#xterm understands both im/ic and doesn't have a status line.
-#Note: Do not specify im and ic in the real termcap/info file as
-#some programs (e.g. vi) will (no,no, may (jw)) not work anymore.
+# xterm understands both im/ic and doesn't have a status line.
+# Note: Do not specify im and ic in the real termcap/info file as
+# some programs (e.g. vi) will (no,no, may (jw)) not work anymore.
 termcap xterm|fptwist hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
 terminfo xterm|fptwist hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
 termcap xterm-256color|fptwist hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
@@ -138,7 +162,6 @@ terminfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 termcap xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 terminfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 
-#
 # Do not use xterms alternate window buffer.
 # This one would not add lines to the scrollback buffer.
 termcap xterm|xterms|xs ti=\E7\E[?47l
@@ -146,7 +169,7 @@ terminfo xterm|xterms|xs ti=\E7\E[?47l
 termcap xterm-256color|xterms|xs ti=\E7\E[?47l
 terminfo xterm-256color|xterms|xs ti=\E7\E[?47l
 
-### caption for each window
+# Caption for each window
 caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%n %L=%h%L>%=%?%P *copy/paste*%?%?%E ***command**%?%-0='
 #caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%n %L=%h%>%?%P *** copy/paste mode ***%?%?%E *** command mode ***%?%-0='
 # %?%F      # if the window has the focus
@@ -176,7 +199,7 @@ caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%n %L=%h%L>%=%?%P *copy/pa
 #           # With %L>, %= above, screen tries to truncates the part 
 #           # in the left of "%L>"
 
-### hardstatus
+# hardstatus
 hardstatus alwayslastline "%{= Kk}%-w%40>%{= Wk}%n %t%{-}%+w%-0="
 # %{= Kk}   # set attribute = {black(k) on bright Black(K)}
 # %-w       # windows' list up to the current window (shown as "%n %t")
