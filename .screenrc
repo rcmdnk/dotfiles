@@ -78,15 +78,20 @@ bind V split -v
 bind S split
 
 # Layout
+# Layout command prefix C-q
 bind ^q eval 'command -c layout' 'layout show'
-bind -c layout c eval 'layout new' 'layout show'
-bind -c layout x eval 'layout remove' 'layout show'
+# Make/Remove layout
+bind -c layout c eval 'layout new' 'command -c layout' 'layout show'
+bind -c layout x eval 'layout remove' 'command -c layout' 'layout show'
+# Modify title/number
 bind -c layout T colon 'layout title '
 bind -c layout N colon 'layout number '
+# Go to Next/Previous layout
 bind -c layout n eval 'layout next' 'command -c layout' 'layout show'
 bind -c layout p eval 'layout prev' 'command -c layout' 'layout show'
 bind -c layout ^N eval 'layout next' 'command -c layout' 'layout show'
 bind -c layout ^P eval 'layout prev' 'command -c layout' 'layout show'
+# Choose n-th layout
 bind -c layout 0 eval 'layout select 0' 'layout show'
 bind -c layout 1 eval 'layout select 1' 'layout show'
 bind -c layout 2 eval 'layout select 2' 'layout show'
@@ -97,7 +102,20 @@ bind -c layout 6 eval 'layout select 6' 'layout show'
 bind -c layout 7 eval 'layout select 7' 'layout show'
 bind -c layout 8 eval 'layout select 8' 'layout show'
 bind -c layout 9 eval 'layout select 9' 'layout show'
-bind -c layout i eval 'echo "initialize layouts..."' 'screen' 'screen' 'screen' 'layout new only' 'only' 'select 0' 'layout new 4-windows' 'only' 'select 0' 'split' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus' 'layout new 3-win_1-top' 'only' 'select 0' 'split' 'focus' 'select 1' 'split -v' 'focus' 'select 2' 'focus' 'layout new 3-win_1-left' 'only' 'select 0' 'split -v' 'focus' 'select 1' 'split' 'focus' 'select 2' 'focus' 'layout new monitor' 'only' 'select 0' 'split' 'resize -v 80%' 'focus' 'select 1' 'split -v' 'split -v' 'focus' 'select 2' 'focus' 'select 3' 'focus' 'layout select 4-windows'
+# Initialize layouts
+bind -c layout i eval 'echo "Initialize layouts..."' 'screen' 'screen' 'screen' 'layout new only' 'only' 'select 0' 'layout new 4-windows' 'only' 'select 0' 'split' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus' 'layout new 3-win_1-top' 'only' 'select 0' 'split' 'resize -v 70%' 'focus' 'select 1' 'split -v' 'focus' 'select 2' 'focus' 'layout new 3-win_1-left' 'only' 'select 0' 'split -v' 'focus' 'select 1' 'split' 'focus' 'select 2' 'focus' 'layout new monitor' 'only' 'select 0' 'split' 'resize -v 80%' 'focus' 'select 1' 'split -v' 'split -v' 'focus' 'select 2' 'focus' 'select 3' 'focus' 'layout select 4-windows'
+# Reset layouts
+#bind -c layout r eval 'echo "Reset layouts..."' 'layout select only' 'only' 'select 0' 'layout select 4-windows' 'only' 'select 0' 'split' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus' 'layout select 3-win_1-top' 'only' 'select 0' 'split' 'resize -v 70%' 'focus' 'select 1' 'split -v' 'focus' 'select 2' 'focus' 'layout select 3-win_1-left' 'only' 'select 0' 'split -v' 'focus' 'select 1' 'split' 'focus' 'select 2' 'focus' 'layout select monitor' 'only' 'select 0' 'split' 'resize -v 80%' 'focus' 'select 1' 'split -v' 'split -v' 'focus' 'select 2' 'focus' 'select 3' 'focus' 'layout select 4-windows'
+# Set layout
+bind -c layout a eval 'echo "hoge"'
+bind -c layout m eval 'command -c  layoutm' 'echo "0 only, l 4-windows, 2 3-win_1-top, 3 3-win_1-top, 4 monitor (1 top, 3 small bottoms), 5 split, 6 vsplit, "'
+bind -c layoutm 0 eval 'only' 'layout show'
+bind -c layoutm 1 eval 'only' 'only' 'select 0' 'split' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus' 'layout show'
+bind -c layoutm 2 eval 'only' 'select 0' 'split' 'resize -v 70%' 'focus' 'select 1' 'split -v' 'focus' 'select 2' 'focus'
+bind -c layoutm 3 eval 'only' 'select 0' 'split -v' 'focus' 'select 1' 'split' 'focus' 'select 2' 'focus' 
+bind -c layoutm 4 eval 'only' 'select 0' 'split' 'resize -v 80%' 'focus' 'select 1' 'split -v' 'split -v' 'focus' 'select 2' 'focus' 'select 3' 'focus'
+bind -c layoutm 5 eval 'only' 'select 0' 'split' 'focus' 'select 1' 'focus'
+bind -c layoutm 6 eval 'only' 'select 0' 'split -v' 'focus' 'select 1' 'focus'
 
 # Make 4 window with new 4 screen
 bind s eval 'layout select 4-windows' 'screen' 'screen' 'screen' 'only' 'split' 'select 0' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus'
