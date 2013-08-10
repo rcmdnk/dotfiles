@@ -721,13 +721,11 @@ fi
 # Revert lines in the file/std input
 # Note: There is "rev" command which
 #       reversing the order of characters in every line.
-# Set reverse command
-if ! type tac >/dev/null 2>&1;then
-  alias revlines="tac"
-elif ! tail --version 2>/dev/null |grep -q GNU;then
-  alias revlines="tail -r"
+# Set reverse command as tac for BSD
+if ! type tac >& /dev/null && \
+   ! tail --version 2>/dev/null|grep -q GNU;then
+  alias tac='tail -r'
 fi
-
 # }}}
 
 # }}} Alias, Function
