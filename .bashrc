@@ -344,7 +344,9 @@ function press {
 
 # cd wrapper to use pushd {{{
 function cd {
-  if [ "$1" = "-" ];then
+  if [ $# = 0 ];then
+    command cd
+  elif [ "$1" = "-" ];then
     local opwd=$OLDPWD
     pushd . >/dev/null
     command cd $opwd
