@@ -66,6 +66,15 @@ sorendition " .K"
 # x: default lockscreen
 bind x remove
 
+# Continuous window change
+bind ^n eval 'command -c window' 'next'
+bind ^p eval 'command -c window' 'prev'
+bind -c window n eval 'next'
+bind -c window p eval 'prev'
+bind -c window ^n eval 'command -c window' 'next'
+bind -c window ^p eval 'command -c window' 'prev'
+bind -c window ^q eval 'command -c window'
+
 # Focus (like vi)
 #bind l focus next
 #bind h focus prev
@@ -79,11 +88,16 @@ bind ^j eval    'command -c move' 'focus down'
 bind ^k eval    'command -c move' 'focus up'
 bind ^l eval    'command -c move' 'focus right'
 
+bind -c move h eval 'focus left'
+bind -c move j eval 'focus down'
+bind -c move k eval 'focus up'
+bind -c move l eval 'focus right'
 bind -c move ^h eval    'command -c move' 'focus left'
 bind -c move -k kb eval 'command -c move' 'focus left' #Backspace
 bind -c move ^j eval    'command -c move' 'focus down'
 bind -c move ^k eval    'command -c move' 'focus up'
 bind -c move ^l eval    'command -c move' 'focus right'
+bind -c move ^q eval    'command -c move'
 
 # Split
 bind V split -v
@@ -92,6 +106,7 @@ bind S split
 # Layout
 # Layout command prefix C-q
 bind ^q eval 'command -c layout' 'layout show'
+bind -c layout ^q eval 'command -c layout' 'layout show'
 # Make/Remove layout
 bind -c layout c eval 'command -c layout' 'layout new' 'layout show'
 bind -c layout x eval 'command -c layout' 'layout remove' 'layout show'
