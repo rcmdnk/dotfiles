@@ -49,11 +49,11 @@ bind F eval 'scrollback 0' 'scrollback 1000' 'echo "scrollback buffer cleared"'
 
 # Modify window list
 bind w  windowlist -b
-bind ^W windowlist -b
+#bind ^W windowlist -b
 #bind ^W windowlist -b -m # sorting by most-recentry-used list.
 ##disable...
 #bind w 
-#bind ^W
+bind ^W
 
 # Clear display before detachment
 #bind d eval 'only' 'clear' 'detach'
