@@ -96,10 +96,15 @@ if v:version > 700
   "      \ "autoload" : { "filetypes" : "ruby" }})
 
   if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
-    NeoBundle "Shougo/neocomplete.vim"
+    NeoBundleLazy "Shougo/neocomplete.vim", {
+          \ "autoload": {
+          \   "insert": 1,
+          \ }}
   else
     NeoBundleLazy "Shougo/neocomplcache", {
-        \ "autoload" : {"commands" : "NeoComplCacheEnable"}}
+          \ "autoload": {
+          \   "insert": 1,
+          \ }}
   endif
 
   NeoBundleLazy "Shougo/neosnippet", {
@@ -805,7 +810,7 @@ nnoremap <C-r> g+
 if s:neobundle_enable && ! empty(neobundle#get("gundo.vim"))
   nnoremap U :GundoToggle<CR>
   let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
-  "let g:gundo_preview_bottom = 1 " Show preview at the bottom
+  let g:gundo_preview_bottom = 1 " Show preview at the bottom
 endif
 " }}} gundo
 
@@ -994,20 +999,35 @@ set statusline+=%=%l/%L,%c%V%8P
 
 " neocomplcache {{{
 if s:neobundle_enable && ! empty(neobundle#get("neocomplcache"))
-  let g:neocomplcache_enable_at_startup = 1 " enable at start up
-  let g:neocomplcache_smartcase = 1 " distinguish capital and
-  let g:neocomplcache_enable_camel_case_completion = 1
-  let g:neocomplcache_enable_underbar_completion = 1
-  let g:neocomplcache_min_syntax_length = 3
+  let g:neocomplcache_enable_startup = 1
+  let s:hooks = neobundle#get_hooks("neocomplcache.vim")
+  function! s:hooks.on_source(bundle)
+    let g:acp_enableAtStartup = 1
+    let g:neocomplcache_enable_smart_case = 1
+    let g:neocomplcache_min_syntax_length = 3
+  endfunction
 endif
 " }}}
 
-" neocomlete {{{
+" neocomplete {{{
 if s:neobundle_enable && ! empty(neobundle#get("neocomplete.vim"))
-  let g:acp_enableAtStartup = 1 " Disable AutoComplPop
-  let g:neocomplte#enable_at_startup = 1 " enable at start up
-  let g:neocomplte#cache_smart_case = 1 " enable smartcase
-  let g:neocomplete#sources#syntax#min_keyword_length = 3 " minimum syntax keyword length
+  let g:neocomplete#enable_startup = 1
+  let s:hooks = neobundle#get_hooks("neocomplete.vim")
+  function! s:hooks.on_source(bundle)
+    let g:acp_enableAtStartup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+  endfunction
+
+  "let g:acp_enableAtStartup = 1 " Enable AutoComplPop
+  "let g:neocomplte#enable_at_startup = 1 " enable at start up
+  "let g:neocomplte#cache_smart_case = 1 " enable smartcase
+  "let g:neocomplete#sources#syntax#min_keyword_length = 1 " minimum syntax keyword length
+  "let g:neocomplete#skip_auto_completion_time = ''
+  "if !exists('g:neocomplete#text_mode_filetypes')
+  "  let g:neocomplete#text_mode_filetypes = {}
+  "endif
+  "let g:neocomplete#text_mode_filetypes.markdown = 1
 endif
 " }}}
 
