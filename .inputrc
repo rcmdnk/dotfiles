@@ -89,8 +89,8 @@ $endif
 "\C-gg": "grep *\C-b\C-b \"\"\C-b"
 "\eg": "grep *\C-b\C-b \"\"\C-b"
 # find ./|grep 
-"\C-g\C-f": "find ./|grep "
-"\C-gf": "find ./|grep "
+"\C-g\C-f": "find ./|grep \"\"\C-b"
+"\C-gf": "find ./|grep \"\"\C-b"
 
 # Quote/Bracket
 "\e\"": "\eb\"\ef\""
