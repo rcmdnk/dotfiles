@@ -95,7 +95,7 @@ if v:version > 700
   "      \ "depends" : "Shougo/neocomplcache",
   "      \ "autoload" : { "filetypes" : "ruby" }})
 
-  if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
+  if 0 && has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
     NeoBundleLazy "Shougo/neocomplete.vim", {
           \ "autoload": {
           \   "insert": 1,
@@ -997,16 +997,16 @@ set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
 set statusline+=%=%l/%L,%c%V%8P
 " }}} status line
 
-" neocomplcache {{{
-if s:neobundle_enable && ! empty(neobundle#get("neocomplcache"))
-  let g:neocomplcache_enable_startup = 1
-  let s:hooks = neobundle#get_hooks("neocomplcache.vim")
-  function! s:hooks.on_source(bundle)
-    let g:acp_enableAtStartup = 1
-    let g:neocomplcache_enable_smart_case = 1
-    let g:neocomplcache_min_syntax_length = 3
-  endfunction
-endif
+"" neocomplcache {{{
+"if s:neobundle_enable && ! empty(neobundle#get("neocomplcache"))
+"  let g:neocomplcache_enable_startup = 1
+"  let s:hooks = neobundle#get_hooks("neocomplcache.vim")
+"  function! s:hooks.on_source(bundle)
+"    let g:acp_enableAtStartup = 1
+"    let g:neocomplcache_enable_smart_case = 1
+"    let g:neocomplcache_min_syntax_length = 3
+"  endfunction
+"endif
 " }}}
 
 " neocomplete {{{
@@ -1014,7 +1014,7 @@ if s:neobundle_enable && ! empty(neobundle#get("neocomplete.vim"))
   let g:neocomplete#enable_startup = 1
   let s:hooks = neobundle#get_hooks("neocomplete.vim")
   function! s:hooks.on_source(bundle)
-    let g:acp_enableAtStartup = 1
+    let g:acp_enableAtStartup = 0
     let g:neocomplete#enable_smart_case = 1
     let g:neocomplete#sources#syntax#min_keyword_length = 3
   endfunction
@@ -1028,6 +1028,16 @@ if s:neobundle_enable && ! empty(neobundle#get("neocomplete.vim"))
   "  let g:neocomplete#text_mode_filetypes = {}
   "endif
   "let g:neocomplete#text_mode_filetypes.markdown = 1
+endif
+" }}}
+
+" neosnippet {{{
+if s:neobundle_enable && ! empty(neobundle#get("neosnippet"))
+  imap <silent><C-F> <Plug>(neosnippet_expand_or_jump)
+  inoremap <silent><C-U> <ESC>:<C-U>Unite snippet<CR>
+  nnoremap <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
+  smap <silent><C-F> <Plug>(neosnippet_expand_or_jump)
+  xmap <silent>o <Plug>(neosnippet_register_oneshot_snippet)
 endif
 " }}}
 
@@ -1093,11 +1103,19 @@ endif
 " jedi-vim{{{
 if s:neobundle_enable && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#auto_initialization = 1
-  let g:jedi#auto_vim_configuration = 1
   let g:jedi#goto_command = "<Leader>g"
   let g:jedi#get_definition_command = "<Leader>d"
   let g:jedi#pydoc = "K"
   let g:jedi#autocompletion_command = "<C-Space>"
+  autocmd FileType python setlocal omnifunc=jedi#complete
+  let g:jedi#auto_vim_configuration = 1
+  "let g:jedi#auto_vim_configuration = 0
+  "if ! empty(neobundle#get("neocomplete.vim"))
+  "  if !exists('g:neocomplete#force_omni_input_patterns')
+  "    let g:neocomplete#force_omni_input_patterns = {}
+  "  endif
+  "  let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+  "endif
 endif
 " }}} jedi-vim
 
