@@ -49,68 +49,61 @@ if v:version > 700
   NeoBundleFetch "Shougo/neobundle.vim"
 
   " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
-  NeoBundle "Shougo/vimproc", "", "default"
-  call neobundle#config("vimproc", {
-        \ "build" : {
-        \ "windows" : "make -f make_mingw32.mak",
-        \ "cygwin" : "make -f make_cygwin.mak",
-        \ "mac" : "make -f make_mac.mak",
-        \ "unix" : "make -f make_unix.mak",
-        \ },
-        \ })
+  NeoBundle 'Shougo/vimproc', {
+    \ 'build' : {
+      \ 'windows' : 'make -f make_mingw32.mak',
+      \ 'cygwin' : 'make -f make_cygwin.mak',
+      \ 'mac' : 'make -f make_mac.mak',
+      \ 'unix' : 'make -f make_unix.mak',
+    \ }}
 
   " Use shell in vim
   "NeoBundle "Shougo/vimshell", "", "default"
   "call neobundle#config("vimshell", {
-  "      \ "lazy" : 1,
-  "      \ "autoload" : {
-  "      \ "commands" : [{ "name" : "VimShell",
-  "      \ "complete" : "customlist,vimshell#complete"},
-  "      \ "VimShellExecute", "VimShellInteractive",
-  "      \ "VimShellTerminal", "VimShellPop"],
-  "      \ "mappings" : ["<Plug>(vimshell_switch)"]}})
+  "  \ "lazy" : 1,
+  "  \ "autoload" : {
+  "  \ "commands" : [{ "name" : "VimShell",
+  "  \ "complete" : "customlist,vimshell#complete"},
+  "  \ "VimShellExecute", "VimShellInteractive",
+  "  \ "VimShellTerminal", "VimShellPop"],
+  "  \ "mappings" : ["<Plug>(vimshell_switch)"]}})
 
   " Searches and display information->:help Unite
   " Unlike "fuzzyfinder" or "ku", it doesn't use the built-lin completion of vim
-  NeoBundle "Shougo/unite.vim", "", "default"
-  call neobundle#config("unite.vim",{
-        \ "lazy" : 1,
-        \ "autoload" : {
-        \ "commands" : [{ "name" : "Unite",
-        \ "complete" : "customlist,unite#complete_source"},
-        \ "UniteWithCursorWord", "UniteWithInput"]}})
+  NeoBundleLazy 'Shougo/unite.vim' , {
+    \ 'autoload' : { 'commands' : [ 'Unite' ] }}
 
   " Echo
   "NeoBundle "Shougo/echodoc", '', "default"
   "call neobundle#config("echodoc", {
-  "      \ "lazy" : 1,
-  "      \ "autoload" : {
-  "      \ "insert" : 1}})
+  "  \ "lazy" : 1,
+  "  \ "autoload" : {
+  "  \ "insert" : 1}})
 
   " Completion
 
   "NeoBundle "Shougo/neocomplcache-rsense", "", "default"
   "call neobundle#config("neocomplcache-rsense", {
-  "      \ "lazy" : 1,
-  "      \ "depends" : "Shougo/neocomplcache",
-  "      \ "autoload" : { "filetypes" : "ruby" }})
+  "  \ "lazy" : 1,
+  "  \ "depends" : "Shougo/neocomplcache",
+  "  \ "autoload" : { "filetypes" : "ruby" }})
 
-  if 0 && has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
+  if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
     NeoBundleLazy "Shougo/neocomplete.vim", {
-          \ "autoload": {
-          \   "insert": 1,
-          \ }}
-  else
-    NeoBundleLazy "Shougo/neocomplcache", {
-          \ "autoload": {
-          \   "insert": 1,
-          \ }}
-  endif
-
-  NeoBundleLazy "Shougo/neosnippet", {
       \ "autoload": {
       \   "insert": 1,
       \ }}
+  else
+    NeoBundleLazy "Shougo/neocomplcache", {
+      \ "autoload": {
+      \   "insert": 1,
+      \ }}
+  endif
+
+  NeoBundleLazy "Shougo/neosnippet", {
+    \ "autoload": {
+    \   "insert": 1,
+    \ }}
 
   NeoBundle "Shougo/neobundle-vim-scripts", "", "default"
 
@@ -126,11 +119,11 @@ if v:version > 700
   "NeoBundle "yanktmp.vim"
 
   " File Edit History
-  NeoBundle "savevers.vim"
+  "NeoBundle "savevers.vim"
 
   " gundo
   NeoBundleLazy "sjl/gundo.vim", {
-      \ "autoload": {"commands": ["GundoToggle"]}}
+    \ "autoload": {"commands": ["GundoToggle"]}}
 
   " Another undo, need vim7.3+patch005
   "NeoBundle "mbbill/undotree"
@@ -187,13 +180,13 @@ if v:version > 700
 
   " Open browser
   NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
-        \ "mappings" : "<Plug>(openbrowser-smart-search)"}}
+    \ "mappings" : "<Plug>(openbrowser-smart-search)"}}
 
   " Open browser GitHub
   NeoBundleLazy "tyru/open-browser-github.vim", {
-        \ "depends": ["tryu/open-browser.vim"],
-        \ "autoload": {
-        \ "commands" : ["OpenGithubFile","OpenGithubIssue"]}}
+    \ "depends": ["tryu/open-browser.vim"],
+    \ "autoload": {
+    \ "commands" : ["OpenGithubFile","OpenGithubIssue"]}}
 
   " Easymotion
   "NeoBundle "Lokaltog/vim-easymotion"
@@ -207,36 +200,36 @@ if v:version > 700
 
   " Python autocompletion
   NeoBundleLazy "davidhalter/jedi-vim", {
-        \ "rev" : "dev",
-        \ "autoload": {
-        \ "filetypes": [ "python", "python3", "djangohtml"]}}
+    \ "rev" : "dev",
+    \ "autoload": {
+    \ "filetypes": [ "python", "python3", "djangohtml"]}}
 
   " virtual env
   NeoBundle "jmcantrell/vim-virtualenv"
 
   " Gmail
   "NeoBundleLazy "yuratomo/gmail.vim",{
-  "      \  "autoload" : {"commands": ["Gmail"]},
-  "      \  "depends" : ["Shougo/vimproc"]}
+  "  \ "autoload" : {"commands": ["Gmail"]},
+  "  \ "depends" : ["Shougo/vimproc"]}
 
   " SimpleNote
   "NeoBundleLazy "mattn/webapi-vim"
   "NeoBundleLazy "mattn/vimplenote-vim",{
-  "      \  "autoload" : {"commands": ["VimpleNote"]}}
+  "  \ "autoload" : {"commands": ["VimpleNote"]}}
   "NeoBundleLazy "mrtazz/simplenote.vim",{
-  "      \  "autoload" : {"commands": ["Simplenote"]}}
+  "  \ "autoload" : {"commands": ["Simplenote"]}}
 
   " evernote: need markdown library...
   "NeoBundleLazy "kakkyz81/evervim",{
-  "      \  "autoload" : {"commands": ["EvervimNotebookList", "EvervimListTags",
-  "      \                             "EvervimSearchByQuery", "EvervimCreateNote",
-  "      \                             "EvervimOpenBrowser", "EvervimSetup"]}}
+  "  \ "autoload" : {"commands": ["EvervimNotebookList", "EvervimListTags",
+  "  \                            "EvervimSearchByQuery", "EvervimCreateNote",
+  "  \                            "EvervimOpenBrowser", "EvervimSetup"]}}
 
   " Syntax
   "NeoBundle "scrooloose/syntastic", {
-  "      \ "build": {
-  "      \   "mac": ["pip install flake8", "npm -g install coffeelint"],
-  "      \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
+  "  \ "build": {
+  "  \   "mac": ["pip install flake8", "npm -g install coffeelint"],
+  "  \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
 
   " Count searching objects
   NeoBundle "osyo-manga/vim-anzu"
@@ -250,13 +243,13 @@ if v:version > 700
 
   " Gist
   NeoBundleLazy "mattn/gist-vim", {
-        \ "depends": ["mattn/webapi-vim"],
-        \ "autoload": {"commands": ["Gist"]}}
+    \ "depends": ["mattn/webapi-vim"],
+    \ "autoload": {"commands": ["Gist"]}}
 
   " Quick run
   "NeoBundleLazy "thinca/vim-quickrun", { "autoload" : {
-  "      \ "mappings" : [
-  "      \ ["nxo", "<Plug>(quickrun)"]] }}
+  "  \ "mappings" : [
+  "  \ ["nxo", "<Plug>(quickrun)"]] }}
 
   " Singletop
   "NeoBundle "thinca/vim-singleton"
@@ -266,8 +259,8 @@ if v:version > 700
 
   " vim-ref
   NeoBundleLazy "thinca/vim-ref", {
-        \  "autoload" : {"commands": ["Ref"]},
-        \}
+    \  "autoload" : {"commands": ["Ref"]},
+    \}
 
   " LanguageTool
   NeoBundle "vim-scripts/LanguageTool"
@@ -277,20 +270,20 @@ if v:version > 700
 
   " Excite Translate
   NeoBundleLazy "mattn/excitetranslate-vim", {
-        \ "depends": "mattn/webapi-vim",
-        \ "autoload" : { "commands": ["ExciteTranslate"]}
-        \ }
+    \ "depends": "mattn/webapi-vim",
+    \ "autoload" : { "commands": ["ExciteTranslate"]}
+    \ }
 
   " Habatobi
   NeoBundleLazy "mattn/habatobi-vim",{
-        \  "autoload" : {"commands": ["Habatobi"]}}
+    \ "autoload" : {"commands": ["Habatobi"]}}
 
   " Make benchmark result of vimrc
   NeoBundleLazy "mattn/benchvimrc-vim",{
-        \  "autoload" : {"commands": ["BenchVimrc"]}}
+    \ "autoload" : {"commands": ["BenchVimrc"]}}
 
   " File Explorer
-  NeoBundleLazy "kien/ctrlp.vim"
+  NeoBundle "kien/ctrlp.vim"
   "NeoBundle "scrooloose/nerdtree"
   "NeoBundle "trinity.vim"
   "NeoBundle "The-NERD-tree"
@@ -302,9 +295,9 @@ if v:version > 700
   "NeoBundle "taglist.vim"
   "NeoBundle "ctags.vim"
   NeoBundleLazy "majutsushi/tagbar", {
-        \ "autload": {
-        \   "commands": ["TagbarToggle"],
-        \ }}
+    \ "autload": {
+    \   "commands": ["TagbarToggle"],
+    \ }}
 
   " Color scheme
   "NeoBundle "ujihisa/unite-colorscheme"
@@ -809,6 +802,8 @@ nnoremap <C-r> g+
 " gundo {{{
 if s:neobundle_enable && ! empty(neobundle#get("gundo.vim"))
   nnoremap U :GundoToggle<CR>
+  let g:gundo_width = 30
+  let g:gundo_preview_height = 15
   let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
   let g:gundo_preview_bottom = 1 " Show preview at the bottom
 endif
@@ -987,6 +982,10 @@ if s:neobundle_enable && ! empty(neobundle#get("savevers.vim"))
   set backup
   let savevers_types = "*"
   let savevers_dirs = &backupdir
+  let versdiff_no_resize=1
+  nmap <silent> <F5> :VersDiff -<cr>
+  nmap <silent> <F6> :VersDiff +<cr>
+  nmap <silent> <F8> :VersDiff -c<cr>
 endif
 " }}}
 
@@ -997,47 +996,43 @@ set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
 set statusline+=%=%l/%L,%c%V%8P
 " }}} status line
 
-"" neocomplcache {{{
-"if s:neobundle_enable && ! empty(neobundle#get("neocomplcache"))
-"  let g:neocomplcache_enable_startup = 1
-"  let s:hooks = neobundle#get_hooks("neocomplcache.vim")
-"  function! s:hooks.on_source(bundle)
-"    let g:acp_enableAtStartup = 1
-"    let g:neocomplcache_enable_smart_case = 1
-"    let g:neocomplcache_min_syntax_length = 3
-"  endfunction
-"endif
+" neocomplcache {{{
+if s:neobundle_enable && ! empty(neobundle#get("neocomplcache"))
+  let g:acp_enableAtStartup = 1
+  let g:neocomplcache_enable_startup = 1
+  let g:neocomplcache_enable_smart_case = 1
+  let g:neocomplcache_min_syntax_length = 3
+  let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+  let g:neocomplcache_text_mode_filetypes =
+        \ {'text': 1, 'plaintex':1, 'javascript': 1,
+        \  'mkd': 1, 'perl': 1, 'html': 1}
+endif
 " }}}
 
 " neocomplete {{{
 if s:neobundle_enable && ! empty(neobundle#get("neocomplete.vim"))
-  let g:neocomplete#enable_startup = 1
-  let s:hooks = neobundle#get_hooks("neocomplete.vim")
-  function! s:hooks.on_source(bundle)
-    let g:acp_enableAtStartup = 0
-    let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-  endfunction
-
-  "let g:acp_enableAtStartup = 1 " Enable AutoComplPop
-  "let g:neocomplte#enable_at_startup = 1 " enable at start up
-  "let g:neocomplte#cache_smart_case = 1 " enable smartcase
-  "let g:neocomplete#sources#syntax#min_keyword_length = 1 " minimum syntax keyword length
-  "let g:neocomplete#skip_auto_completion_time = ''
-  "if !exists('g:neocomplete#text_mode_filetypes')
-  "  let g:neocomplete#text_mode_filetypes = {}
-  "endif
-  "let g:neocomplete#text_mode_filetypes.markdown = 1
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_smart_case = 1
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  let g:neocomplete#text_mode_filetypes =
+        \ {'hybrid': 1, 'text':1, 'help': 1, 'gitcommit': 1, 'gitrebase':1,
+        \  'vcs-commit': 1, 'markdown':1, 'textile':1, 'creole':1, 'org':1,
+        \  'rdoc':1, 'mediawiki':1, 'rst':1, 'asciidoc':1, 'prod':1,
+        \  'plaintex':1, 'javascript': 1, 'mkd': 1, 'perl': 1, 'html': 1,
+        \  'vim':1, 'sh':1 }
 endif
 " }}}
 
 " neosnippet {{{
 if s:neobundle_enable && ! empty(neobundle#get("neosnippet"))
-  imap <silent><C-F> <Plug>(neosnippet_expand_or_jump)
+  imap <silent><C-k> <Plug>(neosnippet_expand_or_jump)
   inoremap <silent><C-U> <ESC>:<C-U>Unite snippet<CR>
   nnoremap <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
-  smap <silent><C-F> <Plug>(neosnippet_expand_or_jump)
+  smap <silent><C-k> <Plug>(neosnippet_expand_or_jump)
   xmap <silent>o <Plug>(neosnippet_register_oneshot_snippet)
+  imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 endif
 " }}}
 
