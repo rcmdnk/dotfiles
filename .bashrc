@@ -40,15 +40,16 @@ PROMPT_COMMAND=`echo ${PROMPT_COMMAND}|sed 's/;$//'`
 
 # Local path {{{
 # PATH, LD_LIBRARY_PATH under HOME
-export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/usr/local/bin:/usr/bin:$PATH
+#For MacVim
+if [[ "$OSTYPE" =~ "darwin" ]] && [ -d /Applications/MacVim.app/Contents/MacOS ];then
+  export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/Applications/MacVim.app/Contents/MacOS:$PATH
+else
+  export PATH=$HOME/usr/local/bin:$HOME/usr/bin:$PATH
+fi
 export LD_LIBRARY_PATH=$HOME/usr/local/lib:$HOME/usr/lib:/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$HOME/usr/local/lib:$HOME/usr/lib/python:/usr/local/lib:/usr/lib/python:$PYTHONPATH
 #export PYTHONHOME=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 
-#For MacVim
-if [[ "$OSTYPE" =~ "darwin" ]] && [ -d /Applications/MacVim.app/Contents/MacOS ];then
-  export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
-fi
 
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
