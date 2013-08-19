@@ -23,6 +23,7 @@ Arguments:
       -d  Dry run, don't install anything
       -h  Print Help (this message) and exit
 "
+
 while getopts b:e:i:ndh OPT;do
   case $OPT in
     "b" ) backup=$OPTARG ;;
