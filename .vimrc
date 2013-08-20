@@ -178,6 +178,9 @@ if v:version > 700
   " Replace with the text object
   NeoBundle "kana/vim-operator-replace"
 
+  " Highlight line number
+  NeoBundle 'cohama/vim-insert-linenr'
+
   " Open browser
   NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
     \ "mappings" : "<Plug>(openbrowser-smart-search)"}}
@@ -408,7 +411,8 @@ set showcmd        " Display incomplete commands
 set novisualbell   " No visual bell
 "set cursorline     " Enable highlight on current line:
 "                   " but make moving cursor slow for heavily highlighted file...
-set nonumber       " Don't show line numbers
+"set number         " Show line numbers
+"set relativenumber " Relative line number
 set autoindent
 set scrolloff=999  " Show cursor at middle
                    " (scrolloff is number of lines which should be shown above
