@@ -58,15 +58,8 @@ if v:version > 700
     \ }}
 
   " Use shell in vim
-  "NeoBundle "Shougo/vimshell", "", "default"
-  "call neobundle#config("vimshell", {
-  "  \ "lazy" : 1,
-  "  \ "autoload" : {
-  "  \ "commands" : [{ "name" : "VimShell",
-  "  \ "complete" : "customlist,vimshell#complete"},
-  "  \ "VimShellExecute", "VimShellInteractive",
-  "  \ "VimShellTerminal", "VimShellPop"],
-  "  \ "mappings" : ["<Plug>(vimshell_switch)"]}})
+  NeoBundleLazy 'Shougo/vimshell', {
+    \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
 
   " Searches and display information->:help Unite
   " Unlike "fuzzyfinder" or "ku", it doesn't use the built-lin completion of vim
