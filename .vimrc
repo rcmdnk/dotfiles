@@ -58,8 +58,8 @@ if v:version > 700
     \ }}
 
   " Use shell in vim
-  NeoBundleLazy 'Shougo/vimshell', {
-    \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
+  "NeoBundleLazy 'Shougo/vimshell', {
+  "  \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
 
   " Searches and display information->:help Unite
   " Unlike "fuzzyfinder" or "ku", it doesn't use the built-lin completion of vim
@@ -199,6 +199,11 @@ if v:version > 700
     \ "rev" : "dev",
     \ "autoload": {
     \ "filetypes": [ "python", "python3", "djangohtml"]}}
+
+
+  NeoBundleLazy "Rip-Rip/clang_complete", {
+    \"autoload" : { "filetypes" : ["c", "cpp"] }
+    \}
 
   " virtual env
   NeoBundle "jmcantrell/vim-virtualenv"
@@ -1110,6 +1115,13 @@ if s:neobundle_enable && ! empty(neobundle#get("jedi-vim"))
   "endif
 endif
 " }}} jedi-vim
+
+" clang_complete{{{
+if s:neobundle_enable && ! empty(neobundle#get("lang_complete"))
+  g:clang_use_library = 1
+  g:clang_complete_auto = 0
+endif
+" }}} clang_complete
 
 " SimpleNote{{{
 if s:neobundle_enable && ! empty(neobundle#get("simplenote.vim"))
