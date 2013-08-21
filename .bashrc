@@ -42,9 +42,9 @@ PROMPT_COMMAND=`echo ${PROMPT_COMMAND}|sed 's/;$//'`
 # PATH, LD_LIBRARY_PATH under HOME
 #For MacVim
 if [[ "$OSTYPE" =~ "darwin" ]] && [ -d /Applications/MacVim.app/Contents/MacOS ];then
-  export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/Applications/MacVim.app/Contents/MacOS:$PATH
+  export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/Applications/MacVim.app/Contents/MacOS:/usr/local/bin:$PATH
 else
-  export PATH=$HOME/usr/local/bin:$HOME/usr/bin:$PATH
+  export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/usr/local/bin:$PATH
 fi
 export LD_LIBRARY_PATH=$HOME/usr/local/lib:$HOME/usr/lib:/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$HOME/usr/local/lib:$HOME/usr/lib/python:/usr/local/lib:/usr/lib/python:$PYTHONPATH
