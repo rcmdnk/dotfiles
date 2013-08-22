@@ -1118,8 +1118,8 @@ endif
 
 " clang_complete{{{
 if s:neobundle_enable && ! empty(neobundle#get("lang_complete"))
-  g:clang_use_library = 1
-  g:clang_complete_auto = 0
+  "g:clang_use_library = 1
+  "g:clang_complete_auto = 0
 endif
 " }}} clang_complete
 
