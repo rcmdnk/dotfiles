@@ -67,14 +67,14 @@ if v:version > 700
     \ 'autoload' : { 'commands' : [ 'Unite' ] }}
 
   " Echo
-  "NeoBundle "Shougo/echodoc", '', "default"
-  "call neobundle#config("echodoc", {
-  "  \ "lazy" : 1,
-  "  \ "autoload" : {
-  "  \ "insert" : 1}})
+  "NeoBundle 'Shougo/echodoc', '', 'default'
+  "call neobundle#config('echodoc', {
+  "      \ 'lazy' : 1,
+  "      \ 'autoload' : {
+  "      \ 'insert' : 1,
+  "      \ }})
 
   " Completion
-
   "NeoBundle "Shougo/neocomplcache-rsense", "", "default"
   "call neobundle#config("neocomplcache-rsense", {
   "  \ "lazy" : 1,
@@ -98,7 +98,10 @@ if v:version > 700
     \   "insert": 1,
     \ }}
 
-  NeoBundle "Shougo/neobundle-vim-scripts", "", "default"
+  NeoBundle "Shougo/neobundle-vim-scripts"
+
+  " look - display lines beginning with a given string, using with neocomplete/neocomplcache
+  NeoBundle 'ujihisa/neco-look'
 
   " Vim plugin to highlight matchit.vim
   " Make it too slow especially for files which have many brackets
@@ -265,9 +268,6 @@ if v:version > 700
 
   " LanguageTool
   NeoBundle "vim-scripts/LanguageTool"
-
-  " look - display lines beginning with a given string
-  NeoBundle 'ujihisa/neco-look'
 
   " Excite Translate
   NeoBundleLazy "mattn/excitetranslate-vim", {
