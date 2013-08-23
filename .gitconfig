@@ -19,6 +19,7 @@
 
 [push]
 #	default = simple
+	default = matching
 
 [github]
 	user = rcmdnk
