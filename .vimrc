@@ -201,9 +201,9 @@ if v:version > 700
     \ "filetypes": [ "python", "python3", "djangohtml"]}}
 
 
-  NeoBundleLazy "Rip-Rip/clang_complete", {
-    \"autoload" : { "filetypes" : ["c", "cpp"] }
-    \}
+  "NeoBundleLazy "Rip-Rip/clang_complete", {
+  "  \"autoload" : { "filetypes" : ["c", "cpp"] }
+  "  \}
 
   " virtual env
   NeoBundle "jmcantrell/vim-virtualenv"
