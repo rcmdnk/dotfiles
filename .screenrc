@@ -87,6 +87,7 @@ bind l  eval 'focus right'
 #bind ^j eval    'command -c move' 'focus down'
 #bind ^k eval    'command -c move' 'focus up'
 #bind ^l eval    'command -c move' 'focus right'
+#bind ^q eval    'command -c move'
 bind ^h eval    'focus left'
 bind -k kb eval 'focus left' #Backspace
 bind ^j eval    'focus down'
