@@ -75,12 +75,6 @@ if v:version > 700
   "      \ }})
 
   " Completion
-  "NeoBundle "Shougo/neocomplcache-rsense", "", "default"
-  "call neobundle#config("neocomplcache-rsense", {
-  "  \ "lazy" : 1,
-  "  \ "depends" : "Shougo/neocomplcache",
-  "  \ "autoload" : { "filetypes" : "ruby" }})
-
   if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
     NeoBundleLazy "Shougo/neocomplete.vim", {
       \ "autoload": {
