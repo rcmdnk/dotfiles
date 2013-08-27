@@ -169,7 +169,7 @@ if v:version > 700
   NeoBundle "kana/vim-operator-replace"
 
   " Highlight line number
-  NeoBundle 'cohama/vim-insert-linenr'
+  "NeoBundle 'cohama/vim-insert-linenr'
 
   " Open browser
   NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
@@ -278,7 +278,7 @@ if v:version > 700
     \ "autoload" : {"commands": ["BenchVimrc"]}}
 
   " File Explorer
-  NeoBundle "kien/ctrlp.vim"
+  "NeoBundle "kien/ctrlp.vim"
   "NeoBundle "scrooloose/nerdtree"
   "NeoBundle "trinity.vim"
   "NeoBundle "The-NERD-tree"
