@@ -173,7 +173,7 @@ if v:version > 700
   NeoBundle "kana/vim-operator-replace"
 
   " Highlight line number
-  NeoBundle 'cohama/vim-insert-linenr'
+  "NeoBundle 'cohama/vim-insert-linenr'
 
   " Open browser
   NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
@@ -282,7 +282,7 @@ if v:version > 700
     \ "autoload" : {"commands": ["BenchVimrc"]}}
 
   " File Explorer
-  NeoBundle "kien/ctrlp.vim"
+  "NeoBundle "kien/ctrlp.vim"
   "NeoBundle "scrooloose/nerdtree"
   "NeoBundle "trinity.vim"
   "NeoBundle "The-NERD-tree"
@@ -1105,6 +1105,8 @@ if s:neobundle_enable && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#get_definition_command = "<Leader>d"
   let g:jedi#pydoc = "K"
   let g:jedi#autocompletion_command = "<C-Space>"
+  let g:jedi#popup_select_first = 1
+  let g:jedi#popup_on_dot = 0
   autocmd FileType python setlocal omnifunc=jedi#complete
   let g:jedi#auto_vim_configuration = 1
   "let g:jedi#auto_vim_configuration = 0
