@@ -156,6 +156,10 @@ if v:version > 700
   " Another status line
   NeoBundle "bling/vim-airline"
 
+  " inu/nuco
+  NeoBundle "osyo-manga/vim-airline-inu"
+  "NeoBundle "osyo-manga/vim-airline-nuko"
+
   " Visual indent guides
   NeoBundle "nathanaelkane/vim-indent-guides"
 
@@ -293,6 +297,9 @@ if v:version > 700
     \ "autload": {
     \   "commands": ["TagbarToggle"],
     \ }}
+
+  " Make help
+  NeoBundle "LeafCage/vimhelpgenerator"
 
   " Color scheme
   "NeoBundle "ujihisa/unite-colorscheme"
@@ -1259,7 +1266,10 @@ endif
 
 " vim-airline{{{
 if s:neobundle_enable && ! empty(neobundle#get("vim-airline"))
-  "let g:airline_theme="dark"
+  let g:airline_left_sep=''
+  let g:airline_right_sep=''
+  let g:airline_inactive_collapse=0
+  let g:airline_theme="ubaryd"
 endif
 "}}} applescript
 
