@@ -157,7 +157,7 @@ if v:version > 700
   NeoBundle "bling/vim-airline"
 
   " inu/nuco
-  NeoBundle "osyo-manga/vim-airline-inu"
+  "NeoBundle "osyo-manga/vim-airline-inu"
   "NeoBundle "osyo-manga/vim-airline-nuko"
 
   " Visual indent guides
@@ -1234,6 +1234,7 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-anzu"))
   nmap N <Plug>(anzu-N-with-echo)
   nmap * <Plug>(anzu-star-with-echo)
   nmap # <Plug>(anzu-sharp-with-echo)
+  let g:airline#extensions#anzu#enabled=0
 endif
 "}}} vim-anzu
 
@@ -1270,8 +1271,9 @@ endif
 if s:neobundle_enable && ! empty(neobundle#get("vim-airline"))
   let g:airline_left_sep=''
   let g:airline_right_sep=''
-  let g:airline_inactive_collapse=0
-  let g:airline_theme="ubaryd"
+  let g:airline_inactive_collapse=1
+  let g:airline_theme="bubblegum"
+  let g:airline_section_z="%4l/%L:%3c"
 endif
 "}}} applescript
 
