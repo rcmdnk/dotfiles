@@ -25,7 +25,7 @@ endif
 " http://qiita.com/rbtnn/items/39d9ba817329886e626b
 
 let s:neobundle_enable=0
-if v:version > 700
+if v:version > 703
   " set path
   if has("vim_starting")
     let s:bundledir=g:vimdir . "/bundle"
@@ -326,20 +326,21 @@ if v:version > 700
   "endif
 endif
 
-" enable plugin, indent again
+" Enable plugin, indent again
 filetype plugin indent on
+
+" Switch syntax highlighting on, when the terminal has colors
+syntax on
 " }}} neobundle
 
 " Basic settings {{{
 
-" set my auto group
+" Set my auto group
 augroup MyAutoGroup
   autocmd!
 augroup END
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-syntax on
+" Switch on highlighting the last used search pattern.
 set hlsearch
 
 " mapleaader (<Leader>)
@@ -757,8 +758,6 @@ hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
 
 "" Colors for search
 hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
-
-
 " }}} colorscheme
 
 " diff mode {{{
