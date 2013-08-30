@@ -1101,10 +1101,10 @@ endif
 " jedi-vim{{{
 if s:neobundle_enable && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#auto_initialization = 1
-  let g:jedi#goto_command = "<Leader>g"
-  let g:jedi#get_definition_command = "<Leader>d"
-  let g:jedi#pydoc = "K"
-  let g:jedi#autocompletion_command = "<C-Space>"
+  let g:jedi#goto_assignments_command = "<Leader>g"
+  let g:jedi#goto_definition_command = "<Leader>d"
+  let g:jedi#documentation_command = "K"
+  let g:jedi#completions_command = "<C-Space>"
   let g:jedi#popup_select_first = 1
   let g:jedi#popup_on_dot = 0
   autocmd FileType python setlocal omnifunc=jedi#complete
