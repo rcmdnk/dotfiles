@@ -25,7 +25,7 @@ endif
 " http://qiita.com/rbtnn/items/39d9ba817329886e626b
 
 let s:neobundle_enable=0
-if v:version > 703
+if v:version > 702
   " set path
   if has("vim_starting")
     let s:bundledir=g:vimdir . "/bundle"
@@ -299,7 +299,8 @@ if v:version > 703
     \ }}
 
   " Make help
-  NeoBundle "LeafCage/vimhelpgenerator"
+  NeoBundleLazy "LeafCage/vimhelpgenerator",{
+    \ "autoload" : {"commands": ["VimHelpGenerator"]}}
 
   " Color scheme
   "NeoBundle "ujihisa/unite-colorscheme"
@@ -444,8 +445,8 @@ endif
 "if has("gui_running") && !has("unix")
 "  set encoding=utf-8
 "endif
-"set encoding=utf-8
-set encoding=utf8
+set encoding=utf-8
+"set encoding=utf8
 "set encoding=cp932
 "set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
 set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
@@ -454,7 +455,7 @@ set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
 "autocmd MyAutoGroup FileType vbs :set encoding=sjis
 
 " Automatic ime off
-" noimdisableactivate was thrown in the latest MacVim?
+" noimdisableactivate was dumped from the latest MacVim?
 " noimdisable should be used instead.
 " but it seems not necessary anyway (all IME related things are done in KeyRemap4MacBook.
 "if has("mac")
@@ -1262,7 +1263,7 @@ endif
 " applescript{{{
 if s:neobundle_enable && ! empty(neobundle#get("applescript.vim"))
   autocmd MyAutoGroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
-"autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  Ôø¢<CR>
+"autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  Å <CR>
 endif
 "}}} applescript
 
