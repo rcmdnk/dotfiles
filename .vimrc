@@ -28,20 +28,20 @@ let s:neobundle_enable=0
 if v:version > 702
   " set path
   if has("vim_starting")
-    let s:bundledir=g:vimdir . "/bundle"
-    let s:neobundledir=s:bundledir . "/neobundle.vim"
-    let &runtimepath = &runtimepath . "," . s:neobundledir
-    if ! isdirectory(s:neobundledir)
+    let g:bundledir=g:vimdir . "/bundle"
+    let g:neobundledir=g:bundledir . "/neobundle.vim"
+    let &runtimepath = &runtimepath . "," . g:neobundledir
+    if ! isdirectory(g:neobundledir)
       echomsg "Neobundle is not installed, install now "
       echo "git clone git://github.com/Shougo/neobundle.vim "
-            \ .  s:neobundledir
+            \ .  g:neobundledir
       call system("git clone git://github.com/Shougo/neobundle.vim "
-            \ .  s:neobundledir)
+            \ .  g:neobundledir)
     endif
     let s:neobundle_enable=1
   endif
 
-  call neobundle#rc(s:bundledir)
+  call neobundle#rc(g:bundledir)
 
   """"plugins"""""
 
@@ -67,30 +67,21 @@ if v:version > 702
     \ 'autoload' : { 'commands' : [ 'Unite' ] }}
 
   " Echo
-  "NeoBundle 'Shougo/echodoc', '', 'default'
-  "call neobundle#config('echodoc', {
-  "      \ 'lazy' : 1,
-  "      \ 'autoload' : {
-  "      \ 'insert' : 1,
-  "      \ }})
+  "NeoBundle 'Shougo/echodoc'
+  NeoBundleLazy 'Shougo/echodoc', {
+    \ "autoload": { "insert": 1 }}
 
   " Completion
   if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
     NeoBundleLazy "Shougo/neocomplete.vim", {
-      \ "autoload": {
-      \   "insert": 1,
-      \ }}
+      \ "autoload": {"insert": 1 }}
   else
     NeoBundleLazy "Shougo/neocomplcache", {
-      \ "autoload": {
-      \   "insert": 1,
-      \ }}
+      \ "autoload": { "insert": 1 }}
   endif
 
   NeoBundleLazy "Shougo/neosnippet", {
-    \ "autoload": {
-    \   "insert": 1,
-    \ }}
+    \ "autoload": { "insert": 1 }}
 
   NeoBundle "Shougo/neobundle-vim-scripts"
 
@@ -182,8 +173,7 @@ if v:version > 702
   " Open browser GitHub
   NeoBundleLazy "tyru/open-browser-github.vim", {
     \ "depends": ["tryu/open-browser.vim"],
-    \ "autoload": {
-    \ "commands" : ["OpenGithubFile","OpenGithubIssue"]}}
+    \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
 
   " Easymotion
   "NeoBundle "Lokaltog/vim-easymotion"
@@ -198,13 +188,11 @@ if v:version > 702
   " Python autocompletion
   NeoBundleLazy "davidhalter/jedi-vim", {
     \ "rev" : "dev",
-    \ "autoload": {
-    \ "filetypes": [ "python", "python3", "djangohtml"]}}
+    \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
 
 
   "NeoBundleLazy "Rip-Rip/clang_complete", {
-  "  \"autoload" : { "filetypes" : ["c", "cpp"] }
-  "  \}
+  "  \"autoload" : { "filetypes" : ["c", "cpp"] }}
 
   " virtual env
   NeoBundle "jmcantrell/vim-virtualenv"
@@ -215,7 +203,6 @@ if v:version > 702
   "  \ "depends" : ["Shougo/vimproc"]}
 
   " SimpleNote
-  "NeoBundleLazy "mattn/webapi-vim"
   "NeoBundleLazy "mattn/vimplenote-vim",{
   "  \ "autoload" : {"commands": ["VimpleNote"]}}
   "NeoBundleLazy "mrtazz/simplenote.vim",{
@@ -237,8 +224,10 @@ if v:version > 702
   NeoBundle "osyo-manga/vim-anzu"
 
   " Git
-  "NeoBundle "tpope/vim-fugitive"
-  NeoBundle "gregsexton/gitv" " Gitv! -> D for diff
+  NeoBundle "tpope/vim-fugitive" " necessary ('depends' in gitv is not enough.)
+  NeoBundleLazy "gregsexton/gitv", {
+    \ "depends": ["tpope/vim-fugitive"],
+    \ "autoload": { "commands": ["Gitv"] }}
 
   " For git/svn status, log
   "NeoBundle "hrsh7th/vim-versions.git"
@@ -246,7 +235,7 @@ if v:version > 702
   " Gist
   NeoBundleLazy "mattn/gist-vim", {
     \ "depends": ["mattn/webapi-vim"],
-    \ "autoload": {"commands": ["Gist"]}}
+    \ "autoload": {"commands": ["Gist"] }}
 
   " Quick run
   "NeoBundleLazy "thinca/vim-quickrun", { "autoload" : {
@@ -259,10 +248,12 @@ if v:version > 702
   " Splash
   "NeoBundle "thinca/vim-splash"
 
+  " Date increment
+  NeoBundle "tpope/vim-speeddating"
+
   " vim-ref
   NeoBundleLazy "thinca/vim-ref", {
-    \  "autoload" : {"commands": ["Ref"]},
-    \}
+    \  "autoload" : {"commands": ["Ref"] }}
 
   " LanguageTool
   NeoBundle "vim-scripts/LanguageTool"
@@ -270,16 +261,15 @@ if v:version > 702
   " Excite Translate
   NeoBundleLazy "mattn/excitetranslate-vim", {
     \ "depends": "mattn/webapi-vim",
-    \ "autoload" : { "commands": ["ExciteTranslate"]}
-    \ }
+    \ "autoload" : { "commands": ["ExciteTranslate"] }}
 
   " Habatobi
   NeoBundleLazy "mattn/habatobi-vim",{
-    \ "autoload" : {"commands": ["Habatobi"]}}
+    \ "autoload" : {"commands": ["Habatobi"] }}
 
   " Make benchmark result of vimrc
   NeoBundleLazy "mattn/benchvimrc-vim",{
-    \ "autoload" : {"commands": ["BenchVimrc"]}}
+    \ "autoload" : {"commands": ["BenchVimrc"] }}
 
   " File Explorer
   "NeoBundle "kien/ctrlp.vim"
@@ -287,20 +277,19 @@ if v:version > 702
   "NeoBundle "trinity.vim"
   "NeoBundle "The-NERD-tree"
   "NeoBundle "Source-Explorer-srcexpl.vim"
-  NeoBundle "wesleyche/SrcExpl"
   "NeoBundle "mru.vim"
+  NeoBundleLazy "wesleyche/SrcExpl", {
+    \ "autoload" : { "commands": ["SrcExpl", "SrcExplClose", "SrcExplToggle"] }}
 
   " For Tags
   "NeoBundle "taglist.vim"
   "NeoBundle "ctags.vim"
   NeoBundleLazy "majutsushi/tagbar", {
-    \ "autload": {
-    \   "commands": ["TagbarToggle"],
-    \ }}
+    \ "autload": { "commands": ["TagbarToggle"] }}
 
   " Make help
   NeoBundleLazy "LeafCage/vimhelpgenerator",{
-    \ "autoload" : {"commands": ["VimHelpGenerator"]}}
+    \ "autoload" : {"commands": ["VimHelpGenerator"] }}
 
   " Color scheme
   "NeoBundle "ujihisa/unite-colorscheme"
@@ -512,7 +501,7 @@ endif
 
 " Max columns for syntax search
 " Such XML file has too much syntax which make vim drastically slow
-set synmaxcol=500 "default 3000
+set synmaxcol=200 "default 3000
 
 " Disable highlight italic in Markdown
 autocmd! FileType markdown hi! def link markdownItalic LineNr
@@ -570,7 +559,8 @@ nnoremap <C-e> <C-$>
 " Substitute for C-a (C-z default: suspend, same as :stop)
 "nnoremap <C-z> <C-a>
 " Substitute for C-a (C-s default: non?)
-nnoremap <C-s> <C-a>
+" C-a should be map for vim-speeddating
+map <C-s> <C-a>
 nnoremap <C-k> k
 
 " Window move
@@ -1263,7 +1253,7 @@ endif
 " applescript{{{
 if s:neobundle_enable && ! empty(neobundle#get("applescript.vim"))
   autocmd MyAutoGroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
-"autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  Å <CR>
+"autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬¨<CR>
 endif
 "}}} applescript
 
@@ -1381,7 +1371,7 @@ if s:neobundle_enable && ! empty(neobundle#get("gist-vim"))
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
   " Disable default Gist command
-  cnoremap <silent> Gist<CR> <CR>
+  cnoremap <silent> Gist<CR> echo 'use Gist -P to make a public gist'<CR>
 endif
 "}}} gist-vim
 
