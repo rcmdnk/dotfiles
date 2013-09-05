@@ -57,6 +57,9 @@ if v:version > 702
       \ 'unix' : 'make -f make_unix.mak',
     \ }}
 
+  " For asynchronous process
+  "NeoBundle "osyo-manga/vim-reunions"
+
   " Use shell in vim
   "NeoBundleLazy 'Shougo/vimshell', {
   "  \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
@@ -91,6 +94,9 @@ if v:version > 702
   " Vim plugin to highlight matchit.vim
   " Make it too slow especially for files which have many brackets
   "NeoBundle "vimtaku/hl_matchit.vim"
+
+  " Highlight bracket
+  "NeoBundle "kien/rainbow_parentheses.vim"
 
   " Easy to use history of yanks (see below settings)
   " Strange behavior
@@ -145,14 +151,17 @@ if v:version > 702
   "NeoBundle "Lokaltog/vim-pcompleteowerline"
 
   " Another status line
-  NeoBundle "bling/vim-airline"
+  "NeoBundle "bling/vim-airline"
 
   " inu/nuco
   "NeoBundle "osyo-manga/vim-airline-inu"
   "NeoBundle "osyo-manga/vim-airline-nuko"
 
-  " Visual indent guides
-  NeoBundle "nathanaelkane/vim-indent-guides"
+  " Another status line
+  NeoBundle 'itchyny/lightline.vim'
+
+  " Visual indent guides: make moving slow?
+  "NeoBundle "nathanaelkane/vim-indent-guides"
 
   " Sub mode
   NeoBundle "kana/vim-submode"
@@ -227,7 +236,11 @@ if v:version > 702
   NeoBundle "tpope/vim-fugitive" " necessary ('depends' in gitv is not enough.)
   NeoBundleLazy "gregsexton/gitv", {
     \ "depends": ["tpope/vim-fugitive"],
-    \ "autoload": { "commands": ["Gitv"] }}
+    \ "autoload": { "commands": ["Gitv"]}}
+
+  " gitgutter
+  NeoBundleLazy "airblade/vim-gitgutter", {
+    \ "autoload": { "commands": ["GitGutterEnable","GitGutterToggle"]}}
 
   " For git/svn status, log
   "NeoBundle "hrsh7th/vim-versions.git"
@@ -1091,8 +1104,10 @@ endif
 " jedi-vim{{{
 if s:neobundle_enable && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#auto_initialization = 1
-  let g:jedi#goto_assignments_command = "<Leader>g"
-  let g:jedi#goto_definition_command = "<Leader>d"
+  "let g:jedi#goto_assignments_command = "<Leader>g"
+  "let g:jedi#goto_definition_command = "<Leader>d"
+  let g:jedi#goto_assignments_command = ""
+  let g:jedi#goto_definition_command = ""
   let g:jedi#documentation_command = "K"
   let g:jedi#completions_command = "<C-Space>"
   let g:jedi#popup_select_first = 1
@@ -1235,6 +1250,12 @@ if s:neobundle_enable && ! empty(neobundle#get("syntastic"))
 endif
 "}}} syntastic
 
+" gitgutter{{{
+if s:neobundle_enable && ! empty(neobundle#get("vim-gitgutter"))
+  nnoremap <Leader>g :GitGutterToggle<CR>
+endif
+"}}} gitgutter
+
 " undotree{{{
 if s:neobundle_enable && ! empty(neobundle#get("undotree"))
   nmap <Leader>U :UndotreeToggle<CR>
@@ -1265,7 +1286,26 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-airline"))
   let g:airline_theme="bubblegum"
   let g:airline_section_z="%4l/%L:%3c"
 endif
-"}}} applescript
+"}}} vim-airline
+
+" lightline.vim {{{
+if s:neobundle_enable && ! empty(neobundle#get("lightline.vim"))
+  let g:lightline = {
+    \"colorscheme": "jellybeans",
+    \"active": {
+      \"left": [["mode"],
+      \         ["filename","fugitive","readonly","paste","modified" ]],
+      \"right": [[ "lineinfo" ],
+      \           [ "fileformat", "fileencoding", "filetype" ]]},
+    \"component": {
+      \"lineinfo": "%4l/%L:%3c",
+      \"fugitive": '%{exists("*fugitive#head")?fugitive#head():""}'},
+    \"component_visible_condition": {
+      \"fugitive": '(exists("*fugitive#head") && ""!=fugitive#head())'},
+    \}
+  let g:lightline.inactive = g:lightline.active
+endif
+"}}} lightline.vim
 
 " splash{{{
 if s:neobundle_enable && ! empty(neobundle#get("vim-splash"))
