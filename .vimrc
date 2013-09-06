@@ -102,6 +102,9 @@ if v:version > 702
   " Strange behavior
   "NeoBundle "vim-scripts/YankRing.vim"
 
+  " Yank stack (similar as YankRing)
+  NeoBundle "maxbrunsfeld/vim-yankstack"
+
   " Use yanks in different processes (see below settings)
   "NeoBundle "yanktmp.vim"
 
@@ -364,6 +367,7 @@ set modeline       " enable to use settings written in the file
 set modelines=3    " number of lines to be read (form top and bottom) for
                    " modeline
 set tabstop=4      " width of <Tab> in view
+
 set shiftwidth=2   " width for indent
 set softtabstop=0  " if not 0, insert space instead of <Tab>
 "set textwidth=0    " longer line than textwidth will be broken (0: disable)
@@ -547,7 +551,29 @@ autocmd! FileType markdown hi! def link markdownItalic LineNr
 " the mapping will also be enabled for <Tab> and <CR>, respectively.
 " Others can be mapped separately.
 
-
+" fix meta-keys which generate <Esc>a .. <Esc>z
+"let c='a'
+"while c <= 'z'
+"  "exec "set <M-".toupper(c).">=\e".c
+"  "exec "imap \e".c." <M-".toupper(c).">"
+"  "let c = nr2char(1+char2nr(c))
+"endw
+"for i in map(
+"  \   range(char2nr("a"), char2nr("z"))
+"  \ + range(char2nr("A"), char2nr("Z"))
+"  \ + range(char2nr("0"), char2nr("9"))
+"  \ , "nr2char(v:val)")
+"    " <ESC>O do not map because used by arrow keys.
+"    if i != "O"
+"      execute "nmap <ESC>" . i "<M-" . i . ">"
+"    endif
+"  endfor
+nmap <ESC>p <M-p>
+nmap <ESC>n <M-n>
+"nmap <ESC>h <M-h>
+"nmap <ESC>j <M-j>
+"nmap <ESC>k <M-k>
+"nmap <ESC>l <M-l>
 
 " Don't use Ex mode, use Q for formatting
 "map Q gq
@@ -577,14 +603,14 @@ map <C-s> <C-a>
 nnoremap <C-k> k
 
 " Window move
-nnoremap <M-h> <C-w><<CR>
-nnoremap <M-j> <C-w>+<CR>
-nnoremap <M-k> <C-w>-<CR>
-nnoremap <M-l> <C-w>><CR>
-nnoremap <D-h> <C-w><<CR>
-nnoremap <D-j> <C-w>+<CR>
-nnoremap <D-k> <C-w>-<CR>
-nnoremap <D-l> <C-w>><CR>
+"nnoremap <M-h> <C-w><<CR>
+"nnoremap <M-j> <C-w>+<CR>
+"nnoremap <M-k> <C-w>-<CR>
+"nnoremap <M-l> <C-w>><CR>
+"nnoremap <D-h> <C-w><<CR>
+"nnoremap <D-j> <C-w>+<CR>
+"nnoremap <D-k> <C-w>-<CR>
+"nnoremap <D-l> <C-w>><CR>
 
 " Swap colon <-> semicolon
 noremap ; :
@@ -920,6 +946,13 @@ if s:neobundle_enable && ! empty(neobundle#get("YankRing.vim"))
 endif
 " }}} YankRing
 
+" vim-yankstack {{{
+if s:neobundle_enable && ! empty(neobundle#get("vim-yankstack"))
+  nmap <M-p> <Plug>yankstack_substitute_older_paste
+  nmap <M-n> <Plug>yankstack_substitute_newer_paste
+endif
+" }}} vim-yankstack
+
 " yanktmp {{{
 if s:neobundle_enable && ! empty(neobundle#get("yanktmp.vim"))
   let g:yanktmp_file = $HOME."/.vim/vimyanktmp"
@@ -1018,15 +1051,25 @@ endif
 " neocomplete {{{
 if s:neobundle_enable && ! empty(neobundle#get("neocomplete.vim"))
   let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#max_list = 20
+  "let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#min_keyword_length = 3
   let g:neocomplete#enable_smart_case = 1
-  let g:neocomplete#sources#syntax#min_keyword_length = 3
-  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  let g:neocomplete#disable_auto_complete = 1
+  let g:neocomplete#enable_auto_select = 0
+  let g:neocomplete#lock_buffer_name_pattern = ''
   let g:neocomplete#text_mode_filetypes =
         \ {'hybrid': 1, 'text':1, 'help': 1, 'gitcommit': 1, 'gitrebase':1,
         \  'vcs-commit': 1, 'markdown':1, 'textile':1, 'creole':1, 'org':1,
         \  'rdoc':1, 'mediawiki':1, 'rst':1, 'asciidoc':1, 'prod':1,
         \  'plaintex':1, 'javascript': 1, 'mkd': 1, 'perl': 1, 'html': 1,
         \  'vim':1, 'sh':1 }
+  "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><Tab> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
+  inoremap <expr><A-y>  neocomplete#close_popup()
+  inoremap <expr><A-e>  neocomplete#cancel_popup()
+  inoremap <expr><A-l>  neocomplete#complete_common_string()
+  inoremap <expr><A-u>  neocomplete#undo_completion()
 endif
 " }}}
 
@@ -1037,8 +1080,8 @@ if s:neobundle_enable && ! empty(neobundle#get("neosnippet"))
   nnoremap <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
   smap <silent><C-k> <Plug>(neosnippet_expand_or_jump)
   xmap <silent>o <Plug>(neosnippet_register_oneshot_snippet)
-  imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-  smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  "imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+  "smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 endif
 " }}}
 
@@ -1293,17 +1336,72 @@ if s:neobundle_enable && ! empty(neobundle#get("lightline.vim"))
   let g:lightline = {
     \"colorscheme": "jellybeans",
     \"active": {
-      \"left": [["mode"],
-      \         ["filename","fugitive","readonly","paste","modified" ]],
-      \"right": [[ "lineinfo" ],
-      \           [ "fileformat", "fileencoding", "filetype" ]]},
-    \"component": {
-      \"lineinfo": "%4l/%L:%3c",
-      \"fugitive": '%{exists("*fugitive#head")?fugitive#head():""}'},
+      \"left": [["mode", "filename"], ["fugitive"]],
+      \"right": [["lineinfo"], ["fileinfo"]]},
     \"component_visible_condition": {
       \"fugitive": '(exists("*fugitive#head") && ""!=fugitive#head())'},
+    \'component_function': {
+      \'mode': 'MyMode',
+      \'filename': 'MyFileName',
+      \'fugitive': 'MyFugitive',
+      \'fileinfo': 'MyFileInfo',
+      \'lineinfo': 'MyLineInfo',
+      \},
+    \ 'separator': { 'left': '', 'right': '' },
+    \ 'subseparator': { 'left': '', 'right': '' }
     \}
   let g:lightline.inactive = g:lightline.active
+
+  function! MyMode()
+    let l:ps = ''
+    if &paste
+      let l:ps = " P"
+    endif
+    return lightline#mode() . l:ps
+  endfunction
+
+  function! MyFileName()
+    let l:fn = expand("%:t")
+    let l:ro = &ft !~? 'help' && &readonly ? " RO" : ""
+    let l:mo = &modifiable && &modified ? " +" : ""
+    return l:fn . l:ro . l:mo
+  endfunction
+
+  function! MyFugitive()
+    let l:fu = exists('*fugitive#head') ? fugitive#head() : ''
+    return winwidth('.') >=
+          \  strlen(MyMode()) + 2
+          \+ strlen(MyFileName()) + 2
+          \+ strlen(l:fu) + 2
+          \+ strlen(MyLineInfo()) + 2
+          \? l:fu : ''
+  endfunction
+
+  function! MyFileInfo()
+    let l:ff = &fileformat
+    let l:fe = (strlen(&fenc) ? &fenc : &enc)
+    let l:ft = (strlen(&filetype) ? &filetype : 'no')
+    let l:fi = l:ff . " " . l:fe . " " . l:ft
+    return winwidth('.') >=
+          \  strlen(MyMode()) + 2
+          \+ strlen(MyFileName()) + 2
+          \+ strlen(MyFugitive())
+          \+ ((exists("*fugitive#head") && ""!=fugitive#head()) ? 2 : 0)
+          \+ strlen(l:fi) + 2
+          \+ strlen(MyLineInfo()) + 2
+          \? l:fi : ''
+  endfunction
+
+  function! MyLineInfo()
+    let l:cl = line(".")
+    let l:ll = line("$")
+    let l:cc = col(".")
+    let l:li = printf("%4d/%d:%3d", l:cl, l:ll, l:cc)
+    return winwidth('.') >=
+          \  strlen(MyFileName()) + 2
+          \+ strlen(l:li) + 2
+          \? l:li : ''
+  endfunction
 endif
 "}}} lightline.vim
 
