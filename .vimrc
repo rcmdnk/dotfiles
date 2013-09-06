@@ -164,7 +164,7 @@ if v:version > 702
   NeoBundle 'itchyny/lightline.vim'
 
   " Visual indent guides: make moving slow?
-  "NeoBundle "nathanaelkane/vim-indent-guides"
+  NeoBundle "nathanaelkane/vim-indent-guides"
 
   " Sub mode
   NeoBundle "kana/vim-submode"
