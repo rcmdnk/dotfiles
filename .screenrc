@@ -187,7 +187,7 @@ bind a eval "!bash -c 'multi_clipboards -O;echo -n \"$SCREEN_PS1\"'"
 bind ^a eval "!bash -c 'multi_clipboards -O;echo -n \"$SCREEN_PS1\"'"
 
 # Term
-#term "screen-256color"
+term "xterm-256color"
 
 # not change the window size when it is attached
 termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
