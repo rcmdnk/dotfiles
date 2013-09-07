@@ -251,6 +251,7 @@ alias vi="vim -X" # vi->vim,no X
 alias memo="vim -X ~/.memo.md"
 alias vid="vim -X -d"
 #alias grep="grep --color=always"
+alias grep="grep -i" # ignore cases
 alias c="multi_clipboards"
 alias put='multi_clipboards -x'
 alias del="trash -r"
