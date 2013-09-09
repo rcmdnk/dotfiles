@@ -1336,71 +1336,72 @@ if s:neobundle_enable && ! empty(neobundle#get("lightline.vim"))
   let g:lightline = {
     \"colorscheme": "jellybeans",
     \"active": {
-      \"left": [["mode", "filename"], ["fugitive"]],
+      \"left": [["test", "mode", "filename"], ["fugitive"]],
       \"right": [["lineinfo"], ["fileinfo"]]},
     \"component_visible_condition": {
       \"fugitive": '(exists("*fugitive#head") && ""!=fugitive#head())'},
     \'component_function': {
-      \'mode': 'MyMode',
-      \'filename': 'MyFileName',
-      \'fugitive': 'MyFugitive',
-      \'fileinfo': 'MyFileInfo',
-      \'lineinfo': 'MyLineInfo',
+      \'test': 'LLFunc',
+      \'mode': 'LLMode',
+      \'filename': 'LLFileName',
+      \'fugitive': 'LLFugitive',
+      \'fileinfo': 'LLFileInfo',
+      \'lineinfo': 'LLLineInfo',
       \},
     \ 'separator': { 'left': '', 'right': '' },
     \ 'subseparator': { 'left': '', 'right': '' }
     \}
   let g:lightline.inactive = g:lightline.active
 
-  function! MyMode()
-    let l:ps = ''
+  function! LLMode()
+    let ps = ''
     if &paste
-      let l:ps = " P"
+      let ps = " P"
     endif
-    return lightline#mode() . l:ps
+    return lightline#mode() . ps
   endfunction
 
-  function! MyFileName()
-    let l:fn = expand("%:t")
-    let l:ro = &ft !~? 'help' && &readonly ? " RO" : ""
-    let l:mo = &modifiable && &modified ? " +" : ""
-    return l:fn . l:ro . l:mo
+  function! LLFileName()
+    let fn = expand("%:t")
+    let ro = &ft !~? 'help' && &readonly ? " RO" : ""
+    let mo = &modifiable && &modified ? " +" : ""
+    return fn . ro . mo
   endfunction
 
-  function! MyFugitive()
-    let l:fu = exists('*fugitive#head') ? fugitive#head() : ''
+  function! LLFugitive()
+    let fu = exists('*fugitive#head') ? fugitive#head() : ''
     return winwidth('.') >=
-          \  strlen(MyMode()) + 2
-          \+ strlen(MyFileName()) + 2
-          \+ strlen(l:fu) + 2
-          \+ strlen(MyLineInfo()) + 2
-          \? l:fu : ''
+          \  strlen(LLMode()) + 2
+          \+ strlen(LLFileName()) + 2
+          \+ strlen(fu) + 2
+          \+ strlen(LLLineInfo()) + 2
+          \? fu : ''
   endfunction
 
-  function! MyFileInfo()
-    let l:ff = &fileformat
-    let l:fe = (strlen(&fenc) ? &fenc : &enc)
-    let l:ft = (strlen(&filetype) ? &filetype : 'no')
-    let l:fi = l:ff . " " . l:fe . " " . l:ft
+  function! LLFileInfo()
+    let ff = &fileformat
+    let fe = (strlen(&fenc) ? &fenc : &enc)
+    let ft = (strlen(&filetype) ? &filetype : 'no')
+    let fi = ff . " " . fe . " " . ft
     return winwidth('.') >=
-          \  strlen(MyMode()) + 2
-          \+ strlen(MyFileName()) + 2
-          \+ strlen(MyFugitive())
+          \  strlen(LLMode()) + 2
+          \+ strlen(LLFileName()) + 2
+          \+ strlen(LLFugitive())
           \+ ((exists("*fugitive#head") && ""!=fugitive#head()) ? 2 : 0)
-          \+ strlen(l:fi) + 2
-          \+ strlen(MyLineInfo()) + 2
-          \? l:fi : ''
+          \+ strlen(fi) + 2
+          \+ strlen(LLLineInfo()) + 2
+          \? fi : ''
   endfunction
 
-  function! MyLineInfo()
-    let l:cl = line(".")
-    let l:ll = line("$")
-    let l:cc = col(".")
-    let l:li = printf("%4d/%d:%3d", l:cl, l:ll, l:cc)
+  function! LLLineInfo()
+    let cl = line(".")
+    let ll = line("$")
+    let cc = col(".")
+    let li = printf("%4d/%d:%3d", cl, ll, cc)
     return winwidth('.') >=
-          \  strlen(MyFileName()) + 2
-          \+ strlen(l:li) + 2
-          \? l:li : ''
+          \  strlen(LLFileName()) + 2
+          \+ strlen(li) + 2
+          \? li : ''
   endfunction
 endif
 "}}} lightline.vim
