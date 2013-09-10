@@ -103,7 +103,7 @@ if v:version > 702
   "NeoBundle "vim-scripts/YankRing.vim"
 
   " Yank stack (similar as YankRing)
-  NeoBundle "maxbrunsfeld/vim-yankstack"
+  "NeoBundle "maxbrunsfeld/vim-yankstack"
 
   " Use yanks in different processes (see below settings)
   "NeoBundle "yanktmp.vim"
