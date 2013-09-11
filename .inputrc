@@ -76,7 +76,12 @@ $if mode=vi
   "\ey": yank-pop
 $endif
 
-# "\C-x\C-r": re-read-init-file # default to re-read .inputrc
+# kill word
+#"\eh" : backward-kill-word
+#"\ed" : kill-word
+
+# default to re-read .inputrc
+"\C-x\C-r": re-read-init-file
 
 # grep prefix
 "\C-g": ""
@@ -120,7 +125,7 @@ $endif
 "\e-":"\C-e\C-ucd -\C-m"
 
 # du
-"\ed": "\C-e\C-ufor a in *;do du -s -m $a;done\C-m"
+#"\ed": "\C-e\C-ufor a in *;do du -s -m $a;done\C-m"
 
 # /dev/null
 "\e:": ">& /dev/null\C-m"
