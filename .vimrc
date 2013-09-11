@@ -119,6 +119,10 @@ if v:version > 702
   " Another undo, need vim7.3+patch005
   "NeoBundle "mbbill/undotree"
 
+  " Displays signs on changed lines
+  NeoBundleLazy "Changed", {
+    \ "autoload": {"commands": ["Changed"]}}
+
   " Toggle insert words
   "NeoBundle "kana/vim-smartchr"
 
@@ -141,7 +145,7 @@ if v:version > 702
   "NeoBundle "tpope/vim-markdown"
   "NeoBundle "plasticboy/vim-markdown"
   "NeoBundle "kannokanno/previm"
-  NeoBundleLazy "joedicastro/vim-markdown"
+  NeoBundle "joedicastro/vim-markdown"
 
   " Folding method for python, but makes completion too slow...?
   "NeoBundle "vim-scripts/python_fold"
@@ -848,7 +852,41 @@ if s:neobundle_enable && ! empty(neobundle#get("unite.vim"))
   autocmd MyAutoGroup FileType unite call s:unite_my_settings()
   function! s:unite_my_settings()
     nmap <buffer><Esc> <Plug>(unite_exit)
-    imap <buffer><Esc><Esc> <Plug>(unite_exit)
+    imap <buffer> jj      <Plug>(unite_insert_leave)
+    "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+
+    imap <buffer><expr> j unite#smart_map('j', '')
+    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    imap <buffer> '     <Plug>(unite_quick_match_default_action)
+    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
+    imap <buffer><expr> x
+            \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
+    nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
+    nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+    imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+    imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+    nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+    nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
+    nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    nnoremap <silent><buffer><expr> l
+            \ unite#smart_map('l', unite#do_action('default'))
+
+    let unite = unite#get_current_unite()
+    if unite.buffer_name =~# '^search'
+      nnoremap <silent><buffer><expr> r     unite#do_action('replace')
+    else
+      nnoremap <silent><buffer><expr> r     unite#do_action('rename')
+    endif
+
+    nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
+    nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
+            \ empty(unite#mappings#get_current_filters()) ?
+            \ ['sorter_reverse'] : [])
+
+    " Runs "split" action by <C-s>.
+    imap <silent><buffer><expr> <C-s>     unite#do_action('split')
   endfunction
   " start with insert mode (can start narrow result in no time)
   let g:unite_enable_start_insert=1
@@ -861,21 +899,26 @@ if s:neobundle_enable && ! empty(neobundle#get("unite.vim"))
   " Unite prefix
   nnoremap [unite] <Nop>
   nmap <Leader>u [unite]
+  nmap <Space> [unite]
 
   " show buffer
   nnoremap <silent> [unite]b :Unite buffer<CR>
   " show files/directories with full path
-  " -buffer-name-files enable to use wild card
-  "nnoremap <silent> <Leader>uf :UniteWithBufferDir -buffer-name=files file<CR>
-  " WithBufferDir for file search freezes when try to delete even current
-  " directory names in insert mode...
   nnoremap <silent> [unite]f :Unite -buffer-name=files file<CR>
+  " show frecursive file search
+  "nnoremap <silent> [unite]f :<C-u>Unite file_rec/async:!<CR>
   " show register
   nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
   " show opened file history including current buffers
-  nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
+  "nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
+  nnoremap <silent> [unite]m :Unite file_mru<CR>
   " show lines of current file
-  nnore <silent> [unite]l :Unite line<CR>
+  nnoremap <silent> [unite]l :Unite line<CR>
+  " search (like ack.vim/ag.vim)
+  nnoremap <silent> [unite]/ :Unite grep:.<CR>
+  " Yank (like yankring/yankstack)
+  let g:unite_source_history_yank_enable = 1
+  nnoremap <silent> [unite]y :Unite history/yank<CR>
 endif
 " }}} Unite
 
@@ -1079,7 +1122,7 @@ endif
 if s:neobundle_enable && ! empty(neobundle#get("neosnippet"))
   imap <silent><C-k> <Plug>(neosnippet_expand_or_jump)
   inoremap <silent><C-U> <ESC>:<C-U>Unite snippet<CR>
-  nnoremap <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
+  "nnoremap <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
   smap <silent><C-k> <Plug>(neosnippet_expand_or_jump)
   xmap <silent>o <Plug>(neosnippet_register_oneshot_snippet)
   "imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
