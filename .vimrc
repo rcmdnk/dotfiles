@@ -31,8 +31,9 @@ if v:version > 702
     let g:bundledir=g:vimdir . "/bundle"
     let g:neobundledir=g:bundledir . "/neobundle.vim"
     let &runtimepath = &runtimepath . "," . g:neobundledir
-    if ! isdirectory(g:neobundledir)
-      echomsg "Neobundle is not installed, install now "
+    let g:neobundleReadMe=expand(g:neobundledir . '/README.md')
+    if !filereadable(g:neobundleReadMe)
+      echo "Neobundle is not installed, install now "
       echo "git clone git://github.com/Shougo/neobundle.vim "
             \ .  g:neobundledir
       call system("git clone git://github.com/Shougo/neobundle.vim "
@@ -138,8 +139,9 @@ if v:version > 702
 
   " Add markdown
   "NeoBundle "tpope/vim-markdown"
-  NeoBundle "plasticboy/vim-markdown"
+  "NeoBundle "plasticboy/vim-markdown"
   "NeoBundle "kannokanno/previm"
+  NeoBundleLazy "joedicastro/vim-markdown"
 
   " Folding method for python, but makes completion too slow...?
   "NeoBundle "vim-scripts/python_fold"
