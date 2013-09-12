@@ -883,6 +883,7 @@ if [[ "$TERM" =~ "screen" ]]; then # {{{
   # }}}
 
 fi # }}}
+export hoge=hoge
 
 # }}} For screen
 
