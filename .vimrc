@@ -139,19 +139,33 @@ if v:version > 702
 
   " Align
   " http://www.drchip.org/astronaut/vim/align.html#Examples
-  NeoBundle "Align"
+  "NeoBundle "Align"
+  NeoBundle "h1mesuke/vim-alignta"
+
+  " c++ syntax with c++11 support
+  NeoBundle "vim-jp/cpp-vim"
+
+  " CSS3 (Sass)
+  NeoBundle "hail2u/vim-css3-syntax.git"
 
   " Add markdown
   "NeoBundle "tpope/vim-markdown"
-  "NeoBundle "plasticboy/vim-markdown"
+  NeoBundle "plasticboy/vim-markdown"
   "NeoBundle "kannokanno/previm"
-  NeoBundle "joedicastro/vim-markdown"
+  "NeoBundle "joedicastro/vim-markdown"
 
   " Folding method for python, but makes completion too slow...?
   "NeoBundle "vim-scripts/python_fold"
 
-  " Currently use only for python indent...
-  NeoBundle "yuroyoro/vim-python"
+  " Python syntax
+  "NeoBundle "yuroyoro/vim-python"
+  NeoBundle "mitsuhiko/vim-python-combined"
+
+  " Java
+  NeoBundle "koron/java-helper-vim"
+
+  " JavaScript
+  NeoBundle "marijnh/tern_for_vim"
 
   " Applescript
   NeoBundle "applescript.vim"
@@ -248,8 +262,11 @@ if v:version > 702
     \ "autoload": { "commands": ["Gitv"]}}
 
   " gitgutter
-  NeoBundleLazy "airblade/vim-gitgutter", {
-    \ "autoload": { "commands": ["GitGutterEnable","GitGutterToggle"]}}
+  "NeoBundleLazy "airblade/vim-gitgutter", {
+  "  \ "autoload": { "commands": ["GitGutterEnable","GitGutterToggle"]}}
+
+  " Show added/deleted/modified lines for several version control system
+  NeoBundle "mhinz/vim-signify"
 
   " For git/svn status, log
   "NeoBundle "hrsh7th/vim-versions.git"
@@ -272,6 +289,9 @@ if v:version > 702
 
   " Date increment
   NeoBundle "tpope/vim-speeddating"
+
+  " Table
+  NeoBundle "dhruvasagar/vim-table-mode"
 
   " vim-ref
   NeoBundleLazy "thinca/vim-ref", {
@@ -320,6 +340,8 @@ if v:version > 702
   "NeoBundle "altercation/vim-colors-solarized"
   "NeoBundle "vim-scripts/newspaper.vim"
   "NeoBundle "w0ng/vim-hybrid"
+  NeoBundle "noahfrederick/vim-hemisu"
+
 
 
   " local plugins
