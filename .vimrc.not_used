@@ -1,0 +1,174 @@
+"==============================================
+"Plugins which it may come into use someday...
+"==============================================
+"{{{
+" vimshell {{{
+" Use shell in vim # not necessary on GNU screen
+NeoBundleLazy 'Shougo/vimshell', {
+  \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
+" }}} vimshell
+
+" vim-smartchr {{{
+" Toggle insert words
+" * Example is for ' = ', ' == ', '='
+" * maybe it can be used more useful way, but now it it nos used.
+NeoBundle "kana/vim-smartchr"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-smartchr"))
+  inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
+endif
+" }}} vim-smartchr
+
+"}}}
+
+"=========================
+"Currenlty, not necessary
+"=========================
+"{{{
+
+" for hl_matchit {{{
+" Vim plugin to highlight matchit.vim
+" # Make it too slow especially for files which have many brackets
+" # It can match such "if" in vimrc
+" # But it seems too much...
+NeoBundle "vimtaku/hl_matchit.vim"
+
+if s:neobundle_enable && ! empty(neobundle#get("hl_matchit.vim"))
+  let g:hl_matchit_enable_on_vim_startup = 1
+  let g:hl_matchit_hl_groupname = 'Title'
+  let g:hl_matchit_allow_ft_regexp = 'html\|vim\|ruby\|sh'
+endif
+"" }}} hl_matchit
+
+" YankRing {{{
+" Easy to use history of yanks (see below settings)
+" * Strange behavior (couse it map all y/d/c/x)
+NeoBundle "vim-scripts/YankRing.vim"
+
+if s:neobundle_enable && ! empty(neobundle#get("YankRing.vim"))
+  nnoremap <Leader>y :YRShow<CR>
+  " avoid to store single letter to normal register
+  let g:yankring_history_dir=g:vimdir
+  "let g:yankring_n_keys = 'Y D' " Y D x X
+  "let g:yankring_enabled=0 " 1
+  let g:yankring_max_history=50 " 100
+  let g:yankring_max_display=50 " 500
+  "let g:yankring_ignore_duplicate=0 " 1
+  let g:yankring_dot_repeat_yank=1
+  let g:yankring_clipboard_monitor=0 " 1
+  let g:yankring_min_element_length=2 " 1, :skip all single letter copy
+  "let g:yankring_persist=0 " 1
+  "let g:yankring_share_between_instances=0 " 1
+  "let g:yankring_window_use_separate=0 " 1
+  "let g:yankring_window_use_horiz=0
+  "let g:yankring_window_auto_close=0 " 1
+  let g:yankring_window_width=50 " 30
+  "let g:yankring_window_use_right=0 " 1
+  "let g:yankring_window_increment=15 " 1
+  let g:yankring_manage_numbered_reg = 1 " 0
+  "let g:yankring_paste_check_default_register = 0 "1
+
+  " for warning :The yankring can only persist if the viminfo setting has a !
+  "set viminfo+=!
+endif
+" }}} YankRing
+
+" vim-yankstack {{{
+" Yank stack (similar as YankRing)
+" * same as YankRing, it map y/d/c/x...
+NeoBundle "maxbrunsfeld/vim-yankstack"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-yankstack"))
+  nmap <M-p> <Plug>yankstack_substitute_older_paste
+  nmap <M-n> <Plug>yankstack_substitute_newer_paste
+endif
+" }}} vim-yankstack
+
+" yanktmp {{{
+" Use yanks in different processes (see below settings)
+" * It can yank only a line
+" * replaced by own setting
+NeoBundle "yanktmp.vim"
+
+if s:neobundle_enable && ! empty(neobundle#get("yanktmp.vim"))
+  let g:yanktmp_file = $HOME."/.vim/vimyanktmp"
+
+  " yanktmp prefix
+  noremap [yanktmp] <Nop>
+  map s [yanktmp]
+
+  " show buffer
+  noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
+  noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
+  noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
+endif
+" }}} yanktmp
+
+" savevers {{{
+" File Edit History
+" * Make several backup file named *.clean, to follow history easily.
+" * Not so useful when persistent_undo is enabled,
+" * but rather it makes things complex as it makes too many '.clean' files...
+NeoBundle "savevers.vim"
+
+if s:neobundle_enable && ! empty(neobundle#get("savevers.vim"))
+  set patchmode=.clean
+  set backup
+  let savevers_types = "*"
+  let savevers_dirs = &backupdir
+  let versdiff_no_resize=1
+  nmap <silent> <F5> :VersDiff -<cr>
+  nmap <silent> <F6> :VersDiff +<cr>
+  nmap <silent> <F8> :VersDiff -c<cr>
+endif
+" }}}
+
+" undotree{{{
+" Another undo, need vim7.3+patch005
+" Use gundo instead
+NeoBundle "mbbill/undotree"
+
+if s:neobundle_enable && ! empty(neobundle#get("undotree"))
+  nmap <Leader>U :UndotreeToggle<CR>
+  let g:undotree_SetFocusWhenToggle = 1
+  let g:undotree_SplitLocation = "topleft"
+  let g:undotree_SplitWidth = 35
+  let g:undotree_diffAutoOpen = 1
+  let g:undotree_diffpanelHeight = 25
+  let g:undotree_RelativeTimestamp = 1
+  let g:undotree_TreeNodeShape = "*"
+  let g:undotree_HighlightChangedText = 1
+  let g:undotree_HighlightSyntax = "UnderLined"
+endif
+" }}}
+
+" vim-surround{{{
+" Each to change surround
+" * use original surround.vim
+NeoBundle "anyakichi/vim-surround"
+if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
+  "
+endif
+" }}}
+
+"}}}
+
+"==========================================
+"Unused/Obsolete settings for used plugins
+"==========================================
+"{{{
+
+" vim-smartinput {{{
+NeoBundle "kana/vim-smartinput"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
+  " Remove spaces at the end of line
+  call smartinput#define_rule({
+  \   'at': '\s\+\%#',
+  \   'char': '<CR>',
+  \   'input': '<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>',
+  \   })
+endif
+" }}}
+
+" }}}
