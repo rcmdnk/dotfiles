@@ -119,10 +119,6 @@ if v:version > 702
   " Another undo, need vim7.3+patch005
   "NeoBundle "mbbill/undotree"
 
-  " Displays signs on changed lines
-  NeoBundleLazy "Changed", {
-    \ "autoload": {"commands": ["Changed"]}}
-
   " Toggle insert words
   "NeoBundle "kana/vim-smartchr"
 
@@ -266,7 +262,13 @@ if v:version > 702
   "  \ "autoload": { "commands": ["GitGutterEnable","GitGutterToggle"]}}
 
   " Show added/deleted/modified lines for several version control system
-  NeoBundle "mhinz/vim-signify"
+  " signify_disable_by_default doesn't work?
+  "NeoBundle "mhinz/vim-signify"
+
+  " Displays signs on changed lines
+  NeoBundleLazy "Changed", {
+    \ "autoload": {"commands": ["Changed"]}}
+
 
   " For git/svn status, log
   "NeoBundle "hrsh7th/vim-versions.git"
@@ -1365,6 +1367,13 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-gitgutter"))
   nnoremap <Leader>g :GitGutterToggle<CR>
 endif
 "}}} gitgutter
+
+" signify{{{
+if s:neobundle_enable && ! empty(neobundle#get("vim-signify"))
+  " don't work?
+  let g:signify_disable_by_default = 0
+endif
+"}}} signify
 
 " undotree{{{
 if s:neobundle_enable && ! empty(neobundle#get("undotree"))
