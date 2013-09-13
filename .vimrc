@@ -92,46 +92,27 @@ if v:version > 702
   " look - display lines beginning with a given string, using with neocomplete/neocomplcache
   NeoBundle 'ujihisa/neco-look'
 
-  " Vim plugin to highlight matchit.vim
-  " Make it too slow especially for files which have many brackets
-  "NeoBundle "vimtaku/hl_matchit.vim"
-
   " Highlight bracket
-  "NeoBundle "kien/rainbow_parentheses.vim"
-
-  " Easy to use history of yanks (see below settings)
-  " Strange behavior
-  "NeoBundle "vim-scripts/YankRing.vim"
-
-  " Yank stack (similar as YankRing)
-  "NeoBundle "maxbrunsfeld/vim-yankstack"
+  NeoBundle "kien/rainbow_parentheses.vim"
 
   " Use yanks in different processes (see below settings)
   "NeoBundle "yanktmp.vim"
 
   " File Edit History
-  "NeoBundle "savevers.vim"
+  NeoBundle "savevers.vim"
 
   " gundo
   NeoBundleLazy "sjl/gundo.vim", {
     \ "autoload": {"commands": ["GundoToggle"]}}
 
-  " Another undo, need vim7.3+patch005
-  "NeoBundle "mbbill/undotree"
-
-  " Toggle insert words
-  "NeoBundle "kana/vim-smartchr"
-
   " smart input
-  "NeoBundle "kana/vim-smartinput"
+  NeoBundle "kana/vim-smartinput"
 
   " Easy to change surround
   NeoBundle "surround.vim"
-  "NeoBundle "anyakichi/vim-surround"
 
   " visualize marks
-  NeoBundle "zhisheng/visualmark.vim"
-  "NeoBundle "Visual-Mark"
+  NeoBundle "Visual-Mark"
 
   " Align
   " http://www.drchip.org/astronaut/vim/align.html#Examples
@@ -262,12 +243,11 @@ if v:version > 702
   "  \ "autoload": { "commands": ["GitGutterEnable","GitGutterToggle"]}}
 
   " Show added/deleted/modified lines for several version control system
-  " signify_disable_by_default doesn't work?
-  "NeoBundle "mhinz/vim-signify"
+  NeoBundle "mhinz/vim-signify"
 
   " Displays signs on changed lines
-  NeoBundleLazy "Changed", {
-    \ "autoload": {"commands": ["Changed"]}}
+  "NeoBundleLazy "Changed", {
+  "  \ "autoload": {"commands": ["Changed"]}}
 
 
   " For git/svn status, log
@@ -455,7 +435,7 @@ set scrolloff=999  " Show cursor at middle
                    " (scrolloff is number of lines which should be shown above
                    " and below cursor.
                    "  such large number force to stay a cursor at middle
-set scroll=12      " Number of lines to scroll with C-U/C-D
+set scroll=0       " Number of lines to scroll with C-U/C-D (0 for half window)
 "set spell          " Spell check highlight
 set nospell        " No spell check
 set mouse=         " Disable mouse
@@ -726,7 +706,6 @@ nnoremap <Leader>` bi`<Esc>ea`<Esc>
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-d> <Delete>
-inoremap <C-h> <Backspace>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
 " insert file/directory name
@@ -946,25 +925,62 @@ if s:neobundle_enable && ! empty(neobundle#get("unite.vim"))
 endif
 " }}} Unite
 
-" vim-smartchr {{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-smartchr"))
-  inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
+" rainbow_parentheses {{{
+if s:neobundle_enable && ! empty(neobundle#get("rainbow_parentheses.vim"))
+  "let g:rbpt_colorpairs = [
+  "    \ ['brown',       'RoyalBlue3'],
+  "    \ ['Darkblue',    'SeaGreen3'],
+  "    \ ['darkgray',    'DarkOrchid3'],
+  "    \ ['darkgreen',   'firebrick3'],
+  "    \ ['darkcyan',    'RoyalBlue3'],
+  "    \ ['darkred',     'SeaGreen3'],
+  "    \ ['darkmagenta', 'DarkOrchid3'],
+  "    \ ['brown',       'firebrick3'],
+  "    \ ['gray',        'RoyalBlue3'],
+  "    \ ['black',       'SeaGreen3'],
+  "    \ ['darkmagenta', 'DarkOrchid3'],
+  "    \ ['Darkblue',    'firebrick3'],
+  "    \ ['darkgreen',   'RoyalBlue3'],
+  "    \ ['darkcyan',    'SeaGreen3'],
+  "    \ ['darkred',     'DarkOrchid3'],
+  "    \ ['red',         'firebrick3'],
+  "    \ ]
+  let g:rbpt_loadcmd_toggle = 0
+  let g:rbpt_max = 16
+  au VimEnter * RainbowParenthesesToggle
+  au Syntax * RainbowParenthesesLoadRound
+  au Syntax * RainbowParenthesesLoadSquare
+  au Syntax * RainbowParenthesesLoadBraces
 endif
-" }}} vim-smartchr
+" }}} rainbow_parentheses
 
 " vim-smartinput {{{
 if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
-  "" Remove spaces at the end of line
-  "call smartinput#define_rule({
-  "\   'at': '\s\+\%#',
-  "\   'char': '<CR>',
-  "\   'input': '<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>',
-  "\   })
+  " Put/Remove space at first in bracket
+  call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
+  call smartinput#define_rule({
+    \'at'    : '(\%#)',
+    \'char'  : '<Space>',
+    \'input' : '<Space><Space><Left>',
+    \})
+  call smartinput#define_rule({
+    \'at'    : '( \%# )',
+    \'char'  : '<BS>',
+    \'input' : '<Del><BS>',
+    \})
+
+  " Add ; for c++ class/struct/enum
+  call smartinput#define_rule({
+    \'at'       : '\%(\<struct\>\|\<class\>\|\<enum\>\)\s*\w\+.*\%#',
+    \'char'     : '{',
+    \'input'    : '{};<Left><Left>',
+    \'filetype' : ['cpp'],
+    \})
 endif
 " }}} vim-smartinput
 
 " surround.vim/vim-surround {{{
-if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
+if s:neobundle_enable && ! empty(neobundle#get("surround.vim"))
   " Numbers for characters can be found by :ascii on each character
   let g:surround_96 = "`\r`" " use `
 
@@ -986,56 +1002,27 @@ if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neob
 endif
 " }}} surround.vim
 
-" YankRing {{{
-if s:neobundle_enable && ! empty(neobundle#get("YankRing.vim"))
-  nnoremap <Leader>y :YRShow<CR>
-  " avoid to store single letter to normal register
-  let g:yankring_history_dir=g:vimdir
-  "let g:yankring_n_keys = 'Y D' " Y D x X
-  "let g:yankring_enabled=0 " 1
-  let g:yankring_max_history=50 " 100
-  let g:yankring_max_display=50 " 500
-  "let g:yankring_ignore_duplicate=0 " 1
-  let g:yankring_dot_repeat_yank=1
-  let g:yankring_clipboard_monitor=0 " 1
-  let g:yankring_min_element_length=2 " 1, :skip all single letter copy
-  "let g:yankring_persist=0 " 1
-  "let g:yankring_share_between_instances=0 " 1
-  "let g:yankring_window_use_separate=0 " 1
-  "let g:yankring_window_use_horiz=0
-  "let g:yankring_window_auto_close=0 " 1
-  let g:yankring_window_width=50 " 30
-  "let g:yankring_window_use_right=0 " 1
-  "let g:yankring_window_increment=15 " 1
-  let g:yankring_manage_numbered_reg = 1 " 0
-  "let g:yankring_paste_check_default_register = 0 "1
-
-  " for warning :The yankring can only persist if the viminfo setting has a !
-  "set viminfo+=!
+" Visual-Mark {{{
+if s:neobundle_enable && ! empty(neobundle#get("Visual-Mark"))
+  " Visual Mark prefix
+  nnoremap [vmark] <Nop>
+  nmap <Leader>v [vmark]
+  nmap <silent> [vmark]v <Plug>Vm_toggle_sign
+  nmap <silent> [vmark]j <Plug>Vm_goto_next_sign
+  nmap <silent> [vmark]k <Plug>Vm_goto_prev_sign
+  "if ! empty(neobundle#get("vim-submode"))
+  "  "call submode#enter_with("visualmark", "n", "", "<Leader>vj", "<Plug>Vm_goto_next_sign")
+  "  call submode#enter_with("visualmark", "n", "", "<Leader>vj", "j")
+  "  call submode#enter_with("visualmark", "n", "", "<Leader>vk", "<Plug>Vm_goto_prev_sign")
+  "  call submode#map("visualmark", "n", "", "<Leader>vj", "<Plug>Vm_goto_next_sign")
+  "  call submode#map("visualmark", "n", "", "<Leader>vk", "<Plug>Vm_goto_prev_sign")
+  "  call submode#map("visualmark", "n", "", "vj", "<Plug>Vm_goto_next_sign")
+  "  call submode#map("visualmark", "n", "", "vk", "<Plug>Vm_goto_prev_sign")
+  "  call submode#map("visualmark", "n", "", "j", "<Plug>Vm_goto_next_sign")
+  "  call submode#map("visualmark", "n", "", "k", "<Plug>Vm_goto_prev_sign")
+  "endif
 endif
-" }}} YankRing
-
-" vim-yankstack {{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-yankstack"))
-  nmap <M-p> <Plug>yankstack_substitute_older_paste
-  nmap <M-n> <Plug>yankstack_substitute_newer_paste
-endif
-" }}} vim-yankstack
-
-" yanktmp {{{
-if s:neobundle_enable && ! empty(neobundle#get("yanktmp.vim"))
-  let g:yanktmp_file = $HOME."/.vim/vimyanktmp"
-
-  " yanktmp prefix
-  noremap [yanktmp] <Nop>
-  map s [yanktmp]
-
-  " show buffer
-  noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
-  noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
-  noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
-endif
-" }}} yanktmp
+" }}} surround.vim
 
 " yank share with wviminfo/rviminfo {{{
 "
@@ -1163,14 +1150,6 @@ source $VIMRUNTIME/macros/matchit.vim
 let b:match_words = &matchpairs . ',<:>,<div.*>:</div>'
 let b:match_ignorecase = 1
 " }}} matchpair, matchit
-
-" for hl_matchit {{{
-if s:neobundle_enable && ! empty(neobundle#get("hl_matchit.vim"))
-  let g:hl_matchit_enable_on_vim_startup = 1
-  let g:hl_matchit_hl_groupname = 'Title'
-  let g:hl_matchit_allow_ft_regexp = 'html\|vim\|ruby\|sh'
-endif
-"" }}} hl_matchit
 
 " paste at normal mode{{{
 
@@ -1321,7 +1300,7 @@ endif
 
 " vim-operator-replace{{{
 if s:neobundle_enable && ! empty(neobundle#get("vim-operator-replace"))
-  map R  <Plug>(operator-replace)
+  map _  "0<Plug>(operator-replace)
 endif
 "}}} vim-operator-replace
 
@@ -1370,25 +1349,15 @@ endif
 
 " signify{{{
 if s:neobundle_enable && ! empty(neobundle#get("vim-signify"))
-  " don't work?
-  let g:signify_disable_by_default = 0
+  let g:signify_disable_by_default = 1
+  let g:signify_cursorhold_normal = 1
+  let g:signify_cursorhold_insert = 1
+  nmap <Leader>gj <Plug>(signify-next-jump)
+  nmap <Leader>gk <Plug>(signify-prev-jump)
+  nnoremap <Leader>gt :SignifyToggle<CR>
+  nnoremap <Leader>gh :SignifyToggleHighlight<CR>
 endif
 "}}} signify
-
-" undotree{{{
-if s:neobundle_enable && ! empty(neobundle#get("undotree"))
-  nmap <Leader>U :UndotreeToggle<CR>
-  let g:undotree_SetFocusWhenToggle = 1
-  let g:undotree_SplitLocation = "topleft"
-  let g:undotree_SplitWidth = 35
-  let g:undotree_diffAutoOpen = 1
-  let g:undotree_diffpanelHeight = 25
-  let g:undotree_RelativeTimestamp = 1
-  let g:undotree_TreeNodeShape = "*"
-  let g:undotree_HighlightChangedText = 1
-  let g:undotree_HighlightSyntax = "UnderLined"
-endif
-" }}}
 
 " applescript{{{
 if s:neobundle_enable && ! empty(neobundle#get("applescript.vim"))
