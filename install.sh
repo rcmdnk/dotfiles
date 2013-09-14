@@ -1,4 +1,5 @@
 #!/bin/bash
+
 exclude=('.' '..' '.svn' '.git' 'README.md' '.gitignore')
 instdir="$HOME"
 
