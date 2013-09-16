@@ -1,3 +1,8 @@
+" vimrc
+"
+" Managed at: https://github.com/rcmdnk/dotfiles/blob/master/.vimrc
+" Todo/Obsolete settings are in https://github.com/rcmdnk/dotfiles/blob/master/.vimrc.not_used
+
 " vi compatiblity {{{
 if !&compatible
   " disable vi compatible mode (much better!)
@@ -58,20 +63,12 @@ if v:version > 702
       \ 'unix' : 'make -f make_unix.mak',
     \ }}
 
-  " For asynchronous process
-  "NeoBundle "osyo-manga/vim-reunions"
-
-  " Use shell in vim
-  "NeoBundleLazy 'Shougo/vimshell', {
-  "  \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
-
   " Searches and display information->:help Unite
   " Unlike "fuzzyfinder" or "ku", it doesn't use the built-lin completion of vim
   NeoBundleLazy 'Shougo/unite.vim' , {
     \ 'autoload' : { 'commands' : [ 'Unite' ] }}
 
   " Echo
-  "NeoBundle 'Shougo/echodoc'
   NeoBundleLazy 'Shougo/echodoc', {
     \ "autoload": { "insert": 1 }}
 
@@ -91,15 +88,6 @@ if v:version > 702
 
   " look - display lines beginning with a given string, using with neocomplete/neocomplcache
   NeoBundle 'ujihisa/neco-look'
-
-  " Highlight bracket
-  NeoBundle "kien/rainbow_parentheses.vim"
-
-  " Use yanks in different processes (see below settings)
-  "NeoBundle "yanktmp.vim"
-
-  " File Edit History
-  NeoBundle "savevers.vim"
 
   " gundo
   NeoBundleLazy "sjl/gundo.vim", {
@@ -126,16 +114,12 @@ if v:version > 702
   NeoBundle "hail2u/vim-css3-syntax.git"
 
   " Add markdown
-  "NeoBundle "tpope/vim-markdown"
   NeoBundle "plasticboy/vim-markdown"
-  "NeoBundle "kannokanno/previm"
-  "NeoBundle "joedicastro/vim-markdown"
 
   " Folding method for python, but makes completion too slow...?
   "NeoBundle "vim-scripts/python_fold"
 
   " Python syntax
-  "NeoBundle "yuroyoro/vim-python"
   NeoBundle "mitsuhiko/vim-python-combined"
 
   " Java
@@ -146,16 +130,6 @@ if v:version > 702
 
   " Applescript
   NeoBundle "applescript.vim"
-
-  " Cool Status Line
-  "NeoBundle "Lokaltog/vim-pcompleteowerline"
-
-  " Another status line
-  "NeoBundle "bling/vim-airline"
-
-  " inu/nuco
-  "NeoBundle "osyo-manga/vim-airline-inu"
-  "NeoBundle "osyo-manga/vim-airline-nuko"
 
   " Another status line
   NeoBundle 'itchyny/lightline.vim'
@@ -172,9 +146,6 @@ if v:version > 702
   " Replace with the text object
   NeoBundle "kana/vim-operator-replace"
 
-  " Highlight line number
-  "NeoBundle 'cohama/vim-insert-linenr'
-
   " Open browser
   NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
     \ "mappings" : "<Plug>(openbrowser-smart-search)"}}
@@ -185,49 +156,22 @@ if v:version > 702
     \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
 
   " Easymotion
-  "NeoBundle "Lokaltog/vim-easymotion"
+  NeoBundle "Lokaltog/vim-easymotion"
 
   " Can use f instead of ;, after fx move
   " Can move even to other lines
-  "NeoBundle "rhysd/clever-f.vim"
-
-  " Jump to letters (two letters) after "s"
-  "NeoBundle "goldfeld/vim-seek"
+  NeoBundle "rhysd/clever-f.vim"
 
   " Python autocompletion
   NeoBundleLazy "davidhalter/jedi-vim", {
     \ "rev" : "dev",
     \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
 
-
-  "NeoBundleLazy "Rip-Rip/clang_complete", {
-  "  \"autoload" : { "filetypes" : ["c", "cpp"] }}
-
   " virtual env
   NeoBundle "jmcantrell/vim-virtualenv"
 
-  " Gmail
-  "NeoBundleLazy "yuratomo/gmail.vim",{
-  "  \ "autoload" : {"commands": ["Gmail"]},
-  "  \ "depends" : ["Shougo/vimproc"]}
-
-  " SimpleNote
-  "NeoBundleLazy "mattn/vimplenote-vim",{
-  "  \ "autoload" : {"commands": ["VimpleNote"]}}
-  "NeoBundleLazy "mrtazz/simplenote.vim",{
-  "  \ "autoload" : {"commands": ["Simplenote"]}}
-
-  " evernote: need markdown library...
-  "NeoBundleLazy "kakkyz81/evervim",{
-  "  \ "autoload" : {"commands": ["EvervimNotebookList", "EvervimListTags",
-  "  \                            "EvervimSearchByQuery", "EvervimCreateNote",
-  "  \                            "EvervimOpenBrowser", "EvervimSetup"]}}
-
   " Syntax
-  "NeoBundle "scrooloose/syntastic", {
-  "  \ "build": {
-  "  \   "mac": ["pip install flake8", "npm -g install coffeelint"],
-  "  \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
+  NeoBundle "scrooloose/syntastic"
 
   " Count searching objects
   NeoBundle "osyo-manga/vim-anzu"
@@ -238,36 +182,17 @@ if v:version > 702
     \ "depends": ["tpope/vim-fugitive"],
     \ "autoload": { "commands": ["Gitv"]}}
 
-  " gitgutter
-  "NeoBundleLazy "airblade/vim-gitgutter", {
-  "  \ "autoload": { "commands": ["GitGutterEnable","GitGutterToggle"]}}
-
   " Show added/deleted/modified lines for several version control system
   NeoBundle "mhinz/vim-signify"
 
-  " Displays signs on changed lines
-  "NeoBundleLazy "Changed", {
-  "  \ "autoload": {"commands": ["Changed"]}}
-
-
   " For git/svn status, log
-  "NeoBundle "hrsh7th/vim-versions.git"
+  NeoBundleLazy "hrsh7th/vim-versions.git", {
+    \ "autoload": { "commands": ["UniteVersions"]}}
 
   " Gist
   NeoBundleLazy "mattn/gist-vim", {
     \ "depends": ["mattn/webapi-vim"],
     \ "autoload": {"commands": ["Gist"] }}
-
-  " Quick run
-  "NeoBundleLazy "thinca/vim-quickrun", { "autoload" : {
-  "  \ "mappings" : [
-  "  \ ["nxo", "<Plug>(quickrun)"]] }}
-
-  " Singletop
-  "NeoBundle "thinca/vim-singleton"
-
-  " Splash
-  "NeoBundle "thinca/vim-splash"
 
   " Date increment
   NeoBundle "tpope/vim-speeddating"
@@ -296,34 +221,16 @@ if v:version > 702
     \ "autoload" : {"commands": ["BenchVimrc"] }}
 
   " File Explorer
-  "NeoBundle "kien/ctrlp.vim"
-  "NeoBundle "scrooloose/nerdtree"
-  "NeoBundle "trinity.vim"
-  "NeoBundle "The-NERD-tree"
-  "NeoBundle "Source-Explorer-srcexpl.vim"
-  "NeoBundle "mru.vim"
   NeoBundleLazy "wesleyche/SrcExpl", {
     \ "autoload" : { "commands": ["SrcExpl", "SrcExplClose", "SrcExplToggle"] }}
 
   " For Tags
-  "NeoBundle "taglist.vim"
-  "NeoBundle "ctags.vim"
   NeoBundleLazy "majutsushi/tagbar", {
     \ "autload": { "commands": ["TagbarToggle"] }}
 
   " Make help
   NeoBundleLazy "LeafCage/vimhelpgenerator",{
     \ "autoload" : {"commands": ["VimHelpGenerator"] }}
-
-  " Color scheme
-  "NeoBundle "ujihisa/unite-colorscheme"
-  "NeoBundle "tomasr/molokai"
-  "NeoBundle "nanotech/jellybeans.vim"
-  "NeoBundle "altercation/vim-colors-solarized"
-  "NeoBundle "vim-scripts/newspaper.vim"
-  "NeoBundle "w0ng/vim-hybrid"
-  NeoBundle "noahfrederick/vim-hemisu"
-
 
 
   " local plugins
@@ -332,14 +239,6 @@ if v:version > 702
 
   " Installation check.
   NeoBundleCheck
-  " Installation check.
-  "if neobundle#exists_not_installed_bundles()
-  "  echomsg "Not installed bundles : " .
-  "    \ string(neobundle#get_not_installed_bundle_names())
-  ""echomsg "Please execute ":NeoBundleInstall" command."
-  "  NeoBundleInstall
-  ""finish
-  "endif
 endif
 
 " Enable plugin, indent again
@@ -452,31 +351,8 @@ if has("multi_byte_ime") || has("xim") || has("gui_macvim")
 endif
 
 " Encode
-"if has("windows")
-"  scriptencoding cp932 " sjis
-"  set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
-"else " if has("unix") || has("mac")
-"  set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1,utf-8
-"endif
-"if has("gui_running") && !has("unix")
-"  set encoding=utf-8
-"endif
 set encoding=utf-8
-"set encoding=utf8
-"set encoding=cp932
-"set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
 set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
-"set fileencodings=iso-2022-jp,euc-jp,sjis,ucs-bom,default,latin1,utf-8
-"autocmd MyAutoGroup FileType vbs :set fileencoding=sjis
-"autocmd MyAutoGroup FileType vbs :set encoding=sjis
-
-" Automatic ime off
-" noimdisableactivate was dumped from the latest MacVim?
-" noimdisable should be used instead.
-" but it seems not necessary anyway (all IME related things are done in KeyRemap4MacBook.
-"if has("mac")
-"  set noimdisableactivate
-"endif
 
 " bash-like tab completion
 set wildmode=list:longest
@@ -496,14 +372,8 @@ autocmd MyAutoGroup BufReadPost *
   \   exe "normal! g`\"" |
   \ endif
 
-" Set current directory as a directory of the file
-"autocmd MyAutoGroup BufEnter *   execute ":lcd " . expand("%:p:h")
-
 " Avoid automatic comment out for the next line after the comment lines
 autocmd MyAutoGroup FileType * setlocal formatoptions-=ro
-
-" INSERT (paste)
-"set paste " use 'paste at normal mode' in below, instead
 
 " Arrow to open new file while current file is not saved
 set hidden
@@ -513,6 +383,7 @@ set switchbuf=useopen
 
 " virtualedit (can move to non-editing places: e.x. right of $)
 set virtualedit=all
+
 " Avoid to paste/insert in non-editing place
 if has("virtualedit") && &virtualedit =~# '\<all\>'
   nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
@@ -561,32 +432,9 @@ autocmd! FileType markdown hi! def link markdownItalic LineNr
 " the mapping will also be enabled for <Tab> and <CR>, respectively.
 " Others can be mapped separately.
 
-" fix meta-keys which generate <Esc>a .. <Esc>z
-"let c='a'
-"while c <= 'z'
-"  "exec "set <M-".toupper(c).">=\e".c
-"  "exec "imap \e".c." <M-".toupper(c).">"
-"  "let c = nr2char(1+char2nr(c))
-"endw
-"for i in map(
-"  \   range(char2nr("a"), char2nr("z"))
-"  \ + range(char2nr("A"), char2nr("Z"))
-"  \ + range(char2nr("0"), char2nr("9"))
-"  \ , "nr2char(v:val)")
-"    " <ESC>O do not map because used by arrow keys.
-"    if i != "O"
-"      execute "nmap <ESC>" . i "<M-" . i . ">"
-"    endif
-"  endfor
+" fix meta-keys
 nmap <ESC>p <M-p>
 nmap <ESC>n <M-n>
-"nmap <ESC>h <M-h>
-"nmap <ESC>j <M-j>
-"nmap <ESC>k <M-k>
-"nmap <ESC>l <M-l>
-
-" Don't use Ex mode, use Q for formatting
-"map Q gq
 
 """ normal mode (noremap)
 
@@ -612,42 +460,21 @@ nnoremap <C-e> <C-$>
 map <C-s> <C-a>
 nnoremap <C-k> k
 
-" Window move
-"nnoremap <M-h> <C-w><<CR>
-"nnoremap <M-j> <C-w>+<CR>
-"nnoremap <M-k> <C-w>-<CR>
-"nnoremap <M-l> <C-w>><CR>
-"nnoremap <D-h> <C-w><<CR>
-"nnoremap <D-j> <C-w>+<CR>
-"nnoremap <D-k> <C-w>-<CR>
-"nnoremap <D-l> <C-w>><CR>
-
 " Swap colon <-> semicolon
 noremap ; :
 noremap : ;
 
 " tag jump (avoid crash with screen's key bind, C-' default: Non?)
 nnoremap <C-'> <C-t>
+
 " spell check toggle
 nnoremap <silent> <Leader>s :set spell!<CR>
+
 " stop highlight for search
-"nnoremap <C-/> :noh<CR> " can't use C-/ ?
-"nnoremap <Esc> :noh<CR> " this makes something wrong
-                         " at start when using vim w/o screen...
-"nnoremap <silent> <Esc><Esc> :noh<CR> " Esc mapping may be used others,
-                                       " better to use others...
 nnoremap <silent> <Leader>/ :noh<CR>
-" direct indent
-" this makes trouble at visual mode (indent twice for current line)
-"nnoremap > >>
-"nnoremap < <<
+
 " alignment at normalmode
 nnoremap = v=
-" don't register single letter by x
-"nnoremap x "_x " set in virtualedit
-
-" window
-"nnoremap <C-w><C-c> <C-w><C-c> "not work, because <C-c> cancels the command
 
 " insert file name
 "nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
@@ -672,8 +499,7 @@ nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
 nnoremap <silent> <Leader>p "+gP
 nnoremap <silent> <Leader>P :set paste!<CR>:set paste?<CR>
 
-" Open vimrc (is <C-u> necessary for command map?
-"nnoremap <Leader><Leader> :<C-u>tabedit $MYVIMRC<CR>
+" Open vimrc
 nnoremap <Leader><Leader> :tabedit $MYVIMRC<CR>
 
 " Source vimrc
@@ -700,7 +526,7 @@ nnoremap <Leader>" bi"<Esc>ea"<Esc>
 nnoremap <Leader>' bi'<Esc>ea'<Esc>
 nnoremap <Leader>` bi`<Esc>ea`<Esc>
 
-" insert mode (inoremap)
+""" insert mode (inoremap)
 
 " emacs (bash) like move in insert mode
 inoremap <C-a> <Home>
@@ -708,50 +534,19 @@ inoremap <C-e> <End>
 inoremap <C-d> <Delete>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
-" insert file/directory name
-" -> Use <C-o><Leader>f, instead
-"inoremap <silent> <Leader>f <CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jxi
-"inoremap <silent> <Leader>f <C-R>%
-"inoremap <silent> <Leader>d <CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jxi
 
-""""""" -> use smartinput
-" < can't be used for mapping?
-" (maybe < has special means in vim scripts and need special treatment)
-"inoremap <> <><Left>
-"inoremap '' ''<Left>
-"inoremap "" ""<Left>
-"inoremap () ()<Left>
-"inoremap [] []<Left>
-"inoremap {} {}<Left>
-
-"inoremap < <><Left>
-""inoremap ' ''<Left>
-""inoremap " ""<Left>
-"inoremap ( ()<Left>
-"inoremap [ []<Left>
-"inoremap { {}<Left>
-"
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 
 """ visual mode (vnoremap)
 
-"  is not necessary?
-" -> use to surround
-"vnoremap { "zdi{<C-R>z}<Esc>
-"vnoremap [ "zdi[<C-R>z]<Esc>
-"vnoremap ( "zdi(<C-R>z)<Esc>
-"vnoremap " "zdi"<C-R>z"<Esc>
-"vnoremap ' "zdi'<C-R>z'<Esc>
-
 " remove trail spaces
 vnoremap <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
 
 " Select word
-"vnoremap w iw
-"vnoremap W iW
-
+vnoremap w iw
+vnoremap W iW
 
 """ command line mode (cnoremap)
 cnoremap <C-b> <Left>
@@ -761,13 +556,10 @@ cnoremap <C-a> <C-b>
 " Write as root
 cnoremap w!! w !sudo tee > /dev/null %
 
-
 " }}} map
 
 " Colors {{{
-"colorscheme molokai
 colorscheme ron
-"colorscheme blue
 
 " for spell checks
 hi SpellBad cterm=inverse ctermbg=0
@@ -924,35 +716,6 @@ if s:neobundle_enable && ! empty(neobundle#get("unite.vim"))
   nnoremap <silent> [unite]y :Unite history/yank<CR>
 endif
 " }}} Unite
-
-" rainbow_parentheses {{{
-if s:neobundle_enable && ! empty(neobundle#get("rainbow_parentheses.vim"))
-  "let g:rbpt_colorpairs = [
-  "    \ ['brown',       'RoyalBlue3'],
-  "    \ ['Darkblue',    'SeaGreen3'],
-  "    \ ['darkgray',    'DarkOrchid3'],
-  "    \ ['darkgreen',   'firebrick3'],
-  "    \ ['darkcyan',    'RoyalBlue3'],
-  "    \ ['darkred',     'SeaGreen3'],
-  "    \ ['darkmagenta', 'DarkOrchid3'],
-  "    \ ['brown',       'firebrick3'],
-  "    \ ['gray',        'RoyalBlue3'],
-  "    \ ['black',       'SeaGreen3'],
-  "    \ ['darkmagenta', 'DarkOrchid3'],
-  "    \ ['Darkblue',    'firebrick3'],
-  "    \ ['darkgreen',   'RoyalBlue3'],
-  "    \ ['darkcyan',    'SeaGreen3'],
-  "    \ ['darkred',     'DarkOrchid3'],
-  "    \ ['red',         'firebrick3'],
-  "    \ ]
-  let g:rbpt_loadcmd_toggle = 0
-  let g:rbpt_max = 16
-  au VimEnter * RainbowParenthesesToggle
-  au Syntax * RainbowParenthesesLoadRound
-  au Syntax * RainbowParenthesesLoadSquare
-  au Syntax * RainbowParenthesesLoadBraces
-endif
-" }}} rainbow_parentheses
 
 " vim-smartinput {{{
 if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
@@ -1184,11 +947,14 @@ endif
 if s:neobundle_enable && ! empty(neobundle#get("vim-easymotion"))
   let g:EasyMotion_keys="hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB"
   "let g:EasyMotion_keys="ifjklasdweuocvbnm"
-  let g:EasyMotion_do_mapping=0
-  let g:EasyMotion_leader_key=","
+  let g:EasyMotion_do_mapping=1
   let g:EasyMotion_grouping=1
   hi EasyMotionTarget ctermbg=none ctermfg=red
   hi EasyMotionShade  ctermbg=none ctermfg=blue
+  " Unite prefix
+  nnoremap [em] <Nop>
+  nmap <Leader>m [em]
+  let g:EasyMotion_leader_key="[em]"
 endif
 " }}} vim-easymotion
 
@@ -1214,55 +980,6 @@ if s:neobundle_enable && ! empty(neobundle#get("jedi-vim"))
   "endif
 endif
 " }}} jedi-vim
-
-" clang_complete{{{
-if s:neobundle_enable && ! empty(neobundle#get("lang_complete"))
-  "g:clang_use_library = 1
-  "g:clang_complete_auto = 0
-endif
-" }}} clang_complete
-
-" SimpleNote{{{
-if s:neobundle_enable && ! empty(neobundle#get("simplenote.vim"))
-  " for simplenote.vim
-  "let g:SimplenoteUsername = ""
-  "let g:SimplenotePassword = """
-  if filereadable(expand("$HOME/.Simplenote.vim"))
-    source $HOME/.Simplenote.vim
-  endif
-endif
-
-if s:neobundle_enable && ! empty(neobundle#get("vimplenote-vim"))
-  " for vimplenote-vim
-  "let g:VimpleNoteUsername = ""
-  "let g:VimpleNotePassword = ""
-  " move to $HOME/.VimpleNote
-  if filereadable(expand("$HOME/.VimpleNote.vim"))
-    " in vimplenote/autoload/vimplenote.vim:get_email(),
-    " email must be input even if VimpleNoteUsername was defined,
-    " because it checks self.token, it is always 0 here...
-    source $HOME/.VimpleNote.vim
-  endif
-
-  function! Sn()
-    VimpleNote -l
-    wincmd w
-    wincmd q
-  endfunction
-endif
-" }}} Simplenote
-
-" Gmail{{{
-if s:neobundle_enable && ! empty(neobundle#get("gmail.vim"))
-  let g:gmail_imap = "imap.gmail.com:993"
-  let g:gmail_smtp = "smtp.gmail.com:465"
-  " path for openssl
-  let &path = $path."/usr/bin"
-  if filereadable(expand("$HOME/.Gmail.vim"))
-    source $HOME/.Gmail.vim
-  endif
-endif
-" }}} Gmail
 
 " vim-indent-guides{{{
 if s:neobundle_enable && ! empty(neobundle#get("vim-indent-guides"))
@@ -1341,12 +1058,6 @@ if s:neobundle_enable && ! empty(neobundle#get("syntastic"))
 endif
 "}}} syntastic
 
-" gitgutter{{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-gitgutter"))
-  nnoremap <Leader>g :GitGutterToggle<CR>
-endif
-"}}} gitgutter
-
 " signify{{{
 if s:neobundle_enable && ! empty(neobundle#get("vim-signify"))
   let g:signify_disable_by_default = 1
@@ -1365,16 +1076,6 @@ if s:neobundle_enable && ! empty(neobundle#get("applescript.vim"))
 "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬<CR>
 endif
 "}}} applescript
-
-" vim-airline{{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-airline"))
-  let g:airline_left_sep=''
-  let g:airline_right_sep=''
-  let g:airline_inactive_collapse=1
-  let g:airline_theme="bubblegum"
-  let g:airline_section_z="%4l/%L:%3c"
-endif
-"}}} vim-airline
 
 " lightline.vim {{{
 if s:neobundle_enable && ! empty(neobundle#get("lightline.vim"))
@@ -1451,12 +1152,6 @@ if s:neobundle_enable && ! empty(neobundle#get("lightline.vim"))
 endif
 "}}} lightline.vim
 
-" splash{{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-splash"))
-  let g:splash#path = $HOME . "/.vimrc"
-endif
-"}}} splash
-
 " vim-ref {{{
 if s:neobundle_enable && ! empty(neobundle#get("vim-ref"))
   " Set webdict sources
@@ -1509,22 +1204,11 @@ if s:neobundle_enable && ! empty(neobundle#get("SrcExpl"))
 endif
 "}}}
 
-" taglist{{{
-if s:neobundle_enable && ! empty(neobundle#get("taglist.vim"))
-  set tags=tags
-  "let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-  let Tlist_Show_One_File = 1
-  let Tlist_Use_Right_Window = 1
-  let Tlist_Exit_OnlyWindow = 1
-  nnoremap <silent> <leader>l :TlistToggle<CR>
-endif
-"}}} taglist
-
-" tagbar{{{
+" tagbar {{{
 if s:neobundle_enable && ! empty(neobundle#get("tagbar"))
   nnoremap <silent> <leader>t :TagbarToggle<CR>
 endif
-"}}} taglist
+"}}} tagbar
 
 " tag {{{
 if has("path_extra")
@@ -1559,24 +1243,6 @@ if s:neobundle_enable && ! empty(neobundle#get("gist-vim"))
 endif
 "}}} gist-vim
 
-" ctrlp {{{
-if s:neobundle_enable && ! empty(neobundle#get("ctrlp.vim"))
-  "let g:ctrlp_map = "<c-p>"
-endif
-"}}} ctrlp
-
-"" open .vimrc when starting w/o argument {{{
-"autocmd VimEnter * nested if @% == "" && s:GetBufByte() == 0 | edit $MYVIMRC | endif
-"function! s:GetBufByte()
-"    let byte = line2byte(line("$") + 1)
-"    if byte == -1
-"        return 0
-"    else
-"        return byte - 1
-"    endif
-"endfunction
-"" }}}
-
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))
   execute "source" expand("~/.vimrc.local")
@@ -1589,147 +1255,6 @@ if !has("vim_starting")
   call neobundle#call_hook("on_source")
 endif
 " }}}
-
-" tips {{{
-"" # startup tips
-"" * start w/o vimrc
-""     vim -u NONE
-"" * start w/o viminfo
-""     vim -i NONE
-"" * start w/o X connection
-""     vim -X
-"" * write startup timing to startup.log
-""     vim --startuptime startup.log
-""
-"" # check configurations
-"" * default commands (mappings)
-""     :help index.txt
-"" * my mappings
-""     :nmap " show mappings for normal mode
-"" *show mappings for normal mode with name of file
-""  in which the mapping is defined
-""     :verbose nmap
-"" * for boolean parameters, use '?'
-""     :verbose wrap?
-""
-"" # mapping
-"" * leader: default <leader> = \
-"" but leader can be changed by
-""     let mapleader = ","
-"" * special arguments:<silent>,<buffer>, etc...
-""     :no a <silent> echo 'hoge'<CR>
-"" it doesn't show cmmands/results in command line (so above does nothing)
-""     :no a <buffer>... effective in the current buffer only
-""
-""
-"" # Command line
-"" * shell command
-""     :! echo current file is %
-"" % will be replaced by name of current file
-""
-"" * Insert command result
-""     :r ! echo % " insert current file name
-""     :r ! echo %:p " full path of file
-""     :r ! echo %:h " insert current directory (relative)
-""     :r ! echo %:p:h " insert current directory (absolute)
-""     :r ! echo expand(%:p:h) " expand such '~'
-""     :r !ls "files/directories in current directory
-""
-""
-""
-"" # Completion
-""     i_C-X_C-F -> file name completion
-""     i_C-X_C-K -> dictionary completion
-""     i_C-V_tab -> insert tab
-""     i_C-R_%   -> insert current file name
-""        other C-R usages
-""        '"'     the unnamed register, containing the text of
-""                the last delete or yank
-""        '%'     the current file name
-""        '#'     the alternate file name
-""        '*'     the clipboard contents (X11: primary selection)
-""        '+'     the clipboard contents
-""        '/'     the last search pattern
-""        ':'     the last command-line
-""        '-'     the last small (less than a line) delete
-""        '.'     the last inserted text
-""                                        *c_CTRL-R_=*
-""        '='     the expression register: you are prompted to
-""                enter an expression (see |expression|)
-""                (doesn't work at the expression prompt; some
-""                things such as changing the buffer or current
-""
-"" # vimdiff (vim -d)
-"" * Open files
-""     vimdiff file1 file2 [file3 [file4]]
-"" * Open vimdiff during editing with vim
-""     :vertical diffsplit filename
-""     vimdiff file1 file2 [file3 [file4]]
-"" * Go to Next Diff
-""     [c
-"" * Go to Previous Diff
-""     ]c
-"" * Copy current buffer's structure to another structure
-""     do
-"" * Copy another's buffer's structure to current structure
-""     dp
-"" * Diff to original when it was opened
-""   :DiffOrig
-"" * Stop diff
-""   :diffoff
-"" * Update diff
-""   :diffupdate
-""
-"" # Register
-"" * Show words in register
-""     :reg
-"" * Others
-""   *Unnamed (") register is used for all copy/delete
-""   *0 register is only used for copy
-""   *"0p makes it possible to paste what you copied
-""    even after you deleted something
-""   ** register is used for clipboard
-""   */ is used for word used for searching
-""   *"ayy registers current line to register a
-""   *"ap copies a register in normal mode
-""   *<C-R>" : copy unnamed register in insert mode
-""   *<C-R>a : copy a register in insert mode
-""
-"" # buffer
-"" * show buffers
-""     :ls
-"" * go to next buffer, previous buffer
-""     :bn , :bp
-"" * go to buffer N
-""     :b N or N<C-^>
-""
-"" # spell check
-"" * suggest correct words
-""     z=
-"" * next missspelled word
-""     ]s
-"" * previous missspelled word
-""     [s
-"" * add word under the cursor to good word list file
-""     zg
-"" * add word under the cursor to good internal-wordlis
-""     zG
-"" * mark word under the cursor as bad, remove word from good word list file
-""     zw
-"" * mark word under the cursor as bad, remove word from good internal-wordlist
-""     zW
-""
-"" * undo zg/G/w/W
-""    zug/zuG/zuw/zuW
-""
-"" # undo/redo
-"" * show tree
-""   :undol[ist]
-"" * Go to older/newer
-""   g-/g+
-"" * Go to older/newer with arguments
-""   earlier/later
-" }}} tips
 
 " vim: foldmethod=marker
 " vim: foldmarker={{{,}}}
