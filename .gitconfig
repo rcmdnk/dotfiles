@@ -5,8 +5,8 @@
 [alias]
   sb = show-branch
   br = branch
-  ch = checkout
-  co = clone
+  co = checkout
+  cl = clone
   ci = commit -am
   st = status
   d = difftool --tool=vimdiff --no-prompt

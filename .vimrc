@@ -874,7 +874,7 @@ if s:neobundle_enable && ! empty(neobundle#get("neocomplete.vim"))
   "let g:neocomplete#sources#syntax#min_keyword_length = 3
   let g:neocomplete#min_keyword_length = 3
   let g:neocomplete#enable_smart_case = 1
-  let g:neocomplete#disable_auto_complete = 1
+  let g:neocomplete#disable_auto_complete = 0
   let g:neocomplete#enable_auto_select = 0
   let g:neocomplete#lock_buffer_name_pattern = ''
   let g:neocomplete#text_mode_filetypes =
