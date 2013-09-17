@@ -411,19 +411,17 @@ function sd { # Save dir {{{
   local ldf=${LASTDIRFILE:-$HOME/.lastDir}
   local nld="${NLASTDIR:-20}"
 
-  # Get last directories
-  touch $ldf
-  local dirs=()
-  while read d;do
-    dirs=("${dirs[@]}" "$d")
-  done < $ldf
-  local ld=${dirs[0]}
-
-  # Push current directory
+  # Current directory
   local curdir=`pwd -P`
-  if [ "$ld" != "$curdir" ];then
-    dirs=("$curdir" "${dirs[@]}")
-  fi
+
+  # Renew last directories
+  touch $ldf
+  local dirs=("`pwd -P`")
+  while read d;do
+    if [ "$d" != "$curdir" ];then
+      dirs=("${dirs[@]}" "$d")
+    fi
+  done < $ldf
 
   # Store directories
   local i=0
