@@ -1,7 +1,6 @@
 " ==============================================
-" Plugins which it may come into use someday...
+" Plugins which it may come into use someday... {{{
 " ==============================================
-" {{{
 " vimshell {{{
 " Use shell in vim # not necessary on GNU screen
 NeoBundleLazy 'Shougo/vimshell', {
@@ -71,9 +70,8 @@ endif
 " }}} Plugins which it may come into use someday...
 
 " =========================
-" Currenlty, not necessary
+" Currenlty, not necessary {{{
 " =========================
-" {{{
 
 " Basic Settings {{{
 if has("windows")
@@ -108,7 +106,7 @@ set paste " use 'paste at normal mode' in below, instead
 
 " }}}
 
-" map (for other than each plugin){{{
+" map (for other than each plugin) {{{
 " fix meta-keys which generate <Esc>a .. <Esc>z
 let c='a'
 while c <= 'z'
@@ -209,7 +207,7 @@ vnoremap ( "zdi(<C-R>z)<Esc>
 vnoremap " "zdi"<C-R>z"<Esc>
 vnoremap ' "zdi'<C-R>z'<Esc>
 
-"" open .vimrc when starting w/o argument {{{
+" open .vimrc when starting w/o argument {{{
 autocmd VimEnter * nested if @% == "" && s:GetBufByte() == 0 | edit $MYVIMRC | endif
 function! s:GetBufByte()
     let byte = line2byte(line("$") + 1)
@@ -223,14 +221,22 @@ endfunction
 
 " }}}
 
+" unite sources {{{
+" Source for unite: colorscheme
+" * ':colorscheme' command is enough (Tab shows candidates)
+NeoBundle 'ujihisa/unite-colorscheme'
+" Source for unite: font
+" * Only for gui
+NeoBundle 'ujihisa/unite-font'
+
+" }}}
+
 " vim-quickrun {{{
 " * Not necessary on GNU sceen...
 NeoBundleLazy "thinca/vim-quickrun", { "autoload" : {
   \ "mappings" : [
   \ ["nxo", "<Plug>(quickrun)"]] }}
 " }}}
-
-" {{{
 
 " for hl_matchit {{{
 " Vim plugin to highlight matchit.vim
@@ -329,7 +335,7 @@ if s:neobundle_enable && ! empty(neobundle#get("savevers.vim"))
 endif
 " }}}
 
-" undotree{{{
+" undotree {{{
 " Another undo, need vim7.3+patch005
 " Use gundo instead
 NeoBundle "mbbill/undotree"
@@ -348,7 +354,14 @@ if s:neobundle_enable && ! empty(neobundle#get("undotree"))
 endif
 " }}}
 
-" vim-surround{{{
+" Align {{{
+" Align codes
+" http://www.drchip.org/astronaut/vim/align.html#Examples
+" * Use 'h1mesuke/vim-alignta' instead
+NeoBundle "Align"
+" }}} Align
+
+" vim-surround {{{
 " Each to change surround
 " * use original surround.vim
 NeoBundle "anyakichi/vim-surround"
@@ -357,7 +370,7 @@ if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neob
 endif
 " }}}
 
-" vim-pcompleteowerline
+" vim-pcompleteowerline {{{
 " Cool Status Line
 " * Use lightline
 NeoBundle "Lokaltog/vim-pcompleteowerline"
@@ -389,9 +402,35 @@ NeoBundle 'cohama/vim-insert-linenr'
 
 " vim-seek {{{
 " Jump to letters (two letters) after "s"
-" * / (search) is enough...
+" * / (search) or easymoting can be alternatives...
 NeoBundle "goldfeld/vim-seek"
 " }}}
+
+" Visual-Mark {{{
+" visualize marks
+" * unite + unite-mark is an alternative
+NeoBundle "Visual-Mark"
+
+if s:neobundle_enable && ! empty(neobundle#get("Visual-Mark"))
+  " Visual Mark prefix
+  nnoremap [vmark] <Nop>
+  nmap <Leader>v [vmark]
+  nmap <silent> [vmark]v <Plug>Vm_toggle_sign
+  nmap <silent> [vmark]j <Plug>Vm_goto_next_sign
+  nmap <silent> [vmark]k <Plug>Vm_goto_prev_sign
+  " submot doesn't work?
+  "if ! empty(neobundle#get("vim-submode"))
+  "  call submode#enter_with("visualmark", "n", "", ",vj", "<Plug>Vm_goto_next_sign")
+  "  call submode#enter_with("visualmark", "n", "", ",vk", "<Plug>Vm_goto_prev_sign")
+  "  call submode#map("visualmark", "n", "", ",vj", "<Plug>Vm_goto_next_sign")
+  "  call submode#map("visualmark", "n", "", ",vk", "<Plug>V<Leader>m_goto_prev_sign")
+  "  call submode#map("visualmark", "n", "", "vj", "<Plug>Vm<Leader>_goto_next_sign")
+  "  call submode#map("visualmark", "n", "", "vk", "<Plug>Vm_goto_prev_sign")
+  "  call submode#map("visualmark", "n", "", "j", "<Plug>Vm_goto_next_sign")
+  "  call submode#map("visualmark", "n", "", "k", "<Plug>Vm_goto_prev_sign")
+  "endif
+endif
+" }}} surround.vim
 
 " Gmail{{{
 NeoBundleLazy "yuratomo/gmail.vim",{
@@ -532,9 +571,8 @@ NeoBundle "noahfrederick/vim-hemisu"
 " }}} Currenlty, not necessary
 
 " ==========================================
-" Unused/Obsolete settings for used plugins
+" Unused/Obsolete settings for used plugins {{{
 " ==========================================
-" {{{
 
 " NeoBundle {{{
 " Installation check.
@@ -570,9 +608,8 @@ NeoBundle "scrooloose/syntastic", {
 " }}} Unused/Obsolete settings for used plugins
 
 " ==========================================
-" Tips
+" Tips {{{
 " ==========================================
-" {{{
 "" # startup tips
 "" * start w/o vimrc
 ""     vim -u NONE

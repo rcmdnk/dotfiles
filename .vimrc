@@ -54,19 +54,43 @@ if v:version > 702
   " Neobundle
   NeoBundleFetch "Shougo/neobundle.vim"
 
+  " Make templete of NeoBundle
+  NeoBundleLazy 'LeafCage/nebula.vim',{
+    \'autoload':{
+      \'commands':[
+        \'NebulaPutLazy', 'NebulaPutFromClipboard',
+        \'NebulaYankOptions', 'NebulaPutConfig']}}
+
   " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
   NeoBundle 'Shougo/vimproc', {
-    \ 'build' : {
-      \ 'windows' : 'make -f make_mingw32.mak',
-      \ 'cygwin' : 'make -f make_cygwin.mak',
-      \ 'mac' : 'make -f make_mac.mak',
-      \ 'unix' : 'make -f make_unix.mak',
-    \ }}
+    \'build' : {
+      \'windows' : 'make -f make_mingw32.mak',
+      \'cygwin' : 'make -f make_cygwin.mak',
+      \'mac' : 'make -f make_mac.mak',
+      \'unix' : 'make -f make_unix.mak'}}
 
   " Searches and display information->:help Unite
   " Unlike "fuzzyfinder" or "ku", it doesn't use the built-lin completion of vim
   NeoBundleLazy 'Shougo/unite.vim' , {
     \ 'autoload' : { 'commands' : [ 'Unite' ] }}
+
+  " Source for unite: mark
+  NeoBundle 'tacroe/unite-mark'
+
+  " Source for unite: outline
+  NeoBundle 'h1mesuke/unite-outline'
+
+  " Source for unite: help
+  NeoBundle 'tsukkee/unite-help'
+
+  " Source for unite: history/command, history/search
+  NeoBundle 'thinca/vim-unite-history'
+
+  " Source for unite: fold
+  NeoBundle 'osyo-manga/unite-fold'
+
+  " Source for unite: locate
+  NeoBundle 'ujihisa/unite-locate'
 
   " Echo
   NeoBundleLazy 'Shougo/echodoc', {
@@ -96,15 +120,13 @@ if v:version > 702
   " smart input
   NeoBundle "kana/vim-smartinput"
 
+  " smart word
+  NeoBundle 'kana/vim-smartword'
+
   " Easy to change surround
   NeoBundle "surround.vim"
 
-  " visualize marks
-  NeoBundle "Visual-Mark"
-
   " Align
-  " http://www.drchip.org/astronaut/vim/align.html#Examples
-  "NeoBundle "Align"
   NeoBundle "h1mesuke/vim-alignta"
 
   " c++ syntax with c++11 support
@@ -113,7 +135,7 @@ if v:version > 702
   " CSS3 (Sass)
   NeoBundle "hail2u/vim-css3-syntax.git"
 
-  " Add markdown
+  " Markdown syntax
   NeoBundle "plasticboy/vim-markdown"
 
   " Folding method for python, but makes completion too slow...?
@@ -261,7 +283,9 @@ set hlsearch
 " mapleaader (<Leader>)
 let mapleader = ","
 " use \ as ,, instead
-noremap \ ,
+noremap <Subleader> <Nop>
+nmap \ <Subleader>
+noremap <Subleader>, ,
 
 " allow backspacing over everything in insert mode
 " indent: spaces of the top of the line
@@ -336,7 +360,7 @@ set scrolloff=999  " Show cursor at middle
                    "  such large number force to stay a cursor at middle
 set scroll=0       " Number of lines to scroll with C-U/C-D (0 for half window)
 "set spell          " Spell check highlight
-set nospell        " No spell check
+"set nospell        " No spell check
 set mouse=         " Disable mouse
 set ambiwidth=double  " For UTF-8, width for East Asian Characters
 set cmdheight=1    " Command line height
@@ -484,10 +508,12 @@ nnoremap <silent> "+ "+P
 nnoremap <silent> "* "*P
 
 " save/quit
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>wq :wq<CR>
-nnoremap <Leader>1 :q!<CR>
+"nnoremap <Leader>w :w<CR>
+"nnoremap <Leader>q :q<CR>
+"nnoremap <Leader>wq :wq<CR>
+"nnoremap <Leader>1 :q!<CR>
+nnoremap W :w<CR>
+nnoremap ! :q!<CR>
 nnoremap Z ZZ
 " don't enter Ex mode but quit w/o check by Q
 nnoremap Q ZQ
@@ -714,6 +740,14 @@ if s:neobundle_enable && ! empty(neobundle#get("unite.vim"))
   " Yank (like yankring/yankstack)
   let g:unite_source_history_yank_enable = 1
   nnoremap <silent> [unite]y :Unite history/yank<CR>
+
+  " sources outside of unite
+  nnoremap <silent> [unite]M :Unite mark<CR>
+  nnoremap <silent> [unite]c :Unite history/command<CR>
+  nnoremap <silent> [unite]s :Unite history/search<CR>
+  nnoremap <silent> [unite]F :Unite fold<CR>
+  nnoremap <silent> [unite]L :Unite locate<CR>
+  nnoremap <silent> [unite]C :Unite colorscheme<CR>
 endif
 " }}} Unite
 
@@ -742,6 +776,22 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
 endif
 " }}} vim-smartinput
 
+" vim-smartword {{{
+if s:neobundle_enable && ! empty(neobundle#get("vim-smartword"))
+  " Use W/B/E/gE, such w is not useful to map here
+  " especially for text object treatment, such 'cw'.
+  map W  <Plug>(smartword-w)
+  map B  <Plug>(smartword-b)
+  map E  <Plug>(smartword-e)
+  map gE  <Plug>(smartword-ge)
+  " original keys ('\' is not a <leader> for now)
+  noremap <Subleader>W  W
+  noremap <subleader>B  B
+  noremap <subleader>E  E
+  noremap <subleader>gE  gE
+endif
+" }}} vim-smartword
+
 " surround.vim/vim-surround {{{
 if s:neobundle_enable && ! empty(neobundle#get("surround.vim"))
   " Numbers for characters can be found by :ascii on each character
@@ -762,28 +812,6 @@ if s:neobundle_enable && ! empty(neobundle#get("surround.vim"))
   vmap " S"
   vmap ' S'
   vmap ` S`
-endif
-" }}} surround.vim
-
-" Visual-Mark {{{
-if s:neobundle_enable && ! empty(neobundle#get("Visual-Mark"))
-  " Visual Mark prefix
-  nnoremap [vmark] <Nop>
-  nmap <Leader>v [vmark]
-  nmap <silent> [vmark]v <Plug>Vm_toggle_sign
-  nmap <silent> [vmark]j <Plug>Vm_goto_next_sign
-  nmap <silent> [vmark]k <Plug>Vm_goto_prev_sign
-  "if ! empty(neobundle#get("vim-submode"))
-  "  "call submode#enter_with("visualmark", "n", "", "<Leader>vj", "<Plug>Vm_goto_next_sign")
-  "  call submode#enter_with("visualmark", "n", "", "<Leader>vj", "j")
-  "  call submode#enter_with("visualmark", "n", "", "<Leader>vk", "<Plug>Vm_goto_prev_sign")
-  "  call submode#map("visualmark", "n", "", "<Leader>vj", "<Plug>Vm_goto_next_sign")
-  "  call submode#map("visualmark", "n", "", "<Leader>vk", "<Plug>Vm_goto_prev_sign")
-  "  call submode#map("visualmark", "n", "", "vj", "<Plug>Vm_goto_next_sign")
-  "  call submode#map("visualmark", "n", "", "vk", "<Plug>Vm_goto_prev_sign")
-  "  call submode#map("visualmark", "n", "", "j", "<Plug>Vm_goto_next_sign")
-  "  call submode#map("visualmark", "n", "", "k", "<Plug>Vm_goto_prev_sign")
-  "endif
 endif
 " }}} surround.vim
 
@@ -951,7 +979,7 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-easymotion"))
   let g:EasyMotion_grouping=1
   hi EasyMotionTarget ctermbg=none ctermfg=red
   hi EasyMotionShade  ctermbg=none ctermfg=blue
-  " Unite prefix
+  " easymotion prefix
   nnoremap [em] <Nop>
   nmap <Leader>m [em]
   let g:EasyMotion_leader_key="[em]"
