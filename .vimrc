@@ -117,6 +117,138 @@ if v:version > 702
   NeoBundleLazy "sjl/gundo.vim", {
     \ "autoload": {"commands": ["GundoToggle"]}}
 
+  " textobj {{{
+  NeoBundle "kana/vim-textobj-user"
+
+  " entire: ae, ie
+  NeoBundle "kana/vim-textobj-entire"
+
+  " line: al, il
+  NeoBundle "kana/vim-textobj-line"
+
+  " function: af, if
+  NeoBundle "kana/vim-textobj-function"
+
+  " syntax: ay, iy
+  NeoBundle "kana/vim-textobj-syntax"
+
+  " jabraces: ajb, ijb
+  NeoBundle "kana/vim-textobj-jabraces"
+
+  " last pattern: a/, i/
+  NeoBundle "kana/vim-textobj-lastpat"
+
+  " indent: al, il
+  NeoBundle "kana/vim-textobj-indent"
+
+  " fold: az, iz
+  NeoBundle "kana/vim-textobj-fold"
+
+  " diff(1): adf, idf
+  NeoBundle "kana/vim-textobj-diff"
+
+  " datetime: ada, ida
+  NeoBundle "kana/vim-textobj-datetime"
+
+  " underscore: a_, i_
+  NeoBundle "kana/vim-textobj-underscore"
+
+  " django_template: adb, idb
+  NeoBundle "kana/vim-textobj-django-template"
+
+  " between: af, if
+  NeoBundle "thinca/vim-textobj-between"
+
+  " comment: ac, ic
+  NeoBundle "thinca/vim-textobj-comment"
+
+  " JavaScript Function: af, if
+  NeoBundle "thinca/vim-textobj-function-javascript"
+
+  " Perl Function: af, if
+  NeoBundle "thinca/vim-textobj-function-perl"
+
+  " last paste: ap, ip
+  NeoBundle "gilligan/textobj-lastpaste"
+
+  " mbboundary: am, im
+  NeoBundle "deton/textobj-mbboundary.vim"
+
+  " xml attribute: axa, ixa
+  NeoBundle "akiyan/vim-textobj-xml-attribute"
+
+  " php: aP, iP
+  NeoBundle "akiyan/vim-textobj-php"
+
+  " space: aS, iS
+  NeoBundle "saihoooooooo/vim-textobj-space"
+
+  " URL: au, iu
+  NeoBundle "mattn/vim-textobj-url"
+
+  " snake_case: a,w, i,w
+  NeoBundle "h1mesuke/textobj-wiw"
+
+  " lastinserted: au, iu
+  NeoBundle "rhysd/vim-textobj-lastinserted"
+
+  " continuous line: av, iv
+  NeoBundle "rhysd/vim-textobj-continuous-line"
+
+  " ruby: arr, brr
+  NeoBundle "rhysd/vim-textobj-ruby"
+
+  " xbrackets: axb, ixb
+  NeoBundle "https://bitbucket.org/anyakichi/vim-textobj-xbrackets"
+
+  " motionmotion: am, im
+  NeoBundle "hchbaw/textobj-motionmotion.vim"
+
+  " enclosedsyntax: aq, iq
+  NeoBundle "deris/vim-textobj-enclosedsyntax"
+
+  " headwordofline: ah, ih
+  NeoBundle "deris/vim-textobj-headwordofline"
+
+  " LaTeX: ae, ie
+  NeoBundle "rbonvall/vim-textobj-latex"
+
+  " parameter: a, i,
+  NeoBundle "sgur/vim-textobj-parameter"
+
+  " cell: ac, ic
+  NeoBundle "mattn/vim-textobj-cell"
+
+  " context: icx
+  NeoBundle "osyo-manga/vim-textobj-context"
+
+  " multiblock: asb, isb
+  NeoBundle "osyo-manga/vim-textobj-multiblock"
+
+  " indblock: ao, io
+  NeoBundle "glts/vim-textobj-indblock"
+
+  " dash: a-, i-
+  NeoBundle "RyanMcG/vim-textobj-dash"
+
+  " Python af, if
+  NeoBundle "bps/vim-textobj-python"
+
+  " #ifdef: a#, i#
+  NeoBundle "anyakichi/vim-textobj-ifdef"
+
+  " HTML: ahf, ihf
+  NeoBundle "mjbrownie/html-textobjects"
+
+  " keyvalue: dak, dik,  dav, div
+  NeoBundle "vimtaku/vim-textobj-keyvalue"
+  "}}}
+
+  " operator {{{
+  NeoBundle 'emonkak/vim-operator-sort'
+  NeoBundle 'tyru/operator-reverse.vim'
+  "}}}
+
   " smart input
   NeoBundle "kana/vim-smartinput"
 
@@ -750,6 +882,17 @@ if s:neobundle_enable && ! empty(neobundle#get("unite.vim"))
   nnoremap <silent> [unite]C :Unite colorscheme<CR>
 endif
 " }}} Unite
+
+" operator {{{
+nnoremap [oper] <Nop>
+nmap <Leader>o [oper]
+if s:neobundle_enable && ! empty(neobundle#get("vim-operator-sort"))
+  map [oper]s <Plug>(operator-sort)
+endif
+if s:neobundle_enable && ! empty(neobundle#get("operator-reverse.vim"))
+  map [oper]r  <Plug>(operator-reverse-text)
+endif
+"}}}
 
 " vim-smartinput {{{
 if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
