@@ -568,6 +568,25 @@ NeoBundle "noahfrederick/vim-hemisu"
 "colorscheme blue
 " }}}
 
+" jekyll.vim{{{
+" these commands are not necessary to be done in vim
+NeoBundle "csexton/jekyll.vim"
+
+if s:neobundle_enable && ! empty(neobundle#get("jekyll.vim"))
+  let g:jekyll_path = "~/Dropbox/05_WebService/octopress/source/"
+endif
+"}}} applescript
+
+" octopress {{{
+" Highlight for octopress
+" * vim-markdown is rather good (no syntax for jekyll?)
+NeoBundle "tangledhelix/vim-octopress"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-octopress"))
+  autocmd BufNewFile,BufRead *.md,*.textile set filetype=octopress
+endif
+"}}} octopress
+
 " }}} Currenlty, not necessary
 
 " ==========================================

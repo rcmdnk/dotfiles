@@ -286,7 +286,7 @@ if v:version > 702
   NeoBundle "applescript.vim"
 
   " Another status line
-  NeoBundle 'itchyny/lightline.vim'
+  NeoBundle "itchyny/lightline.vim"
 
   " Visual indent guides: make moving slow?
   NeoBundle "nathanaelkane/vim-indent-guides"
