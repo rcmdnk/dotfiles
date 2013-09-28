@@ -231,6 +231,17 @@ NeoBundle 'ujihisa/unite-font'
 
 " }}}
 
+" vim-auto-save {{{
+" * normally, it is better to save by hand.
+"NeoBundle "vim-scripts/vim-auto-save"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-auto-save"))
+  " auto save interval is 'updatetime'(=200 ms as default)
+  let g:auto_save = 1
+
+endif
+" }}} vim-auto-save
+
 " vim-quickrun {{{
 " * Not necessary on GNU sceen...
 NeoBundleLazy "thinca/vim-quickrun", { "autoload" : {
