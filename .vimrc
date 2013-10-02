@@ -370,6 +370,10 @@ if v:version > 702
   NeoBundleLazy "mattn/habatobi-vim",{
     \ "autoload" : {"commands": ["Habatobi"] }}
 
+  " puyopuyo
+  NeoBundleLazy "rbtnn/puyo.vim",{
+    \ "autoload" : {"commands": ["Puyo"] }}
+
   " Make benchmark result of vimrc
   NeoBundleLazy "mattn/benchvimrc-vim",{
     \ "autoload" : {"commands": ["BenchVimrc"] }}
