@@ -1045,6 +1045,7 @@ if s:neobundle_enable && ! empty(neobundle#get("neocomplete.vim"))
   let g:neocomplete#max_list = 20
   "let g:neocomplete#sources#syntax#min_keyword_length = 3
   let g:neocomplete#min_keyword_length = 3
+  let g:neocomplete#enable_ignore_case = 0
   let g:neocomplete#enable_smart_case = 1
   let g:neocomplete#disable_auto_complete = 0
   let g:neocomplete#enable_auto_select = 0
