@@ -598,6 +598,11 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-octopress"))
 endif
 "}}} octopress
 
+" JavaScript {{{
+" Something wrong at buffer change
+NeoBundle "marijnh/tern_for_vim"
+"}}}
+
 " }}} Currenlty, not necessary
 
 " ==========================================
