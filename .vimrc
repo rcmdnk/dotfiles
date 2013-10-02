@@ -279,9 +279,6 @@ if v:version > 702
   " Java
   NeoBundle "koron/java-helper-vim"
 
-  " JavaScript
-  NeoBundle "marijnh/tern_for_vim"
-
   " Applescript
   NeoBundle "applescript.vim"
 
