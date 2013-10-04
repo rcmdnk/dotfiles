@@ -45,7 +45,10 @@ attrcolor b ".I"
 bind F eval 'scrollback 0' 'scrollback 1000' 'echo "scrollback buffer cleared"'
 
 # Don't clear after finishing application
-#altscreen on
+altscreen on
+
+# disable loginmode (if update /var/run/utmp)
+deflogin on
 
 # Modify window list
 bind w  windowlist -b
