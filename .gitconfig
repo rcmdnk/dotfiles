@@ -7,7 +7,7 @@
   br = branch
   co = checkout
   cl = clone
-  ci = commit -am
+  ci = commit -a
   st = status
   d = difftool --tool=vimdiff --no-prompt
 
