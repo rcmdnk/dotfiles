@@ -137,3 +137,5 @@ $endif
 # xargs
 "\ex": "find . -print0 | xargs -0 "
 
+# ps
+"\ep": "ps -U $USER\C-m"
