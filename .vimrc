@@ -69,8 +69,8 @@ if v:version > 702
       \'mac' : 'make -f make_mac.mak',
       \'unix' : 'make -f make_unix.mak'}}
 
-  " Searches and display information->:help Unite
-  " Unlike "fuzzyfinder" or "ku", it doesn't use the built-lin completion of vim
+  """ Searches and display information->:help Unite
+  """ Unlike "fuzzyfinder" or "ku", it doesn't use the built-lin completion of vim
   NeoBundleLazy 'Shougo/unite.vim' , {
     \ 'autoload' : { 'commands' : [ 'Unite' ] }}
 
