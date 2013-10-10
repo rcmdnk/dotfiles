@@ -387,6 +387,9 @@ if v:version > 702
   NeoBundleLazy "LeafCage/vimhelpgenerator",{
     \ "autoload" : {"commands": ["VimHelpGenerator"] }}
 
+  " multiple cursor
+  NeoBundle "terryma/vim-multiple-cursors"
+
 
   " local plugins
   NeoBundleLocal ~/.vim/local/bundle
