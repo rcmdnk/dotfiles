@@ -11,5 +11,5 @@ if [ -f ~/.hostForScreen ];then
     sedi -e "/`hostname`/d" ~/.hostForScreen
   fi
 fi
-#clear
+clear
 echo "(-_-)/~ bye!"

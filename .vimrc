@@ -1053,12 +1053,15 @@ if s:neobundle_enable && ! empty(neobundle#get("neocomplete.vim"))
   let g:neocomplete#disable_auto_complete = 0
   let g:neocomplete#enable_auto_select = 0
   let g:neocomplete#lock_buffer_name_pattern = ''
+  " text mode is necessary for look
+  " But it is not useful for code writing because it convert like:
+  " NeoBundle to NeoBundle.
   let g:neocomplete#text_mode_filetypes =
         \ {'hybrid': 1, 'text':1, 'help': 1, 'gitcommit': 1, 'gitrebase':1,
         \  'vcs-commit': 1, 'markdown':1, 'textile':1, 'creole':1, 'org':1,
         \  'rdoc':1, 'mediawiki':1, 'rst':1, 'asciidoc':1, 'prod':1,
-        \  'plaintex':1, 'javascript': 1, 'mkd': 1, 'perl': 1, 'html': 1,
-        \  'vim':1, 'sh':1 }
+        \  'plaintex':1, 'mkd': 1, 'html': 1,
+        \  'vim':0, 'sh':0, 'javascript':0, 'perl':0}
   "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
   inoremap <expr><Tab> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
   inoremap <expr><A-y>  neocomplete#close_popup()
