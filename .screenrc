@@ -70,10 +70,10 @@ sorendition " .K"
 bind x remove
 
 # Continuous window change
-bind ^n eval 'next'
-bind ^p eval 'prev'
-#bind ^n eval 'command -c window' 'next'
-#bind ^p eval 'command -c window' 'prev'
+#bind ^n eval 'next'
+#bind ^p eval 'prev'
+bind ^n eval 'command -c window' 'next'
+bind ^p eval 'command -c window' 'prev'
 bind -c window n eval 'next'
 bind -c window p eval 'prev'
 bind -c window ^n eval 'command -c window' 'next'
