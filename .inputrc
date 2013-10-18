@@ -86,16 +86,16 @@ $endif
 # grep prefix
 "\C-g": ""
 # grep -r "" ./
-"\C-g\C-r": "grep -r ./\eb\C-f \"\"\C-b"
-"\C-gr": "grep -r ./\eb\C-f \"\"\C-b"
-"\er": "grep -r ./\eb\C-f \"\"\C-b"
+"\C-g\C-r": "\C-e\C-ugrep -r ./\eb\C-f \"\"\C-b"
+"\C-gr": "\C-e\C-ugrep -r ./\eb\C-f \"\"\C-b"
+"\er": "\C-e\C-ugrep -r ./\eb\C-f \"\"\C-b"
 # grep "" *
-"\C-g\C-g": "grep *\C-b\C-b \"\"\C-b"
-"\C-gg": "grep *\C-b\C-b \"\"\C-b"
-"\eg": "grep *\C-b\C-b \"\"\C-b"
+"\C-g\C-g": "\C-e\C-ugrep *\C-b\C-b \"\"\C-b"
+"\C-gg": "\C-e\C-ugrep *\C-b\C-b \"\"\C-b"
+"\eg": "\C-e\C-ugrep *\C-b\C-b \"\"\C-b"
 # find ./|grep 
-"\C-g\C-f": "find ./|grep \"\"\C-b"
-"\C-gf": "find ./|grep \"\"\C-b"
+"\C-g\C-f": "\C-e\C-ufind ./|grep \"\"\C-b"
+"\C-gf": "\C-e\C-ufind ./|grep \"\"\C-b"
 
 # Quote/Bracket
 "\e\"": "\eb\"\ef\""
