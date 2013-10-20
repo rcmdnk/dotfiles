@@ -599,9 +599,19 @@ endif
 "}}} octopress
 
 " JavaScript {{{
-" Something wrong at buffer change
+" * Something wrong at buffer change
 NeoBundle "marijnh/tern_for_vim"
 "}}}
+
+
+" clever-f {{{
+" Can use f instead of ;, after fx move
+" Can move even to other lines
+" * annoying at making macros...
+NeoBundle "rhysd/clever-f.vim"
+"}}}
+
+
 
 " }}} Currenlty, not necessary
 
