@@ -69,8 +69,8 @@ if v:version > 702
       \'mac' : 'make -f make_mac.mak',
       \'unix' : 'make -f make_unix.mak'}}
 
+  """ Unlike "fuzzyfinder" or "ku", it doesn't use the built-lin completion of vim {{{
   """ Searches and display information->:help Unite
-  """ Unlike "fuzzyfinder" or "ku", it doesn't use the built-lin completion of vim
   NeoBundleLazy 'Shougo/unite.vim' , {
     \ 'autoload' : { 'commands' : [ 'Unite' ] }}
 
@@ -91,6 +91,7 @@ if v:version > 702
 
   " Source for unite: locate
   NeoBundle 'ujihisa/unite-locate'
+  "}}}
 
   " Echo
   NeoBundleLazy 'Shougo/echodoc', {
@@ -308,10 +309,6 @@ if v:version > 702
 
   " Easymotion
   NeoBundle "Lokaltog/vim-easymotion"
-
-  " Can use f instead of ;, after fx move
-  " Can move even to other lines
-  NeoBundle "rhysd/clever-f.vim"
 
   " Python autocompletion
   NeoBundleLazy "davidhalter/jedi-vim", {
