@@ -50,7 +50,6 @@ export LD_LIBRARY_PATH=$HOME/usr/local/lib:$HOME/usr/lib:/usr/local/lib:/usr/lib
 export PYTHONPATH=$HOME/usr/local/lib:$HOME/usr/lib/python:/usr/local/lib:/usr/lib/python:$PYTHONPATH
 #export PYTHONHOME=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 
-
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 # }}} Local path

@@ -492,13 +492,30 @@ set scrolloff=999  " Show cursor at middle
                    " and below cursor.
                    "  such large number force to stay a cursor at middle
 set scroll=0       " Number of lines to scroll with C-U/C-D (0 for half window)
-"set spell          " Spell check highlight
-"set nospell        " No spell check
 set mouse=         " Disable mouse
 set ambiwidth=double  " For UTF-8, width for East Asian Characters
 set cmdheight=1    " Command line height
 set showmatch      " Show maching one for inserted bracket
 
+"set spell          " Spell check highlight
+set nospell        " No spell check
+
+" Ignore non Ascii charactors at spell check
+" maybe will be in the patch in the future.
+" https://github.com/vim-jp/issues/issues/476
+" * somehow below ignore all...
+"fun! s:SpellConf()
+"  set spell
+"  syntax spell notoplevel
+"  syntax match SpellNotAscii /\<\A\+\>/ contains=@NoSpell transparent
+"  syntax match SpellMaybeCode /\<\h\l*[_A-Z]\h\{-}\>/ contains=@NoSpell transparent
+"  syntax cluster Spell add=SpellNotAscii,SpellMaybeCode
+"endfunc
+"
+"augroup spell_check
+"  autocmd!
+"  autocmd BufReadPost,BufNewFile,Syntax * call s:SpellConf()
+"augroup END
 
 " IME setting
 if has("multi_byte_ime") || has("xim") || has("gui_macvim")
