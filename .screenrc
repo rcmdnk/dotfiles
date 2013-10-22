@@ -45,7 +45,7 @@ attrcolor b ".I"
 bind F eval 'scrollback 0' 'scrollback 1000' 'echo "scrollback buffer cleared"'
 
 # Don't clear after finishing application
-altscreen on
+#altscreen on
 
 # disable loginmode (if update /var/run/utmp)
 deflogin on
@@ -193,36 +193,20 @@ bind ^a eval "!bash -c 'multi_clipboards -O;echo -n \"$SCREEN_PS1\"'"
 #term "screen-256color"
 
 # not change the window size when it is attached
-termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
-termcapinfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+termcapinfo xterm* is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
 
 # xterm understands both im/ic and doesn't have a status line.
 # Note: Do not specify im and ic in the real termcap/info file as
 # some programs (e.g. vi) will (no,no, may (jw)) not work anymore.
-termcap xterm|fptwist hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
-terminfo xterm|fptwist hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
-termcap xterm-256color|fptwist hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
-terminfo xterm-256color|fptwist hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
-
-# Long time I had this in my private screenrc file. But many people
-# seem to want it (jw):
-# we do not want the width to change to 80 characters on startup:
-# on suns, /etc/termcap has :is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;3;4;6l:
-termcap xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
-terminfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
-termcap xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
-terminfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+termcap xterm* hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
+terminfo xterm* hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
 
 # Do not use xterms alternate window buffer.
 # This one would not add lines to the scrollback buffer.
-termcap xterm|xterms|xs ti=\E7\E[?47l
-terminfo xterm|xterms|xs ti=\E7\E[?47l
-termcap xterm-256color|xterms|xs ti=\E7\E[?47l
-terminfo xterm-256color|xterms|xs ti=\E7\E[?47l
+termcapinfo xterm* ti=\E7\E[?47l
 
 # Caption for each window
 caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%n %L=%h%L>%=%?%P *copy/paste*%?%?%E ***command**%?%-0='
-#caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%n %L=%h%>%?%P *** copy/paste mode ***%?%?%E *** command mode ***%?%-0='
 # %?%F      # if the window has the focus
 #  %{=d Wk} #   set attribute = {dim, black(k) on bright Write(W)}
 # %:        # else
