@@ -387,7 +387,6 @@ if v:version > 702
   " multiple cursor
   NeoBundle "terryma/vim-multiple-cursors"
 
-
   " local plugins
   NeoBundleLocal ~/.vim/local/bundle
   """"plugins end"""""
@@ -413,9 +412,9 @@ augroup END
 " Switch on highlighting the last used search pattern.
 set hlsearch
 
-" mapleaader (<Leader>)
+" mapleaader (<Leader>) (default is \)
 let mapleader = ","
-" use \ as ,, instead
+" use \ as , instead
 noremap <Subleader> <Nop>
 nmap \ <Subleader>
 noremap <Subleader>, ,

@@ -603,6 +603,16 @@ endif
 NeoBundle "marijnh/tern_for_vim"
 "}}}
 
+" QuickBuf {{{
+" bufffer management
+" Unite is enough?
+
+NeoBundle "QuickBuf"
+
+if s:neobundle_enable && ! empty(neobundle#get("QuickBuf"))
+  let g:qb_hotkey = "<Subleader>b"
+endif
+"}}} QuickBuf
 
 " clever-f {{{
 " Can use f instead of ;, after fx move
