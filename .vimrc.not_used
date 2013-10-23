@@ -643,6 +643,7 @@ NeoBundle "kana/vim-smartinput"
 
 if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
   " Remove spaces at the end of line
+  " * Replaced by: nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
   call smartinput#define_rule({
   \   'at': '\s\+\%#',
   \   'char': '<CR>',
