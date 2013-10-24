@@ -621,6 +621,55 @@ endif
 NeoBundle "rhysd/clever-f.vim"
 "}}}
 
+" vim-smartinput {{{
+" smart input
+" * Can't use for repeat
+NeoBundle "kana/vim-smartinput"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
+  " Put/Remove space at first in bracket
+  call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
+  call smartinput#define_rule({
+    \'at'    : '(\%#)',
+    \'char'  : '<Space>',
+    \'input' : '<Space><Space><Left>',
+    \})
+  call smartinput#define_rule({
+    \'at'    : '( \%# )',
+    \'char'  : '<BS>',
+    \'input' : '<Del><BS>',
+    \})
+
+  " Add ; for c++ class/struct/enum
+  call smartinput#define_rule({
+    \'at'       : '\%(\<struct\>\|\<class\>\|\<enum\>\)\s*\w\+.*\%#',
+    \'char'     : '{',
+    \'input'    : '{};<Left><Left>',
+    \'filetype' : ['cpp'],
+    \})
+endif
+" }}} vim-smartinput
+
+" vim-smartword {{{
+" smart word
+" * If it is not used so much (as capital W/B...),
+" * it is better to use original one...
+NeoBundle 'kana/vim-smartword'
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-smartword"))
+  " Use W/B/E/gE, such w is not useful to map here
+  " especially for text object treatment, such 'cw'.
+  map W  <Plug>(smartword-w)
+  map B  <Plug>(smartword-b)
+  map E  <Plug>(smartword-e)
+  map gE  <Plug>(smartword-ge)
+  " original keys ('\' is not a <leader> for now)
+  noremap <Subleader>W  W
+  noremap <subleader>B  B
+  noremap <subleader>E  E
+  noremap <subleader>gE  gE
+endif
+" }}} vim-smartword
 
 
 " }}} Currenlty, not necessary
