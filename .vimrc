@@ -250,12 +250,6 @@ if v:version > 702
   NeoBundle 'tyru/operator-reverse.vim'
   "}}}
 
-  " smart input
-  NeoBundle "kana/vim-smartinput"
-
-  " smart word
-  NeoBundle 'kana/vim-smartword'
-
   " Easy to change surround
   NeoBundle "surround.vim"
 
@@ -839,7 +833,7 @@ if s:neobundle_enable && ! empty(neobundle#get("unite.vim"))
     nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
     nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
     nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+通知機能、    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
     nnoremap <silent><buffer><expr> l
             \ unite#smart_map('l', unite#do_action('default'))
 
@@ -910,47 +904,6 @@ if s:neobundle_enable && ! empty(neobundle#get("operator-reverse.vim"))
   map [oper]r  <Plug>(operator-reverse-text)
 endif
 "}}}
-
-" vim-smartinput {{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
-  " Put/Remove space at first in bracket
-  call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
-  call smartinput#define_rule({
-    \'at'    : '(\%#)',
-    \'char'  : '<Space>',
-    \'input' : '<Space><Space><Left>',
-    \})
-  call smartinput#define_rule({
-    \'at'    : '( \%# )',
-    \'char'  : '<BS>',
-    \'input' : '<Del><BS>',
-    \})
-
-  " Add ; for c++ class/struct/enum
-  call smartinput#define_rule({
-    \'at'       : '\%(\<struct\>\|\<class\>\|\<enum\>\)\s*\w\+.*\%#',
-    \'char'     : '{',
-    \'input'    : '{};<Left><Left>',
-    \'filetype' : ['cpp'],
-    \})
-endif
-" }}} vim-smartinput
-
-" vim-smartword {{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-smartword"))
-  " Use W/B/E/gE, such w is not useful to map here
-  " especially for text object treatment, such 'cw'.
-  map W  <Plug>(smartword-w)
-  map B  <Plug>(smartword-b)
-  map E  <Plug>(smartword-e)
-  map gE  <Plug>(smartword-ge)
-  " original keys ('\' is not a <leader> for now)
-  noremap <Subleader>W  W
-  noremap <subleader>B  B
-  noremap <subleader>E  E
-  noremap <subleader>gE  gE
-endif
-" }}} vim-smartword
 
 " surround.vim/vim-surround {{{
 if s:neobundle_enable && ! empty(neobundle#get("surround.vim"))
