@@ -825,7 +825,7 @@ function path {
 
 # pwd wrapper (named as wc) to push pwd to the clipboard list{{{
 function wd {
-  local curdir=`pwd`
+  local curdir=`pwd -P`
   multi_clipboards -s $curdir
   echo $curdir
 }
