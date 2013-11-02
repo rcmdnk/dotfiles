@@ -509,29 +509,24 @@ function cl { # Change directory to the Last directory {{{
 # git functions {{{
 function gitupdate {
   update=0
-  difffiles=`git diff|grep diff|cut -d' ' -f4|cut -d'/' -f2`
+  difffiles=`git status|grep -e "new file" -e "modified"|cut -d":" -f2`
   if [ "$difffiles" ];then
     pwd
     if [ -f ~/.gitavoid ];then
-      #while read a;do
-      #  if ret=`grep -i -q $a $difffiles`;then
-      #    echo "avoid word $a is included!!!"
-      #    echo $ret
-      #    return
-      #  fi
-      #done < ~/.gitavoid
+      #for f in `echo $difffiles`;do
       for f in `git ls-files`;do
+        echo $f
         if [ ! -f $f ];then
           continue
         fi
         while read a;do
-          if ret=`grep -i -q $a $difffiles`;then
-            echo "avoid word $a is included!!!"
+          if ret=`grep -i -q $a $f`;then
+            echo "avoid word $a is included in $f!!!"
             echo $ret
             return
           fi
-        done
-      done < ~/.gitavoid
+        done < ~/.gitavoid
+      done
     else
       echo "WARNING: There is no ~/.gitavoid file!"
     fi

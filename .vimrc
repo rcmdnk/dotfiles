@@ -265,6 +265,9 @@ if v:version > 702
   " Markdown syntax
   NeoBundle "plasticboy/vim-markdown"
 
+  " Markdown preview
+  NeoBundle "kannokanno/previm"
+
   " Folding method for python, but makes completion too slow...?
   "NeoBundle "vim-scripts/python_fold"
 
