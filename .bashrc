@@ -515,7 +515,6 @@ function gitupdate {
     if [ -f ~/.gitavoid ];then
       #for f in `echo $difffiles`;do
       for f in `git ls-files`;do
-        echo $f
         if [ ! -f $f ];then
           continue
         fi
