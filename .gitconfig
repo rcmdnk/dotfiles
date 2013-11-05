@@ -10,12 +10,13 @@
   ci = commit -a
   st = status
   d = difftool --tool=vimdiff --no-prompt
-
+  ls = ls-files
 
 [core]
 	filemode = false
 	autocrlf = false
 	editor = vim
+	execludesfile = ~/.gitignore_global
 
 [push]
 #	default = simple

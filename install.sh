@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exclude=('.' '..' '.svn' '.git' 'README.md' '.gitignore')
+exclude=('.' '..' '.svn' '.git' 'README.md' '.gitignore' '.vimrc.not_used')
 instdir="$HOME"
 
 backup="bak"
@@ -89,11 +89,7 @@ for f in .*;do
     continue
   fi
 
-  if [ $f = ".gitignore_for_all" ];then
-    target="$instdir/.gitignore"
-  else
-    target="$instdir/$f"
-  fi
+  target="$instdir/$f"
   install=1
   if [ $dryrun -eq 1 ];then
     install=0
@@ -136,4 +132,3 @@ else
 fi
 echo "  ${exist[@]}"
 echo
-echo note: .gitignore_for_all is installed as .gitignore
