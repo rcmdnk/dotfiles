@@ -1,7 +1,0 @@
-# swap, backup files of vim
-*.swp
-*.swo
-*~
-*.tmp
-*.old
-.DS_Store
