@@ -8,6 +8,9 @@
 # 20932 EUC-JP
 #   932 SJIS
 chcp.com 65001 >/dev/null
+
+# display
+export DISPLAY=${DISPLAY:=":0.0"}
 #}}}
 
 # alias {{{
