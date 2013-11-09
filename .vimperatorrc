@@ -47,7 +47,8 @@ set hintchars=ifjklasdweuocvbnm
 
 " style
 "style chrome://* #statusbar-display:not([type="overLink"]) {display: none !important;}
-style chrome://* #statusbar-display {display: none !important;}
+"style chrome://* #statusbar-display {display: none;}
+style chrome://* .statuspanel-label {display: none;}
 
 " user_pref
 set! extensions.adblockplus.sidebar_key="Accel Shift Q"
@@ -345,4 +346,4 @@ source! ~/My\ Dropbox/08_Settings/vimpr/vimperatorrc.local
 source! ~/Dropbox/08_Settings/vimpr/vimperatorrc.local
 "" }}}
 
-"echo "_vimperatorrc sourced"
+"echo ".vimperatorrc sourced"
