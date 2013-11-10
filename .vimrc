@@ -381,8 +381,8 @@ if v:version > 702
   NeoBundleLazy "LeafCage/vimhelpgenerator",{
     \ "autoload" : {"commands": ["VimHelpGenerator"] }}
 
-  " multiple cursor
-  NeoBundle "terryma/vim-multiple-cursors"
+  " yank
+  NeoBundle "LeafCage/yankround.vim"
 
   " local plugins
   NeoBundleLocal ~/.vim/local/bundle
@@ -978,16 +978,14 @@ nnoremap <silent> [yshare]gp :call YSLoad()<CR>"sgp
 nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " }}} yankshare
 
-" savevers {{{
-if s:neobundle_enable && ! empty(neobundle#get("savevers.vim"))
-  set patchmode=.clean
-  set backup
-  let savevers_types = "*"
-  let savevers_dirs = &backupdir
-  let versdiff_no_resize=1
-  nmap <silent> <F5> :VersDiff -<cr>
-  nmap <silent> <F6> :VersDiff +<cr>
-  nmap <silent> <F8> :VersDiff -c<cr>
+" yankround {{{
+if s:neobundle_enable && ! empty(neobundle#get("yankround.vim"))
+  nmap p <Plug>(yankround-p)
+  nmap P <Plug>(yankround-P)
+  nmap <C-p> <Plug>(yankround-prev)
+  nmap <C-n> <Plug>(yankround-next)
+  let g:yankround_max_history = 30
+  let g:yankround_dir = '~/.vim/yankround'
 endif
 " }}}
 

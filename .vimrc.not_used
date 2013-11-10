@@ -672,6 +672,12 @@ endif
 " }}} vim-smartword
 
 
+" vim-multiple-cursors {{{
+" multiple cursor
+" * map <C-n>?, not good for yankround
+"NeoBundle "terryma/vim-multiple-cursors"
+" }}} vim-multiple-cursors
+
 " }}} Currenlty, not necessary
 
 " ==========================================
