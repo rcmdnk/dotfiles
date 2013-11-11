@@ -15,6 +15,7 @@ export DISPLAY=${DISPLAY:=":0.0"}
 
 # alias {{{
 alias open='cygstart'
+alias mail='email'
 #}}}
 
 # functions {{{

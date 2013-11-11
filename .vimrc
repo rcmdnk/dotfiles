@@ -627,7 +627,7 @@ nnoremap <C-e> <C-$>
 "nnoremap <C-z> <C-a>
 " Substitute for C-a (C-s default: non?)
 " C-a should be map for vim-speeddating
-map <C-s> <C-a>
+nnoremap <C-s> <C-a>
 nnoremap <C-k> k
 
 " Swap colon <-> semicolon
