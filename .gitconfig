@@ -12,6 +12,7 @@
   d = difftool --tool=vimdiff --no-prompt
   ls = ls-files
   sm = submodule
+  dns = diff --name-status
 
 [core]
 	filemode = false
