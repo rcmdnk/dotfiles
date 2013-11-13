@@ -14,3 +14,9 @@ if [ "$SSH_AUTH_SOCK" = "" ];then
   done
   unset sock_tmp
 fi
+
+# competion from brew
+brew_completion=`brew --prefix 2>/dev/null`/etc/bash_completion
+if [ $? -eq 0 ] && [ -f "$brew_completion" ];then
+  source $brew_completion
+fi
