@@ -8,7 +8,6 @@ escape ^Qq
 
 # Only: Q (default)
 bind q only
-#bind ^q only
 
 # source setup file
 #bind q eval "source $HOME/.screenrc"
@@ -87,28 +86,29 @@ bind h  eval 'focus left'
 bind j  eval 'focus down'
 bind k  eval 'focus up'
 bind l  eval 'focus right'
-bind ^h eval    'command -c move' 'focus left'
-bind -k kb eval 'command -c move' 'focus left' #Backspace
-bind ^j eval    'command -c move' 'focus down'
-bind ^k eval    'command -c move' 'focus up'
-bind ^l eval    'command -c move' 'focus right'
-bind ^q eval    'command -c move'
-#bind ^h eval    'focus left'
-#bind -k kb eval 'focus left' #Backspace
-#bind ^j eval    'focus down'
-#bind ^k eval    'focus up'
-#bind ^l eval    'focus right'
+bind ^h eval    'focus left'
+bind -k kb eval 'focus left' #Backspace
+bind ^j eval    'focus down'
+bind ^k eval    'focus up'
+bind ^l eval    'focus right'
 
-bind -c move h eval 'focus left'
-bind -c move j eval 'focus down'
-bind -c move k eval 'focus up'
-bind -c move l eval 'focus right'
-bind -c move ^h eval    'command -c move' 'focus left'
-bind -c move -k kb eval 'command -c move' 'focus left' #Backspace
-bind -c move ^j eval    'command -c move' 'focus down'
-bind -c move ^k eval    'command -c move' 'focus up'
-bind -c move ^l eval    'command -c move' 'focus right'
-bind -c move ^q eval    'command -c move'
+#bind ^h eval    'command -c move' 'focus left'
+#bind -k kb eval 'command -c move' 'focus left' #Backspace
+#bind ^j eval    'command -c move' 'focus down'
+#bind ^k eval    'command -c move' 'focus up'
+#bind ^l eval    'command -c move' 'focus right'
+#bind ^q eval    'command -c move'
+
+#bind -c move h eval 'focus left'
+#bind -c move j eval 'focus down'
+#bind -c move k eval 'focus up'
+#bind -c move l eval 'focus right'
+#bind -c move ^h eval    'command -c move' 'focus left'
+#bind -c move -k kb eval 'command -c move' 'focus left' #Backspace
+#bind -c move ^j eval    'command -c move' 'focus down'
+#bind -c move ^k eval    'command -c move' 'focus up'
+#bind -c move ^l eval    'command -c move' 'focus right'
+#bind -c move ^q eval    'command -c move'
 
 # Split
 bind V split -v
