@@ -617,17 +617,16 @@ nmap <ESC>n <M-n>
 nnoremap <C-k> k
 " Down (C-l default: Clear and redraw the screen)
 nnoremap <C-l> l
-" Go to Head (C-a default: Increment)
-nnoremap <C-a> 0
+" Go to Head (C-a default: Increment)->can't be used with vim-speeddating
+"nnoremap <C-a> 0
 " Go to End (C-e default: Scroll down)
-nnoremap <C-e> <C-$>
+"nnoremap <C-e> <C-$>
 " Substitute for C-a (C-q default: C-V alternative for gui mode)
 "nnoremap <C-q> <C-a> " not work...
 " Substitute for C-a (C-z default: suspend, same as :stop)
 "nnoremap <C-z> <C-a>
 " Substitute for C-a (C-s default: non?)
-" C-a should be map for vim-speeddating
-nnoremap <C-s> <C-a>
+"nnoremap <C-s> <C-a>
 nnoremap <C-k> k
 
 " Swap colon <-> semicolon
