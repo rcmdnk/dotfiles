@@ -172,9 +172,9 @@ HISTSIZE=10000
 # ignorespace # ignore command starting with space
 # ignoreboth # ignore dups and space
 # erasedups # erase a duplication in the past
-export HISTCONTROL=ignoredups:erasedups
-export HISTIGNORE="?:??:???:jobs:fg*:bg*:history:cd ../:rm*:mv*:"
-shopt -s histappend # append to hist (not overwrite),
+export HISTCONTROL=ignoredups
+export HISTIGNORE="?:??:???:????:jobs:ls:fg*:bg*:history:cd -:cd ../:rm*:mv*:"
+#shopt -s histappend # append to hist (not overwrite),
                     # don't use with below share_history
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # Method to remove failed command {{{
@@ -245,10 +245,12 @@ alias bc="bc -l"
 alias ssh="ssh -X"
 alias svnHeadDiff="svn diff --revision=HEAD"
 #alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
-alias vim="vim -X" # no X
-alias vi="vim -X" # vi->vim,no X
+#alias vim="vim -X" # no X
+#alias vi="vim -X" # vi->vim,no X
+alias vi="vim"
 alias memo="vim -X ~/.memo.md"
 alias vid="vim -X -d"
+alias vinon="vim -X -u NONE"
 #alias grep="grep --color=always"
 #alias grep="grep -i" # ignore cases
 alias grep="grep -s" # suppress error message

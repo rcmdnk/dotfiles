@@ -3,6 +3,9 @@
 " Managed at: https://github.com/rcmdnk/dotfiles/blob/master/.vimrc
 " Todo/Obsolete settings are in https://github.com/rcmdnk/dotfiles/blob/master/.vimrc.not_used
 
+" flags
+let s:use_neobundle=1
+
 " vi compatiblity {{{
 if !&compatible
   " disable vi compatible mode (much better!)
@@ -29,8 +32,8 @@ endif
 " NeoBundle configuration ref:
 " http://qiita.com/rbtnn/items/39d9ba817329886e626b
 
-let s:neobundle_enable=0
-if v:version > 702
+let s:neobundle_enabled=0
+if s:use_neobundle && v:version > 702
   " set path
   if has("vim_starting")
     let g:bundledir=g:vimdir . "/bundle"
@@ -44,7 +47,7 @@ if v:version > 702
       call system("git clone git://github.com/Shougo/neobundle.vim "
             \ .  g:neobundledir)
     endif
-    let s:neobundle_enable=1
+    let s:neobundle_enabled=1
   endif
 
   call neobundle#rc(g:bundledir)
@@ -246,6 +249,9 @@ if v:version > 702
   "}}}
 
   " operator {{{
+  NeoBundle "kana/vim-operator-user"
+
+  NeoBundle "kana/vim-operator-replace"
   NeoBundle 'emonkak/vim-operator-sort'
   NeoBundle 'tyru/operator-reverse.vim'
   "}}}
@@ -263,10 +269,18 @@ if v:version > 702
   NeoBundle "hail2u/vim-css3-syntax.git"
 
   " Markdown syntax
-  NeoBundle "plasticboy/vim-markdown"
+  "NeoBundle "plasticboy/vim-markdown"
+  "NeoBundle "tpope/vim-markdown"
+  "NeoBundle "hallison/vim-markdown"
+  NeoBundle "rcmdnk/vim-markdown"
+  "NeoBundle "Markdown"
+
+  NeoBundle "thinca/vim-quickrun"
+  "NeoBundle "superbrothers/vim-quickrun-markdown-gfm"
+
 
   " Markdown preview
-  NeoBundle "kannokanno/previm"
+  "NeoBundle "kannokanno/previm"
 
   " Folding method for python, but makes completion too slow...?
   "NeoBundle "vim-scripts/python_fold"
@@ -288,12 +302,6 @@ if v:version > 702
 
   " Sub mode
   NeoBundle "kana/vim-submode"
-
-  " Operator
-  NeoBundle "kana/vim-operator-user"
-
-  " Replace with the text object
-  NeoBundle "kana/vim-operator-replace"
 
   " Open browser
   NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
@@ -556,6 +564,7 @@ set virtualedit=all
 
 " Avoid to paste/insert in non-editing place
 if has("virtualedit") && &virtualedit =~# '\<all\>'
+  " p should be fixed, with yankround -> it map p
   nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
   nnoremap <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
   nnoremap <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
@@ -572,7 +581,10 @@ endif
 set synmaxcol=200 "default 3000
 
 " Disable highlight italic in Markdown
-autocmd! FileType markdown hi! def link markdownItalic LineNr
+"autocmd MyAutoGroup FileType markdown hi! def link markdownItalic LineNr
+" md as markdown, instead of modula2-> should be managed by syntax plugins
+" such plasticboy/vim-markdown uses mkd, instead of markdown
+"autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 
 " }}} Basic settings
 
@@ -760,6 +772,12 @@ hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
 
 "" Colors for search
 hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
+
+"" markdown
+hi link htmlItalic LineNr
+hi link htmlBold WarningMsg
+hi link htmlBoldItalic ErrorMsg
+
 " }}} colorscheme
 
 " diff mode {{{
@@ -804,7 +822,7 @@ nnoremap <C-r> g+
 " }}} undo
 
 " gundo {{{
-if s:neobundle_enable && ! empty(neobundle#get("gundo.vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("gundo.vim"))
   nnoremap U :GundoToggle<CR>
   let g:gundo_width = 30
   let g:gundo_preview_height = 15
@@ -814,7 +832,7 @@ endif
 " }}} gundo
 
 " Unite {{{
-if s:neobundle_enable && ! empty(neobundle#get("unite.vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
   autocmd MyAutoGroup FileType unite call s:unite_my_settings()
   function! s:unite_my_settings()
     nmap <buffer><Esc> <Plug>(unite_exit)
@@ -899,16 +917,16 @@ endif
 " operator {{{
 nnoremap [oper] <Nop>
 nmap <Leader>o [oper]
-if s:neobundle_enable && ! empty(neobundle#get("vim-operator-sort"))
+if s:neobundle_enabled && ! empty(neobundle#get("vim-operator-sort"))
   map [oper]s <Plug>(operator-sort)
 endif
-if s:neobundle_enable && ! empty(neobundle#get("operator-reverse.vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("operator-reverse.vim"))
   map [oper]r  <Plug>(operator-reverse-text)
 endif
 "}}}
 
 " surround.vim/vim-surround {{{
-if s:neobundle_enable && ! empty(neobundle#get("surround.vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("surround.vim"))
   " Numbers for characters can be found by :ascii on each character
   let g:surround_96 = "`\r`" " use `
 
@@ -978,7 +996,7 @@ nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " }}} yankshare
 
 " yankround {{{
-if s:neobundle_enable && ! empty(neobundle#get("yankround.vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("yankround.vim"))
   nmap p <Plug>(yankround-p)
   nmap P <Plug>(yankround-P)
   nmap <C-p> <Plug>(yankround-prev)
@@ -996,7 +1014,7 @@ set statusline+=%=%l/%L,%c%V%8P
 " }}} status line
 
 " neocomplcache {{{
-if s:neobundle_enable && ! empty(neobundle#get("neocomplcache"))
+if s:neobundle_enabled && ! empty(neobundle#get("neocomplcache"))
   let g:acp_enableAtStartup = 1
   let g:neocomplcache_enable_startup = 1
   let g:neocomplcache_enable_smart_case = 1
@@ -1009,7 +1027,7 @@ endif
 " }}}
 
 " neocomplete {{{
-if s:neobundle_enable && ! empty(neobundle#get("neocomplete.vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#max_list = 20
   "let g:neocomplete#sources#syntax#min_keyword_length = 3
@@ -1038,7 +1056,7 @@ endif
 " }}}
 
 " neosnippet {{{
-if s:neobundle_enable && ! empty(neobundle#get("neosnippet"))
+if s:neobundle_enabled && ! empty(neobundle#get("neosnippet"))
   imap <silent><C-k> <Plug>(neosnippet_expand_or_jump)
   inoremap <silent><C-U> <ESC>:<C-U>Unite snippet<CR>
   "nnoremap <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
@@ -1089,7 +1107,7 @@ endif
 " }}} paste
 
 " vim-easymotion{{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-easymotion"))
+if s:neobundle_enabled && ! empty(neobundle#get("vim-easymotion"))
   let g:EasyMotion_keys="hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB"
   "let g:EasyMotion_keys="ifjklasdweuocvbnm"
   let g:EasyMotion_do_mapping=1
@@ -1104,7 +1122,7 @@ endif
 " }}} vim-easymotion
 
 " jedi-vim{{{
-if s:neobundle_enable && ! empty(neobundle#get("jedi-vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#auto_initialization = 1
   "let g:jedi#goto_assignments_command = "<Leader>g"
   "let g:jedi#goto_definition_command = "<Leader>d"
@@ -1127,7 +1145,7 @@ endif
 " }}} jedi-vim
 
 " vim-indent-guides{{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-indent-guides"))
+if s:neobundle_enabled && ! empty(neobundle#get("vim-indent-guides"))
   let g:indent_guides_enable_on_vim_startup = 1
   "let g:indent_guides_guide_size =  1
   let g:indent_guides_start_level = 1
@@ -1141,7 +1159,7 @@ endif
 "}}} vim-indent-guides
 
 " vim-submode{{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-submode"))
+if s:neobundle_enabled && ! empty(neobundle#get("vim-submode"))
   call submode#enter_with("winsize", "n", "", "<C-w>>", "<C-w>>")
   call submode#enter_with("winsize", "n", "", "<C-w><", "<C-w><")
   call submode#enter_with("winsize", "n", "", "<C-w>+", "<C-w>+")
@@ -1161,13 +1179,13 @@ endif
 "}}} vim-submode
 
 " vim-operator-replace{{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-operator-replace"))
+if s:neobundle_enabled && ! empty(neobundle#get("vim-operator-replace"))
   map _  "0<Plug>(operator-replace)
 endif
 "}}} vim-operator-replace
 
 " open-browser{{{
-if s:neobundle_enable && ! empty(neobundle#get("open-browser.vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("open-browser.vim"))
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
@@ -1175,19 +1193,19 @@ endif
 "}}} open-browser
 
 " LanguageTool{{{
-if s:neobundle_enable && ! empty(neobundle#get("LanguageTool"))
+if s:neobundle_enabled && ! empty(neobundle#get("LanguageTool"))
   let g:languagetool_jar="$HOME/.languagetool/LanguageTool-2.1/languagetool-commandline.jar"
 endif
 "}}} LanguageTool
 
 " ExciteTranslate{{{
-if s:neobundle_enable && ! empty(neobundle#get("excitetranslate-vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("excitetranslate-vim"))
   xnoremap <Leader>x :ExciteTranslate<CR>
 endif
 "}}} LanguageTool
 
 " vim-anzu{{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-anzu"))
+if s:neobundle_enabled && ! empty(neobundle#get("vim-anzu"))
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
   nmap * <Plug>(anzu-star-with-echo)
@@ -1197,14 +1215,14 @@ endif
 "}}} vim-anzu
 
 " syntastic{{{
-if s:neobundle_enable && ! empty(neobundle#get("syntastic"))
+if s:neobundle_enabled && ! empty(neobundle#get("syntastic"))
   let g:syntastic_enable_signs=1
   let g:syntastic_auto_loc_list=2
 endif
 "}}} syntastic
 
 " signify{{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-signify"))
+if s:neobundle_enabled && ! empty(neobundle#get("vim-signify"))
   let g:signify_disable_by_default = 1
   let g:signify_cursorhold_normal = 1
   let g:signify_cursorhold_insert = 1
@@ -1216,14 +1234,14 @@ endif
 "}}} signify
 
 " applescript{{{
-if s:neobundle_enable && ! empty(neobundle#get("applescript.vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("applescript.vim"))
   autocmd MyAutoGroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
 "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬<CR>
 endif
 "}}} applescript
 
 " lightline.vim {{{
-if s:neobundle_enable && ! empty(neobundle#get("lightline.vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("lightline.vim"))
   let g:lightline = {
     \"colorscheme": "jellybeans",
     \"active": {
@@ -1298,7 +1316,7 @@ endif
 "}}} lightline.vim
 
 " vim-ref {{{
-if s:neobundle_enable && ! empty(neobundle#get("vim-ref"))
+if s:neobundle_enabled && ! empty(neobundle#get("vim-ref"))
   " Set webdict sources
   let g:ref_source_webdict_sites = {
   \   "je": {
@@ -1342,7 +1360,7 @@ endif
 "}}}
 
 " SrcExpl  {{{
-if s:neobundle_enable && ! empty(neobundle#get("SrcExpl"))
+if s:neobundle_enabled && ! empty(neobundle#get("SrcExpl"))
  let g:SrcExpl_RefreshTime = 1
  let g:SrcExpl_UpdateTags = 0
  nnoremap <Leader>e :SrcExplToggle<CR>
@@ -1350,7 +1368,7 @@ endif
 "}}}
 
 " tagbar {{{
-if s:neobundle_enable && ! empty(neobundle#get("tagbar"))
+if s:neobundle_enabled && ! empty(neobundle#get("tagbar"))
   nnoremap <silent> <leader>t :TagbarToggle<CR>
 endif
 "}}} tagbar
@@ -1380,13 +1398,39 @@ endif
 " }}} cscope
 
 " gist-vim {{{
-if s:neobundle_enable && ! empty(neobundle#get("gist-vim"))
+if s:neobundle_enabled && ! empty(neobundle#get("gist-vim"))
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
   " Disable default Gist command
   cnoremap <silent> Gist<CR> echo 'use Gist -P to make a public gist'<CR>
 endif
 "}}} gist-vim
+
+"" previm {{{
+"if s:neobundle_enabled && ! empty(neobundle#get("previm"))
+"  "let g:previm_open_cmd = 'open -a Firefox'
+"endif
+"
+""}}} previm
+"
+"" quickrun {{{
+"if s:neobundle_enabled && ! empty(neobundle#get("quickrun"))
+"  let g:quickrun_config['markdown'] = {
+"    \'outputter': 'browser'
+"    \}
+"endif
+"" markdown-gfm {{{
+"if s:neobundle_enabled && ! empty(neobundle#get("vim-quickrun-markdown-gfm"))
+"  if ! empty(neobundle#get("quickrun"))
+"    let g:quickrun_config = {
+"    \   'markdown': {
+"    \     'type': 'markdown/gfm',
+"    \     'outputter': 'browser'
+"    \   }
+"    \ }
+"  endif
+"  let g:quickrun_markdown_gfm_github_api_url = 'https://<your-github-enterprise-hostname>/api/v3'
+"endif
 
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))
