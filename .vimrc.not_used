@@ -249,6 +249,29 @@ NeoBundleLazy "thinca/vim-quickrun", { "autoload" : {
   \ ["nxo", "<Plug>(quickrun)"]] }}
 " }}}
 
+" vim-quick-run-markdown-gfm {{{
+" need gfm GitHub Flavored Markdown...?
+NeoBundleLazy "superbrothers/vim-quickrun-markdown-gfm", {
+      \"depends":
+      \  ["tryu/open-browser.vim","thinca/vim-quickrun", "mattn/webapi-vim"]}
+if s:neobundle_enabled && ! empty(neobundle#get("quickrun"))
+                       &&! empty(neobundle#get("vim-quickrun-markdown-gfm"))
+  let g:quickrun_config = {
+  \   'markdown': {
+  \     'type': 'markdown/gfm',
+  \     'outputter': 'browser'
+  \   }
+  \ }
+endif
+"}}}
+
+" Markdown
+"NeoBundle "plasticboy/vim-markdown"
+"NeoBundle "tpope/vim-markdown"
+"NeoBundle "hallison/vim-markdown"
+"NeoBundle "Markdown"
+
+
 " for hl_matchit {{{
 " Vim plugin to highlight matchit.vim
 " # Make it too slow especially for files which have many brackets

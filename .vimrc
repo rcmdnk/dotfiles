@@ -269,18 +269,18 @@ if s:use_neobundle && v:version > 702
   NeoBundle "hail2u/vim-css3-syntax.git"
 
   " Markdown syntax
-  "NeoBundle "plasticboy/vim-markdown"
-  "NeoBundle "tpope/vim-markdown"
-  "NeoBundle "hallison/vim-markdown"
   NeoBundle "rcmdnk/vim-markdown"
-  "NeoBundle "Markdown"
-
-  NeoBundle "thinca/vim-quickrun"
-  "NeoBundle "superbrothers/vim-quickrun-markdown-gfm"
-
 
   " Markdown preview
-  "NeoBundle "kannokanno/previm"
+  if ( has("win32unix") || has ("win64unix") ||
+      \has("mac") || has ("gui_macvim"))
+    NeoBundleLazy "kannokanno/previm", {
+          \"autoload": {"commands" : ["PrevimOpen"]}}
+  else
+    NeoBundleLazy "kannokanno/previm", {
+          \ "depends": ["tryu/open-browser.vim"],
+          \"autoload": {"commands" : ["PrevimOpen"]}}
+  endif
 
   " Folding method for python, but makes completion too slow...?
   "NeoBundle "vim-scripts/python_fold"
@@ -1406,31 +1406,18 @@ if s:neobundle_enabled && ! empty(neobundle#get("gist-vim"))
 endif
 "}}} gist-vim
 
-"" previm {{{
-"if s:neobundle_enabled && ! empty(neobundle#get("previm"))
-"  "let g:previm_open_cmd = 'open -a Firefox'
-"endif
-"
-""}}} previm
-"
-"" quickrun {{{
-"if s:neobundle_enabled && ! empty(neobundle#get("quickrun"))
-"  let g:quickrun_config['markdown'] = {
-"    \'outputter': 'browser'
-"    \}
-"endif
-"" markdown-gfm {{{
-"if s:neobundle_enabled && ! empty(neobundle#get("vim-quickrun-markdown-gfm"))
-"  if ! empty(neobundle#get("quickrun"))
-"    let g:quickrun_config = {
-"    \   'markdown': {
-"    \     'type': 'markdown/gfm',
-"    \     'outputter': 'browser'
-"    \   }
-"    \ }
-"  endif
-"  let g:quickrun_markdown_gfm_github_api_url = 'https://<your-github-enterprise-hostname>/api/v3'
-"endif
+" previm {{{
+if s:neobundle_enabled && ! empty(neobundle#get("previm"))
+  if ( has("win32unix") || has ("win64unix"))
+    " cygwin
+    let g:previm_open_cmd = "cygstart"
+  elseif ( has("mac") || has ("gui_macvim"))
+    " mac
+    let g:previm_open_cmd = "open"
+  endif
+endif
+
+"}}} previm
 
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))
