@@ -122,130 +122,130 @@ if s:use_neobundle && v:version > 702
     \ "autoload": {"commands": ["GundoToggle"]}}
 
   " textobj {{{
-  NeoBundle "kana/vim-textobj-user"
+  "NeoBundle "kana/vim-textobj-user"
 
-  " entire: ae, ie
-  NeoBundle "kana/vim-textobj-entire"
+  "" entire: ae, ie
+  "NeoBundle "kana/vim-textobj-entire"
 
-  " line: al, il
-  NeoBundle "kana/vim-textobj-line"
+  "" line: al, il
+  "NeoBundle "kana/vim-textobj-line"
 
-  " function: af, if
-  NeoBundle "kana/vim-textobj-function"
+  "" function: af, if
+  "NeoBundle "kana/vim-textobj-function"
 
-  " syntax: ay, iy
-  NeoBundle "kana/vim-textobj-syntax"
+  "" syntax: ay, iy
+  "NeoBundle "kana/vim-textobj-syntax"
 
-  " jabraces: ajb, ijb
-  NeoBundle "kana/vim-textobj-jabraces"
+  "" jabraces: ajb, ijb
+  "NeoBundle "kana/vim-textobj-jabraces"
 
-  " last pattern: a/, i/
-  NeoBundle "kana/vim-textobj-lastpat"
+  "" last pattern: a/, i/
+  "NeoBundle "kana/vim-textobj-lastpat"
 
-  " indent: al, il
-  NeoBundle "kana/vim-textobj-indent"
+  "" indent: al, il
+  "NeoBundle "kana/vim-textobj-indent"
 
-  " fold: az, iz
-  NeoBundle "kana/vim-textobj-fold"
+  "" fold: az, iz
+  "NeoBundle "kana/vim-textobj-fold"
 
-  " diff(1): adf, idf
-  NeoBundle "kana/vim-textobj-diff"
+  "" diff(1): adf, idf
+  "NeoBundle "kana/vim-textobj-diff"
 
-  " datetime: ada, ida
-  NeoBundle "kana/vim-textobj-datetime"
+  "" datetime: ada, ida
+  "NeoBundle "kana/vim-textobj-datetime"
 
-  " underscore: a_, i_
-  NeoBundle "kana/vim-textobj-underscore"
+  "" underscore: a_, i_
+  "NeoBundle "kana/vim-textobj-underscore"
 
-  " django_template: adb, idb
-  NeoBundle "kana/vim-textobj-django-template"
+  "" django_template: adb, idb
+  "NeoBundle "kana/vim-textobj-django-template"
 
-  " between: af, if
-  NeoBundle "thinca/vim-textobj-between"
+  "" between: af, if
+  "NeoBundle "thinca/vim-textobj-between"
 
-  " comment: ac, ic
-  NeoBundle "thinca/vim-textobj-comment"
+  "" comment: ac, ic
+  "NeoBundle "thinca/vim-textobj-comment"
 
-  " JavaScript Function: af, if
-  NeoBundle "thinca/vim-textobj-function-javascript"
+  "" JavaScript Function: af, if
+  "NeoBundle "thinca/vim-textobj-function-javascript"
 
-  " Perl Function: af, if
-  NeoBundle "thinca/vim-textobj-function-perl"
+  "" Perl Function: af, if
+  "NeoBundle "thinca/vim-textobj-function-perl"
 
-  " last paste: ap, ip
-  NeoBundle "gilligan/textobj-lastpaste"
+  "" last paste: ap, ip
+  "NeoBundle "gilligan/textobj-lastpaste"
 
-  " mbboundary: am, im
-  NeoBundle "deton/textobj-mbboundary.vim"
+  "" mbboundary: am, im
+  "NeoBundle "deton/textobj-mbboundary.vim"
 
-  " xml attribute: axa, ixa
-  NeoBundle "akiyan/vim-textobj-xml-attribute"
+  "" xml attribute: axa, ixa
+  "NeoBundle "akiyan/vim-textobj-xml-attribute"
 
-  " php: aP, iP
-  NeoBundle "akiyan/vim-textobj-php"
+  "" php: aP, iP
+  "NeoBundle "akiyan/vim-textobj-php"
 
-  " space: aS, iS
-  NeoBundle "saihoooooooo/vim-textobj-space"
+  "" space: aS, iS
+  "NeoBundle "saihoooooooo/vim-textobj-space"
 
-  " URL: au, iu
-  NeoBundle "mattn/vim-textobj-url"
+  "" URL: au, iu
+  "NeoBundle "mattn/vim-textobj-url"
 
-  " snake_case: a,w, i,w
-  NeoBundle "h1mesuke/textobj-wiw"
+  "" snake_case: a,w, i,w
+  "NeoBundle "h1mesuke/textobj-wiw"
 
-  " lastinserted: au, iu
-  NeoBundle "rhysd/vim-textobj-lastinserted"
+  "" lastinserted: au, iu
+  "NeoBundle "rhysd/vim-textobj-lastinserted"
 
-  " continuous line: av, iv
-  NeoBundle "rhysd/vim-textobj-continuous-line"
+  "" continuous line: av, iv
+  "NeoBundle "rhysd/vim-textobj-continuous-line"
 
-  " ruby: arr, brr
-  NeoBundle "rhysd/vim-textobj-ruby"
+  "" ruby: arr, brr
+  "NeoBundle "rhysd/vim-textobj-ruby"
 
-  " xbrackets: axb, ixb
-  NeoBundle "https://bitbucket.org/anyakichi/vim-textobj-xbrackets"
+  "" xbrackets: axb, ixb
+  "NeoBundle "https://bitbucket.org/anyakichi/vim-textobj-xbrackets"
 
-  " motionmotion: am, im
-  NeoBundle "hchbaw/textobj-motionmotion.vim"
+  "" motionmotion: am, im
+  "NeoBundle "hchbaw/textobj-motionmotion.vim"
 
-  " enclosedsyntax: aq, iq
-  NeoBundle "deris/vim-textobj-enclosedsyntax"
+  "" enclosedsyntax: aq, iq
+  "NeoBundle "deris/vim-textobj-enclosedsyntax"
 
-  " headwordofline: ah, ih
-  NeoBundle "deris/vim-textobj-headwordofline"
+  "" headwordofline: ah, ih
+  "NeoBundle "deris/vim-textobj-headwordofline"
 
-  " LaTeX: ae, ie
-  NeoBundle "rbonvall/vim-textobj-latex"
+  "" LaTeX: ae, ie
+  "NeoBundle "rbonvall/vim-textobj-latex"
 
-  " parameter: a, i,
-  NeoBundle "sgur/vim-textobj-parameter"
+  "" parameter: a, i,
+  "NeoBundle "sgur/vim-textobj-parameter"
 
-  " cell: ac, ic
-  NeoBundle "mattn/vim-textobj-cell"
+  "" cell: ac, ic
+  "NeoBundle "mattn/vim-textobj-cell"
 
-  " context: icx
-  NeoBundle "osyo-manga/vim-textobj-context"
+  "" context: icx
+  "NeoBundle "osyo-manga/vim-textobj-context"
 
-  " multiblock: asb, isb
-  NeoBundle "osyo-manga/vim-textobj-multiblock"
+  "" multiblock: asb, isb
+  "NeoBundle "osyo-manga/vim-textobj-multiblock"
 
-  " indblock: ao, io
-  NeoBundle "glts/vim-textobj-indblock"
+  "" indblock: ao, io
+  "NeoBundle "glts/vim-textobj-indblock"
 
-  " dash: a-, i-
-  NeoBundle "RyanMcG/vim-textobj-dash"
+  "" dash: a-, i-
+  "NeoBundle "RyanMcG/vim-textobj-dash"
 
-  " Python af, if
-  NeoBundle "bps/vim-textobj-python"
+  "" Python af, if
+  "NeoBundle "bps/vim-textobj-python"
 
-  " #ifdef: a#, i#
-  NeoBundle "anyakichi/vim-textobj-ifdef"
+  "" #ifdef: a#, i#
+  "NeoBundle "anyakichi/vim-textobj-ifdef"
 
-  " HTML: ahf, ihf
-  NeoBundle "mjbrownie/html-textobjects"
+  "" HTML: ahf, ihf
+  "NeoBundle "mjbrownie/html-textobjects"
 
-  " keyvalue: dak, dik,  dav, div
-  NeoBundle "vimtaku/vim-textobj-keyvalue"
+  "" keyvalue: dak, dik,  dav, div
+  "NeoBundle "vimtaku/vim-textobj-keyvalue"
   "}}}
 
   " operator {{{
