@@ -271,6 +271,10 @@ if s:use_neobundle && v:version > 702
   " Markdown syntax
   NeoBundle "rcmdnk/vim-markdown"
 
+  "let g:vim_markdown_codeblock_syntax=0
+  "let g:loaded_vim_markdown = 1
+  "NeoBundle "joker1007/vim-markdown-quote-syntax"
+
   " Markdown preview
   if ( has("win32unix") || has ("win64unix") ||
       \has("mac") || has ("gui_macvim"))
@@ -295,7 +299,7 @@ if s:use_neobundle && v:version > 702
   NeoBundle "applescript.vim"
 
   " Another status line
-  NeoBundle "itchyny/lightline.vim"
+  "NeoBundle "itchyny/lightline.vim"
 
   " Visual indent guides: make moving slow?
   NeoBundle "nathanaelkane/vim-indent-guides"
@@ -501,8 +505,9 @@ set ambiwidth=double  " For UTF-8, width for East Asian Characters
 set cmdheight=1    " Command line height
 set showmatch      " Show maching one for inserted bracket
 
-"set spell          " Spell check highlight
-set nospell        " No spell check
+set spell          " Spell check highlight
+"set nospell        " No spell check
+set spelllang+=cjk " Ignore double-width characters
 
 " Ignore non Ascii charactors at spell check
 " maybe will be in the patch in the future.
@@ -764,16 +769,16 @@ hi PmenuSbar ctermbg=255 ctermfg=0 guifg=#000000 guibg=#FFFFFF
 " column
 hi ColorColumn ctermbg=234
 
-"" colors for diff mode
+" colors for diff mode
 hi DiffAdd ctermbg=17 guibg=slateblue
 hi DiffChange ctermbg=22 guibg=darkgreen
 hi DiffText cterm=bold ctermbg=52 gui=bold guibg=olivedrab
 hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
 
-"" Colors for search
+" Colors for search
 hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
 
-"" markdown
+" html
 hi link htmlItalic LineNr
 hi link htmlBold WarningMsg
 hi link htmlBoldItalic ErrorMsg
