@@ -6,7 +6,7 @@
 " flags
 let s:use_neobundle=1
 
-" vi compatiblity {{{
+" vi compatibility {{{
 if !&compatible
   " disable vi compatible mode (much better!)
   set nocompatible
@@ -57,7 +57,7 @@ if s:use_neobundle && v:version > 702
   " Neobundle
   NeoBundleFetch "Shougo/neobundle.vim"
 
-  " Make templete of NeoBundle
+  " Make template of NeoBundle
   NeoBundleLazy 'LeafCage/nebula.vim',{
     \'autoload':{
       \'commands':[
@@ -72,7 +72,7 @@ if s:use_neobundle && v:version > 702
       \'mac' : 'make -f make_mac.mak',
       \'unix' : 'make -f make_unix.mak'}}
 
-  """ Unlike "fuzzyfinder" or "ku", it doesn't use the built-lin completion of vim {{{
+  """ Unlike "fuzzyfinder" or "ku", it doesn't use the built-in completion of vim {{{
   """ Searches and display information->:help Unite
   NeoBundleLazy 'Shougo/unite.vim' , {
     \ 'autoload' : { 'commands' : [ 'Unite' ] }}
@@ -271,10 +271,6 @@ if s:use_neobundle && v:version > 702
   " Markdown syntax
   NeoBundle "rcmdnk/vim-markdown"
 
-  "let g:vim_markdown_codeblock_syntax=0
-  "let g:loaded_vim_markdown = 1
-  "NeoBundle "joker1007/vim-markdown-quote-syntax"
-
   " Markdown preview
   if ( has("win32unix") || has ("win64unix") ||
       \has("mac") || has ("gui_macvim"))
@@ -396,6 +392,12 @@ if s:use_neobundle && v:version > 702
   " yank
   NeoBundle "LeafCage/yankround.vim"
 
+  " over
+  NeoBundle "osyo-manga/vim-over"
+
+  " switch
+  NeoBundle "AndrewRadev/switch.vim"
+
   " local plugins
   NeoBundleLocal ~/.vim/local/bundle
   """"plugins end"""""
@@ -421,7 +423,7 @@ augroup END
 " Switch on highlighting the last used search pattern.
 set hlsearch
 
-" mapleaader (<Leader>) (default is \)
+" mapleader (<Leader>) (default is \)
 let mapleader = ","
 " use \ as , instead
 noremap <Subleader> <Nop>
@@ -504,6 +506,7 @@ set mouse=         " Disable mouse
 set ambiwidth=double  " For UTF-8, width for East Asian Characters
 set cmdheight=1    " Command line height
 set showmatch      " Show maching one for inserted bracket
+set ambiwidth=double " Note: it doesn't work at specific terminals?(iTerm, putty, etc..?)
 
 set spell          " Spell check highlight
 "set nospell        " No spell check
@@ -584,12 +587,6 @@ endif
 " Max columns for syntax search
 " Such XML file has too much syntax which make vim drastically slow
 set synmaxcol=200 "default 3000
-
-" Disable highlight italic in Markdown
-"autocmd MyAutoGroup FileType markdown hi! def link markdownItalic LineNr
-" md as markdown, instead of modula2-> should be managed by syntax plugins
-" such plasticboy/vim-markdown uses mkd, instead of markdown
-"autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 
 " }}} Basic settings
 
@@ -1002,8 +999,8 @@ nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 
 " yankround {{{
 if s:neobundle_enabled && ! empty(neobundle#get("yankround.vim"))
-  nmap p <Plug>(yankround-p)
-  nmap P <Plug>(yankround-P)
+  nmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
+  nmap <expr> P (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-P)'
   nmap <C-p> <Plug>(yankround-prev)
   nmap <C-n> <Plug>(yankround-next)
   let g:yankround_max_history = 30
@@ -1423,6 +1420,12 @@ if s:neobundle_enabled && ! empty(neobundle#get("previm"))
 endif
 
 "}}} previm
+
+" switch {{{
+if s:neobundle_enabled && ! empty(neobundle#get("switch.vim"))
+  nnoremap - :Switch<cr>
+endif
+"}}} switch
 
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))
