@@ -244,10 +244,10 @@ alias gcg="make clean && make"
 alias bc="bc -l"
 alias ssh="ssh -X"
 alias svnHeadDiff="svn diff --revision=HEAD"
-#alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
-#alias vim="vim -X" # no X
-#alias vi="vim -X" # vi->vim,no X
-alias vi="vim"
+alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
+alias vim="vim -X" # no X
+alias vi="vim -X" # vi->vim,no X
+#alias vi="vim"
 alias memo="vim -X ~/.memo.md"
 alias vid="vim -X -d"
 alias vinon="vim -X -u NONE"
@@ -566,32 +566,32 @@ function gitupdate {
 }
 # }}}
 
-## man wrapper{{{
-#function man {
-#  # Open man file with vim
-#  # col -b -x: remove backspace, replace tab->space
-#  # vim -R -: read only mode, read from stdin
-#  if [ $# -eq 0 ];then
-#    command man
-#  else
-#    # If there are any -* arguments,
-#    # use original man
-#    for m in $@;do
-#      if [[ $m =~ ^- ]];then
-#        command man $@
-#        return
-#      fi
-#    done
-#    # Then open each manual
-#    for m in $@;do
-#      if command man -W $m >&  /dev/null;then
-#        LANG=C command man $@|col -b -x|vim -R -
-#      else
-#        command man $@
-#      fi
-#    done
-#  fi
-#}
+# man wrapper{{{
+function man {
+  # Open man file with vim
+  # col -b -x: remove backspace, replace tab->space
+  # vim -R -: read only mode, read from stdin
+  if [ $# -eq 0 ];then
+    command man
+  else
+    # If there are any -* arguments,
+    # use original man
+    for m in $@;do
+      if [[ $m =~ ^- ]];then
+        command man $@
+        return
+      fi
+    done
+    # Then open each manual
+    for m in $@;do
+      if command man -W $m >&  /dev/null;then
+        LANG=C command man $@|col -b -x|vim -R -
+      else
+        command man $@
+      fi
+    done
+  fi
+}
 #alias man='LANG=C man'
 # }}}
 
