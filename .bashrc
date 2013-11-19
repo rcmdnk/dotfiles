@@ -173,7 +173,7 @@ HISTSIZE=10000
 # ignoreboth # ignore dups and space
 # erasedups # erase a duplication in the past
 export HISTCONTROL=ignoredups
-export HISTIGNORE="?:??:???:????:jobs:ls:fg*:bg*:history:cd -:cd ../:rm*:mv*:"
+export HISTIGNORE="?:??:???:????:history:cd ../:rm*:mv*:"
 #shopt -s histappend # append to hist (not overwrite),
                     # don't use with below share_history
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
@@ -566,32 +566,32 @@ function gitupdate {
 }
 # }}}
 
-## man wrapper{{{
-#function man {
-#  # Open man file with vim
-#  # col -b -x: remove backspace, replace tab->space
-#  # vim -R -: read only mode, read from stdin
-#  if [ $# -eq 0 ];then
-#    command man
-#  else
-#    # If there are any -* arguments,
-#    # use original man
-#    for m in $@;do
-#      if [[ $m =~ ^- ]];then
-#        command man $@
-#        return
-#      fi
-#    done
-#    # Then open each manual
-#    for m in $@;do
-#      if command man -W $m >&  /dev/null;then
-#        LANG=C command man $@|col -b -x|vim -R -
-#      else
-#        command man $@
-#      fi
-#    done
-#  fi
-#}
+# man wrapper{{{
+function man {
+  # Open man file with vim
+  # col -b -x: remove backspace, replace tab->space
+  # vim -R -: read only mode, read from stdin
+  if [ $# -eq 0 ];then
+    command man
+  else
+    # If there are any -* arguments,
+    # use original man
+    for m in $@;do
+      if [[ $m =~ ^- ]];then
+        command man $@
+        return
+      fi
+    done
+    # Then open each manual
+    for m in $@;do
+      if command man -W $m >&  /dev/null;then
+        LANG=C command man $@|col -b -x|vim -R -
+      else
+        command man $@
+      fi
+    done
+  fi
+}
 #alias man='LANG=C man'
 # }}}
 
