@@ -507,7 +507,10 @@ set showmatch      " Show maching one for inserted bracket
 
 set spell          " Spell check highlight
 "set nospell        " No spell check
-set spelllang+=cjk " Ignore double-width characters
+
+if v:version > 704 && has("patch88")
+  set spelllang+=cjk " Ignore double-width characters
+endif
 
 " Ignore non Ascii charactors at spell check
 " maybe will be in the patch in the future.
