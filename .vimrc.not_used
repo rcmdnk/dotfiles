@@ -703,9 +703,9 @@ endif
 
 " }}} Currenlty, not necessary
 
-" ==========================================
-" Unused/Obsolete settings for used plugins {{{
-" ==========================================
+" =============================
+" Unused/Obsolete settings {{{
+" =============================
 
 " NeoBundle {{{
 " Installation check.
@@ -737,6 +737,15 @@ NeoBundle "scrooloose/syntastic", {
   \   "cygwin": ["pip install flake8", "npm -g install coffeelint"],
   \   "mac": ["pip install flake8", "npm -g install coffeelint"],
   \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
+" }}}
+
+" Markdown {{{
+" not necessary for current plugins
+" Disable highlight italic in Markdown
+autocmd MyAutoGroup FileType markdown hi! def link markdownItalic LineNr
+" md as markdown, instead of modula2-> should be managed by syntax plugins
+" such plasticboy/vim-markdown uses mkd, instead of markdown
+autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 " }}}
 
 " }}} Unused/Obsolete settings for used plugins
