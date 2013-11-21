@@ -511,26 +511,9 @@ set ambiwidth=double " Note: it doesn't work at specific terminals?(iTerm, putty
 set spell          " Spell check highlight
 "set nospell        " No spell check
 
-if v:version > 704 && has("patch88")
+if v:version >= 704 && has("patch88")
   set spelllang+=cjk " Ignore double-width characters
 endif
-
-" Ignore non Ascii charactors at spell check
-" maybe will be in the patch in the future.
-" https://github.com/vim-jp/issues/issues/476
-" * somehow below ignore all...
-"fun! s:SpellConf()
-"  set spell
-"  syntax spell notoplevel
-"  syntax match SpellNotAscii /\<\A\+\>/ contains=@NoSpell transparent
-"  syntax match SpellMaybeCode /\<\h\l*[_A-Z]\h\{-}\>/ contains=@NoSpell transparent
-"  syntax cluster Spell add=SpellNotAscii,SpellMaybeCode
-"endfunc
-"
-"augroup spell_check
-"  autocmd!
-"  autocmd BufReadPost,BufNewFile,Syntax * call s:SpellConf()
-"augroup END
 
 " IME setting
 if has("multi_byte_ime") || has("xim") || has("gui_macvim")
@@ -555,6 +538,9 @@ autocmd MyAutoGroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
 set foldlevel=0
 set foldnestmax=1
 
+" Filetype
+autocmd MyAutoGroup BufNewFile,BufRead *.{htm*} set filetype=markdown
+
 " When editing a file, always jump to the last known cursor position.
 autocmd MyAutoGroup BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
@@ -575,7 +561,7 @@ set virtualedit=all
 
 " Avoid to paste/insert in non-editing place
 if has("virtualedit") && &virtualedit =~# '\<all\>'
-  " p should be fixed, with yankround -> it map p
+  " p should be fixed, with yankround -> it maps p
   nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
   nnoremap <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
   nnoremap <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
