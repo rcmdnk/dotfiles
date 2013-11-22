@@ -748,6 +748,12 @@ autocmd MyAutoGroup FileType markdown hi! def link markdownItalic LineNr
 autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 " }}}
 
+" mappings {{{
+" for gvim?
+nnoremap <silent> "+ "+P
+nnoremap <silent> "* "*P
+" }}}
+
 " }}} Unused/Obsolete settings for used plugins
 
 " ==========================================

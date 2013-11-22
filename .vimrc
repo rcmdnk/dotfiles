@@ -122,13 +122,13 @@ if s:use_neobundle && v:version > 702
     \ "autoload": {"commands": ["GundoToggle"]}}
 
   " textobj {{{
-  "NeoBundle "kana/vim-textobj-user"
+  NeoBundle "kana/vim-textobj-user"
 
   "" entire: ae, ie
   "NeoBundle "kana/vim-textobj-entire"
 
-  "" line: al, il
-  "NeoBundle "kana/vim-textobj-line"
+  " line: al, il
+  NeoBundle "kana/vim-textobj-line"
 
   "" function: af, if
   "NeoBundle "kana/vim-textobj-function"
@@ -295,7 +295,7 @@ if s:use_neobundle && v:version > 702
   NeoBundle "applescript.vim"
 
   " Another status line
-  "NeoBundle "itchyny/lightline.vim"
+  NeoBundle "itchyny/lightline.vim"
 
   " Visual indent guides: make moving slow?
   NeoBundle "nathanaelkane/vim-indent-guides"
@@ -503,10 +503,9 @@ set scrolloff=999  " Show cursor at middle
                    "  such large number force to stay a cursor at middle
 set scroll=0       " Number of lines to scroll with C-U/C-D (0 for half window)
 set mouse=         " Disable mouse
-set ambiwidth=double  " For UTF-8, width for East Asian Characters
+set ambiwidth=double  " For UTF-8, width for East Asian Characters. It doesn't work at specific terminals?(iTerm, putty, etc..?)
 set cmdheight=1    " Command line height
 set showmatch      " Show maching one for inserted bracket
-set ambiwidth=double " Note: it doesn't work at specific terminals?(iTerm, putty, etc..?)
 
 set spell          " Spell check highlight
 "set nospell        " No spell check
@@ -575,7 +574,7 @@ endif
 
 " Max columns for syntax search
 " Such XML file has too much syntax which make vim drastically slow
-set synmaxcol=200 "default 3000
+set synmaxcol=1000 "default 3000
 
 " }}} Basic settings
 
@@ -652,8 +651,6 @@ nnoremap = v=
 "nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
 nnoremap <silent> <Leader>f "%P
 nnoremap <silent> <Leader>d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
-nnoremap <silent> "+ "+P
-nnoremap <silent> "* "*P
 
 " save/quit
 "nnoremap <Leader>w :w<CR>
@@ -669,9 +666,13 @@ nnoremap Q ZQ
 " remove trail spaces
 nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
 
-" Paste mode
+" Paste, Paste mode
 nnoremap <silent> <Leader>p "+gP
 nnoremap <silent> <Leader>P :set paste!<CR>:set paste?<CR>
+
+" *, #, stay at current word->mapped for anzu
+"nnoremap * *N
+"nnoremap #* #n
 
 " Open vimrc
 nnoremap <Leader><Leader> :tabedit $MYVIMRC<CR>
@@ -1199,8 +1200,8 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("vim-anzu"))
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
-  nmap * <Plug>(anzu-star-with-echo)
-  nmap # <Plug>(anzu-sharp-with-echo)
+  nmap * <Plug>(anzu-star-with-echo)N
+  nmap # <Plug>(anzu-sharp-with-echo)N
   let g:airline#extensions#anzu#enabled=0
 endif
 "}}} vim-anzu
