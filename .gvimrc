@@ -205,8 +205,8 @@ endif
 " コマンドラインの高さ(GUI使用時)
 "set cmdheight=1
 " 画面を黒地に白にする (次行の先頭の " を削除すれば有効になる)
-"colorscheme evening " (GUI使用時)
-colorscheme ron " (GUI使用時)
+colorscheme evening " (GUI使用時)
+"colorscheme ron " (GUI使用時)
 
 "---------------------------------------------------------------------------
 " 日本語入力に関する設定:
