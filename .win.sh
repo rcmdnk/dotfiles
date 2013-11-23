@@ -11,6 +11,17 @@ chcp.com 65001 >/dev/null
 
 # display
 export DISPLAY=${DISPLAY:=":0.0"}
+
+# Chocolatey
+alias choco='cmd /c choco'
+alias cinst='cmd /c cinst'
+alias cup='cmd /c cup'
+alias cuninst='cmd /c cuninst'
+
+# unset tmp/temp (=C:\Users\user\AppData\Local\Temp)
+# for Chocolatey (otherwise it complains...)
+unset tmp temp
+
 #}}}
 
 # alias {{{
