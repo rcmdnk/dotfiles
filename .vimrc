@@ -737,7 +737,11 @@ cnoremap w!! w !sudo tee > /dev/null %
 colorscheme ron
 
 " for spell checks
-hi SpellBad cterm=inverse ctermbg=0
+"hi SpellBad cterm=inverse ctermbg=0
+hi SpellBad cterm=underline ctermbg=0
+hi SpellCap cterm=underline ctermbg=0
+hi SpellLocal cterm=underline ctermbg=0
+hi SpellRare cterm=underline ctermbg=0
 
 "hi CursorLine cterm=none ctermfg=NONE ctermbg=NONE
 " only underline for cursorline
