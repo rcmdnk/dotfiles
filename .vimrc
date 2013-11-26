@@ -649,8 +649,6 @@ nnoremap = v=
 
 " insert file name
 "nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
-nnoremap <silent> <Leader>f "%P
-nnoremap <silent> <Leader>d i<CR><Esc><BS>:r!echo %:p:h<CR>i<BS><Esc>Jx
 
 " save/quit
 "nnoremap <Leader>w :w<CR>
@@ -786,6 +784,8 @@ function! SetDiffWrap()
   endif
 endfunction
 autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffWrap()
+
+set diffopt=filler,vertical
 " }}} diff mode
 
 " DiffOrig {{{
