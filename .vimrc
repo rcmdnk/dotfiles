@@ -655,9 +655,12 @@ nnoremap = v=
 "nnoremap <Leader>q :q<CR>
 "nnoremap <Leader>wq :wq<CR>
 "nnoremap <Leader>1 :q!<CR>
-nnoremap W :w<CR>
-nnoremap ! :q!<CR>
-nnoremap Z ZZ
+"nnoremap W :w<CR>
+"nnoremap ! :q!<CR>
+"nnoremap Z ZZ
+nnoremap <A-w> :w<CR>
+nnoremap <A-q> :q!<CR>
+nnoremap <A-z> :ZZ<CR>
 " don't enter Ex mode but quit w/o check by Q
 nnoremap Q ZQ
 
@@ -685,19 +688,6 @@ nnoremap / /\v
 
 " Close help with q
 autocmd MyAutoGroup FileType help,qf nnoremap <buffer> q <C-w>c
-
-" Surround at Normal mode
-nnoremap <Leader>{ bi{<Space><Esc>ea<Space>}<Esc>
-nnoremap <Leader>} bi{<Esc>ea}<Esc>
-nnoremap <Leader>[ bi[<Space><Esc>ea<Space>]<Esc>
-nnoremap <Leader>] bi[<Esc>ea]<Esc>
-nnoremap <Leader>( bi(<Space><Esc>ea<Space>)<Esc>
-nnoremap <Leader>) bi(<Esc>ea)<Esc>
-nnoremap <Leader>< bi<<Space><Esc>ea<Space>><Esc>
-nnoremap <Leader>> bi<<Esc>ea><Esc>
-nnoremap <Leader>" bi"<Esc>ea"<Esc>
-nnoremap <Leader>' bi'<Esc>ea'<Esc>
-nnoremap <Leader>` bi`<Esc>ea`<Esc>
 
 """ insert mode (inoremap)
 
@@ -849,7 +839,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
     nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
     nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
     nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-通知機能、    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
     nnoremap <silent><buffer><expr> l
             \ unite#smart_map('l', unite#do_action('default'))
 
@@ -930,6 +920,17 @@ if s:neobundle_enabled && ! empty(neobundle#get("surround.vim"))
     let g:surround_old_mappings = 1
   endif
 
+  nmap <Leader>{ ysiw{
+  nmap <Leader>} ysiw}
+  nmap <Leader>[ ysiw[
+  nmap <Leader>] ysiw]
+  nmap <Leader>( ysiw(
+  nmap <Leader>) ysiw)
+  nmap <Leader>< ysiw<
+  nmap <Leader>> ysiw>
+  nmap <Leader>" ysiw"
+  nmap <Leader>' ysiw'
+  nmap <Leader>` ysiw`
   vmap { S{
   vmap } S}
   vmap [ S[
