@@ -752,6 +752,20 @@ autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=m
 " for gvim?
 nnoremap <silent> "+ "+P
 nnoremap <silent> "* "*P
+
+" Surround at Normal mode
+" *use surround.vim
+nnoremap <Leader>{ bi{<Space><Esc>ea<Space>}<Esc>
+nnoremap <Leader>} bi{<Esc>ea}<Esc>
+nnoremap <Leader>[ bi[<Space><Esc>ea<Space>]<Esc>
+nnoremap <Leader>] bi[<Esc>ea]<Esc>
+nnoremap <Leader>( bi(<Space><Esc>ea<Space>)<Esc>
+nnoremap <Leader>) bi(<Esc>ea)<Esc>
+nnoremap <Leader>< bi<<Space><Esc>ea<Space>><Esc>
+nnoremap <Leader>> bi<<Esc>ea><Esc>
+nnoremap <Leader>" bi"<Esc>ea"<Esc>
+nnoremap <Leader>' bi'<Esc>ea'<Esc>
+nnoremap <Leader>` bi`<Esc>ea`<Esc>
 " }}}
 
 " }}} Unused/Obsolete settings for used plugins
