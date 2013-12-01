@@ -572,6 +572,11 @@ if has("virtualedit") && &virtualedit =~# '\<all\>'
   autocmd MyAutoGroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
 endif
 
+" VimShowHlGroup: Show highlight group name under a cursor
+command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
+" VimShowHlItem: Show highlight item name under a cursor
+command! VimShowHlItem echo synIDattr(synID(line("."), col("."), 1), "name")
+
 " Max columns for syntax search
 " Such XML file has too much syntax which make vim drastically slow
 set synmaxcol=1000 "default 3000
