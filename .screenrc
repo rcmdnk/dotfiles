@@ -31,6 +31,9 @@ hardcopydir $HOME/screenlog
 # Time (second) to show message
 msgwait 10
 
+# For search
+ignorecase on
+
 # Remove background color
 #defbce "on"
 
@@ -59,6 +62,9 @@ bind ^W
 
 # Clear display before detachment
 #bind d eval 'only' 'clear' 'detach'
+
+# display
+screen -X setenv DISPLAY $DISPLAY
 
 # Colors for other messages, including center line
 #sorendition "+rb .w"
@@ -186,8 +192,12 @@ bindkey -m Y eval 'stuff Y' 'writebuf' 'exec !!! multi_clipboards -I'
 bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! multi_clipboards -I'
 
 #bind a eval "!bash -c 'source ~/.bashrc && myclpopsc'"
-bind a eval "!bash -c 'multi_clipboards -O;echo -n \"$SCREEN_PS1\"'"
-bind ^a eval "!bash -c 'multi_clipboards -O;echo -n \"$SCREEN_PS1\"'"
+bind a eval 'command -c mc' "!bash -c 'multi_clipboards -S'"
+bind ^a eval 'command -c mc' "!bash -c 'multi_clipboards -S'"
+bind -c mc n eval 'command -c mc' "!bash -c 'multi_clipboards -S -n'"
+bind -c mc p eval 'command -c mc' "!bash -c 'multi_clipboards -S -p'"
+bind q eval 'command -c mc' "!bash -c 'multi_clipboards -S -q'"
+bind  eval 'command -c mc' "!bash -c 'multi_clipboards -S -s'"
 
 # Term
 #term "screen-256color"
