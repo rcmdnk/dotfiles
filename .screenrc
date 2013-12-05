@@ -8,6 +8,7 @@ escape ^Qq
 
 # Only: Q (default)
 bind q only
+#bind ^q only
 
 # source setup file
 #bind q eval "source $HOME/.screenrc"
@@ -29,10 +30,13 @@ defmonitor on
 hardcopydir $HOME/screenlog
 
 # Time (second) to show message
-msgwait 10
+msgwait 5
 
 # For search
 ignorecase on
+
+# Disable flow control (C-s/C-q)
+defflow off
 
 # Remove background color
 #defbce "on"
@@ -52,6 +56,9 @@ bind F eval 'scrollback 0' 'scrollback 1000' 'echo "scrollback buffer cleared"'
 # disable loginmode (if update /var/run/utmp)
 deflogin on
 
+# verbose
+#verbose on
+
 # Modify window list
 bind w  windowlist -b
 #bind ^W windowlist -b
@@ -62,9 +69,6 @@ bind ^W
 
 # Clear display before detachment
 #bind d eval 'only' 'clear' 'detach'
-
-# display
-screen -X setenv DISPLAY $DISPLAY
 
 # Colors for other messages, including center line
 #sorendition "+rb .w"
@@ -187,17 +191,19 @@ bind -c resize ^k eval 'command -c resize' 'resize -v -1'
 bufferfile "$SCREENEXCHANGE"
 
 #bindkey -m ' ' eval 'stuff \040' 'writebuf' "!bash -c 'source ~/.bashrc && myclpushsc'"
-bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec !!! multi_clipboards -I'
-bindkey -m Y eval 'stuff Y' 'writebuf' 'exec !!! multi_clipboards -I'
-bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! multi_clipboards -I'
+bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec !!! multi_clipboard -I'
+bindkey -m Y eval 'stuff Y' 'writebuf' 'exec !!! multi_clipboard -I'
+bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! multi_clipboard -I'
 
 #bind a eval "!bash -c 'source ~/.bashrc && myclpopsc'"
-bind a eval 'command -c mc' "!bash -c 'multi_clipboards -S'"
-bind ^a eval 'command -c mc' "!bash -c 'multi_clipboards -S'"
-bind -c mc n eval 'command -c mc' "!bash -c 'multi_clipboards -S -n'"
-bind -c mc p eval 'command -c mc' "!bash -c 'multi_clipboards -S -p'"
-bind q eval 'command -c mc' "!bash -c 'multi_clipboards -S -q'"
-bind  eval 'command -c mc' "!bash -c 'multi_clipboards -S -s'"
+bind a eval 'command -c mc' "!bash -c 'multi_clipboard -S'"
+bind ^a eval 'command -c mc' "!bash -c 'multi_clipboard -S'"
+bind -c mc n eval 'command -c mc' "!bash -c 'multi_clipboard -S -n'"
+bind -c mc p eval 'command -c mc' "!bash -c 'multi_clipboard -S -p'"
+bind -c mc q eval "!bash -c 'multi_clipboard -S -q'"
+bind -c mc ' ' eval "!bash -c 'multi_clipboard -S -s'"
+# Enter (\012) doesn't work for bindings with command?
+#bind -c mc '\012' eval "!bash -c 'multi_clipboard -S -s'"
 
 # Term
 #term "screen-256color"
@@ -216,47 +222,50 @@ terminfo xterm* hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
 termcapinfo xterm* ti=\E7\E[?47l
 
 # Caption for each window
-caption always '%?%F%{=d Wk}%:%{=d Kk}%?%?%P%{=d Bk}%?%n %L=%h%L>%=%?%P *copy/paste*%?%?%E ***command**%?%-0='
-# %?%F      # if the window has the focus
-#  %{=d Wk} #   set attribute = {dim, black(k) on bright Write(W)}
-# %:        # else
-#  %{=d Kk} #   set attribute = {dim, black(k) on bright Black(K)}
-# %?        # end if
-# %?%P      # if copy/paste mode
-#   %{=d Bk}#   set attribute = {dim, black(k) on bright Blue(B)}
-# %?        # end if
-# %n        # window number
-#           # space
-# %L=       # Mark the position for the next truncation
-# %h        # window' hardstatus
-# %L>       # Truncate %L= ~ %L>, 'L' for > gives marks at the truncation point
-# %=        # With the last %-0=, it makes right alignment for following lines
-# %?%P      # if copy/paste mode
-#   *copy/paste* # draw this sentence
-# %?        # end if
-# %?%E      # if copy/paste mode
-#   ***command** # draw this sentence
-# %?        # end if
-# %-0=      # pad the string to the display's width. "-0" means start from
-#           # the rightest side 
-#           # (e.g. 10=: 10% from left, 010, 10 characters from left
-#           # (     -10=: 10% from right)
-#           # With %L>, %= above, screen tries to truncates the part 
-#           # in the left of "%L>"
+setenv a ""
+setenv a "$a%?%F"     # if the window has the focus
+setenv a "$a%{=d Wk}" #   set attribute = {dim, black(k) on bright Write(W)}
+setenv a "$a%:"       # else
+setenv a "$a%{=d Kk}"   #   set attribute = {dim, black(k) on bright Black(K)}
+setenv a "$a%?"       # end if
+setenv a "$a%?%P"     # if copy/paste mode
+setenv a "$a%{=d Bk}" #   set attribute = {dim, black(k) on bright Blue(B)}
+setenv a "$a%?"       # end if
+setenv a "$a%n"       # window number
+setenv a "$a "        # space
+setenv a "$a%L="      # Mark the position for the next truncation
+setenv a "$a%h"       # window' hardstatus
+setenv a "$a%L>"      # Truncate %L= ~ %L>, 'L' for > gives marks at the truncation point
+setenv a "$a%="       # With the last %-0=, it makes right alignment for following lines
+setenv a "$a%?%P"     # if copy/paste mode
+setenv a "$a  *copy/paste*" # draw this sentence
+setenv a "$a%?"       # end if
+setenv a "$a%?%E"     # if copy/paste mode
+setenv a "$a  ***command**" # draw this sentence
+setenv a "$a%?"       # end if
+setenv a "$a%-0="     # pad the string to the display's width. "-0" means
+                      # start from the rightest side
+                      # (e.g. 10=: 10% from left, 010, 10 characters from left
+                      # (     -10=: 10% from right)
+                      # With %L>, %= above, screen tries to truncates the part 
+                      # in the left of "%L>"
+caption always "$a"
+unsetenv a
 
 # hardstatus
-hardstatus alwayslastline "%{= Kk}%-w%40>%{= Wk}%n %t%{-}%+w%-0="
-# %{= Kk}   # set attribute = {black(k) on bright Black(K)}
-# %-w       # windows' list up to the current window (shown as "%n %t")
-# %40>      # Mark here as a point to move when truncation
-#           # Try to move this point to the 40% point
-# %{= Wk}   # set attribute = {black(k) on bright Write(W)}
-# %n        # current window number
-#           # space
-# %t        # current window title
-# %{-}      # remove the set from the current attributes
-# %+w       # windows' list starting with the window after the current one (shown as "%n %t")
-# %-0=      # pad the string to the display's width.
-
-# About Truncation/Padding(=,<,>)
-# http://aperiodic.net/screen/truncation_padding_escapes
+setenv a ""
+setenv a "$a%{= Kk}" # set attribute = {black(k) on bright Black(K)}
+setenv a "$a%-w"     # windows' list up to the current window (shown as "%n %t")
+setenv a "$a%40>"    # Mark here as a point to move when truncation
+                     # Try to move this point to the 40% point
+setenv a "$a%{= Wk}" # set attribute = {black(k) on bright Write(W)}
+setenv a "$a%n"      # current window number
+setenv a "$a "       # space
+setenv a "$a%t"      # current window title
+setenv a "$a%{-}"    # remove the set from the current attributes
+setenv a "$a%+w"     # windows' list starting with the window after the current one (shown as "%n %t")
+setenv a "$a%-0="    # pad the string to the display's width.
+                     # About Truncation/Padding(=,<,>)
+                     # http://aperiodic.net/screen/truncation_padding_escapes
+hardstatus alwayslastline "$a"
+unsetenv a
