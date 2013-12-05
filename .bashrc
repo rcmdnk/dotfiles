@@ -838,6 +838,9 @@ fi
 # File used for working server
 source_file ~/.work.sh
 
+# brew api token
+source_file ~/.brew_api_token
+
 # File for special settings for each machine
 source_file ~/.local.sh
 
