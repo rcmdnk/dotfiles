@@ -254,8 +254,8 @@ alias vinon="vim -X -u NONE"
 #alias grep="grep --color=always"
 #alias grep="grep -i" # ignore cases
 alias grep="grep -s" # suppress error message
-alias c="multi_clipboards"
-alias put='multi_clipboards -x'
+alias c="multi_clipboard"
+alias put='multi_clipboard -x'
 alias del="trash -r"
 alias hischeck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
 alias hischeckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}'|sort|uniq -c|sort -n"
@@ -755,13 +755,13 @@ function path {
   fi
   fullpath="$(cd "$(dirname $1)";pwd -P)/$(basename $1)"
   echo $fullpath
-  multi_clipboards -s $fullpath
+  multi_clipboard -s $fullpath
 } # }}}
 
 # pwd wrapper (named as wc) to push pwd to the clipboard list{{{
 function wd {
   local curdir=`pwd -P`
-  multi_clipboards -s $curdir
+  multi_clipboard -s $curdir
   echo $curdir
 }
 # }}}
@@ -769,8 +769,6 @@ function wd {
 # }}} Following functions/alias are also enabled before screen
 
 # functions/settings only for screen sessions {{{
-
-export SCREEN_PS1="(-_-) $ " # used for screen command in .screenrc
 if [[ "$TERM" =~ "screen" ]]; then # {{{
   # "\\" doesn't work well, use \134 instead
   PS1="\[\ek\h \W\e\134\e]0;\h \w\a\]\$(\

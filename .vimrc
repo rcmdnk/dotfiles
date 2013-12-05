@@ -423,13 +423,6 @@ augroup END
 " Switch on highlighting the last used search pattern.
 set hlsearch
 
-" mapleader (<Leader>) (default is \)
-let mapleader = ","
-" use \ as , instead
-noremap <Subleader> <Nop>
-nmap \ <Subleader>
-noremap <Subleader>, ,
-
 " allow backspacing over everything in insert mode
 " indent: spaces of the top of the line
 " eol   : break
@@ -558,6 +551,9 @@ set switchbuf=useopen
 " virtualedit (can move to non-editing places: e.x. right of $)
 set virtualedit=all
 
+" Set nopaste when it comes back to Normal mode
+autocmd InsertLeave * set nopaste
+
 " Avoid to paste/insert in non-editing place
 if has("virtualedit") && &virtualedit =~# '\<all\>'
   " p should be fixed, with yankround -> it maps p
@@ -608,6 +604,13 @@ set synmaxcol=1000 "default 3000
 " If you set mappings for <C-i> and <C-m>,
 " the mapping will also be enabled for <Tab> and <CR>, respectively.
 " Others can be mapped separately.
+
+" mapleader (<Leader>) (default is \)
+let mapleader = ","
+" use \ as , instead
+noremap <Subleader> <Nop>
+nmap \ <Subleader>
+noremap <Subleader>, ,
 
 " fix meta-keys
 nmap <ESC>p <M-p>
