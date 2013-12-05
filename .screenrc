@@ -190,18 +190,22 @@ bind -c resize ^k eval 'command -c resize' 'resize -v -1'
 # xsel (xclip also?) sometime remains like zombie...?
 bufferfile "$SCREENEXCHANGE"
 
-#bindkey -m ' ' eval 'stuff \040' 'writebuf' "!bash -c 'source ~/.bashrc && myclpushsc'"
+# !!! is needed. Otherwise somehow multi_clipboard works before writebuf(?)
+# ref: man screen -> exec
 bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec !!! multi_clipboard -I'
 bindkey -m Y eval 'stuff Y' 'writebuf' 'exec !!! multi_clipboard -I'
 bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! multi_clipboard -I'
 
-#bind a eval "!bash -c 'source ~/.bashrc && myclpopsc'"
-bind a eval 'command -c mc' "!bash -c 'multi_clipboard -S'"
-bind ^a eval 'command -c mc' "!bash -c 'multi_clipboard -S'"
-bind -c mc n eval 'command -c mc' "!bash -c 'multi_clipboard -S -n'"
-bind -c mc p eval 'command -c mc' "!bash -c 'multi_clipboard -S -p'"
-bind -c mc q eval "!bash -c 'multi_clipboard -S -q'"
-bind -c mc ' ' eval "!bash -c 'multi_clipboard -S -s'"
+# !!! should not be applied. Otherwise some outputs come to the window(?)
+bind a eval 'command -c mc' 'exec multi_clipboard -S'
+bind ^a eval 'command -c mc' 'exec multi_clipboard -S'
+bind -c mc n eval 'command -c mc' 'exec multi_clipboard -S -n'
+bind -c mc ^n eval 'command -c mc' 'exec multi_clipboard -S -n'
+bind -c mc p eval 'command -c mc' 'exec multi_clipboard -S -p'
+bind -c mc ^p eval 'command -c mc' 'exec multi_clipboard -S -p'
+bind -c mc q eval 'exec multi_clipboard -S -q'
+bind -c mc ^q eval 'exec multi_clipboard -S -q'
+bind -c mc ' ' eval 'exec multi_clipboard -S -s'
 # Enter (\012) doesn't work for bindings with command?
 #bind -c mc '\012' eval "!bash -c 'multi_clipboard -S -s'"
 
