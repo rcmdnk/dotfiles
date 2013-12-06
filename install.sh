@@ -60,9 +60,7 @@ if [[ "$OSTYPE" =~ "cygwin" ]];then
     fi
     t_winpath=$(cygpath -w -a "$target")
     t_link=$(cygpath -w -a "$link")
-    cd ~/
-    cmd /c mklink $opt "$t_link" "$t_winpath"
-    cd -
+    cmd /c mklink $opt "$t_link" "$t_winpath" > /dev/null
   }
 # }}}
 fi
