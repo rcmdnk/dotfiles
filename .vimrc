@@ -398,6 +398,20 @@ if s:use_neobundle && v:version > 702
   " switch
   NeoBundle "AndrewRadev/switch.vim"
 
+  " Windows StartMenu
+  if ( has("win32unix") || has ("win64unix") || has("win32") || has ("win64"))
+    NeoBundleLazy "mattn/startmenu-vim", {
+      \ "autoload" : { "commands": ["StartMenu"] }}
+    NeoBundleLazy "mattn/excelview-vim", {
+      \ "depends": "mattn/webapi-vim",
+      \ "autoload" : { "commands": ["ExcelView"] }}
+  endif
+
+  " Open excel files
+
+  """""""""""""""""""""""""""""""""
+  """""""""""""""""""""""""""""""""
+
   " local plugins
   NeoBundleLocal ~/.vim/local/bundle
   """"plugins end"""""
@@ -464,8 +478,8 @@ endif
 let &directory=s:tmpdir
 let &backupdir=s:tmpdir
 
-if has("gui_running") && ( has("win32unix") || has ("win64unix") || has("win32") || has ("win64") )
-  set viminfo+=n~/.vim/gviminfo
+if has("win32") || has ("win64")
+  set viminfo+=n~/.vim/viminfo_win
 else
   set viminfo+=n~/.vim/viminfo
 endif
