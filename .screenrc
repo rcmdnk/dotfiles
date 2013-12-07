@@ -196,11 +196,11 @@ bufferfile "$SCREENEXCHANGE"
 # and do again at the end, then multi_clipboard is executed twice...
 # If . is set for stdout (second one), the second command is not executed...?
 bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec !!! multi_clipboard -I'
-bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec !!! ./a.sh'
 bindkey -m Y eval 'stuff Y' 'writebuf' 'exec !!! multi_clipboard -I'
 bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! multi_clipboard -I'
 
-# !!! should not be applied. Otherwise some outputs come to the window(?)
+# !!! should not be applied (especially for stdout (second one).
+# Otherwise some outputs come to the window(?)
 bind a eval 'command -c mc' 'exec multi_clipboard -S'
 bind ^a eval 'command -c mc' 'exec multi_clipboard -S'
 bind -c mc n eval 'command -c mc' 'exec multi_clipboard -S -n'
