@@ -97,17 +97,20 @@ fi
 #export GREP_OPTIONS='--color=auto'
 #export LESS='-R'
 
-# TMP directory
-if [ ! "$TMP" ];then
-  if [ "$TMPDIR" ];then
-    export TMP=$TMPDIR
+# TMPDIR fix for Cygwin
+if [ ! "$TMPDIR" ];then
+  if [ "$TMP" ];then
+    export TMPDIR=$TMP
   elif [ "$TEMP" ];then
-    export TMP=$TEMP
-  elif [ -d /tmp ];then
-    export TMP=/tmp
+    export TMPDIR=$TEMP
+  elif [ -w /tmp/$USER ];then
+    export TMPDIR=/tmp
+  elif [ -w /tmp ];then
+    mkdir -p /tmp/$USER
+    export TMPDIR=/tmp/$USER
   else
     mkdir -p ~/tmp
-    export TMP=~/tmp
+    export TMPDIR=~/tmp
   fi
 fi
 
