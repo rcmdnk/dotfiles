@@ -249,15 +249,14 @@ alias ssh="ssh -X"
 alias svnHeadDiff="svn diff --revision=HEAD"
 alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
 alias vim="vim -X" # no X
-alias vi="vim -X" # vi->vim,no X
-#alias vi="vim"
-alias memo="vim -X ~/.memo.md"
-alias vid="vim -X -d"
-alias vinon="vim -X -u NONE"
+alias vi="vim" # vi->vim
+alias memo="vim ~/.memo.md"
+alias vid="vim -d"
+alias vinon="vim -u NONE"
 #alias grep="grep --color=always"
 #alias grep="grep -i" # ignore cases
 alias grep="grep -s" # suppress error message
-alias c="multi_clipboard"
+alias c="multi_clipboard -W"
 alias put='multi_clipboard -x'
 alias del="trash -r"
 alias hischeck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
