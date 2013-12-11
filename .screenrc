@@ -213,6 +213,7 @@ bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! multi_clipboard -I'
 # Enter (\012) doesn't work for bindings with command?
 #bind -c mc '\012' eval "!bash -c 'multi_clipboard -S -s'"
 bind a screen -t multi_clipboard multi_clipboard -W
+bind ^a screen -t multi_clipboard multi_clipboard -W
 
 # Term
 #term "screen-256color"
@@ -235,7 +236,7 @@ setenv a ""
 setenv a "$a%?%F"     # if the window has the focus
 setenv a "$a%{=d Wk}" #   set attribute = {dim, black(k) on bright Write(W)}
 setenv a "$a%:"       # else
-setenv a "$a%{=d Kk}"   #   set attribute = {dim, black(k) on bright Black(K)}
+setenv a "$a%{=d Kk}" #   set attribute = {dim, black(k) on bright Black(K)}
 setenv a "$a%?"       # end if
 setenv a "$a%?%P"     # if copy/paste mode
 setenv a "$a%{=d Bk}" #   set attribute = {dim, black(k) on bright Blue(B)}
