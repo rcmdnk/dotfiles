@@ -213,6 +213,7 @@ bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! multi_clipboard -I'
 # Enter (\012) doesn't work for bindings with command?
 #bind -c mc '\012' eval "!bash -c 'multi_clipboard -S -s'"
 bind a screen -t multi_clipboard multi_clipboard -W
+bind ^a screen -t multi_clipboard multi_clipboard -W
 
 # Term
 #term "screen-256color"
