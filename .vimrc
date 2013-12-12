@@ -326,6 +326,9 @@ if s:use_neobundle && v:version > 702
   " Syntax
   NeoBundle "scrooloose/syntastic"
 
+  " Syntax for vim
+  NeoBundle "dbakker/vim-lint"
+
   " Count searching objects
   NeoBundle "osyo-manga/vim-anzu"
 
