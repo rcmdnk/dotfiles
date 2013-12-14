@@ -176,7 +176,7 @@ HISTSIZE=10000
 # ignoreboth # ignore dups and space
 # erasedups # erase a duplication in the past
 export HISTCONTROL=ignoredups
-export HISTIGNORE="?:??:???:????:history:cd ../:rm*:mv*:"
+export HISTIGNORE="?:??:???:????:history:cd ../"
 #shopt -s histappend # append to hist (not overwrite),
                     # don't use with below share_history
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
