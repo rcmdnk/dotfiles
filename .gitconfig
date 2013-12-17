@@ -13,6 +13,9 @@
   ls = ls-files
   sm = submodule
   dns = diff --name-status
+  cb = rev-parse --abbrev-ref HEAD
+  pull-dry-run  = !"git fetch origin; B=$(git rev-parse --abbrev-ref HEAD); git diff --stat --summary ${B}..origin/${B}"
+  pull-dry-run-s = !"git fetch origin $(git config branch.$(git rev-parse --abbrev-ref HEAD).merge); git diff --stat --summary HEAD...FETCH_HEAD"
 
 [core]
 	filemode = false

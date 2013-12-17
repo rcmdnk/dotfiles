@@ -229,7 +229,8 @@ terminfo xterm* hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
 
 # Do not use xterms alternate window buffer.
 # This one would not add lines to the scrollback buffer.
-termcapinfo xterm* ti=\E7\E[?47l
+termcapinfo xterm* 'ti@:te@'
+#termcapinfo xterm* ti=\E7\E[?47l
 
 # Caption for each window
 setenv a ""
