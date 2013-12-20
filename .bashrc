@@ -245,7 +245,7 @@ alias g='make'
 alias gc="make clean"
 alias gcg="make clean && make"
 alias bc="bc -l"
-alias ssh="ssh -X"
+alias ssh="ssh -XC"
 alias svnHeadDiff="svn diff --revision=HEAD"
 alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
 alias vim="vim -X" # no X
