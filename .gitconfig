@@ -3,19 +3,97 @@
   email = rcmdnk@gmail.com
 
 [alias]
+  st = status
   sb = show-branch
+  sh = show
   br = branch
+  ba = branch -a
   co = checkout
   cl = clone
   ci = commit -a
-  st = status
+  ad = add -A
+  rbm = rebase master
   d = difftool --tool=vimdiff --no-prompt
-  ls = ls-files
-  sm = submodule
   dns = diff --name-status
+  dm = diff master
+  dw = diff --color-words
+  dc = diff --cached
+  ds = diff --staged
+  d1 = diff HEAD~
+  d2 = diff HEAD~~
+  d3 = diff HEAD~~~
+  d4 = diff HEAD~~~~
+  d5 = diff HEAD~~~~~
+  d10 = diff HEAD~~~~~~~~~~
+  ls = ls-files
+  log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
+  log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
+  sm = submodule
+  echo-f = "!f () { echo 0: ${0};echo 1: ${1};echo 2: ${2};};f"
+  echo-sh = "!sh -c 'echo 0: ${0};echo 1: ${1};echo 2: ${2}'"
+  echo = "!f () { echo ${0};echo ${1};};f"
+  echo3 = "!sh -c 'echo ${0};echo ${1}'"
+  smad = "!f () {\
+      if [ $# -lt 1 ];then \
+        echo \"Usage: git smad git_repo_path [submodule parent path]\";\
+        exit;\
+      fi;\
+      git_repo=${1};\
+      repo_name=${git_repo#*/};\
+      repo_name=${repo_name%.git};\
+      echo git submodule add ${git_repo} ./${2}/${repo_name};\
+      git submodule add ${git_repo} ./${2}/${repo_name};\
+    };f"
+  a = "!f () { \
+      gitdir=./;\
+      gitfile=.git;\
+      while : ;do \
+        echo hoge $gitfile;\
+        if [ -f $gitfile ];then \
+          gitfile=${gitdir}/$(awk '/gitdir/ {print $2}' ${gitfile});\
+        else \
+          gitdir=${gitfile};\
+          break;\
+        fi;\
+      done;\
+      echo $gitdir;\
+    };f"
+  smrm  = "!f () {\
+      if [ $# -ne 1 ];then \
+        echo \"Usage: git smrm path/to/submodule\";\
+        exit;\
+      fi;\
+      sm=${1%/};\
+      echo git config --remove-section submodule.${sm};\
+      git config --remove-section submodule.${sm};\
+      echo git config --file .gitmodules --remove-section submodule.${sm};\
+      git config --file .gitmodules --remove-section submodule.${sm};\
+      echo git rm --cached ${sm};\
+      git rm --cached ${sm};\
+      gitdir=./;\
+      gitfile=.git;\
+      while : ;do \
+        echo hoge $gitfile;\
+        if [ -f $gitfile ];then \
+          gitfile=${gitdir}/$(awk '/gitdir/ {print $2}' ${gitfile});\
+        else \
+          gitdir=${gitfile};\
+          break;\
+        fi;\
+      done;\
+      if [ -n \"${gitdir}\" ];then \
+        echo rm -rf ${gitdir}/modules/${sm};\
+        rm -rf ${gitdir}/modules/${sm};\
+      fi;\
+      echo rm -rf ${sm};\
+      rm -rf ${sm};\
+    };f"
   cb = rev-parse --abbrev-ref HEAD
-  pull-dry-run  = !"git fetch origin; B=$(git rev-parse --abbrev-ref HEAD); git diff --stat --summary ${B}..origin/${B}"
-  pull-dry-run-s = !"git fetch origin $(git config branch.$(git rev-parse --abbrev-ref HEAD).merge); git diff --stat --summary HEAD...FETCH_HEAD"
+  pull-dry-run  = "!git fetch origin;\
+    b=$(git rev-parse --abbrev-ref HEAD);\
+    git diff --stat --summary ${b}..origin/${b}"
+  pull-dry-run-s = "!git fetch origin $(git config branch.$(git rev-parse --abbrev-ref HEAD).merge);\
+    git diff --stat --summary HEAD...FETCH_HEAD"
 
 [core]
 	filemode = false
