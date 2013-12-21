@@ -416,9 +416,15 @@ if s:use_neobundle && v:version > 702
       \ "autoload" : { "commands": ["ExcelView"] }}
   endif
 
-  " Open excel files
+  " Google Calendar
+  NeoBundle "mattn/calendar-vim"
 
-  """""""""""""""""""""""""""""""""
+  " Google Tasks
+  NeoBundleLazy "mattn/googletasks-vim", {
+    \ "depends": "mattn/webapi-vim",
+    \ "autoload" : { "commands": ["GoogleTasks"] }}
+
+
   """""""""""""""""""""""""""""""""
 
   " local plugins
