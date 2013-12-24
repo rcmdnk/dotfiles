@@ -132,7 +132,7 @@ fi
 
 # For my clipboards
 export CLIPBOARD=$HOME/.clipboard
-export CLMAXHIST=20
+export CLMAXHIST=50
 export CLSEP="" # (C-v C-g) Use bell as a separator
 export CLX="" #xsel/xclip
 if [[ "$OSTYPE" =~ "linux" ]];then
@@ -437,9 +437,25 @@ function sd { # Save dir {{{
 } # }}}
 
 function cl { # Change directory to the Last directory {{{
+  # Set values
+  local ldf=${LASTDIRFILE:-$HOME/.lastDir}
+  touch $ldf
+
+  # Change to the last dir
+  if [ $# -eq 0 ];then
+    local ld=$(head -n1 $ldf)
+    if [ "$ld" != "" ];then
+      cd "$ld"
+      return 0
+    else
+      echo "There is no saved directory."
+      return 1
+    fi
+  fi
+
   local HELP="
   Usage: cl [-lch] [-n <number> ]
-  If there are no arguments, you will move to the last saved dirctory by sd command
+  If there are no arguments, you will move to the last saved directory by sd command
 
   Arguments:
      -l              Show saved directories
@@ -448,11 +464,8 @@ function cl { # Change directory to the Last directory {{{
      -h              Print this HELP and exit
 "
 
-  # Set values
-  local ldf=${LASTDIRFILE:-$HOME/.lastDir}
-
   # Initialize variables
-  local nth=0
+  local nth=-1
   local list=0
   local choice=0
 
@@ -474,40 +487,159 @@ function cl { # Change directory to the Last directory {{{
   OPTIND=$optind_tmp
 
   # Get last directories
+  local cols=$(tput cols)
+  local max_width=$((cols-8))
   touch $ldf
   local dirs=()
+  local dirs_show=()
   while read d;do
     dirs=("${dirs[@]}" "$d")
+    d_show="${d/#${HOME}/~}"
+    if [ ${#d_show} -ge $max_width ];then
+      dirs_show=("${dirs_show[@]}" "...${d_show: $((${#d_show}-$max_width+3))}")
+    else
+      dirs_show=("${dirs_show[@]}" "${d_show}")
+    fi
   done < $ldf
-  local ld=${dirs[0]}
+
+  # Change to nth
+  if [ $nth != -1 ];then
+    if ! echo $nth|grep -q "^[0-9]\+$";then
+      echo "Wrong number was given: $nth"
+      return 1
+    elif [ "$nth" -ge "${#dirs[@]}" ];then
+      echo "${#dirs[@]} (<$nth) directories are stored."
+      return 1
+    fi
+    cd "${dirs[$nth]}"
+    return 0
+  fi
+
+  # List up
+  if [ $list -eq 1 ];then
+    local pager=${PAGER:-less}
+    {
+      for ((i=0; i<"${#dirs_show[@]}"; i++));do
+        printf "%3d %-${max_width}s %3d\n" $i "${dirs_show[$i]}" $i
+      done
+    } | less
+    return 0
+  fi
+
+  # Set trap
+  trap "clear; tput cnorm; stty echo; return 1" 1 2 3 11 15
+
+  # Hide cursor
+  tput civis
+  #tput vi # For FreeBSD
+
+  # Hide any input
+  stty -echo
 
   # List up and choose directory
-  if [ $choice -eq  1 ] || [ $list -eq 1 ];then
-    # List up stored directories
-    local listnum=${#dirs[@]}
-    local i=$((listnum-1))
-    while [ $i -ge 0 ];do
-      printf "%4d %s %4d\n" $i "${dirs[$i]}" $i
-      i=$((i-1))
-    done
+  local header=" ${#dirs[@]} directories in total
+ j(down), k(up), Enter(select), q(exit)
+"
+  local ext_row=$(echo "$header"|wc -l)
+  local lines=$(tput lines)
+  local max_show=${#dirs[@]}
+  if [ ${#dirs[@]} -gt $((lines-ext_row)) ];then
+    max_show=$((lines-ext_row))
+  fi
 
-    # Choose from STDIN
-    if [ $choice -eq 1 ];then
-      echo -n "choose directory number: "
-      read nth
+  function cl_printline () {
+    tput cup $(($2)) 0
+    local i=$(($3+1))
+    if [ $1 -eq 1 ];then
+      printf "\e[7m%3d %-${max_width}s %3d\e[m" $i "${dirs_show[$3]}" $i
+    else
+      printf "%3d %-${max_width}s %3d" $i "${dirs_show[$3]}" $i
     fi
-  fi
+    tput cup $(($2)) 0
+  }
 
-  # Check nth
-  if ! echo $nth|grep -q "^[0-9]\+$" || [ "$nth" -ge "${#dirs[@]}" ];then
-    echo "Wrong number was given"
-    return 1
-  fi
+  function cl_printall () {
+    local offset=0
+    local select=0
+    if [ $# -gt 0 ];then
+      offset=$1
+      if [ $# -gt 1 ];then
+        select=$2
+      fi
+    fi
 
-  # Change directory
-  if [ $list != 1 ];then
-    cd "${dirs[$nth]}"
+    clear
+
+    # Header
+    echo "$header"
+
+    for ((i=0; i<$((max_show)); i++));do
+      if [ $((i+offset)) -eq $select ];then
+        cl_printline 1 $((i+ext_row)) $((i+offset))
+      else
+        cl_printline 0 $((i+ext_row)) $((i+offset))
+      fi
+    done
+  }
+
+  # First view
+  cl_printall
+
+  # Select
+  local n=0
+  local n_offset=0
+  local cursor_r=$ext_row
+  tput cup $cursor_r 0
+  ret=0
+
+  while : ;do
+    read -s -n 1 c
+    case $c in
+      "j" )
+        if [ $n -eq $((${#dirs[@]}-1)) ];then
+          continue
+        elif [ $cursor_r -eq $((lines-1)) ];then
+          ((n_offset++));((n++))
+          cl_printall $((n-lines+1+ext_row)) $((n)) $n_offset
+        else
+          cl_printline 0 $((cursor_r)) $n
+          ((cursor_r++));((n++))
+          cl_printline 1 $((cursor_r)) $n
+        fi
+        ;;
+      "k" )
+        if [ $cursor_r -ne $ext_row ];then
+          cl_printline 0 $((cursor_r)) $n
+          ((cursor_r--));((n--))
+          cl_printline 1 $((cursor_r)) $n
+        elif [ $n_offset -gt 0 ];then
+          ((n_offset--));((n--))
+          cl_printall $n $n $n_offset
+        else
+          continue
+        fi
+        ;;
+      "q" ) break;;
+      ""  )
+        if [ -d "${dirs[$n]}" ];then
+          cd "${dirs[$n]}";
+        else
+          ret=1
+        fi
+        break;;
+      "*" ) continue;;
+    esac
+  done
+
+  clear
+  tput cnorm
+  stty echo
+  if [ $ret -eq 1 ];then
+    echo "${dirs[$n]} doesn't exist"
+    return $ret
   fi
+  return $ret
+
 } # }}}
 # }}}
 
