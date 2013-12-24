@@ -201,17 +201,16 @@ bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! multi_clipboard -I'
 
 # !!! should not be applied (especially for stdout (second one).
 # Otherwise some outputs come to the window(?)
-#bind a eval 'command -c mc' 'exec multi_clipboard -S'
-#bind ^a eval 'command -c mc' 'exec multi_clipboard -S'
-#bind -c mc n eval 'command -c mc' 'exec multi_clipboard -S -n'
-#bind -c mc ^n eval 'command -c mc' 'exec multi_clipboard -S -n'
-#bind -c mc p eval 'command -c mc' 'exec multi_clipboard -S -p'
-#bind -c mc ^p eval 'command -c mc' 'exec multi_clipboard -S -p'
-#bind -c mc q eval 'exec multi_clipboard -S -q'
-#bind -c mc ^q eval 'exec multi_clipboard -S -q'
-#bind -c mc ' ' eval 'exec multi_clipboard -S -s'
-# Enter (\012) doesn't work for bindings with command?
-#bind -c mc '\012' eval "!bash -c 'multi_clipboard -S -s'"
+bind z eval 'command -c mc' 'exec multi_clipboard -S'
+bind -c mc n eval 'command -c mc' 'exec multi_clipboard -S -n'
+bind -c mc ^n eval 'command -c mc' 'exec multi_clipboard -S -n'
+bind -c mc p eval 'command -c mc' 'exec multi_clipboard -S -p'
+bind -c mc ^p eval 'command -c mc' 'exec multi_clipboard -S -p'
+bind -c mc q eval 'exec multi_clipboard -S -q'
+bind -c mc ^q eval 'exec multi_clipboard -S -q'
+bind -c mc ' ' eval 'exec multi_clipboard -S -s'
+ Enter (\012) doesn't work for bindings with command?
+bind -c mc '\012' eval "!bash -c 'multi_clipboard -S -s'"
 bind a screen -t multi_clipboard multi_clipboard -W
 bind ^a screen -t multi_clipboard multi_clipboard -W
 
