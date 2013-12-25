@@ -181,7 +181,7 @@ export HISTIGNORE="?:??:???:????:history:cd ../"
                     # don't use with below share_history
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # Method to remove failed command {{{
-#function histRemoveFail {
+#function histRemoveFail () {
 #  local result=$?
 #  if [ $result -ne 0 ];then
 #    local n=`history 1|awk '{print $1}'`
@@ -196,7 +196,7 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # Method to share history at the same time,
 # w/o failed command (bit too strong...) {{{
 #shopt -u histappend # Overwrite
-#function share_history {
+#function share_history () {
 #  local result=$?
 #  if [ $result -eq 0 ];then # put only when the command succeeded
 #    history -a # append history to the file
@@ -265,7 +265,7 @@ alias sort='LC_ALL=C sort'
 alias uniq='LC_ALL=C uniq'
 
 # noglob helpers {{{
-function mynoglob_helper {
+function mynoglob_helper () {
   "$@"
   case $shopts in
     *noglob*)
@@ -280,7 +280,7 @@ alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 # }}}
 
 # Change words in file by sed{{{
-function change {
+function change () {
   case $# in
     0)
       echo "enter file name and words of before and after"
@@ -304,7 +304,7 @@ function change {
 # }}}
 
 # Delete trailing white space {{{
-function del_tail {
+function del_tail () {
   sed -i.bak 's/ \+$//g' $1
   rm -f "$1".bak
 }
@@ -314,7 +314,7 @@ function del_tail {
 alias targz="tar xzf"
 alias tarbz2="tar jxf"
 
-function press {
+function press () {
   local remove=0
   local HELP="
   usage: press [-r] directory_name [package_name]
@@ -349,7 +349,7 @@ function press {
 # }}}
 
 # cd wrapper to use pushd {{{
-function cd {
+function cd () {
   if [ $# = 0 ];then
     command cd
   elif [ "$1" = "-" ];then
@@ -371,13 +371,13 @@ alias bd="popd >/dev/null"
 # }}}
 
 # Move to actual pwd {{{
-function cdpwd {
+function cdpwd () {
   cd -P .
 }
 # }}}
 
 ## Show output result with w3m {{{
-#function lw {
+#function lw () {
 #  sed -e 's/</\&lt;/g' |\
 #  sed -e 's/>/\&gt;/g' |\
 #  sed -e 's/\&/\&amp;/g' |\
@@ -388,7 +388,7 @@ function cdpwd {
 # }}}
 
 ## emacs wrapper {{{
-#function emacs { command emacs $@ & }
+#function emacs () { command emacs $@ & }
 # }}}
 
 ## SimpleNote {{{
@@ -396,7 +396,7 @@ function cdpwd {
 ## }}}
 
 # path: function to get full path {{{
-function path {
+function path () {
   if [ $# -eq 0 ];then
       echo "usage: path file/directory"
       return 1
@@ -407,16 +407,27 @@ function path {
 ## Directory save/move in different terminal {{{
 # Directory store file
 export LASTDIRFILE=$HOME/.lastDir
+export PREDEFDIRFILE=$HOME/.predefDir
 # Number of store directories
 export NLASTDIR=20
 
-function sd { # Save dir {{{
+function sd () { # Save dir {{{
+  # Edit predefined dir
+  if [ $# -eq 1 ] && [ "$1" = "-e" ];then
+    ${EDITOR:-"vim"} ${PREDEFDIRFILE:-$HOME/.predefDir}
+    return 0
+  fi
+
   # Set values
   local ldf=${LASTDIRFILE:-$HOME/.lastDir}
   local nld="${NLASTDIR:-20}"
 
-  # Current directory
-  local curdir=`pwd -P`
+  # Set Save Dir
+  local curdir="$1"
+  if [ $# -eq 0 ];then
+    # Current directory
+    curdir=`pwd -P`
+  fi
 
   # Renew last directories
   touch $ldf
@@ -436,7 +447,7 @@ function sd { # Save dir {{{
   done
 } # }}}
 
-function cl { # Change directory to the Last directory {{{
+function cl () { # Change directory to the Last directory {{{
   # Set values
   local ldf=${LASTDIRFILE:-$HOME/.lastDir}
   touch $ldf
@@ -454,13 +465,14 @@ function cl { # Change directory to the Last directory {{{
   fi
 
   local HELP="
-  Usage: cl [-lch] [-n <number> ]
+  Usage: cl [-lcph] [-n <number> ]
   If there are no arguments, you will move to the last saved directory by sd command
 
   Arguments:
      -l              Show saved directories
      -c              Show saved directories and choose a directory
      -n              Move to <number>-th last directory
+     -p              Move to pre-defiend dirctory in $PREDEFDIRFILE
      -h              Print this HELP and exit
 "
 
@@ -468,23 +480,30 @@ function cl { # Change directory to the Last directory {{{
   local nth=-1
   local list=0
   local choice=0
+  local predef=0
 
   # OPTIND must be reset in function
   local optind_tmp=$OPTIND
   OPTIND=1
 
   # Get option
-  while getopts cln:h OPT;do
+  while getopts clpn:h OPT;do
     case $OPT in
       "c" ) choice=1 ;;
       "l" ) list=1 ;;
       "n" ) nth="$OPTARG" ;;
+      "p" ) predef=1 ;;
       "h" ) echo "$HELP" 1>&2;OPTIND=$optind_tmp;return ;;
       * ) echo "$HELP" 1>&2;OPTIND=$optind_tmp;return ;;
     esac
   done
   shift $(($OPTIND - 1))
   OPTIND=$optind_tmp
+
+  # Use pre-defined directory file
+  if [ $predef -eq 1 ];then
+    ldf=${PREDEFDIRFILE:-$HOME/.predefDir}
+  fi
 
   # Get last directories
   local cols=$(tput cols)
@@ -493,8 +512,8 @@ function cl { # Change directory to the Last directory {{{
   local dirs=()
   local dirs_show=()
   while read d;do
-    dirs=("${dirs[@]}" "$d")
     d_show="${d/#${HOME}/~}"
+    dirs=("${dirs[@]}" "$d")
     if [ ${#d_show} -ge $max_width ];then
       dirs_show=("${dirs_show[@]}" "...${d_show: $((${#d_show}-$max_width+3))}")
     else
@@ -502,16 +521,25 @@ function cl { # Change directory to the Last directory {{{
     fi
   done < $ldf
 
+  # Check dirs
+  if [ ${#dirs[@]} -eq 0 ];then
+    echo "There is no saved directory."
+    return 1
+  fi
+
   # Change to nth
   if [ $nth != -1 ];then
     if ! echo $nth|grep -q "^[0-9]\+$";then
-      echo "Wrong number was given: $nth"
+      echo "Wrong number? was given: $nth"
       return 1
     elif [ "$nth" -ge "${#dirs[@]}" ];then
-      echo "${#dirs[@]} (<$nth) directories are stored."
+      echo "${#dirs[@]} (< $nth) directories are stored."
       return 1
     fi
     cd "${dirs[$nth]}"
+    if [ $predef -ne 1 ];then
+      sd "${dirs[$nth]}"
+    fi
     return 0
   fi
 
@@ -520,7 +548,7 @@ function cl { # Change directory to the Last directory {{{
     local pager=${PAGER:-less}
     {
       for ((i=0; i<"${#dirs_show[@]}"; i++));do
-        printf "%3d %-${max_width}s %3d\n" $i "${dirs_show[$i]}" $i
+        printf "%3d %-${max_width}s %3d\n" $((i+1)) "${dirs_show[$i]}" $((i+1))
       done
     } | less
     return 0
@@ -530,8 +558,10 @@ function cl { # Change directory to the Last directory {{{
   trap "clear; tput cnorm; stty echo; return 1" 1 2 3 11 15
 
   # Hide cursor
-  tput civis
-  #tput vi # For FreeBSD
+  tput civis 2>/dev/null || tput vi 2>/dev/null
+
+  # Save current display
+  tput smcup 2>/dev/null || tput ti 2>/dev/null
 
   # Hide any input
   stty -echo
@@ -621,8 +651,12 @@ function cl { # Change directory to the Last directory {{{
         ;;
       "q" ) break;;
       ""  )
-        if [ -d "${dirs[$n]}" ];then
-          cd "${dirs[$n]}";
+        d=`sh -c "echo ${dirs[$n]}"`
+        if [ -d "${d}" ];then
+          cd "${d}"
+          if [ $predef -ne 1 ];then
+            sd "${d}"
+          fi
         else
           ret=1
         fi
@@ -632,8 +666,16 @@ function cl { # Change directory to the Last directory {{{
   done
 
   clear
-  tput cnorm
+
+  # Show cursor
+  tput cnorm 2>/dev/null || tput vs 2>/dev/null
+
+  # Restore display
+  tput rmcup 2>/dev/null || tput te 2>/dev/null
+
+  # Enable echo input
   stty echo
+
   if [ $ret -eq 1 ];then
     echo "${dirs[$n]} doesn't exist"
     return $ret
@@ -644,7 +686,7 @@ function cl { # Change directory to the Last directory {{{
 # }}}
 
 # git functions {{{
-function gitupdate {
+function gitupdate () {
   update=0
   difffiles=`git status|grep -e "new file" -e "modified"|cut -d":" -f2`
   if [ "$difffiles" ];then
@@ -701,7 +743,7 @@ function gitupdate {
 # }}}
 
 # man wrapper{{{
-function man {
+function man () {
   # Open man file with vim
   # col -b -x: remove backspace, replace tab->space
   # vim -R -: read only mode, read from stdin
@@ -730,7 +772,7 @@ function man {
 # }}}
 
 # Show 256 colors{{{
-function col256 {
+function col256 () {
   for c in {0..255};do
     local num=`printf " %03d" $c`
     printf "\e[38;5;${c}m$num\e[m"
@@ -742,7 +784,7 @@ function col256 {
 } # }}}
 
 # Function to calculate with perl (for decimal, etc...) {{{
-function calc {
+function calc () {
   local eq=$(echo $@|sed "s/\^/**/g")
   echo -n '$xx ='$eq';print "$xx \n"'|perl
 } # }}}
@@ -752,7 +794,7 @@ function calc {
 # cp wraper for BSD cp (make it like GNU cp){{{
 # Remove the end "/" and change -r to -R
 if ! cp --version 2>/dev/null |grep -q GNU;then
-  function cp {
+  function cp () {
     local opt=""
     local source=""
     local dest=""
@@ -813,7 +855,7 @@ fi
 alias screenr="screen -d -r"
 
 ## Screen wrapper {{{
-#function screen {
+#function screen () {
 #  # Tips of screen for a cluster
 #  # This setting keeps the host name in which screen is running
 #  # for a case in the cluster,
@@ -842,7 +884,7 @@ alias screenr="screen -d -r"
 ## }}}
 
 ## Function to check remaining screen sessions in a cluster{{{
-#function screen_check {
+#function screen_check () {
 #  touch .hostForScreen
 #  for h in `cat ~/.hostForScreen`;do
 #    echo "checking $h..."
@@ -862,7 +904,7 @@ alias screenr="screen -d -r"
 ## }}}
 
 ## ssh to the host which launched screen previously {{{
-#function sc {
+#function sc () {
 #  touch .hostForScreen
 #  local n=1
 #  if [ $# -ne 0 ];then
@@ -882,7 +924,7 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 # Following functions/alias are also enabled before screen {{{
 
 # Overwrite path to push to the clipboard list{{{
-function path {
+function path () {
   if [ $# -eq 0 ];then
       echo "usage: path file/directory"
       return 1
@@ -893,7 +935,7 @@ function path {
 } # }}}
 
 # pwd wrapper (named as wc) to push pwd to the clipboard list{{{
-function wd {
+function wd () {
   local curdir=`pwd -P`
   multi_clipboard -s $curdir
   echo $curdir
@@ -937,7 +979,7 @@ if [[ "$TERM" =~ "screen" ]]; then # {{{
   # }}}
 
   # Set display if screen is attached in other host than previous host {{{
-  function set_display {
+  function set_display () {
     if [ -f ~/.display.txt ];then
       #local d=`grep $HOSTNAME ~/.display.txt|awk '{print $2}'`
       local d=`cat ~/.display.txt`
