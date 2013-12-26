@@ -418,6 +418,11 @@ function sd () { # Save dir {{{
     return 0
   fi
 
+  # Fix array index for ZSH
+  if [ "$ZSH_NAME" = "zsh" ];then
+    setopt localoptions ksharrays
+  fi
+
   # Set values
   local ldf=${LASTDIRFILE:-$HOME/.lastDir}
   local nld="${NLASTDIR:-20}"
@@ -426,12 +431,13 @@ function sd () { # Save dir {{{
   local curdir="$1"
   if [ $# -eq 0 ];then
     # Current directory
-    curdir=`pwd -P`
+    curdir=$(pwd -P)
   fi
 
   # Renew last directories
   touch $ldf
-  local dirs=("`pwd -P`")
+  local -a dirs
+  dirs=("$curdir")
   while read d;do
     if [ "$d" != "$curdir" ];then
       dirs=("${dirs[@]}" "$d")
@@ -448,6 +454,11 @@ function sd () { # Save dir {{{
 } # }}}
 
 function cl () { # Change directory to the Last directory {{{
+  # Fix array index for ZSH
+  if [ "$ZSH_NAME" = "zsh" ];then
+    setopt localoptions ksharrays
+  fi
+
   # Set values
   local ldf=${LASTDIRFILE:-$HOME/.lastDir}
   touch $ldf
@@ -509,11 +520,11 @@ function cl () { # Change directory to the Last directory {{{
   local cols=$(tput cols)
   local max_width=$((cols-8))
   touch $ldf
-  local dirs=()
-  local dirs_show=()
+  local -a dirs
+  local -a dirs_show
   while read d;do
     d_show="${d/#${HOME}/~}"
-    dirs=("${dirs[@]}" "$d")
+    dirs=("${dirs[@]}" "${d/#\~/${HOME}}")
     if [ ${#d_show} -ge $max_width ];then
       dirs_show=("${dirs_show[@]}" "...${d_show: $((${#d_show}-$max_width+3))}")
     else
@@ -532,13 +543,13 @@ function cl () { # Change directory to the Last directory {{{
     if ! echo $nth|grep -q "^[0-9]\+$";then
       echo "Wrong number? was given: $nth"
       return 1
-    elif [ "$nth" -ge "${#dirs[@]}" ];then
+    elif [ "$nth" -gt "${#dirs[@]}" ];then
       echo "${#dirs[@]} (< $nth) directories are stored."
       return 1
     fi
-    cd "${dirs[$nth]}"
+    cd "${dirs[$((nth-1))]}"
     if [ $predef -ne 1 ];then
-      sd "${dirs[$nth]}"
+      sd "${dirs[$((nth-1))]}"
     fi
     return 0
   fi
@@ -547,7 +558,8 @@ function cl () { # Change directory to the Last directory {{{
   if [ $list -eq 1 ];then
     local pager=${PAGER:-less}
     {
-      for ((i=0; i<"${#dirs_show[@]}"; i++));do
+      local i
+      for ((i=0; i<${#dirs_show[@]}; i++));do
         printf "%3d %-${max_width}s %3d\n" $((i+1)) "${dirs_show[$i]}" $((i+1))
       done
     } | less
@@ -570,16 +582,16 @@ function cl () { # Change directory to the Last directory {{{
   local header=" ${#dirs[@]} directories in total
  j(down), k(up), Enter(select), q(exit)
 "
-  local ext_row=$(echo "$header"|wc -l)
-  local lines=$(tput lines)
-  local max_show=${#dirs[@]}
+  local ext_row="$(echo "$header"|wc -l)"
+  local lines="$(tput lines)"
+  local max_show="${#dirs[@]}"
   if [ ${#dirs[@]} -gt $((lines-ext_row)) ];then
     max_show=$((lines-ext_row))
   fi
 
   function cl_printline () {
     tput cup $(($2)) 0
-    local i=$(($3+1))
+    local i="$(($3+1))"
     if [ $1 -eq 1 ];then
       printf "\e[7m%3d %-${max_width}s %3d\e[m" $i "${dirs_show[$3]}" $i
     else
@@ -603,6 +615,7 @@ function cl () { # Change directory to the Last directory {{{
     # Header
     echo "$header"
 
+    local i
     for ((i=0; i<$((max_show)); i++));do
       if [ $((i+offset)) -eq $select ];then
         cl_printline 1 $((i+ext_row)) $((i+offset))
@@ -618,12 +631,17 @@ function cl () { # Change directory to the Last directory {{{
   # Select
   local n=0
   local n_offset=0
-  local cursor_r=$ext_row
+  local cursor_r="$ext_row"
+  local ret=0
   tput cup $cursor_r 0
-  ret=0
 
   while : ;do
-    read -s -n 1 c
+    local c=""
+    if [ "$ZSH_NAME" = "zsh" ];then
+      read -s -k 1 c
+    else
+      read -s -n 1 c
+    fi
     case $c in
       "j" )
         if [ $n -eq $((${#dirs[@]}-1)) ];then
@@ -650,7 +668,9 @@ function cl () { # Change directory to the Last directory {{{
         fi
         ;;
       "q" ) break;;
-      ""  )
+      # For bash|zsh
+      ""|"
+")
         d=`sh -c "echo ${dirs[$n]}"`
         if [ -d "${d}" ];then
           cd "${d}"
@@ -661,7 +681,8 @@ function cl () { # Change directory to the Last directory {{{
           ret=1
         fi
         break;;
-      "*" ) continue;;
+      "*" )
+        continue;;
     esac
   done
 
