@@ -348,34 +348,6 @@ function press () {
 }
 # }}}
 
-# cd wrapper to use pushd {{{
-function cd () {
-  if [ $# = 0 ];then
-    command cd
-  elif [ "$1" = "-" ];then
-    local opwd=$OLDPWD
-    pushd . >/dev/null
-    command cd $opwd
-  elif [ -f "$1" ];then
-    pushd . >/dev/null
-    command cd $(dirname "$@")
-  else
-    pushd . >/dev/null
-    command cd "$@"
-  fi
-}
-# }}}
-
-# Alias for popd {{{
-alias bd="popd >/dev/null"
-# }}}
-
-# Move to actual pwd {{{
-function cdpwd () {
-  cd -P .
-}
-# }}}
-
 ## Show output result with w3m {{{
 #function lw () {
 #  sed -e 's/</\&lt;/g' |\
@@ -408,6 +380,7 @@ function path () {
 # Directory store file
 export LASTDIRFILE=$HOME/.lastDir
 export PREDEFDIRFILE=$HOME/.predefDir
+export WINDOWDIRFILE=$HOME/.windowDir
 # Number of store directories
 export NLASTDIR=20
 
@@ -419,7 +392,7 @@ function sd () { # Save dir {{{
   fi
 
   # Fix array index for ZSH
-  if [ "$ZSH_NAME" = "zsh" ];then
+  if [ "$ZSH_VERSION" != "" ];then
     setopt localoptions ksharrays
   fi
 
@@ -435,27 +408,28 @@ function sd () { # Save dir {{{
   fi
 
   # Renew last directories
-  touch $ldf
+  touch "$ldf"
   local -a dirs
   dirs=("$curdir")
+  local ndirs=${#dirs[@]}
   while read d;do
     if [ "$d" != "$curdir" ];then
       dirs=("${dirs[@]}" "$d")
     fi
-  done < $ldf
+  done < "$ldf"
 
   # Store directories
   local i=0
-  rm -f $ldf
-  while [ $i -lt ${#dirs[@]} ] && [ $i -lt $NLASTDIR ];do
-    echo "${dirs[$i]}" >> $ldf
+  rm -f "$ldf"
+  while [ $i -lt $ndirs ] && [ $i -lt $NLASTDIR ];do
+    echo "${dirs[$i]}" >> "$ldf"
     i=$((i+1))
   done
 } # }}}
 
 function cl () { # Change directory to the Last directory {{{
   # Fix array index for ZSH
-  if [ "$ZSH_NAME" = "zsh" ];then
+  if [ "$ZSH_VERSION" != "" ];then
     setopt localoptions ksharrays
   fi
 
@@ -482,8 +456,11 @@ function cl () { # Change directory to the Last directory {{{
   Arguments:
      -l              Show saved directories
      -c              Show saved directories and choose a directory
+     -C              Clear directories
      -n              Move to <number>-th last directory
      -p              Move to pre-defiend dirctory in $PREDEFDIRFILE
+     -w              Move to other window's (screen/tmux) dirctory in $WINDOWDIRFILE
+     -v              Move from current directory, like Vim
      -h              Print this HELP and exit
 "
 
@@ -492,18 +469,24 @@ function cl () { # Change directory to the Last directory {{{
   local list=0
   local choice=0
   local predef=0
+  local window=0
+  local vim=0
+  local cleardir=0
 
   # OPTIND must be reset in function
   local optind_tmp=$OPTIND
   OPTIND=1
 
   # Get option
-  while getopts clpn:h OPT;do
+  while getopts clpwvCn:h OPT;do
     case $OPT in
-      "c" ) choice=1 ;;
       "l" ) list=1 ;;
+      "c" ) choice=1 ;;
       "n" ) nth="$OPTARG" ;;
-      "p" ) predef=1 ;;
+      "p" ) predef=1; window=0; vim=0;;
+      "w" ) window=1; predef=0; vim=0;;
+      "v" ) vim=1; predef=0; window=0;;
+      "C" ) cleardir=1 ;;
       "h" ) echo "$HELP" 1>&2;OPTIND=$optind_tmp;return ;;
       * ) echo "$HELP" 1>&2;OPTIND=$optind_tmp;return ;;
     esac
@@ -511,29 +494,67 @@ function cl () { # Change directory to the Last directory {{{
   shift $(($OPTIND - 1))
   OPTIND=$optind_tmp
 
+  # Change to given directory
+  if [ $# -gt 0 ];then
+    local d="${1/#\~/${HOME}}"
+    cd "$d"
+    return 0
+  fi
+
   # Use pre-defined directory file
   if [ $predef -eq 1 ];then
     ldf=${PREDEFDIRFILE:-$HOME/.predefDir}
+    if [ $choice -eq 0 ] && [ $list -eq 0 ] && [ $nth -eq -1 ];then
+      local ld=$(head -n1 "$ldf"|sed "s|^~|${HOME}|")
+      if [ "$ld" != "" ];then
+        cd "$ld"
+        return 0
+      else
+        echo "There is no saved directory."
+        return 1
+      fi
+    fi
+  elif [ $window -eq 1 ];then
+    ldf=${WINDOWDIRFILE:-$HOME/.windowDir}
+  fi
+
+  # Clear
+  if [ $cleardir -eq 1 ];then
+    echo > $ldf
+    return 0
   fi
 
   # Get last directories
-  local cols=$(tput cols)
-  local max_width=$((cols-8))
+  local cols="$(tput cols)"
+  local max_width="$((cols-8))"
   touch $ldf
   local -a dirs
   local -a dirs_show
-  while read d;do
-    d_show="${d/#${HOME}/~}"
-    dirs=("${dirs[@]}" "${d/#\~/${HOME}}")
-    if [ ${#d_show} -ge $max_width ];then
-      dirs_show=("${dirs_show[@]}" "...${d_show: $((${#d_show}-$max_width+3))}")
-    else
-      dirs_show=("${dirs_show[@]}" "${d_show}")
+  local ndirs
+  if [ $vim -ne 1 ];then
+    while read d;do
+      d_show="${d/#${HOME}/~}"
+      dirs=("${dirs[@]}" "${d/#\~/${HOME}}")
+      if [ ${#d_show} -ge $max_width ];then
+        dirs_show=("${dirs_show[@]}" "...${d_show: $((${#d_show}-$max_width+3))}")
+      else
+        dirs_show=("${dirs_show[@]}" "${d_show}")
+      fi
+      ndirs=${#dirs[@]}
+    done < $ldf
+  else
+    IFS=$'\n'
+    dirs=($(ls -d */ 2>/dev/null))
+    unset IFS
+    if [ "$(pwd)" != "/" ];then
+      dirs=("../" "${dirs[@]}")
     fi
-  done < $ldf
+    dirs_show=("${dirs[@]}")
+    ndirs=${#dirs[@]}
+  fi
 
   # Check dirs
-  if [ ${#dirs[@]} -eq 0 ];then
+  if [ $ndirs -eq 0 ];then
     echo "There is no saved directory."
     return 1
   fi
@@ -543,8 +564,8 @@ function cl () { # Change directory to the Last directory {{{
     if ! echo $nth|grep -q "^[0-9]\+$";then
       echo "Wrong number? was given: $nth"
       return 1
-    elif [ "$nth" -gt "${#dirs[@]}" ];then
-      echo "${#dirs[@]} (< $nth) directories are stored."
+    elif [ $nth -gt $ndirs ];then
+      echo "$ndirs (< $nth) directories are stored."
       return 1
     fi
     cd "${dirs[$((nth-1))]}"
@@ -559,7 +580,7 @@ function cl () { # Change directory to the Last directory {{{
     local pager=${PAGER:-less}
     {
       local i
-      for ((i=0; i<${#dirs_show[@]}; i++));do
+      for ((i=0; i<$ndirs; i++));do
         printf "%3d %-${max_width}s %3d\n" $((i+1)) "${dirs_show[$i]}" $((i+1))
       done
     } | less
@@ -579,15 +600,35 @@ function cl () { # Change directory to the Last directory {{{
   stty -echo
 
   # List up and choose directory
-  local header=" ${#dirs[@]} directories in total
- j(down), k(up), Enter(select), q(exit)
+  local header
+  local ext_row
+  local lines
+  local max_show
+  function cl_setheader () {
+    if [ $vim -eq 1 ];then
+      header=" Current: $(pwd)
+ [n]j(down), [n]k(up), gg(top), G(bottom), [n]gg/G(go to n)
+ Enter(move), q(exit)
 "
-  local ext_row="$(echo "$header"|wc -l)"
-  local lines="$(tput lines)"
-  local max_show="${#dirs[@]}"
-  if [ ${#dirs[@]} -gt $((lines-ext_row)) ];then
-    max_show=$((lines-ext_row))
-  fi
+    elif [ $predef -eq 0 ];then
+      header=" $ndirs directories in total
+ [n]j(down), [n]k(up), d(delete), p(put to pre-defined)
+ gg(top), G(bottom), [n]gg/G, (go to n), Enter(select), q(exit)
+"
+    else
+      header=" $ndirs directories in total
+ [n]j(down), [n]k(up), d(delete), gg(top), G(bottom), [n]gg/G(go to n)
+ Enter(select), q(exit)
+"
+    fi
+    ext_row="$(echo "$header"|wc -l)"
+    lines="$(tput lines)"
+    max_show="$ndirs"
+    if [ $ndirs -gt $((lines-ext_row)) ];then
+      max_show=$((lines-ext_row))
+    fi
+  }
+  cl_setheader
 
   function cl_printline () {
     tput cup $(($2)) 0
@@ -633,55 +674,192 @@ function cl () { # Change directory to the Last directory {{{
   local n_offset=0
   local cursor_r="$ext_row"
   local ret=0
+  local g=0
+  local n_move=0
   tput cup $cursor_r 0
 
   while : ;do
     local c=""
-    if [ "$ZSH_NAME" = "zsh" ];then
+    if [ "$ZSH_VERSION" != "" ];then
       read -s -k 1 c
     else
       read -s -n 1 c
     fi
     case $c in
       "j" )
-        if [ $n -eq $((${#dirs[@]}-1)) ];then
-          continue
-        elif [ $cursor_r -eq $((lines-1)) ];then
-          ((n_offset++));((n++))
-          cl_printall $((n-lines+1+ext_row)) $((n)) $n_offset
-        else
-          cl_printline 0 $((cursor_r)) $n
-          ((cursor_r++));((n++))
-          cl_printline 1 $((cursor_r)) $n
+        if [ $n_move -eq 0 ];then
+          n_move=1
         fi
+        for((i=0; i<n_move; i++));do
+          if [ $n -eq $((ndirs-1)) ];then
+            break
+          elif [ $cursor_r -eq $((lines-1)) ];then
+            ((n_offset++));((n++))
+            cl_printall $n_offset $n
+          else
+            cl_printline 0 $((cursor_r)) $n
+            ((cursor_r++));((n++))
+            cl_printline 1 $((cursor_r)) $n
+          fi
+        done
+        g=0
+        n_move=0
+        continue
         ;;
       "k" )
-        if [ $cursor_r -ne $ext_row ];then
-          cl_printline 0 $((cursor_r)) $n
-          ((cursor_r--));((n--))
-          cl_printline 1 $((cursor_r)) $n
-        elif [ $n_offset -gt 0 ];then
-          ((n_offset--));((n--))
-          cl_printall $n $n $n_offset
-        else
+        if [ $n_move -eq 0 ];then
+          n_move=1
+        fi
+        for((i=0; i<n_move; i++));do
+          if [ $cursor_r -ne $ext_row ];then
+            cl_printline 0 $((cursor_r)) $n
+            ((cursor_r--));((n--))
+            cl_printline 1 $((cursor_r)) $n
+          elif [ $n_offset -gt 0 ];then
+            ((n_offset--));((n--))
+            cl_printall $n_offset $n
+          else
+            break
+          fi
+        done
+        g=0
+        n_move=0
+        continue
+        ;;
+      "g" )
+        if [ $g -eq 0 ];then
+          g=1
           continue
         fi
+
+        if [ $n_move -eq 0 ];then
+          n=0
+          n_offset=0
+          cursor_r="$ext_row"
+        elif [ $n_move -gt $ndirs ];then
+          :
+        elif [ $n_move -le $n_offset ];then
+          n=$((n_move-1))
+          n_offset=$n
+          cursor_r=$ext_row
+        elif [ $((n_move)) -gt $((n_offset+max_show)) ];then
+          n=$((n_move-1))
+          n_offset=$((n-max_show+1))
+          cursor_r=$((lines-1))
+        else
+          n=$((n_move-1))
+          cursor_r=$((ext_row+n-n_offset))
+        fi
+        cl_printall $n_offset $n
+        n_move=0
+        g=0
+        continue
+        ;;
+      "G" )
+        if [ $n_move -eq 0 ];then
+          n=$((ndirs-1))
+          if [ $n -ge $max_show ];then
+            n_offset=$((ndirs-max_show))
+            cursor_r=$((lines-1))
+          else
+            n_offset=0
+            cursor_r=$((ext_row+n))
+          fi
+        elif [ $n_move -gt $ndirs ];then
+          :
+        elif [ $n_move -le $n_offset ];then
+          n=$((n_move-1))
+          n_offset=$n
+          cursor_r=$ext_row
+        elif [ $n_move -gt $((n_offset+max_show)) ];then
+          n=$((n_move-1))
+          n_offset=$((n-max_show+1))
+          cursor_r=$((lines-1))
+        else
+          n=$((n_move-1))
+          cursor_r=$((ext_row+n-n_offset))
+        fi
+        cl_printall $n_offset $n
+        n_move=0
+        continue
+        ;;
+      "d" )
+        if [ $vim -eq 1 ];then
+          continue
+        fi
+        unset dirs[$n];dirs=("${dirs[@]}")
+        unset dirs_show[$n];dirs_show=("${dirs_show[@]}")
+        ndirs=${#dirs[@]}
+        sed -i ".bak" "$((n+1))d" $ldf
+        rm -f ${ldf}.bak
+        if [ $ndirs -eq 0 ];then
+          break
+        fi
+        if [ $n -eq $ndirs ];then
+          if [ $n_offset -gt 0 ];then
+            ((n_offset--));((n--))
+          else
+            ((cursor_r--));((n--))
+          fi
+        fi
+        cl_setheader
+        cl_printall $n_offset $n
+        continue
+        ;;
+      "p" )
+        if [ $predef -eq 1 ] || [ $vim -eq 1 ];then
+          continue
+        fi
+        local pdf=${PREDEFDIRFILE:-$HOME/.predefDir}
+        touch $pdf
+        if ! grep -q "^${dirs[$n]}$" "$pdf";then
+          echo "${dirs[$n]}" >> "$pdf"
+        fi
+        continue
         ;;
       "q" ) break;;
-      # For bash|zsh
+      # Choose, for bash|zsh
       ""|"
 ")
-        d=`sh -c "echo ${dirs[$n]}"`
-        if [ -d "${d}" ];then
-          cd "${d}"
-          if [ $predef -ne 1 ];then
-            sd "${d}"
+        if [ $vim -eq 0 ];then
+          d=`sh -c "echo ${dirs[$n]}"`
+          if [ -d "${d}" ];then
+            cd "${d}"
+            if [ $predef -ne 1 ];then
+              sd "${d}"
+            fi
+          else
+            ret=1
           fi
-        else
-          ret=1
+          break
         fi
-        break;;
+        cd "${dirs[$n]}"
+        IFS=$'\n'
+        dirs=($(ls -d */ 2>/dev/null))
+        unset IFS
+        if [ "$(pwd)" != "/" ];then
+          dirs=("../" "${dirs[@]}")
+        fi
+        dirs_show=("${dirs[@]}")
+        ndirs=${#dirs[@]}
+        n=0
+        n_offset=0
+        cursor_r="$ext_row"
+        cl_setheader
+        cl_printall $n_offset $n
+        continue
+        ;;
+      [0-9])
+        if [ $n_move -gt 0 ];then
+          n_move="$n_move""$c"
+        else
+          n_move=$c
+        fi
+        continue
+        ;;
       "*" )
+        g=0
+        n_move=0
         continue;;
     esac
   done
@@ -704,6 +882,51 @@ function cl () { # Change directory to the Last directory {{{
   return $ret
 
 } # }}}
+
+function _cl () { # {{{
+  COMPREPLY=()
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local prev=${COMP_WORDS[COMP_CWORD-1]}
+  local ldf=${LASTDIRFILE:-$HOME/.lastDir}
+  if [[ $prev = -p ]];then
+    ldf=${PREDEFDIRFILE:-$HOME/.predefDir}
+  fi
+  IFS=$'\n'
+  if [[ "$cur" != -* && ( "$prev" == $1 || "$prev" == -p ) ]];then
+    COMPREPLY=($( compgen -W "$(cat $ldf)" -- $cur))
+  fi
+  unset IFS
+} # }}}
+complete -F _cl cl
+
+# }}}
+
+# cd wrapper to use pushd {{{
+function cd () {
+  if [ $# = 0 ];then
+    command cd
+  elif [ "$1" = "-" ];then
+    local opwd=$OLDPWD
+    pushd . >/dev/null
+    command cd $opwd
+  elif [ -f "$1" ];then
+    pushd . >/dev/null
+    command cd $(dirname "$@")
+  else
+    pushd . >/dev/null
+    command cd "$@"
+  fi
+}
+# }}}
+
+# Alias for popd {{{
+alias bd="popd >/dev/null"
+# }}}
+
+# Move to actual pwd {{{
+function cdpwd () {
+  cd -P .
+}
 # }}}
 
 # git functions {{{
