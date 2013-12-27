@@ -378,11 +378,11 @@ function path () {
 
 ## Directory save/move in different terminal {{{
 # Directory store file
-export LASTDIRFILE=$HOME/.lastDir
-export PREDEFDIRFILE=$HOME/.predefDir
-export WINDOWDIRFILE=$HOME/.windowDir
+export LASTDIRFILE=${LASTDIRFILE:-$HOME/.lastDir}
+export PREDEFDIRFILE=${PREDEFDIRFILE:-$HOME/.predefDir}
+export WINDOWDIRFILE=${WINDOWDIRFILE:-$HOME/.windowDir}
 # Number of store directories
-export NLASTDIR=20
+export NLASTDIR=${NLASTDIR:-20}
 
 function sd () { # Save dir {{{
   # Edit predefined dir
@@ -411,12 +411,12 @@ function sd () { # Save dir {{{
   touch "$ldf"
   local -a dirs
   dirs=("$curdir")
-  local ndirs=${#dirs[@]}
   while read d;do
     if [ "$d" != "$curdir" ];then
       dirs=("${dirs[@]}" "$d")
     fi
   done < "$ldf"
+  local ndirs=${#dirs[@]}
 
   # Store directories
   local i=0
@@ -458,6 +458,7 @@ function cl () { # Change directory to the Last directory {{{
      -c              Show saved directories and choose a directory
      -C              Clear directories
      -n              Move to <number>-th last directory
+     -N              No header for selection window
      -p              Move to pre-defiend dirctory in $PREDEFDIRFILE
      -w              Move to other window's (screen/tmux) dirctory in $WINDOWDIRFILE
      -v              Move from current directory, like Vim
@@ -472,13 +473,14 @@ function cl () { # Change directory to the Last directory {{{
   local window=0
   local vim=0
   local cleardir=0
+  local noheader=0
 
   # OPTIND must be reset in function
   local optind_tmp=$OPTIND
   OPTIND=1
 
   # Get option
-  while getopts clpwvCn:h OPT;do
+  while getopts clpwvCNn:h OPT;do
     case $OPT in
       "l" ) list=1 ;;
       "c" ) choice=1 ;;
@@ -487,19 +489,13 @@ function cl () { # Change directory to the Last directory {{{
       "w" ) window=1; predef=0; vim=0;;
       "v" ) vim=1; predef=0; window=0;;
       "C" ) cleardir=1 ;;
+      "N" ) noheader=1 ;;
       "h" ) echo "$HELP" 1>&2;OPTIND=$optind_tmp;return ;;
       * ) echo "$HELP" 1>&2;OPTIND=$optind_tmp;return ;;
     esac
   done
   shift $(($OPTIND - 1))
   OPTIND=$optind_tmp
-
-  # Change to given directory
-  if [ $# -gt 0 ];then
-    local d="${1/#\~/${HOME}}"
-    cd "$d"
-    return 0
-  fi
 
   # Use pre-defined directory file
   if [ $predef -eq 1 ];then
@@ -518,6 +514,16 @@ function cl () { # Change directory to the Last directory {{{
     ldf=${WINDOWDIRFILE:-$HOME/.windowDir}
   fi
 
+  # Change to given directory
+  if [ $# -gt 0 ];then
+    local d="${*}"
+    if [ $window -eq 1 ];then
+      d=$(grep "^$d" $ldf|head -n1|cut -d' ' -f 3-)
+    fi
+    cd "${d/#\~/${HOME}}"
+    return 0
+  fi
+
   # Clear
   if [ $cleardir -eq 1 ];then
     echo > $ldf
@@ -533,15 +539,20 @@ function cl () { # Change directory to the Last directory {{{
   local ndirs
   if [ $vim -ne 1 ];then
     while read d;do
-      d_show="${d/#${HOME}/~}"
-      dirs=("${dirs[@]}" "${d/#\~/${HOME}}")
+      local d_show="${d/#${HOME}/~}"
+      if [ $window -eq 1 ];then
+        local dtmp=$(echo $d|cut -d' ' -f 3-)
+        dirs=("${dirs[@]}" "${dtmp/#\~/${HOME}}")
+      else
+        dirs=("${dirs[@]}" "${d/#\~/${HOME}}")
+      fi
       if [ ${#d_show} -ge $max_width ];then
         dirs_show=("${dirs_show[@]}" "...${d_show: $((${#d_show}-$max_width+3))}")
       else
         dirs_show=("${dirs_show[@]}" "${d_show}")
       fi
-      ndirs=${#dirs[@]}
     done < $ldf
+    ndirs=${#dirs[@]}
   else
     IFS=$'\n'
     dirs=($(ls -d */ 2>/dev/null))
@@ -605,23 +616,37 @@ function cl () { # Change directory to the Last directory {{{
   local lines
   local max_show
   function cl_setheader () {
-    if [ $vim -eq 1 ];then
-      header=" Current: $(pwd)
- [n]j(down), [n]k(up), gg(top), G(bottom), [n]gg/G(go to n)
- Enter(move), q(exit)
+    if [ $noheader -eq 0 ];then
+      if [ $vim -eq 1 ];then
+        header=" Current: $(pwd)
+ [n]  j(down), [n]k(up), gg(top), G(bottom), [n]gg/G(go to n)
+ Ent  er(move), q(exit)
 "
-    elif [ $predef -eq 0 ];then
-      header=" $ndirs directories in total
- [n]j(down), [n]k(up), d(delete), p(put to pre-defined)
- gg(top), G(bottom), [n]gg/G, (go to n), Enter(select), q(exit)
+      elif [ $window -eq 1 ];then
+        header=" $ndirs directories in total
+ [n]  j(down), [n]k(up), d(delete), p(put to pre-defined)
+ gg(  top), G(bottom), [n]gg/G, (go to n), Enter(select), q(exit)
+ n W  indow Pane Directory
 "
+      elif [ $predef -eq 1 ];then
+        header=" $ndirs directories in total
+ [n]  j(down), [n]k(up), d(delete), gg(top), G(bottom), [n]gg/G(go to n)
+ Ent  er(select), q(exit)
+"
+      else
+        header=" $ndirs directories in total
+ [n]  j(down), [n]k(up), d(delete), p(put to pre-defined)
+ gg(  top), G(bottom), [n]gg/G, (go to n), Enter(select), q(exit)
+"
+      fi
     else
-      header=" $ndirs directories in total
- [n]j(down), [n]k(up), d(delete), gg(top), G(bottom), [n]gg/G(go to n)
- Enter(select), q(exit)
-"
+      header=""
     fi
-    ext_row="$(echo "$header"|wc -l)"
+    if [ $noheader -eq 1 ];then
+      ext_row=0
+    else
+      ext_row="$(echo "$header"|wc -l)"
+    fi
     lines="$(tput lines)"
     max_show="$ndirs"
     if [ $ndirs -gt $((lines-ext_row)) ];then
@@ -690,7 +715,7 @@ function cl () { # Change directory to the Last directory {{{
         if [ $n_move -eq 0 ];then
           n_move=1
         fi
-        for((i=0; i<n_move; i++));do
+        for ((i=0; i<n_move; i++));do
           if [ $n -eq $((ndirs-1)) ];then
             break
           elif [ $cursor_r -eq $((lines-1)) ];then
@@ -710,7 +735,7 @@ function cl () { # Change directory to the Last directory {{{
         if [ $n_move -eq 0 ];then
           n_move=1
         fi
-        for((i=0; i<n_move; i++));do
+        for ((i=0; i<n_move; i++));do
           if [ $cursor_r -ne $ext_row ];then
             cl_printline 0 $((cursor_r)) $n
             ((cursor_r--));((n--))
@@ -890,9 +915,11 @@ function _cl () { # {{{
   local ldf=${LASTDIRFILE:-$HOME/.lastDir}
   if [[ $prev = -p ]];then
     ldf=${PREDEFDIRFILE:-$HOME/.predefDir}
+  elif [[ $prev = -w ]];then
+    ldf=${WINDOWDIRFILE:-$HOME/.windowDir}
   fi
   IFS=$'\n'
-  if [[ "$cur" != -* && ( "$prev" == $1 || "$prev" == -p ) ]];then
+  if [[ "$cur" != -* && ( "$prev" == $1 || "$prev" == -p ) || "$prev" == -w ]];then
     COMPREPLY=($( compgen -W "$(cat $ldf)" -- $cur))
   fi
   unset IFS
@@ -902,21 +929,85 @@ complete -F _cl cl
 # }}}
 
 # cd wrapper to use pushd {{{
-function cd () {
-  if [ $# = 0 ];then
-    command cd
-  elif [ "$1" = "-" ];then
-    local opwd=$OLDPWD
-    pushd . >/dev/null
-    command cd $opwd
-  elif [ -f "$1" ];then
-    pushd . >/dev/null
-    command cd $(dirname "$@")
-  else
-    pushd . >/dev/null
-    command cd "$@"
-  fi
-}
+if [ -n "$STY" ];then
+  function cd () {
+    if [ $# = 0 ];then
+      command cd
+    elif [ "$1" = "-" ];then
+      local opwd=$OLDPWD
+      pushd . >/dev/null
+      command cd $opwd
+    elif [ -f "$1" ];then
+      pushd . >/dev/null
+      command cd $(dirname "$@")
+    else
+      pushd . >/dev/null
+      command cd "$@"
+    fi
+    ret=$?
+    if [ $ret != 0 ];then
+      return $ret
+    fi
+    local wdf=${WINDOWDIRFILE:-$HOME/.windowDir}
+    touch $wdf
+    if grep -q "^$WINDOW 0 " "$wdf";then
+      sed "s|^$WINDOW 0 .*$|$WINDOW 0 $(pwd)|" "$wdf"|sort > "${wdf}.tmp"
+      mv "${wdf}.tmp" ${wdf}
+    else
+      (cat "$wdf" && echo "$WINDOW 0 $(pwd)")|sort > "${wdf}.tmp"
+      mv "${wdf}.tmp" ${wdf}
+    fi
+    return $ret
+  }
+elif [ -n "$TMUX" ];then
+  function cd () {
+    if [ $# = 0 ];then
+      command cd
+    elif [ "$1" = "-" ];then
+      local opwd=$OLDPWD
+      pushd . >/dev/null
+      command cd $opwd
+    elif [ -f "$1" ];then
+      pushd . >/dev/null
+      command cd $(dirname "$@")
+    else
+      pushd . >/dev/null
+      command cd "$@"
+    fi
+    ret=$?
+    if [ $ret != 0 ];then
+      return $ret
+    fi
+    local window="$(tmux display -p '#I')"
+    local pane="$(tmux display -p '#P')"
+    local wdf=${WINDOWDIRFILE:-$HOME/.windowDir}
+    touch $wdf
+    if grep -q "^$window $pane " "$wdf";then
+      sed "s|^$window $pane .*$|$window $pane $(pwd)|" "$wdf"|sort > "${wdf}.tmp"
+      mv "${wdf}.tmp" ${wdf}
+    else
+      (cat "$wdf" && echo "$window $pane $(pwd)")|sort > "${wdf}.tmp"
+      mv "${wdf}.tmp" ${wdf}
+    fi
+    return $ret
+  }
+else
+  function cd () {
+    if [ $# = 0 ];then
+      command cd
+    elif [ "$1" = "-" ];then
+      local opwd=$OLDPWD
+      pushd . >/dev/null
+      command cd $opwd
+    elif [ -f "$1" ];then
+      pushd . >/dev/null
+      command cd $(dirname "$@")
+    else
+      pushd . >/dev/null
+      command cd "$@"
+    fi
+  }
+fi
 # }}}
 
 # Alias for popd {{{
@@ -1189,7 +1280,7 @@ function wd () {
 # }}} Following functions/alias are also enabled before screen
 
 # functions/settings only for screen sessions {{{
-if [[ "$TERM" =~ "screen" ]]; then # {{{
+if [ -n "$STY" ]; then # {{{
   # "\\" doesn't work well, use \134 instead
   PS1="\[\ek\h \W\e\134\e]0;\h \w\a\]\$(\
     ret=\$?
