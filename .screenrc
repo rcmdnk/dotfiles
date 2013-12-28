@@ -54,7 +54,7 @@ bind F eval 'scrollback 0' 'scrollback 1000' 'echo "scrollback buffer cleared"'
 #altscreen on
 
 # disable loginmode (if update /var/run/utmp)
-deflogin on
+#deflogin on
 
 # verbose
 #verbose on

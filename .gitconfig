@@ -9,6 +9,7 @@
   br = branch
   ba = branch -a
   co = checkout
+  ce = checkout --orphan # checkout empty(orphan ) branch
   cl = clone
   ci = commit -a
   ad = add -A
