@@ -265,12 +265,12 @@ if s:neobundle_enabled && ! empty(neobundle#get("quickrun"))
 endif
 "}}}
 
-" Markdown
+" Markdown {{{
 "NeoBundle "plasticboy/vim-markdown"
 "NeoBundle "tpope/vim-markdown"
 "NeoBundle "hallison/vim-markdown"
 "NeoBundle "Markdown"
-
+" }}} Markdown
 
 " for hl_matchit {{{
 " Vim plugin to highlight matchit.vim
@@ -694,12 +694,16 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-smartword"))
 endif
 " }}} vim-smartword
 
-
 " vim-multiple-cursors {{{
 " multiple cursor
 " * map <C-n>?, not good for yankround
 "NeoBundle "terryma/vim-multiple-cursors"
 " }}} vim-multiple-cursors
+
+" restart {{{
+" For Gvim
+NeoBundle "tyru/restart.vim"
+"}}}
 
 " }}} Currenlty, not necessary
 

@@ -3,7 +3,7 @@
 " Managed at: https://github.com/rcmdnk/dotfiles/blob/master/.vimrc
 " Todo/Obsolete settings are in https://github.com/rcmdnk/dotfiles/blob/master/.vimrc.not_used
 
-" flags
+" Flags
 let s:use_neobundle=1
 
 " vi compatibility {{{
@@ -424,6 +424,9 @@ if s:use_neobundle && v:version > 702
     \ "depends": "mattn/webapi-vim",
     \ "autoload" : { "commands": ["GoogleTasks"] }}
 
+
+  " Highlight on the fly
+  NeoBundle "t9md/vim-quickhl"
 
   """""""""""""""""""""""""""""""""
 
@@ -924,7 +927,6 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
   " Unite prefix
   nn [unite] <Nop>
   nm <Leader>u [unite]
-  nm <Space> [unite]
 
   " show buffer
   nn <silent> [unite]b :Unite buffer<CR>
@@ -1497,6 +1499,19 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-expand-region"))
     call submode#map('expand-region', 'nv', 'r', 'w', '<Plug>(expand_region_shrink)')
   endif
 endif
+"}}} switch
+
+" vim-quickhl {{{
+"if s:neobundle_enabled && ! empty(neobundle#get("vim-quickhl"))
+"  nmap <Space>m <Plug>(quickhl-manual-this)
+"  xmap <Space>m <Plug>(quickhl-manual-this)
+"  nmap <Space>M <Plug>(quickhl-manual-reset)
+"  xmap <Space>M <Plug>(quickhl-manual-reset)
+"
+"  nmap <Space>j <Plug>(quickhl-cword-toggle)
+"  nmap <Space>] <Plug>(quickhl-tag-toggle)
+"  map H <Plug>(operator-quickhl-manual-this-motion)
+"endif
 "}}} switch
 
 " local settings {{{
