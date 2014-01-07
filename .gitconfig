@@ -49,7 +49,6 @@
       gitdir=./;\
       gitfile=.git;\
       while : ;do \
-        echo hoge $gitfile;\
         if [ -f $gitfile ];then \
           gitfile=${gitdir}/$(awk '/gitdir/ {print $2}' ${gitfile});\
         else \
@@ -74,7 +73,6 @@
       gitdir=./;\
       gitfile=.git;\
       while : ;do \
-        echo hoge $gitfile;\
         if [ -f $gitfile ];then \
           gitfile=${gitdir}/$(awk '/gitdir/ {print $2}' ${gitfile});\
         else \
