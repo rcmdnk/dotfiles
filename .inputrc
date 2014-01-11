@@ -129,7 +129,7 @@ $endif
 
 # /dev/null
 "\e:": ">& /dev/null\C-m"
-"\e;": ">& log\C-m"
+"\e;": "2>&1 |tee log\C-m"
 
 # disable C-t
 "\C-t:": ""
