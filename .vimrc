@@ -416,17 +416,12 @@ if s:use_neobundle && v:version > 702
       \ "autoload" : { "commands": ["ExcelView"] }}
   endif
 
-  " Google Calendar
-  NeoBundle "mattn/calendar-vim"
-
-  " Google Tasks
-  NeoBundleLazy "mattn/googletasks-vim", {
-    \ "depends": "mattn/webapi-vim",
-    \ "autoload" : { "commands": ["GoogleTasks"] }}
-
-
   " Highlight on the fly
   NeoBundle "t9md/vim-quickhl"
+
+  " Calendar/Tasks
+  NeoBundle "itchyny/calendar.vim"
+
 
   """""""""""""""""""""""""""""""""
 
@@ -1513,6 +1508,13 @@ endif
 "  map H <Plug>(operator-quickhl-manual-this-motion)
 "endif
 "}}} switch
+
+" calendar.vim {{{
+if s:neobundle_enabled && ! empty(neobundle#get("calendar.vim"))
+  let g:calendar_google_calendar = 1
+  let g:calendar_google_task = 1
+endif
+"}}} calendar.vim
 
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))
