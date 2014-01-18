@@ -201,11 +201,11 @@ inoremap { {}<Left>
 
 "  is not necessary?
 " -> use to surround
-vnoremap { "zdi{<C-R>z}<Esc>
-vnoremap [ "zdi[<C-R>z]<Esc>
-vnoremap ( "zdi(<C-R>z)<Esc>
-vnoremap " "zdi"<C-R>z"<Esc>
-vnoremap ' "zdi'<C-R>z'<Esc>
+xnoremap { "zdi{<C-R>z}<Esc>
+xnoremap [ "zdi[<C-R>z]<Esc>
+xnoremap ( "zdi(<C-R>z)<Esc>
+xnoremap " "zdi"<C-R>z"<Esc>
+xnoremap ' "zdi'<C-R>z'<Esc>
 
 " open .vimrc when starting w/o argument {{{
 autocmd VimEnter * nested if @% == "" && s:GetBufByte() == 0 | edit $MYVIMRC | endif
@@ -587,7 +587,7 @@ if s:neobundle_enable && ! empty(neobundle#get("taglist.vim"))
 endif
 "}}} taglist
 
-eoBundle "ctags.vim"
+NeoBundle "ctags.vim"
 " }}}
 
 " Color scheme {{{
@@ -704,6 +704,19 @@ endif
 " For Gvim
 NeoBundle "tyru/restart.vim"
 "}}}
+
+
+" Google Calendar/Tasks {{{
+" Use itchyny/calendar.vim
+
+NeoBundle "mattn/calendar-vim"
+
+" Google Tasks
+NeoBundleLazy "mattn/googletasks-vim", {
+  \ "depends": "mattn/webapi-vim",
+  \ "autoload" : { "commands": ["GoogleTasks"] }}
+" }}}
+
 
 " }}} Currenlty, not necessary
 
