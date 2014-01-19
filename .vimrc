@@ -368,6 +368,10 @@ if s:use_neobundle && v:version > 702
     \ "depends": "mattn/webapi-vim",
     \ "autoload" : { "commands": ["ExciteTranslate"] }}
 
+  " Google Translate
+  NeoBundleLazy "daisuzu/translategoogle.vim", {
+    \ "autoload" : { "commands": ["TranslateGoogle", "TranslateGoogleCmd"] }}
+
   " Habatobi
   NeoBundleLazy "mattn/habatobi-vim",{
     \ "autoload" : {"commands": ["Habatobi"] }}
@@ -1513,6 +1517,7 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("calendar.vim"))
   let g:calendar_google_calendar = 1
   let g:calendar_google_task = 1
+  let g:calendar_first_day = "sunday"
 endif
 "}}} calendar.vim
 
