@@ -93,6 +93,19 @@
     git diff --stat --summary ${b}..origin/${b}"
   pull-dry-run-s = "!git fetch origin $(git config branch.$(git rev-parse --abbrev-ref HEAD).merge);\
     git diff --stat --summary HEAD...FETCH_HEAD"
+  tag-renew = "!f () {\
+      if [ $# -ne 1 ];then \
+        echo \"Usage: git tag-renew version\";\
+        exit;\
+      fi;\
+      tag=$(git tag|grep v${1});\
+      if [ \"$tag\" != \"\" ];then \
+        git tag -d v${1};\
+        git push origin :v${1};\
+      fi;\
+      git tag -a v${1} -m \"tag ${1}\";\
+      git push --tag;\
+    };f"
 
 [core]
 	filemode = false
