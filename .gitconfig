@@ -95,15 +95,35 @@
     git diff --stat --summary HEAD...FETCH_HEAD"
   tag-renew = "!f () {\
       if [ $# -ne 1 ];then \
-        echo \"Usage: git tag-renew version\";\
-        exit;\
+        tag=$(git tag|tail -n1);\
+        tag=${tag#v};\
+      else \
+        tag=$1;\
       fi;\
-      tag=$(git tag|grep v${1});\
-      if [ \"$tag\" != \"\" ];then \
-        git tag -d v${1};\
-        git push origin :v${1};\
+      tagcheck=$(git tag|grep v${tag});\
+      if [ \"$tagcheck\" != \"\" ];then \
+        git tag -d v${tag};\
+        git push origin :v${tag};\
       fi;\
-      git tag -a v${1} -m \"tag ${1}\";\
+      git tag -a v${tag} -m \"tag ${tag}\";\
+      git push --tag;\
+    };f"
+  tag-new = "!f () {\
+      if [ $# -ne 1 ];then \
+        tag=$(git tag|tail -n1);\
+        tag=${tag#v};\
+        tag_minor=${tag##*.};\
+        ((tag_minor++));\
+        tag=${tag##*.}${tag_minor};\
+      else \
+        tag=$1;\
+      fi;\
+      tagcheck=$(git tag|grep v${tag});\
+      if [ \"$tagcheck\" != \"\" ];then \
+        git tag -d v${tag};\
+        git push origin :v${tag};\
+      fi;\
+      git tag -a v${tag} -m \"tag ${tag}\";\
       git push --tag;\
     };f"
 
