@@ -109,12 +109,12 @@
       git push --tag;\
     };f"
   tag-new = "!f () {\
-      if [ $# -ne 1 ];then \
+      if [ $# -eq 0 ];then \
         tag=$(git tag|tail -n1);\
         tag=${tag#v};\
         tag_minor=${tag##*.};\
         ((tag_minor++));\
-        tag=${tag##*.}${tag_minor};\
+        tag=${tag%.*}.${tag_minor};\
       else \
         tag=$1;\
       fi;\

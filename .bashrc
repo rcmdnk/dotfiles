@@ -133,30 +133,7 @@ fi
 # Trashes larger than MAXTRASHBOXSIZE will be removed by 'rm' directly
 
 # For my clipboards
-export CLIPBOARD=$HOME/.clipboard
 export CLMAXHIST=50
-export CLSEP="" # (C-v C-g) Use bell as a separator
-export CLX="" #xsel/xclip
-if [[ "$OSTYPE" =~ "linux" ]];then
-  if type xsel >& /dev/null;then
-    export CLXOS="xsel"
-  elif type xsel >& /dev/null;then
-    export CLXOS="xclip"
-  fi
-elif [[ "$OSTYPE" =~ "cygwin" ]];then
-  if type putclip >& /dev/null;then
-    export CLXOS="putclip"
-  elif type xsel >& /dev/null;then
-    export CLXOS="xsel"
-  elif type xsel >& /dev/null;then
-    export CLXOS="xclip"
-  fi
-elif [[ "$OSTYPE" =~ "darwin" ]];then
-  if type pbcopy >& /dev/null;then
-    export CLXOS="pbcopy"
-    #export CLX=$CLXOS
-  fi
-fi
 
 # }}} Environmental variables
 
