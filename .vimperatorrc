@@ -311,6 +311,56 @@ mappings.addUserMap(
 EOM
 " }}}
 
+"copy.js {{{
+javascript <<EOM
+(function () {
+  liberator.globalVariables.copy_templates = [
+    { label: 'markdown',  value: '[%TITLE%](%URL%)', map:',i' },
+    { label: 'blockquote',  value: '{% blockquote %TTITLE% %URL% %}%SEL%{% endblockquote %}', map:',bq' },
+
+    { label: 'amazon',   value: 'amazon full link and pic.',
+      custom: function() {
+        var id = "rcmdnk0c-22";
+        var x = "200";
+        var l = 'http://www.amazon.co.jp/o/ASIN/'+content.document.getElementById('ASIN').value+'/'+id;
+        if(content.document.getElementById('prodImage')){
+          var s = content.document.getElementById('prodImage').getAttribute('src');
+        }else{
+          var s = content.document.getElementById('main-image').getAttribute('src');
+        }
+        var p = s.replace(/http:.*\/I\/([^\.]+).*$/,'$1');
+        var a = s.replace(/(http:.*com).*/,'$1/images/I/');
+        var i = a+p+'._SS'+x+'_.jpg';
+        var t = content.document.getElementById('btAsinTitle').innerHTML;
+        var alt = t.split("<")[0];
+        var u = '<a href="'+l+'/" rel="nofollow" target="_blank">';
+        return '<div class="amazon-img">'+u+'<img src="'+i+'" alt="'+alt+'"/></a></div>';
+      }, map:',am'
+    },
+    { label: 'ab',   value: 'amazon pic.',
+      custom: function() {
+        var id = "rcmdnk0c-22";
+        var x = "200";
+        var l = 'http://www.amazon.co.jp/o/ASIN/'+content.document.getElementById('ASIN').value+'/'+id;
+        if(content.document.getElementById('prodImage')){ 
+          var s = content.document.getElementById('prodImage').getAttribute('src');
+        }else{
+          var s = content.document.getElementById('main-image').getAttribute('src');
+        }
+        var p = s.replace(/http:.*\/I\/([^\.]+).*$/,'$1');
+        var a = s.replace(/(http:.*com).*/,'$1/images/I/');
+        var i = a+p+'._SS'+x+'_.jpg';
+        var t = content.document.getElementById('btAsinTitle').innerHTML;
+        var alt = t.split("<")[0];
+        var u = '<a href="'+l+'/" rel="nofollow" target="_blank">';
+        return '<div class="amazon-box"><div class="amazon-img">'+u+'<img src="'+i+'" alt="'+alt+'"/></a></div><div class="amazon-txt">'+u+t+'<br><br>Amazonで詳しく見る</a></div></div>';
+      }, map:',ab'
+    },
+  ];
+})();
+EOM
+" }}}
+
 " dont-kill-me-my-lovely-input.js {{{
 " https://gist.github.com/anekos/2944628
 js <<EOM
