@@ -312,17 +312,26 @@ EOM
 " }}}
 
 "copy.js {{{
+"var l = 'http://www.amazon.co.jp/o/ASIN/'+content.document.getElementById('ASIN').value+'/'+id;
 javascript <<EOM
 (function () {
   liberator.globalVariables.copy_templates = [
-    { label: 'markdown',  value: '[%TITLE%](%URL%)', map:',i' },
-    { label: 'blockquote',  value: '{% blockquote %TTITLE% %URL% %}%SEL%{% endblockquote %}', map:',bq' },
+    { label: 'url', value: '%URL%', map:',u' },
+    { label: 'anchor', value: '<a href="%URL%">%TITLE%</a>', map:',y' },
+    { label: 'markdown', value: '[%TITLE%](%URL%)', map:',i' },
+    { label: 'blockquote', value: '{% blockquote %TTITLE% %URL% %}%SEL%{% endblockquote %}', map:',bq' },
 
     { label: 'amazon',   value: 'amazon full link and pic.',
       custom: function() {
         var id = "rcmdnk0c-22";
         var x = "200";
-        var l = 'http://www.amazon.co.jp/o/ASIN/'+content.document.getElementById('ASIN').value+'/'+id;
+        if(content.document.getElementById('ASIN')){
+          var asin = content.document.getElementById('ASIN').value;
+        }else{
+          var aa = content.document.querySelector('link[rel="canonical"]').href.split("/");
+          var asin = aa[aa.length-1];
+        }
+        var l = 'http://www.amazon.co.jp/o/ASIN/'+asin+'/'+id;
         if(content.document.getElementById('prodImage')){
           var s = content.document.getElementById('prodImage').getAttribute('src');
         }else{
@@ -341,7 +350,13 @@ javascript <<EOM
       custom: function() {
         var id = "rcmdnk0c-22";
         var x = "200";
-        var l = 'http://www.amazon.co.jp/o/ASIN/'+content.document.getElementById('ASIN').value+'/'+id;
+        if(content.document.getElementById('ASIN')){
+          var asin = content.document.getElementById('ASIN').value;
+        }else{
+          var aa = content.document.querySelector('link[rel="canonical"]').href.split("/");
+          var asin = aa[aa.length-1];
+        }
+        var l = 'http://www.amazon.co.jp/o/ASIN/'+asin+'/'+id;
         if(content.document.getElementById('prodImage')){ 
           var s = content.document.getElementById('prodImage').getAttribute('src');
         }else{
