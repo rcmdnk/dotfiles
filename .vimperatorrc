@@ -312,7 +312,6 @@ EOM
 " }}}
 
 "copy.js {{{
-"var l = 'http://www.amazon.co.jp/o/ASIN/'+content.document.getElementById('ASIN').value+'/'+id;
 javascript <<EOM
 (function () {
   liberator.globalVariables.copy_templates = [
@@ -321,7 +320,7 @@ javascript <<EOM
     { label: 'markdown', value: '[%TITLE%](%URL%)', map:',i' },
     { label: 'blockquote', value: '{% blockquote %TTITLE% %URL% %}%SEL%{% endblockquote %}', map:',bq' },
 
-    { label: 'amazon',   value: 'amazon full link and pic.',
+    { label: 'amazon',   value: 'amazon full link and image.',
       custom: function() {
         var id = "rcmdnk0c-22";
         var x = "200";
@@ -346,7 +345,7 @@ javascript <<EOM
         return '<div class="amazon-img">'+u+'<img src="'+i+'" alt="'+alt+'"/></a></div>';
       }, map:',am'
     },
-    { label: 'ab',   value: 'amazon pic.',
+    { label: 'ab',   value: 'amazon image.',
       custom: function() {
         var id = "rcmdnk0c-22";
         var x = "200";
