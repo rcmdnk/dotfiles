@@ -343,7 +343,7 @@ javascript <<EOM
         var alt = t.split("<")[0];
         var u = '<a href="'+l+'/" rel="nofollow" target="_blank">';
         return '<div class="amazon-img">'+u+'<img src="'+i+'" alt="'+alt+'"/></a></div>';
-      }, map:',am'
+      }, map:',ai'
     },
     { label: 'ab',   value: 'amazon image.',
       custom: function() {
@@ -368,7 +368,7 @@ javascript <<EOM
         var alt = t.split("<")[0];
         var u = '<a href="'+l+'/" rel="nofollow" target="_blank">';
         return '<div class="amazon-box"><div class="amazon-img">'+u+'<img src="'+i+'" alt="'+alt+'"/></a></div><div class="amazon-txt">'+u+t+'<br><br>Amazonで詳しく見る</a></div></div>';
-      }, map:',ab'
+      }, map:',am'
     },
   ];
 })();
