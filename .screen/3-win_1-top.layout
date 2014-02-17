@@ -1,4 +1,3 @@
-layout new 3-win_1-top
 only
 select 0
 split
@@ -9,5 +8,3 @@ split -v
 focus
 select 2
 focus
-layout save 3-win_1-top
-layout autosave off

@@ -140,20 +140,20 @@ bind -c layout 7 eval 'command -c layout' 'layout select 7' 'layout show'
 bind -c layout 8 eval 'command -c layout' 'layout select 8' 'layout show'
 bind -c layout 9 eval 'command -c layout' 'layout select 9' 'layout show'
 # Initialize layouts
-bind -c layout i eval 'screen' 'screen' 'screen' 'source $HOME/.screen/only.layout' 'source $HOME/.screen/4-windows.layout' 'source $HOME/.screen/3-win_1-top.layout' 'source $HOME/.screen/3-win_1-left.layout' 'source $HOME/.screen/monitor.layout' 'layout select 4-windows'
-bind -c layout ^i eval 'screen' 'screen' 'screen' 'source $HOME/.screen/only.layout' 'source $HOME/.screen/4-windows.layout' 'source $HOME/.screen/3-win_1-top.layout' 'source $HOME/.screen/3-win_1-left.layout' 'source $HOME/.screen/monitor.layout' 'layout select 4-windows'
+bind -c layout i eval 'screen' 'screen' 'screen' 'source $HOME/.screen/all.layout'
+bind -c layout ^i eval 'screen' 'screen' 'screen' 'source $HOME/.screen/all.layout'
 # Reset layouts
-bind -c layout r eval 'layout remove only' 'layout remove 4-windows' 'layout remove 3-win_1-top' 'layout remove 3-win_1-left' 'layout remove monitor' 'source $HOME/.screen/only.layout' 'source $HOME/.screen/4-windows.layout' 'source $HOME/.screen/3-win_1-top.layout' 'source $HOME/.screen/3-win_1-left.layout' 'source $HOME/.screen/monitor.layout' 'layout select 4-windows'
-bind -c layout ^r eval 'layout remove only' 'layout remove 4-windows' 'layout remove 3-win_1-top' 'layout remove 3-win_1-left' 'layout remove monitor' 'source $HOME/.screen/only.layout' 'source $HOME/.screen/4-windows.layout' 'source $HOME/.screen/3-win_1-top.layout' 'source $HOME/.screen/3-win_1-left.layout' 'source $HOME/.screen/monitor.layout' 'layout select 4-windows'
+bind -c layout r eval 'source $HOME/.screen/all.layout'
+bind -c layout ^r eval 'source $HOME/.screen/all.layout'
 # Set layout
 bind -c layout m eval 'command -c layoutm' 'echo "0 only, l 4-windows, 2 3-win_1-top, 3 3-win_1-top, 4 monitor (1 top, 3 small bottoms), 5 split, 6 vsplit, "'
-bind -c layoutm 0 eval 'source $HOME/.screen/only.layout' 'layout show'
-bind -c layoutm 1 eval 'source $HOME/.screen/4-windows.layout' 'layout show'
-bind -c layoutm 2 eval 'source $HOME/.screen/3-win_1-top.layout' 'layout show'
-bind -c layoutm 3 eval 'source $HOME/.screen/3-win_1-left.layout' 'layout show'
-bind -c layoutm 4 eval 'source $HOME/.screen/monitor.layout' 'layout show'
-bind -c layoutm 5 eval 'source $HOME/.screen/split.layout' 'layout show'
-bind -c layoutm 6 eval 'source $HOME/.screen/vsplit.layout' 'layout show'
+bind -c layoutm 0 eval 'source $HOME/.screen/only.layout'
+bind -c layoutm 1 eval 'source $HOME/.screen/4-windows.layout'
+bind -c layoutm 2 eval 'source $HOME/.screen/3-win_1-top.layout'
+bind -c layoutm 3 eval 'source $HOME/.screen/3-win_1-left.layout'
+bind -c layoutm 4 eval 'source $HOME/.screen/monitor.layout'
+bind -c layoutm 5 eval 'source $HOME/.screen/split.layout'
+bind -c layoutm 6 eval 'source $HOME/.screen/vsplit.layout'
 # Save layout
 bind -c layout s eval 'command -c layouts' 'layout show'
 bind -c layouts 0 eval 'layout save 0' 'echo "save to 0"'
@@ -168,12 +168,12 @@ bind -c layouts 8 eval 'layout save 8' 'echo "save to 8"'
 bind -c layouts 9 eval 'layout save 9' 'echo "save to 9"'
 
 # Make 4 window with new 4 screen
-bind s eval 'screen' 'screen' 'screen' 'only' 'split' 'select 0' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus'
-bind ^s eval 'screen' 'screen' 'screen' 'only' 'split' 'select 0' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus'
+bind s eval 'screen' 'screen' 'screen' 'source $HOME/.screen/4-windows.layout'
+bind ^s eval 'screen' 'screen' 'screen' 'source $HOME/.screen/4-windows.layout'
 
 # Make 4 window with no new screen
-bind r eval 'only' 'split' 'select 0' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus'
-bind ^r eval 'only' 'split' 'select 0' 'split -v' 'focus' 'select 1' 'focus' 'select 2' 'split -v' 'focus' 'select 3' 'focus'
+bind r eval 'source $HOME/.screen/4-windows.layout'
+bind ^r eval 'source $HOME/.screen/4-windows.layout'
 
 # Resize window
 bind e eval 'command -c resize' 'echo "Resize window"'
@@ -282,10 +282,3 @@ setenv a "$a%-0="    # pad the string to the display's width.
                      # http://aperiodic.net/screen/truncation_padding_escapes
 hardstatus alwayslastline "$a"
 unsetenv a
-
-
-#eval 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' split split
-eval split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split 'echo "aaaaaaaaaaaaaaaaaa"' split
-#'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only'
-#'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only'
-#'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only'

@@ -1,4 +1,3 @@
-layout new monitor
 only
 select 0
 split
@@ -12,5 +11,3 @@ select 2
 focus
 select 3
 focus
-layout save monitor
-layout autosave off
