@@ -1,7 +1,16 @@
+layout new monitor
+only
+select 0
 split
+resize -v 80%
 focus
+select 1
 split -v
 split -v
 focus
+select 2
 focus
+select 3
 focus
+layout save monitor
+layout autosave off

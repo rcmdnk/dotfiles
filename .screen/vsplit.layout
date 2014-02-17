@@ -1,3 +1,9 @@
+layout new vsplit
+only
+select 0
 split -v
 focus
+select 1
 focus
+layout save vsplit
+layout autosave off

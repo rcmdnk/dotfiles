@@ -1,3 +1,9 @@
+layout new split
+only
+select 0
 split
 focus
+select 1
 focus
+layout save split
+layout autosave off
