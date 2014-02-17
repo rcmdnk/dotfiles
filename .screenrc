@@ -1,18 +1,11 @@
 # Escape
-#escape ^Tt
 escape ^Qq
-
-# Disable t
-#bind t
-#bind ^t
 
 # Only: Q (default)
 bind q only
-#bind ^q only
 
 # source setup file
-#bind q eval "source $HOME/.screenrc"
-bind t eval "source $HOME/.screenrc"
+bind t eval 'source $HOME/.screenrc' 'echo "source $HOME/.screenrc"'
 
 # Scroll back
 defscrollback 10000
@@ -79,8 +72,6 @@ sorendition " .K"
 bind x remove
 
 # Continuous window change
-#bind ^n eval 'next'
-#bind ^p eval 'prev'
 bind ^n eval 'command -c window' 'next'
 bind ^p eval 'command -c window' 'prev'
 bind -c window n eval 'next'
@@ -90,8 +81,6 @@ bind -c window ^p eval 'command -c window' 'prev'
 bind -c window ^q eval 'command -c window'
 
 # Focus (like vi)
-#bind l focus next
-#bind h focus prev
 bind h  eval 'focus left'
 bind j  eval 'focus down'
 bind k  eval 'focus up'
@@ -281,3 +270,10 @@ setenv a "$a%-0="    # pad the string to the display's width.
                      # http://aperiodic.net/screen/truncation_padding_escapes
 hardstatus alwayslastline "$a"
 unsetenv a
+
+
+#eval 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' split split
+eval split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split only split 'echo "aaaaaaaaaaaaaaaaaa"' split
+#'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only'
+#'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only'
+#'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only' 'split' 'only'
