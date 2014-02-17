@@ -1,4 +1,3 @@
-layout new 4-windows
 only
 select 0
 split
@@ -11,5 +10,3 @@ split -v
 focus
 select 3
 focus
-layout save 4-windows
-layout autosave off
