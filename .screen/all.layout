@@ -1,0 +1,29 @@
+layout remove only
+layout new only
+source $HOME/.screen/only.layout
+
+layout remove 4-windows
+layout new 4-windows
+source $HOME/.screen/4-windows.layout
+layout save 4-windows
+layout autosave off
+
+layout remove 3-win_1-top
+layout new 3-win_1-top
+source $HOME/.screen/3-win_1-top.layout
+layout save 3-win_1-top
+layout autosave off
+
+layout remove 3-win_1-left
+layout new 3-win_1-left
+source $HOME/.screen/3-win_1-left.layout
+layout save 3-win_1-left
+layout autosave off
+
+layout remove monitor
+layout new monitor
+source $HOME/.screen/monitor.layout
+layout save monitor
+layout autosave off
+
+layout select 4-windows
