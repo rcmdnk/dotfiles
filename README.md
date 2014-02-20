@@ -12,7 +12,3 @@ If there is a file, it makes backup file (.bak)
     git clone git@github.com:rcmdnk/dotfiles
     cd dotfiles
     ./install.sh
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/rcmdnk/dotfiles/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
