@@ -75,9 +75,9 @@ export LC_ALL="en_GB.UTF-8"
 #export LC_DATE="en_GB.UTF-8"
 
 # Editors
-export VISUAL=vim
-export EDITOR=vim
-export PAGER=less
+#export VISUAL=vim
+#export EDITOR=vim
+#export PAGER=less
 
 # Terminfo
 if [ -d $HOME/.terminfo/ ];then
