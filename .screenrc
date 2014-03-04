@@ -217,6 +217,9 @@ bind -c mc ' ' eval 'exec multi_clipboard -S -s'
 bind a screen -t multi_clipboard multi_clipboard -W
 bind ^a screen -t multi_clipboard multi_clipboard -W
 
+bind A eval 'multi_clipboard -x'
+bind ^A eval 'multi_clipboard -x'
+
 # Term
 #term "screen-256color"
 
