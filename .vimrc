@@ -246,6 +246,10 @@ if s:use_neobundle && v:version > 702
 
   "" keyvalue: dak, dik,  dav, div
   "NeoBundle "vimtaku/vim-textobj-keyvalue"
+
+
+  " wildfire
+  NeoBundle "gcmt/wildfire.vim"
   "}}}
 
   " operator {{{
@@ -955,6 +959,16 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
   nn <silent> [unite]C :Unite colorscheme<CR>
 endif
 " }}} Unite
+
+" wildfire {{{
+if s:neobundle_enabled && ! empty(neobundle#get("wildfire.vim"))
+  " This selects the next closest text object.
+  let g:wildfire_fuel_map = "<ENTER>"
+
+  " This selects the previous closest text object.
+  let g:wildfire_water_map = "<BS>"
+endif
+"}}}
 
 " operator {{{
 nn [oper] <Nop>
