@@ -56,9 +56,9 @@ export PYTHONPATH=$HOME/usr/local/lib:$HOME/usr/lib/python:/usr/local/lib:/usr/l
 
 # Shell/Environmental variables {{{
 # Prompt
-#PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
+PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
 #PS1="[\W]\$ "
-PS1="\$ "
+#PS1="\$ "
 
 # XMODIFIERS
 #export XMODIFIERS="@im=kinput2"
