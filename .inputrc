@@ -94,8 +94,8 @@ $endif
 "\C-gg": "\C-e\C-ugrep *\C-b\C-b \"\"\C-b"
 "\eg": "\C-e\C-ugrep *\C-b\C-b \"\"\C-b"
 # find ./|grep 
-"\C-g\C-f": "\C-e\C-ufind ./|grep \"\"\C-b"
-"\C-gf": "\C-e\C-ufind ./|grep \"\"\C-b"
+"\C-g\C-f": "\C-e\C-ufind ./ -name \"\"\C-b"
+"\C-gf": "\C-e\C-ufind ./ -name \"\"\C-b"
 
 # Quote/Bracket
 "\e\"": "\eb\"\ef\""
