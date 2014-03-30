@@ -139,3 +139,5 @@
 
 [github]
 	user = rcmdnk
+[merge]
+	tool = vimdiff
