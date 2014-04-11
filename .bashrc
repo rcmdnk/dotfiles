@@ -526,36 +526,36 @@ fi
 # }}}
 
 # For screen {{{
-alias screenr="screen -d -r"
+# Screen wrapper {{{
+function screen () {
+  # Tips of screen for a cluster
+  # This setting keeps the host name in which screen is running
+  # for a case in the cluster,
+  # in which the host can be changed at every login
+  #
+  touch .hostForScreen
+  if [ $# = 0 ] || [ $1 = "-r" ] || [ $1 = "-R" ] || [ $1 = "-x" ];then
+    sed -i -e "/^$(hostname).*/d" .hostForScreen
+    hostname >> ~/.hostForScreen
+    # keep 10 histories
+    tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
+    mv ~/.hostForScreen.tmp ~/.hostForScreen
+    # write out DISPLAY of current terminal
+    echo "$DISPLAY"> ~/.display.txt
+  fi
 
-## Screen wrapper {{{
-#function screen () {
-#  # Tips of screen for a cluster
-#  # This setting keeps the host name in which screen is running
-#  # for a case in the cluster,
-#  # in which the host can be changed at every login
-#  #
-#  #touch .hostForScreen
-#  #if [ $# = 0 ] || [ $1 = "-r" ] || [ $1 = "-R" ] || [ $1 = "-x" ];then
-#  #  sed -i -e "/^$(hostname).*/d" .hostForScreen
-#  #  hostname >> ~/.hostForScreen
-#  #  # keep 10 histories
-#  #  #tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
-#  #  #mv ~/.hostForScreen.tmp ~/.hostForScreen
-#  ## write out DISPLAY of current terminal
-#  #  echo "$DISPLAY"> ~/.display.txt
-#  #fi
-#
-#  options="$@"
-#  if [ $# = 0 ];then
-#    # Don't make another screen session
-#    options="-R"
-#  fi
-#
-#  # launch screen
-#  command screen $options
-#}
-## }}}
+  options="$@"
+  if [ $# = 0 ];then
+    # Don't make another screen session
+    options="-R"
+  fi
+
+  # launch screen
+  command screen $options
+}
+alias screenr="screen -d -r"
+# }}}
+
 
 ## Function to check remaining screen sessions in a cluster{{{
 #function screen_check () {
