@@ -349,6 +349,9 @@ if s:use_neobundle && v:version > 702
   NeoBundleLazy "hrsh7th/vim-versions.git", {
     \ "autoload": { "commands": ["UniteVersions"]}}
 
+  " Version control (especially for VCSVimDiff (<Leader>>cv)
+  NeoBundle 'vcscommand.vim'
+
   " Gist
   NeoBundleLazy "mattn/gist-vim", {
     \ "depends": ["mattn/webapi-vim"],
