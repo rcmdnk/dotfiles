@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Use Vim in MacVim, if better
 vimversion=`vim --version`
 vimvn=`echo "$vimversion"|grep "Vi IMproved"|cut -d' ' -f 5` 2>/dev/null
@@ -42,6 +43,8 @@ if [ $mvimflag -eq 1 ];then
   alias vimdiff="mvimdiff"
 fi
 
+=======
+>>>>>>> c20479489ac5ac20584c4c9a510d73531e037cb2
 # ssh agent
 if [ "$SSH_AUTH_SOCK" = "" ];then
   #export SSH_AUTH_SOCK=`/usr/sbin/lsof|grep ssh-agent|grep Listeners|awk '{print $8}'`
