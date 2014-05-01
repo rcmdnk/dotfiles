@@ -1,50 +1,52 @@
-<<<<<<< HEAD
-# Use Vim in MacVim, if better
-vimversion=`vim --version`
-vimvn=`echo "$vimversion"|grep "Vi IMproved"|cut -d' ' -f 5` 2>/dev/null
-vimpatches=`echo "$vimversion"|grep "patches"|cut -d' ' -f 3|cut -d'-' -f2` 2>/dev/null
-vimluacheck=`echo "$vimversion"|grep lua|grep -v Linking|awk '{split($0,tmp,"lua")}{print substr(tmp[1],length(tmp[1]),1)}'`
-mvimversion=`mvim --version`
-mvimvn=`echo "$mvimversion"|grep "Vi IMproved"|cut -d' ' -f 5` 2>/dev/null
-mvimpatches=`echo "$mvimversion"|grep "patches"|cut -d' ' -f 3|cut -d'-' -f2` 2>/dev/null
-mvimluacheck=`echo "$mvimversion"|grep lua|grep -v Linking|awk '{split($0,tmp,"lua")}{print substr(tmp[1],length(tmp[1]),1)}'`
+## Use Vim in MacVim, if better
+#********* 
+#**done at .bashrc like:
+#**      if [[ "$OSTYPE" =~ "darwin" ]] && [ -d /Applications/MacVim.app/Contents/MacOS ];then
+#**        export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/Applications/MacVim.app/Contents/MacOS:/usr/local/bin:$PATH
+#**      else
+#vimversion=`vim --version`
+#vimvn=`echo "$vimversion"|grep "Vi IMproved"|cut -d' ' -f 5` 2>/dev/null
+#vimpatches=`echo "$vimversion"|grep "patches"|cut -d' ' -f 3|cut -d'-' -f2` 2>/dev/null
+#vimluacheck=`echo "$vimversion"|grep lua|grep -v Linking|awk '{split($0,tmp,"lua")}{print substr(tmp[1],length(tmp[1]),1)}'`
+#mvimversion=`mvim --version`
+#mvimvn=`echo "$mvimversion"|grep "Vi IMproved"|cut -d' ' -f 5` 2>/dev/null
+#mvimpatches=`echo "$mvimversion"|grep "patches"|cut -d' ' -f 3|cut -d'-' -f2` 2>/dev/null
+#mvimluacheck=`echo "$mvimversion"|grep lua|grep -v Linking|awk '{split($0,tmp,"lua")}{print substr(tmp[1],length(tmp[1]),1)}'`
+#
+#mvimflag=0
+#if [ "$mvimluacheck" = "+" -a "$vimluacheck" = "+" ];then
+#  mvimflag=2
+#elif [ "$mvimluacheck" = "-" -a "$vimluacheck" = "-" ];then
+#  mvimflag=2
+#elif [ "$mvimluacheck" = "+" -a "$vimluacheck" = "-" ];then
+#  mvimflag=1
+#else
+#  mvimflag=0
+#fi
+#
+#if [ $mvimflag -eq 2 ];then
+#  vimret=`echo -n '$xx = '$mvimvn' <=> '$vimvn';print "$xx \n"'|perl`
+#  if [ $vimret -eq 1 ];then
+#    mvimflag=1
+#  elif [ "$mvimpatches" = "" ];then
+#    mvimflag=0
+#  elif [ "$vimpatches" = "" ];then
+#    mvimflag=1
+#  else
+#    vimret=`echo -n '$xx = '$mvimpatches' <=> '$vimpatches';print "$xx \n"'|perl`
+#    if [ $vimret -eq 1 ];then
+#      mvimflag=1
+#    else
+#      mvimflag=0
+#    fi
+#  fi
+#fi
+#
+#if [ $mvimflag -eq 1 ];then
+#  alias vim="mvim"
+#  alias vimdiff="mvimdiff"
+#fi
 
-mvimflag=0
-if [ "$mvimluacheck" = "+" -a "$vimluacheck" = "+" ];then
-  mvimflag=2
-elif [ "$mvimluacheck" = "-" -a "$vimluacheck" = "-" ];then
-  mvimflag=2
-elif [ "$mvimluacheck" = "+" -a "$vimluacheck" = "-" ];then
-  mvimflag=1
-else
-  mvimflag=0
-fi
-
-if [ $mvimflag -eq 2 ];then
-  vimret=`echo -n '$xx = '$mvimvn' <=> '$vimvn';print "$xx \n"'|perl`
-  if [ $vimret -eq 1 ];then
-    mvimflag=1
-  elif [ "$mvimpatches" = "" ];then
-    mvimflag=0
-  elif [ "$vimpatches" = "" ];then
-    mvimflag=1
-  else
-    vimret=`echo -n '$xx = '$mvimpatches' <=> '$vimpatches';print "$xx \n"'|perl`
-    if [ $vimret -eq 1 ];then
-      mvimflag=1
-    else
-      mvimflag=0
-    fi
-  fi
-fi
-
-if [ $mvimflag -eq 1 ];then
-  alias vim="mvim"
-  alias vimdiff="mvimdiff"
-fi
-
-=======
->>>>>>> c20479489ac5ac20584c4c9a510d73531e037cb2
 # ssh agent
 if [ "$SSH_AUTH_SOCK" = "" ];then
   #export SSH_AUTH_SOCK=`/usr/sbin/lsof|grep ssh-agent|grep Listeners|awk '{print $8}'`
