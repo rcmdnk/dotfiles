@@ -555,6 +555,12 @@ function screen () {
   command screen $options
 }
 alias screenr="screen -d -r"
+
+export SCREENDIR=$HOME/.screen_socket
+if [ ! -d $SCREENDIR ];then
+  mkdir -p $SCREENDIR
+fi
+chmod 700 $SCREENDIR
 # }}}
 
 
