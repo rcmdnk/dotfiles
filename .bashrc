@@ -556,7 +556,7 @@ function screen () {
 }
 alias screenr="screen -d -r"
 
-export SCREENDIR=$HOME/.screen_socket
+export SCREENDIR=$HOME/.screen_$(hostname -s)
 if [ ! -d $SCREENDIR ];then
   mkdir -p $SCREENDIR
 fi
