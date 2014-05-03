@@ -261,7 +261,7 @@ if s:use_neobundle && v:version > 702
   "}}}
 
   " Easy to change surround
-  NeoBundle "surround.vim"
+  NeoBundle "trope/vim-surround"
 
   " Align
   NeoBundle "h1mesuke/vim-alignta"
@@ -663,7 +663,7 @@ set synmaxcol=1000 "default 3000
 
 " mapleader (<Leader>) (default is \)
 let mapleader = ","
-" use \ as , instead
+" use \, as , instead
 no <Subleader> <Nop>
 map \ <Subleader>
 no <Subleader>, ,
@@ -984,15 +984,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("operator-reverse.vim"))
 endif
 "}}}
 
-" surround.vim/vim-surround {{{
-if s:neobundle_enabled && ! empty(neobundle#get("surround.vim"))
-  " Numbers for characters can be found by :ascii on each character
-  let g:surround_96 = "`\r`" " use `
-
-  if ! empty(neobundle#get("vim-surround"))
-    let g:surround_old_mappings = 1
-  endif
-
+" vim-surround {{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-surround"))
   nm <Leader>{ ysiw{
   nm <Leader>} ysiw}
   nm <Leader>[ ysiw[
@@ -1004,6 +997,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("surround.vim"))
   nm <Leader>" ysiw"
   nm <Leader>' ysiw'
   nm <Leader>` ysiw`
+  nm <Leader>* ysiw*
+  nm <Leader><Leader>* ysiw*wysiw*
   xm { S{
   xm } S}
   xm [ S[
@@ -1015,8 +1010,10 @@ if s:neobundle_enabled && ! empty(neobundle#get("surround.vim"))
   xm " S"
   xm ' S'
   xm ` S`
+  xm * S*
+  xm <Leader>* S*gvS*
 endif
-" }}} surround.vim
+" }}} vim-surround.vim
 
 " yank share with wviminfo/rviminfo {{{
 "
