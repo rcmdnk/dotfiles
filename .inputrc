@@ -96,6 +96,8 @@ $endif
 # find ./|grep 
 "\C-g\C-f": "\C-e\C-ufind ./ -name \"\"\C-b"
 "\C-gf": "\C-e\C-ufind ./ -name \"\"\C-b"
+# grep uniq
+"\C-g\C-u": "\C-e\C-ugrep \"\" *|cut -d: -f1|uniq\C-a\ef\C-f\C-f"
 
 # Quote/Bracket
 "\e\"": "\eb\"\ef\""

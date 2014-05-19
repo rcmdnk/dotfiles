@@ -261,7 +261,7 @@ if s:use_neobundle && v:version > 702
   "}}}
 
   " Easy to change surround
-  NeoBundle "trope/vim-surround"
+  NeoBundle "tpope/vim-surround"
 
   " Align
   NeoBundle "h1mesuke/vim-alignta"
