@@ -1,12 +1,12 @@
 only
-select 0
+select $win0
 split
 split -v
 focus
-select 1
+select $win1
 focus
-select 2
+select $win2
 split -v
 focus
-select 3
+select $win3
 focus

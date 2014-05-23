@@ -1247,7 +1247,7 @@ endif
 
 " vim-operator-replace{{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-operator-replace"))
-  map _  "0<Plug>(operator-replace)
+  map _  <Plug>(operator-replace)
 endif
 "}}} vim-operator-replace
 

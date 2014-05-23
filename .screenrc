@@ -22,6 +22,9 @@ defmonitor on
 # hardcopydir
 hardcopydir $HOME/screenlog
 
+# Time (second) to wait new message
+msgminwait 0
+
 # Time (second) to show message
 msgwait 5
 
@@ -115,38 +118,35 @@ bind S split
 
 # Layout
 # Layout command prefix C-q
-bind ^q eval 'command -c layout' 'layout show'
-bind -c layout ^q eval 'command -c layout' 'layout show'
+bind ^q eval 'command -c layout' 'source ~/.screen/layout_show'
+bind -c layout ^q eval 'command -c layout' 'source ~/.screen/layout_show'
 # Make/Remove layout
-bind -c layout c eval 'command -c layout' 'layout new' 'layout show'
-bind -c layout x eval 'command -c layout' 'layout remove' 'layout show'
+bind -c layout c eval 'command -c layout' 'layout new' 'source ~/.screen/layout_show'
+bind -c layout x eval 'command -c layout' 'layout remove' 'source ~/.screen/layout_show'
 # Modify title/number
 bind -c layout T colon 'layout title '
 bind -c layout N colon 'layout number '
 # Go to Next/Previous layout
-bind -c layout n eval 'layout next' 'layout show'
-bind -c layout p eval 'layout prev' 'layout show'
-bind -c layout ^N eval 'command -c layout' 'layout next' 'layout show'
-bind -c layout ^P eval 'command -c layout' 'layout prev' 'layout show'
+bind -c layout n eval 'layout next' 'source ~/.screen/layout_show'
+bind -c layout p eval 'layout prev' 'source ~/.screen/layout_show'
+bind -c layout ^N eval 'command -c layout' 'layout next' 'source ~/.screen/layout_show'
+bind -c layout ^P eval 'command -c layout' 'layout prev' 'source ~/.screen/layout_show'
 # Choose n-th layout
-bind -c layout 0 eval 'command -c layout' 'layout select 0' 'layout show'
-bind -c layout 1 eval 'command -c layout' 'layout select 1' 'layout show'
-bind -c layout 2 eval 'command -c layout' 'layout select 2' 'layout show'
-bind -c layout 3 eval 'command -c layout' 'layout select 3' 'layout show'
-bind -c layout 4 eval 'command -c layout' 'layout select 4' 'layout show'
-bind -c layout 5 eval 'command -c layout' 'layout select 5' 'layout show'
-bind -c layout 6 eval 'command -c layout' 'layout select 6' 'layout show'
-bind -c layout 7 eval 'command -c layout' 'layout select 7' 'layout show'
-bind -c layout 8 eval 'command -c layout' 'layout select 8' 'layout show'
-bind -c layout 9 eval 'command -c layout' 'layout select 9' 'layout show'
-# Initialize layouts
-bind -c layout i eval 'screen' 'screen' 'screen' 'source $HOME/.screen/all.layout'
-bind -c layout ^i eval 'screen' 'screen' 'screen' 'source $HOME/.screen/all.layout'
-# Reset layouts
-bind -c layout r eval 'source $HOME/.screen/all.layout'
-bind -c layout ^r eval 'source $HOME/.screen/all.layout'
+bind -c layout 0 eval 'command -c layout' 'layout select 0' 'source ~/.screen/layout_show'
+bind -c layout 1 eval 'command -c layout' 'layout select 1' 'source ~/.screen/layout_show'
+bind -c layout 2 eval 'command -c layout' 'layout select 2' 'source ~/.screen/layout_show'
+bind -c layout 3 eval 'command -c layout' 'layout select 3' 'source ~/.screen/layout_show'
+bind -c layout 4 eval 'command -c layout' 'layout select 4' 'source ~/.screen/layout_show'
+bind -c layout 5 eval 'command -c layout' 'layout select 5' 'source ~/.screen/layout_show'
+bind -c layout 6 eval 'command -c layout' 'layout select 6' 'source ~/.screen/layout_show'
+bind -c layout 7 eval 'command -c layout' 'layout select 7' 'source ~/.screen/layout_show'
+bind -c layout 8 eval 'command -c layout' 'layout select 8' 'source ~/.screen/layout_show'
+bind -c layout 9 eval 'command -c layout' 'layout select 9' 'source ~/.screen/layout_show'
+# Initialize/Reset layouts
+bind -c layout i eval 'next' 'exec /bin/sh -c $HOME/.screen/all_layout.sh'
+bind -c layout ^i eval 'next' 'exec /bin/sh -c $HOME/.screen/all_layout.sh'
 # Set layout
-bind -c layout m eval 'command -c layoutm' 'echo "0 only, l 4-windows, 2 3-win_1-top, 3 3-win_1-top, 4 monitor (1 top, 3 small bottoms), 5 split, 6 vsplit, "'
+bind -c layout m eval 'command -c layoutm' 'echo "Set layout: 0 only, l 4-windows, 2 3-win_1-top, 3 3-win_1-top, 4 monitor (1 top, 3 small bottoms), 5 split, 6 vsplit, "'
 bind -c layoutm 0 eval 'source $HOME/.screen/only.layout'
 bind -c layoutm 1 eval 'source $HOME/.screen/4-windows.layout'
 bind -c layoutm 2 eval 'source $HOME/.screen/3-win_1-top.layout'
@@ -155,25 +155,12 @@ bind -c layoutm 4 eval 'source $HOME/.screen/monitor.layout'
 bind -c layoutm 5 eval 'source $HOME/.screen/split.layout'
 bind -c layoutm 6 eval 'source $HOME/.screen/vsplit.layout'
 # Save layout
-bind -c layout s eval 'command -c layouts' 'layout show'
-bind -c layouts 0 eval 'layout save 0' 'echo "save to 0"'
-bind -c layouts 1 eval 'layout save 1' 'echo "save to 1"'
-bind -c layouts 2 eval 'layout save 2' 'echo "save to 2"'
-bind -c layouts 3 eval 'layout save 3' 'echo "save to 3"'
-bind -c layouts 4 eval 'layout save 4' 'echo "save to 4"'
-bind -c layouts 5 eval 'layout save 5' 'echo "save to 5"'
-bind -c layouts 6 eval 'layout save 6' 'echo "save to 6"'
-bind -c layouts 7 eval 'layout save 7' 'echo "save to 7"'
-bind -c layouts 8 eval 'layout save 8' 'echo "save to 8"'
-bind -c layouts 9 eval 'layout save 9' 'echo "save to 9"'
-
-# Make 4 window with new 4 screen
-bind s eval 'screen' 'screen' 'screen' 'source $HOME/.screen/4-windows.layout'
-bind ^s eval 'screen' 'screen' 'screen' 'source $HOME/.screen/4-windows.layout'
+bind -c layout s eval 'exec /bin/sh -c \'screen -X layout save $(screen -X layout number && screen -Q lastmsg | cut -d' ' -f4)"''
 
 # Make 4 window with no new screen
-bind r eval 'source $HOME/.screen/4-windows.layout'
-bind ^r eval 'source $HOME/.screen/4-windows.layout'
+# First 'next' is needed when it is on empty window for exec
+bind r eval 'next' 'exec /bin/sh -c $HOME/.screen/layout.sh'
+bind ^r eval 'next' 'exec /bin/sh -c $HOME/.screen/layout.sh'
 
 # Resize window
 bind e eval 'command -c resize' 'echo "Resize window"'
@@ -193,14 +180,17 @@ bufferfile "$SCREENEXCHANGE"
 
 # ref: man screen -> exec
 # !!! is needed especially for ' '.
-# It execute the command at first ' ' to start the copy,
-# and do again at the end, then multi_clipboard is executed twice...
+# It executes the command at first ' ' to start the copy,
+# and does again at the end, then multi_clipboard is executed twice...
 # If . is set for stdout (second one), the second command is not executed...?
-bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec !!! multi_clipboard -I'
-bindkey -m Y eval 'stuff Y' 'writebuf' 'exec !!! multi_clipboard -I'
-bindkey -m W eval 'stuff W' 'writebuf' 'exec !!! multi_clipboard -I'
+#bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec !!! multi_clipboard -I'
+# -> maybe `exec <direct command>` is not good?
+# -> `exec /bin/sh <command> seems better...
+bindkey -m ' ' eval 'stuff \040' 'exec /bin/sh -c "multi_clipboard -I"'
+bindkey -m Y eval 'stuff Y' 'exec /bin/sh -c "multi_clipboard -I"'
+bindkey -m W eval 'stuff W' 'writebuf' 'exec /bin/sh  -c "multi_clipboard -I"'
 
-# !!! should not be applied (especially for stdout (second one).
+# !!! should not be applied (especially for stdout (second one)).
 # Otherwise some outputs come to the window(?)
 bind z eval 'command -c mc' 'exec multi_clipboard -S'
 bind ^z eval 'command -c mc' 'exec multi_clipboard -S'
@@ -217,8 +207,9 @@ bind -c mc ' ' eval 'exec multi_clipboard -S -s'
 bind a screen -t multi_clipboard multi_clipboard -W
 bind ^a screen -t multi_clipboard multi_clipboard -W
 
-bind A eval 'multi_clipboard -x'
-bind ^A eval 'multi_clipboard -x'
+bind A eval 'exec multi_clipboard -x'
+# Ctrl-Capital is not capital, but bind lower case (Ctrl-a)...?
+#bind ^A eval 'exec multi_clipboard -x'
 
 # Term
 #term "screen-256color"
@@ -285,3 +276,9 @@ setenv a "$a%-0="    # pad the string to the display's width.
                      # http://aperiodic.net/screen/truncation_padding_escapes
 hardstatus alwayslastline "$a"
 unsetenv a
+
+bind a eval 'exec /bin/sh -c "~/set_win.sh"' 'split' 'focus' 'select 1'
+#bind a eval 'screen' 'split' 'focus' 'select 1'
+#bind a eval 'exec /bin/sh -c "~/set_win.sh"'
+#bind a eval 'exec /bin/sh -c "~/set_win.sh"' 'exec /bin/sh -c "~/set_win2.sh"'
+bind a eval 'exec /bin/sh -c "~/set_win.sh"'
