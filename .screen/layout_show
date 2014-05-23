@@ -1,0 +1,3 @@
+# Note: `screen -Q` seems working bad, making high load, and make stack especially at cygwin
+#exec /bin/bash -c "screen -X echo \"$(screen -X layout show && screen -Q lastmsg), n: next, p: prev, i: init/reset, s: save, c: new, m: set, x: remove, <n>: goto <n>\""
+layout show

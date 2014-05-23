@@ -1,0 +1,12 @@
+only
+select $win4
+split
+split -v
+focus
+select $win5
+focus
+select $win6
+split -v
+focus
+select $win7
+focus
