@@ -276,9 +276,3 @@ setenv a "$a%-0="    # pad the string to the display's width.
                      # http://aperiodic.net/screen/truncation_padding_escapes
 hardstatus alwayslastline "$a"
 unsetenv a
-
-bind a eval 'exec /bin/sh -c "~/set_win.sh"' 'split' 'focus' 'select 1'
-#bind a eval 'screen' 'split' 'focus' 'select 1'
-#bind a eval 'exec /bin/sh -c "~/set_win.sh"'
-#bind a eval 'exec /bin/sh -c "~/set_win.sh"' 'exec /bin/sh -c "~/set_win2.sh"'
-bind a eval 'exec /bin/sh -c "~/set_win.sh"'
