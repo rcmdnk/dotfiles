@@ -109,6 +109,10 @@ for f in .*;do
     ln -s "$curdir/$f" "$target"
   fi
 done
+
+# for screen
+ls .screen/*.sh && for f in $(ls .screen/*.sh);do chmod 755 $f;done
+
 echo ""
 if [ $dryrun -eq 1 ];then
   echo "Following files don't exist:"

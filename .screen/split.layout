@@ -1,6 +1,6 @@
 only
-select 0
+select $win0
 split
 focus
-select 1
+select $win1
 focus

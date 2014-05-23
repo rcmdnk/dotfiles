@@ -1,9 +1,9 @@
 only
-select 0
+select $win0
 split -v
 focus
-select 1
+select $win1
 split
 focus
-select 2
+select $win2
 focus
