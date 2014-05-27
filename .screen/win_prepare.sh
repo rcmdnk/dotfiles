@@ -45,6 +45,13 @@ for i in $(seq $f_n $l_n);do
   #msg=$(screen -p $i -X echo test && screen -Q lastmsg)
   #if [ "$msg" = "test" ];then
   screen -p $i -X writebuf $test_file >>$log 2>&1
+  #usleep 1
+  while [ 1 ];do
+    if ! ps -u$USER |grep "screen -p $i -X writebuf $test_file";then
+      break
+    fi
+    debug writing buffer....
+  done
   debug check $i
   if [ -f $test_file ];then
     debug "*** found $i"
@@ -62,7 +69,7 @@ done
 
 for i in ${non_exist[@]};do
   debug try non_exist
-  debug n=$n, n_windows=$n_windows
+  debug i=$i, n=$n, n_windows=$n_windows
   if [ $n -ge $n_windows ];then
     break
   fi
