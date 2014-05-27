@@ -736,8 +736,12 @@ nn <silent> <Leader>p "+gP
 nn <silent> <Leader>P :set paste!<CR>:set paste?<CR>
 
 " *, #, stay at current word->mapped for anzu
-"nn * *N
-"nn #* #n
+if ! s:neobundle_enabled || empty(neobundle#get("vim-anzu"))
+  " swap * and g*, and add <C-o> to stay on current word.
+  nn g* *<C-o>
+  nn * g*<C-o>
+  nn # #<C-o>
+endif
 
 " Open vimrc
 nn <Leader><Leader> :tabedit $MYVIMRC<CR>
@@ -1275,8 +1279,9 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("vim-anzu"))
   nm n <Plug>(anzu-n-with-echo)
   nm N <Plug>(anzu-N-with-echo)
-  nm * <Plug>(anzu-star-with-echo)N
-  nm # <Plug>(anzu-sharp-with-echo)N
+  nm * g*<C-o><Plug>(anzu-update-search-status-with-echo)
+  "nm g* g*<C-o><Plug>(anzu-update-search-status-with-echo)
+  nm # #<C-o><Plug>(anzu-update-search-status-with-echo)
   let g:airline#extensions#anzu#enabled=0
 endif
 "}}} vim-anzu
