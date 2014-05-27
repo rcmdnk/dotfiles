@@ -46,12 +46,13 @@ for i in $(seq $f_n $l_n);do
   #if [ "$msg" = "test" ];then
   screen -p $i -X writebuf $test_file >>$log 2>&1
   #usleep 1
-  while [ 1 ];do
-    if ! ps -u$USER |grep "screen -p $i -X writebuf $test_file";then
-      break
-    fi
-    debug writing buffer....
-  done
+  date >/dev/null
+  #while [ 1 ];do
+  #  if ! ps -u$USER |grep "screen -p $i -X writebuf $test_file";then
+  #    break
+  #  fi
+  #  debug writing buffer....
+  #done
   debug check $i
   if [ -f $test_file ];then
     debug "*** found $i"
