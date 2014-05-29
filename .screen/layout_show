@@ -1,3 +1,12 @@
 # Note: `screen -Q` seems working bad, making high load, and make stack especially at cygwin
 #exec /bin/bash -c "screen -X echo \"$(screen -X layout show && screen -Q lastmsg), n: next, p: prev, i: init/reset, s: save, c: new, m: set, x: remove, <n>: goto <n>\""
+
+# Note: msgminwait doesn't work (not only here, but for all, bug?). 
+# In addition, echo command doesn't work if it is used in the file called by source???.
+# such `exec /bin/bash -c "screen -X echo ...` works, though...
+#msgminwait 3
+#layout show
+#echo "n: next, p: prev, i: init/reset, s: save, c: new, m: set, x: remove, <n>: goto <n>"
+#msgminwait 0
+
 layout show

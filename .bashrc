@@ -535,20 +535,20 @@ function screen () {
   # for a case in the cluster,
   # in which the host can be changed at every login
   #
-  touch .hostForScreen
+  #touch ~/.hostForScreen
   if [ $# = 0 ] || [ $1 = "-r" ] || [ $1 = "-R" ] || [ $1 = "-x" ];then
-    sed -i -e "/^$(hostname).*/d" .hostForScreen
-    hostname >> ~/.hostForScreen
-    # keep 10 histories
-    tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
-    mv ~/.hostForScreen.tmp ~/.hostForScreen
+    #sed -i -e "/^$(hostname).*/d" ~/.hostForScreen
+    #hostname >> ~/.hostForScreen
+    ## keep 10 histories
+    #tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
+    #mv ~/.hostForScreen.tmp ~/.hostForScreen
     # write out DISPLAY of current terminal
     echo "$DISPLAY"> ~/.display.txt
   fi
 
   options="$@"
   if [ $# = 0 ];then
-    # Don't make another screen session
+    # Don't make another screen session, if any session is detached.
     options="-R"
   fi
 

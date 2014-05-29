@@ -13,8 +13,10 @@ fi
 
 WINDOWS=8
 CREATE=4
-LAYOUTS=(only 4-windows 4-windows_2 3-win_1-top 3-win_1-left monitor)
-AUTOSAVE=(on on off on on on)
+LAYOUTS=(4-windows 4-windows_2 only 3-win_1-top 3-win_1-left monitor)
+AUTOSAVE=(off on on off off off)
+SET_LAYOUT=1
+WIN_PREPARE=0
 
 $HOME/.screen/win_prepare.sh 8 4
 
@@ -25,7 +27,7 @@ for l in ${LAYOUTS[@]};do
   screen -X layout remove $l >>$log 2>&1
 done
 for i in $(seq 0 $((${#LAYOUTS[@]}-1)));do
-  $HOME/.screen/layout.sh ${LAYOUTS[$i]} ${AUTOSAVE[$i]} 0
+  $HOME/.screen/layout.sh ${LAYOUTS[$i]} $SET_LAYOUT ${AUTOSAVE[$i]} $WIN_PREPARE
 done
 
 screen -X layout select 4-windows >>$log 2>&1
