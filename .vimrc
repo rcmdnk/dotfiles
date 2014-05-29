@@ -433,6 +433,10 @@ if s:use_neobundle && v:version > 702
   " Calendar/Tasks
   NeoBundle "itchyny/calendar.vim"
 
+  " Especially for CSV editing
+  NeoBundleLazy "rbtnn/rabbit-ui.vim",{
+    \ "autoload" : {"commands": ["EditCSV"] }}
+
 
   """""""""""""""""""""""""""""""""
 
@@ -1540,6 +1544,17 @@ if s:neobundle_enabled && ! empty(neobundle#get("calendar.vim"))
   let g:calendar_frame = 'default'
 endif
 "}}} calendar.vim
+
+" rabbit-ui.vim {{{
+if s:neobundle_enabled && ! empty(neobundle#get("rabbit-ui.vim"))
+  function! s:edit_csv(path)
+    call writefile(map(rabbit_ui#gridview(
+          \ map(readfile(expand(a:path)),'split(v:val,",",1)')),
+          \ "join(v:val, ',')"), expand(a:path))
+  endfunction
+command! -nargs=1 -complete=file EditCSV  :call <sid>edit_csv(<q-args>)
+endif
+"}}} rabbit-ui.vim
 
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))

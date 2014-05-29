@@ -9,7 +9,6 @@ layout remove 4-windows
 layout new 4-windows
 source $HOME/.screen/4-windows.layout
 layout save 4-windows
-<<<<<<< HEAD
 layout autosave on
 
 layout remove 4-windows_2
@@ -17,38 +16,23 @@ layout new 4-windows_2
 source $HOME/.screen/4-windows_2.layout
 layout save 4-windows_2
 layout autosave on
-=======
-#layout autosave off
->>>>>>> 2b9eb621e003bde79fd5406a2cb01389501f4f98
 
 layout remove 3-win_1-top
 layout new 3-win_1-top
 source $HOME/.screen/3-win_1-top.layout
 layout save 3-win_1-top
-<<<<<<< HEAD
 layout autosave on
-=======
-#layout autosave off
->>>>>>> 2b9eb621e003bde79fd5406a2cb01389501f4f98
 
 layout remove 3-win_1-left
 layout new 3-win_1-left
 source $HOME/.screen/3-win_1-left.layout
 layout save 3-win_1-left
-<<<<<<< HEAD
 layout autosave on
-=======
-#layout autosave off
->>>>>>> 2b9eb621e003bde79fd5406a2cb01389501f4f98
 
 layout remove monitor
 layout new monitor
 source $HOME/.screen/monitor.layout
 layout save monitor
-<<<<<<< HEAD
 layout autosave on
-=======
-#layout autosave off
->>>>>>> 2b9eb621e003bde79fd5406a2cb01389501f4f98
 
 layout select 4-windows

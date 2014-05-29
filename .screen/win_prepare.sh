@@ -39,6 +39,7 @@ n=0
 non_exist=()
 
 screen -X register . win_test >> $log 2>&1
+mkdir -p ~/.screen/
 test_file=~/.screen/win_test.txt
 rm -f $test_file
 for i in $(seq $f_n $l_n);do
