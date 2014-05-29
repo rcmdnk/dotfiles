@@ -156,7 +156,7 @@ bind -c layoutm 4 eval 'source ~/.screen/layout.sh monitor 0 off 1 4 4'
 bind -c layoutm 5 eval 'source ~/.screen/layout.sh split 0 off 1 2 2'
 bind -c layoutm 6 eval 'source ~/.screen/layout.sh vsplit 0 off 1 2 2'
 # Save layout
-bind -c layout s eval 'exec /bin/sh -c \'screen -X layout save $(screen -X layout number && screen -Q lastmsg | cut -d' ' -f4)"''
+bind -c layout s eval 'exec /bin/sh -c "~/.screen/layout_save.sh"'
 
 # Make 4 window with no new screen
 # First 'next' is needed when it is on empty window for exec
