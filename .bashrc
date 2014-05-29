@@ -155,8 +155,9 @@ HISTSIZE=10000
 # ignorespace # ignore command starting with space
 # ignoreboth # ignore dups and space
 # erasedups # erase a duplication in the past
-export HISTCONTROL=ignoredups
-export HISTIGNORE="?:??:???:????:history:cd ../"
+export HISTCONTROL=erasedups
+#export HISTIGNORE="?:??:???:????:history:cd ../"
+export HISTIGNORE="cd:cd -:cd ../:ls:sd:cl*:pwd*:rm *:history"
 #shopt -s histappend # append to hist (not overwrite),
                     # don't use with below share_history
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
