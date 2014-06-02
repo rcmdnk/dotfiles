@@ -691,17 +691,22 @@ no : ;
 nn <C-k> k
 " Down (C-l default: Clear and redraw the screen)
 nn <C-l> l
-" Go to Head (C-a default: Increment)->can't be used with vim-speeddating
+" Go to Head (C-a default: Increment)-><C-a> can't be used with vim-speeddating
 "nn <C-a> 0
+nn <C-H> 0
 " Go to End (C-e default: Scroll down)
-"nn <C-e> <C-$>
+"nn <C-e> $
+nn <C-L> $
+" Go to top
+nn <C-K> gg
+" Go to bottom
+nn <C-J> G
 " Substitute for C-a (C-q default: C-V alternative for gui mode)
 "nn <C-q> <C-a> " not work...
 " Substitute for C-a (C-z default: suspend, same as :stop)
 "nn <C-z> <C-a>
 " Substitute for C-a (C-s default: non?)
 "nn <C-s> <C-a>
-nn <C-k> k
 
 " tag jump (avoid crash with screen's key bind, C-' default: Non?)
 nn <C-'> <C-t>
