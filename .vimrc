@@ -632,9 +632,26 @@ set synmaxcol=1000 "default 3000
 " c Command line mode
 " o Operator pending mode
 "
-" map:  normal + visual (x+v)
-" nmap!: other than normal mode
+"    commands:                                   modes:
+"                                      Normal  Visual+Select  Operator-pending
+":map   :noremap   :unmap   :mapclear    yes        yes        yes
+":nmap  :nnoremap  :nunmap  :nmapclear   yes         -          -
+":vmap  :vnoremap  :vunmap  :vmapclear    -         yes         -
+":omap  :onoremap  :ounmap  :omapclear    -          -         yes
 "
+"    commands:                                   modes:
+"                                      Visual    Select
+":vmap  :vnoremap  :vunmap  :vmapclear   yes      yes
+":xmap  :xnoremap  :xunmap  :xmapclear   yes       -
+":smap  :snoremap  :sunmap  :smapclear    -       yes
+"
+"    commands:                                   modes:
+                 "                     Insert  Command-line  Lang-Arg
+":map!  :noremap!  :unmap!  :mapclear!   yes       yes           -
+":imap  :inoremap  :iunmap  :imapclear   yes        -            -
+":cmap  :cnoremap  :cunmap  :cmapclear    -        yes           -
+":lmap  :lnoremap  :lunmap  :lmapclear   yes*      yes*         yes*
+
 " nm = nmap
 " vm = vmap
 " ...
@@ -680,6 +697,12 @@ map <ESC>n <M-n>
 no ; :
 no : ;
 
+" Require <Leader> before gu*/gU* (Change to lowr/upper case)
+no gu <Nop>
+no gU <Nop>
+no <Leader>gu gu
+no <Leader>gU gU
+
 """ Normal mode
 
 " cursor move
@@ -693,14 +716,22 @@ nn <C-k> k
 nn <C-l> l
 " Go to Head (C-a default: Increment)-><C-a> can't be used with vim-speeddating
 "nn <C-a> 0
-nn <C-H> 0
+nn <M-h> 0
+nn <D-h> 0
+nn <Space>h 0
 " Go to End (C-e default: Scroll down)
 "nn <C-e> $
-nn <C-L> $
+nn <M-l> $
+nn <D-l> $
+nn <Space>l $
 " Go to top
-nn <C-K> gg
+nn <M-k> gg
+nn <D-k> gg
+nn <Space>k gg
 " Go to bottom
-nn <C-J> G
+nn <M-j> G
+nn <D-j> G
+nn <Space>j G
 " Substitute for C-a (C-q default: C-V alternative for gui mode)
 "nn <C-q> <C-a> " not work...
 " Substitute for C-a (C-z default: suspend, same as :stop)
