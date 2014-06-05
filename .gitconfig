@@ -126,6 +126,10 @@
       git tag -a v${tag} -m \"tag ${tag}\";\
       git push --tag;\
     };f"
+  cancel = "!f () {\
+      git commit -a -m 'Temporary commit for cancel';\
+      git reset --hard HEAD~;\
+    };f"
 
 [core]
 	filemode = false
