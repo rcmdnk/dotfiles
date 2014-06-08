@@ -20,7 +20,7 @@ autodetach on
 defmonitor on
 
 # hardcopydir
-hardcopydir ~/screenlog
+hardcopydir $HOME/tmp
 
 # Time (second) to wait new message
 msgminwait 0
