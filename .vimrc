@@ -477,9 +477,12 @@ set modeline       " enable to use settings written in the file
                    " # vim set foldmarker={{{,}}}:
 set modelines=3    " number of lines to be read (form top and bottom) for
                    " modeline
-set tabstop=4      " width of <Tab> in view
+set tabstop=2      " width of <Tab> in view
 
 set shiftwidth=2   " width for indent
+set autoindent     " autoindent
+set cinoptions=g0  " g0: no indent for private/public/protected
+
 set softtabstop=0  " if not 0, insert space instead of <Tab>
 "set textwidth=0    " longer line than textwidth will be broken (0: disable)
 autocmd MyAutoGroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
@@ -531,7 +534,6 @@ set novisualbell   " No visual bell
 "                   " but make moving cursor slow for heavily highlighted file...
 "set number         " Show line numbers
 "set relativenumber " Relative line number
-set autoindent
 set scrolloff=999  " Show cursor at middle
                    " (scrolloff is number of lines which should be shown above
                    " and below cursor.
@@ -565,12 +567,14 @@ set wildmode=list:longest
 set wildmenu
 
 " Folding
-set foldmethod=marker
-set foldmarker={{{,}}} "default
-autocmd MyAutoGroup FileType py set foldmethod=syntax
-autocmd MyAutoGroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
-set foldlevel=0
-set foldnestmax=1
+if v:version > 702
+  set foldmethod=marker
+  set foldmarker={{{,}}} "default
+  autocmd MyAutoGroup FileType py set foldmethod=syntax
+  autocmd MyAutoGroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
+  set foldlevel=0
+  set foldnestmax=1
+endif
 
 " Filetype
 autocmd MyAutoGroup BufNewFile,BufRead *.{htm*} set filetype=markdown
@@ -719,11 +723,13 @@ nn <C-l> l
 nn <M-h> 0
 nn <D-h> 0
 nn <Space>h 0
+nn H 0
 " Go to End (C-e default: Scroll down)
 "nn <C-e> $
 nn <M-l> $
 nn <D-l> $
 nn <Space>l $
+nn L $
 " Go to top
 nn <M-k> gg
 nn <D-k> gg
@@ -765,11 +771,45 @@ nn <silent> <Leader>/ :noh<CR>
 nn <A-w> :w<CR>
 nn <A-q> :q!<CR>
 nn <A-z> :ZZ<CR>
-" don't enter Ex mode but quit w/o check by Q
-nn Q ZQ
+" don't enter Ex mode: map to ZZ (:q<CR>)
+nn Q ZZ
+" Close/Close & Save buffer
+nn <Leader>q :bdelete<CR>
+nn <Leader>w :w<CR>:bdelete<CR>
 
-" remove trail spaces
-nn <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
+" remove trail spaces, align
+if v:version > 702
+  function! IndentAll()
+    normal mxgg=G'x
+    delmarks x
+  endfunction
+
+  function! DeleteSpace()
+    normal mxG$
+    let flags = "w"
+    while search(" $", flags) > 0
+      s/ \+$//g
+      let flags = "W"
+    endwhile
+    'x
+    delmarks x
+  endfunction
+
+  function! AlignAllBuf ()
+    let i_buf = 1
+    for i in  range(1, bufnr("$"))
+      if buflisted(i)
+        execute ":buffer " . i
+        call DeleteSpace()
+        update
+        bdelete
+      endif
+    endfor
+    quit
+  endfunction
+
+  nn <Leader><Space>  :ret<CR>:call IndentAll()<CR>:call DeleteSpace()<CR>
+endif
 
 " Paste, Paste mode
 nn <silent> <Leader>p "+gP
@@ -820,6 +860,7 @@ xn w iw
 xn W iW
 
 """ command line mode
+" Cursor move
 cno <C-b> <Left>
 cno <C-f> <Right>
 cno <C-a> <C-b>
