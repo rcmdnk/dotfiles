@@ -111,9 +111,8 @@ for f in .*;do
 done
 
 # for screen
-ls .screen/*.sh && for f in $(ls .screen/*.sh);do chmod 755 $f;done
+ls .screen/*.sh >& /dev/null && for f in $(ls .screen/*.sh);do chmod 755 $f;done
 
-echo ""
 if [ $dryrun -eq 1 ];then
   echo "Following files don't exist:"
 else
