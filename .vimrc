@@ -478,7 +478,6 @@ set modeline       " enable to use settings written in the file
 set modelines=3    " number of lines to be read (form top and bottom) for
                    " modeline
 set tabstop=2      " width of <Tab> in view
-
 set shiftwidth=2   " width for indent
 set autoindent     " autoindent
 set cinoptions=g0  " g0: no indent for private/public/protected
@@ -810,7 +809,8 @@ if v:version > 702
     quit
   endfunction
 
-  nn <Leader><Space>  :ret<CR>:call IndentAll()<CR>:call DeleteSpace()<CR>
+  "nn <Leader><Space>  :ret<CR>:call IndentAll()<CR>:call DeleteSpace()<CR>
+  nn <Leader><Space>  :call DeleteSpace()<CR>
 endif
 
 " Paste, Paste mode
