@@ -795,11 +795,13 @@ if v:version > 702
     delmarks x
   endfunction
 
-  function! AlignAllBuf ()
+  function! AlignAllBuf()
     let i_buf = 1
     for i in  range(1, bufnr("$"))
       if buflisted(i)
         execute ":buffer " . i
+        retab
+        call IndentAll()
         call DeleteSpace()
         update
         bdelete
