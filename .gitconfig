@@ -145,3 +145,4 @@
 	user = rcmdnk
 [merge]
 	tool = vimdiff
+	keepBackup = false
