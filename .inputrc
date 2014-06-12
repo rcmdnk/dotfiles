@@ -82,22 +82,24 @@ $endif
 
 # default to re-read .inputrc
 "\C-x\C-r": re-read-init-file
+"\C-xr": re-read-init-file
 
 # grep prefix
 "\C-g": ""
-# grep -r "" ./
-"\C-g\C-r": "\C-e\C-ugrep -r ./\eb\C-f \"\"\C-b"
-"\C-gr": "\C-e\C-ugrep -r ./\eb\C-f \"\"\C-b"
-"\er": "\C-e\C-ugrep -r ./\eb\C-f \"\"\C-b"
+# grep -r "" ./ # and avoid svn/git
+"\C-g\C-r": "grep -r \"\" ./|grep -v .svn|grep -v .git\eb\eb\eb\eb\eb\eb\eb\C-f\C-f\C-f"
+"\C-gr": "grep -r \"\" ./|grep -v .svn|grep -v .git\eb\eb\eb\eb\eb\eb\eb\C-f\C-f\C-f"
+"\er": "grep -r \"\" ./|grep -v .svn|grep -v .git\eb\eb\eb\eb\eb\eb\eb\C-f\C-f\C-f"
 # grep "" *
-"\C-g\C-g": "\C-e\C-ugrep *\C-b\C-b \"\"\C-b"
-"\C-gg": "\C-e\C-ugrep *\C-b\C-b \"\"\C-b"
-"\eg": "\C-e\C-ugrep *\C-b\C-b \"\"\C-b"
+"\C-g\C-g": "grep *\C-b\C-b \"\"\C-b"
+"\C-gg": "grep *\C-b\C-b \"\"\C-b"
+"\eg": "grep *\C-b\C-b \"\"\C-b"
 # find ./|grep 
-"\C-g\C-f": "\C-e\C-ufind ./ -name \"**\"\C-b\C-b"
-"\C-gf": "\C-e\C-ufind ./ -name \"**\"\C-b\C-b"
+"\C-g\C-f": "find ./ -name \"**\"\C-b\C-b"
+"\C-gf": "find ./ -name \"**\"\C-b\C-b"
 # grep uniq
-"\C-g\C-u": "\C-e\C-ugrep \"\" *|cut -d: -f1|uniq\C-a\ef\C-f\C-f"
+"\C-g\C-u": "grep \"\" *|cut -d: -f1|uniq\eb\eb\eb\eb\eb\ef\C-f\C-f"
+"\C-gu": "grep \"\" *|cut -d: -f1|uniq\eb\eb\eb\eb\eb\ef\C-f\C-f"
 
 # Quote/Bracket
 "\e\"": "\eb\"\ef\""
@@ -118,16 +120,16 @@ $endif
 #"\el":"\C-e | less\C-m"
 
 # ls
-"\el":"\C-e\C-uls\C-m"
-"\es":"\C-e\C-uls -ltr\C-m"
+"\el":"ls\C-m"
+"\es":"ls -ltr\C-m"
 
 # cd
 #"\eu":"\C-e\C-ucd ../\C-mls\C-m"
-"\eu":"\C-e\C-ucd ../\C-m"
-"\e-":"\C-e\C-ucd -\C-m"
+"\eu":"cd ../\C-m"
+"\e-":"cd -\C-m"
 
 # du
-"\ed": "\C-e\C-ufor a in *;do du -s -m $a;done\C-m"
+"\ed": "for a in *;do du -s -m $a;done\C-m"
 
 # /dev/null
 "\e;": ">& /dev/null\C-m"
