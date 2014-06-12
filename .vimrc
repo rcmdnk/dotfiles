@@ -748,8 +748,8 @@ nn <silent> <Leader>s :set spell!<CR>
 " stop highlight for search
 nn <silent> <Leader>/ :noh<CR>
 
-" alignment at normalmode
-nn = v=
+" alignment at normal mode
+"nn = v=
 
 " insert file name
 "nn <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
