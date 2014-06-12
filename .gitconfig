@@ -146,5 +146,3 @@
 [merge]
 	tool = vimdiff
 	keepBackup = false
-
-[merge]
