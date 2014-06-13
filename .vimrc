@@ -809,6 +809,10 @@ if v:version > 702
 
   "nn <Leader><Space>  :ret<CR>:call IndentAll()<CR>:call DeleteSpace()<CR>
   nn <Leader><Space>  :call DeleteSpace()<CR>
+
+  " remove trail spaces at selected region
+  xn <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
+
 endif
 
 " Paste, Paste mode
@@ -851,9 +855,6 @@ ino <C-f> <Right>
 ino <C-U> <C-G>u<C-U>
 
 """ visual mode
-
-" remove trail spaces
-xn <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
 
 " Select word
 xn w iw
