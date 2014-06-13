@@ -132,7 +132,7 @@
     };f"
 
 [core]
-	filemode = false
+#	filemode = false
 	autocrlf = false
 	editor = vim
 	execludesfile = ~/.gitignore_global
