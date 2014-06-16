@@ -604,31 +604,29 @@ chmod 700 $SCREENDIR
 # screen exchange file
 export SCREENEXCHANGE=$HOME/.screen-exchange
 
-# Following functions/alias are also enabled before screen {{{
-
-# Overwrite path to push to the clipboard list{{{
-function path () {
-  if [ $# -eq 0 ];then
-      echo "usage: path file/directory"
-      return 1
-  fi
-  fullpath="$(cd "$(dirname $1)";pwd -P)/$(basename $1)"
-  echo $fullpath
-  multi_clipboard -s $fullpath
-} # }}}
-
-# pwd wrapper (named as wc) to push pwd to the clipboard list{{{
-function wd () {
-  local curdir=`pwd -P`
-  multi_clipboard -s $curdir
-  echo $curdir
-}
-# }}}
-
-# }}} Following functions/alias are also enabled before screen
-
 # functions/settings only for screen sessions {{{
+
 if [ -n "$STY" ]; then # {{{
+
+  # Overwrite path to push to the clipboard list{{{
+  function path () {
+    if [ $# -eq 0 ];then
+        echo "usage: path file/directory"
+        return 1
+    fi
+    fullpath="$(cd "$(dirname $1)";pwd -P)/$(basename $1)"
+    echo $fullpath
+    multi_clipboard -s $fullpath
+  } # }}}
+
+  # pwd wrapper (named as wc) to push pwd to the clipboard list{{{
+  function wd () {
+    local curdir=`pwd -P`
+    multi_clipboard -s $curdir
+    echo $curdir
+  }
+  # }}}
+
   # "\\" doesn't work well, use \134 instead
   PS1="\[\ek\h \W\e\134\e]0;\h \w\a\]\$(\
     ret=\$?
