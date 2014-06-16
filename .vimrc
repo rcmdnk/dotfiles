@@ -770,8 +770,11 @@ nn <silent> <Leader>/ :noh<CR>
 nn <A-w> :w<CR>
 nn <A-q> :q!<CR>
 nn <A-z> :ZZ<CR>
-" don't enter Ex mode: map to ZZ (:q<CR>)
-nn Q ZZ
+" don't enter Ex mode: map to quit
+nn Q :q<CR>
+" Use Z as ZZ
+nn Z ZZ
+
 " Close/Close & Save buffer
 nn <Leader>q :bdelete<CR>
 nn <Leader>w :w<CR>:bdelete<CR>
