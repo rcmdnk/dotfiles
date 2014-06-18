@@ -475,10 +475,11 @@ set modelines=3    " number of lines to be read (form top and bottom) for
                    " modeline
 set tabstop=2      " width of <Tab> in view
 set shiftwidth=2   " width for indent
+set softtabstop=0  " disable softtabstop function
 set autoindent     " autoindent
 set cinoptions=g0  " g0: no indent for private/public/protected
 
-set softtabstop=0  " if not 0, insert space instead of <Tab>
+
 "set textwidth=0    " longer line than textwidth will be broken (0: disable)
 autocmd MyAutoGroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
 if exists ("&colorcolumn")
@@ -778,12 +779,12 @@ nn <Leader>w :w<CR>:bdelete<CR>
 " remove trail spaces, align
 if v:version > 702
   function! IndentAll()
-    normal mxgg=G'x
+    normal! mxgg=G'x
     delmarks x
   endfunction
 
   function! DeleteSpace()
-    normal mxG$
+    normal! mxG$
     let flags = "w"
     while search(" $", flags) > 0
       s/ \+$//g
@@ -800,10 +801,9 @@ if v:version > 702
   endfunction
 
   function! AlignAllBuf()
-    let i_buf = 1
     for i in  range(1, bufnr("$"))
       if buflisted(i)
-        execute ":buffer " . i
+        execute "buffer" i
         call AlignCode()
         update
         bdelete
@@ -813,10 +813,12 @@ if v:version > 702
   endfunction
 
   "nn <Leader><Space>  :ret<CR>:call IndentAll()<CR>:call DeleteSpace()<CR>
+
+  " remove trail spaces for all
   nn <Leader><Space>  :call DeleteSpace()<CR>
 
   " remove trail spaces at selected region
-  xn <Leader><Space>  :s/<Space>\+$//g<CR><C-o>
+  xn <Leader><Space>  :s/<Space>\+$//g<CR>
 
 endif
 
@@ -1655,3 +1657,4 @@ endif
 " vim: foldmethod=marker
 " vim: foldmarker={{{,}}}
 " vim: foldlevel=0
+

@@ -362,63 +362,6 @@ function path () {
 source_file ~/usr/etc/sd_cl
 # }}}
 
-# git functions {{{
-function gitupdate () {
-  update=0
-  difffiles=`git status|grep -e "new file" -e "modified"|cut -d":" -f2`
-  if [ "$difffiles" ];then
-    pwd
-    if [ -f ~/.gitavoid ];then
-      #for f in `echo $difffiles`;do
-      for f in `git ls-files`;do
-        if [ ! -f $f ];then
-          continue
-        fi
-        while read a;do
-          if ret=`grep -i -q $a $f`;then
-            echo "avoid word $a is included in $f!!!"
-            echo $ret
-            return
-          fi
-        done < ~/.gitavoid
-      done
-    else
-      echo "WARNING: There is no ~/.gitavoid file!"
-    fi
-    printf "\n"
-    update=1
-  fi
-  ret=`git commit -a -m "$difffiles, from $OSTYPE"`
-  if echo $ret|grep -q "changed";then
-    if [ $update -eq 0 ];then
-      pwd
-    fi
-    echo $ret
-    update=1
-  fi
-
-  #ret=$(git pull --rebase)
-  ret=$(git pull)
-  if [ "$(echo $ret|grep "Already up-to-date")" == "" ] &&\
-     [ "$(echo $ret|grep "is up to date")" == "" ];then
-    if [ $update -eq 0 ];then
-      pwd
-    fi
-    echo $ret
-    update=1
-  fi
-  ret=$(git push 2>&1)
-  if ! echo $ret|grep -q "Everything up-to-date";then
-    if [ $update -eq 0 ];then
-      pwd
-    fi
-    echo $ret
-  fi
-
-  git gc >& /dev/null
-}
-# }}}
-
 # man wrapper{{{
 function man () {
   # Open man file with vim
