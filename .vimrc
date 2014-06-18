@@ -39,7 +39,7 @@ if s:use_neobundle && v:version > 702
     let g:bundledir=g:vimdir . "/bundle"
     let g:neobundledir=g:bundledir . "/neobundle.vim"
     let &runtimepath = &runtimepath . "," . g:neobundledir
-    let g:neobundleReadMe=expand(g:neobundledir . '/README.md')
+    let g:neobundleReadMe=expand(g:neobundledir . "/README.md")
     if !filereadable(g:neobundleReadMe)
       echo "Neobundle is not installed, install now "
       echo "git clone git://github.com/Shougo/neobundle.vim "
@@ -58,64 +58,60 @@ if s:use_neobundle && v:version > 702
   NeoBundleFetch "Shougo/neobundle.vim"
 
   " Make template of NeoBundle
-  NeoBundleLazy 'LeafCage/nebula.vim',{
-    \'autoload':{
-      \'commands':[
-        \'NebulaPutLazy', 'NebulaPutFromClipboard',
-        \'NebulaYankOptions', 'NebulaPutConfig']}}
+  NeoBundleLazy "LeafCage/nebula.vim",{
+    \"autoload":{
+      \"commands":[
+        \"NebulaPutLazy", "NebulaPutFromClipboard",
+        \"NebulaYankOptions", "NebulaPutConfig"]}}
 
   " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
-  NeoBundle 'Shougo/vimproc', {
-    \'build' : {
-      \'windows' : 'make -f make_mingw32.mak',
-      \'cygwin' : 'make -f make_cygwin.mak',
-      \'mac' : 'make -f make_mac.mak',
-      \'unix' : 'make -f make_unix.mak'}}
+  NeoBundle "Shougo/vimproc", {
+    \"build" : {
+      \"windows" : "make -f make_mingw32.mak",
+      \"cygwin" : "make -f make_cygwin.mak",
+      \"mac" : "make -f make_mac.mak",
+      \"unix" : "make -f make_unix.mak"}}
 
   """ Unlike "fuzzyfinder" or "ku", it doesn't use the built-in completion of vim {{{
   """ Searches and display information->:help Unite
-  NeoBundleLazy 'Shougo/unite.vim' , {
-    \ 'autoload' : { 'commands' : [ 'Unite' ] }}
+  NeoBundleLazy "Shougo/unite.vim" , {
+    \ "autoload" : { "commands" : [ "Unite" ] }}
 
   " Source for unite: mark
-  NeoBundle 'tacroe/unite-mark'
+  NeoBundle "tacroe/unite-mark"
 
   " Source for unite: outline
-  NeoBundle 'h1mesuke/unite-outline'
+  NeoBundle "h1mesuke/unite-outline"
 
   " Source for unite: help
-  NeoBundle 'tsukkee/unite-help'
+  NeoBundle "tsukkee/unite-help"
 
   " Source for unite: history/command, history/search
-  NeoBundle 'thinca/vim-unite-history'
+  NeoBundle "thinca/vim-unite-history"
 
   " Source for unite: fold
-  NeoBundle 'osyo-manga/unite-fold'
+  NeoBundle "osyo-manga/unite-fold"
 
   " Source for unite: locate
-  NeoBundle 'ujihisa/unite-locate'
+  NeoBundle "ujihisa/unite-locate"
   "}}}
 
   " Echo
-  NeoBundleLazy 'Shougo/echodoc', {
+  NeoBundleLazy "Shougo/echodoc", {
     \ "autoload": { "insert": 1 }}
 
   " Completion
+  let g:completion = "Shougo/neocomplcache.vim"
   if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
-    NeoBundleLazy "Shougo/neocomplete.vim", {
-      \ "autoload": {"insert": 1 }}
-  else
-    NeoBundleLazy "Shougo/neocomplcache", {
-      \ "autoload": { "insert": 1 }}
+    let g:completion = "Shougo/neocomplete.vim"
   endif
-
-  NeoBundleLazy "Shougo/neosnippet", {
-    \ "autoload": { "insert": 1 }}
+  NeoBundleLazy g:completion, {
+    \ "autoload": {"insert": 1 }}
 
   NeoBundle "Shougo/neobundle-vim-scripts"
 
   " look - display lines beginning with a given string, using with neocomplete/neocomplcache
-  NeoBundle 'ujihisa/neco-look'
+  NeoBundleLazy "ujihisa/neco-look", {"depends": [g:completion]}
 
   " gundo
   NeoBundleLazy "sjl/gundo.vim", {
@@ -349,7 +345,7 @@ if s:use_neobundle && v:version > 702
   NeoBundleLazy "hrsh7th/vim-versions.git", {
     \ "autoload": { "commands": ["UniteVersions"]}}
 
-  " Version control (especially for VCSVimDiff (<Leader>>cv)
+  " Version control (especially for VCSVimDiff (<Leader>cv)
   NeoBundle 'vcscommand.vim'
 
   " Gist
@@ -1176,7 +1172,7 @@ set statusline+=%=%l/%L,%c%V%8P
 " }}} status line
 
 " neocomplcache {{{
-if s:neobundle_enabled && ! empty(neobundle#get("neocomplcache"))
+if s:neobundle_enabled && ! empty(neobundle#get("neocomplcache.vim"))
   let g:acp_enableAtStartup = 1
   let g:neocomplcache_enable_startup = 1
   let g:neocomplcache_enable_smart_case = 1
@@ -1194,7 +1190,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
   let g:neocomplete#max_list = 20
   "let g:neocomplete#sources#syntax#min_keyword_length = 3
   let g:neocomplete#min_keyword_length = 3
-  let g:neocomplete#enable_ignore_case = 0
+  let g:neocomplete#enable_ignore_case = 1
   let g:neocomplete#enable_smart_case = 1
   let g:neocomplete#disable_auto_complete = 0
   let g:neocomplete#enable_auto_select = 0
