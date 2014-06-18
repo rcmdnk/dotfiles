@@ -492,6 +492,9 @@ set wrap           " the longer line is wrapped
 set expandtab      " do :retab -> tab->space
 
 set nobackup       " do not keep a backup file, use versions instead
+"autocmd BufRead /tmp/crontab.* :set nobackup nowritebackup
+"autocmd BufEnter /tmp/crontab.* setl backupcopy=yes
+set backupskip=/tmp/*,/private/tmp/*
 
 if ! empty($TMP) && isdirectory($TMP)
   let s:tmpdir=$TMP
