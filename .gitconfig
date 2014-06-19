@@ -172,7 +172,7 @@
         update=1;\
       fi;\
       ret=$(git push 2>&1);\
-    if ! echo $ret|grep -q -e 'Everything up-to-date' -e 'Permission';then \
+      if ! echo $ret|grep -q -e 'Everything up-to-date' -e 'Permission';then \
         if [ $update -eq 0 ];then \
           pwd;\
         fi;\
