@@ -76,8 +76,8 @@ export LC_ALL="en_US.UTF-8"
 #export LC_DATE="en_GB.UTF-8"
 
 # Editors
-export VISUAL=vim
-export EDITOR=vim
+export VISUAL=vi
+export EDITOR=vi
 export PAGER=less
 
 # Terminfo
