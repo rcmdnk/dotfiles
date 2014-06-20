@@ -87,9 +87,9 @@ $endif
 # grep prefix
 "\C-g": ""
 # grep -r "" ./ # and avoid svn/git
-"\C-g\C-r": "grep -r \"\" ./|grep -v .svn|grep -v .git\eb\eb\eb\eb\eb\eb\eb\C-f\C-f\C-f"
-"\C-gr": "grep -r \"\" ./|grep -v .svn|grep -v .git\eb\eb\eb\eb\eb\eb\eb\C-f\C-f\C-f"
-"\er": "grep -r \"\" ./|grep -v .svn|grep -v .git\eb\eb\eb\eb\eb\eb\eb\C-f\C-f\C-f"
+"\C-g\C-r": "grep -r \"\" ./|grep -v .svn|grep -v .git|grep -v Binary\C-a\ef\ef\C-f\C-f"
+"\C-gr": "grep -r \"\" ./|grep -v .svn|grep -v .git|grep -v Binary\C-a\ef\ef\C-f\C-f"
+"\er": "grep -r \"\" ./|grep -v .svn|grep -v .git|grep -v Binary\C-a\ef\ef\C-f\C-f"
 # grep "" *
 "\C-g\C-g": "grep *\C-b\C-b \"\"\C-b"
 "\C-gg": "grep *\C-b\C-b \"\"\C-b"
@@ -98,8 +98,8 @@ $endif
 "\C-g\C-f": "find ./ -name \"**\"\C-b\C-b"
 "\C-gf": "find ./ -name \"**\"\C-b\C-b"
 # grep uniq
-"\C-g\C-u": "grep \"\" *|cut -d: -f1|uniq\eb\eb\eb\eb\eb\ef\C-f\C-f"
-"\C-gu": "grep \"\" *|cut -d: -f1|uniq\eb\eb\eb\eb\eb\ef\C-f\C-f"
+"\C-g\C-u": "grep -r \"\" *|grep -v .svn|grep -v .git|grep -v Binary|cut -d: -f1|uniq\C-a\ef\ef\C-f\C-f"
+"\C-gu": "grep -r \"\" *|grep -v .svn+|gep -v .git|grep -v Binary|cut -d: -f1|uniq\C-a\ef\ef\C-f\C-f"
 
 # Quote/Bracket
 "\e\"": "\eb\"\ef\""
