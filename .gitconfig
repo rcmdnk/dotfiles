@@ -182,17 +182,17 @@
     };f"
 
 [core]
-#	filemode = false
-	autocrlf = false
-	editor = vim
-	execludesfile = ~/.gitignore_global
+# filemode = false
+  autocrlf = false
+  editor = vim
+  execludesfile = ~/.gitignore_global
 
 [push]
-#	default = simple
-	default = matching
+# default = simple
+  default = matching
 
 [github]
-	user = rcmdnk
+  user = rcmdnk
 [merge]
-	tool = vimdiff
-	keepBackup = false
+  tool = vimdiff
+  keepBackup = false

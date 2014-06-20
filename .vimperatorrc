@@ -392,6 +392,10 @@ mappings.addUserMap(
 EOM
 " }}}
 
+" Ignorekeys {{{
+ignorekeys add mail\\.google\\.com -except :,t,d,<C-n>,<C-p>,<C-o>,<C-i>,/
+" }}}
+
 "" settings for each environment {{{
 ""set editor="C:/Program\\\ Files/vim/gvim.exe" " Done with Addons
 "set editor="gvim.exe"
