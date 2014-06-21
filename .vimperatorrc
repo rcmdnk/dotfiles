@@ -393,7 +393,7 @@ EOM
 " }}}
 
 " Ignorekeys {{{
-ignorekeys add mail\\.google\\.com -except :,t,d,<C-n>,<C-p>,<C-o>,<C-i>,/
+ignorekeys add mail\\.google\\.com -except :,t,d,<C-n>,<C-p>,<C-o>,<C-i>
 " }}}
 
 "" settings for each environment {{{
