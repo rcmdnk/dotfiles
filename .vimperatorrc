@@ -326,22 +326,32 @@ javascript <<EOM
         var x = "200";
         if(content.document.getElementById('ASIN')){
           var asin = content.document.getElementById('ASIN').value;
-        }else{
+        }else if(content.document.querySelector('link[rel="canonical"]')){
           var aa = content.document.querySelector('link[rel="canonical"]').href.split("/");
           var asin = aa[aa.length-1];
+        }else{
+          var asin = 'failed to get asin';
         }
         var l = 'http://www.amazon.co.jp/o/ASIN/'+asin+'/'+id;
-        if(content.document.getElementById('prodImage')){
+        if(content.document.getElementById('prodImage')){ 
           var s = content.document.getElementById('prodImage').getAttribute('src');
-        }else if(content.document.getElementById('main-image')){
+        }else if(content.content.document.getElementById('main-image')){
           var s = content.document.getElementById('main-image').getAttribute('src');
-        }else{
+        }else if(content.document.getElementById('landingImage')){
           var s = content.document.getElementById('landingImage').getAttribute('src');
+        }else{
+          var s = 'failed to get image';
         }
         var p = s.replace(/http:.*\/I\/([^\.]+).*$/,'$1');
         var a = s.replace(/(http:.*com).*/,'$1/images/I/');
         var i = a+p+'._SS'+x+'_.jpg';
-        var t = content.document.getElementById('btAsinTitle').innerHTML;
+        if(content.document.getElementById('btAsinTitle')){
+          var t = content.document.getElementById('btAsinTitle').innerHTML;
+        }else if(content.document.getElementById('productTitle')){
+          var t = content.document.getElementById('productTitle').innerHTML;
+        }else{
+          var t = 'failed to get title';
+        }
         var alt = t.split("<")[0];
         var u = '<a href="'+l+'/" rel="nofollow" target="_blank">';
         return '<div class="amazon-img">'+u+'<img src="'+i+'" alt="'+alt+'"/></a></div>';
@@ -353,22 +363,32 @@ javascript <<EOM
         var x = "200";
         if(content.document.getElementById('ASIN')){
           var asin = content.document.getElementById('ASIN').value;
-        }else{
+        }else if(content.document.querySelector('link[rel="canonical"]')){
           var aa = content.document.querySelector('link[rel="canonical"]').href.split("/");
           var asin = aa[aa.length-1];
+        }else{
+          var asin = 'failed to get asin';
         }
         var l = 'http://www.amazon.co.jp/o/ASIN/'+asin+'/'+id;
         if(content.document.getElementById('prodImage')){ 
           var s = content.document.getElementById('prodImage').getAttribute('src');
         }else if(content.content.document.getElementById('main-image')){
           var s = content.document.getElementById('main-image').getAttribute('src');
-        }else{
+        }else if(content.document.getElementById('landingImage')){
           var s = content.document.getElementById('landingImage').getAttribute('src');
+        }else{
+          var s = 'failed to get image';
         }
         var p = s.replace(/http:.*\/I\/([^\.]+).*$/,'$1');
         var a = s.replace(/(http:.*com).*/,'$1/images/I/');
         var i = a+p+'._SS'+x+'_.jpg';
-        var t = content.document.getElementById('btAsinTitle').innerHTML;
+        if(content.document.getElementById('btAsinTitle')){
+          var t = content.document.getElementById('btAsinTitle').innerHTML;
+        }else if(content.document.getElementById('productTitle')){
+          var t = content.document.getElementById('productTitle').innerHTML;
+        }else{
+          var t = 'failed to get title';
+        }
         var alt = t.split("<")[0];
         var u = '<a href="'+l+'/" rel="nofollow" target="_blank">';
         return '<div class="amazon-box"><div class="amazon-img">'+u+'<img src="'+i+'" alt="'+alt+'"/></a></div><div class="amazon-txt">'+u+t+'<br><br>Amazonで詳しく見る</a></div></div>';
