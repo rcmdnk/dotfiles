@@ -59,23 +59,23 @@ if s:use_neobundle && v:version > 702
 
   " Make template of NeoBundle
   NeoBundleLazy "LeafCage/nebula.vim",{
-    \"autoload":{
-      \"commands":[
+        \"autoload":{
+        \"commands":[
         \"NebulaPutLazy", "NebulaPutFromClipboard",
         \"NebulaYankOptions", "NebulaPutConfig"]}}
 
   " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
   NeoBundle "Shougo/vimproc", {
-    \"build" : {
-      \"windows" : "make -f make_mingw32.mak",
-      \"cygwin" : "make -f make_cygwin.mak",
-      \"mac" : "make -f make_mac.mak",
-      \"unix" : "make -f make_unix.mak"}}
+        \"build" : {
+        \"windows" : "make -f make_mingw32.mak",
+        \"cygwin" : "make -f make_cygwin.mak",
+        \"mac" : "make -f make_mac.mak",
+        \"unix" : "make -f make_unix.mak"}}
 
   """ Unlike "fuzzyfinder" or "ku", it doesn't use the built-in completion of vim {{{
   """ Searches and display information->:help Unite
   NeoBundleLazy "Shougo/unite.vim" , {
-    \ "autoload" : { "commands" : [ "Unite" ] }}
+        \ "autoload" : { "commands" : [ "Unite" ] }}
 
   " Source for unite: mark
   NeoBundle "tacroe/unite-mark"
@@ -98,7 +98,7 @@ if s:use_neobundle && v:version > 702
 
   " Echo
   NeoBundleLazy "Shougo/echodoc", {
-    \ "autoload": { "insert": 1 }}
+        \ "autoload": { "insert": 1 }}
 
   " Completion
   let g:completion = "Shougo/neocomplcache.vim"
@@ -106,7 +106,7 @@ if s:use_neobundle && v:version > 702
     let g:completion = "Shougo/neocomplete.vim"
   endif
   NeoBundleLazy g:completion, {
-    \ "autoload": {"insert": 1 }}
+        \ "autoload": {"insert": 1 }}
 
   NeoBundle "Shougo/neobundle-vim-scripts"
 
@@ -115,7 +115,7 @@ if s:use_neobundle && v:version > 702
 
   " gundo
   NeoBundleLazy "sjl/gundo.vim", {
-    \ "autoload": {"commands": ["GundoToggle"]}}
+        \ "autoload": {"commands": ["GundoToggle"]}}
 
   " textobj {{{
   NeoBundle "kana/vim-textobj-user"
@@ -261,7 +261,7 @@ if s:use_neobundle && v:version > 702
 
   " Align
   NeoBundle "Align"
-  NeoBundle "h1mesuke/vim-alignta"
+  "NeoBundle "h1mesuke/vim-alignta"
 
   " c++ syntax with c++11 support
   NeoBundle "vim-jp/cpp-vim"
@@ -274,7 +274,7 @@ if s:use_neobundle && v:version > 702
 
   " Markdown preview
   if ( has("win32unix") || has ("win64unix") ||
-      \has("mac") || has ("gui_macvim"))
+        \has("mac") || has ("gui_macvim"))
     NeoBundleLazy "kannokanno/previm", {
           \"autoload": {"commands" : ["PrevimOpen"]}}
   else
@@ -306,20 +306,20 @@ if s:use_neobundle && v:version > 702
 
   " Open browser
   NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
-    \ "mappings" : "<Plug>(openbrowser-smart-search)"}}
+        \ "mappings" : "<Plug>(openbrowser-smart-search)"}}
 
   " Open browser GitHub
   NeoBundleLazy "tyru/open-browser-github.vim", {
-    \ "depends": ["tryu/open-browser.vim"],
-    \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
+        \ "depends": ["tryu/open-browser.vim"],
+        \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
 
   " Easymotion
   NeoBundle "Lokaltog/vim-easymotion"
 
   " Python autocompletion
   NeoBundleLazy "davidhalter/jedi-vim", {
-    \ "rev" : "dev",
-    \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
+        \ "rev" : "dev",
+        \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
 
   " virtual env
   NeoBundle "jmcantrell/vim-virtualenv"
@@ -336,23 +336,23 @@ if s:use_neobundle && v:version > 702
   " Git
   NeoBundle "tpope/vim-fugitive" " necessary ('depends' in gitv is not enough.)
   NeoBundleLazy "gregsexton/gitv", {
-    \ "depends": ["tpope/vim-fugitive"],
-    \ "autoload": { "commands": ["Gitv"]}}
+        \ "depends": ["tpope/vim-fugitive"],
+        \ "autoload": { "commands": ["Gitv"]}}
 
   " Show added/deleted/modified lines for several version control system
   NeoBundle "mhinz/vim-signify"
 
   " For git/svn status, log
   NeoBundleLazy "hrsh7th/vim-versions.git", {
-    \ "autoload": { "commands": ["UniteVersions"]}}
+        \ "autoload": { "commands": ["UniteVersions"]}}
 
   " Version control (especially for VCSVimDiff (<Leader>cv)
   NeoBundle 'vcscommand.vim'
 
   " Gist
   NeoBundleLazy "mattn/gist-vim", {
-    \ "depends": ["mattn/webapi-vim"],
-    \ "autoload": {"commands": ["Gist"] }}
+        \ "depends": ["mattn/webapi-vim"],
+        \ "autoload": {"commands": ["Gist"] }}
 
   " Date increment
   NeoBundle "tpope/vim-speeddating"
@@ -362,43 +362,43 @@ if s:use_neobundle && v:version > 702
 
   " vim-ref
   NeoBundleLazy "thinca/vim-ref", {
-    \  "autoload" : {"commands": ["Ref"] }}
+        \  "autoload" : {"commands": ["Ref"] }}
 
   " LanguageTool
   NeoBundle "vim-scripts/LanguageTool"
 
   " Excite Translate
   NeoBundleLazy "mattn/excitetranslate-vim", {
-    \ "depends": "mattn/webapi-vim",
-    \ "autoload" : { "commands": ["ExciteTranslate"] }}
+        \ "depends": "mattn/webapi-vim",
+        \ "autoload" : { "commands": ["ExciteTranslate"] }}
 
   " Google Translate
   NeoBundleLazy "daisuzu/translategoogle.vim", {
-    \ "autoload" : { "commands": ["TranslateGoogle", "TranslateGoogleCmd"] }}
+        \ "autoload" : { "commands": ["TranslateGoogle", "TranslateGoogleCmd"] }}
 
   " Habatobi
   NeoBundleLazy "mattn/habatobi-vim",{
-    \ "autoload" : {"commands": ["Habatobi"] }}
+        \ "autoload" : {"commands": ["Habatobi"] }}
 
   " puyopuyo
   NeoBundleLazy "rbtnn/puyo.vim",{
-    \ "autoload" : {"commands": ["Puyo"] }}
+        \ "autoload" : {"commands": ["Puyo"] }}
 
   " Make benchmark result of vimrc
   NeoBundleLazy "mattn/benchvimrc-vim",{
-    \ "autoload" : {"commands": ["BenchVimrc"] }}
+        \ "autoload" : {"commands": ["BenchVimrc"] }}
 
   " File Explorer
   NeoBundleLazy "wesleyche/SrcExpl", {
-    \ "autoload" : { "commands": ["SrcExpl", "SrcExplClose", "SrcExplToggle"] }}
+        \ "autoload" : { "commands": ["SrcExpl", "SrcExplClose", "SrcExplToggle"] }}
 
   " For Tags
   NeoBundleLazy "majutsushi/tagbar", {
-    \ "autload": { "commands": ["TagbarToggle"] }}
+        \ "autload": { "commands": ["TagbarToggle"] }}
 
   " Make help
   NeoBundleLazy "LeafCage/vimhelpgenerator",{
-    \ "autoload" : {"commands": ["VimHelpGenerator"] }}
+        \ "autoload" : {"commands": ["VimHelpGenerator"] }}
 
   " yank
   NeoBundle "LeafCage/yankround.vim"
@@ -418,10 +418,10 @@ if s:use_neobundle && v:version > 702
   " Windows StartMenu
   if ( has("win32unix") || has ("win64unix") || has("win32") || has ("win64"))
     NeoBundleLazy "mattn/startmenu-vim", {
-      \ "autoload" : { "commands": ["StartMenu"] }}
+          \ "autoload" : { "commands": ["StartMenu"] }}
     NeoBundleLazy "mattn/excelview-vim", {
-      \ "depends": "mattn/webapi-vim",
-      \ "autoload" : { "commands": ["ExcelView"] }}
+          \ "depends": "mattn/webapi-vim",
+          \ "autoload" : { "commands": ["ExcelView"] }}
   endif
 
   " Highlight on the fly
@@ -432,7 +432,7 @@ if s:use_neobundle && v:version > 702
 
   " Especially for CSV editing
   NeoBundleLazy "rbtnn/rabbit-ui.vim",{
-    \ "autoload" : {"commands": ["EditCSV"] }}
+        \ "autoload" : {"commands": ["EditCSV"] }}
 
 
   """""""""""""""""""""""""""""""""
@@ -469,11 +469,11 @@ set hlsearch
 set backspace=indent,eol,start
 
 set modeline       " enable to use settings written in the file
-                   " use with comment lines: e.g.)
-                   " # vim set foldmethod=marker:
-                   " # vim set foldmarker={{{,}}}:
+" use with comment lines: e.g.)
+" # vim set foldmethod=marker:
+" # vim set foldmarker={{{,}}}:
 set modelines=3    " number of lines to be read (form top and bottom) for
-                   " modeline
+" modeline
 set tabstop=2      " width of <Tab> in view
 set shiftwidth=2   " width for indent
 set softtabstop=0  " disable softtabstop function
@@ -529,7 +529,7 @@ set infercase      " Ignore case for completion
 set nrformats=hex  " Not use cotal, alpha for increment or decrement
 set t_Co=256       " Enable 256 colors
 set list           " Show tab, end, trail empty
-set listchars=tab:>-,extends:<,trail:- " Set words for above
+set listchars=tab:>-,trail:-,extends:<,precedes:<,nbsp:% " Set words for above
 set ruler          " Show the cursor position all the time
 set showcmd        " Display incomplete commands
 set novisualbell   " No visual bell
@@ -538,9 +538,9 @@ set novisualbell   " No visual bell
 "set number         " Show line numbers
 "set relativenumber " Relative line number
 set scrolloff=999  " Show cursor at middle
-                   " (scrolloff is number of lines which should be shown above
-                   " and below cursor.
-                   "  such large number force to stay a cursor at middle
+" (scrolloff is number of lines which should be shown above
+" and below cursor.
+"  such large number force to stay a cursor at middle
 set scroll=0       " Number of lines to scroll with C-U/C-D (0 for half window)
 set mouse=         " Disable mouse
 set ambiwidth=double  " For UTF-8, width for East Asian Characters. It doesn't work at specific terminals?(iTerm, putty, etc..?)
@@ -584,9 +584,9 @@ autocmd MyAutoGroup BufNewFile,BufRead *.{htm*} set filetype=markdown
 
 " When editing a file, always jump to the last known cursor position.
 autocmd MyAutoGroup BufReadPost *
-  \ if line("'\"") > 1 && line("'\"") <= line("$") |
-  \   exe "normal! g`\"" |
-  \ endif
+      \ if line("'\"") > 1 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
 
 " Avoid automatic comment out for the next line after the comment lines
 autocmd MyAutoGroup FileType * setlocal formatoptions-=ro
@@ -601,7 +601,7 @@ set switchbuf=useopen
 set virtualedit=all
 
 " Set nopaste when it comes back to Normal mode
-autocmd InsertLeave * set nopaste
+autocmd MyAutoGroup InsertLeave * set nopaste
 
 " Avoid to paste/insert in non-editing place
 if has("virtualedit") && &virtualedit =~# '\<all\>'
@@ -621,6 +621,45 @@ endif
 command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
 " VimShowHlItem: Show highlight item name under a cursor
 command! VimShowHlItem echo synIDattr(synID(line("."), col("."), 1), "name")
+
+
+function! s:get_syn_id(transparent)
+  let synid = synID(line("."), col("."), 1)
+  if a:transparent
+    return synIDtrans(synid)
+  else
+    return synid
+  endif
+endfunction
+function! s:get_syn_attr(synid)
+  let name = synIDattr(a:synid, "name")
+  let ctermfg = synIDattr(a:synid, "fg", "cterm")
+  let ctermbg = synIDattr(a:synid, "bg", "cterm")
+  let guifg = synIDattr(a:synid, "fg", "gui")
+  let guibg = synIDattr(a:synid, "bg", "gui")
+  return {
+        \ "name": name,
+        \ "ctermfg": ctermfg,
+        \ "ctermbg": ctermbg,
+        \ "guifg": guifg,
+        \ "guibg": guibg}
+endfunction
+function! s:get_syn_info()
+  let baseSyn = s:get_syn_attr(s:get_syn_id(0))
+  echo "name: " . baseSyn.name .
+        \ " ctermfg: " . baseSyn.ctermfg .
+        \ " ctermbg: " . baseSyn.ctermbg .
+        \ " guifg: " . baseSyn.guifg .
+        \ " guibg: " . baseSyn.guibg
+  let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
+  echo "link to"
+  echo "name: " . linkedSyn.name .
+        \ " ctermfg: " . linkedSyn.ctermfg .
+        \ " ctermbg: " . linkedSyn.ctermbg .
+        \ " guifg: " . linkedSyn.guifg .
+        \ " guibg: " . linkedSyn.guibg
+endfunction
+command! SyntaxInfo call s:get_syn_info()
 
 " Max columns for syntax search
 " Such XML file has too much syntax which make vim drastically slow
@@ -653,7 +692,7 @@ set synmaxcol=1000 "default 3000
 ":smap  :snoremap  :sunmap  :smapclear    -       yes
 "
 "    commands:                                   modes:
-                 "                     Insert  Command-line  Lang-Arg
+"                     Insert  Command-line  Lang-Arg
 ":map!  :noremap!  :unmap!  :mapclear!   yes       yes           -
 ":imap  :inoremap  :iunmap  :imapclear   yes        -            -
 ":cmap  :cnoremap  :cunmap  :cmapclear    -        yes           -
@@ -785,12 +824,13 @@ nn <Leader>w :w<CR>:bdelete<CR>
 
 " remove trail spaces, align
 if v:version > 702
-  function! IndentAll()
+  function! s:indent_all()
     normal! mxgg=G'x
     delmarks x
   endfunction
+  command! IndentAll call s:indnet_all()
 
-  function! DeleteSpace()
+  function! s:delete_space()
     normal! mxG$
     let flags = "w"
     while search(" $", flags) > 0
@@ -800,14 +840,16 @@ if v:version > 702
     'x
     delmarks x
   endfunction
+  command! DeleteSpace call s:delete_space()
 
-  function! AlignCode()
+  function! s:align_code()
     retab
     call IndentAll()
     call DeleteSpace()
   endfunction
+  command! AlignCode call s:align_code()
 
-  function! AlignAllBuf()
+  function! s:align_all_buf()
     for i in  range(1, bufnr("$"))
       if buflisted(i)
         execute "buffer" i
@@ -818,11 +860,12 @@ if v:version > 702
     endfor
     quit
   endfunction
+  command! AlignAllBuf call s:align_all_buf()
 
-  "nn <Leader><Space>  :ret<CR>:call IndentAll()<CR>:call DeleteSpace()<CR>
+  "nn <Leader><Space>  :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
 
   " remove trail spaces for all
-  nn <Leader><Space>  :call DeleteSpace()<CR>
+  nn <Leader><Space>  :DeleteSpace<CR>
 
   " remove trail spaces at selected region
   xn <Leader><Space>  :s/<Space>\+$//g<CR>
@@ -886,46 +929,62 @@ cno w!! w !sudo tee > /dev/null %
 " }}} map
 
 " Colors {{{
+
+" need for two-byte space?
+"scriptencoding utf-8
+"scriptencoding cp932
+augroup MyColors
+  autocmd!
+  " for spell checks
+  "au ColorScheme * hi SpellBad cterm=inverse ctermbg=0
+  au ColorScheme * hi SpellBad cterm=underline ctermbg=0
+  au ColorScheme * hi SpellCap cterm=underline ctermbg=0
+  au ColorScheme * hi SpellLocal cterm=underline ctermbg=0
+  au ColorScheme * hi SpellRare cterm=underline ctermbg=0
+
+  "au ColorScheme * hi CursorLine cterm=none ctermfg=NONE ctermbg=NONE
+  " only underline for cursorline
+  "au ColorScheme * hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+  " Set all white characters on black background for current line
+  "au ColorScheme * hi CursorLine cterm=underline ctermfg=white ctermbg=black
+  "au InsertEnter * hi CursorLine cterm=underline,bold ctermfg=NONE ctermbg=NONE
+  "au InsertLeave * hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+
+  " colors for completion
+  au ColorScheme * hi Pmenu ctermbg=255 ctermfg=0 guifg=#000000 guibg=#999999
+  au ColorScheme * hi PmenuSel ctermbg=blue ctermfg=black
+  au ColorScheme * hi PmenuSbar ctermbg=0 ctermfg=9
+  au ColorScheme * hi PmenuSbar ctermbg=255 ctermfg=0 guifg=#000000 guibg=#FFFFFF
+
+  " colors for diff mode
+  au ColorScheme * hi DiffAdd ctermbg=17 guibg=slateblue
+  au ColorScheme * hi DiffChange ctermbg=22 guibg=darkgreen
+  au ColorScheme * hi DiffText cterm=bold ctermbg=52 gui=bold guibg=olivedrab
+  au ColorScheme * hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
+
+  " Colors for search
+  au ColorScheme * hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
+
+  " Colors for SpecialKey and Indent
+  "au Colorscheme * :hi SpecialKey term=bold ctermfg=81
+  au Colorscheme * :hi SpecialKey term=bold ctermfg=1
+  au Colorscheme * :hi IndentGuidesEven term=bold ctermfg=1 ctermbg=235
+  au Colorscheme * :hi IndentGuidesOdd term=bold ctermfg=1 ctermbg=239
+
+  " column
+  au ColorScheme * hi ColorColumn ctermbg=233
+
+  " html
+  au ColorScheme * hi link htmlItalic LineNr
+  au ColorScheme * hi link htmlBold WarningMsg
+  au ColorScheme * hi link htmlBoldItalic ErrorMsg
+
+  " two-byte space
+  au ColorScheme * hi link TwoByteSpace Error
+  au VimEnter,WinEnter * match TwoByteSpace /　/
+augroup END
+
 colorscheme ron
-
-" for spell checks
-"hi SpellBad cterm=inverse ctermbg=0
-hi SpellBad cterm=underline ctermbg=0
-hi SpellCap cterm=underline ctermbg=0
-hi SpellLocal cterm=underline ctermbg=0
-hi SpellRare cterm=underline ctermbg=0
-
-"hi CursorLine cterm=none ctermfg=NONE ctermbg=NONE
-" only underline for cursorline
-"hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
-" Set all white characters on black background for current line
-"hi CursorLine cterm=underline ctermfg=white ctermbg=black
-"au MyAutoGroup InsertEnter * hi CursorLine cterm=underline,bold ctermfg=NONE ctermbg=NONE
-"au MyAutoGroup InsertLeave * hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
-
-" colors for completion
-hi Pmenu ctermbg=255 ctermfg=0 guifg=#000000 guibg=#999999
-hi PmenuSel ctermbg=blue ctermfg=black
-hi PmenuSbar ctermbg=0 ctermfg=9
-hi PmenuSbar ctermbg=255 ctermfg=0 guifg=#000000 guibg=#FFFFFF
-
-" column
-hi ColorColumn ctermbg=234
-
-" colors for diff mode
-hi DiffAdd ctermbg=17 guibg=slateblue
-hi DiffChange ctermbg=22 guibg=darkgreen
-hi DiffText cterm=bold ctermbg=52 gui=bold guibg=olivedrab
-hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
-
-" Colors for search
-hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
-
-" html
-hi link htmlItalic LineNr
-hi link htmlBold WarningMsg
-hi link htmlBoldItalic ErrorMsg
-
 " }}} colorscheme
 
 " diff mode {{{
@@ -941,7 +1000,7 @@ function! SetDiffWrap()
     wincmd w
   endif
 endfunction
-autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffWrap()
+autocmd VimEnter,FilterWritePre * call SetDiffWrap()
 
 set diffopt=filler,vertical
 " }}} diff mode
@@ -995,7 +1054,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
     im <buffer> '     <Plug>(unite_quick_match_default_action)
     nm <buffer> '     <Plug>(unite_quick_match_default_action)
     im <buffer><expr> x
-            \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
+          \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
     nm <buffer> x     <Plug>(unite_quick_match_choose_action)
     nm <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
     im <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
@@ -1005,7 +1064,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
     nm <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
     im <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
     nn <silent><buffer><expr> l
-            \ unite#smart_map('l', unite#do_action('default'))
+          \ unite#smart_map('l', unite#do_action('default'))
 
     let unite = unite#get_current_unite()
     if unite.buffer_name =~# '^search'
@@ -1016,8 +1075,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
 
     nn <silent><buffer><expr> cd     unite#do_action('lcd')
     nn <buffer><expr> S      unite#mappings#set_current_filters(
-            \ empty(unite#mappings#get_current_filters()) ?
-            \ ['sorter_reverse'] : [])
+          \ empty(unite#mappings#get_current_filters()) ?
+          \ ['sorter_reverse'] : [])
 
     " Runs "split" action by <C-s>.
     im <silent><buffer><expr> <C-s>     unite#do_action('split')
@@ -1299,7 +1358,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#completions_command = "<C-Space>"
   let g:jedi#popup_select_first = 1
   let g:jedi#popup_on_dot = 0
-  autocmd FileType python setlocal omnifunc=jedi#complete
+  autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
   let g:jedi#auto_vim_configuration = 1
   "let g:jedi#auto_vim_configuration = 0
   "if ! empty(neobundle#get("neocomplete.vim"))
@@ -1314,14 +1373,11 @@ endif
 " vim-indent-guides{{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-indent-guides"))
   let g:indent_guides_enable_on_vim_startup = 1
-  "let g:indent_guides_guide_size =  1
   let g:indent_guides_start_level = 1
   let g:indent_guides_auto_colors = 0
-
-  "autocmd MyAutoGroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=lightgray
-  "autocmd MyAutoGroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
-  autocmd MyAutoGroup VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=234
-  autocmd MyAutoGroup VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+  " Followings are set in ColorScheme section
+  "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+  "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
 endif
 "}}} vim-indent-guides
 
@@ -1384,6 +1440,8 @@ endif
 
 " syntastic{{{
 if s:neobundle_enabled && ! empty(neobundle#get("syntastic"))
+  let g:syntastic_check_on_open=0
+  let g:syntastic_check_on_wq=0
   let g:syntastic_enable_signs=1
   let g:syntastic_auto_loc_list=2
 endif
@@ -1404,30 +1462,30 @@ endif
 " applescript{{{
 if s:neobundle_enabled && ! empty(neobundle#get("applescript.vim"))
   autocmd MyAutoGroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
-"autocmd MyAutoGroup FileType applescript :ino <buffer> <S-CR>  ¬<CR>
+  "autocmd MyAutoGroup FileType applescript :ino <buffer> <S-CR>  ¬<CR>
 endif
 "}}} applescript
 
 " lightline.vim {{{
 if s:neobundle_enabled && ! empty(neobundle#get("lightline.vim"))
   let g:lightline = {
-    \"colorscheme": "jellybeans",
-    \"active": {
-      \"left": [["test", "mode", "filename"], ["fugitive"]],
-      \"right": [["lineinfo"], ["fileinfo"]]},
-    \"component_visible_condition": {
-      \"fugitive": '(exists("*fugitive#head") && ""!=fugitive#head())'},
-    \'component_function': {
-      \'test': 'LLFunc',
-      \'mode': 'LLMode',
-      \'filename': 'LLFileName',
-      \'fugitive': 'LLFugitive',
-      \'fileinfo': 'LLFileInfo',
-      \'lineinfo': 'LLLineInfo',
-      \},
-    \ 'separator': { 'left': '', 'right': '' },
-    \ 'subseparator': { 'left': '', 'right': '' }
-    \}
+        \"colorscheme": "jellybeans",
+        \"active": {
+        \"left": [["test", "mode", "filename"], ["fugitive"]],
+        \"right": [["lineinfo"], ["fileinfo"]]},
+        \"component_visible_condition": {
+        \"fugitive": '(exists("*fugitive#head") && ""!=fugitive#head())'},
+        \'component_function': {
+        \'test': 'LLFunc',
+        \'mode': 'LLMode',
+        \'filename': 'LLFileName',
+        \'fugitive': 'LLFugitive',
+        \'fileinfo': 'LLFileInfo',
+        \'lineinfo': 'LLLineInfo',
+        \},
+        \ 'separator': { 'left': '', 'right': '' },
+        \ 'subseparator': { 'left': '', 'right': '' }
+        \}
   let g:lightline.inactive = g:lightline.active
 
   function! LLMode()
@@ -1487,16 +1545,16 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("vim-ref"))
   " Set webdict sources
   let g:ref_source_webdict_sites = {
-  \   "je": {
-  \     "url": "http://dictionary.infoseek.ne.jp/jeword/%s",
-  \   },
-  \   "ej": {
-  \     "url": "http://dictionary.infoseek.ne.jp/ejword/%s",
-  \   },
-  \   "wiki": {
-  \     "url": "http://ja.wikipedia.org/wiki/%s",
-  \   },
-  \ }
+        \   "je": {
+        \     "url": "http://dictionary.infoseek.ne.jp/jeword/%s",
+        \   },
+        \   "ej": {
+        \     "url": "http://dictionary.infoseek.ne.jp/ejword/%s",
+        \   },
+        \   "wiki": {
+        \     "url": "http://ja.wikipedia.org/wiki/%s",
+        \   },
+        \ }
 
   " Set default
   let g:ref_source_webdict_sites.default = "ej"
@@ -1529,9 +1587,9 @@ endif
 
 " SrcExpl  {{{
 if s:neobundle_enabled && ! empty(neobundle#get("SrcExpl"))
- let g:SrcExpl_RefreshTime = 1
- let g:SrcExpl_UpdateTags = 0
- nn <Leader>E :SrcExplToggle<CR>
+  let g:SrcExpl_RefreshTime = 1
+  let g:SrcExpl_UpdateTags = 0
+  nn <Leader>E :SrcExplToggle<CR>
 endif
 "}}}
 
@@ -1556,7 +1614,7 @@ if has("cscope")
   " add any database in current directory
   if filereadable("cscope.out")
     cs add cscope.out
-  " else add database pointed to by environment
+    " else add database pointed to by environment
   elseif $CSCOPE_DB != ""
     cs add $CSCOPE_DB
   endif
@@ -1596,17 +1654,17 @@ endif
 " vim-expand-region {{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-expand-region"))
   let g:expand_region_text_objects = {
-    \ 'iw'  :0,
-    \ 'iW'  :0,
-    \ 'i"'  :0,
-    \ 'i''' :0,
-    \ 'i]'  :1,
-    \ 'ib'  :1,
-    \ 'iB'  :1,
-    \ 'il'  :0,
-    \ 'ip'  :0,
-    \ 'ie'  :0,
-    \ }
+        \ 'iw'  :0,
+        \ 'iW'  :0,
+        \ 'i"'  :0,
+        \ 'i''' :0,
+        \ 'i]'  :1,
+        \ 'ib'  :1,
+        \ 'iB'  :1,
+        \ 'il'  :0,
+        \ 'ip'  :0,
+        \ 'ie'  :0,
+        \ }
   if ! empty(neobundle#get("vim-submode"))
     call submode#enter_with('expand-region', 'nv', 'r', '<Leader>e', '<Plug>(expand_region_expand)')
     call submode#map('expand-region', 'nv', 'r', 'e', '<Plug>(expand_region_expand)')
@@ -1644,7 +1702,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("rabbit-ui.vim"))
           \ map(readfile(expand(a:path)),'split(v:val,",",1)')),
           \ "join(v:val, ',')"), expand(a:path))
   endfunction
-command! -nargs=1 -complete=file EditCSV  :call <sid>edit_csv(<q-args>)
+  command! -nargs=1 -complete=file EditCSV  :call <sid>edit_csv(<q-args>)
 endif
 "}}} rabbit-ui.vim
 
