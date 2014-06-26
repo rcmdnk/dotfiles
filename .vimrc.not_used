@@ -15,7 +15,7 @@ NeoBundleLazy 'Shougo/vimshell', {
 " vim-smartchr {{{
 " Toggle insert words
 " * Example is for ' = ', ' == ', '='
-" * maybe it can be used more useful way, but now it it nos used.
+" * maybe it can be used more useful way, but now it it not used.
 NeoBundle "kana/vim-smartchr"
 
 if s:neobundle_enable && ! empty(neobundle#get("vim-smartchr"))
@@ -104,6 +104,9 @@ autocmd MyAutoGroup BufEnter *   execute ":lcd " . expand("%:p:h")
 " INSERT (paste)
 set paste " use 'paste at normal mode' in below, instead
 
+" Show line numbers
+set number         " Show line numbers
+set relativenumber " Relative line number
 " }}}
 
 " map (for other than each plugin) {{{
@@ -754,6 +757,11 @@ NeoBundle "scrooloose/syntastic", {
   \   "cygwin": ["pip install flake8", "npm -g install coffeelint"],
   \   "mac": ["pip install flake8", "npm -g install coffeelint"],
   \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
+" }}}
+
+" vim-better-whitespace {{{
+" Could be useful if 'set cursorline' is used, and highlight for background is used.
+NeoBundle "ntpeters/vim-better-whitespace"
 " }}}
 
 " Markdown {{{

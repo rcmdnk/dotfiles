@@ -256,6 +256,9 @@ if s:use_neobundle && v:version > 702
   NeoBundle 'tyru/operator-reverse.vim'
   "}}}
 
+  " Support repeat for surround, speedating, easymotion, etc...
+  NeoBundle "tpope/vim-repeat"
+
   " Easy to change surround
   NeoBundle "tpope/vim-surround"
 
@@ -533,10 +536,8 @@ set listchars=tab:>-,trail:-,extends:<,precedes:<,nbsp:% " Set words for above
 set ruler          " Show the cursor position all the time
 set showcmd        " Display incomplete commands
 set novisualbell   " No visual bell
-"set cursorline     " Enable highlight on current line:
-"                   " but make moving cursor slow for heavily highlighted file...
-"set number         " Show line numbers
-"set relativenumber " Relative line number
+set cursorline     " Enable highlight on current line:
+                   " but make moving cursor slow for heavily highlighted file...
 set scrolloff=999  " Show cursor at middle
 " (scrolloff is number of lines which should be shown above
 " and below cursor.
@@ -942,13 +943,10 @@ augroup MyColors
   au ColorScheme * hi SpellLocal cterm=underline ctermbg=0
   au ColorScheme * hi SpellRare cterm=underline ctermbg=0
 
-  "au ColorScheme * hi CursorLine cterm=none ctermfg=NONE ctermbg=NONE
-  " only underline for cursorline
-  "au ColorScheme * hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
   " Set all white characters on black background for current line
-  "au ColorScheme * hi CursorLine cterm=underline ctermfg=white ctermbg=black
-  "au InsertEnter * hi CursorLine cterm=underline,bold ctermfg=NONE ctermbg=NONE
-  "au InsertLeave * hi CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+  au ColorScheme * hi CursorLine cterm=underline
+  au InsertEnter * hi CursorLine cterm=bold
+  au InsertLeave * hi CursorLine cterm=underline
 
   " colors for completion
   au ColorScheme * hi Pmenu ctermbg=255 ctermfg=0 guifg=#000000 guibg=#999999
@@ -967,9 +965,9 @@ augroup MyColors
 
   " Colors for SpecialKey and Indent
   "au Colorscheme * :hi SpecialKey term=bold ctermfg=81
-  au Colorscheme * :hi SpecialKey term=bold ctermfg=1
-  au Colorscheme * :hi IndentGuidesEven term=bold ctermfg=1 ctermbg=235
-  au Colorscheme * :hi IndentGuidesOdd term=bold ctermfg=1 ctermbg=239
+  au Colorscheme * :hi SpecialKey term=bold ctermfg=9
+  au Colorscheme * :hi IndentGuidesEven term=bold ctermfg=9 ctermbg=235
+  au Colorscheme * :hi IndentGuidesOdd term=bold ctermfg=9 ctermbg=239
 
   " column
   au ColorScheme * hi ColorColumn ctermbg=233
@@ -1334,16 +1332,37 @@ endif
 
 " vim-easymotion{{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-easymotion"))
-  let g:EasyMotion_keys="hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB"
-  "let g:EasyMotion_keys="ifjklasdweuocvbnm"
-  let g:EasyMotion_do_mapping=1
+  let g:EasyMotion_do_mapping=0
   let g:EasyMotion_grouping=1
+  let g:EasyMotion_enter_jump_first=1
+  let g:EasyMotion_space_jump_first=1
+  let g:EasyMotion_smartcase=1
+  let g:EasyMotion_use_upper=1
+  let g:EasyMotion_keys="HJKLASDFGYUIOPQWERTNMZXCVB"
   hi EasyMotionTarget ctermbg=none ctermfg=red
   hi EasyMotionShade  ctermbg=none ctermfg=blue
-  " easymotion prefix
-  nn [em] <Nop>
-  nm <Leader>m [em]
-  let g:EasyMotion_leader_key="[em]"
+
+  nmap S <Plug>(easymotion-s2)
+  xmap S <Plug>(easymotion-s2)
+  omap S <Plug>(easymotion-s2)
+  map <Leader>f <Plug>(easymotion-bd-W)
+
+  "map f <Plug>(easymotion-bd-fl)
+  "map t <Plug>(easymotion-bd-tl)
+  "map F <Plug>(easymotion-bd-Fl)
+  "map T <Plug>(easymotion-bd-Tl)
+
+  let g:EasyMotion_startofline=0
+  map <Leader>j <Plug>(easymotion-j)
+  map <Leader>k <Plug>(easymotion-k)
+
+  nmap g/ <Plug>(easymotion-sn)
+  xmap g/ <Plug>(easymotion-sn)
+  omap g/ <Plug>(easymotion-sn)
+  "map  / <Plug>(easymotion-sn)
+  "omap / <Plug>(easymotion-tn)
+  "map  n <Plug>(easymotion-next)
+  "map  N <Plug>(easymotion-prev)
 endif
 " }}} vim-easymotion
 
