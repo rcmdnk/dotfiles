@@ -263,8 +263,7 @@ if s:use_neobundle && v:version > 702
   NeoBundle "tpope/vim-surround"
 
   " Align
-  NeoBundle "Align"
-  "NeoBundle "h1mesuke/vim-alignta"
+  NeoBundle "h1mesuke/vim-alignta"
 
   " c++ syntax with c++11 support
   NeoBundle "vim-jp/cpp-vim"
@@ -319,15 +318,10 @@ if s:use_neobundle && v:version > 702
   " Easymotion
   NeoBundle "Lokaltog/vim-easymotion"
 
-  " Python autocompletion
-  NeoBundleLazy "davidhalter/jedi-vim", {
-        \ "rev" : "dev",
-        \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
-
   " virtual env
   NeoBundle "jmcantrell/vim-virtualenv"
 
-  " Syntax
+  " Syntax checking
   NeoBundle "scrooloose/syntastic"
 
   " Syntax for vim
