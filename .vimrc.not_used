@@ -1,6 +1,18 @@
 " ==============================================
 " Plugins which it may come into use someday... {{{
 " ==============================================
+
+
+" jedi-vim {{{
+" Python autocompletion
+" Show error of
+"     ImportError: No module named os
+" when PYTHONPATH was changed (updated for brew-pip on Mac)...
+NeoBundleLazy "davidhalter/jedi-vim", {
+      \ "rev" : "dev",
+      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
+" }}}
+
 " vimshell {{{
 " Use shell in vim # not necessary on GNU screen
 NeoBundleLazy 'Shougo/vimshell', {
