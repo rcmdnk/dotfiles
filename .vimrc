@@ -390,8 +390,9 @@ if s:use_neobundle && v:version > 702
         \ "autoload" : { "commands": ["SrcExpl", "SrcExplClose", "SrcExplToggle"] }}
 
   " For Tags
+  "NeoBundle "majutsushi/tagbar"
   NeoBundleLazy "majutsushi/tagbar", {
-        \ "autload": { "commands": ["TagbarToggle"] }}
+        \ "autoload": { "commands": ["TagbarToggle"] }}
 
   " Make help
   NeoBundleLazy "LeafCage/vimhelpgenerator",{
@@ -870,6 +871,7 @@ endif
 " Paste, Paste mode
 nn <silent> <Leader>p "+gP
 nn <silent> <Leader>P :set paste!<CR>:set paste?<CR>
+ino <silent> <C-]> <Leader><C-o>:set paste!<CR>
 
 " *, #, stay at current word->mapped for anzu
 if ! s:neobundle_enabled || empty(neobundle#get("vim-anzu"))
@@ -901,6 +903,7 @@ ino <C-e> <End>
 ino <C-d> <Delete>
 ino <C-b> <Left>
 ino <C-f> <Right>
+ino <C-k> <Leader><C-o>D
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
