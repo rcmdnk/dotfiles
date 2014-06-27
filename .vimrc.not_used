@@ -591,6 +591,8 @@ NeoBundle "mru.vim"
 
 " Tags {{{
 " taglist{{{
+" Use tagbar instead (appearance seems almost same)
+" but taglist failed to make tags...?
 NeoBundle "taglist.vim"
 if s:neobundle_enable && ! empty(neobundle#get("taglist.vim"))
   set tags=tags
