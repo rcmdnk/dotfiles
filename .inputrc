@@ -95,8 +95,8 @@ $endif
 "\C-gg": "grep *\C-b\C-b \"\"\C-b"
 "\eg": "grep *\C-b\C-b \"\"\C-b"
 # find ./|grep 
-"\C-g\C-f": "find ./ -name \"**\"|grep -v .svn|grep -v .git\C-a\ef\ef\C-f\C-f\C-f"
-"\C-gf": "find ./ -name \"**\"|grep -v .svn|grep -v .git\C-a\ef\ef\C-f\C-f\C-f"
+"\C-g\C-f": "find ./ -name \"**\" 2>/dev/null|grep -v .svn|grep -v .git\C-a\ef\ef\C-f\C-f\C-f"
+"\C-gf": "find ./ -name \"**\" 2>/dev/null|grep -v .svn|grep -v .git\C-a\ef\ef\C-f\C-f\C-f"
 # grep uniq
 "\C-g\C-u": "grep -I -l -r \"\" *|grep -v .svn|grep -v .git\C-a\ef\ef\ef\ef\C-f\C-f"
 "\C-gu": "grep -I -l -r \"\" *|grep -v .svn+|gep -v .git\C-a\ef\ef\ef\ef\C-f\C-f"
