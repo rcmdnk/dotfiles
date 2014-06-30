@@ -824,7 +824,7 @@ if v:version > 702
     normal! mxgg=G'x
     delmarks x
   endfunction
-  command! IndentAll call s:indnet_all()
+  command! IndentAll call s:indent_all()
 
   function! s:delete_space()
     normal! mxG$
@@ -840,8 +840,8 @@ if v:version > 702
 
   function! s:align_code()
     retab
-    call IndentAll()
-    call DeleteSpace()
+    IndentAll
+    DeleteSpace
   endfunction
   command! AlignCode call s:align_code()
 
