@@ -604,7 +604,10 @@ if s:neobundle_enable && ! empty(neobundle#get("taglist.vim"))
 endif
 "}}} taglist
 
+" ctags{{{
+" make ctags for current file
 NeoBundle "ctags.vim"
+" }}}
 " }}}
 
 " Color scheme {{{
