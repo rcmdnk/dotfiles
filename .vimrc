@@ -324,6 +324,9 @@ if s:use_neobundle && v:version > 702
   " Syntax checking
   NeoBundle "scrooloose/syntastic"
 
+  " Change current directory to root, for git/svn, etc...
+  NeoBundle "airblade/vim-rooter"
+
   " Syntax for vim
   NeoBundle "dbakker/vim-lint"
 
@@ -331,7 +334,7 @@ if s:use_neobundle && v:version > 702
   NeoBundle "osyo-manga/vim-anzu"
 
   " Git
-  NeoBundle "tpope/vim-fugitive" " necessary ('depends' in gitv is not enough.)
+  NeoBundle "tpope/vim-fugitive" " necessary ('depends' in gitv is not enough. Maybe it uses autoload...?)
   NeoBundleLazy "gregsexton/gitv", {
         \ "depends": ["tpope/vim-fugitive"],
         \ "autoload": { "commands": ["Gitv"]}}
@@ -385,12 +388,15 @@ if s:use_neobundle && v:version > 702
   NeoBundleLazy "mattn/benchvimrc-vim",{
         \ "autoload" : {"commands": ["BenchVimrc"] }}
 
-  " File Explorer
+  " The NERD Tree: File Explorer
+  NeoBundleLazy "scrooloose/nerdtree", {
+        \ "autoload" : { "commands": ["NERDTree", "NERDTreeClose", "NERDTreeToggle"] }}
+
+  " Source Explorer
   NeoBundleLazy "wesleyche/SrcExpl", {
         \ "autoload" : { "commands": ["SrcExpl", "SrcExplClose", "SrcExplToggle"] }}
 
   " For Tags
-  "NeoBundle "majutsushi/tagbar"
   NeoBundleLazy "majutsushi/tagbar", {
         \ "autoload": { "commands": ["TagbarToggle"] }}
 
@@ -1458,10 +1464,28 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("syntastic"))
   let g:syntastic_check_on_open=0
   let g:syntastic_check_on_wq=0
-  let g:syntastic_enable_signs=1
-  let g:syntastic_auto_loc_list=2
+  " C
+  let g:syntastic_c_check_header = 1
+  " C++
+  let g:syntastic_cpp_check_header = 1
+  " Java
+  let syntastic_java_javac_config_file_enabled = 1
+  let syntastic_java_javac_config_file = "$HOME/.syntastic_javac_config"
 endif
 "}}} syntastic
+
+" vim-rooter{{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-rooter"))
+  " Default: move to root directory by <Leader>cd
+
+  " Change only current window's directory
+  let g:rooter_use_lcd = 1
+  " files/directories for the root directory
+  let g:rooter_patterns = ['tags', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', '.svn/']
+  " Automatically change the directory
+  "autocmd! BufEnter *.c,*.cc,*.cxx,*.cpp,*.h,*.hh,*.java,*.py,*.sh,*.rb,*.html,*.css,*.js :Rooter
+endif
+"}}} vim-rooter
 
 " signify{{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-signify"))
@@ -1601,19 +1625,40 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-ref"))
 endif
 "}}}
 
+" NERDTree+SrcExpl+tagbar {{{
+
+" The NERD Tree  {{{
+if s:neobundle_enabled && ! empty(neobundle#get("nerdtree"))
+  nn <Leader>N :NERDTreeToggle<CR>
+endif
+"}}}
+
 " SrcExpl  {{{
 if s:neobundle_enabled && ! empty(neobundle#get("SrcExpl"))
-  let g:SrcExpl_RefreshTime = 1
-  let g:SrcExpl_UpdateTags = 0
+  " Set refresh time in ms
+  let g:SrcExpl_RefreshTime = 100
+  " is update tags when SrcExpl is opened
+  let g:SrcExpl_isUpdateTags = 0
+  " Source Explorer Window Height
+  let g:SrcExpl_winHeight = 14
   nn <Leader>E :SrcExplToggle<CR>
 endif
 "}}}
 
 " tagbar {{{
 if s:neobundle_enabled && ! empty(neobundle#get("tagbar"))
-  nn <silent> <leader>t :TagbarToggle<CR>
+  nn <silent> <leader>T :TagbarToggle<CR>
 endif
 "}}} tagbar
+
+if s:neobundle_enabled &&
+      \! empty(neobundle#get("nerdtree")) &&
+      \! empty(neobundle#get("SrcExpl")) &&
+      \! empty(neobundle#get("tagbar"))
+  nn <silent> <Leader>A :SrcExplToggle<CR>:NERDTreeToggle<CR>:TagbarToggle<CR>
+endif
+
+" }}}
 
 " tag {{{
 if has("path_extra")
@@ -1725,6 +1770,10 @@ endif
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))
   execute "source" expand("~/.vimrc.local")
+endif
+
+if filereadable(expand("./.vimrc.dir"))
+  execute "source" expand("./.vimrc.dir")
 endif
 " }}}
 
