@@ -42,8 +42,14 @@
       git_repo=${1};\
       repo_name=${git_repo#*/};\
       repo_name=${repo_name%.git};\
-      echo git submodule add ${git_repo} ./${2}/${repo_name};\
-      git submodule add ${git_repo} ./${2}/${repo_name};\
+      base=$(basename \"${2}\");\
+      if [ \"$base\" = \"$repo_name\" ];then \
+        path=\"$(dirname \"${2}\");\
+      else \
+        path=\"${2}\";\
+      fi;\
+      echo git submodule add ${git_repo} \"./${path}/${repo_name}\";\
+      git submodule add ${git_repo} \"./${path}/${repo_name}\";\
     };f"
   a = "!f () { \
       gitdir=./;\
