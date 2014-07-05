@@ -864,20 +864,20 @@ if v:version > 702
   endfunction
   command! AlignAllBuf call s:align_all_buf()
 
-  "nn <Leader><Space>  :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
+  "nn <Leader><Space> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
 
   " remove trail spaces for all
-  nn <Leader><Space>  :DeleteSpace<CR>
+  nn <Leader><Space> :DeleteSpace<CR>
 
   " remove trail spaces at selected region
-  xn <Leader><Space>  :s/<Space>\+$//g<CR>
+  xn <Leader><Space> :s/<Space>\+$//g<CR>
 
 endif
 
 " Paste, Paste mode
 nn <silent> <Leader>p "+gP
 nn <silent> <Leader>P :set paste!<CR>:set paste?<CR>
-ino <silent> <C-]> <Leader><C-o>:set paste!<CR>
+ino <silent> <C-]> <C-o>:set paste!<CR>
 
 " *, #, stay at current word->mapped for anzu
 if ! s:neobundle_enabled || empty(neobundle#get("vim-anzu"))
