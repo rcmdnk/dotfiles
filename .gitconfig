@@ -44,7 +44,7 @@
       repo_name=${repo_name%.git};\
       base=$(basename \"${2}\");\
       if [ \"$base\" = \"$repo_name\" ];then \
-        path=\"$(dirname \"${2}\");\
+        path=\"$(dirname \"${2}\")\";\
       else \
         path=\"${2}\";\
       fi;\
