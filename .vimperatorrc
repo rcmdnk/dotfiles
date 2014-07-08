@@ -157,6 +157,11 @@ vnoremap <C-g> y<Esc><Esc>P
 
 " }}}
 
+" Mappings for Gmail {{{
+ignorekeys add mail\\.google\\.com -except a,f,F,d,g,j,k,R,t,/,\;,\:,<C-n>,<C-p>,<C-o>,<C-i>,<C-f>,<C-b>,<C-u>,<C-d>
+nnoremap -urls='mail\\.google\\.com' r a
+" }}}
+
 " color scheme {{{
 
 hi Hint font-family: monospace; font-size: 15px; font-weight: normal; color: lightyellow; background-color: black; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 0px 5px 0px 5px; text-transform: uppercase;
@@ -414,10 +419,6 @@ mappings.addUserMap(
   {}
 );
 EOM
-" }}}
-
-" Ignorekeys {{{
-ignorekeys add mail\\.google\\.com -except :,t,d,<C-n>,<C-p>,<C-o>,<C-i>
 " }}}
 
 "" settings for each environment {{{
