@@ -9,6 +9,9 @@
 #   932 SJIS
 chcp.com 65001 >/dev/null
 
+# COMSPEC (especially for Octopress)
+export COMSPEC=/cygdrive/c/Windows/System32/cmd.exe
+
 # display
 export DISPLAY=${DISPLAY:=":0.0"}
 
