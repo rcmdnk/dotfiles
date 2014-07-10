@@ -1480,10 +1480,12 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-rooter"))
 
   " Change only current window's directory
   let g:rooter_use_lcd = 1
+  "autocmd! BufEnter *.c,*.cc,*.cxx,*.cpp,*.h,*.hh,*.java,*.py,*.sh,*.rb,*.html,*.css,*.js :Rooter
+  " Stop the automatic change (some files are )
+  let g:rooter_manual_only = 1
   " files/directories for the root directory
   let g:rooter_patterns = ['tags', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', '.svn/']
   " Automatically change the directory
-  "autocmd! BufEnter *.c,*.cc,*.cxx,*.cpp,*.h,*.hh,*.java,*.py,*.sh,*.rb,*.html,*.css,*.js :Rooter
 endif
 "}}} vim-rooter
 
