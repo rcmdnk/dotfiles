@@ -380,6 +380,10 @@ if s:use_neobundle && v:version > 702
   NeoBundleLazy "mattn/habatobi-vim",{
         \ "autoload" : {"commands": ["Habatobi"] }}
 
+  " flappyvird
+  NeoBundleLazy "mattn/flappyvird-vim",{
+        \ "autoload" : {"commands": ["FlappyVird"] }}
+
   " puyopuyo
   NeoBundleLazy "rbtnn/puyo.vim",{
         \ "autoload" : {"commands": ["Puyo"] }}
@@ -539,10 +543,10 @@ set showcmd        " Display incomplete commands
 set novisualbell   " No visual bell
 set cursorline     " Enable highlight on current line:
                    " but make moving cursor slow for heavily highlighted file...
-set scrolloff=999  " Show cursor at middle
-" (scrolloff is number of lines which should be shown above
-" and below cursor.
-"  such large number force to stay a cursor at middle
+"set scrolloff=999  " Show cursor at middle
+" (scrolloff is number of lines which should be shown above and below cursor.
+"  such large number force to stay a cursor at middle.)
+set scrolloff=10  " Show cursor around the middle
 set scroll=0       " Number of lines to scroll with C-U/C-D (0 for half window)
 set mouse=         " Disable mouse
 set ambiwidth=double  " For UTF-8, width for East Asian Characters. It doesn't work at specific terminals?(iTerm, putty, etc..?)
