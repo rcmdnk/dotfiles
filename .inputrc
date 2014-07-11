@@ -91,10 +91,10 @@ $endif
 "\C-gr": "grep -I -r \"\" ./|grep -v .svn|grep -v .git\C-a\ef\ef\ef\C-f\C-f"
 "\er": "grep -I -r \"\" ./|grep -v .svn|grep -v .git\C-a\ef\ef\ef\C-f\C-f"
 # grep "" *
-"\C-g\C-g": "grep *\C-b\C-b \"\"\C-b"
-"\C-gg": "grep *\C-b\C-b \"\"\C-b"
-"\eg": "grep *\C-b\C-b \"\"\C-b"
-# find ./|grep 
+"\C-g\C-g": "grep -I *\C-b\C-b \"\"\C-b"
+"\C-gg": "grep -I *\C-b\C-b \"\"\C-b"
+"\eg": "grep -I *\C-b\C-b \"\"\C-b"
+# find ./
 "\C-g\C-f": "find ./ -name \"**\" 2>/dev/null|grep -v .svn|grep -v .git\C-a\ef\ef\C-f\C-f\C-f"
 "\C-gf": "find ./ -name \"**\" 2>/dev/null|grep -v .svn|grep -v .git\C-a\ef\ef\C-f\C-f\C-f"
 # grep uniq
