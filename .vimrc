@@ -1402,8 +1402,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-indent-guides"))
   let g:indent_guides_start_level = 1
   let g:indent_guides_auto_colors = 0
   " Followings are set in ColorScheme section
-  "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
-  "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=236
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
 endif
 "}}} vim-indent-guides
 
