@@ -100,7 +100,7 @@ if s:use_neobundle && v:version > 702
   NeoBundleLazy "Shougo/echodoc", {
         \ "autoload": { "insert": 1 }}
 
-  " Completion
+ " Completion
   let g:completion = "Shougo/neocomplcache.vim"
   if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
     let g:completion = "Shougo/neocomplete.vim"
@@ -113,9 +113,9 @@ if s:use_neobundle && v:version > 702
   " look - display lines beginning with a given string, using with neocomplete/neocomplcache
   NeoBundleLazy "ujihisa/neco-look", {"depends": [g:completion]}
 
-  " gundo
-  NeoBundleLazy "sjl/gundo.vim", {
-        \ "autoload": {"commands": ["GundoToggle"]}}
+ " gundo
+ NeoBundleLazy "sjl/gundo.vim", {
+       \ "autoload": {"commands": ["GundoToggle"]}}
 
   " textobj {{{
   NeoBundle "kana/vim-textobj-user"
@@ -290,6 +290,11 @@ if s:use_neobundle && v:version > 702
 
   " Python syntax
   NeoBundle "mitsuhiko/vim-python-combined"
+
+  " Jedi for python
+  NeoBundleLazy "davidhalter/jedi-vim", {
+      \ "rev" : "dev",
+      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
 
   " Java
   NeoBundle "koron/java-helper-vim"
@@ -1376,12 +1381,10 @@ endif
 " jedi-vim{{{
 if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#auto_initialization = 1
-  "let g:jedi#goto_assignments_command = "<Leader>g"
-  "let g:jedi#goto_definition_command = "<Leader>d"
-  let g:jedi#goto_assignments_command = ""
-  let g:jedi#goto_definition_command = ""
+  let g:jedi#goto_assignments_command = "<Leader>g"
+  let g:jedi#goto_definition_command = "<Leader>d"
   let g:jedi#documentation_command = "K"
-  let g:jedi#completions_command = "<C-Space>"
+  let g:jedi#completions_command = "<C-N>"
   let g:jedi#popup_select_first = 1
   let g:jedi#popup_on_dot = 0
   autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
