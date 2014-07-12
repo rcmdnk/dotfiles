@@ -40,22 +40,26 @@ PROMPT_COMMAND=`echo ${PROMPT_COMMAND}|sed 's/;$//'`
 
 # Local path {{{
 # PATH, LD_LIBRARY_PATH under HOME
-export PATH=/usr/local/bin:$PATH
 # For Mac
 if [[ "$OSTYPE" =~ "darwin" ]];then
   # For MacVim
   if [ -d /Applications/MacVim.app/Contents/MacOS ];then
     export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
   fi
-  # For brew-pip
-  if [ -d $(brew --prefix)/lib/python2.7/site-packages ];then
-    export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages:$PYTHONPATH
+  if [ -d ~/Applications/MacVim.app/Contents/MacOS ];then
+    export PATH=~/Applications/MacVim.app/Contents/MacOS:$PATH
   fi
-  if [ -d $(brew --prefix)/share/python ];then
-    export PATH=$(brew --prefix)/share/python:$PATH
+  if type brew >& /dev/null;then
+    # For Homebrew python modules
+    if [ -d $(brew --prefix)/share/python ];then
+      export PATH=$(brew --prefix)/share/python:$PATH
+    fi
+    if [ -d $(brew --prefix)/lib/python2.7/site-packages ];then
+      export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages:$PYTHONPATH
+    fi
   fi
 fi
-export PATH=$HOME/usr/local/bin:$HOME/usr/bin:$PATH
+export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/usr/local/lib64:$HOME/usr/local/lib:$HOME/usr/lib64:$HOME/usr/lib:/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:/lib64:/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$HOME/usr/local/lib:$HOME/usr/lib/python:/usr/local/lib:/usr/lib/python:$PYTHONPATH
 #export PYTHONHOME=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
@@ -86,8 +90,10 @@ export LC_ALL="en_US.UTF-8"
 #export LC_DATE="en_GB.UTF-8"
 
 # Editors
-export VISUAL=vi
-export EDITOR=vi
+if type vim >& /dev/null;then
+  export VISUAL=vim
+  export EDITOR=vim
+fi
 export PAGER=less
 
 # Terminfo
@@ -239,7 +245,7 @@ alias bc="bc -l"
 alias ssh="ssh -Y"
 alias svnHeadDiff="svn diff --revision=HEAD"
 alias svnd="svn diff | vim -R -"
-alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
+#alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
 alias vim="vim -X" # no X
 alias vi="vim" # vi->vim
 alias memo="vim ~/.memo.md"
