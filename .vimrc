@@ -33,7 +33,7 @@ endif
 " http://qiita.com/rbtnn/items/39d9ba817329886e626b
 
 let s:neobundle_enabled=0
-if s:use_neobundle && v:version > 702
+if s:use_neobundle && v:version >= 703
   " set path
   if has("vim_starting")
     let g:bundledir=g:vimdir . "/bundle"
@@ -102,7 +102,7 @@ if s:use_neobundle && v:version > 702
 
  " Completion
   let g:completion = "Shougo/neocomplcache.vim"
-  if has('lua') && (( v:version >= 703 && has('patch885')) || (v:version >= 704))
+  if has('lua') && (( v:version == 703 && has('patch885')) || (v:version >= 704))
     let g:completion = "Shougo/neocomplete.vim"
   endif
   NeoBundleLazy g:completion, {
@@ -503,6 +503,17 @@ if exists ("&colorcolumn")
   execute "set colorcolumn=" . join(range(81, 999), ",")
 endif
 set wrap           " the longer line is wrapped
+set linebreak      " wrap at 'breakat'
+if (v:version == 704 && has("patch338")) || v:version >= 705
+  set breakindent    " indent even for wrapped lines
+  " indent even for wrapped lines
+  " it doesn't work for new window automatically: bug?
+  " autocmd is needed even for the default values (min:20,shit:0)
+  "set breakindentopt=min:20,shift:0
+  autocmd MyAutoGroup BufNewFile,BufRead * set breakindentopt=min:20,shift:0
+  set showbreak=+\   " set showbreak
+endif
+
 set expandtab      " do :retab -> tab->space
 
 set swapfile       " use swap
@@ -561,7 +572,7 @@ set showmatch      " Show maching one for inserted bracket
 set spell          " Spell check highlight
 "set nospell        " No spell check
 
-if v:version >= 704 && has("patch88")
+if (v:version == 704 && has("patch38")) || v:version >= 705
   set spelllang+=cjk " Ignore double-width characters
 endif
 
@@ -581,7 +592,7 @@ set wildmode=list:longest
 set wildmenu
 
 " Folding
-if v:version > 702
+if v:version >= 703
   set foldmethod=marker
   set foldmarker={{{,}}} "default
   autocmd MyAutoGroup FileType py set foldmethod=syntax
@@ -834,7 +845,7 @@ nn <Leader>q :bdelete<CR>
 nn <Leader>w :w<CR>:bdelete<CR>
 
 " remove trail spaces, align
-if v:version > 702
+if v:version >= 703
   function! s:indent_all()
     normal! mxgg=G'x
     delmarks x
