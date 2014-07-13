@@ -504,6 +504,7 @@ if exists ("&colorcolumn")
 endif
 set wrap           " the longer line is wrapped
 set linebreak      " wrap at 'breakat'
+set showbreak=+\   " set showbreak
 if (v:version == 704 && has("patch338")) || v:version >= 705
   set breakindent    " indent even for wrapped lines
   " indent even for wrapped lines
@@ -511,7 +512,6 @@ if (v:version == 704 && has("patch338")) || v:version >= 705
   " autocmd is needed even for the default values (min:20,shit:0)
   "set breakindentopt=min:20,shift:0
   autocmd MyAutoGroup BufNewFile,BufRead * set breakindentopt=min:20,shift:0
-  set showbreak=+\   " set showbreak
 endif
 
 set expandtab      " do :retab -> tab->space
