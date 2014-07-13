@@ -507,11 +507,8 @@ set linebreak      " wrap at 'breakat'
 set showbreak=+\   " set showbreak
 if (v:version == 704 && has("patch338")) || v:version >= 705
   set breakindent    " indent even for wrapped lines
-  " indent even for wrapped lines
-  " it doesn't work for new window automatically: bug?
-  " autocmd is needed even for the default values (min:20,shit:0)
-  "set breakindentopt=min:20,shift:0
-  "autocmd MyAutoGroup BufEnter,FileType vim,cpp,py set breakindentopt=min:20,shift:0
+  " breakindent option (autocmd is necessary when new file is opened in Vim)
+  " necessary even for default(min:20,shift:0)
   autocmd MyAutoGroup BufEnter * set breakindentopt=min:20,shift:0
 endif
 
