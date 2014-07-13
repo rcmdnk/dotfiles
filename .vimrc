@@ -504,6 +504,7 @@ if exists ("&colorcolumn")
 endif
 set wrap           " the longer line is wrapped
 set linebreak      " wrap at 'breakat'
+"set breakat=\      " break point for linebreak (default " ^I!@*-+;:,./?")
 set showbreak=+\   " set showbreak
 if (v:version == 704 && has("patch338")) || v:version >= 705
   set breakindent    " indent even for wrapped lines
