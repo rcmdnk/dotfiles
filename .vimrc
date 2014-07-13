@@ -511,7 +511,8 @@ if (v:version == 704 && has("patch338")) || v:version >= 705
   " it doesn't work for new window automatically: bug?
   " autocmd is needed even for the default values (min:20,shit:0)
   "set breakindentopt=min:20,shift:0
-  autocmd MyAutoGroup BufNewFile,BufRead * set breakindentopt=min:20,shift:0
+  "autocmd MyAutoGroup BufEnter,FileType vim,cpp,py set breakindentopt=min:20,shift:0
+  autocmd MyAutoGroup BufEnter * set breakindentopt=min:20,shift:0
 endif
 
 set expandtab      " do :retab -> tab->space
