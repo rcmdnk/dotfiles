@@ -54,9 +54,9 @@ if [[ "$OSTYPE" =~ "darwin" ]];then
     if [ -d $(brew --prefix)/share/python ];then
       export PATH=$(brew --prefix)/share/python:$PATH
     fi
-    if [ -d $(brew --prefix)/lib/python2.7/site-packages ];then
-      export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages:$PYTHONPATH
-    fi
+    #if [ -d $(brew --prefix)/lib/python2.7/site-packages ];then
+    #  export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages:$PYTHONPATH
+    #fi
   fi
 fi
 export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/usr/local/bin:$PATH
