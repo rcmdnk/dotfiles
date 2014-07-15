@@ -100,10 +100,11 @@
   pull-dry-run-s = "!git fetch origin $(git config branch.$(git rev-parse --abbrev-ref HEAD).merge);\
     git diff --stat --summary HEAD...FETCH_HEAD"
   tag-renew = "!f () {\
-      if [ $# -ne 1 ];then \
-        tag=$(git  tag |sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
+      tag=$(git  tag |sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
+      if [ $# -eq 0 ];then \
+        comment=\"tag $tag\";\
       else \
-        tag=$1;\
+        comment=\"$*\";\
       fi;\
       tagcheck=$(git tag|grep v${tag});\
       if [ \"$tagcheck\" != \"\" ];then \
@@ -114,13 +115,14 @@
       git push --tag;\
     };f"
   tag-new = "!f () {\
+      tag=$(git  tag |sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
+      tag_minor=${tag##*.};\
+      ((tag_minor++));\
+      tag=${tag%.*}.${tag_minor};\
       if [ $# -eq 0 ];then \
-        tag=$(git  tag |sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
-        tag_minor=${tag##*.};\
-        ((tag_minor++));\
-        tag=${tag%.*}.${tag_minor};\
+        comment=\"tag $tag\";\
       else \
-        tag=$1;\
+        comment=\"$*\";\
       fi;\
       tagcheck=$(git tag|grep v${tag});\
       if [ \"$tagcheck\" != \"\" ];then \
