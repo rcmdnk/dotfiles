@@ -467,7 +467,7 @@ syntax on
 
 " Basic settings {{{
 
-" Set my auto group
+" Reset my auto group
 augroup MyAutoGroup
   autocmd!
 augroup END

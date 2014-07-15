@@ -101,8 +101,7 @@
     git diff --stat --summary HEAD...FETCH_HEAD"
   tag-renew = "!f () {\
       if [ $# -ne 1 ];then \
-        tag=$(git tag|tail -n1);\
-        tag=${tag#v};\
+        tag=$(git  tag |sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
       else \
         tag=$1;\
       fi;\
@@ -116,8 +115,7 @@
     };f"
   tag-new = "!f () {\
       if [ $# -eq 0 ];then \
-        tag=$(git tag|tail -n1);\
-        tag=${tag#v};\
+        tag=$(git  tag |sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
         tag_minor=${tag##*.};\
         ((tag_minor++));\
         tag=${tag%.*}.${tag_minor};\
