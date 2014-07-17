@@ -447,6 +447,8 @@ if s:use_neobundle && v:version >= 703
   NeoBundleLazy "rbtnn/rabbit-ui.vim",{
         \ "autoload" : {"commands": ["EditCSV"] }}
 
+  " Man page view
+  NeoBundle "emezeske/manpageview"
 
   """""""""""""""""""""""""""""""""
 
@@ -494,7 +496,7 @@ set autoindent     " autoindent
 set cinoptions=g0  " g0: no indent for private/public/protected
 
 
-"set textwidth=0    " longer line than textwidth will be broken (0: disable)
+"set textwidth=0    " a longer line than textwidth will be broken (0: disable)
 autocmd MyAutoGroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
 if exists ("&colorcolumn")
   "set colorcolumn=80 " put line on 80
@@ -502,7 +504,7 @@ if exists ("&colorcolumn")
   " Change background for 81-
   execute "set colorcolumn=" . join(range(81, 999), ",")
 endif
-set wrap           " the longer line is wrapped
+set wrap           " longer line is wrapped
 set linebreak      " wrap at 'breakat'
 "set breakat=\      " break point for linebreak (default " ^I!@*-+;:,./?")
 set showbreak=+\   " set showbreak
@@ -515,7 +517,7 @@ endif
 
 set expandtab      " do :retab -> tab->space
 
-set swapfile       " use swap
+set swapfile       " use swap file
 set nobackup       " do not keep a backup file
 set nowritebackup  " do not create backup file
 
@@ -552,7 +554,7 @@ set infercase      " Ignore case for completion
 set nrformats=hex  " Not use cotal, alpha for increment or decrement
 set t_Co=256       " Enable 256 colors
 set list           " Show tab, end, trail empty
-set listchars=tab:>-,trail:-,extends:<,precedes:<,nbsp:% " Set words for above
+set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:% " Set words for above
 set ruler          " Show the cursor position all the time
 set showcmd        " Display incomplete commands
 set novisualbell   " No visual bell
@@ -615,7 +617,7 @@ autocmd MyAutoGroup FileType * setlocal formatoptions-=ro
 " Arrow to open new file while current file is not saved
 set hidden
 
-" Jump to the first open window
+" Jump to the first opened window
 set switchbuf=useopen
 
 " virtualedit (can move to non-editing places: e.x. right of $)
@@ -642,7 +644,6 @@ endif
 command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
 " VimShowHlItem: Show highlight item name under a cursor
 command! VimShowHlItem echo synIDattr(synID(line("."), col("."), 1), "name")
-
 
 function! s:get_syn_id(transparent)
   let synid = synID(line("."), col("."), 1)
@@ -713,7 +714,7 @@ set synmaxcol=1000 "default 3000
 ":smap  :snoremap  :sunmap  :smapclear    -       yes
 "
 "    commands:                                   modes:
-"                     Insert  Command-line  Lang-Arg
+"                                       Insert  Command-line  Lang-Arg
 ":map!  :noremap!  :unmap!  :mapclear!   yes       yes           -
 ":imap  :inoremap  :iunmap  :imapclear   yes        -            -
 ":cmap  :cnoremap  :cunmap  :cmapclear    -        yes           -
@@ -917,8 +918,9 @@ nn / /\v
 " to check patterns:
 " :h pattern-overview
 
-" Close help with q
-autocmd MyAutoGroup FileType help,qf nn <buffer> q <C-w>c
+" Close immediately by q
+autocmd MyAutoGroup FileType help,qf,man,ref nn <buffer> q :q<CR>
+autocmd MyAutoGroup FileType help,qf,man,ref setlocal nospell
 
 """ insert mode
 
@@ -939,6 +941,11 @@ ino <C-U> <C-G>u<C-U>
 " Select word
 xn w iw
 xn W iW
+
+" Go to the last character, instead of the last + 1
+xn $ $h
+xn L $h
+xn v $h
 
 """ command line mode
 " Cursor move
