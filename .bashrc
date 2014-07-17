@@ -91,10 +91,10 @@ export LC_ALL="en_US.UTF-8"
 
 # Editors
 if type vim >& /dev/null;then
+  export PAGER="col -b -x | vim -R -c 'set ft=man nomod nolist' -"
   export VISUAL=vim
   export EDITOR=vim
 fi
-export PAGER=less
 
 # Terminfo
 if [ -d $HOME/.terminfo/ ];then
@@ -244,7 +244,7 @@ alias gcg="make clean && make"
 alias bc="bc -l"
 alias ssh="ssh -Y"
 alias svnHeadDiff="svn diff --revision=HEAD"
-alias svnd="svn diff | vim -R -"
+alias svnd="svn diff | vim -"
 #alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
 alias vim="vim -X" # no X
 alias vi="vim" # vi->vim
@@ -361,10 +361,6 @@ function press () {
 #function emacs () { command emacs $@ & }
 # }}}
 
-## SimpleNote {{{
-#alias sn='vim -c "call Sn()"'
-## }}}
-
 # path: function to get full path {{{
 function path () {
   if [ $# -eq 0 ];then
@@ -376,35 +372,6 @@ function path () {
 
 ## Directory save/move in different terminal {{{
 source_file ~/usr/etc/sd_cl
-# }}}
-
-# man wrapper{{{
-function man () {
-  # Open man file with vim
-  # col -b -x: remove backspace, replace tab->space
-  # vim -R -: read only mode, read from stdin
-  if [ $# -eq 0 ];then
-    command man
-  else
-    # If there are any -* arguments,
-    # use original man
-    for m in $@;do
-      if [[ $m =~ ^- ]];then
-        command man $@
-        return
-      fi
-    done
-    # Then open each manual
-    for m in $@;do
-      if command man -W $m >&  /dev/null;then
-        LANG=C command man $@|col -b -x|vim -R -
-      else
-        command man $@
-      fi
-    done
-  fi
-}
-#alias man='LANG=C man'
 # }}}
 
 # Show 256 colors{{{
