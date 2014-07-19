@@ -447,9 +447,6 @@ if s:use_neobundle && v:version >= 703
   NeoBundleLazy "rbtnn/rabbit-ui.vim",{
         \ "autoload" : {"commands": ["EditCSV"] }}
 
-  " Man page view
-  NeoBundle "emezeske/manpageview"
-
   """""""""""""""""""""""""""""""""
 
   " local plugins
@@ -919,7 +916,7 @@ nn / /\v
 " :h pattern-overview
 
 " Close immediately by q
-autocmd MyAutoGroup FileType help,qf,man,ref nn <buffer> q :q<CR>
+autocmd MyAutoGroup FileType help,qf,man,ref nn <buffer> q :q!<CR>
 autocmd MyAutoGroup FileType help,qf,man,ref setlocal nospell
 
 """ insert mode

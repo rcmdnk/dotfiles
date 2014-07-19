@@ -84,8 +84,6 @@ export LC_ALL="en_US.UTF-8"
 if type vim >& /dev/null;then
   export VISUAL=vim
   export EDITOR=vim
-  # PAGER only for man
-  export MANPAGER="col -b -x|vim -R -c 'set ft=man nomod nolist' -"
 fi
 export PAGER=less
 
@@ -255,8 +253,7 @@ alias hischeckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\
 alias sort='LC_ALL=C sort'
 alias uniq='LC_ALL=C uniq'
 
-# noglob helpers {{{
-function mynoglob_helper () {
+function mynoglob_helper () { # noglob helpers {{{
   "$@"
   case $shopts in
     *noglob*)
@@ -270,8 +267,30 @@ function mynoglob_helper () {
 alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 # }}}
 
-# Change words in file by sed{{{
-function change () {
+function man () { # man wrapper {{{
+  local p
+  local m
+  if [ "$PAGER" != "" ];then
+    p="$PAGER"
+  fi
+  if [ "$MANPAGER" != "" ];then
+    m="$MNNPAGER"
+  fi
+  unset PAGER
+  unset MANPAGER
+  ret=$(command man $*)
+  if [ $? -eq 0 ];then
+    echo "$ret"|col -bx|vim -R -c 'set ft=man nomod nolist' -
+  fi
+  if [ "$p" != "" ];then
+    export PAGER="$p"
+  fi
+  if [ "$m" != "" ];then
+    export MANPAGER="$m"
+  fi
+} # }}}
+
+function change () { # Change words in file by sed{{{
   case $# in
     0)
       echo "enter file name and words of before and after"
@@ -294,8 +313,7 @@ function change () {
 }
 # }}}
 
-# Delete trailing white space {{{
-function del_tail () {
+function del_tail () { # Delete trailing white space {{{
   sed -i.bak 's/ \+$//g' $1
   rm -f "$1".bak
 }
@@ -339,8 +357,7 @@ function press () {
 }
 # }}}
 
-## Show output result with w3m {{{
-#function lw () {
+#function lw () {# Show output result with w3m {{{
 #  sed -e 's/</\&lt;/g' |\
 #  sed -e 's/>/\&gt;/g' |\
 #  sed -e 's/\&/\&amp;/g' |\
@@ -354,8 +371,7 @@ function press () {
 #function emacs () { command emacs $@ & }
 # }}}
 
-# path: function to get full path {{{
-function path () {
+function path () { # path: function to get full path {{{
   if [ $# -eq 0 ];then
       echo "usage: path file/directory"
       return 1
@@ -367,8 +383,7 @@ function path () {
 source_file ~/usr/etc/sd_cl
 # }}}
 
-# Show 256 colors{{{
-function col256 () {
+function col256 () { # Show 256 colors{{{
   for c in {0..255};do
     local num=`printf " %03d" $c`
     printf "\e[38;5;${c}m$num\e[m"
@@ -379,8 +394,7 @@ function col256 () {
   done
 } # }}}
 
-# Function to calculate with perl (for decimal, etc...) {{{
-function calc () {
+function calc () { # Function to calculate with perl (for decimal, etc...) {{{
   local eq=$(echo $@|sed "s/\^/**/g")
   echo -n '$xx ='$eq';print "$xx \n"'|perl
 } # }}}
@@ -448,8 +462,7 @@ fi
 # }}}
 
 # For screen {{{
-# Screen wrapper {{{
-function screen () {
+function screen () { # Screen wrapper {{{
   # Tips of screen for a cluster
   # This setting keeps the host name in which screen is running
   # for a case in the cluster,
@@ -485,8 +498,7 @@ chmod 700 $SCREENDIR
 # }}}
 
 
-## Function to check remaining screen sessions in a cluster{{{
-#function screen_check () {
+#function screen_check () { # Function to check remaining screen sessions in a cluster{{{
 #  touch .hostForScreen
 #  for h in `cat ~/.hostForScreen`;do
 #    echo "checking $h..."
@@ -505,8 +517,7 @@ chmod 700 $SCREENDIR
 #  mv ~/.hostForScreen.tmp ~/.hostForScreen
 ## }}}
 
-## ssh to the host which launched screen previously {{{
-#function sc () {
+#function sc () { # ssh to the host which launched screen previously {{{
 #  touch .hostForScreen
 #  local n=1
 #  if [ $# -ne 0 ];then
