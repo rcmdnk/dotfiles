@@ -280,7 +280,7 @@ function man () { # man wrapper {{{
   unset MANPAGER
   ret=$(command man $*)
   if [ $? -eq 0 ];then
-    echo "$ret"|col -bx|vim -R -c 'set ft=man nomod nolist' -
+    echo "$ret"|col -bx|vim -R -c 'set ft=man' -
   fi
   if [ "$p" != "" ];then
     export PAGER="$p"

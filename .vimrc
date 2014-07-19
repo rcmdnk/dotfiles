@@ -100,7 +100,7 @@ if s:use_neobundle && v:version >= 703
   NeoBundleLazy "Shougo/echodoc", {
         \ "autoload": { "insert": 1 }}
 
- " Completion
+  " Completion
   let g:completion = "Shougo/neocomplcache.vim"
   if has('lua') && (( v:version == 703 && has('patch885')) || (v:version >= 704))
     let g:completion = "Shougo/neocomplete.vim"
@@ -113,9 +113,9 @@ if s:use_neobundle && v:version >= 703
   " look - display lines beginning with a given string, using with neocomplete/neocomplcache
   NeoBundleLazy "ujihisa/neco-look", {"depends": [g:completion]}
 
- " gundo
- NeoBundleLazy "sjl/gundo.vim", {
-       \ "autoload": {"commands": ["GundoToggle"]}}
+  " gundo
+  NeoBundleLazy "sjl/gundo.vim", {
+        \ "autoload": {"commands": ["GundoToggle"]}}
 
   " textobj {{{
   NeoBundle "kana/vim-textobj-user"
@@ -684,6 +684,9 @@ command! SyntaxInfo call s:get_syn_info()
 " Such XML file has too much syntax which make vim drastically slow
 set synmaxcol=1000 "default 3000
 
+" Load Man command even for other file types than man.
+runtime ftplugin/man.vim
+
 " }}} Basic settings
 
 " map (for other than each plugin){{{
@@ -917,7 +920,7 @@ nn / /\v
 
 " Close immediately by q
 autocmd MyAutoGroup FileType help,qf,man,ref nn <buffer> q :q!<CR>
-autocmd MyAutoGroup FileType help,qf,man,ref setlocal nospell
+autocmd MyAutoGroup FileType help,qf,man,ref setlocal nospell ro ts=8 nolist nomod noma
 
 """ insert mode
 
