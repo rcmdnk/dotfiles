@@ -278,9 +278,12 @@ function man () { # man wrapper {{{
   fi
   unset PAGER
   unset MANPAGER
-  ret=$(command man $*)
-  if [ $? -eq 0 ];then
-    echo "$ret"|col -bx|vim -R -c 'set ft=man' -
+  val=$(command man $* 2>&1)
+  ret=$?
+  if [ $ret -eq 0 ];then
+    echo "$val"|col -bx|vim -R -c 'set ft=man' -
+  else
+    echo "$val"
   fi
   if [ "$p" != "" ];then
     export PAGER="$p"
@@ -288,6 +291,7 @@ function man () { # man wrapper {{{
   if [ "$m" != "" ];then
     export MANPAGER="$m"
   fi
+  return $ret
 } # }}}
 
 function change () { # Change words in file by sed{{{

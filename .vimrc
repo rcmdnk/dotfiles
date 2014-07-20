@@ -918,9 +918,9 @@ nn / /\v
 " to check patterns:
 " :h pattern-overview
 
-" Close immediately by q
+" Close immediately by q, set non-modifiable settings
 autocmd MyAutoGroup FileType help,qf,man,ref nn <buffer> q :q!<CR>
-autocmd MyAutoGroup FileType help,qf,man,ref setlocal nospell ro ts=8 nolist nomod noma
+autocmd MyAutoGroup FileType help,qf,man,ref setlocal nospell ts=8 nolist ro nomod noma
 
 """ insert mode
 
@@ -992,11 +992,8 @@ augroup MyColors
   " Colors for search
   au ColorScheme * hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
 
-  " Colors for SpecialKey and Indent
-  "au Colorscheme * :hi SpecialKey term=bold ctermfg=81
-  au Colorscheme * :hi SpecialKey term=bold ctermfg=9
-  au Colorscheme * :hi IndentGuidesEven term=bold ctermfg=9 ctermbg=235
-  au Colorscheme * :hi IndentGuidesOdd term=bold ctermfg=9 ctermbg=239
+  " Colors for SpecialKey
+  au Colorscheme * hi SpecialKey term=bold ctermfg=9
 
   " column
   au ColorScheme * hi ColorColumn ctermbg=233
@@ -1006,9 +1003,13 @@ augroup MyColors
   au ColorScheme * hi link htmlBold WarningMsg
   au ColorScheme * hi link htmlBoldItalic ErrorMsg
 
+  " SpecialKey, needed for cursorline
+  au ColorScheme * hi link MySpecialKey SpecialKey
+  au VimEnter,WinEnter * let w:m_sp = matchadd("MySpecialKey", '\(\t\| \+$\)')
+
   " two-byte space
   au ColorScheme * hi link TwoByteSpace Error
-  au VimEnter,WinEnter * match TwoByteSpace /　/
+  au VimEnter,WinEnter * let w:m_tbs = matchadd("TwoByteSpace", '　')
 augroup END
 
 colorscheme ron
@@ -1421,9 +1422,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-indent-guides"))
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level = 1
   let g:indent_guides_auto_colors = 0
-  " Followings are set in ColorScheme section
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=236
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
+  au VimEnter,Colorscheme * hi IndentGuidesEven term=bold ctermfg=9 ctermbg=235
+  au VimEnter,Colorscheme * hi IndentGuidesOdd term=bold ctermfg=9 ctermbg=239
 endif
 "}}} vim-indent-guides
 
