@@ -399,11 +399,11 @@ if s:use_neobundle && v:version >= 703
 
   " The NERD Tree: File Explorer
   NeoBundleLazy "scrooloose/nerdtree", {
-        \ "autoload" : { "commands": ["NERDTree", "NERDTreeClose", "NERDTreeToggle"] }}
+        \ "autoload" : { "commands": ["NERDTreeToggle"] }}
 
   " Source Explorer
   NeoBundleLazy "wesleyche/SrcExpl", {
-        \ "autoload" : { "commands": ["SrcExpl", "SrcExplClose", "SrcExplToggle"] }}
+        \ "autoload" : { "commands": ["SrcExplToggle"] }}
 
   " For Tags
   NeoBundleLazy "majutsushi/tagbar", {
@@ -503,7 +503,7 @@ if exists ("&colorcolumn")
 endif
 set wrap           " longer line is wrapped
 set linebreak      " wrap at 'breakat'
-"set breakat=\      " break point for linebreak (default " ^I!@*-+;:,./?")
+set breakat=\ ^I!@*-+;:,./?()[]{}<>'"`     " break point for linebreak
 set showbreak=+\   " set showbreak
 if (v:version == 704 && has("patch338")) || v:version >= 705
   set breakindent    " indent even for wrapped lines
