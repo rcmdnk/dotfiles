@@ -1668,6 +1668,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("SrcExpl"))
   " Source Explorer Window Height
   let g:SrcExpl_winHeight = 14
   nn <Leader>E :SrcExplToggle<CR>
+  nn [srce] <Nop>
 endif
 "}}}
 
