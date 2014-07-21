@@ -1665,8 +1665,11 @@ if s:neobundle_enabled && ! empty(neobundle#get("SrcExpl"))
   let g:SrcExpl_RefreshTime = 100
   " is update tags when SrcExpl is opened
   let g:SrcExpl_isUpdateTags = 0
+  " tag update command
+  let g:SrcExpl_updateTagsCmd = 'ctags --sort=foldcase %'
   " Source Explorer Window Height
   let g:SrcExpl_winHeight = 14
+  " Mappings
   nn [srce] <Nop>
   nm <Leader>E [srce]
   nn <silent> [srce]<CR> :SrcExplToggle<CR>
