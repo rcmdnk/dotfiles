@@ -49,6 +49,9 @@ if [[ "$OSTYPE" =~ "darwin" ]];then
   if [ -d ~/Applications/MacVim.app/Contents/MacOS ];then
     export PATH=~/Applications/MacVim.app/Contents/MacOS:$PATH
   fi
+  if [ -d $(brew --prefix)/lib/python2.7/site-packages ];then
+    export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages:$PYTHONPATH
+  fi
 fi
 export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/usr/local/lib64:$HOME/usr/local/lib:$HOME/usr/lib64:$HOME/usr/lib:/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:/lib64:/lib:$LD_LIBRARY_PATH
