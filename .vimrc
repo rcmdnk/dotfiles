@@ -1688,6 +1688,9 @@ endif
 
 " tagbar {{{
 if s:neobundle_enabled && ! empty(neobundle#get("tagbar"))
+  " Width (default 40)
+  let g:tagbar_width = 20
+  " Mappings
   nn <silent> <leader>T :TagbarToggle<CR>
 endif
 "}}} tagbar
