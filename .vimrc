@@ -1668,7 +1668,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("SrcExpl"))
   " Tag update command
   let g:SrcExpl_updateTagsCmd = 'ctags --sort=foldcase %'
   " Update all tags
-  function! UpdateAllTags()
+  function! g:UpdateAllTags()
     let g:SrcExpl_updateTagsCmd = 'ctags --sort=foldcase -R .'
     call g:SrcExpl_UpdateTags()
     let g:SrcExpl_updateTagsCmd = 'ctags --sort=foldcase %'
@@ -1680,7 +1680,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("SrcExpl"))
   nm <Leader>E [srce]
   nn <silent> [srce]<CR> :SrcExplToggle<CR>
   nn <silent> [srce]u :call g:SrcExpl_UpdateTags()<CR>
-  nn <silent> [srce]a :call UpdateAllTags()<CR>
+  nn <silent> [srce]a :call g:UpdateAllTags()<CR>
   nn <silent> [srce]n :call g:SrcExpl_NextDef()<CR>
   nn <silent> [srce]p :call g:SrcExpl_PrevDef()<CR>
 endif
