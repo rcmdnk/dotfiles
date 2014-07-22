@@ -1173,6 +1173,7 @@ endif
 
 " vim-surround {{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-surround"))
+  let g:surround_{char2nr("a")} = "**\r**"
   nm <Leader>{ ysiw{
   nm <Leader>} ysiw}
   nm <Leader>[ ysiw[
@@ -1186,6 +1187,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-surround"))
   nm <Leader>` ysiw`
   nm <Leader>* ysiw*
   nm <Leader><Leader>* ysiw*wysiw*
+  nm <Leader>a ysiwa
   xm { S{
   xm } S}
   xm [ S[
@@ -1199,6 +1201,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-surround"))
   xm ` S`
   xm * S*
   xm <Leader>* S*gvS*
+  xm <Leader>a Sa
 endif
 " }}} vim-surround.vim
 
@@ -1486,6 +1489,7 @@ endif
 
 " syntastic{{{
 if s:neobundle_enabled && ! empty(neobundle#get("syntastic"))
+  " Disable automatic check at file open/close
   let g:syntastic_check_on_open=0
   let g:syntastic_check_on_wq=0
   " C
@@ -1493,8 +1497,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("syntastic"))
   " C++
   let g:syntastic_cpp_check_header = 1
   " Java
-  let syntastic_java_javac_config_file_enabled = 1
-  let syntastic_java_javac_config_file = "$HOME/.syntastic_javac_config"
+  let g:syntastic_java_javac_config_file_enabled = 1
+  let g:syntastic_java_javac_config_file = "$HOME/.syntastic_javac_config"
 endif
 "}}} syntastic
 
@@ -1509,7 +1513,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-rooter"))
   " Stop the automatic change (some files are )
   let g:rooter_manual_only = 1
   " files/directories for the root directory
-  let g:rooter_patterns = ['tags', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', '.svn/']
+  let g:rooter_patterns = ['tags', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', 'Makefile', 'GNUMakefile', 'GNUmakefile', '.svn/']
 endif
 "}}} vim-rooter
 
@@ -1662,7 +1666,7 @@ endif
 " SrcExpl  {{{
 if s:neobundle_enabled && ! empty(neobundle#get("SrcExpl"))
   " Set refresh time in ms
-  let g:SrcExpl_RefreshTime = 100
+  let g:SrcExpl_RefreshTime = 1000
   " Is update tags when SrcExpl is opened
   let g:SrcExpl_isUpdateTags = 0
   " Tag update command
