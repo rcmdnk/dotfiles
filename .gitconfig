@@ -111,7 +111,7 @@
         git tag -d v${tag};\
         git push origin :v${tag};\
       fi;\
-      git tag -a v${tag} -m \"tag ${tag}\";\
+      git tag -a v${tag} -m \"${comment}\";\
       git push --tag;\
     };f"
   tag-new = "!f () {\
@@ -129,7 +129,7 @@
         git tag -d v${tag};\
         git push origin :v${tag};\
       fi;\
-      git tag -a v${tag} -m \"tag ${tag}\";\
+      git tag -a v${tag} -m \"${comment}\";\
       git push --tag;\
     };f"
   cancel = "!f () {\
