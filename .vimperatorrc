@@ -160,6 +160,7 @@ vnoremap <C-g> y<Esc><Esc>P
 " Mappings for Gmail {{{
 ignorekeys add mail\\.google\\.com -except a,f,F,d,g,j,k,R,t,/,\;,\:,<C-n>,<C-p>,<C-o>,<C-i>,<C-f>,<C-b>,<C-u>,<C-d>
 nnoremap -urls='mail\\.google\\.com' r a
+nnoremap -urls='mail\\.google\\.com' goi gi
 " }}}
 
 " color scheme {{{
