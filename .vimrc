@@ -94,6 +94,12 @@ if s:use_neobundle && v:version >= 703
 
   " Source for unite: locate
   NeoBundle "ujihisa/unite-locate"
+
+  " Source for unite: colorscheme
+  NeoBundle "ujihisa/unite-colorscheme"
+
+  " Source for unite: mru
+  NeoBundle "Shougo/neomru.vim"
   "}}}
 
   " Echo
@@ -1137,8 +1143,9 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
   " search (like ack.vim/ag.vim)
   nn <silent> [unite]/ :Unite grep:.<CR>
   " Yank (like yankring/yankstack)
-  let g:unite_source_history_yank_enable = 1
-  nn <silent> [unite]y :Unite history/yank<CR>
+  "let g:unite_source_history_yank_enable = 1
+  "nn <silent> [unite]y :Unite history/yank<CR>
+  nn <silent> [unite]y :Unite yankround<CR>
 
   " sources outside of unite
   nn <silent> [unite]M :Unite mark<CR>
@@ -1255,11 +1262,17 @@ nn <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " yankround {{{
 if s:neobundle_enabled && ! empty(neobundle#get("yankround.vim"))
   nm <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
+  xm <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
   nm <expr> P (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-P)'
+  nmap gp <Plug>(yankround-gp)
+  xmap gp <Plug>(yankround-gp)
+  nmap gP <Plug>(yankround-gP)
   nm <C-p> <Plug>(yankround-prev)
   nm <C-n> <Plug>(yankround-next)
   let g:yankround_max_history = 30
   let g:yankround_dir = '~/.vim/yankround'
+  let g:yankround_max_element_length = 0
+  let g:yankround_use_region_hl = 1
 endif
 " }}}
 
