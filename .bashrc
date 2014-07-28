@@ -149,13 +149,10 @@ export CLMAXHIST=50
 # }}} Environmental variables
 
 # shopt {{{
-shopt -s cdspell # Minor error for cd is corrected
-shopt -s checkhash # Check hash before execute command in hash
-#shopt -s dotglob # Include dot files in the results of pathname expansion
-shopt -s histreedit # Enable to re-edit a failed history
-#shopt -s histverify # Allow further modification of history
+shopt -s checkwinsize # Update the window size after each command
+shopt -s dotglob # Include dot files in the results of pathname expansion
+shopt -s extglob # Include dot files in the results of pathname expansion
 shopt -s no_empty_cmd_completion # Don't complete for an empty line
-shopt -u checkwinsize # Disable to update the window size
 # }}} shopt
 
 # History {{{
