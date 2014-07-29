@@ -502,10 +502,10 @@ set cinoptions=g0  " g0: no indent for private/public/protected
 "set textwidth=0    " a longer line than textwidth will be broken (0: disable)
 autocmd MyAutoGroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
 if exists ("&colorcolumn")
-  "set colorcolumn=80 " put line on 80
+  set colorcolumn=81 " put line on 81
   "set colorcolumn=+1 " put line on textwidth+1
-  " Change background for 81-
-  execute "set colorcolumn=" . join(range(81, 999), ",")
+  " Change background for 81-end of the line
+  "execute "set colorcolumn=" . join(range(81, 999), ",")
 endif
 set wrap           " longer line is wrapped
 set linebreak      " wrap at 'breakat'
@@ -561,7 +561,7 @@ set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:% " Set words for above
 set ruler          " Show the cursor position all the time
 set showcmd        " Display incomplete commands
 set novisualbell   " No visual bell
-set cursorline     " Enable highlight on current line:
+"set cursorline     " Enable highlight on current line:
                    " but make moving cursor slow for heavily highlighted file...
 "set scrolloff=999  " Show cursor at middle
 " (scrolloff is number of lines which should be shown above and below cursor.
@@ -979,9 +979,15 @@ augroup MyColors
   au ColorScheme * hi SpellRare cterm=underline ctermbg=0
 
   " Set all white characters on black background for current line
-  au ColorScheme * hi CursorLine cterm=underline
-  au InsertEnter * hi CursorLine cterm=bold
-  au InsertLeave * hi CursorLine cterm=underline
+  if &cursorline
+    au ColorScheme * hi CursorLine cterm=underline
+    au InsertEnter * hi CursorLine cterm=bold
+    au InsertLeave * hi CursorLine cterm=underline
+
+    " SpecialKey, needed for cursorline
+    au ColorScheme * hi link MySpecialKey SpecialKey
+    au VimEnter,WinEnter * let w:m_sp = matchadd("MySpecialKey", '\(\t\| \+$\)')
+  endif
 
   " colors for completion
   au ColorScheme * hi Pmenu ctermbg=255 ctermfg=0 guifg=#000000 guibg=#999999
@@ -1002,16 +1008,12 @@ augroup MyColors
   au Colorscheme * hi SpecialKey term=bold ctermfg=9
 
   " column
-  au ColorScheme * hi ColorColumn ctermbg=233
+  au ColorScheme * hi ColorColumn ctermbg=239
 
   " html
   au ColorScheme * hi link htmlItalic LineNr
   au ColorScheme * hi link htmlBold WarningMsg
   au ColorScheme * hi link htmlBoldItalic ErrorMsg
-
-  " SpecialKey, needed for cursorline
-  au ColorScheme * hi link MySpecialKey SpecialKey
-  au VimEnter,WinEnter * let w:m_sp = matchadd("MySpecialKey", '\(\t\| \+$\)')
 
   " two-byte space
   au ColorScheme * hi link TwoByteSpace Error
