@@ -1008,7 +1008,7 @@ augroup MyColors
   au Colorscheme * hi SpecialKey term=bold ctermfg=9
 
   " column
-  au ColorScheme * hi ColorColumn ctermbg=239
+  au ColorScheme * hi ColorColumn ctermbg=017
 
   " html
   au ColorScheme * hi link htmlItalic LineNr
