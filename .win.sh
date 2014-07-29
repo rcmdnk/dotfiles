@@ -23,7 +23,7 @@ alias cuninst='cmd /c cuninst'
 
 # unset tmp/temp (=C:\Users\user\AppData\Local\Temp)
 # for Chocolatey (otherwise it complains...)
-unset tmp temp
+#unset tmp temp
 
 #}}}
 
