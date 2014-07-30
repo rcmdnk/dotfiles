@@ -308,6 +308,9 @@ if s:use_neobundle && v:version >= 703
   " Applescript
   NeoBundle "applescript.vim"
 
+  " Powershell
+  NeoBundle "PProvost/vim-ps1"
+
   " Another status line
   NeoBundle "itchyny/lightline.vim"
 

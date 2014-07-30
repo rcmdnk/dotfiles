@@ -16,10 +16,15 @@ export COMSPEC=/cygdrive/c/Windows/System32/cmd.exe
 export DISPLAY=${DISPLAY:=":0.0"}
 
 # Chocolatey
-alias choco='cmd /c choco'
-alias cinst='cmd /c cinst'
-alias cup='cmd /c cup'
-alias cuninst='cmd /c cuninst'
+chocolatey="/cygdrive/c/ProgramData/chocolatey/chocolateyinstall/chocolatey.cmd"
+alias choco="$chocolatey"
+alias cinst="$chocolatey install"
+alias clist="$chocolatey list"
+alias cpack="$chocolatey pack"
+alias cpush="$chocolatey push"
+alias cuninst="$chocolatey uninstall"
+alias cup="$chocolatey update"
+alias cver="$chocolatey version"
 
 # unset tmp/temp (=C:\Users\user\AppData\Local\Temp)
 # for Chocolatey (otherwise it complains...)
