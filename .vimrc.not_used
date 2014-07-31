@@ -907,17 +907,17 @@ nnoremap <Leader>` bi`<Esc>ea`<Esc>
 "" # Register
 "" * Show words in register
 ""     :reg
-"" * Others
-""   *Unnamed (") register is used for all copy/delete
-""   *0 register is only used for copy
-""   *"0p makes it possible to paste what you copied
-""    even after you deleted something
-""   ** register is used for clipboard
-""   */ is used for word used for searching
-""   *"ayy registers current line to register a
-""   *"ap copies a register in normal mode
-""   *<C-R>" : copy unnamed register in insert mode
-""   *<C-R>a : copy a register in insert mode
+"" * O thers
+""   * Unnamed (") register is used for all copy/delete
+""   * 0 register is only used for copy
+""   * "0p makes it possible to paste what you copied
+""     even after you deleted something
+""   * * register is used for clipboard
+""   * / is used for word used for searching
+""   * "ayy registers current line to register a
+""   * "ap copies a register in normal mode
+""   * <C-R>" : copy unnamed register in insert mode
+""   * <C-R>a : copy a register in insert mode
 ""
 "" # buffer
 "" * show buffers
