@@ -425,6 +425,9 @@ if s:use_neobundle && v:version >= 703
   " yank
   NeoBundle "LeafCage/yankround.vim"
 
+  " cloudboard
+  NeoBundle "brookhong/cloudboard.vim"
+
   " over
   NeoBundle "osyo-manga/vim-over"
 
@@ -1278,6 +1281,13 @@ if s:neobundle_enabled && ! empty(neobundle#get("yankround.vim"))
   let g:yankround_dir = '~/.vim/yankround'
   let g:yankround_max_element_length = 0
   let g:yankround_use_region_hl = 1
+endif
+" }}}
+
+" cloudboard {{{
+if s:neobundle_enabled && ! empty(neobundle#get("cloudboard.vim"))
+  nnoremap <Space>p :CBPut
+  vnoremap <Space>y :CBYank
 endif
 " }}}
 
