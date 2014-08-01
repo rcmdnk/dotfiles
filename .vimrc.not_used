@@ -737,6 +737,14 @@ NeoBundleLazy "mattn/googletasks-vim", {
   \ "autoload" : { "commands": ["GoogleTasks"] }}
 " }}}
 
+" cloudboard  {{{
+NeoBundle "brookhong/cloudboard.vim"
+if s:neobundle_enabled && ! empty(neobundle#get("cloudboard.vim"))
+  py import vim
+  nnoremap <Space>p :CBPut 0<CR>
+  vnoremap <Space>y :CBYank 0<CR>
+endif
+" }}}
 
 " }}} Currenlty, not necessary
 

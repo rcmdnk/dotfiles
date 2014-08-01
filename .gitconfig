@@ -120,7 +120,7 @@
       ((tag_minor++));\
       tag=${tag%.*}.${tag_minor};\
       if [ $# -eq 0 ];then \
-        comment=$(git log -1|grep -v -e \"^commit\"  -e \"^Author\" -e \"^Date\" -e \"^$\"|sed "s/^ *//");\
+        comment=$(git log -1|grep -v -e \"^commit\"  -e \"^Author\" -e \"^Date\" -e \"^$\"|sed \"s/^ *//\");\
       else \
         comment=\"$*\";\
       fi;\
