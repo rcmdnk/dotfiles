@@ -163,6 +163,10 @@ nnoremap -urls='mail\\.google\\.com' r a
 nnoremap -urls='mail\\.google\\.com' goi gi
 " }}}
 
+" Mappings for Other sites {{{
+ignorekeys add http://inishie-dungeon.com -except <C-n>,<C-p>
+" }}}
+
 " color scheme {{{
 
 hi Hint font-family: monospace; font-size: 15px; font-weight: normal; color: lightyellow; background-color: black; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 0px 5px 0px 5px; text-transform: uppercase;
