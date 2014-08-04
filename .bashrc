@@ -240,6 +240,7 @@ alias bc="bc -l"
 alias ssh="ssh -Y"
 alias svnHeadDiff="svn diff --revision=HEAD"
 alias svnd="svn diff | vim -"
+alias svn_diff_cmd="f(){ vimdiff $6 $7;};f"
 #alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
 alias vim="vim -X" # no X
 alias vi="vim" # vi->vim
