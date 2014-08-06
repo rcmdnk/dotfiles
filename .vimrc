@@ -249,7 +249,6 @@ if s:use_neobundle && v:version >= 703
   "" keyvalue: dak, dik,  dav, div
   "NeoBundle "vimtaku/vim-textobj-keyvalue"
 
-
   " wildfire
   NeoBundle "gcmt/wildfire.vim"
   "}}}
@@ -318,7 +317,8 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "nathanaelkane/vim-indent-guides"
 
   " Sub mode
-  NeoBundle "kana/vim-submode"
+  NeoBundleLazy "kana/vim-submode", {
+        \ "autoload": { "commands": ["submode"]}}
 
   " Open browser
   NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
@@ -330,7 +330,7 @@ if s:use_neobundle && v:version >= 703
         \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
 
   " Easymotion
-  NeoBundle "Lokaltog/vim-easymotion"
+  NeoBundleLazy "Lokaltog/vim-easymotion"
 
   " virtual env
   NeoBundle "jmcantrell/vim-virtualenv"
@@ -379,7 +379,8 @@ if s:use_neobundle && v:version >= 703
         \  "autoload" : {"commands": ["Ref"] }}
 
   " LanguageTool
-  NeoBundle "vim-scripts/LanguageTool"
+  NeoBundleLazy "vim-scripts/LanguageTool", {
+        \  "autoload" : {"commands": ["LanguageToolCheck"] }}
 
   " Excite Translate
   NeoBundleLazy "mattn/excitetranslate-vim", {
@@ -428,6 +429,9 @@ if s:use_neobundle && v:version >= 703
   " over
   NeoBundle "osyo-manga/vim-over"
 
+  " vim-multiple-cursors, like Sublime Text's multiple selection
+  NeoBundle "terryma/vim-multiple-cursors"
+
   " switch
   NeoBundle "AndrewRadev/switch.vim"
 
@@ -450,7 +454,8 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "t9md/vim-quickhl"
 
   " Calendar/Tasks
-  NeoBundle "itchyny/calendar.vim"
+  NeoBundleLazy "itchyny/calendar.vim", {
+        \ "autoload" : {"commands": ["Calendar"] }}
 
   " Especially for CSV editing
   NeoBundleLazy "rbtnn/rabbit-ui.vim",{
@@ -1065,8 +1070,8 @@ if has("persistent_undo")
   set undoreload=1000
 endif
 set undolevels=1000
-nn u g-
-nn <C-r> g+
+"nn u g-
+"nn <C-r> g+
 " }}} undo
 
 " gundo {{{
@@ -1484,7 +1489,36 @@ endif
 
 " LanguageTool{{{
 if s:neobundle_enabled && ! empty(neobundle#get("LanguageTool"))
-  let g:languagetool_jar="$HOME/.languagetool/LanguageTool-2.1/languagetool-commandline.jar"
+  " jar file settings
+  let s:languagetool_version="20140804"
+  let s:languagetool_zip="LanguageTool-".20140804."-snapshot.zip"
+  let s:languagetool_download=
+        \"http://www.languagetool.org/download/snapshots/".s:languagetool_zip
+  let s:languagetool_parent_dir=g:vimdir."/languagetool/"
+  let s:languagetool_dir=s:languagetool_parent_dir."/LanguageTool-2.7-SNAPSHOT/"
+  let s:languagetool_v_file=s:languagetool_dir."/version_in_vim"
+
+  let g:languagetool_jar=s:languagetool_dir."/languagetool-commandline.jar"
+
+  " Check/Prepare LanguageTool
+  let s:languagetool_v_test=system("cat " . s:languagetool_v_file)
+  if s:languagetool_v_test != s:languagetool_version
+    echo s:languagetool_v_test
+    echo "Preparing LanguageTool..."
+    call system("rm -rf " . s:languagetool_dir)
+    call system("rm -rf " . s:languagetool_dir . "/*.zip*")
+    call system("mkdir -p " . s:languagetool_parent_dir)
+    execute "lcd" s:languagetool_parent_dir
+    call system("wget " . s:languagetool_download)
+    call system("unzip " . s:languagetool_zip . " >/dev/null")
+    call system("rm -f " . s:languagetool_zip)
+    call system("printf " . s:languagetool_version . " > " . s:languagetool_v_file)
+    lcd -
+  endif
+
+  " Other settings
+  " If lang is not set, spellang value is used (if it is not set neithr, use en-US).
+  "let g:languagetool_lang="en-US"
 endif
 "}}} LanguageTool
 
@@ -1777,6 +1811,13 @@ if s:neobundle_enabled && ! empty(neobundle#get("switch.vim"))
   nn - :Switch<cr>
 endif
 "}}} switch
+
+" linediff {{{
+if s:neobundle_enabled && ! empty(neobundle#get("linediff.vim"))
+  let g:linediff_first_buffer_command  = 'leftabove new'
+  let g:linediff_second_buffer_command = 'rightbelow vertical new'
+endif
+"}}} linediff
 
 " vim-expand-region {{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-expand-region"))
