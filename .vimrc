@@ -273,6 +273,12 @@ if s:use_neobundle && v:version >= 703
   " c++ syntax with c++11 support
   NeoBundle "vim-jp/cpp-vim"
 
+  " c++ completion
+  NeoBundle "osyo-manga/vim-marching"
+
+  " c++ formatting
+  NeoBundle "rhysd/vim-clang-format"
+
   " CSS3 (Sass)
   NeoBundle "hail2u/vim-css3-syntax.git"
 
@@ -1221,6 +1227,32 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-surround"))
   xm <Leader>a Sa
 endif
 " }}} vim-surround.vim
+
+" vim-marching {{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-marching"))
+  let g:marching_enable_neocomplete = 1
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+  endif
+  let g:neocomplete#force_omni_input_patterns.cpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+endif
+" }}} vim-marching
+
+" vim-clang-format {{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-clang-format"))
+  let g:clang_format#style_options = {
+              \ "AccessModifierOffset" : -4,
+              \ "AllowShortIfStatementsOnASingleLine" : "true",
+              \ "AlwaysBreakTemplateDeclarations" : "true",
+              \ "Standard" : "C++11"}
+  " map to <Leader>cf in C++ code
+  autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+  autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+  " if you install vim-operator-user
+  autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+endif
+" }}} vim-clang-format
 
 " yank share with wviminfo/rviminfo {{{
 "
