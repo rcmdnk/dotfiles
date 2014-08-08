@@ -184,7 +184,6 @@
         fi;\
         echo $ret;\
       fi;\
-      git gc >& /dev/null;\
     };f"
 
 [core]
