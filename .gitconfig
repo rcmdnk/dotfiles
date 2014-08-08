@@ -169,6 +169,14 @@
         update=1;\
       fi;\
       ret=$(git pull --rebase);\
+      if [ \"$(echo $ret|grep \"Already up-to-date\")\" = \"\" ] &&\
+         [ \"$(echo $ret|grep \"is up to date\")\" = \"\" ];then \
+        if [ $update -eq 0 ];then \
+          pwd;\
+        fi;\
+        echo $ret;\
+        update=1;\
+      fi;\
       ret=$(git push 2>&1);\
       if ! echo $ret|grep -q -e 'Everything up-to-date' -e 'Permission';then \
         if [ $update -eq 0 ];then \
@@ -176,7 +184,7 @@
         fi;\
         echo $ret;\
       fi;\
-      git gc >& /dev/null;\
+      git gc > /dev/null 2>&1;\
     };f"
 
 [core]
