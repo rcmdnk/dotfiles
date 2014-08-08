@@ -168,6 +168,7 @@
         echo $ret;\
         update=1;\
       fi;\
+      ret=$(git pull --rebase);\
     };f"
 
 [core]
