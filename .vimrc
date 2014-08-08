@@ -47,6 +47,7 @@ if s:use_neobundle && v:version >= 703
       call system("git clone git://github.com/Shougo/neobundle.vim "
             \ .  g:neobundledir)
     endif
+    let g:neobundle#types#git#default_protocol = 'git'
     let s:neobundle_enabled=1
   endif
 
