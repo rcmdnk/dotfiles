@@ -223,6 +223,7 @@ fi
 # }}} For ls color
 
 # Alias, Function {{{
+
 alias l='/bin/ls'
 if [[ "$OSTYPE" =~ "linux" ]] || [[ "$OSTYPE" =~ "cygwin" ]];then
   alias ls='ls --color=auto --show-control-char'
@@ -328,7 +329,7 @@ function del_tail () { # Delete trailing white space {{{
 }
 # }}}
 
-# File compression/decompression {{{
+# targz/tarbz2/press: File compression/decompression {{{
 alias targz="tar xzf"
 alias tarbz2="tar jxf"
 
@@ -388,7 +389,7 @@ function path () { # path: function to get full path {{{
   echo "$(cd "$(dirname $1)";pwd -P)/$(basename $1)"
 } # }}}
 
-## Directory save/move in different terminal {{{
+## sd/cl: Directory save/move in different terminal {{{
 source_file ~/usr/etc/sd_cl
 # }}}
 
@@ -406,6 +407,23 @@ function col256 () { # Show 256 colors{{{
 function calc () { # Function to calculate with perl (for decimal, etc...) {{{
   local eq=$(echo $@|sed "s/\^/**/g")
   echo -n '$xx ='$eq';print "$xx \n"'|perl
+} # }}}
+
+function linkcheck () { # Function to find the original file for the symbolic link
+  if [ "$#" -ne 1 ];then
+    echo "Usage: linkcheck file/directory" >2
+    return 1
+  fi
+
+  link="$1"
+  while :;do
+    if [ -L "$link" ];then
+      link=$(ls -l $link|awk '{split($0,tmp," -> ")}{print tmp[2]}')
+    else
+      echo "$link"
+      return 0
+    fi
+  done
 } # }}}
 
 # For GNU-BSD compatibility {{{
@@ -436,7 +454,7 @@ if ! cp --version 2>/dev/null |grep -q GNU;then
 fi
 # }}}
 
-# Use common function in Mac/Unix for sed -i... w/o backup {{{
+# sedi: Use common function in Mac/Unix for sed -i... w/o backup {{{
 # Unix uses GNU sed
 # Mac uses BSD sed
 # BSD sed requires suffix for backup file when "-i" option is given
@@ -449,7 +467,7 @@ else
 fi
 # }}}
 
-# Revert lines in the file/std input
+# tac (use tail -r at BSD): Revert lines in the file/std input {{{
 # Note: There is "rev" command which
 #       reversing the order of characters in every line.
 # Set reverse command as tac for BSD
@@ -458,6 +476,8 @@ if ! type tac >& /dev/null && \
   alias tac='tail -r'
 fi
 # }}}
+
+# }}} For GNU-BSD compatibility
 
 # }}} Alias, Function
 

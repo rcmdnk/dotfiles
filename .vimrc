@@ -3,8 +3,9 @@
 " Managed at: https://github.com/rcmdnk/dotfiles/blob/master/.vimrc
 " Todo/Obsolete settings are in https://github.com/rcmdnk/dotfiles/blob/master/.vimrc.not_used
 
-" Flags
+" Flags {{{
 let s:use_neobundle=1
+" }}}
 
 " vi compatibility {{{
 if !&compatible
@@ -616,8 +617,8 @@ if v:version >= 703
   set foldmarker={{{,}}} "default
   autocmd MyAutoGroup FileType py set foldmethod=syntax
   autocmd MyAutoGroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
-  set foldlevel=0
   set foldnestmax=1
+  set foldlevel=100 "open at first
 endif
 
 " Filetype
@@ -1523,12 +1524,13 @@ endif
 " LanguageTool{{{
 if s:neobundle_enabled && ! empty(neobundle#get("LanguageTool"))
   " jar file settings
-  let s:languagetool_version="20140804"
-  let s:languagetool_zip="LanguageTool-".20140804."-snapshot.zip"
+  let s:languagetool_version="2.6"
+  let s:languagetool_zip="LanguageTool-".s:languagetool_version.".zip"
   let s:languagetool_download=
-        \"http://www.languagetool.org/download/snapshots/".s:languagetool_zip
+        \"http://www.languagetool.org/download/".s:languagetool_zip
   let s:languagetool_parent_dir=g:vimdir."/languagetool/"
-  let s:languagetool_dir=s:languagetool_parent_dir."/LanguageTool-2.7-SNAPSHOT/"
+  let s:languagetool_dir=s:languagetool_parent_dir."/LanguageTool-"
+        \.s:languagetool_version."/"
   let s:languagetool_v_file=s:languagetool_dir."/version_in_vim"
 
   let g:languagetool_jar=s:languagetool_dir."/languagetool-commandline.jar"
@@ -1538,12 +1540,14 @@ if s:neobundle_enabled && ! empty(neobundle#get("LanguageTool"))
   if s:languagetool_v_test != s:languagetool_version
     echo s:languagetool_v_test
     echo "Preparing LanguageTool..."
+    echo "getting " . s:languagetool_download . "..."
     call system("rm -rf " . s:languagetool_dir)
     call system("rm -rf " . s:languagetool_dir . "/*.zip*")
     call system("mkdir -p " . s:languagetool_parent_dir)
     execute "lcd" s:languagetool_parent_dir
     call system("wget " . s:languagetool_download)
-    call system("unzip " . s:languagetool_zip . " >/dev/null")
+    echo "done wget " . s:languagetool_download
+    call system("unzip " . s:languagetool_zip )
     call system("rm -f " . s:languagetool_zip)
     call system("printf " . s:languagetool_version . " > " . s:languagetool_v_file)
     lcd -
@@ -1616,7 +1620,7 @@ endif
 
 " applescript{{{
 if s:neobundle_enabled && ! empty(neobundle#get("applescript.vim"))
-  autocmd MyAutoGroup bufnewfile,bufread *.scpt,*.applescript :setl filetype=applescript
+  autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setl filetype=applescript
   "autocmd MyAutoGroup FileType applescript :ino <buffer> <S-CR>  ¬<CR>
 endif
 "}}} applescript
@@ -1926,5 +1930,3 @@ endif
 
 " vim: foldmethod=marker
 " vim: foldmarker={{{,}}}
-" vim: foldlevel=0
-
