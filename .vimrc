@@ -306,7 +306,6 @@ if s:use_neobundle && v:version >= 703
 
   " Jedi for python
   NeoBundleLazy "davidhalter/jedi-vim", {
-      \ "rev" : "dev",
       \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
 
   " Java
@@ -592,7 +591,7 @@ set showmatch      " Show maching one for inserted bracket
 set spell          " Spell check highlight
 "set nospell        " No spell check
 
-if (v:version == 704 && has("patch38")) || v:version >= 705
+if (v:version == 704 && has("patch88")) || v:version >= 705
   set spelllang+=cjk " Ignore double-width characters
 endif
 
@@ -1459,14 +1458,23 @@ endif
 " jedi-vim{{{
 if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#auto_initialization = 1
-  let g:jedi#goto_assignments_command = "<Leader>g"
-  let g:jedi#goto_definition_command = "<Leader>d"
-  let g:jedi#documentation_command = "K"
-  let g:jedi#completions_command = "<C-N>"
-  let g:jedi#popup_select_first = 1
-  let g:jedi#popup_on_dot = 0
-  autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
   let g:jedi#auto_vim_configuration = 1
+
+  nn [jedi] <Nop>
+  xn [jedi] <Nop>
+  nm <Leader>j [jedi]
+  xm <Leader>j [jedi]
+
+  "let g:jedi#completions_command = "<C-N>"
+  let g:jedi#goto_assignments_command = "[jedi]g"
+  let g:jedi#goto_definitions_command = "[jedi]d"
+  let g:jedi#documentation_command = "[jedi]K"
+  let g:jedi#rename_command = "[jedi]r"
+  let g:jedi#usages_command = "[jedi]n"
+  let g:jedi#popup_select_first = 0
+  let g:jedi#popup_on_dot = 0
+  
+  "autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
   "let g:jedi#auto_vim_configuration = 0
   "if ! empty(neobundle#get("neocomplete.vim"))
   "  if !exists('g:neocomplete#force_omni_input_patterns')
