@@ -6,6 +6,7 @@
   st = status
   sb = show-branch
   sh = show
+  su = stash -u # stash also untracked
   br = branch
   ba = branch -a
   co = checkout
@@ -14,21 +15,30 @@
   ci = commit -a
   ad = add -A
   rbm = rebase master
-  d = difftool --tool=vimdiff --no-prompt
+  mh = rebase -i HEAD~10 # merge head
   dns = diff --name-status
   dm = diff master
   dw = diff --color-words
   dc = diff --cached
   ds = diff --staged
+  d = difftool --tool=vimdiff --no-prompt
   d1 = diff HEAD~
   d2 = diff HEAD~~
   d3 = diff HEAD~~~
   d4 = diff HEAD~~~~
   d5 = diff HEAD~~~~~
   d10 = diff HEAD~~~~~~~~~~
+  d = "!f () {\
+    if expr \"$1\" : \"[0-9]*\" >/dev/null;then \
+      git diff HEAD~\"${@}\";\
+    else \
+      git difftool --tool=vimdiff --no-prompt $*;\
+    fi;\
+  };f"
   ls = ls-files
   log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
   log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
+  log-tag = log --decorate=full
   sm = submodule
   echo-f = "!f () { echo 0: ${0};echo 1: ${1};echo 2: ${2};};f"
   echo-sh = "!sh -c 'echo 0: ${0};echo 1: ${1};echo 2: ${2}'"
@@ -100,37 +110,47 @@
   pull-dry-run-s = "!git fetch origin $(git config branch.$(git rev-parse --abbrev-ref HEAD).merge);\
     git diff --stat --summary HEAD...FETCH_HEAD"
   tag-renew = "!f () {\
-      tag=$(git  tag |sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
-      if [ $# -eq 0 ];then \
-        comment=$(git log -1);\
+      if [ \"$1\" = \"-v\" ];then \
+        tag=\"$2\";\
+        shift;shift;\
       else \
-        comment=\"$*\"\n\nThe last commit:\n$(git log -1);\
+        tag=v$(git tag|sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
       fi;\
-      tagcheck=$(git tag|grep v${tag});\
+      if [ $# -ne 0 ];then \
+        comment=\"$*\";\
+      else \
+        comment=\"$(git log -1|tail -n +5)\";\
+      fi;\
+      tagcheck=$(git tag|grep ${tag});\
       if [ \"$tagcheck\" != \"\" ];then \
-        git tag -d v${tag};\
-        git push origin :v${tag};\
+        git tag -d ${tag};\
+        git push origin :${tag};\
       fi;\
-      git tag -a v${tag} -m \"${comment}\";\
+      git tag -a ${tag} -m \"${comment}\";\
       git push --tag;\
     };f"
   tag-new = "!f () {\
-      tag=$(git  tag |sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
-      tag_minor=${tag##*.};\
-      ((tag_minor++));\
-      tag=${tag%.*}.${tag_minor};\
-      if [ $# -eq 0 ];then \
-        comment=$(git log -1);\
+      if [ \"$1\" = \"-v\" ];then \
+        tag=\"$2\";\
+        shift;shift;\
       else \
-        comment=\"$*\"\n\nThe last commit:\n$(git log -1);\
-        comment=$(git log -1)\n\"$*\";\
+        tag=v$(git tag|sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
+        tag_minor=${tag##*.};\
+        ((tag_minor++));\
+        tag=${tag%.*}.${tag_minor};\
       fi;\
-      tagcheck=$(git tag|grep v${tag});\
+      if [ $# -ne 0 ];then \
+        comment=\"$*\";\
+      else \
+        comment=\"$(git log -1|tail -n +5)\";\
+      fi;\
+      tagcheck=$(git tag|grep ${tag});\
       if [ \"$tagcheck\" != \"\" ];then \
-        git tag -d v${tag};\
-        git push origin :v${tag};\
+        echo \"tag: ${tag} exists\"\
+        echo \"Please check tag or use tag-renew.\"\
+        return 1;\
       fi;\
-      git tag -a v${tag} -m \"${comment}\";\
+      git tag -a ${tag} -m \"${comment}\";\
       git push --tag;\
     };f"
   cancel = "!f () {\
@@ -203,3 +223,5 @@
 [merge]
   tool = vimdiff
   keepBackup = false
+[fetch]
+	prune = true

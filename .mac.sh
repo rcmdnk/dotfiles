@@ -67,3 +67,7 @@ brew_completion=`brew --prefix 2>/dev/null`/etc/bash_completion
 if [ $? -eq 0 ] && [ -f "$brew_completion" ];then
   source $brew_completion
 fi
+
+if type brew >& /dev/null && type brew-file >& /dev/null && type brew-wrap >& /dev/null;then
+  alias brew="brew-wrap"
+fi
