@@ -513,7 +513,6 @@ set softtabstop=0  " disable softtabstop function
 set autoindent     " autoindent
 set cinoptions=g0  " g0: no indent for private/public/protected
 
-
 "set textwidth=0    " a longer line than textwidth will be broken (0: disable)
 autocmd MyAutoGroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
 if exists ("&colorcolumn")
@@ -523,14 +522,18 @@ if exists ("&colorcolumn")
   "execute "set colorcolumn=" . join(range(81, 999), ",")
 endif
 set wrap           " longer line is wrapped
-set linebreak      " wrap at 'breakat'
-set breakat=\ ^I!@*-+;:,./?()[]{}<>'"`     " break point for linebreak
-set showbreak=+\   " set showbreak
+"set linebreak      " wrap at 'breakat'
+set nolinebreak
+"set breakat=\ ^I!@*-+;:,./?()[]{}<>'"`     " break point for linebreak
+set breakat=
+"set showbreak=+\   " set showbreak
+set showbreak=
 if (v:version == 704 && has("patch338")) || v:version >= 705
-  set breakindent    " indent even for wrapped lines
-  " breakindent option (autocmd is necessary when new file is opened in Vim)
-  " necessary even for default(min:20,shift:0)
-  autocmd MyAutoGroup BufEnter * set breakindentopt=min:20,shift:0
+  set nobreakindent
+  "set breakindent    " indent even for wrapped lines
+  "" breakindent option (autocmd is necessary when new file is opened in Vim)
+  "" necessary even for default(min:20,shift:0)
+  "autocmd MyAutoGroup BufEnter * set breakindentopt=min:20,shift:0
 endif
 
 set expandtab      " do :retab -> tab->space
