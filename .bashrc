@@ -262,6 +262,12 @@ if type hub >& /dev/null;then
   eval "$(hub alias -s)" # Use GitHub wrapper for git
 fi
 
+# pseudo tree
+if ! type tree >& /dev/null;then
+  alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'"
+fi
+
+
 function mynoglob_helper () { # noglob helpers {{{
   "$@"
   case $shopts in
