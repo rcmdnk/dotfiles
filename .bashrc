@@ -641,6 +641,11 @@ fi # }}}
 
 # }}} For screen
 
+# {{{ For Travis CI
+# added by travis gem
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+# }}}
+
 # Setup for each environment {{{
 # Note: such PATH setting should be placed
 #       at above Local path settings (before alias/function definitions)
