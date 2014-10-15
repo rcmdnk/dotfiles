@@ -574,7 +574,7 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 
 # functions/settings only for screen sessions {{{
 
-if [ -n "$STY" ]; then # {{{
+if [ -n "$STY" ] || [[ "$TERM" =~ "screen" ]]; then # {{{
 
   # Overwrite path to push to the clipboard list{{{
   function path () {
