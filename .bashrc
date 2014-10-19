@@ -480,9 +480,20 @@ fi
 # Note: There is "rev" command which
 #       reversing the order of characters in every line.
 # Set reverse command as tac for BSD
-if ! type tac >& /dev/null && \
-   ! tail --version 2>/dev/null|grep -q GNU;then
-  alias tac='tail -r'
+if ! type tac >& /dev/null;then
+  if ! tail --version 2>/dev/null|grep -q GNU;then
+    alias tac='tail -r'
+  else
+    function tac () {
+      if [ ! -f "$1" ];then
+        echo "usage: tac <file>"
+        return 1
+      fi
+      sed -e '1!G;h;$!d' "$1"|while read line;do
+        echo $line
+      done
+    }
+  fi
 fi
 # }}}
 
