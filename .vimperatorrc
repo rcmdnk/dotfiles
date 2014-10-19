@@ -43,7 +43,8 @@ set nextpattern=^¥次,^¥続き,¥bnext,^>$,^(>>¥|??)$,^(>¥|??),(>¥|??),¥bm
 set previouspattern=^¥前,^¥戻,¥bprev|previous¥b,^<$,^(<<¥|??)$,^(<¥|??),(<¥|??)$
 
 " for hint
-set hintchars=ifjklasdweuocvbnm
+"set hintchars=ifjklasdweuocvbnm
+set hintchars=hjklasdfgyuiopqwertnmzxcvb
 
 " style
 "style chrome://* #statusbar-display:not([type="overLink"]) {display: none !important;}
