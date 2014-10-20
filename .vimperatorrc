@@ -59,7 +59,7 @@ set! extensions.adblockplus.sidebar_key="Accel Shift Q"
 " qmarks {{{
 " google mail/reader/task/calendar
 silent qmark m https://mail.google.com
-silent qmark r http://www.google.co.jp/reader/view/#stream/
+"silent qmark r http://www.google.co.jp/reader/view/#stream/
 silent qmark t https://mail.google.com/tasks/canvas
 silent qmark c https://www.google.com/calendar
 " google translator en/ja/language tool
@@ -67,7 +67,7 @@ silent qmark e javascript:var%20t=((window.getSelection&&window.getSelection())%
 silent qmark j javascript:var%20t=((window.getSelection&&window.getSelection())%7C%7C(document.getSelection&&document.getSelection())%7C%7C(document.selection&&document.selection.createRange&&document.selection.createRange().text));var%20e=(document.charset%7C%7Cdocument.characterSet);if(t!='')%7Blocation.href='http://translate.google.com/?text='+t+'&hl=ja&langpair=auto%7Cja&tbb=1&ie='+e;%7Delse%7Blocation.href='http://translate.google.com/translate?u='+encodeURIComponent(location.href)+'&hl=ja&langpair=auto%7Cja&tbb=1&ie='+e;%7D;
 silent qmark l http://www.google.com/language_tools
 " bit.ty
-silent qmark b javascript:(function()%20%7B%20var%20s%20=%20document.createElement(%22script%22);%20s.setAttribute(%22id%22,%20%22bitmark_js%22);%20s.setAttribute(%22type%22,%20%22text/javascript%22);%20s.setAttribute(%22src%22,%20%22//bitly.com/a/bitmarklet.js%22);%20(top.document.body%20%7C%7C%20top.document.getElementsByTagName(%22head%22)[0]).appendChild(s);%20%7D)();
+"silent qmark b javascript:(function()%20%7B%20var%20s%20=%20document.createElement(%22script%22);%20s.setAttribute(%22id%22,%20%22bitmark_js%22);%20s.setAttribute(%22type%22,%20%22text/javascript%22);%20s.setAttribute(%22src%22,%20%22//bitly.com/a/bitmarklet.js%22);%20(top.document.body%20%7C%7C%20top.document.getElementsByTagName(%22head%22)[0]).appendChild(s);%20%7D)();
 silent qmark f http://cloud.feedly.com/#latest
 silent qmark p http://getpocket.com/a/queue/
 " pocket
