@@ -50,11 +50,16 @@
 # ssh agent
 if [ "$SSH_AUTH_SOCK" = "" ];then
   #export SSH_AUTH_SOCK=`/usr/sbin/lsof|grep ssh-agent|grep Listeners|awk '{print $8}'`
-  sock_tmp=(`ls -t /tmp/launch*/Listeners`)
+  sock_tmp=(`ls -t /tmp/com.apple.launchd.*/Listeners 2>/dev/null`)
+  if [ ${#sock_tmp[@]} -eq 0 ];then
+    # For Mavericks or older OS X
+    sock_tmp=(`ls -t /tmp/launchd-*/Listeners 2>/dev/null`)
+  fi
   for s in ${sock_tmp[@]};do
     export SSH_AUTH_SOCK=$s
     ssh-add -l >& /dev/null
-    if [ $? -eq 0 ];then
+    ret=$?
+    if [ $ret -eq 0 -o $ret -eq 1 ];then
       break
     fi
     unset SSH_AUTH_SOCK
