@@ -345,6 +345,13 @@ if s:use_neobundle && v:version >= 703
   " Syntax checking
   NeoBundle "scrooloose/syntastic"
 
+  "" Syntax checking
+  "NeoBundle "thinca/vim-quickrun"
+  "NeoBundle "dannyob/quickfixstatus"
+  "NeoBundle "osyo-manga/shabadou.vim"
+  "NeoBundle "jceb/vim-hier"
+  "NeoBundle "osyo-manga/vim-watchdogs"
+
   " Change current directory to root, for git/svn, etc...
   NeoBundle "airblade/vim-rooter"
 
