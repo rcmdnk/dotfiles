@@ -304,9 +304,9 @@ if s:use_neobundle && v:version >= 703
   " Python syntax
   NeoBundle "mitsuhiko/vim-python-combined"
 
-  " Jedi for python
-  NeoBundleLazy "davidhalter/jedi-vim", {
-      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
+  "" Jedi for python
+  "NeoBundleLazy "davidhalter/jedi-vim", {
+  "    \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
 
   " Java
   NeoBundle "koron/java-helper-vim"
