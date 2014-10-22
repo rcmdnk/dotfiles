@@ -52,7 +52,12 @@ if s:use_neobundle && v:version >= 703
     let s:neobundle_enabled=1
   endif
 
-  call neobundle#rc(g:bundledir)
+  "call neobundle#rc(g:bundledir)
+  ""[neobundle] neobundle#rc() is deprecated function.
+  ""[neobundle] It will be removed in the next version.
+  ""[neobundle] Please use neobundle#begin()/neobundle#end() instead.
+  ""Press ENTER or type command to continue
+  call neobundle#begin(g:bundledir)
 
   """"plugins"""""
 
@@ -481,15 +486,12 @@ if s:use_neobundle && v:version >= 703
   NeoBundleLocal ~/.vim/local/bundle
   """"plugins end"""""
 
+  " End of NeoBundle
+  call neobundle#end()
+
   " Installation check.
   NeoBundleCheck
 endif
-
-" Enable plugin, indent again
-filetype plugin indent on
-
-" Switch syntax highlighting on, when the terminal has colors
-syntax on
 " }}} neobundle
 
 " Basic settings {{{
@@ -498,6 +500,12 @@ syntax on
 augroup MyAutoGroup
   autocmd!
 augroup END
+
+" Enable plugin, indent again
+filetype plugin indent on
+
+" Switch syntax highlighting on, when the terminal has colors
+syntax on
 
 " Switch on highlighting the last used search pattern.
 set hlsearch
