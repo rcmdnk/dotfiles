@@ -30,9 +30,6 @@ endif
 " :NeoBundleInstall" install plugins below
 " :NeoBundleClean  " remove plugins removed from below
 
-" NeoBundle configuration ref:
-" http://qiita.com/rbtnn/items/39d9ba817329886e626b
-
 let s:neobundle_enabled=0
 if s:use_neobundle && v:version >= 703
   " set path
@@ -285,7 +282,10 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "hail2u/vim-css3-syntax.git"
 
   " Markdown syntax
+  NeoBundle "junegunn/vader.vim"
+  NeoBundle "godlygeek/tabular"
   NeoBundle "rcmdnk/vim-markdown"
+  "NeoBundle "plasticboy/vim-markdown"
 
   " Markdown preview
   if ( has("win32unix") || has ("win64unix") ||
@@ -1638,6 +1638,12 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-signify"))
   nn <Leader>gh :SignifyToggleHighlight<CR>
 endif
 "}}} signify
+
+" markdown {{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown"))
+  let g:vim_markdown_frontmatter=1
+endif
+" }}} vim-markdown
 
 " applescript{{{
 if s:neobundle_enabled && ! empty(neobundle#get("applescript.vim"))
