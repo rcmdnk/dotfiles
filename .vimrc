@@ -30,9 +30,6 @@ endif
 " :NeoBundleInstall" install plugins below
 " :NeoBundleClean  " remove plugins removed from below
 
-" NeoBundle configuration ref:
-" http://qiita.com/rbtnn/items/39d9ba817329886e626b
-
 let s:neobundle_enabled=0
 if s:use_neobundle && v:version >= 703
   " set path
@@ -52,11 +49,6 @@ if s:use_neobundle && v:version >= 703
     let s:neobundle_enabled=1
   endif
 
-  "call neobundle#rc(g:bundledir)
-  ""[neobundle] neobundle#rc() is deprecated function.
-  ""[neobundle] It will be removed in the next version.
-  ""[neobundle] Please use neobundle#begin()/neobundle#end() instead.
-  ""Press ENTER or type command to continue
   call neobundle#begin(g:bundledir)
 
   """"plugins"""""
