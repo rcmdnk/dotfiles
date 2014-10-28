@@ -284,6 +284,7 @@ if s:use_neobundle && v:version >= 703
   " Markdown syntax
   NeoBundle "junegunn/vader.vim"
   NeoBundle "godlygeek/tabular"
+  NeoBundle "joker1007/vim-markdown-quote-syntax"
   NeoBundle "rcmdnk/vim-markdown"
   "NeoBundle "plasticboy/vim-markdown"
 
