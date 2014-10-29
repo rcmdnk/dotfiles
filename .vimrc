@@ -1640,9 +1640,17 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-signify"))
 endif
 "}}} signify
 
+" vim-markdown-quote-syntax {{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown-quote-syntax"))
+  let g:markdown_quote_syntax_on_filetypes = ['text']
+endif
+" }}} vim-markdown-quote-syntax
+
 " markdown {{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown"))
+  let g:vim_markdown_liquid=1
   let g:vim_markdown_frontmatter=1
+  let g:vim_markdown_math=1
 endif
 " }}} vim-markdown
 
