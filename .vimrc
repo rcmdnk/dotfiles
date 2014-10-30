@@ -284,7 +284,8 @@ if s:use_neobundle && v:version >= 703
   " Markdown syntax
   NeoBundle "junegunn/vader.vim"
   NeoBundle "godlygeek/tabular"
-  NeoBundle "joker1007/vim-markdown-quote-syntax"
+  "NeoBundle "joker1007/vim-markdown-quote-syntax"
+  NeoBundle "rcmdnk/vim-markdown-quote-syntax"
   NeoBundle "rcmdnk/vim-markdown"
   "NeoBundle "plasticboy/vim-markdown"
 
@@ -1642,7 +1643,7 @@ endif
 
 " vim-markdown-quote-syntax {{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown-quote-syntax"))
-  let g:markdown_quote_syntax_on_filetypes = ['text']
+  let g:markdown_quote_syntax_on_filetypes = ['txt', 'text']
 endif
 " }}} vim-markdown-quote-syntax
 
@@ -1651,6 +1652,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown"))
   let g:vim_markdown_liquid=1
   let g:vim_markdown_frontmatter=1
   let g:vim_markdown_math=1
+  au MyAutoGroup BufRead,BufNewFile *.{txt,text} set filetype=markdown
 endif
 " }}} vim-markdown
 
