@@ -3,7 +3,23 @@
   email = rcmdnk@gmail.com
 #  name = rcmdnk-test
 #  email = rcmdnk+test@gmail.com
-
+[github]
+  user = rcmdnk
+[core]
+# filemode = false
+  autocrlf = false
+  editor = vim
+  execludesfile = ~/.gitignore_global
+[push]
+# default = simple
+  default = matching
+[fetch]
+  prune = true
+[merge]
+  tool = vimdiff
+  keepBackup = false
+[diff]
+  algorithm = histogram
 [alias]
   st = status
   sb = show-branch
@@ -23,6 +39,8 @@
   dw = diff --color-words
   dc = diff --cached
   ds = diff --staged
+  dd = diff --diff-algorithm=default
+  dw = diff --word-diff
   d = difftool --tool=vimdiff --no-prompt
   d1 = diff HEAD~
   d2 = diff HEAD~~
@@ -209,21 +227,3 @@
       fi;\
       git gc > /dev/null 2>&1;\
     };f"
-
-[core]
-# filemode = false
-  autocrlf = false
-  editor = vim
-  execludesfile = ~/.gitignore_global
-
-[push]
-# default = simple
-  default = matching
-
-[github]
-  user = rcmdnk
-[merge]
-  tool = vimdiff
-  keepBackup = false
-[fetch]
-	prune = true

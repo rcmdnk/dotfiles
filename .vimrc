@@ -477,6 +477,9 @@ if s:use_neobundle && v:version >= 703
   NeoBundleLazy "rbtnn/rabbit-ui.vim",{
         \ "autoload" : {"commands": ["EditCSV"] }}
 
+  " Character base diff
+  NeoBundle "vim-scripts/diffchar.vim"
+
   """""""""""""""""""""""""""""""""
 
   " local plugins
@@ -1054,19 +1057,18 @@ colorscheme ron
 " }}} colorscheme
 
 " diff mode {{{
-if &diff
-  "set wrap " not work...
-  set nospell
-endif
-function! SetDiffWrap()
+function! SetDiffMode()
   if &diff
+    "set wrap " not work...
+    set nospell
+    " force to warp at diff mode
     set wrap
     wincmd w
     set wrap
     wincmd w
   endif
 endfunction
-autocmd VimEnter,FilterWritePre * call SetDiffWrap()
+autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffMode()
 
 set diffopt=filler,vertical
 " }}} diff mode
@@ -1263,10 +1265,10 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-clang-format"))
               \ "AlwaysBreakTemplateDeclarations" : "true",
               \ "Standard" : "C++11"}
   " map to <Leader>cf in C++ code
-  autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-  autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+  autocmd MyAutoGroup FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+  autocmd MyAutoGroup FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
   " if you install vim-operator-user
-  autocmd FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+  autocmd MyAutoGroup FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
 endif
 " }}} vim-clang-format
 
@@ -1948,6 +1950,17 @@ if s:neobundle_enabled && ! empty(neobundle#get("rabbit-ui.vim"))
   command! -nargs=1 -complete=file EditCSV  :call <sid>edit_csv(<q-args>)
 endif
 "}}} rabbit-ui.vim
+
+" diffhar {{{
+if s:neobundle_enabled && ! empty(neobundle#get("diffchar.vim"))
+  function! SetDiffChar()
+    if &diff
+      execute "%SDChar"
+    endif
+  endfunction
+  autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffChar()
+endif
+"}}} diffchar
 
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))
