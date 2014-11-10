@@ -1958,7 +1958,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("diffchar.vim"))
       execute "%SDChar"
     endif
   endfunction
-  autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffChar()
+  " It doesn't work well for complicated files...
+  "autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffChar()
 endif
 "}}} diffchar
 
@@ -1977,6 +1978,22 @@ if !has("vim_starting")
   " Call on_source hook when reloading .vimrc.
   call neobundle#call_hook("on_source")
 endif
+" }}}
+
+" Vim Power {{{
+" http://vim-jp.org/vim-users-jp/2009/07/10/Hack-39.html
+function! Scouter(file, ...)
+  let pat = '^\s*$\|^\s*"'
+  let lines = readfile(a:file)
+  if !a:0 || !a:1
+    let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
+  endif
+  return len(filter(lines,'v:val !~ pat'))
+endfunction
+command! -bar -bang -nargs=? -complete=file Scouter
+      \        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
+command! -bar -bang -nargs=? -complete=file GScouter
+      \        echo Scouter(empty(<q-args>) ? $MYGVIMRC : expand(<q-args>), <bang>0)
 " }}}
 
 " vim: foldmethod=marker
