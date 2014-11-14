@@ -73,6 +73,6 @@ if [ $? -eq 0 ] && [ -f "$brew_completion" ];then
   source $brew_completion
 fi
 
-if type brew >& /dev/null && type brew-file >& /dev/null && type brew-wrap >& /dev/null;then
-  alias brew="brew-wrap"
+if [ -f $(brew --prefix)/etc/brew-wrap ];then
+  source $(brew --prefix)/etc/brew-wrap
 fi
