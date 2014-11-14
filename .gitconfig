@@ -164,6 +164,7 @@
       else \
         comment=\"$(git log -1|tail -n +5)\";\
       fi;\
+      echo comment: $comment;\
       tagcheck=$(git tag|grep ${tag});\
       if [ \"$tagcheck\" != \"\" ];then \
         echo \"tag: ${tag} exists\"\

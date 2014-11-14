@@ -55,7 +55,7 @@ if [[ "$OSTYPE" =~ "darwin" ]];then
   #fi
 
   # Python
-  if type brew >& /dev/null;then
+  if type -a brew >& /dev/null;then
     if [ -d $(brew --prefix)/lib/python2.7/site-packages ];then
       export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages:$PYTHONPATH
     fi
@@ -88,7 +88,7 @@ export LC_ALL="en_US.UTF-8"
 #export LC_DATE="en_GB.UTF-8"
 
 # Editors
-if type vim >& /dev/null;then
+if type -a vim >& /dev/null;then
   export VISUAL=vim
   export EDITOR=vim
 fi
@@ -140,7 +140,7 @@ export TRASHBOX=~/.Trash # Where trash will be moved in
                          # (.Trash is Mac's trash box)
 export MAXTRASHBOXSIZE=1024 # Max trash box size in MB
                             # Used for clean up
-if type bc >& /dev/null;then
+if type -a bc >& /dev/null;then
   export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
 else
   export MAXTRASHSIZE=100
@@ -258,12 +258,12 @@ alias hischeck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
 alias hischeckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}'|sort|uniq -c|sort -n"
 alias sort='LC_ALL=C sort'
 alias uniq='LC_ALL=C uniq'
-if type hub >& /dev/null;then
+if type -a hub >& /dev/null;then
   eval "$(hub alias -s)" # Use GitHub wrapper for git
 fi
 
 # pseudo tree
-if ! type tree >& /dev/null;then
+if ! type -a tree >& /dev/null;then
   alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'"
 fi
 
@@ -480,7 +480,7 @@ fi
 # Note: There is "rev" command which
 #       reversing the order of characters in every line.
 # Set reverse command as tac for BSD
-if ! type tac >& /dev/null;then
+if ! type -a tac >& /dev/null;then
   if ! tail --version 2>/dev/null|grep -q GNU;then
     alias tac='tail -r'
   else
