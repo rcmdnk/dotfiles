@@ -418,7 +418,7 @@ function calc () { # Function to calculate with perl (for decimal, etc...) {{{
   echo -n '$xx ='$eq';print "$xx \n"'|perl
 } # }}}
 
-function linkcheck () { # Function to find the original file for the symbolic link
+function linkcheck () { # Function to find the original file for the symbolic link {{{
   if [ "$#" -ne 1 ];then
     echo "Usage: linkcheck file/directory" >2
     return 1
@@ -433,6 +433,10 @@ function linkcheck () { # Function to find the original file for the symbolic li
       return 0
     fi
   done
+} # }}}
+
+function dic () { # dictionary {{{
+  w3m "http://ejje.weblio.jp/content/$1" | grep -A3 "用例"
 } # }}}
 
 # For GNU-BSD compatibility {{{
