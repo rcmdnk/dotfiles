@@ -628,14 +628,20 @@ set wildmode=list:longest
 set wildmenu
 
 " Folding
-if v:version >= 703
-  set foldmethod=marker
-  set foldmarker={{{,}}} "default
-  autocmd MyAutoGroup FileType py set foldmethod=syntax
-  autocmd MyAutoGroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
-  set foldnestmax=1
-  set foldlevel=100 "open at first
-endif
+set foldmethod=marker
+set foldmarker={{{,}}} "default
+autocmd MyAutoGroup FileType py set foldmethod=syntax
+autocmd MyAutoGroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
+set foldnestmax=1
+set foldlevel=100 "open at first
+
+autocmd MyAutoGroup InsertEnter * if &l:foldmethod ==# 'expr'
+      \ | let b:foldinfo = [&l:foldmethod, &l:foldexpr]
+      \ | setlocal foldmethod=manual foldexpr=0
+      \ | endif
+autocmd MyAutoGroup InsertLeave * if exists('b:foldinfo')
+      \ | let [&l:foldmethod, &l:foldexpr] = b:foldinfo
+      \ | endif
 
 " Filetype
 autocmd MyAutoGroup BufNewFile,BufRead *.{htm*} set filetype=markdown
