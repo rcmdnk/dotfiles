@@ -517,8 +517,8 @@ set backspace=indent,eol,start
 
 set modeline       " enable to use settings written in the file
 " use with comment lines: e.g.)
-" # vim set foldmethod=marker:
-" # vim set foldmarker={{{,}}}:
+" # vim setl foldmethod=marker:
+" # vim setl foldmarker={{{,}}}:
 set modelines=3    " number of lines to be read (form top and bottom) for
 " modeline
 set tabstop=2      " width of <Tab> in view
@@ -528,7 +528,7 @@ set autoindent     " autoindent
 set cinoptions=g0  " g0: no indent for private/public/protected
 
 "set textwidth=0    " a longer line than textwidth will be broken (0: disable)
-autocmd MyAutoGroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
+autocmd MyAutoGroup FileType *  setl textwidth=0 " overwrite ftplugin settings
 if exists ("&colorcolumn")
   set colorcolumn=81 " put line on 81
   "set colorcolumn=+1 " put line on textwidth+1
@@ -628,23 +628,23 @@ set wildmode=list:longest
 set wildmenu
 
 " Folding
-set foldmethod=marker
-set foldmarker={{{,}}} "default
-autocmd MyAutoGroup FileType py set foldmethod=syntax
-autocmd MyAutoGroup FileType cpp,cxx,C set foldmethod=marker foldmarker={,}
+setl foldmethod=marker
+setl foldmarker={{{,}}} "default
+autocmd MyAutoGroup FileType py setl foldmethod=syntax
+autocmd MyAutoGroup FileType cpp,cxx,C setl foldmethod=marker foldmarker={,}
 set foldnestmax=1
 set foldlevel=100 "open at first
 
 autocmd MyAutoGroup InsertEnter * if &l:foldmethod ==# 'expr'
       \ | let b:foldinfo = [&l:foldmethod, &l:foldexpr]
-      \ | setlocal foldmethod=manual foldexpr=0
+      \ | setl foldmethod=manual foldexpr=0
       \ | endif
 autocmd MyAutoGroup InsertLeave * if exists('b:foldinfo')
       \ | let [&l:foldmethod, &l:foldexpr] = b:foldinfo
       \ | endif
 
 " Filetype
-autocmd MyAutoGroup BufNewFile,BufRead *.{htm*} set filetype=markdown
+autocmd MyAutoGroup BufNewFile,BufRead *.{htm*} setl filetype=markdown
 
 " When editing a file, always jump to the last known cursor position.
 autocmd MyAutoGroup BufReadPost *
@@ -653,7 +653,7 @@ autocmd MyAutoGroup BufReadPost *
       \ endif
 
 " Avoid automatic comment out for the next line after the comment lines
-autocmd MyAutoGroup FileType * setlocal formatoptions-=ro
+autocmd MyAutoGroup FileType * setl formatoptions-=ro
 
 " Arrow to open new file while current file is not saved
 set hidden
@@ -665,7 +665,7 @@ set switchbuf=useopen
 set virtualedit=all
 
 " Set nopaste when it comes back to Normal mode
-autocmd MyAutoGroup InsertLeave * set nopaste
+autocmd MyAutoGroup InsertLeave * setl nopaste
 
 " Avoid to paste/insert in non-editing place
 if has("virtualedit") && &virtualedit =~# '\<all\>'
@@ -857,7 +857,7 @@ nn <Space>j G
 nn <C-'> <C-t>
 
 " spell check toggle
-nn <silent> <Leader>s :set spell!<CR>
+nn <silent> <Leader>s :setl spell!<CR>
 
 " stop highlight for search
 nn <silent> <Leader>/ :noh<CR>
@@ -940,8 +940,8 @@ endif
 
 " Paste, Paste mode
 nn <silent> <Leader>p "+gP
-nn <silent> <Leader>P :set paste!<CR>:set paste?<CR>
-ino <silent> <C-]> <C-o>:set paste!<CR>
+nn <silent> <Leader>P :setl paste!<CR>:setl paste?<CR>
+ino <silent> <C-]> <C-o>:setl paste!<CR>
 
 " *, #, stay at current word->mapped for anzu
 if ! s:neobundle_enabled || empty(neobundle#get("vim-anzu"))
@@ -964,7 +964,7 @@ nn / /\v
 
 " Close immediately by q, set non-modifiable settings
 autocmd MyAutoGroup FileType help,qf,man,ref nn <buffer> q :q!<CR>
-autocmd MyAutoGroup FileType help,qf,man,ref setlocal nospell ts=8 nolist ro nomod noma
+autocmd MyAutoGroup FileType help,qf,man,ref setl nospell ts=8 nolist ro nomod noma
 
 """ insert mode
 
@@ -1496,7 +1496,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#popup_select_first = 0
   let g:jedi#popup_on_dot = 0
   
-  "autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
+  "autocmd MyAutoGroup FileType python setl omnifunc=jedi#complete
   "let g:jedi#auto_vim_configuration = 0
   "if ! empty(neobundle#get("neocomplete.vim"))
   "  if !exists('g:neocomplete#force_omni_input_patterns')
@@ -1659,7 +1659,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown"))
   let g:vim_markdown_liquid=1
   let g:vim_markdown_frontmatter=1
   let g:vim_markdown_math=0
-  au MyAutoGroup BufRead,BufNewFile *.{txt,text} set filetype=markdown
+  au MyAutoGroup BufRead,BufNewFile *.{txt,text} setl filetype=markdown
 endif
 " }}} vim-markdown
 

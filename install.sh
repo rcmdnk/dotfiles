@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exclude=('.' '..' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used')
+exclude=('.' '..' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.subversion.config')
 instdir="$HOME"
 
 backup="bak"
@@ -109,6 +109,32 @@ for f in .*;do
     ln -s "$curdir/$f" "$target"
   fi
 done
+
+# subversion config
+f=.subversion.config
+target="$instdir/.subversion/config"
+install=1
+if [ $dryrun -eq 1 ];then
+  install=0
+fi
+if [ "`ls "$target" 2>/dev/null`" != "" ];then
+  exist=(${exist[@]} "$f")
+  if [ $dryrun -eq 1 ];then
+    echo -n ""
+  elif [ $overwrite -eq 0 ];then
+    install=0
+  elif [ "$backup" != "" ];then
+    mv "$target" "${target}.$backup"
+  else
+    rm "$target"
+  fi
+else
+  newlink=(${newlink[@]} "$f")
+fi
+if [ $install -eq 1 ];then
+  mkdir -p "$instdir/.subversion"
+  ln -s "$curdir/$f" "$target"
+fi
 
 # for screen
 ls .screen/*.sh >& /dev/null && for f in $(ls .screen/*.sh);do chmod 755 $f;done
