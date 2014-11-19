@@ -643,9 +643,6 @@ autocmd MyAutoGroup InsertLeave * if exists('b:foldinfo')
       \ | let [&l:foldmethod, &l:foldexpr] = b:foldinfo
       \ | endif
 
-" Filetype
-autocmd MyAutoGroup BufNewFile,BufRead *.{htm*} setl filetype=markdown
-
 " When editing a file, always jump to the last known cursor position.
 autocmd MyAutoGroup BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
@@ -1659,6 +1656,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown"))
   let g:vim_markdown_liquid=1
   let g:vim_markdown_frontmatter=1
   let g:vim_markdown_math=0
+  let g:vim_markdown_initial_foldlevel=&foldlevel
+  let g:vim_markdown_better_folding=0
   au MyAutoGroup BufRead,BufNewFile *.{txt,text} setl filetype=markdown
 endif
 " }}} vim-markdown
