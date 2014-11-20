@@ -266,6 +266,9 @@ if s:use_neobundle && v:version >= 703
   " Easy to change surround
   NeoBundle "tpope/vim-surround"
 
+  " Auto bracket closing
+  NeoBundle "cohama/lexima.vim"
+
   " Align
   NeoBundle "h1mesuke/vim-alignta"
 
@@ -361,6 +364,9 @@ if s:use_neobundle && v:version >= 703
 
   " Count searching objects
   NeoBundle "osyo-manga/vim-anzu"
+
+  " Improved incremental searching
+  NeoBundle "haya14busa/incsearch.vim"
 
   " Git
   NeoBundle "tpope/vim-fugitive" " necessary ('depends' in gitv is not enough. Maybe it uses autoload...?)
@@ -1600,6 +1606,15 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-anzu"))
   "nm g* g*<C-o><Plug>(anzu-update-search-status-with-echo)
   nm # #<C-o><Plug>(anzu-update-search-status-with-echo)
   let g:airline#extensions#anzu#enabled=0
+endif
+"}}} vim-anzu
+
+" incsearch{{{
+if s:neobundle_enabled && ! empty(neobundle#get("incsearch.vim"))
+  map / <Plug>(incsearch-forward)
+  map ? <Plug>(incsearch-backward)
+  map g/ <Plug>(incsearch-stay)
+  let g:incsearch#magic = '\v'
 endif
 "}}} vim-anzu
 
