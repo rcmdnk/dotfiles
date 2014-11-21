@@ -67,12 +67,19 @@ if [ "$SSH_AUTH_SOCK" = "" ];then
   unset sock_tmp
 fi
 
-# competion from brew
+# completion from brew
 brew_completion=`brew --prefix 2>/dev/null`/etc/bash_completion
 if [ $? -eq 0 ] && [ -f "$brew_completion" ];then
   source $brew_completion
 fi
 
+# wrap brew (brew-wrap in brew-file)
 if [ -f $(brew --prefix)/etc/brew-wrap ];then
   source $(brew --prefix)/etc/brew-wrap
 fi
+
+# Cask application directory
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
+# JAVA_HOME
+export JAVA_HOME=$(/usr/libexec/java_home)
