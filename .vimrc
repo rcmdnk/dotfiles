@@ -486,7 +486,7 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "vim-scripts/diffchar.vim"
 
   " no more :set passte!
-  NeoBundle "ConradIrwin/vim-bracketed-paste"
+  "NeoBundle "ConradIrwin/vim-bracketed-paste"
 
   """""""""""""""""""""""""""""""""
 
