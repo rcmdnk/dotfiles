@@ -267,7 +267,7 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "tpope/vim-surround"
 
   " Auto bracket closing
-  NeoBundle "cohama/lexima.vim"
+  "NeoBundle "cohama/lexima.vim"
 
   " Align
   NeoBundle "h1mesuke/vim-alignta"
