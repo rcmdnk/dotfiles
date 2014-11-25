@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # .bashrc
 
 # Check if this is first time to read bashrc or not {{{
@@ -26,8 +27,8 @@ function source_file() {
   fi
   arg=$1
   shift
-  if [ -r $arg ]; then
-    source $arg
+  if [ -r "$arg" ]; then
+    source "$arg"
   fi
 } # }}} Function for sourcing with precheck of the file
 
@@ -35,7 +36,7 @@ function source_file() {
 source_file /etc/bashrc
 # Remove the last ";" from PROMPT_COMMAND
 # Necessary for Mac Terminal.app
-PROMPT_COMMAND=`echo ${PROMPT_COMMAND}|sed 's/;$//'`
+PROMPT_COMMAND=$(echo "${PROMPT_COMMAND}"|sed 's/; *$//')
 # }}}
 
 # Local path {{{
@@ -45,7 +46,7 @@ export LD_LIBRARY_PATH=$HOME/usr/local/lib64:$HOME/usr/local/lib:$HOME/usr/lib64
 export PYTHONPATH=$HOME/usr/local/lib:$HOME/usr/lib/python:/usr/local/lib:/usr/lib/python:$PYTHONPATH
 #export PYTHONHOME=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
 # For Mac
-if [[ "$OSTYPE" =~ "darwin" ]];then
+if [[ "$OSTYPE" =~ darwin ]];then
   # For MacVim
   #if [ -d /Applications/MacVim.app/Contents/MacOS ];then
   #  export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
@@ -56,7 +57,7 @@ if [[ "$OSTYPE" =~ "darwin" ]];then
 
   # Python
   if type -a brew >& /dev/null;then
-    if [ -d $(brew --prefix)/lib/python2.7/site-packages ];then
+    if [ -d "$(brew --prefix)/lib/python2.7/site-packages" ];then
       export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages:$PYTHONPATH
     fi
   fi
@@ -95,11 +96,11 @@ fi
 export PAGER=less
 
 # Terminfo
-if [ -d $HOME/.terminfo/ ];then
+if [ -d "$HOME/.terminfo/" ];then
   export TERMINFO=$HOME/.terminfo
-elif [ -d $HOME/usr/share/terminfo/ ];then
+elif [ -d "$HOME/usr/share/terminfo/" ];then
   export TERMINFO=$HOME/usr/share/terminfo
-elif [ -d $HOME/usr/share/lib/terminfo/ ];then
+elif [ -d "$HOME/usr/share/lib/terminfo/" ];then
   export TERMINFO=$HOME/usr/share/lib/terminfo
 elif [ -d /usr/share/terminfo/ ];then
   export TERMINFO=/usr/share/terminfo
@@ -120,10 +121,10 @@ if [ ! "$TMPDIR" ];then
     export TMPDIR=$TMP
   elif [ "$TEMP" ];then
     export TMPDIR=$TEMP
-  elif [ -w /tmp/$USER ];then
+  elif [ -w "/tmp/$USER" ];then
     export TMPDIR=/tmp
   elif [ -w /tmp ];then
-    mkdir -p /tmp/$USER
+    mkdir -p "/tmp/$USER"
     export TMPDIR=/tmp/$USER
   else
     mkdir -p ~/tmp
@@ -141,7 +142,7 @@ export TRASHBOX=~/.Trash # Where trash will be moved in
 export MAXTRASHBOXSIZE=1024 # Max trash box size in MB
                             # Used for clean up
 if type -a bc >& /dev/null;then
-  export MAXTRASHSIZE=`echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1`
+  export MAXTRASHSIZE=$(echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1)
 else
   export MAXTRASHSIZE=100
 fi
@@ -210,13 +211,13 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
 # }}} history
 
 # For ls color {{{
-if [[ "$OSTYPE" =~ "linux" ]] || [[ "$OSTYPE" =~ "cygwin" ]];then
+if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
   # Linux
-  eval `dircolors ~/.colourrc`
+  eval "$(dircolors ~/.colourrc)"
   if [ "$LS_COLORS" = "" ];then
-    source_file $HOME/.lscolors
+    source_file "$HOME/.lscolors"
   fi
-elif [[ "$OSTYPE" =~ "darwin" ]];then
+elif [[ "$OSTYPE" =~ darwin ]];then
   # Mac
   export LSCOLORS=DxgxcxdxCxegedabagacad
 fi
@@ -225,10 +226,10 @@ fi
 # Alias, Function {{{
 
 alias l='/bin/ls'
-if [[ "$OSTYPE" =~ "linux" ]] || [[ "$OSTYPE" =~ "cygwin" ]];then
+if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
   alias ls='ls --color=auto --show-control-char'
   alias la='ls -a --color=auto --show-control-char'
-elif [[ "$OSTYPE" =~ "darwin" ]];then
+elif [[ "$OSTYPE" =~ darwin ]];then
   alias ls='ls -G'
   alias la='ls -a -G'
 fi
@@ -241,7 +242,6 @@ alias bc="bc -l"
 alias ssh="ssh -Y"
 alias svnHeadDiff="svn diff --revision=HEAD"
 alias svnd="svn diff | vim -"
-alias svn_diff_cmd="f(){ vimdiff $6 $7;};f"
 #alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
 alias vim="vim -X" # no X
 alias vi="vim" # vi->vim
@@ -254,7 +254,9 @@ alias grep="grep -s" # suppress error message
 alias c="multi_clipboard -W"
 alias put='multi_clipboard -x'
 alias del="trash -r"
+# shellcheck disable=SC2142
 alias hischeck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
+# shellcheck disable=SC2142
 alias hischeckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}'|sort|uniq -c|sort -n"
 alias sort='LC_ALL=C sort'
 alias uniq='LC_ALL=C uniq'
@@ -293,7 +295,7 @@ function man () { # man wrapper {{{
   fi
   unset PAGER
   unset MANPAGER
-  val=$(command man $* 2>&1)
+  val=$(command man "$@" 2>&1)
   ret=$?
   if [ $ret -eq 0 ];then
     echo "$val"|col -bx|vim -R -c 'set ft=man' -
@@ -333,7 +335,7 @@ function change () { # Change words in file by sed{{{
 # }}}
 
 function del_tail () { # Delete trailing white space {{{
-  sed -i.bak 's/ \+$//g' $1
+  sed -i.bak 's/ \+$//g' "$1"
   rm -f "$1".bak
 }
 # }}}
@@ -352,7 +354,7 @@ function press () {
          directory_name.tar.gz
 "
   if [ $# -eq 0 ];then
-    echo $help
+    echo "$help"
   elif [ "$1" = "-d" ];then
     remove=1
     shift
@@ -360,18 +362,18 @@ function press () {
   local dir=${1%/*}
   case "$#" in
           0)
-    echo $HELP
+    echo "$HELP"
     ;;
           1)
-    echo ${dir}
-    tar czf ${dir}.tar.gz ${dir}
+    echo "${dir}"
+    tar czf "${dir}.tar.gz" "${dir}"
     ;;
           2)
-    tar czf ${2} ${dir}
+    tar czf "${2}" "${dir}"
     ;;
   esac
   if [ $remove -eq 1 ];then
-    rm -rf ${dir}
+    rm -rf "${dir}"
   fi
 }
 # }}}
@@ -395,7 +397,7 @@ function path () { # path: function to get full path {{{
       echo "usage: path file/directory"
       return 1
   fi
-  echo "$(cd "$(dirname $1)";pwd -P)/$(basename $1)"
+  echo "$(cd "$(dirname "$1")";pwd -P)/$(basename "$1")"
 } # }}}
 
 ## sd/cl: Directory save/move in different terminal {{{
@@ -404,18 +406,18 @@ source_file ~/usr/etc/sd_cl
 
 function col256 () { # Show 256 colors{{{
   for c in {0..255};do
-    local num=`printf " %03d" $c`
-    printf "\e[38;5;${c}m$num\e[m"
-    printf "\e[48;5;${c}m$num\e[m"
-    if [ $(($c%8)) -eq 7 ];then
+    local num=$(printf " %03d" $c)
+    printf "\e[38;5;%sm$num\e[m" "$c"
+    printf "\e[48;5;%sm$num\e[m" "$c"
+    if [ $((c%8)) -eq 7 ];then
       echo
     fi
   done
 } # }}}
 
 function calc () { # Function to calculate with perl (for decimal, etc...) {{{
-  local eq=$(echo $@|sed "s/\^/**/g")
-  echo -n '$xx ='$eq';print "$xx \n"'|perl
+  local eq=$(echo "$@"|sed "s/\^/**/g")
+  printf "\$xx =%s;print \"\$xx \\n\"" "$eq"|perl
 } # }}}
 
 function linkcheck () { # Function to find the original file for the symbolic link {{{
@@ -427,7 +429,7 @@ function linkcheck () { # Function to find the original file for the symbolic li
   link="$1"
   while :;do
     if [ -L "$link" ];then
-      link=$(ls -l $link|awk '{split($0,tmp," -> ")}{print tmp[2]}')
+      link=$(readlink "$link")
     else
       echo "$link"
       return 0
@@ -445,24 +447,21 @@ function dic () { # dictionary {{{
 # Remove the end "/" and change -r to -R
 if ! cp --version 2>/dev/null |grep -q GNU;then
   function cp () {
-    local opt=""
-    local source=""
-    local dest=""
+    local opt=()
+    local vals=()
     while [ $# -gt 0 ];do
       if [[ "$1" == -* ]];then
         if [ "$1" == "-r" ];then
-          opt="$opt -R"
+          opt=("${opt[@]}" -R)
         else
-          opt="$opt $1"
+          opt=("${opt[@]}" $1)
         fi
-      elif [ $# -eq 1 ];then
-        dest="$1"
       else
-        source="${source} ${1%/}"
+        vals=("${vals[@]}" ${1%/})
       fi
       shift
     done
-    command cp $opt $source $dest
+    command cp "${opt[@]}" "${vals[@]}"
   }
 fi
 # }}}
@@ -494,7 +493,7 @@ if ! type -a tac >& /dev/null;then
         return 1
       fi
       sed -e '1!G;h;$!d' "$1"|while read line;do
-        echo $line
+        echo "$line"
       done
     }
   fi
@@ -509,7 +508,7 @@ fi
 # Disable terminal lock
 tty -s && stty stop undef
 tty -s && stty start undef
-if [[ "$OSTYPE" =~ "darwin" ]];then
+if [[ "$OSTYPE" =~ darwin ]];then
   tty -s && stty discard undef
 fi
 # }}}
@@ -522,7 +521,7 @@ function screen () { # Screen wrapper {{{
   # in which the host can be changed at every login
   #
   #touch ~/.hostForScreen
-  if [ $# = 0 ] || [ $1 = "-r" ] || [ $1 = "-R" ] || [ $1 = "-x" ];then
+  if [ $# = 0 ] || [ "$1" = "-r" ] || [ "$1" = "-R" ] || [ "$1" = "-x" ];then
     #sed -i -e "/^$(hostname).*/d" ~/.hostForScreen
     #hostname >> ~/.hostForScreen
     ## keep 10 histories
@@ -532,7 +531,7 @@ function screen () { # Screen wrapper {{{
     echo "$DISPLAY"> ~/.display.txt
   fi
 
-  options="$@"
+  options="$*"
   if [ $# = 0 ];then
     # Don't make another screen session, if any session is detached.
     options="-R"
@@ -544,10 +543,10 @@ function screen () { # Screen wrapper {{{
 alias screenr="screen -d -r"
 
 export SCREENDIR=$HOME/.screen_$(hostname|cut -d. -f1)
-if [ ! -d $SCREENDIR ];then
-  mkdir -p $SCREENDIR
+if [ ! -d "$SCREENDIR" ];then
+  mkdir -p "$SCREENDIR"
 fi
-chmod 700 $SCREENDIR
+chmod 700 "$SCREENDIR"
 # }}}
 
 
@@ -589,7 +588,7 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 
 # functions/settings only for screen sessions {{{
 
-if [[ "$TERM" =~ "screen" ]]; then # {{{
+if [[ "$TERM" =~ screen ]]; then # {{{
 
   if [ -n "$STY" ];then # Only for the machine in which screen was launched. {{{
     # Overwrite path to push to the clipboard list{{{
@@ -598,16 +597,16 @@ if [[ "$TERM" =~ "screen" ]]; then # {{{
           echo "usage: path file/directory"
           return 1
       fi
-      fullpath="$(cd "$(dirname $1)";pwd -P)/$(basename $1)"
-      echo $fullpath
-      multi_clipboard -s $fullpath
+      fullpath="$(cd "$(dirname "$1")";pwd -P)/$(basename "$1")"
+      echo "$fullpath"
+      multi_clipboard -s "$fullpath"
     } # }}}
 
     # pwd wrapper (named as wc) to push pwd to the clipboard list{{{
     function wd () {
-      local curdir=`pwd -P`
-      multi_clipboard -s $curdir
-      echo $curdir
+      local curdir=$(pwd -P)
+      multi_clipboard -s "$curdir"
+      echo "$curdir"
     }
     # }}}
   fi # }}}
@@ -648,7 +647,7 @@ if [[ "$TERM" =~ "screen" ]]; then # {{{
   function set_display () {
     if [ -f ~/.display.txt ];then
       #local d=`grep $HOSTNAME ~/.display.txt|awk '{print $2}'`
-      local d=`cat ~/.display.txt`
+      local d=$(cat ~/.display.txt)
       export DISPLAY=$d
     fi
   }
@@ -668,17 +667,17 @@ fi # }}}
 #       at above Local path settings (before alias/function definitions)
 
 # File used in linux
-if [[ "$OSTYPE" =~ "linux" ]];then
+if [[ "$OSTYPE" =~ linux ]];then
   source_file ~/.linux.sh
 fi
 
 # File used in mac
-if [[ "$OSTYPE" =~ "darwin" ]];then
+if [[ "$OSTYPE" =~ darwin ]];then
   source_file ~/.mac.sh
 fi
 
 # File used in windows (cygwin)
-if [[ "$OSTYPE" =~ "cygwin" ]];then
+if [[ "$OSTYPE" =~ cygwin ]];then
   source_file ~/.win.sh
 fi
 
