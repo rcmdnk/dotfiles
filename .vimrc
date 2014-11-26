@@ -1666,6 +1666,17 @@ endif
 " vim-markdown-quote-syntax {{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown-quote-syntax"))
   let g:markdown_quote_syntax_on_filetypes = ['txt', 'text']
+  let g:markdown_quote_syntax_filetypes = {
+        \ "css" : {
+        \   "start" : "css",
+        \},
+        \ "scss" : {
+        \   "start" : "scss",
+        \},
+        \ "markdown" : {
+        \   "start" : "markdown",
+        \},
+  \}
 endif
 " }}} vim-markdown-quote-syntax
 
