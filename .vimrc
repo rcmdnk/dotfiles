@@ -350,17 +350,15 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "scrooloose/syntastic"
 
   "" Syntax checking
-  "NeoBundle "thinca/vim-quickrun"
-  "NeoBundle "dannyob/quickfixstatus"
-  "NeoBundle "osyo-manga/shabadou.vim"
-  "NeoBundle "jceb/vim-hier"
-  "NeoBundle "osyo-manga/vim-watchdogs"
-
-  " Change current directory to root, for git/svn, etc...
-  NeoBundle "airblade/vim-rooter"
+  "NeoBundle "osyo-manga/vim-watchdogs", {
+  "    \ "depends": ["thinca/vim-quickrun", "dannyob/quickfixstatus",
+  "                 \"osyo-manga/shabadou.vim", "cohama/vim-hier"]}
 
   " Syntax for vim
   NeoBundle "dbakker/vim-lint"
+
+  " Change current directory to root, for git/svn, etc...
+  NeoBundle "airblade/vim-rooter"
 
   " Count searching objects
   NeoBundle "osyo-manga/vim-anzu"
@@ -1501,7 +1499,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#usages_command = "[jedi]n"
   let g:jedi#popup_select_first = 0
   let g:jedi#popup_on_dot = 0
-  
+
   "autocmd MyAutoGroup FileType python setl omnifunc=jedi#complete
   "let g:jedi#auto_vim_configuration = 0
   "if ! empty(neobundle#get("neocomplete.vim"))
@@ -1635,6 +1633,20 @@ if s:neobundle_enabled && ! empty(neobundle#get("syntastic"))
   let g:syntastic_java_javac_config_file = "$HOME/.syntastic_javac_config"
 endif
 "}}} syntastic
+
+" vim-watchdogs{{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-watchdogs"))
+  let g:watchdogs_check_BufWritePost_enable = 1
+  let g:watchdogs_check_CursorHold_enable = 1
+  "let g:quickrun_config = {
+  "\ "watchdogs_checker/_" : {
+  "\   'outputter/quickfix/open_cmd' : '',
+  "\   "runner/vimproc/updatetime" : 40,
+  "\ },
+  "\}
+  "call watchdogs#setup(g:quickrun_config)
+endif
+"}}} vim-watchdogs
 
 " vim-rooter{{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-rooter"))
