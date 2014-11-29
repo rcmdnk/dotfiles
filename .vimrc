@@ -1699,7 +1699,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown"))
   let g:vim_markdown_math=0
   let g:vim_markdown_initial_foldlevel=&foldlevel
   let g:vim_markdown_better_folding=0
-  au MyAutoGroup BufRead,BufNewFile *.{txt,text,html} setl filetype=markdown
+  "au MyAutoGroup BufRead,BufNewFile *.{txt,text,html} setl filetype=markdown
+  au MyAutoGroup BufRead,BufNewFile *.{txt,text} setl filetype=markdown
 endif
 " }}} vim-markdown
 
