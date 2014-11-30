@@ -524,8 +524,8 @@ set backspace=indent,eol,start
 
 set modeline       " enable to use settings written in the file
 " use with comment lines: e.g.)
-" # vim setl foldmethod=marker:
-" # vim setl foldmarker={{{,}}}:
+" # vim setlocal foldmethod=marker:
+" # vim setlocal foldmarker={{{,}}}:
 set modelines=3    " number of lines to be read (form top and bottom) for
 " modeline
 set tabstop=2      " width of <Tab> in view
@@ -535,7 +535,7 @@ set autoindent     " autoindent
 set cinoptions=g0  " g0: no indent for private/public/protected
 
 "set textwidth=0    " a longer line than textwidth will be broken (0: disable)
-autocmd MyAutoGroup FileType *  setl textwidth=0 " overwrite ftplugin settings
+autocmd MyAutoGroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
 if exists ("&colorcolumn")
   set colorcolumn=81 " put line on 81
   "set colorcolumn=+1 " put line on textwidth+1
@@ -623,7 +623,7 @@ endif
 if has("multi_byte_ime") || has("xim") || has("gui_macvim")
   set iminsert=0
   set imsearch=0
-  ino <silent> <ESC> <ESC>:set iminsert=0<CR>
+  inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 endif
 
 " Encode
@@ -635,16 +635,16 @@ set wildmode=list:longest
 set wildmenu
 
 " Folding
-setl foldmethod=marker
-setl foldmarker={{{,}}} "default
-autocmd MyAutoGroup FileType py setl foldmethod=syntax
-autocmd MyAutoGroup FileType cpp,cxx,C setl foldmethod=marker foldmarker={,}
+setlocal foldmethod=marker
+setlocal foldmarker={{{,}}} "default
+autocmd MyAutoGroup FileType py setlocal foldmethod=syntax
+autocmd MyAutoGroup FileType cpp,cxx,C setlocal foldmethod=marker foldmarker={,}
 set foldnestmax=1
 set foldlevel=100 "open at first
 
 autocmd MyAutoGroup InsertEnter * if &l:foldmethod ==# 'expr'
       \ | let b:foldinfo = [&l:foldmethod, &l:foldexpr]
-      \ | setl foldmethod=manual foldexpr=0
+      \ | setlocal foldmethod=manual foldexpr=0
       \ | endif
 autocmd MyAutoGroup InsertLeave * if exists('b:foldinfo')
       \ | let [&l:foldmethod, &l:foldexpr] = b:foldinfo
@@ -657,7 +657,7 @@ autocmd MyAutoGroup BufReadPost *
       \ endif
 
 " Avoid automatic comment out for the next line after the comment lines
-autocmd MyAutoGroup FileType * setl formatoptions-=ro
+autocmd MyAutoGroup FileType * setlocal formatoptions-=ro
 
 " Arrow to open new file while current file is not saved
 set hidden
@@ -669,20 +669,20 @@ set switchbuf=useopen
 set virtualedit=all
 
 " Set nopaste when it comes back to Normal mode
-autocmd MyAutoGroup InsertLeave * setl nopaste
+autocmd MyAutoGroup InsertLeave * setlocal nopaste
 
 " Avoid to paste/insert in non-editing place
 if has("virtualedit") && &virtualedit =~# '\<all\>'
   " p should be fixed, with yankround -> it maps p
-  nn <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
-  nn <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
-  nn <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
-  nn <expr> r (col('.') >= col('$') ? '$' : '') . 'r'
-  nn <expr> R (col('.') >= col('$') ? '$' : '') . 'R'
-  nn <expr> . (col('.') >= col('$') ? '$' : '') . '.'
+  nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
+  nnoremap <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
+  nnoremap <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
+  nnoremap <expr> r (col('.') >= col('$') ? '$' : '') . 'r'
+  nnoremap <expr> R (col('.') >= col('$') ? '$' : '') . 'R'
+  nnoremap <expr> . (col('.') >= col('$') ? '$' : '') . '.'
   " autocmd is needed to overwrite YRShow's map,
   " and "_x to avoid register 1 letter
-  autocmd MyAutoGroup FileType * nn <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
+  autocmd MyAutoGroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
 endif
 
 " VimShowHlGroup: Show highlight group name under a cursor
@@ -780,9 +780,9 @@ runtime ftplugin/man.vim
 " snor = snorremap
 " ono = snorremap
 " no! = noremap!
-" ino = inoremap!
-" ln = lnoremap!
-" cno = cnoremap!
+" ino = inoremap
+" ln = lnoremap
+" cno = cnoremap
 "
 " Note that if the 'paste' option is set, then insert mode maps are disabled.
 
@@ -823,74 +823,74 @@ no <Leader>gU gU
 
 " cursor move
 " Left (C-h default: <BS> ~ h)
-"nn <C-h> h
+"nnoremap <C-h> h
 " Right (C-j default: <NL> ~ j)
-"nn <C-j> j
+"nnoremap <C-j> j
 " Up (C-k default: Non)
-nn <C-k> k
+nnoremap <C-k> k
 " Down (C-l default: Clear and redraw the screen)
-nn <C-l> l
+nnoremap <C-l> l
 " Go to Head (C-a default: Increment)-><C-a> can't be used with vim-speeddating
-"nn <C-a> 0
-nn <M-h> 0
-nn <D-h> 0
-nn <Space>h 0
-nn H 0
+"nnoremap <C-a> 0
+nnoremap <M-h> 0
+nnoremap <D-h> 0
+nnoremap <Space>h 0
+nnoremap H 0
 " Go to End (C-e default: Scroll down)
-"nn <C-e> $
-nn <M-l> $
-nn <D-l> $
-nn <Space>l $
-nn L $
+"nnoremap <C-e> $
+nnoremap <M-l> $
+nnoremap <D-l> $
+nnoremap <Space>l $
+nnoremap L $
 " Go to top
-nn <M-k> gg
-nn <D-k> gg
-nn <Space>k gg
+nnoremap <M-k> gg
+nnoremap <D-k> gg
+nnoremap <Space>k gg
 " Go to bottom
-nn <M-j> G
-nn <D-j> G
-nn <Space>j G
+nnoremap <M-j> G
+nnoremap <D-j> G
+nnoremap <Space>j G
 " Substitute for C-a (C-q default: C-V alternative for gui mode)
-"nn <C-q> <C-a> " not work...
+"nnoremap <C-q> <C-a> " not work...
 " Substitute for C-a (C-z default: suspend, same as :stop)
-"nn <C-z> <C-a>
+"nnoremap <C-z> <C-a>
 " Substitute for C-a (C-s default: non?)
-"nn <C-s> <C-a>
+"nnoremap <C-s> <C-a>
 
 " tag jump (avoid crash with screen's key bind, C-' default: Non?)
-nn <C-'> <C-t>
+nnoremap <C-'> <C-t>
 
 " spell check toggle
-nn <silent> <Leader>s :setl spell!<CR>
+nnoremap <silent> <Leader>s :setlocal spell!<CR>
 
 " stop highlight for search
-nn <silent> <Leader>/ :noh<CR>
+nnoremap <silent> <Leader>/ :noh<CR>
 
 " alignment at normal mode
-"nn = v=
+"nnoremap = v=
 
 " insert file name
-"nn <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
+"nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
 
 " save/quit
-"nn <Leader>w :w<CR>
-"nn <Leader>q :q<CR>
-"nn <Leader>wq :wq<CR>
-"nn <Leader>1 :q!<CR>
-"nn W :w<CR>
-"nn ! :q!<CR>
-"nn Z ZZ
-nn <A-w> :w<CR>
-nn <A-q> :q!<CR>
-nn <A-z> :ZZ<CR>
+"nnoremap <Leader>w :w<CR>
+"nnoremap <Leader>q :q<CR>
+"nnoremap <Leader>wq :wq<CR>
+"nnoremap <Leader>1 :q!<CR>
+"nnoremap W :w<CR>
+"nnoremap ! :q!<CR>
+"nnoremap Z ZZ
+nnoremap <A-w> :w<CR>
+nnoremap <A-q> :q!<CR>
+nnoremap <A-z> :ZZ<CR>
 " don't enter Ex mode: map to quit
-nn Q :q<CR>
+nnoremap Q :q<CR>
 " Use Z as ZZ
-nn Z ZZ
+nnoremap Z ZZ
 
 " Close/Close & Save buffer
-nn <Leader>q :bdelete<CR>
-nn <Leader>w :w<CR>:bdelete<CR>
+nnoremap <Leader>q :bdelete<CR>
+nnoremap <Leader>w :w<CR>:bdelete<CR>
 
 " remove trail spaces, align
 if v:version >= 703
@@ -932,77 +932,77 @@ if v:version >= 703
   endfunction
   command! AlignAllBuf call s:align_all_buf()
 
-  "nn <Leader><Space> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
+  "nnoremap <Leader><Space> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
 
   " remove trail spaces for all
-  nn <Leader><Space> :DeleteSpace<CR>
+  nnoremap <Leader><Space> :DeleteSpace<CR>
 
   " remove trail spaces at selected region
-  xn <Leader><Space> :s/<Space>\+$//g<CR>
+  xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
 
 endif
 
 " Paste, Paste mode
-nn <silent> <Leader>p "+gP
-nn <silent> <Leader>P :setl paste!<CR>:setl paste?<CR>
-ino <silent> <C-]> <C-o>:setl paste!<CR>
+nnoremap <silent> <Leader>p "+gP
+nnoremap <silent> <Leader>P :setlocal paste!<CR>:setlocal paste?<CR>
+inoremap <silent> <C-]> <C-o>:setlocal paste!<CR>
 
 " *, #, stay at current word->mapped for anzu
 if ! s:neobundle_enabled || empty(neobundle#get("vim-anzu"))
   " swap * and g*, and add <C-o> to stay on current word.
-  nn g* *<C-o>
-  nn * g*<C-o>
-  nn # #<C-o>
+  nnoremap g* *<C-o>
+  nnoremap * g*<C-o>
+  nnoremap # #<C-o>
 endif
 
 " Open vimrc
-nn <Leader><Leader> :tabedit $MYVIMRC<CR>
+nnoremap <Leader><Leader> :tabedit $MYVIMRC<CR>
 
 " Source vimrc
-nn <Leader>. :source $MYVIMRC<CR>
+nnoremap <Leader>. :source $MYVIMRC<CR>
 
 " search: very magic mode
-nn / /\v
+nnoremap / /\v
 " to check patterns:
 " :h pattern-overview
 
 " Close immediately by q, set non-modifiable settings
-autocmd MyAutoGroup FileType help,qf,man,ref nn <buffer> q :q!<CR>
-autocmd MyAutoGroup FileType help,qf,man,ref setl nospell ts=8 nolist ro nomod noma
+autocmd MyAutoGroup FileType help,qf,man,ref nnoremap <buffer> q :q!<CR>
+autocmd MyAutoGroup FileType help,qf,man,ref setlocal nospell ts=8 nolist ro nomod noma
 
 """ insert mode
 
 " emacs (bash) like move in insert mode
-ino <C-a> <Home>
-ino <C-e> <End>
-ino <C-d> <Delete>
-ino <C-b> <Left>
-ino <C-f> <Right>
-ino <C-k> <Leader><C-o>D
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-d> <Delete>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-k> <Leader><C-o>D
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
-ino <C-U> <C-G>u<C-U>
+inoremap <C-U> <C-G>u<C-U>
 
 """ visual mode
 
 " Select word
-xn w iw
-xn W iW
+xnoremap w iw
+xnoremap W iW
 
 " Go to the last character, instead of the last + 1
-xn $ $h
-xn L $h
-xn v $h
+xnoremap $ $h
+xnoremap L $h
+xnoremap v $h
 
 """ command line mode
 " Cursor move
-cno <C-b> <Left>
-cno <C-f> <Right>
-cno <C-a> <C-b>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-a> <C-b>
 
 " Write as root
-cno w!! w !sudo tee > /dev/null %
+cnoremap w!! w !sudo tee > /dev/null %
 
 " }}} map
 
@@ -1014,52 +1014,52 @@ cno w!! w !sudo tee > /dev/null %
 augroup MyColors
   autocmd!
   " for spell checks
-  "au ColorScheme * hi SpellBad cterm=inverse ctermbg=0
-  au ColorScheme * hi SpellBad cterm=underline ctermbg=0
-  au ColorScheme * hi SpellCap cterm=underline ctermbg=0
-  au ColorScheme * hi SpellLocal cterm=underline ctermbg=0
-  au ColorScheme * hi SpellRare cterm=underline ctermbg=0
+  "autocmd ColorScheme * hi SpellBad cterm=inverse ctermbg=0
+  autocmd ColorScheme * hi SpellBad cterm=underline ctermbg=0
+  autocmd ColorScheme * hi SpellCap cterm=underline ctermbg=0
+  autocmd ColorScheme * hi SpellLocal cterm=underline ctermbg=0
+  autocmd ColorScheme * hi SpellRare cterm=underline ctermbg=0
 
   " Set all white characters on black background for current line
   if &cursorline
-    au ColorScheme * hi CursorLine cterm=underline
-    au InsertEnter * hi CursorLine cterm=bold
-    au InsertLeave * hi CursorLine cterm=underline
+    autocmd ColorScheme * hi CursorLine cterm=underline
+    autocmd InsertEnter * hi CursorLine cterm=bold
+    autocmd InsertLeave * hi CursorLine cterm=underline
 
     " SpecialKey, needed for cursorline
-    au ColorScheme * hi link MySpecialKey SpecialKey
-    au VimEnter,WinEnter * let w:m_sp = matchadd("MySpecialKey", '\(\t\| \+$\)')
+    autocmd ColorScheme * hi link MySpecialKey SpecialKey
+    autocmd VimEnter,WinEnter * let w:m_sp = matchadd("MySpecialKey", '\(\t\| \+$\)')
   endif
 
   " colors for completion
-  au ColorScheme * hi Pmenu ctermbg=255 ctermfg=0 guifg=#000000 guibg=#999999
-  au ColorScheme * hi PmenuSel ctermbg=blue ctermfg=black
-  au ColorScheme * hi PmenuSbar ctermbg=0 ctermfg=9
-  au ColorScheme * hi PmenuSbar ctermbg=255 ctermfg=0 guifg=#000000 guibg=#FFFFFF
+  autocmd ColorScheme * hi Pmenu ctermbg=255 ctermfg=0 guifg=#000000 guibg=#999999
+  autocmd ColorScheme * hi PmenuSel ctermbg=blue ctermfg=black
+  autocmd ColorScheme * hi PmenuSbar ctermbg=0 ctermfg=9
+  autocmd ColorScheme * hi PmenuSbar ctermbg=255 ctermfg=0 guifg=#000000 guibg=#FFFFFF
 
   " colors for diff mode
-  au ColorScheme * hi DiffAdd ctermbg=17 guibg=slateblue
-  au ColorScheme * hi DiffChange ctermbg=22 guibg=darkgreen
-  au ColorScheme * hi DiffText cterm=bold ctermbg=52 gui=bold guibg=olivedrab
-  au ColorScheme * hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
+  autocmd ColorScheme * hi DiffAdd ctermbg=17 guibg=slateblue
+  autocmd ColorScheme * hi DiffChange ctermbg=22 guibg=darkgreen
+  autocmd ColorScheme * hi DiffText cterm=bold ctermbg=52 gui=bold guibg=olivedrab
+  autocmd ColorScheme * hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
 
   " Colors for search
-  au ColorScheme * hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
+  autocmd ColorScheme * hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
 
   " Colors for SpecialKey
-  au Colorscheme * hi SpecialKey term=bold ctermfg=9
+  autocmd Colorscheme * hi SpecialKey term=bold ctermfg=9
 
   " column
-  au ColorScheme * hi ColorColumn ctermbg=017
+  autocmd ColorScheme * hi ColorColumn ctermbg=017
 
   " html
-  au ColorScheme * hi link htmlItalic LineNr
-  au ColorScheme * hi link htmlBold WarningMsg
-  au ColorScheme * hi link htmlBoldItalic ErrorMsg
+  autocmd ColorScheme * hi link htmlItalic LineNr
+  autocmd ColorScheme * hi link htmlBold WarningMsg
+  autocmd ColorScheme * hi link htmlBoldItalic ErrorMsg
 
   " two-byte space
-  au ColorScheme * hi link TwoByteSpace Error
-  au VimEnter,WinEnter * let w:m_tbs = matchadd("TwoByteSpace", '　')
+  autocmd ColorScheme * hi link TwoByteSpace Error
+  autocmd VimEnter,WinEnter * let w:m_tbs = matchadd("TwoByteSpace", '　')
 augroup END
 
 colorscheme ron
@@ -1103,13 +1103,13 @@ if has("persistent_undo")
   set undoreload=1000
 endif
 set undolevels=1000
-"nn u g-
-"nn <C-r> g+
+"nnoremap u g-
+"nnoremap <C-r> g+
 " }}} undo
 
 " gundo {{{
 if s:neobundle_enabled && ! empty(neobundle#get("gundo.vim"))
-  nn U :GundoToggle<CR>
+  nnoremap U :GundoToggle<CR>
   let g:gundo_width = 30
   let g:gundo_preview_height = 15
   let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
@@ -1121,42 +1121,42 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
   autocmd MyAutoGroup FileType unite call s:unite_my_settings()
   function! s:unite_my_settings()
-    nm <buffer><Esc> <Plug>(unite_exit)
-    im <buffer> jj      <Plug>(unite_insert_leave)
+    nmap <buffer><Esc> <Plug>(unite_exit)
+    imap <buffer> jj      <Plug>(unite_insert_leave)
     "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
 
-    im <buffer><expr> j unite#smart_map('j', '')
-    im <buffer> <TAB>   <Plug>(unite_select_next_line)
-    im <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-    im <buffer> '     <Plug>(unite_quick_match_default_action)
-    nm <buffer> '     <Plug>(unite_quick_match_default_action)
-    im <buffer><expr> x
+    imap <buffer><expr> j unite#smart_map('j', '')
+    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    imap <buffer> '     <Plug>(unite_quick_match_default_action)
+    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
+    imap <buffer><expr> x
           \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
-    nm <buffer> x     <Plug>(unite_quick_match_choose_action)
-    nm <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    im <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    im <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nm <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nm <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
-    nm <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    im <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    nn <silent><buffer><expr> l
+    nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
+    nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+    imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+    imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+    nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+    nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
+    nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    nnoremap <silent><buffer><expr> l
           \ unite#smart_map('l', unite#do_action('default'))
 
     let unite = unite#get_current_unite()
     if unite.buffer_name =~# '^search'
-      nn <silent><buffer><expr> r     unite#do_action('replace')
+      nnoremap <silent><buffer><expr> r     unite#do_action('replace')
     else
-      nn <silent><buffer><expr> r     unite#do_action('rename')
+      nnoremap <silent><buffer><expr> r     unite#do_action('rename')
     endif
 
-    nn <silent><buffer><expr> cd     unite#do_action('lcd')
-    nn <buffer><expr> S      unite#mappings#set_current_filters(
+    nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
+    nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
           \ empty(unite#mappings#get_current_filters()) ?
           \ ['sorter_reverse'] : [])
 
     " Runs "split" action by <C-s>.
-    im <silent><buffer><expr> <C-s>     unite#do_action('split')
+    imap <silent><buffer><expr> <C-s>     unite#do_action('split')
   endfunction
   " start with insert mode (can start narrow result in no time)
   let g:unite_enable_start_insert=1
@@ -1167,36 +1167,36 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
   let g:unite_winwidth=60           " default 90
 
   " Unite prefix
-  nn [unite] <Nop>
-  nm <Leader>u [unite]
+  nnoremap [unite] <Nop>
+  nmap <Leader>u [unite]
 
   " show buffer
-  nn <silent> [unite]b :Unite buffer<CR>
+  nnoremap <silent> [unite]b :Unite buffer<CR>
   " show files/directories with full path
-  nn <silent> [unite]f :Unite -buffer-name=files file<CR>
+  nnoremap <silent> [unite]f :Unite -buffer-name=files file<CR>
   " show frecursive file search
-  "nn <silent> [unite]f :<C-u>Unite file_rec/async:!<CR>
+  "nnoremap <silent> [unite]f :<C-u>Unite file_rec/async:!<CR>
   " show register
-  nn <silent> [unite]r :Unite -buffer-name=register register<CR>
+  nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
   " show opened file history including current buffers
-  "nn <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
-  nn <silent> [unite]m :Unite file_mru<CR>
+  "nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
+  nnoremap <silent> [unite]m :Unite file_mru<CR>
   " show lines of current file
-  nn <silent> [unite]l :Unite line<CR>
+  nnoremap <silent> [unite]l :Unite line<CR>
   " search (like ack.vim/ag.vim)
-  nn <silent> [unite]/ :Unite grep:.<CR>
+  nnoremap <silent> [unite]/ :Unite grep:.<CR>
   " Yank (like yankring/yankstack)
   "let g:unite_source_history_yank_enable = 1
-  "nn <silent> [unite]y :Unite history/yank<CR>
-  nn <silent> [unite]y :Unite yankround<CR>
+  "nnoremap <silent> [unite]y :Unite history/yank<CR>
+  nnoremap <silent> [unite]y :Unite yankround<CR>
 
   " sources outside of unite
-  nn <silent> [unite]M :Unite mark<CR>
-  nn <silent> [unite]c :Unite history/command<CR>
-  nn <silent> [unite]s :Unite history/search<CR>
-  nn <silent> [unite]F :Unite fold<CR>
-  nn <silent> [unite]L :Unite locate<CR>
-  nn <silent> [unite]C :Unite colorscheme<CR>
+  nnoremap <silent> [unite]M :Unite mark<CR>
+  nnoremap <silent> [unite]c :Unite history/command<CR>
+  nnoremap <silent> [unite]s :Unite history/search<CR>
+  nnoremap <silent> [unite]F :Unite fold<CR>
+  nnoremap <silent> [unite]L :Unite locate<CR>
+  nnoremap <silent> [unite]C :Unite colorscheme<CR>
 endif
 " }}} Unite
 
@@ -1211,7 +1211,7 @@ endif
 "}}}
 
 " operator {{{
-nn [oper] <Nop>
+nnoremap [oper] <Nop>
 nm <Leader>o [oper]
 if s:neobundle_enabled && ! empty(neobundle#get("vim-operator-sort"))
   map [oper]s <Plug>(operator-sort)
@@ -1224,34 +1224,34 @@ endif
 " vim-surround {{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-surround"))
   let g:surround_{char2nr("a")} = "**\r**"
-  nm <Leader>{ ysiw{
-  nm <Leader>} ysiw}
-  nm <Leader>[ ysiw[
-  nm <Leader>] ysiw]
-  nm <Leader>( ysiw(
-  nm <Leader>) ysiw)
-  nm <Leader>< ysiw<
-  nm <Leader>> ysiw>
-  nm <Leader>" ysiw"
-  nm <Leader>' ysiw'
-  nm <Leader>` ysiw`
-  nm <Leader>* ysiw*
-  nm <Leader><Leader>* ysiw*wysiw*
-  nm <Leader>a ysiwa
-  xm { S{
-  xm } S}
-  xm [ S[
-  xm ] S]
-  xm ( S(
-  xm ) S)
-  xm < S<
-  xm > S>
-  xm " S"
-  xm ' S'
-  xm ` S`
-  xm * S*
-  xm <Leader>* S*gvS*
-  xm <Leader>a Sa
+  nmap <Leader>{ ysiw{
+  nmap <Leader>} ysiw}
+  nmap <Leader>[ ysiw[
+  nmap <Leader>] ysiw]
+  nmap <Leader>( ysiw(
+  nmap <Leader>) ysiw)
+  nmap <Leader>< ysiw<
+  nmap <Leader>> ysiw>
+  nmap <Leader>" ysiw"
+  nmap <Leader>' ysiw'
+  nmap <Leader>` ysiw`
+  nmap <Leader>* ysiw*
+  nmap <Leader><Leader>* ysiw*wysiw*
+  nmap <Leader>a ysiwa
+  xmap { S{
+  xmap } S}
+  xmap [ S[
+  xmap ] S]
+  xmap ( S(
+  xmap ) S)
+  xmap < S<
+  xmap > S>
+  xmap " S"
+  xmap ' S'
+  xmap ` S`
+  xmap * S*
+  xmap <Leader>* S*gvS*
+  xmap <Leader>a Sa
 endif
 " }}} vim-surround.vim
 
@@ -1284,7 +1284,7 @@ endif
 " yank share with wviminfo/rviminfo {{{
 "
 " yankshare prefix
-no [yshare] <Nop>
+noremap [yshare] <Nop>
 map s [yshare]
 
 let g:yankshare_file = expand("~/.vim/yankshare.txt")
@@ -1301,43 +1301,43 @@ function! YSLoad() range
   call setreg("s", readfile(g:yankshare_file, "b")[0])
 endfunction
 
-nn <silent> [yshare]y  "syy:call YSStore()<CR>
-nn <silent> [yshare]yy "syy:call YSStore()<CR>
-nn <silent> [yshare]Y  "sY:call YSStore()<CR>
-nn <silent> [yshare]y$ "sy$:call YSStore()<CR>
-nn <silent> [yshare]y0 "sy0:call YSStore()<CR>
-nn <silent> [yshare]yw "syw:call YSStore()<CR>
-nn <silent> [yshare]cc "scc<ESC>:call YSStore()<CR>i
-nn <silent> [yshare]C  "sC<ESC>:call YSStore()<CR>i
-nn <silent> [yshare]c$ "sc$<ESC>:call YSStore()<CR>i
-nn <silent> [yshare]c0 "sc0<ESC>:call YSStore()<CR>i
-nn <silent> [yshare]cw "scw<ESC>:call YSStore()<CR>i
-nn <silent> [yshare]dd "sdd:call YSStore()<CR>
-nn <silent> [yshare]D  "sD:call YSStore()<CR>
-nn <silent> [yshare]d$ "sd$:call YSStore()<CR>
-nn <silent> [yshare]d0 "sd0:call YSStore()<CR>
-nn <silent> [yshare]dw "sdw:call YSStore()<CR>
+nnoremap <silent> [yshare]y  "syy:call YSStore()<CR>
+nnoremap <silent> [yshare]yy "syy:call YSStore()<CR>
+nnoremap <silent> [yshare]Y  "sY:call YSStore()<CR>
+nnoremap <silent> [yshare]y$ "sy$:call YSStore()<CR>
+nnoremap <silent> [yshare]y0 "sy0:call YSStore()<CR>
+nnoremap <silent> [yshare]yw "syw:call YSStore()<CR>
+nnoremap <silent> [yshare]cc "scc<ESC>:call YSStore()<CR>i
+nnoremap <silent> [yshare]C  "sC<ESC>:call YSStore()<CR>i
+nnoremap <silent> [yshare]c$ "sc$<ESC>:call YSStore()<CR>i
+nnoremap <silent> [yshare]c0 "sc0<ESC>:call YSStore()<CR>i
+nnoremap <silent> [yshare]cw "scw<ESC>:call YSStore()<CR>i
+nnoremap <silent> [yshare]dd "sdd:call YSStore()<CR>
+nnoremap <silent> [yshare]D  "sD:call YSStore()<CR>
+nnoremap <silent> [yshare]d$ "sd$:call YSStore()<CR>
+nnoremap <silent> [yshare]d0 "sd0:call YSStore()<CR>
+nnoremap <silent> [yshare]dw "sdw:call YSStore()<CR>
 
-xn <silent> [yshare]y "sy:call YSStore()<CR>
-xn <silent> [yshare]c "sc<ESC>:call YSStore()<CR>i
-xn <silent> [yshare]d "sd:call YSStore()<CR>
+xnoremap <silent> [yshare]y "sy:call YSStore()<CR>
+xnoremap <silent> [yshare]c "sc<ESC>:call YSStore()<CR>i
+xnoremap <silent> [yshare]d "sd:call YSStore()<CR>
 
-nn <silent> [yshare]p :call YSLoad()<CR>"sp
-nn <silent> [yshare]P :call YSLoad()<CR>"sP
-nn <silent> [yshare]gp :call YSLoad()<CR>"sgp
-nn <silent> [yshare]gP :call YSLoad()<CR>"sgP
+nnoremap <silent> [yshare]p :call YSLoad()<CR>"sp
+nnoremap <silent> [yshare]P :call YSLoad()<CR>"sP
+nnoremap <silent> [yshare]gp :call YSLoad()<CR>"sgp
+nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " }}} yankshare
 
 " yankround {{{
 if s:neobundle_enabled && ! empty(neobundle#get("yankround.vim"))
-  nm <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
-  xm <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
-  nm <expr> P (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-P)'
+  nmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
+  xmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
+  nmap <expr> P (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-P)'
   nmap gp <Plug>(yankround-gp)
   xmap gp <Plug>(yankround-gp)
   nmap gP <Plug>(yankround-gP)
-  nm <C-p> <Plug>(yankround-prev)
-  nm <C-n> <Plug>(yankround-next)
+  nmap <C-p> <Plug>(yankround-prev)
+  nmap <C-n> <Plug>(yankround-next)
   let g:yankround_max_history = 30
   let g:yankround_dir = '~/.vim/yankround'
   let g:yankround_max_element_length = 0
@@ -1385,22 +1385,22 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
         \  'rdoc':1, 'mediawiki':1, 'rst':1, 'asciidoc':1, 'prod':1,
         \  'plaintex':1, 'mkd': 1, 'html': 1,
         \  'vim':0, 'sh':0, 'javascript':0, 'perl':0}
-  "ino <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-  ino <expr><Tab> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
-  ino <expr><A-y>  neocomplete#close_popup()
-  ino <expr><A-e>  neocomplete#cancel_popup()
-  ino <expr><A-l>  neocomplete#complete_common_string()
-  ino <expr><A-u>  neocomplete#undo_completion()
+  "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><Tab> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
+  inoremap <expr><A-y>  neocomplete#close_popup()
+  inoremap <expr><A-e>  neocomplete#cancel_popup()
+  inoremap <expr><A-l>  neocomplete#complete_common_string()
+  inoremap <expr><A-u>  neocomplete#undo_completion()
 endif
 " }}}
 
 " neosnippet {{{
 if s:neobundle_enabled && ! empty(neobundle#get("neosnippet"))
-  im <silent><C-k> <Plug>(neosnippet_expand_or_jump)
-  ino <silent><C-U> <ESC>:<C-U>Unite snippet<CR>
-  "nn <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
+  imap <silent><C-k> <Plug>(neosnippet_expand_or_jump)
+  inoremap <silent><C-U> <ESC>:<C-U>Unite snippet<CR>
+  "nnoremap <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
   smap <silent><C-k> <Plug>(neosnippet_expand_or_jump)
-  xm <silent>o <Plug>(neosnippet_register_oneshot_snippet)
+  xmap <silent>o <Plug>(neosnippet_register_oneshot_snippet)
   "im <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
   "smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 endif
@@ -1440,7 +1440,7 @@ if &term =~ "screen" || &term =~ "xterm"
     set paste
     return a:ret
   endfunction
-  im <special> <expr> <Esc>[200~ XTermPasteBegin(""'
+  imap <special> <expr> <Esc>[200~ XTermPasteBegin(""'
 endif
 
 " }}} paste
@@ -1486,10 +1486,10 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#auto_initialization = 1
   let g:jedi#auto_vim_configuration = 1
 
-  nn [jedi] <Nop>
-  xn [jedi] <Nop>
-  nm <Leader>j [jedi]
-  xm <Leader>j [jedi]
+  nnoremap [jedi] <Nop>
+  xnoremap [jedi] <Nop>
+  nmap <Leader>j [jedi]
+  xmap <Leader>j [jedi]
 
   "let g:jedi#completions_command = "<C-N>"
   let g:jedi#goto_assignments_command = "[jedi]g"
@@ -1500,7 +1500,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#popup_select_first = 0
   let g:jedi#popup_on_dot = 0
 
-  "autocmd MyAutoGroup FileType python setl omnifunc=jedi#complete
+  "autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
   "let g:jedi#auto_vim_configuration = 0
   "if ! empty(neobundle#get("neocomplete.vim"))
   "  if !exists('g:neocomplete#force_omni_input_patterns')
@@ -1516,8 +1516,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-indent-guides"))
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level = 1
   let g:indent_guides_auto_colors = 0
-  au VimEnter,Colorscheme * hi IndentGuidesEven term=bold ctermfg=9 ctermbg=235
-  au VimEnter,Colorscheme * hi IndentGuidesOdd term=bold ctermfg=9 ctermbg=239
+  autocmd MyAutoGroup VimEnter,Colorscheme * hi IndentGuidesEven term=bold ctermfg=9 ctermbg=235
+  autocmd MyAutoGroup VimEnter,Colorscheme * hi IndentGuidesOdd term=bold ctermfg=9 ctermbg=239
 endif
 "}}} vim-indent-guides
 
@@ -1550,8 +1550,8 @@ endif
 " open-browser{{{
 if s:neobundle_enabled && ! empty(neobundle#get("open-browser.vim"))
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
-  nm gx <Plug>(openbrowser-smart-search)
-  xm gx <Plug>(openbrowser-smart-search)
+  nmap gx <Plug>(openbrowser-smart-search)
+  xmap gx <Plug>(openbrowser-smart-search)
 endif
 "}}} open-browser
 
@@ -1595,17 +1595,17 @@ endif
 
 " ExciteTranslate{{{
 if s:neobundle_enabled && ! empty(neobundle#get("excitetranslate-vim"))
-  xn <Leader>x :ExciteTranslate<CR>
+  xnoremap <Leader>x :ExciteTranslate<CR>
 endif
 "}}} LanguageTool
 
 " vim-anzu{{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-anzu"))
-  nm n <Plug>(anzu-n-with-echo)
-  nm N <Plug>(anzu-N-with-echo)
-  nm * g*<C-o><Plug>(anzu-update-search-status-with-echo)
+  nmap n <Plug>(anzu-n-with-echo)
+  nmap N <Plug>(anzu-N-with-echo)
+  nmap * g*<C-o><Plug>(anzu-update-search-status-with-echo)
   "nm g* g*<C-o><Plug>(anzu-update-search-status-with-echo)
-  nm # #<C-o><Plug>(anzu-update-search-status-with-echo)
+  nmap # #<C-o><Plug>(anzu-update-search-status-with-echo)
   let g:airline#extensions#anzu#enabled=0
 endif
 "}}} vim-anzu
@@ -1668,10 +1668,10 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-signify"))
   let g:signify_disable_by_default = 1
   let g:signify_cursorhold_normal = 1
   let g:signify_cursorhold_insert = 1
-  nm <Leader>gj <Plug>(signify-next-jump)
-  nm <Leader>gk <Plug>(signify-prev-jump)
-  nn <Leader>gt :SignifyToggle<CR>
-  nn <Leader>gh :SignifyToggleHighlight<CR>
+  nmap <Leader>gj <Plug>(signify-next-jump)
+  nmap <Leader>gk <Plug>(signify-prev-jump)
+  nnoremap <Leader>gt :SignifyToggle<CR>
+  nnoremap <Leader>gh :SignifyToggleHighlight<CR>
 endif
 "}}} signify
 
@@ -1699,15 +1699,15 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown"))
   let g:vim_markdown_math=0
   let g:vim_markdown_initial_foldlevel=&foldlevel
   let g:vim_markdown_better_folding=0
-  "au MyAutoGroup BufRead,BufNewFile *.{txt,text,html} setl filetype=markdown
-  au MyAutoGroup BufRead,BufNewFile *.{txt,text} setl filetype=markdown
+  "autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text,html} setlocal filetype=markdown
+  autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text} setlocal filetype=markdown
 endif
 " }}} vim-markdown
 
 " applescript{{{
 if s:neobundle_enabled && ! empty(neobundle#get("applescript.vim"))
-  autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setl filetype=applescript
-  "autocmd MyAutoGroup FileType applescript :ino <buffer> <S-CR>  ¬<CR>
+  autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setlocal filetype=applescript
+  "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬<CR>
 endif
 "}}} applescript
 
@@ -1816,17 +1816,17 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-ref"))
   endfunction
 
   " vim-ref prefix
-  nn [ref] <Nop>
-  xn [ref] <Nop>
-  nm <Leader>r [ref]
-  xm <Leader>r [ref]
-  nn [ref]j :Ref webdict je<Space>
-  nn [ref]e :Ref webdict ej<Space>
-  nn [ref]w :Ref webdict wiki<Space>
-  nn [ref]m :Ref man<Space>
-  xn [ref]j :<C-u>Ref webdict je <C-R><C-w><CR>
-  xn [ref]e :<C-u>Ref webdict ej <C-R><C-w><CR>
-  xn [ref]w :<C-u>Ref webdict wiki <C-R><C-w><CR>
+  nnoremap [ref] <Nop>
+  xnoremap [ref] <Nop>
+  nmap <Leader>r [ref]
+  xmap <Leader>r [ref]
+  nnoremap [ref]j :Ref webdict je<Space>
+  nnoremap [ref]e :Ref webdict ej<Space>
+  nnoremap [ref]w :Ref webdict wiki<Space>
+  nnoremap [ref]m :Ref man<Space>
+  xnoremap [ref]j :<C-u>Ref webdict je <C-R><C-w><CR>
+  xnoremap [ref]e :<C-u>Ref webdict ej <C-R><C-w><CR>
+  xnoremap [ref]w :<C-u>Ref webdict wiki <C-R><C-w><CR>
 endif
 "}}}
 
@@ -1834,7 +1834,7 @@ endif
 
 " The NERD Tree  {{{
 if s:neobundle_enabled && ! empty(neobundle#get("nerdtree"))
-  nn <Leader>N :NERDTreeToggle<CR>
+  nnoremap <Leader>N :NERDTreeToggle<CR>
 endif
 "}}}
 
@@ -1855,13 +1855,13 @@ if s:neobundle_enabled && ! empty(neobundle#get("SrcExpl"))
   " Source Explorer Window Height
   let g:SrcExpl_winHeight = 14
   " Mappings
-  nn [srce] <Nop>
-  nm <Leader>E [srce]
-  nn <silent> [srce]<CR> :SrcExplToggle<CR>
-  nn <silent> [srce]u :call g:SrcExpl_UpdateTags()<CR>
-  nn <silent> [srce]a :call g:SrcExpl_UpdateAllTags()<CR>
-  nn <silent> [srce]n :call g:SrcExpl_NextDef()<CR>
-  nn <silent> [srce]p :call g:SrcExpl_PrevDef()<CR>
+  nnoremap [srce] <Nop>
+  nmap <Leader>E [srce]
+  nnoremap <silent> [srce]<CR> :SrcExplToggle<CR>
+  nnoremap <silent> [srce]u :call g:SrcExpl_UpdateTags()<CR>
+  nnoremap <silent> [srce]a :call g:SrcExpl_UpdateAllTags()<CR>
+  nnoremap <silent> [srce]n :call g:SrcExpl_NextDef()<CR>
+  nnoremap <silent> [srce]p :call g:SrcExpl_PrevDef()<CR>
 endif
 "}}}
 
@@ -1870,7 +1870,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("tagbar"))
   " Width (default 40)
   let g:tagbar_width = 20
   " Mappings
-  nn <silent> <leader>T :TagbarToggle<CR>
+  nnoremap <silent> <leader>T :TagbarToggle<CR>
 endif
 "}}} tagbar
 
@@ -1878,7 +1878,7 @@ if s:neobundle_enabled &&
       \! empty(neobundle#get("nerdtree")) &&
       \! empty(neobundle#get("SrcExpl")) &&
       \! empty(neobundle#get("tagbar"))
-  nn <silent> <Leader>A :SrcExplToggle<CR>:NERDTreeToggle<CR>:TagbarToggle<CR>
+  nnoremap <silent> <Leader>A :SrcExplToggle<CR>:NERDTreeToggle<CR>:TagbarToggle<CR>
 endif
 
 " }}}
@@ -1912,7 +1912,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("gist-vim"))
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
   " Disable default Gist command
-  cno <silent> Gist<CR> echo 'use Gist -P to make a public gist'<CR>
+  cnoremap <silent> Gist<CR> echo 'use Gist -P to make a public gist'<CR>
 endif
 "}}} gist-vim
 
@@ -1931,7 +1931,7 @@ endif
 
 " switch {{{
 if s:neobundle_enabled && ! empty(neobundle#get("switch.vim"))
-  nn - :Switch<cr>
+  nnoremap - :Switch<cr>
 endif
 "}}} switch
 
