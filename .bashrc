@@ -228,10 +228,10 @@ fi
 alias l='/bin/ls'
 if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
   alias ls='ls --color=auto --show-control-char'
-  alias la='ls -a --color=auto --show-control-char'
+  alias la='ls -A --color=auto --show-control-char'
 elif [[ "$OSTYPE" =~ darwin ]];then
   alias ls='ls -G'
-  alias la='ls -a -G'
+  alias la='ls -A -G'
 fi
 alias badlink='find -L . -depth 1 -type l -ls'
 #alias g='gmake'
