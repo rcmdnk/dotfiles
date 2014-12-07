@@ -483,6 +483,10 @@ if s:use_neobundle && v:version >= 703
   " Character base diff
   NeoBundle "vim-scripts/diffchar.vim"
 
+  " Rogue
+  NeoBundleLazy "katono/rogue.vim", {
+        \ "autoload" : {"commands": ["Rogue"] }}
+
   " no more :set passte!
   "NeoBundle "ConradIrwin/vim-bracketed-paste"
 
