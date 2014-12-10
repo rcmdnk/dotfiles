@@ -2013,6 +2013,12 @@ if s:neobundle_enabled && ! empty(neobundle#get("diffchar.vim"))
 endif
 "}}} diffchar
 
+" rogue {{{
+if s:neobundle_enabled && ! empty(neobundle#get("rogue.vim"))
+  let g:rogue#japanese = 1
+endif
+"}}} rogue
+
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))
   execute "source" expand("~/.vimrc.local")
