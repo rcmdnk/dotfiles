@@ -2015,6 +2015,8 @@ endif
 
 " rogue {{{
 if s:neobundle_enabled && ! empty(neobundle#get("rogue.vim"))
+  let g:rogue#name = "aaa"
+  let g:rogue#directory = g:vimdir . "/rogue"
   let g:rogue#japanese = 1
 endif
 "}}} rogue
