@@ -248,9 +248,7 @@ alias vi="vim" # vi->vim
 alias memo="vim ~/.memo.md"
 alias vid="vim -d"
 alias vinon="vim -u NONE"
-#alias grep="grep --color=always"
-#alias grep="grep -i" # ignore cases
-alias grep="grep -s" # suppress error message
+alias grep="grep --color=auto -s"
 alias c="multi_clipboard -W"
 alias put='multi_clipboard -x'
 alias del="trash -r"

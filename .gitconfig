@@ -167,7 +167,7 @@
       else \
         comment=\"$(git log -1|tail -n +5)\";\
       fi;\
-      if [ -f \"$(git rev-parse --git-dir)/.travis.yml\" ]; then \
+      if [ -f \"$(git rev-parse --show-toplevel)/.travis.yml\" ]; then \
         comment=\"${comment} [ci skip]\";\
       fi;\
       echo comment: $comment;\
