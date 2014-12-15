@@ -87,19 +87,19 @@ $endif
 # grep prefix
 "\C-g": ""
 # grep -r "" ./ # and avoid svn/git
-"\C-g\C-r": "\C-ugrep -I -r \"\" ./|grep -v .svn|grep -v .git\C-a\ef\ef\ef\C-f\C-f"
-"\C-gr": "\C-ugrep -I -r \"\" ./|grep -v .svn|grep -v .git\C-a\ef\ef\ef\C-f\C-f"
-"\er": "\C-ugrep -I -r \"\" ./|grep -v .svn|grep -v .git\C-a\ef\ef\ef\C-f\C-f"
+"\C-g\C-r": "\C-ugrep -I -r \"\" ./|grep -v \"\\.svn\"|grep -v \"\\.git\"\C-a\ef\ef\ef\C-f\C-f"
+"\C-gr": "\C-ugrep -I -r \"\" ./|grep -v \"\\.svn\"|grep -v \"\\.git\"\C-a\ef\ef\ef\C-f\C-f"
+"\er": "\C-ugrep -I -r \"\" ./|grep -v \"\\.svn\"|grep -v \"\\.git\"\C-a\ef\ef\ef\C-f\C-f"
 # grep "" *
 "\C-g\C-g": "\C-ugrep -I *\C-b\C-b \"\"\C-b"
 "\C-gg": "\C-ugrep -I *\C-b\C-b \"\"\C-b"
 "\eg": "\C-ugrep -I *\C-b\C-b \"\"\C-b"
 # find ./
-"\C-g\C-f": "\C-ufind ./ -name \"**\" 2>/dev/null|grep -v .svn|grep -v .git\C-a\ef\ef\C-f\C-f\C-f"
-"\C-gf": "\C-ufind ./ -name \"**\" 2>/dev/null|grep -v .svn|grep -v .git\C-a\ef\ef\C-f\C-f\C-f"
+"\C-g\C-f": "\C-ufind ./ -name \"**\" 2>/dev/null|grep -v \"\\.svn\"|grep -v \"\\.git\"\C-a\ef\ef\C-f\C-f\C-f"
+"\C-gf": "\C-ufind ./ -name \"**\" 2>/dev/null|grep -v \"\\.svn\"|grep -v \"\\.git\"\C-a\ef\ef\C-f\C-f\C-f"
 # grep uniq
-"\C-g\C-u": "\C-ugrep -I -l -r \"\" *|grep -v .svn|grep -v .git|cut -d: -f1|uniq\C-a\ef\ef\ef\ef\C-f\C-f"
-"\C-gu": "\C-ugrep -I -l -r \"\" *|grep -v .svn+|gep -v .git|cut -d: -f1|uniq\C-a\ef\ef\ef\ef\C-f\C-f"
+"\C-g\C-u": "\C-ugrep -I -l -r \"\" *|grep -v \"\\.svn\"|grep -v \"\\.git\"|cut -d: -f1|uniq\C-a\ef\ef\ef\ef\C-f\C-f"
+"\C-gu": "\C-ugrep -I -l -r \"\" *|grep -v \"\\.svn\"|grep -v \"\\.git\"|cut -d: -f1|uniq\C-a\ef\ef\ef\ef\C-f\C-f"
 
 # Quote/Bracket
 "\e\"": "\eb\"\ef\""
