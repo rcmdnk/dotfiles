@@ -261,6 +261,7 @@ alias uniq='LC_ALL=C uniq'
 if type -a hub >& /dev/null;then
   eval "$(hub alias -s)" # Use GitHub wrapper for git
 fi
+alias evernote_mail="evernote_mail -u"
 
 # pseudo tree
 if ! type -a tree >& /dev/null;then
