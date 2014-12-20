@@ -106,17 +106,17 @@ if s:use_neobundle && v:version >= 703
         \ "autoload": { "insert": 1 }}
 
   " Completion
-  let g:completion = "Shougo/neocomplcache.vim"
+  "let g:completion = "Shougo/neocomplcache.vim"
   if has('lua') && (( v:version == 703 && has('patch885')) || (v:version >= 704))
     let g:completion = "Shougo/neocomplete.vim"
+    NeoBundleLazy g:completion, {
+          \ "autoload": {"insert": 1 }}
+
+    " look - display lines beginning with a given string, using with neocomplete/neocomplcache
+    NeoBundleLazy "ujihisa/neco-look", {"depends": [g:completion]}
   endif
-  NeoBundleLazy g:completion, {
-        \ "autoload": {"insert": 1 }}
 
   NeoBundle "Shougo/neobundle-vim-scripts"
-
-  " look - display lines beginning with a given string, using with neocomplete/neocomplcache
-  NeoBundleLazy "ujihisa/neco-look", {"depends": [g:completion]}
 
   " gundo
   NeoBundleLazy "sjl/gundo.vim", {
