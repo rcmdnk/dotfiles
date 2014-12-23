@@ -210,7 +210,7 @@ bind -c mc ' ' eval 'exec multi_clipboard -S -s'
 bind a screen -t multi_clipboard multi_clipboard -W
 bind ^a screen -t multi_clipboard multi_clipboard -W
 
-bind A eval 'exec multi_clipboard -x'
+bind A eval 'exec multi_clipboard -x' 'echo "copied to OS clipboard"'
 # Ctrl-Capital is not capital, but bind lower case (Ctrl-a)...?
 #bind ^A eval 'exec multi_clipboard -x'
 
