@@ -99,6 +99,9 @@ if s:use_neobundle && v:version >= 703
 
   " Source for unite: mru
   NeoBundle "Shougo/neomru.vim"
+
+  " Source for unite: outline
+  NeoBundle "h1mesuke/unite-outline"
   "}}}
 
   " Echo
@@ -114,6 +117,7 @@ if s:use_neobundle && v:version >= 703
 
     " look - display lines beginning with a given string, using with neocomplete/neocomplcache
     NeoBundleLazy "ujihisa/neco-look", {"depends": [g:completion]}
+    "NeoBundleLazy "mitsuse/kompl", {"depends": [g:completion]}
   endif
 
   NeoBundle "Shougo/neobundle-vim-scripts"
@@ -254,10 +258,10 @@ if s:use_neobundle && v:version >= 703
 
   " operator {{{
   NeoBundle "kana/vim-operator-user"
-
   NeoBundle "kana/vim-operator-replace"
   NeoBundle 'emonkak/vim-operator-sort'
   NeoBundle 'tyru/operator-reverse.vim'
+  "NeoBundle "rhysd/vim-operator-surround"
   "}}}
 
   " Support repeat for surround, speedating, easymotion, etc...
@@ -400,6 +404,10 @@ if s:use_neobundle && v:version >= 703
   " LanguageTool
   NeoBundleLazy "vim-scripts/LanguageTool", {
         \  "autoload" : {"commands": ["LanguageToolCheck"] }}
+
+  " Grammer check with LanguageTool
+  "NeoBundle "rhysd/vim-grammarous"
+
 
   " Excite Translate
   NeoBundleLazy "mattn/excitetranslate-vim", {
@@ -1169,6 +1177,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
   let g:unite_split_rule="botright" " default topleft
   let g:unite_winheight=10          " default 20
   let g:unite_winwidth=60           " default 90
+  let g:unite_data_directory=g:vimdir . ".cache/unite"
 
   " Unite prefix
   nnoremap [unite] <Nop>
@@ -1373,7 +1382,6 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#max_list = 20
-  "let g:neocomplete#sources#syntax#min_keyword_length = 3
   let g:neocomplete#min_keyword_length = 3
   let g:neocomplete#enable_ignore_case = 1
   let g:neocomplete#enable_smart_case = 1
@@ -1389,6 +1397,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
         \  'rdoc':1, 'mediawiki':1, 'rst':1, 'asciidoc':1, 'prod':1,
         \  'plaintex':1, 'mkd': 1, 'html': 1,
         \  'vim':0, 'sh':0, 'javascript':0, 'perl':0}
+  let g:neocomplete#same_filetypes = {}
+  let g:neocomplete#same_filetypes._ = '_'
   "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
   inoremap <expr><Tab> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
   inoremap <expr><A-y>  neocomplete#close_popup()
@@ -1416,7 +1426,7 @@ set matchpairs+=<:>
 source $VIMRUNTIME/macros/matchit.vim
 " matchpairs is necessary...?
 "let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,if:fi'
-let b:match_words = &matchpairs . ',<:>,<div.*>:</div>'
+let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,{%.*%}:{% *end.*%}'
 let b:match_ignorecase = 1
 " }}} matchpair, matchit
 
