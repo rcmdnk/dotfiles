@@ -351,12 +351,12 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "jmcantrell/vim-virtualenv"
 
   " Syntax checking
-  NeoBundle "scrooloose/syntastic"
+  "NeoBundle "scrooloose/syntastic"
 
-  "" Syntax checking
-  "NeoBundle "osyo-manga/vim-watchdogs", {
-  "    \ "depends": ["thinca/vim-quickrun", "dannyob/quickfixstatus",
-  "                 \"osyo-manga/shabadou.vim", "cohama/vim-hier"]}
+  " Syntax checking
+  NeoBundle "osyo-manga/vim-watchdogs", {
+      \ "depends": ["thinca/vim-quickrun", "dannyob/quickfixstatus",
+                   \"osyo-manga/shabadou.vim", "cohama/vim-hier"]}
 
   " Syntax for vim
   NeoBundle "dbakker/vim-lint"
@@ -555,6 +555,7 @@ if exists ("&colorcolumn")
   "execute "set colorcolumn=" . join(range(81, 999), ",")
 endif
 set wrap           " longer line is wrapped
+set display=lastline " Show all even if there is many characters in one line.
 "set linebreak      " wrap at 'breakat'
 set nolinebreak
 "set breakat=\ ^I!@*-+;:,./?()[]{}<>'"`     " break point for linebreak
@@ -623,6 +624,8 @@ set mouse=         " Disable mouse
 set ambiwidth=double  " For UTF-8, width for East Asian Characters. It doesn't work at specific terminals?(iTerm, putty, etc..?)
 set cmdheight=1    " Command line height
 set showmatch      " Show maching one for inserted bracket
+set matchtime=1    " 0.1*matchtime sec for showing matching pattern (default:5)
+set pumheight=20   " length of popup menu for completion
 
 set spell          " Spell check highlight
 "set nospell        " No spell check
@@ -813,23 +816,23 @@ runtime ftplugin/man.vim
 " mapleader (<Leader>) (default is \)
 let mapleader = ","
 " use \, as , instead
-no <Subleader> <Nop>
+noremap <Subleader> <Nop>
 map \ <Subleader>
-no <Subleader>, ,
+noremap <Subleader>, ,
 
 " fix meta-keys
 map <ESC>p <M-p>
 map <ESC>n <M-n>
 
 " Swap colon <-> semicolon
-no ; :
-no : ;
+noremap ; :
+noremap : ;
 
 " Require <Leader> before gu*/gU* (Change to lowr/upper case)
-no gu <Nop>
-no gU <Nop>
-no <Leader>gu gu
-no <Leader>gU gU
+noremap gu <Nop>
+noremap gU <Nop>
+noremap <Leader>gu gu
+noremap <Leader>gU gU
 
 """ Normal mode
 
@@ -953,6 +956,9 @@ if v:version >= 703
   xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
 
 endif
+
+" Fix Y
+nnoremap Y y$
 
 " Paste, Paste mode
 nnoremap <silent> <Leader>p "+gP
@@ -1652,13 +1658,27 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("vim-watchdogs"))
   let g:watchdogs_check_BufWritePost_enable = 1
   let g:watchdogs_check_CursorHold_enable = 1
-  "let g:quickrun_config = {
+  if !exists("g:quickrun_config")
+    let g:quickrun_config = {}
+  endif
+  let g:quickrun_config["watchdogs_checker/_"] = {
+  \ 'outputter/quickfix/open_cmd' : '',
+  }
+  let g:quickrun_config["_"] = {
+  \ "runner/vimproc/updatetime" : 500,
+  \ "runner/vimproc/sleep" : 10,
+  },
+  \ 'outputter/quickfix/open_cmd' : '',
+  }
+  let g:quickrun_config += {
+  \}
   "\ "watchdogs_checker/_" : {
-  "\   'outputter/quickfix/open_cmd' : '',
   "\   "runner/vimproc/updatetime" : 40,
-  "\ },
-  "\}
-  "call watchdogs#setup(g:quickrun_config)
+  "\   "_" : {
+  "\       "runner/vimproc/updatetime" : 500,
+  "\       "runner/vimproc/sleep" : 10,
+  "\   },
+  call watchdogs#setup(g:quickrun_config)
 endif
 "}}} vim-watchdogs
 
