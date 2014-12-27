@@ -71,6 +71,12 @@ if s:use_neobundle && v:version >= 703
         \"mac" : "make -f make_mac.mak",
         \"unix" : "make -f make_unix.mak"}}
 
+  " Quick Run
+  NeoBundle "thinca/vim-quickrun"
+
+  " Quick Fix Status
+  NeoBundle "dannyob/quickfixstatus"
+
   """ Unlike "fuzzyfinder" or "ku", it doesn't use the built-in completion of vim {{{
   """ Searches and display information->:help Unite
   NeoBundleLazy "Shougo/unite.vim" , {
@@ -104,10 +110,6 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "h1mesuke/unite-outline"
   "}}}
 
-  " Echo
-  NeoBundleLazy "Shougo/echodoc", {
-        \ "autoload": { "insert": 1 }}
-
   " Completion
   "let g:completion = "Shougo/neocomplcache.vim"
   if has('lua') && (( v:version == 703 && has('patch885')) || (v:version >= 704))
@@ -121,10 +123,6 @@ if s:use_neobundle && v:version >= 703
   endif
 
   NeoBundle "Shougo/neobundle-vim-scripts"
-
-  " gundo
-  NeoBundleLazy "sjl/gundo.vim", {
-        \ "autoload": {"commands": ["GundoToggle"]}}
 
   " textobj {{{
   NeoBundle "kana/vim-textobj-user"
@@ -273,6 +271,14 @@ if s:use_neobundle && v:version >= 703
   " Auto bracket closing
   "NeoBundle "cohama/lexima.vim"
 
+  " Echo
+  NeoBundleLazy "Shougo/echodoc", {
+        \ "autoload": { "insert": 1 }}
+
+  " gundo
+  NeoBundleLazy "sjl/gundo.vim", {
+        \ "autoload": {"commands": ["GundoToggle"]}}
+
   " Align
   NeoBundle "h1mesuke/vim-alignta"
 
@@ -355,8 +361,11 @@ if s:use_neobundle && v:version >= 703
 
   " Syntax checking
   NeoBundle "osyo-manga/vim-watchdogs", {
-      \ "depends": ["thinca/vim-quickrun", "dannyob/quickfixstatus",
+      \ "depends": ["Shougo/vimproc", "thinca/vim-quickrun", "dannyob/quickfixstatus",
                    \"osyo-manga/shabadou.vim", "cohama/vim-hier"]}
+
+  " Mark syntax error lines by watchdogs
+  NeoBundle "KazuakiM/vim-qfsigns"
 
   " Syntax for vim
   NeoBundle "dbakker/vim-lint"
@@ -1662,25 +1671,23 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-watchdogs"))
     let g:quickrun_config = {}
   endif
   let g:quickrun_config["watchdogs_checker/_"] = {
-  \ 'outputter/quickfix/open_cmd' : '',
-  }
-  let g:quickrun_config["_"] = {
-  \ "runner/vimproc/updatetime" : 500,
-  \ "runner/vimproc/sleep" : 10,
-  },
-  \ 'outputter/quickfix/open_cmd' : '',
-  }
-  let g:quickrun_config += {
+  \ "outputter/quickfix/open_cmd" : "",
+  \ "runner/vimproc/updatetime" : 50,
+  \ "hook/qfsigns_update/enable_exit": 1,
+  \ "hook/qfsigns_update/priority_exit": 3,
   \}
-  "\ "watchdogs_checker/_" : {
-  "\   "runner/vimproc/updatetime" : 40,
-  "\   "_" : {
-  "\       "runner/vimproc/updatetime" : 500,
-  "\       "runner/vimproc/sleep" : 10,
-  "\   },
   call watchdogs#setup(g:quickrun_config)
 endif
 "}}} vim-watchdogs
+
+" vim-hier{{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-hier"))
+  highlight qf_error ctermfg=255 ctermbg=1
+  let g:hier_highlight_group_qf   = 'qf_error'
+  let g:hier_highlight_group_qfw  = 'qf_error'
+  "let g:hier_highlight_group_qfi  = 'qf_error'
+endif
+" }}} vim-hier
 
 " vim-rooter{{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-rooter"))
