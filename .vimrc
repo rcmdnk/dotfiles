@@ -469,7 +469,7 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "terryma/vim-multiple-cursors"
 
   " switch
-  NeoBundle "AndrewRadev/switch.vim"
+  "NeoBundle "AndrewRadev/switch.vim"
 
   " linediff
   NeoBundle "AndrewRadev/linediff.vim"
@@ -498,7 +498,7 @@ if s:use_neobundle && v:version >= 703
         \ "autoload" : {"commands": ["EditCSV"] }}
 
   " Character base diff
-  NeoBundle "vim-scripts/diffchar.vim"
+  "NeoBundle "vim-scripts/diffchar.vim"
 
   " Rogue
   NeoBundleLazy "katono/rogue.vim", {
@@ -1373,6 +1373,13 @@ if s:neobundle_enabled && ! empty(neobundle#get("yankround.vim"))
 endif
 " }}}
 
+" vim-over {{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-over"))
+  nnoremap <Leader>c :OverCommandLine<CR>%s/
+  xnoremap <Leader>c :OverCommandLine<CR>s/
+endif
+" }}}
+
 " status line {{{
 set laststatus=2 " always show
 set statusline=%<%f\ %m%r%h%w
@@ -1683,9 +1690,11 @@ endif
 " vim-hier{{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-hier"))
   highlight qf_error ctermfg=255 ctermbg=1
+  highlight qf_warning ctermfg=255 ctermbg=3
+  highlight qf_info ctermfg=255 ctermbg=2
   let g:hier_highlight_group_qf   = 'qf_error'
-  let g:hier_highlight_group_qfw  = 'qf_error'
-  "let g:hier_highlight_group_qfi  = 'qf_error'
+  let g:hier_highlight_group_qfw  = 'qf_warning'
+  let g:hier_highlight_group_qfi  = 'qf_info'
 endif
 " }}} vim-hier
 
