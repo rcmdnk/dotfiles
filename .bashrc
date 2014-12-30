@@ -610,8 +610,10 @@ if [[ "$TERM" =~ screen ]]; then # {{{
     # }}}
   fi # }}}
 
+  #PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}tmuxUtils status"
   # "\\" doesn't work well, use \134 instead
-  PS1="\[\ek\h \W\e\134\e]0;\h \w\a\]\$(\
+  #PS1="\[\ek\h \W\e\134\e]0;\h \w\a\]\$(\
+  PS1="\$(\
     ret=\$?
     rand=\$((RANDOM%36));\
     if [ \$ret -eq 0 ];then\
