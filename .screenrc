@@ -115,8 +115,12 @@ bind ^l eval    'focus right'
 #bind -c move ^q eval    'command -c move'
 
 # Split
+bind v split -v
 bind V split -v
+bind ^v split -v
+bind s split
 bind S split
+bind ^s split
 
 # Layout
 # Layout command prefix C-q
