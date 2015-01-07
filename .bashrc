@@ -589,7 +589,8 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 
 if [[ "$TERM" =~ screen ]]; then # {{{
 
-  if [ -n "$STY" ] && [ "$TERM" = "" ];then # Only for the machine in which screen was launched. {{{
+  #if [ -n "$STY" ] || [ -n "$TMUX" ];then # Only for the machine in which screen/tmux was launched
+  if [ -n "$STY" ];then # Only for the machine in which screen was launched. {{{
     # Overwrite path to push to the clipboard list{{{
     function path () {
       if [ $# -eq 0 ];then
@@ -610,7 +611,7 @@ if [[ "$TERM" =~ screen ]]; then # {{{
     # }}}
   fi # }}}
 
-  PS1="\$(\
+  PS1="\[\ek\h \W\e\134\e]0;\h \w\a\]\$(\
     ret=\$?
     rand=\$((RANDOM%36));\
     if [ \$ret -eq 0 ];then\
@@ -639,11 +640,6 @@ if [[ "$TERM" =~ screen ]]; then # {{{
       fi\
     fi;\
     )"
-  if [ "$TMUX" != "" ];then
-    PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}tmuxUtils status"
-  else
-    PS1="\[\ek\h \W\e\134\e]0;\h \w\a\]$PS1"
-  fi
   # }}}
 
   # Set display if screen is attached in other host than previous host {{{
