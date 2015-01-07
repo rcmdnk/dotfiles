@@ -195,6 +195,7 @@ bufferfile "$SCREENEXCHANGE"
 # -> `exec /bin/sh <command> seems better...
 bindkey -m ' ' eval 'stuff \040' 'exec /bin/sh -c "multi_clipboard -I"'
 bindkey -m Y eval 'stuff Y' 'exec /bin/sh -c "multi_clipboard -I"'
+bindkey -m D eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "multi_clipboard -I"'
 bindkey -m W eval 'stuff W' 'writebuf' 'exec /bin/sh  -c "multi_clipboard -I"'
 
 # !!! should not be applied (especially for stdout (second one)).
