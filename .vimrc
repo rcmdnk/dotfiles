@@ -695,6 +695,9 @@ set switchbuf=useopen
 " virtualedit (can move to non-editing places: e.x. right of $)
 set virtualedit=all
 
+" For shell script (sh.vim), don't append "." to iskeyword
+let g:sh_noisk=1
+
 " Set nopaste when it comes back to Normal mode
 autocmd MyAutoGroup InsertLeave * setlocal nopaste
 
@@ -1410,12 +1413,12 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
   let g:neocomplete#min_keyword_length = 3
   let g:neocomplete#enable_ignore_case = 1
   let g:neocomplete#enable_smart_case = 1
-  let g:neocomplete#disable_auto_complete = 0
-  let g:neocomplete#enable_auto_select = 0
+  let g:neocomplete#enable_auto_select = 1
   let g:neocomplete#lock_buffer_name_pattern = ''
+  let g:neocomplete#enable_fuzzy_completion = 0
   " text mode is necessary for look
   " But it is not useful for code writing because it convert like:
-  " NeoBundle to NeoBundle.
+  " NeoBundle to Neobundle.
   let g:neocomplete#text_mode_filetypes =
         \ {'hybrid': 1, 'text':1, 'help': 1, 'gitcommit': 1, 'gitrebase':1,
         \  'vcs-commit': 1, 'markdown':1, 'textile':1, 'creole':1, 'org':1,
@@ -1424,22 +1427,22 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
         \  'vim':0, 'sh':0, 'javascript':0, 'perl':0}
   let g:neocomplete#same_filetypes = {}
   let g:neocomplete#same_filetypes._ = '_'
-  "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-  inoremap <expr><Tab> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
-  inoremap <expr><A-y>  neocomplete#close_popup()
-  inoremap <expr><A-e>  neocomplete#cancel_popup()
-  inoremap <expr><A-l>  neocomplete#complete_common_string()
-  inoremap <expr><A-u>  neocomplete#undo_completion()
+  "inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
+  inoremap <expr> <A-y>  neocomplete#close_popup()
+  inoremap <expr> <A-e>  neocomplete#cancel_popup()
+  inoremap <expr> <A-l>  neocomplete#complete_common_string()
+  inoremap <expr> <A-u>  neocomplete#undo_completion()
 endif
 " }}}
 
 " neosnippet {{{
 if s:neobundle_enabled && ! empty(neobundle#get("neosnippet"))
-  imap <silent><C-k> <Plug>(neosnippet_expand_or_jump)
+  imap <silent> <C-k> <Plug>(neosnippet_expand_or_jump)
   inoremap <silent><C-U> <ESC>:<C-U>Unite snippet<CR>
   "nnoremap <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
-  smap <silent><C-k> <Plug>(neosnippet_expand_or_jump)
-  xmap <silent>o <Plug>(neosnippet_register_oneshot_snippet)
+  smap <silent> <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <silent> o <Plug>(neosnippet_register_oneshot_snippet)
   "im <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
   "smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 endif
