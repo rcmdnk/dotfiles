@@ -53,8 +53,11 @@ if s:use_neobundle && v:version >= 703
 
   """"plugins"""""
 
-  " Neobundle
+  " NeoBundle
   NeoBundleFetch "Shougo/neobundle.vim"
+
+  " NeoBundle recipes
+  NeoBundle "Shougo/neobundle-vim-scripts"
 
   " Make template of NeoBundle
   NeoBundleLazy "LeafCage/nebula.vim",{
@@ -85,9 +88,6 @@ if s:use_neobundle && v:version >= 703
   " Source for unite: mark
   NeoBundle "tacroe/unite-mark"
 
-  " Source for unite: outline
-  NeoBundle "h1mesuke/unite-outline"
-
   " Source for unite: help
   NeoBundle "tsukkee/unite-help"
 
@@ -106,8 +106,8 @@ if s:use_neobundle && v:version >= 703
   " Source for unite: mru
   NeoBundle "Shougo/neomru.vim"
 
-  " Source for unite: outline
-  NeoBundle "h1mesuke/unite-outline"
+  " Source for unite: outline : shows error
+  "NeoBundle "h1mesuke/unite-outline"
   "}}}
 
   " Completion
@@ -122,7 +122,11 @@ if s:use_neobundle && v:version >= 703
     "NeoBundleLazy "mitsuse/kompl", {"depends": [g:completion]}
   endif
 
-  NeoBundle "Shougo/neobundle-vim-scripts"
+  " Snippet
+  NeoBundle "Shougo/neosnippet"
+  NeoBundle "Shougo/neosnippet-snippets"
+  NeoBundle "honza/vim-snippets"
+  NeoBundle "rcmdnk/vim-octopress-snippets"
 
   " textobj {{{
   NeoBundle "kana/vim-textobj-user"
@@ -575,7 +579,6 @@ set breakat=
 "set showbreak=+\   " set showbreak
 set showbreak=
 if (v:version == 704 && has("patch338")) || v:version >= 705
-  set nobreakindent
   "set breakindent    " indent even for wrapped lines
   "" breakindent option (autocmd is necessary when new file is opened in Vim)
   "" necessary even for default(min:20,shift:0)
@@ -1227,10 +1230,11 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
   " sources outside of unite
   nnoremap <silent> [unite]M :Unite mark<CR>
   nnoremap <silent> [unite]c :Unite history/command<CR>
-  nnoremap <silent> [unite]s :Unite history/search<CR>
+  nnoremap <silent> [unite]S :Unite history/search<CR>
   nnoremap <silent> [unite]F :Unite fold<CR>
   nnoremap <silent> [unite]L :Unite locate<CR>
   nnoremap <silent> [unite]C :Unite colorscheme<CR>
+  nnoremap <silent> [unite]s :Unite neosnippet<CR>
 endif
 " }}} Unite
 
@@ -1439,12 +1443,19 @@ endif
 " neosnippet {{{
 if s:neobundle_enabled && ! empty(neobundle#get("neosnippet"))
   imap <silent> <C-k> <Plug>(neosnippet_expand_or_jump)
-  inoremap <silent><C-U> <ESC>:<C-U>Unite snippet<CR>
+  inoremap <silent> <C-U> <ESC>:<C-U>Unite snippet<CR>
   "nnoremap <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
   smap <silent> <C-k> <Plug>(neosnippet_expand_or_jump)
   xmap <silent> o <Plug>(neosnippet_register_oneshot_snippet)
   "im <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
   "smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  let g:neosnippet#snippets_directory = [expand(g:bundledir . '/neosnippet-snippets/neosnippets')]
+  if ! empty(neobundle#get("vim-snippets"))
+    let g:neosnippet#snippets_directory += [expand(g:bundledir . '/vim-snippets/snippets')]
+  endif
+  if ! empty(neobundle#get("vim-octopress-snippets"))
+    let g:neosnippet#snippets_directory += [expand(g:bundledir . '/vim-octopress-snippets/neosnippets')]
+  endif
 endif
 " }}}
 
