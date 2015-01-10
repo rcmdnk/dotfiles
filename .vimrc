@@ -1442,10 +1442,9 @@ endif
 
 " neosnippet {{{
 if s:neobundle_enabled && ! empty(neobundle#get("neosnippet"))
-  imap <silent> <C-k> <Plug>(neosnippet_expand_or_jump)
-  inoremap <silent> <C-U> <ESC>:<C-U>Unite snippet<CR>
-  "nnoremap <silent><Space>e :<C-U>NeoSnippetEdit -split<CR>
-  smap <silent> <C-k> <Plug>(neosnippet_expand_or_jump)
+  imap <C-s> <Plug>(neosnippet_expand_or_jump)
+  smap <C-s> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-s>     <Plug>(neosnippet_expand_target)
   xmap <silent> o <Plug>(neosnippet_register_oneshot_snippet)
   "im <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
   "smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
