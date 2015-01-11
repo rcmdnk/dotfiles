@@ -1444,16 +1444,19 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("neosnippet"))
   imap <C-s> <Plug>(neosnippet_expand_or_jump)
   smap <C-s> <Plug>(neosnippet_expand_or_jump)
-  xmap <C-s>     <Plug>(neosnippet_expand_target)
-  xmap <silent> o <Plug>(neosnippet_register_oneshot_snippet)
-  "im <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+  xmap <C-s> <Plug>(neosnippet_expand_target)
+  "xmap <C-o> <Plug>(neosnippet_register_oneshot_snippet)
+  "imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
   "smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-  let g:neosnippet#snippets_directory = [expand(g:bundledir . '/neosnippet-snippets/neosnippets')]
-  if ! empty(neobundle#get("vim-snippets"))
-    let g:neosnippet#snippets_directory += [expand(g:bundledir . '/vim-snippets/snippets')]
-  endif
+  let g:neosnippet#enable_snipmate_compatibility = 1
+  let g:neosnippet#disable_runtime_snippets = {'_' : 1}
+  let g:neosnippet#snippets_directory = []
   if ! empty(neobundle#get("vim-octopress-snippets"))
     let g:neosnippet#snippets_directory += [expand(g:bundledir . '/vim-octopress-snippets/neosnippets')]
+  endif
+  let g:neosnippet#snippets_directory += [expand(g:bundledir . '/neosnippet-snippets/neosnippets')]
+  if ! empty(neobundle#get("vim-snippets"))
+    let g:neosnippet#snippets_directory += [expand(g:bundledir . '/vim-snippets/snippets')]
   endif
 endif
 " }}}
