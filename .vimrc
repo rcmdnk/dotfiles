@@ -69,10 +69,11 @@ if s:use_neobundle && v:version >= 703
   " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
   NeoBundle "Shougo/vimproc", {
         \"build" : {
-        \"windows" : "make -f make_mingw32.mak",
+        \"windows" : "tools\\update-dll-mingw",
         \"cygwin" : "make -f make_cygwin.mak",
         \"mac" : "make -f make_mac.mak",
-        \"unix" : "make -f make_unix.mak"}}
+        \"linux" : "make",
+        \"unix" : "gmake"}}
 
   " Quick Run
   NeoBundle "thinca/vim-quickrun"

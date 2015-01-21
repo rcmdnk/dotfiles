@@ -39,6 +39,9 @@ alias mail='email'
 
 # functions {{{
 # ln wrapper{{{
+if [ $HOME = /home/mobaxterm/ ];then
+  unalias ln >& /dev/null # for BusyBox
+fi
 function ln {
   opt="/H"
   if [ "$1" = "-s" ];then
