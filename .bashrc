@@ -37,6 +37,9 @@ source_file /etc/bashrc
 # Remove the last ";" from PROMPT_COMMAND
 # Necessary for Mac Terminal.app
 PROMPT_COMMAND=$(echo "${PROMPT_COMMAND}"|sed 's/; *$//')
+if type -a busybox >& /dev/null;then
+  PROMPT_COMMAND=""
+fi
 # }}}
 
 # Local path {{{
@@ -161,7 +164,8 @@ shopt -s no_empty_cmd_completion # Don't complete for an empty line
 # }}} shopt
 
 # History {{{
-HISTSIZE=10000
+HISTSIZE=100000
+HISTFILESIZE=100000
 # HISTCONTROL:
 # ignoredups # ignore duplication
 # ignorespace # ignore command starting with space
@@ -213,7 +217,9 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
 # For ls color {{{
 if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
   # Linux
-  eval "$(dircolors ~/.colourrc)"
+  if type -a dircolors >& /dev/null;then
+    eval "$(dircolors ~/.colourrc)"
+  fi
   if [ "$LS_COLORS" = "" ];then
     source_file "$HOME/.lscolors"
   fi
@@ -227,8 +233,13 @@ fi
 
 alias l='/bin/ls'
 if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
-  alias ls='ls --color=auto --show-control-char'
-  alias la='ls -A --color=auto --show-control-char'
+  if ls --color=auto --show-control-char >/dev/null 2>&1;then
+    alias ls='ls --color=auto --show-control-char'
+    alias la='ls -A --color=auto --show-control-char'
+  else
+    alias ls='ls --color=auto'
+    alias la='ls -A --color=auto'
+  fi
 elif [[ "$OSTYPE" =~ darwin ]];then
   alias ls='ls -G'
   alias la='ls -A -G'

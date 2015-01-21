@@ -8,7 +8,7 @@ overwrite=1
 dryrun=0
 newlink=()
 exist=()
-curdir=`pwd -P`
+curdir=$(pwd -P)
 
 # help
 HELP="Usage: $0 [-nd] [-b <backup file postfix>] [-e <exclude file>] [-i <install dir>]
@@ -37,7 +37,7 @@ while getopts b:e:i:ndh OPT;do
   esac
 done
 
-if [[ "$OSTYPE" =~ "cygwin" ]];then
+if [[ "$OSTYPE" =~ cygwin ]];then
   # ln wrapper{{{
   function ln {
     opt="/H"
@@ -52,7 +52,7 @@ if [[ "$OSTYPE" =~ "cygwin" ]];then
     if [ $# -eq 2 ];then
       link="$2"
     elif [ $# -eq 1 ];then
-      link=`basename "$target"`
+      link=$(basename "$target")
     else
       echo "usage: ln [-s] <target> [<link>]"
       echo "       -s for symbolic link, otherwise make hard link"
