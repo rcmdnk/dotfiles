@@ -334,7 +334,7 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "applescript.vim"
 
   " Automatic LaTeX Plugins
-  NeoBundle "coot/atp_vim"
+  "NeoBundle "coot/atp_vim"
 
   " Powershell
   NeoBundle "PProvost/vim-ps1"
