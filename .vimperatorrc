@@ -328,7 +328,11 @@ javascript <<EOM
   liberator.globalVariables.copy_templates = [
     { label: 'url', value: '%URL%', map:',u' },
     { label: 'anchor', value: '<a href="%URL%">%TITLE%</a>', map:',y' },
-    { label: 'markdown', value: '[%TITLE%](%URL%)', map:',i' },
+    { label: 'markdown', value: 'markdown link', custom: function() {
+      var t = content.document.title;
+      var l = content.location.href.replace('http://rcmdnk.github.io','');
+      return '['+t+']('+l+')';
+    }, map:',i' },
     { label: 'blockquote', value: '{% blockquote %TTITLE% %URL% %}%SEL%{% endblockquote %}', map:',bq' },
 
     { label: 'ai',   value: 'amazon image.',
