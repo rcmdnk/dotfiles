@@ -196,7 +196,7 @@ bufferfile "$SCREENEXCHANGE"
 bindkey -m ' ' eval 'stuff \040' 'exec /bin/sh -c "multi_clipboard -I"'
 bindkey -m Y eval 'stuff Y' 'exec /bin/sh -c "multi_clipboard -I"'
 #bindkey -m D eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "multi_clipboard -I"' # problem at search in copy mode
-bindkey -m $ eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "multi_clipboard -I"' # problem at search in copy mode
+#bindkey -m $ eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "multi_clipboard -I"' # problem at search in copy mode
 bindkey -m W eval 'stuff W' 'writebuf' 'exec /bin/sh  -c "multi_clipboard -I"'
 
 # !!! should not be applied (especially for stdout (second one)).
