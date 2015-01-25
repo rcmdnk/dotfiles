@@ -74,6 +74,8 @@ silent qmark p http://getpocket.com/a/queue/
 " silent qmark q ... " in vimperator.local
 " nnoremap p goq
 silent qmark g http://github.com/rcmdnk
+silent qmark h javascript:void%20window.open('http://b.hatena.ne.jp/entry/'+location.href);
+silent qmark s javascript:void%20window.open('http://www.similarweb.com/website/'+document.location.href.match(/^[https]+:\/{2,3}([0-9a-z\.\-:]+?):?[0-9]*?\//i)[1]);
 
 " }}}
 
@@ -334,7 +336,6 @@ javascript <<EOM
       return '['+t+']('+l+')';
     }, map:',i' },
     { label: 'blockquote', value: '{% blockquote %TTITLE% %URL% %}%SEL%{% endblockquote %}', map:',bq' },
-
     { label: 'ai',   value: 'amazon image.',
       custom: function() {
         var id = "rcmdnk0c-22";
@@ -427,7 +428,7 @@ javascript <<EOM
         return '<div class="amazon-box"><div class="amazon-img">'+u+'<img src="'+i+'" alt="'+alt+'"/></a></div><div class="amazon-txt">'+u+t+'<br><br>Amazonで詳しく見る</a></div></div>';
       }, map:',am'
     },
-  ];
+  ]
 })();
 EOM
 " }}}
