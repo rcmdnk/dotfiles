@@ -1418,7 +1418,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
   let g:neocomplete#min_keyword_length = 3
   let g:neocomplete#enable_ignore_case = 1
   let g:neocomplete#enable_smart_case = 1
-  let g:neocomplete#enable_auto_select = 1
+  let g:neocomplete#enable_auto_select = 0
   let g:neocomplete#lock_buffer_name_pattern = ''
   let g:neocomplete#enable_fuzzy_completion = 0
   " text mode is necessary for look
@@ -1434,10 +1434,10 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
   let g:neocomplete#same_filetypes._ = '_'
   "inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
   inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
-  inoremap <expr> <A-y>  neocomplete#close_popup()
-  inoremap <expr> <A-e>  neocomplete#cancel_popup()
-  inoremap <expr> <A-l>  neocomplete#complete_common_string()
-  inoremap <expr> <A-u>  neocomplete#undo_completion()
+  "inoremap <expr> <A-y>  neocomplete#close_popup()
+  "inoremap <expr> <A-e>  neocomplete#cancel_popup()
+  "inoremap <expr> <A-l>  neocomplete#complete_common_string()
+  "inoremap <expr> <A-u>  neocomplete#undo_completion()
 endif
 " }}}
 
