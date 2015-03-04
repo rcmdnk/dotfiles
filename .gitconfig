@@ -195,10 +195,9 @@
               continue;\
             fi;\
             while read a;do \
-              if ret=`grep -i -q $a $f`;then \
+              if grep -i -q $a $f;then \
                 echo \"avoid word $a is included in $f!!!\";\
-                echo $ret;\
-                return;\
+                return 1;\
               fi;\
             done < ~/.gitavoid;\
           done;\
