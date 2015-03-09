@@ -321,7 +321,12 @@ if s:use_neobundle && v:version >= 703
   "NeoBundle "vim-scripts/python_fold"
 
   " Python syntax
-  NeoBundle "mitsuhiko/vim-python-combined"
+  NeoBundleLazy "mitsuhiko/vim-python-combined", {
+      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
+
+  " Python indent
+  NeoBundleLazy "hynek/vim-python-pep8-indent", {
+      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
 
   "" Jedi for python
   "NeoBundleLazy "davidhalter/jedi-vim", {
@@ -566,10 +571,10 @@ set cinoptions=g0  " g0: no indent for private/public/protected
 "set textwidth=0    " a longer line than textwidth will be broken (0: disable)
 autocmd MyAutoGroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
 if exists ("&colorcolumn")
-  set colorcolumn=81 " put line on 81
+  set colorcolumn=80 " put line on 80
   "set colorcolumn=+1 " put line on textwidth+1
-  " Change background for 81-end of the line
-  "execute "set colorcolumn=" . join(range(81, 999), ",")
+  " Change background for 80-end of the line
+  "execute "set colorcolumn=" . join(range(80, 999), ",")
 endif
 set wrap           " longer line is wrapped
 set display=lastline " Show all even if there is many characters in one line.
