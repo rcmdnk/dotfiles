@@ -142,7 +142,7 @@
         comment=\"$(git log -1|tail -n +5)\";\
       fi;\
       if [ -f \"$(git rev-parse --git-dir)/.travis.yml\" ]; then \
-        comment=\"${comment} [ci skip]\";\
+        comment=\"[ci skip] ${comment}\";\
       fi;\
       tagcheck=$(git tag|grep ${tag});\
       if [ \"$tagcheck\" != \"\" ];then \
@@ -168,7 +168,7 @@
         comment=\"$(git log -1|tail -n +5)\";\
       fi;\
       if [ -f \"$(git rev-parse --show-toplevel)/.travis.yml\" ]; then \
-        comment=\"${comment} [ci skip]\";\
+        comment=\"[ci skip] ${comment}\";\
       fi;\
       echo comment: $comment;\
       tagcheck=$(git tag|grep ${tag});\
