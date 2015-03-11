@@ -317,20 +317,11 @@ if s:use_neobundle && v:version >= 703
           \"autoload": {"commands" : ["PrevimOpen"]}}
   endif
 
-  " Folding method for python, but makes completion too slow...?
-  "NeoBundle "vim-scripts/python_fold"
+  "" Python indent
+  NeoBundle "hynek/vim-python-pep8-indent"
 
-  " Python syntax
-  NeoBundleLazy "mitsuhiko/vim-python-combined", {
-      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
-
-  " Python indent
-  NeoBundleLazy "hynek/vim-python-pep8-indent", {
-      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
-
-  "" Jedi for python
-  "NeoBundleLazy "davidhalter/jedi-vim", {
-  "    \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
+  " Jedi for python
+  "NeoBundle "davidhalter/jedi-vim"
 
   " Java
   NeoBundle "koron/java-helper-vim"
@@ -1443,6 +1434,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
   "inoremap <expr> <A-e>  neocomplete#cancel_popup()
   "inoremap <expr> <A-l>  neocomplete#complete_common_string()
   "inoremap <expr> <A-u>  neocomplete#undo_completion()
+
+  autocmd MyAutoGroup FileType python setlocal completeopt-=preview
 endif
 " }}}
 
@@ -1561,6 +1554,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#popup_select_first = 0
   let g:jedi#popup_on_dot = 0
 
+  autocmd MyAutoGroup FileType python setlocal completeopt-=preview
   "autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
   "let g:jedi#auto_vim_configuration = 0
   "if ! empty(neobundle#get("neocomplete.vim"))
@@ -1707,6 +1701,9 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-watchdogs"))
   \ "runner/vimproc/updatetime" : 50,
   \ "hook/qfsigns_update/enable_exit": 1,
   \ "hook/qfsigns_update/priority_exit": 3,
+  \}
+  let g:quickrun_config["python/watchdogs_checker"] = {
+  \ "type" : "watchdogs_checker/flake8"
   \}
   call watchdogs#setup(g:quickrun_config)
 endif
