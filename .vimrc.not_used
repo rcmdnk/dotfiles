@@ -3,7 +3,8 @@
 " ==============================================
 
 
-" jedi-vim {{{
+" python {{{
+" jedi-vim
 " Python autocompletion
 " Show error of
 "     ImportError: No module named os
@@ -11,7 +12,22 @@
 NeoBundleLazy "davidhalter/jedi-vim", {
       \ "rev" : "dev",
       \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
+" this filetypes are unnecessary, neither, as they are loaded only when python file is loaded.
+
+" Folding method for python, but makes completion too slow...?
+NeoBundle "vim-scripts/python_fold"
+
+" Python syntax
+" seems default syntax is enough
+" indent is not enough for pep8
+" use "hynek/vim-python-pep8-indent", instead
+NeoBundle "mitsuhiko/vim-python-combined"
+
+" Python syntax
+" Syntastics or watch-dogs is enough.
+NeoBundle "nvie/vim-flake8"
 " }}}
+
 
 " vimshell {{{
 " Use shell in vim # not necessary on GNU screen
