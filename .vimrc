@@ -1554,7 +1554,8 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#popup_select_first = 0
   let g:jedi#popup_on_dot = 0
 
-  autocmd MyAutoGroup FileType python setlocal completeopt-=preview
+  autocmd FileType python setlocal completeopt-=preview
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   "autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
   "let g:jedi#auto_vim_configuration = 0
   "if ! empty(neobundle#get("neocomplete.vim"))
