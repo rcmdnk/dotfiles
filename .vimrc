@@ -321,7 +321,7 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "hynek/vim-python-pep8-indent"
 
   " Jedi for python
-  "NeoBundle "davidhalter/jedi-vim"
+  NeoBundle "davidhalter/jedi-vim"
 
   " Java
   NeoBundle "koron/java-helper-vim"
@@ -1556,14 +1556,14 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
 
   autocmd FileType python setlocal completeopt-=preview
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  "autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
-  "let g:jedi#auto_vim_configuration = 0
-  "if ! empty(neobundle#get("neocomplete.vim"))
+  let g:jedi#auto_vim_configuration = 0
+  if ! empty(neobundle#get("neocomplete.vim"))
+    autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
   "  if !exists('g:neocomplete#force_omni_input_patterns')
   "    let g:neocomplete#force_omni_input_patterns = {}
   "  endif
   "  let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
-  "endif
+  endif
 endif
 " }}} jedi-vim
 
