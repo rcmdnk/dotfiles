@@ -1703,9 +1703,12 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-watchdogs"))
   \ "hook/qfsigns_update/enable_exit": 1,
   \ "hook/qfsigns_update/priority_exit": 3,
   \}
-  let g:quickrun_config["python/watchdogs_checker"] = {
-  \ "type" : "watchdogs_checker/flake8"
-  \}
+  let s:flake8 = system('flake8 --version 2>/dev/null')
+  if s:flake8 != ""
+    let g:quickrun_config["python/watchdogs_checker"] = {
+    \ "type" : "watchdogs_checker/flake8"
+    \}
+  endif
   call watchdogs#setup(g:quickrun_config)
 endif
 "}}} vim-watchdogs
