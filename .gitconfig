@@ -178,6 +178,23 @@
       git commit -a -m 'Temporary commit for cancel';\
       git reset --hard HEAD~;\
     };f"
+  check = "!f () {\
+      if [ -f ~/.gitavoid ];then \
+        for f in `git ls-files`;do \
+          if [ ! -f $f ];then \
+            continue;\
+          fi;\
+          while read a;do \
+            if grep -i -q $a $f;then \
+              echo \"avoid word $a is included in $f!!!\";\
+              return 1;\
+            fi;\
+          done < ~/.gitavoid;\
+        done;\
+      else \
+        echo 'WARNING: There is no ~/.gitavoid file!';\
+      fi;\
+    };f"
   update = "!f () {\
       update=0;\
       difffiles=`git status|grep -e 'new file' -e 'modified'|cut -d':' -f2`;\
