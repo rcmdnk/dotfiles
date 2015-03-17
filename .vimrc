@@ -321,7 +321,12 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "hynek/vim-python-pep8-indent"
 
   " Jedi for python
-  NeoBundle "davidhalter/jedi-vim"
+  NeoBundleLazy "davidhalter/jedi-vim", {
+      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
+
+  " Folding method for python, but makes completion too slow...?
+  NeoBundleLazy "vim-scripts/python_fold", {
+      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
 
   " Java
   NeoBundle "koron/java-helper-vim"
@@ -1435,7 +1440,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
   "inoremap <expr> <A-l>  neocomplete#complete_common_string()
   "inoremap <expr> <A-u>  neocomplete#undo_completion()
 
-  autocmd MyAutoGroup FileType python setlocal completeopt-=preview
+  autocmd FileType python setlocal completeopt-=preview
 endif
 " }}}
 
@@ -1545,7 +1550,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   nmap <Leader>j [jedi]
   xmap <Leader>j [jedi]
 
-  "let g:jedi#completions_command = "<C-N>"
+  let g:jedi#completions_command = "<C-N>"
   let g:jedi#goto_assignments_command = "[jedi]g"
   let g:jedi#goto_definitions_command = "[jedi]d"
   let g:jedi#documentation_command = "[jedi]K"
@@ -1555,14 +1560,15 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#popup_on_dot = 0
 
   autocmd FileType python setlocal completeopt-=preview
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  let g:jedi#auto_vim_configuration = 0
+
+  " w/ neocomplete
   if ! empty(neobundle#get("neocomplete.vim"))
-    autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#complete
-  "  if !exists('g:neocomplete#force_omni_input_patterns')
-  "    let g:neocomplete#force_omni_input_patterns = {}
-  "  endif
-  "  let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+    autocmd FileType python setlocal omnifunc=jedi#completions
+    let g:jedi#completions_enabled = 0
+    let g:jedi#auto_vim_configuration = 0
+    let g:neocomplete#force_omni_input_patterns.python =
+    \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+    " alternative pattern: '\h\w*\|[^. \t]\.\w*'
   endif
 endif
 " }}} jedi-vim
