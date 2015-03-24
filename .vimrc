@@ -317,7 +317,7 @@ if s:use_neobundle && v:version >= 703
           \"autoload": {"commands" : ["PrevimOpen"]}}
   endif
 
-  "" Python indent
+  " Python indent
   NeoBundle "hynek/vim-python-pep8-indent"
 
   " Jedi for python
