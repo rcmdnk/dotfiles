@@ -269,6 +269,7 @@ alias hischeck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
 alias hischeckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}'|sort|uniq -c|sort -n"
 alias sort='LC_ALL=C sort'
 alias uniq='LC_ALL=C uniq'
+alias t='less +F'
 if type -a hub >& /dev/null;then
   eval "$(hub alias -s)" # Use GitHub wrapper for git
 fi
