@@ -320,9 +320,9 @@ if s:use_neobundle && v:version >= 703
   " Python indent
   NeoBundle "hynek/vim-python-pep8-indent"
 
-  " Jedi for python
-  NeoBundleLazy "davidhalter/jedi-vim", {
-      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
+  "" Jedi for python
+  "NeoBundleLazy "davidhalter/jedi-vim", {
+  "    \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
 
   " Folding method for python, but makes completion too slow...?
   NeoBundleLazy "vim-scripts/python_fold", {
