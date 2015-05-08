@@ -161,9 +161,9 @@ vnoremap <C-g> y<Esc><Esc>P
 " }}}
 
 " Mappings for Gmail {{{
-ignorekeys add mail\\.google\\.com -except a,o,f,F,d,g,j,k,R,t,/,\;,\:,<C-n>,<C-p>,<C-o>,<C-i>,<C-f>,<C-b>,<C-u>,<C-d>
-nnoremap -urls='mail\\.google\\.com' r a
-nnoremap -urls='mail\\.google\\.com' goi gi
+"ignorekeys add mail\\.google\\.com -except a,o,f,F,d,g,j,k,R,t,/,\;,\:,<C-n>,<C-p>,<C-o>,<C-i>,<C-f>,<C-b>,<C-u>,<C-d>
+"nnoremap -urls='mail\\.google\\.com' r a
+"nnoremap -urls='mail\\.google\\.com' goi gi
 " }}}
 
 " Mappings for Other sites {{{
@@ -361,6 +361,11 @@ javascript <<EOM
           if (c.length > 0){
             s = c[0].getAttribute('src');
           }
+        }else if(content.document.getElementById('coverArt_feature_div')){
+          var c = content.document.getElementById('coverArt_feature_div').getElementsByTagName("img");
+          if (c.length > 0){
+            s = c[0].getAttribute('src');
+          }
         }
         if (s == ""){
           alert("Failed to get image!");
@@ -374,6 +379,8 @@ javascript <<EOM
           var t = content.document.getElementById('btAsinTitle').innerHTML;
         }else if(content.document.getElementById('productTitle')){
           var t = content.document.getElementById('productTitle').innerHTML;
+        }else if(content.document.getElementsByName('title')){
+          var t = content.document.getElementsByName('title').getAttribute('content');
         }else{
           alert("Failed to get title!");
           return;
@@ -407,6 +414,11 @@ javascript <<EOM
           if (c.length > 0){
             s = c[0].getAttribute('src');
           }
+        }else if(content.document.getElementById('imgThumbs')){
+          var c = content.document.getElementById('imgThumbs').getElementsByTagName("img");
+          if (c.length > 0){
+            s = c[0].getAttribute('src');
+          }
         }
         if (s == ""){
           alert("Failed to get image!");
@@ -420,6 +432,8 @@ javascript <<EOM
           var t = content.document.getElementById('btAsinTitle').innerHTML;
         }else if(content.document.getElementById('productTitle')){
           var t = content.document.getElementById('productTitle').innerHTML;
+        }else if(content.document.getElementsByName('title')){
+          var t = content.document.getElementsByName('title').getAttribute('content');
         }else{
           var t = 'failed to get title';
         }

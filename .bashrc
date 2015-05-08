@@ -115,8 +115,10 @@ fi
 #export LESSCHARSET=utf-8
 #ascii,dos,ebcdic,IBM-1047,iso8859,koi8-r,latin1,next
 
-#export GREP_OPTIONS='--color=auto'
-#export LESS='-R'
+if type -a src-hilite-lesspipe.sh >& /dev/null && type -a source-highlight >& /dev/null;then
+  export LESS='-R'
+  export LESSOPEN='| src-hilite-lesspipe.sh %s'
+fi
 
 # TMPDIR fix for Cygwin
 if [ ! "$TMPDIR" ];then
@@ -244,6 +246,7 @@ elif [[ "$OSTYPE" =~ darwin ]];then
   alias ls='ls -G'
   alias la='ls -A -G'
 fi
+alias lt='ls -altr'
 alias badlink='find -L . -depth 1 -type l -ls'
 #alias g='gmake'
 alias g='make'
@@ -271,6 +274,9 @@ alias sort='LC_ALL=C sort'
 alias uniq='LC_ALL=C uniq'
 alias t='less +F'
 alias iocheck='find /proc -name io |xargs egrep "write|read"|sort -n -k 2'
+if type -a thefuck >& /dev/null;then
+  alias fuck='eval $(thefuck $(fc -ln -1))'
+fi
 if type -a hub >& /dev/null;then
   eval "$(hub alias -s)" # Use GitHub wrapper for git
 fi
@@ -281,6 +287,45 @@ if ! type -a tree >& /dev/null;then
   alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'"
 fi
 
+function mdtopdf () { # pandoc helper
+  if [ $# -eq 0 ];then
+    echo "usage mdtopdf [output.pdf] [-t <theme>] input.md "
+    return 1
+  fi
+  input=""
+  output=""
+  theme="-V theme:Singapore"
+  istheme=0
+  for v in $*;do
+    if [ $istheme -eq 1 ];then
+      theme="-V $v"
+      istheme=0
+    elif [ $v = "-t" ];then
+      istheme=1
+    elif [[ $v =~ \.md ]];then
+      input=$v
+    elif [[ $v =~ \.pdf ]];then
+      output=$v
+    else
+      echo "usage mdtopdf [output.pdf] [-t <theme>] input.md "
+      return 1
+    fi
+  done
+  if [ "$input" = "" ];then
+    echo "usage mdtopdf [output.pdf] [-t <theme>] input.md "
+    return 1
+  fi
+  output=${output:-${input%.md}.pdf}
+  if [[ "$OSTYPE" =~ darwin ]];then
+    cmd="iconv -t UTF-8 $input | \
+      pandoc -t beamer -f markdown -o $output $theme --latex-engine=lualatex"
+  else
+    cmd="pandoc -t beamer $theme --latex-engine=lualatex \
+      $input -o $output"
+  fi
+  echo $cmd
+  eval $cmd
+} # }}
 
 function mynoglob_helper () { # noglob helpers {{{
   "$@"
