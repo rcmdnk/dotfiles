@@ -83,3 +83,7 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 # JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)
+
+if [ -f /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc ];then
+  export PATH=$PATH:/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/
+fi

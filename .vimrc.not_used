@@ -800,6 +800,11 @@ NeoBundle "scrooloose/syntastic", {
   \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
 " }}}
 
+" color scheme {{{
+NeoBundle "google/vim-colorscheme-primary"
+" }}}
+
+
 " vim-better-whitespace {{{
 " Could be useful if 'set cursorline' is used, and highlight for background is used.
 NeoBundle "ntpeters/vim-better-whitespace"
