@@ -247,6 +247,9 @@ elif [[ "$OSTYPE" =~ darwin ]];then
   alias la='ls -A -G'
 fi
 alias lt='ls -altr'
+if type -a colordiff >& /dev/null;then
+  alias diff='colordiff'
+fi
 alias badlink='find -L . -depth 1 -type l -ls'
 #alias g='gmake'
 alias g='make'
@@ -263,7 +266,7 @@ alias memo="vim ~/.memo.md"
 alias vid="vim -d"
 alias vinon="vim -u NONE"
 alias grep="grep --color=auto -s"
-alias c="multi_clipboard -W"
+#alias c="multi_clipboard -W"
 alias put='multi_clipboard -x'
 alias del="trash -r"
 # shellcheck disable=SC2142
@@ -274,6 +277,7 @@ alias sort='LC_ALL=C sort'
 alias uniq='LC_ALL=C uniq'
 alias t='less +F'
 alias iocheck='find /proc -name io |xargs egrep "write|read"|sort -n -k 2'
+alias now='date +"%Y%m%d %T"'
 if type -a thefuck >& /dev/null;then
   alias fuck='eval $(thefuck $(fc -ln -1))'
 fi
