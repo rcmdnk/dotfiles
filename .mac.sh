@@ -68,9 +68,20 @@ if [ "$SSH_AUTH_SOCK" = "" ];then
 fi
 
 # completion from brew
-brew_completion=`brew --prefix 2>/dev/null`/etc/bash_completion
-if [ $? -eq 0 ] && [ -f "$brew_completion" ];then
-  source $brew_completion
+if [ "$BASH_VERSION" != "" ];then
+  brew_completion=$(brew --prefix 2>/dev/null)/etc/bash_completion
+  if [ $? -eq 0 ] && [ -f "$brew_completion" ];then
+    source $brew_completion
+  fi
+elif [ "$ZSH_VERSION" != "" ];then
+  for d in "/share/zsh-completions" "/share/zsh/zsh-site-functions";do
+    brew_completion=$(brew --prefix 2>/dev/null)$d
+    if [ $? -eq 0 ] && [ -d "$brew_completion" ];then
+      fpath=($brew_completion $fpath)
+    fi
+  done
+  autoload -Uz compinit
+  compinit
 fi
 
 # wrap brew (brew-wrap in brew-file)
