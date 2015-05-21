@@ -291,7 +291,7 @@ if ! type -a tree >& /dev/null;then
   alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'"
 fi
 
-function mdtopdf () { # pandoc helper
+function mdtopdf () { # pandoc helper {{{
   if [ $# -eq 0 ];then
     echo "usage mdtopdf [output.pdf] [-t <theme>] input.md "
     return 1
@@ -329,7 +329,7 @@ function mdtopdf () { # pandoc helper
   fi
   echo $cmd
   eval $cmd
-} # }}
+} # }}}
 
 function mynoglob_helper () { # noglob helpers {{{
   "$@"
@@ -562,6 +562,41 @@ fi
 # }}}
 
 # }}} For GNU-BSD compatibility
+
+#function command_not_found_handle () { # Suffix aliases {{{
+#  if [ -d $1 ];then
+#    cd $1
+#    return
+#  else
+#    suffix=${1#.*}
+#    if [ "$suffix" != "" ];then
+#      vi $1
+#      return
+#    fi
+#  fi
+#  return 127
+#} # }}}
+
+#function command_not_found_hook () { # Suffix aliases {{{
+#  ret=("${PIPESTATUS[@]}")
+#  echo ret=${ret[@]}
+#  ret=${ret[0]}
+#  echo ret=${ret}
+#  if [ $ret -eq 127 ];then
+#    cmd=$(history 1|awk '{print $4}')
+#    echo cmd=$cmd
+#    if [ -d $cmd ];then
+#      cd $cmd
+#      ret=$?
+#    elif [ "${cmd#*.}" != "" ];then
+#      vim $cmd
+#      ret=$?
+#    fi
+#  fi
+#  return $ret
+#}
+#PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}command_not_found_hook"
+# }}}
 
 # }}} Alias, Function
 
