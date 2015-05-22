@@ -33,6 +33,7 @@ function source_file() {
 } # }}} Function for sourcing with precheck of the file
 
 # Source global definitions {{{
+PROMPT_COMMAND=""
 source_file /etc/bashrc
 # Remove the last ";" from PROMPT_COMMAND
 # Necessary for Mac Terminal.app
@@ -226,7 +227,7 @@ if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
     source_file "$HOME/.lscolors"
   fi
 elif [[ "$OSTYPE" =~ darwin ]];then
-  # Mac
+  # Mac (LSCOLORS, instead of LS_COLORS)
   export LSCOLORS=DxgxcxdxCxegedabagacad
 fi
 # }}} For ls color
@@ -300,15 +301,15 @@ function mdtopdf () { # pandoc helper {{{
   output=""
   theme="-V theme:Singapore"
   istheme=0
-  for v in $*;do
+  for v in "$@";do
     if [ $istheme -eq 1 ];then
       theme="-V $v"
       istheme=0
-    elif [ $v = "-t" ];then
+    elif [ "$v" = "-t" ];then
       istheme=1
-    elif [[ $v =~ \.md ]];then
+    elif [[ "$v" =~ \.md ]];then
       input=$v
-    elif [[ $v =~ \.pdf ]];then
+    elif [[ "$v" =~ \.pdf ]];then
       output=$v
     else
       echo "usage mdtopdf [output.pdf] [-t <theme>] input.md "
@@ -327,8 +328,8 @@ function mdtopdf () { # pandoc helper {{{
     cmd="pandoc -t beamer $theme --latex-engine=lualatex \
       $input -o $output"
   fi
-  echo $cmd
-  eval $cmd
+  echo "$cmd"
+  eval "$cmd"
 } # }}}
 
 function mynoglob_helper () { # noglob helpers {{{
@@ -352,7 +353,7 @@ function man () { # man wrapper {{{
     p="$PAGER"
   fi
   if [ "$MANPAGER" != "" ];then
-    m="$MNNPAGER"
+    m="$MANPAGER"
   fi
   unset PAGER
   unset MANPAGER
@@ -415,7 +416,7 @@ function press () {
          directory_name.tar.gz
 "
   if [ $# -eq 0 ];then
-    echo "$help"
+    echo "$HELP"
   elif [ "$1" = "-d" ];then
     remove=1
     shift
@@ -563,39 +564,36 @@ fi
 
 # }}} For GNU-BSD compatibility
 
-#function command_not_found_handle () { # Suffix aliases {{{
-#  if [ -d $1 ];then
-#    cd $1
-#    return
-#  else
-#    suffix=${1#.*}
-#    if [ "$suffix" != "" ];then
-#      vi $1
-#      return
-#    fi
-#  fi
-#  return 127
-#} # }}}
-
-#function command_not_found_hook () { # Suffix aliases {{{
-#  ret=("${PIPESTATUS[@]}")
-#  echo ret=${ret[@]}
-#  ret=${ret[0]}
-#  echo ret=${ret}
-#  if [ $ret -eq 127 ];then
-#    cmd=$(history 1|awk '{print $4}')
-#    echo cmd=$cmd
-#    if [ -d $cmd ];then
-#      cd $cmd
-#      ret=$?
-#    elif [ "${cmd#*.}" != "" ];then
-#      vim $cmd
-#      ret=$?
-#    fi
-#  fi
-#  return $ret
-#}
-#PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}command_not_found_hook"
+# Suffix aliases {{{
+_suffix_vim_open=(md markdown txt text tex cc c C cxx h hh java py rb sh)
+if type -a command_not_found_handle >& /dev/null;then
+  function command_not_found_handle () {
+    ret=$?
+    if [ -d "$1" ];then
+      echo "$cmd is a directory, cd $cmd"
+      cd "$1"
+      return $?
+    elif echo " ${_suffix_vim_open[@]} "|grep -q "${1##*.}";then
+      vi "$1"
+      return $?
+    fi
+    return $ret
+  }
+else
+  function command_not_found_hook () {
+    ret=$?
+    if [ $ret -eq 126 ] || [ $ret -eq 127 ];then
+      cmd=$(history 1|awk '{print $4}')
+      if [ -d "$cmd" ];then
+        echo "$cmd is a directory, cd $cmd"
+        cd "$cmd"
+      elif echo " ${_suffix_vim_open[@]} "|grep -q "${cmd##*.}";then
+        vi "$cmd"
+      fi
+    fi
+  }
+  PROMPT_COMMAND="command_not_found_hook${PROMPT_COMMAND:+;${PROMPT_COMMAND}}"
+fi
 # }}}
 
 # }}} Alias, Function
