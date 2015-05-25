@@ -566,7 +566,7 @@ fi
 
 # Suffix aliases {{{
 _suffix_vim_open=(md markdown txt text tex cc c C cxx h hh java py rb sh)
-if type -a command_not_found_handle >& /dev/null;then
+if [ "$BASH_VERSINFO" -ge 4 ];then
   function command_not_found_handle () {
     ret=$?
     if [ -d "$1" ];then
@@ -584,11 +584,14 @@ else
     ret=$?
     if [ $ret -eq 126 ] || [ $ret -eq 127 ];then
       cmd=$(history 1|awk '{print $4}')
-      if [ -d "$cmd" ];then
-        echo "$cmd is a directory, cd $cmd"
-        cd "$cmd"
-      elif echo " ${_suffix_vim_open[@]} "|grep -q "${cmd##*.}";then
-        vi "$cmd"
+      if [ -e "$cmd" ];then
+        if [ -d "$cmd" ];then
+          echo "$cmd is a directory, cd $cmd"
+          cd "$cmd"
+        elif echo " ${_suffix_vim_open[@]} "|grep -q "${cmd##*.}";then
+          echo "$cmd is a file, open $cmd with vi..."
+          vi "$cmd"
+        fi
       fi
     fi
   }
