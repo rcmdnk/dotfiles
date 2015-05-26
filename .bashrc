@@ -162,7 +162,7 @@ export CLMAXHIST=50
 # shopt {{{
 shopt -s checkwinsize # Update the window size after each command
 shopt -s dotglob # Include dot files in the results of pathname expansion
-shopt -s extglob # Include dot files in the results of pathname expansion
+shopt -s extglob # Extended pattern matching is enabled.
 shopt -s no_empty_cmd_completion # Don't complete for an empty line
 # }}} shopt
 
@@ -564,31 +564,30 @@ fi
 
 # }}} For GNU-BSD compatibility
 
-# Suffix aliases {{{
-_suffix_vim_open=(md markdown txt text tex cc c C cxx h hh java py rb sh)
+# Suffix aliases/auto cd {{{
+_suffix_vim=(md markdown txt text tex cc c C cxx h hh java py rb sh)
 if [ "$BASH_VERSINFO" -ge 4 ];then
   function command_not_found_handle () {
-    ret=$?
-    if [ -d "$1" ];then
-      echo "$cmd is a directory, cd $cmd"
-      cd "$1"
-      return $?
-    elif echo " ${_suffix_vim_open[@]} "|grep -q "${1##*.}";then
-      vi "$1"
-      return $?
+    if [ -f "$1" ];then
+      if echo " ${_suffix_vim[*]} "|grep -q "${1##*.}";then
+        echo "$cmd is a file, open $cmd with vi..."
+        vi "$1"
+        return $?
+      fi
     fi
-    return $ret
+    echo "bash: $1: command not found"
+    return 127
   }
+  shopt -s autocd # cd to the directory, if it is given as a command.
 else
   function command_not_found_hook () {
     ret=$?
     if [ $ret -eq 126 ] || [ $ret -eq 127 ];then
-      cmd=$(history 1|awk '{print $4}')
       if [ -e "$cmd" ];then
         if [ -d "$cmd" ];then
           echo "$cmd is a directory, cd $cmd"
           cd "$cmd"
-        elif echo " ${_suffix_vim_open[@]} "|grep -q "${cmd##*.}";then
+        elif echo " ${_suffix_vim[@]} "|grep -q "${cmd##*.}";then
           echo "$cmd is a file, open $cmd with vi..."
           vi "$cmd"
         fi
@@ -597,6 +596,15 @@ else
   }
   PROMPT_COMMAND="command_not_found_hook${PROMPT_COMMAND:+;${PROMPT_COMMAND}}"
 fi
+## completion
+#_completion_suffix_alias () {
+#  local files=()
+#  for s in "${_suffix_vim[@]}";do
+#    files=("${files[@]}" $(ls *.${s} 2>/dev/null))
+#  done
+#  COMPREPLY=("${files[@]}")
+#}
+#complete -D -F _completion_suffix_alias -o bashdefault -o default
 # }}}
 
 # }}} Alias, Function
