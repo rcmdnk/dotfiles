@@ -567,16 +567,32 @@ fi
 # Suffix aliases/auto cd {{{
 _suffix_vim=(md markdown txt text tex cc c C cxx h hh java py rb sh)
 if [ "$BASH_VERSINFO" -ge 4 ];then
-  function command_not_found_handle () {
-    if [ -f "$1" ];then
+  alias_function() {
+    eval "${1}() $(declare -f ${2} | sed 1d)"
+  }
+  if ! type -a orig_command_not_found_handle >& /dev/null;then
+    if type -a command_not_found_handle >& /dev/null;then
+      alias_function orig_command_not_found_handle command_not_found_handle
+    else
+      orig_command_not_found_handle () {
+        echo "bash: $1: command not found"
+        return 127
+      }
+    fi
+  fi
+  command_not_found_handle() {
+    cmd=$1
+    shift
+    args=( "$@" )
+
+    if [ -f "$cmd" ];then
       if echo " ${_suffix_vim[*]} "|grep -q "${1##*.}";then
         echo "$cmd is a file, open $cmd with vi..."
-        vi "$1"
+        vi "$cmd"
         return $?
       fi
     fi
-    echo "bash: $1: command not found"
-    return 127
+    orig_command_not_found_handle "$cmd" "${args[@]}"
   }
   shopt -s autocd # cd to the directory, if it is given as a command.
 else
