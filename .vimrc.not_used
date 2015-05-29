@@ -26,6 +26,9 @@ NeoBundle "mitsuhiko/vim-python-combined"
 " Python syntax
 " Syntastics or watch-dogs is enough.
 NeoBundle "nvie/vim-flake8"
+
+" virtual env (not used)
+NeoBundle "jmcantrell/vim-virtualenv"
 " }}}
 
 
