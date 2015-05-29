@@ -362,9 +362,6 @@ if s:use_neobundle && v:version >= 703
   " Easymotion
   NeoBundleLazy "Lokaltog/vim-easymotion"
 
-  " virtual env
-  NeoBundle "jmcantrell/vim-virtualenv"
-
   " Syntax checking
   "NeoBundle "scrooloose/syntastic"
 
@@ -425,7 +422,6 @@ if s:use_neobundle && v:version >= 703
 
   " Grammer check with LanguageTool
   "NeoBundle "rhysd/vim-grammarous"
-
 
   " Excite Translate
   NeoBundleLazy "mattn/excitetranslate-vim", {
