@@ -363,12 +363,12 @@ if s:use_neobundle && v:version >= 703
   NeoBundleLazy "Lokaltog/vim-easymotion"
 
   " Syntax checking
-  "NeoBundle "scrooloose/syntastic"
+  NeoBundle "scrooloose/syntastic"
 
   " Syntax checking
-  NeoBundle "osyo-manga/vim-watchdogs", {
-      \ "depends": ["Shougo/vimproc", "thinca/vim-quickrun", "dannyob/quickfixstatus",
-                   \"osyo-manga/shabadou.vim", "cohama/vim-hier"]}
+  "NeoBundle "osyo-manga/vim-watchdogs", {
+  "    \ "depends": ["Shougo/vimproc", "thinca/vim-quickrun", "dannyob/quickfixstatus",
+  "                 \"osyo-manga/shabadou.vim", "cohama/vim-hier"]}
 
   " Mark syntax error lines by watchdogs
   NeoBundle "KazuakiM/vim-qfsigns"
