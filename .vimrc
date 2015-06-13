@@ -908,16 +908,15 @@ nnoremap <silent> <Leader>/ :noh<CR>
 "nnoremap <Leader>q :q<CR>
 "nnoremap <Leader>wq :wq<CR>
 "nnoremap <Leader>1 :q!<CR>
-"nnoremap W :w<CR>
-"nnoremap ! :q!<CR>
-"nnoremap Z ZZ
 nnoremap <A-w> :w<CR>
 nnoremap <A-q> :q!<CR>
 nnoremap <A-z> :ZZ<CR>
 " don't enter Ex mode: map to quit
 nnoremap Q :q<CR>
-" Use Z as ZZ
+" Use other one characters
 nnoremap Z ZZ
+nnoremap W :w<CR>
+nnoremap ! :q!<CR>
 
 " Close/Close & Save buffer
 nnoremap <Leader>q :bdelete<CR>
