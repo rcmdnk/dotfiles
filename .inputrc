@@ -100,6 +100,9 @@ $endif
 # grep uniq
 "\C-g\C-u": "\C-ugrep -I -l -r \"\" *|grep -v \"\\.svn\"|grep -v \"\\.git\"|cut -d: -f1|uniq\C-a\ef\ef\ef\ef\C-f\C-f"
 "\C-gu": "\C-ugrep -I -l -r \"\" *|grep -v \"\\.svn\"|grep -v \"\\.git\"|cut -d: -f1|uniq\C-a\ef\ef\ef\ef\C-f\C-f"
+# grep uniq and open with vi
+"\C-g\C-v": "\C-ugrep -I -l -r \"\" *|grep -v \"\\.svn\"|grep -v \"\\.git\"|cut -d: -f1|uniq)\C-avi $(\ef\ef\ef\ef\C-f\C-f"
+"\C-gv": "\C-ugrep -I -l -r \"\" *|grep -v \"\\.svn\"|grep -v \"\\.git\"|cut -d: -f1|uniq)\C-avi $(\ef\ef\ef\ef\C-f\C-f"
 
 # Quote/Bracket
 "\e\"": "\eb\"\ef\""
