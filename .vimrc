@@ -479,6 +479,9 @@ if s:use_neobundle && v:version >= 703
   " linediff
   NeoBundle "AndrewRadev/linediff.vim"
 
+  " diff enhanced
+  NeoBundle "chrisbra/vim-diff-enhanced"
+
   " expand region
   NeoBundle "terryma/vim-expand-region"
 
