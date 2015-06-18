@@ -332,7 +332,7 @@ javascript <<EOM
     { label: 'anchor', value: '<a href="%URL%">%TITLE%</a>', map:',y' },
     { label: 'markdown', value: 'markdown link', custom: function() {
       var t = content.document.title;
-      var l = content.location.href.replace('http://rcmdnk.github.io','');
+      var l = content.location.href.replace(/https?:\/\/(rcmdnk.github.io|octopress.dev|en.dev)/,'');
       return '['+t+']('+l+')';
     }, map:',i' },
     { label: 'blockquote', value: '{% blockquote %TTITLE% %URL% %}%SEL%{% endblockquote %}', map:',bq' },
