@@ -387,7 +387,7 @@ javascript <<EOM
         }
         var alt = t.split("<")[0];
         var u = '<a href="'+l+'/" rel="nofollow" target="_blank">';
-        return '<div class="amazon-img">'+u+'<img src="'+i+'" alt="'+alt+'"/></a></div>';
+        return '<div class="amazon-img">'+u+'<img width="' + x + '" height="' + x + '" src="'+i+'" alt="'+alt+'"/></a></div>';
       }, map:',ai'
     },
     { label: 'amazon',   value: 'amazon full link and image.',
@@ -439,7 +439,7 @@ javascript <<EOM
         }
         var alt = t.split("<")[0];
         var u = '<a href="'+l+'/" rel="nofollow" target="_blank">';
-        return '<div class="amazon-box"><div class="amazon-img">'+u+'<img src="'+i+'" alt="'+alt+'"/></a></div><div class="amazon-txt">'+u+t+'<br><br>Amazonで詳しく見る</a></div></div>';
+        return '<div class="amazon-box"><div class="amazon-img">'+u+'<img width="' + x + '" height="' + x + '" src="'+i+'" alt="'+alt+'"/></a></div><div class="amazon-txt">'+u+t+'<br><br>Amazonで詳しく見る</a></div></div>';
       }, map:',am'
     },
   ]
