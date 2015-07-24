@@ -348,7 +348,7 @@ javascript <<EOM
           alert("Failed to get asin!");
           return;
         }
-        var l = 'http://www.amazon.co.jp/o/ASIN/'+asin+'/'+id;
+        var l = 'http://www.amazon.co.jp/gp/product/'+asin+'?ie=UTF8&camp=1207&creative=8411&creativeASIN='+asin+'&linkCode=shr&tag='+id;
         var s = "";
         if(content.document.getElementById('prodImage')){ 
           s = content.document.getElementById('prodImage').getAttribute('src');
@@ -402,7 +402,7 @@ javascript <<EOM
           alert("Failed to get asin!");
           return;
         }
-        var l = 'http://www.amazon.co.jp/o/ASIN/'+asin+'/'+id;
+        var l = 'http://www.amazon.co.jp/gp/product/'+asin+'?ie=UTF8&camp=1207&creative=8411&creativeASIN='+asin+'&linkCode=shr&tag='+id;
         if(content.document.getElementById('prodImage')){ 
           var s = content.document.getElementById('prodImage').getAttribute('src');
         }else if(content.content.document.getElementById('main-image')){

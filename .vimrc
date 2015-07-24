@@ -57,14 +57,14 @@ if s:use_neobundle && v:version >= 703
   NeoBundleFetch "Shougo/neobundle.vim"
 
   " NeoBundle recipes
-  NeoBundle "Shougo/neobundle-vim-scripts"
+  "NeoBundle "Shougo/neobundle-vim-scripts"
 
   " Make template of NeoBundle
-  NeoBundleLazy "LeafCage/nebula.vim",{
-        \"autoload":{
-        \"commands":[
-        \"NebulaPutLazy", "NebulaPutFromClipboard",
-        \"NebulaYankOptions", "NebulaPutConfig"]}}
+  "NeoBundleLazy "LeafCage/nebula.vim",{
+  "      \"autoload":{
+  "      \"commands":[
+  "      \"NebulaPutLazy", "NebulaPutFromClipboard",
+  "      \"NebulaYankOptions", "NebulaPutConfig"]}}
 
   " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
   NeoBundle "Shougo/vimproc", {
@@ -74,12 +74,6 @@ if s:use_neobundle && v:version >= 703
         \"mac" : "make -f make_mac.mak",
         \"linux" : "make",
         \"unix" : "gmake"}}
-
-  " Quick Run
-  NeoBundle "thinca/vim-quickrun"
-
-  " Quick Fix Status
-  NeoBundle "dannyob/quickfixstatus"
 
   """ Unlike "fuzzyfinder" or "ku", it doesn't use the built-in completion of vim {{{
   """ Searches and display information->:help Unite
@@ -119,7 +113,8 @@ if s:use_neobundle && v:version >= 703
           \ "autoload": {"insert": 1 }}
 
     " look - display lines beginning with a given string, using with neocomplete/neocomplcache
-    NeoBundleLazy "ujihisa/neco-look", {"depends": [g:completion]}
+    NeoBundleLazy "ujihisa/neco-look", {"depends": [g:completion],
+          \ "autoload": {"insert": 1}}
     "NeoBundleLazy "mitsuse/kompl", {"depends": [g:completion]}
   endif
 
@@ -133,10 +128,10 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "kana/vim-textobj-user"
 
   "" entire: ae, ie
-  NeoBundle "kana/vim-textobj-entire"
+  "NeoBundle "kana/vim-textobj-entire"
 
   " line: al, il
-  NeoBundle "kana/vim-textobj-line"
+  "NeoBundle "kana/vim-textobj-line"
 
   "" indent: al, il
   "NeoBundle "kana/vim-textobj-indent"
@@ -262,9 +257,9 @@ if s:use_neobundle && v:version >= 703
   " operator {{{
   NeoBundle "kana/vim-operator-user"
   NeoBundle "kana/vim-operator-replace"
-  NeoBundle 'emonkak/vim-operator-sort'
-  NeoBundle 'tyru/operator-reverse.vim'
-  "NeoBundle "rhysd/vim-operator-surround"
+  "NeoBundle 'emonkak/vim-operator-sort'
+  "NeoBundle 'tyru/operator-reverse.vim'
+  "NeoBundle "rhysd/vim-operator-surround" " -> use vim-surround
   "}}}
 
   " Support repeat for surround, speedating, easymotion, etc...
@@ -306,17 +301,6 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "rcmdnk/vim-markdown"
   "NeoBundle "plasticboy/vim-markdown"
 
-  " Markdown preview
-  if ( has("win32unix") || has ("win64unix") ||
-        \has("mac") || has ("gui_macvim"))
-    NeoBundleLazy "kannokanno/previm", {
-          \"autoload": {"commands" : ["PrevimOpen"]}}
-  else
-    NeoBundleLazy "kannokanno/previm", {
-          \ "depends": ["tryu/open-browser.vim"],
-          \"autoload": {"commands" : ["PrevimOpen"]}}
-  endif
-
   " Python indent
   NeoBundle "hynek/vim-python-pep8-indent"
 
@@ -340,6 +324,9 @@ if s:use_neobundle && v:version >= 703
   " Powershell
   NeoBundle "PProvost/vim-ps1"
 
+  " Go
+  NeoBundle "nsf/gocode"
+
   " Another status line
   NeoBundle "itchyny/lightline.vim"
 
@@ -354,24 +341,20 @@ if s:use_neobundle && v:version >= 703
   NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
         \ "mappings" : "<Plug>(openbrowser-smart-search)"}}
 
-  " Open browser GitHub
-  NeoBundleLazy "tyru/open-browser-github.vim", {
-        \ "depends": ["tryu/open-browser.vim"],
-        \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
-
   " Easymotion
-  NeoBundleLazy "Lokaltog/vim-easymotion"
+  NeoBundleLazy "Lokaltog/vim-easymotion", {"autoload": {
+        \ "mappings" : ["<Plug>(easymotion-s2)", "<Plug>(easymotion-bd-W)"]}}
 
-  " Syntax checking
-  NeoBundle "scrooloose/syntastic"
+  "" Syntax checking
+  NeoBundle "scrooloose/syntastic", {
+      \ "depends": ["Shougo/vimproc"]}
 
   " Syntax checking
   "NeoBundle "osyo-manga/vim-watchdogs", {
-  "    \ "depends": ["Shougo/vimproc", "thinca/vim-quickrun", "dannyob/quickfixstatus",
-  "                 \"osyo-manga/shabadou.vim", "cohama/vim-hier"]}
-
-  " Mark syntax error lines by watchdogs
-  NeoBundle "KazuakiM/vim-qfsigns"
+  "    \ "depends": ["Shougo/vimproc", "thinca/vim-quickrun",
+  "                 \"dannyob/quickfixstatus",
+  "                 \"osyo-manga/shabadou.vim", "cohama/vim-hier",
+  "                 \"KazuakiM/vim-qfsigns"]}
 
   " Syntax for vim
   NeoBundle "dbakker/vim-lint"
@@ -407,7 +390,7 @@ if s:use_neobundle && v:version >= 703
         \ "autoload": {"commands": ["Gist"] }}
 
   " Date increment
-  NeoBundle "tpope/vim-speeddating"
+  "NeoBundle "tpope/vim-speeddating"
 
   " Table
   NeoBundle "dhruvasagar/vim-table-mode"
@@ -417,11 +400,12 @@ if s:use_neobundle && v:version >= 703
         \  "autoload" : {"commands": ["Ref"] }}
 
   " LanguageTool
-  NeoBundleLazy "vim-scripts/LanguageTool", {
-        \  "autoload" : {"commands": ["LanguageToolCheck"] }}
+  "NeoBundleLazy "vim-scripts/LanguageTool", {
+  "      \  "autoload" : {"commands": ["LanguageToolCheck"] }}
 
   " Grammer check with LanguageTool
-  "NeoBundle "rhysd/vim-grammarous"
+  NeoBundleLazy "rhysd/vim-grammarous", {
+        \  "autoload" : {"commands": ["GrammarousCheck"] }}
 
   " Excite Translate
   NeoBundleLazy "mattn/excitetranslate-vim", {
@@ -431,18 +415,6 @@ if s:use_neobundle && v:version >= 703
   " Google Translate
   NeoBundleLazy "daisuzu/translategoogle.vim", {
         \ "autoload" : { "commands": ["TranslateGoogle", "TranslateGoogleCmd"] }}
-
-  " Habatobi
-  NeoBundleLazy "mattn/habatobi-vim",{
-        \ "autoload" : {"commands": ["Habatobi"] }}
-
-  " flappyvird
-  NeoBundleLazy "mattn/flappyvird-vim",{
-        \ "autoload" : {"commands": ["FlappyVird"] }}
-
-  " puyopuyo
-  NeoBundleLazy "rbtnn/puyo.vim",{
-        \ "autoload" : {"commands": ["Puyo"] }}
 
   " Make benchmark result of vimrc
   NeoBundleLazy "mattn/benchvimrc-vim",{
@@ -479,20 +451,14 @@ if s:use_neobundle && v:version >= 703
   " linediff
   NeoBundle "AndrewRadev/linediff.vim"
 
+  " Character base diff
+  "NeoBundle "vim-scripts/diffchar.vim"
+
   " diff enhanced
   NeoBundle "chrisbra/vim-diff-enhanced"
 
   " expand region
   NeoBundle "terryma/vim-expand-region"
-
-  " Windows StartMenu
-  if ( has("win32unix") || has ("win64unix") || has("win32") || has ("win64"))
-    NeoBundleLazy "mattn/startmenu-vim", {
-          \ "autoload" : { "commands": ["StartMenu"] }}
-    NeoBundleLazy "mattn/excelview-vim", {
-          \ "depends": "mattn/webapi-vim",
-          \ "autoload" : { "commands": ["ExcelView"] }}
-  endif
 
   " Highlight on the fly
   NeoBundle "t9md/vim-quickhl"
@@ -504,13 +470,6 @@ if s:use_neobundle && v:version >= 703
   " Especially for CSV editing
   NeoBundleLazy "rbtnn/rabbit-ui.vim",{
         \ "autoload" : {"commands": ["EditCSV"] }}
-
-  " Character base diff
-  "NeoBundle "vim-scripts/diffchar.vim"
-
-  " Rogue
-  NeoBundleLazy "katono/rogue.vim", {
-        \ "autoload" : {"commands": ["Rogue"] }}
 
   " no more :set passte!
   "NeoBundle "ConradIrwin/vim-bracketed-paste"
@@ -541,6 +500,14 @@ filetype plugin indent on
 
 " Switch syntax highlighting on, when the terminal has colors
 syntax on
+
+" Encode
+set encoding=utf-8
+set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
+
+" need for two-byte characters in this script, need to be after set encodeing
+"scriptencoding utf-8
+""scriptencoding cp932
 
 " Switch on highlighting the last used search pattern.
 set hlsearch
@@ -656,10 +623,6 @@ if has("multi_byte_ime") || has("xim") || has("gui_macvim")
   set imsearch=0
   inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 endif
-
-" Encode
-set encoding=utf-8
-set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
 
 " bash-like tab completion
 set wildmode=list:longest
@@ -833,10 +796,10 @@ runtime ftplugin/man.vim
 """ Normal + Visual modes
 
 " mapleader (<Leader>) (default is \)
-let mapleader = ","
+let g:mapleader = ","
 " use \, as , instead
 noremap <Subleader> <Nop>
-map \ <Subleader>
+map <Space> <Subleader>
 noremap <Subleader>, ,
 
 " fix meta-keys
@@ -868,22 +831,22 @@ nnoremap <C-l> l
 "nnoremap <C-a> 0
 nnoremap <M-h> 0
 nnoremap <D-h> 0
-nnoremap <Space>h 0
-nnoremap H 0
+nnoremap <Subleader>h 0
+"nnoremap H 0
 " Go to End (C-e default: Scroll down)
 "nnoremap <C-e> $
 nnoremap <M-l> $
 nnoremap <D-l> $
-nnoremap <Space>l $
+nnoremap <Subleader>l $
 nnoremap L $
 " Go to top
 nnoremap <M-k> gg
 nnoremap <D-k> gg
-nnoremap <Space>k gg
+nnoremap <Subleader>k gg
 " Go to bottom
 nnoremap <M-j> G
 nnoremap <D-j> G
-nnoremap <Space>j G
+nnoremap <Subleader>j G
 " Substitute for C-a (C-q default: C-V alternative for gui mode)
 "nnoremap <C-q> <C-a> " not work...
 " Substitute for C-a (C-z default: suspend, same as :stop)
@@ -965,7 +928,7 @@ if v:version >= 703
   endfunction
   command! AlignAllBuf call s:align_all_buf()
 
-  "nnoremap <Leader><Space> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
+  "nnoremap <Leader><Subleader> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
 
   " remove trail spaces for all
   nnoremap <Leader><Space> :DeleteSpace<CR>
@@ -1031,6 +994,10 @@ xnoremap $ $h
 xnoremap L $h
 xnoremap v $h
 
+" Increment a number and keep visual mode
+vnoremap <C-a> <C-a>gv
+vnoremap <C-x> <C-x>gv
+
 """ command line mode
 " Cursor move
 cnoremap <C-b> <Left>
@@ -1044,9 +1011,6 @@ cnoremap w!! w !sudo tee > /dev/null %
 
 " Colors {{{
 
-" need for two-byte space?
-"scriptencoding utf-8
-"scriptencoding cp932
 augroup MyColors
   autocmd!
   " for spell checks
@@ -1240,6 +1204,10 @@ endif
 
 " wildfire {{{
 if s:neobundle_enabled && ! empty(neobundle#get("wildfire.vim"))
+  let g:wildfire_objects = {
+        \ "*" : ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'it'],
+        \}
+
   " This selects the next closest text object.
   let g:wildfire_fuel_map = "<ENTER>"
 
@@ -1315,7 +1283,9 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-clang-format"))
   autocmd MyAutoGroup FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
   autocmd MyAutoGroup FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
   " if you install vim-operator-user
-  autocmd MyAutoGroup FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+  if ! empty(neobundle#get("vim-operator-user"))
+    autocmd MyAutoGroup FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+  endif
 endif
 " }}} vim-clang-format
 
@@ -1438,7 +1408,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
   "inoremap <expr> <A-l>  neocomplete#complete_common_string()
   "inoremap <expr> <A-u>  neocomplete#undo_completion()
 
-  autocmd FileType python setlocal completeopt-=preview
+  autocmd MyAutoGroup FileType python setlocal completeopt-=preview
 endif
 " }}}
 
@@ -1528,9 +1498,9 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-easymotion"))
   map <Leader>j <Plug>(easymotion-j)
   map <Leader>k <Plug>(easymotion-k)
 
-  nmap g/ <Plug>(easymotion-sn)
-  xmap g/ <Plug>(easymotion-sn)
-  omap g/ <Plug>(easymotion-sn)
+  "nmap g/ <Plug>(easymotion-sn) "g/ is used by incsearch
+  "xmap g/ <Plug>(easymotion-sn)
+  "omap g/ <Plug>(easymotion-sn)
   "map  / <Plug>(easymotion-sn)
   "omap / <Plug>(easymotion-tn)
   "map  n <Plug>(easymotion-next)
@@ -1557,11 +1527,11 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   let g:jedi#popup_select_first = 0
   let g:jedi#popup_on_dot = 0
 
-  autocmd FileType python setlocal completeopt-=preview
+  autocmd MyAutoGroup FileType python setlocal completeopt-=preview
 
   " w/ neocomplete
   if ! empty(neobundle#get("neocomplete.vim"))
-    autocmd FileType python setlocal omnifunc=jedi#completions
+    autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#completions
     let g:jedi#completions_enabled = 0
     let g:jedi#auto_vim_configuration = 0
     let g:neocomplete#force_omni_input_patterns.python =
@@ -1691,6 +1661,10 @@ if s:neobundle_enabled && ! empty(neobundle#get("syntastic"))
   " Java
   let g:syntastic_java_javac_config_file_enabled = 1
   let g:syntastic_java_javac_config_file = "$HOME/.syntastic_javac_config"
+  " python
+  let g:syntastic_python_checkers = ['flake8']
+  " ruby
+  let g:syntastic_ruby_checkers = ['rubocop']
 endif
 "}}} syntastic
 
@@ -1788,6 +1762,12 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("applescript.vim"))
   autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setlocal filetype=applescript
   "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬<CR>
+endif
+"}}} applescript
+
+" gocode{{{
+if s:neobundle_enabled && ! empty(neobundle#get("gocode"))
+  let g:gocomplete#system_function = 'vimproc#system'
 endif
 "}}} applescript
 
@@ -1900,10 +1880,10 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-ref"))
   xnoremap [ref] <Nop>
   nmap <Leader>r [ref]
   xmap <Leader>r [ref]
-  nnoremap [ref]j :Ref webdict je<Space>
-  nnoremap [ref]e :Ref webdict ej<Space>
-  nnoremap [ref]w :Ref webdict wiki<Space>
-  nnoremap [ref]m :Ref man<Space>
+  nnoremap [ref]j :Ref webdict je<Subleader>
+  nnoremap [ref]e :Ref webdict ej<Subleader>
+  nnoremap [ref]w :Ref webdict wiki<Subleader>
+  nnoremap [ref]m :Ref man<Subleader>
   xnoremap [ref]j :<C-u>Ref webdict je <C-R><C-w><CR>
   xnoremap [ref]e :<C-u>Ref webdict ej <C-R><C-w><CR>
   xnoremap [ref]w :<C-u>Ref webdict wiki <C-R><C-w><CR>
@@ -1996,19 +1976,6 @@ if s:neobundle_enabled && ! empty(neobundle#get("gist-vim"))
 endif
 "}}} gist-vim
 
-" previm {{{
-if s:neobundle_enabled && ! empty(neobundle#get("previm"))
-  if ( has("win32unix") || has ("win64unix"))
-    " cygwin
-    let g:previm_open_cmd = "cygstart"
-  elseif ( has("mac") || has ("gui_macvim"))
-    " mac
-    let g:previm_open_cmd = "open"
-  endif
-endif
-
-"}}} previm
-
 " switch {{{
 if s:neobundle_enabled && ! empty(neobundle#get("switch.vim"))
   nnoremap - :Switch<cr>
@@ -2045,16 +2012,18 @@ endif
 "}}} switch
 
 " vim-quickhl {{{
-"if s:neobundle_enabled && ! empty(neobundle#get("vim-quickhl"))
-"  nmap <Space>m <Plug>(quickhl-manual-this)
-"  xmap <Space>m <Plug>(quickhl-manual-this)
-"  nmap <Space>M <Plug>(quickhl-manual-reset)
-"  xmap <Space>M <Plug>(quickhl-manual-reset)
-"
-"  nmap <Space>j <Plug>(quickhl-cword-toggle)
-"  nmap <Space>] <Plug>(quickhl-tag-toggle)
-"  map H <Plug>(operator-quickhl-manual-this-motion)
-"endif
+if s:neobundle_enabled && ! empty(neobundle#get("vim-quickhl"))
+  nmap <Subleader>m <Plug>(quickhl-manual-this)
+  xmap <Subleader>m <Plug>(quickhl-manual-this)
+  nmap <Subleader>M <Plug>(quickhl-manual-reset)
+  xmap <Subleader>M <Plug>(quickhl-manual-reset)
+
+  nmap <Subleader>j <Plug>(quickhl-cword-toggle)
+  nmap <Subleader>] <Plug>(quickhl-tag-toggle)
+  "if ! empty(neobundle#get("vim-operator-user"))
+  "  map H <Plug>(operator-quickhl-manual-this-motion)
+  "endif
+endif
 "}}} switch
 
 " calendar.vim {{{
@@ -2063,6 +2032,9 @@ if s:neobundle_enabled && ! empty(neobundle#get("calendar.vim"))
   let g:calendar_google_task = 1
   let g:calendar_first_day = "sunday"
   let g:calendar_frame = 'default'
+  if ! empty(neobundle#get("vim-indent-guides"))
+    autocmd MyAutoGroup FileType calendar IndentGuidesDisable
+  endif
 endif
 "}}} calendar.vim
 
