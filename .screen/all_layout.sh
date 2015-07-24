@@ -18,7 +18,7 @@ AUTOSAVE=(off on on off off off)
 SET_LAYOUT=1
 WIN_PREPARE=0
 
-$HOME/.screen/win_prepare.sh 8 4
+$HOME/.screen/win_prepare.sh $WINDOWS $CREATE
 
 # Remove all known layouts before creating any new layouts
 # (need to start with 0, or first number in all w/o unknown layouts)

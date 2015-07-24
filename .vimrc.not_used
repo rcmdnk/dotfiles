@@ -2,7 +2,6 @@
 " Plugins which it may come into use someday... {{{
 " ==============================================
 
-
 " python {{{
 " jedi-vim
 " Python autocompletion
@@ -30,13 +29,6 @@ NeoBundle "nvie/vim-flake8"
 " virtual env (not used)
 NeoBundle "jmcantrell/vim-virtualenv"
 " }}}
-
-
-" vimshell {{{
-" Use shell in vim # not necessary on GNU screen
-NeoBundleLazy 'Shougo/vimshell', {
-  \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
-" }}} vimshell
 
 " vim-reunions {{{
 " For asynchronous process
@@ -97,6 +89,25 @@ if s:neobundle_enable && ! empty(neobundle#get("lang_complete"))
   "g:clang_complete_auto = 0
 endif
 " }}} clang_complete
+
+" Games {{{
+" Habatobi
+NeoBundleLazy "mattn/habatobi-vim",{
+      \ "autoload" : {"commands": ["Habatobi"] }}
+
+" flappyvird
+NeoBundleLazy "mattn/flappyvird-vim",{
+      \ "autoload" : {"commands": ["FlappyVird"] }}
+
+" puyopuyo
+NeoBundleLazy "rbtnn/puyo.vim",{
+      \ "autoload" : {"commands": ["Puyo"] }}
+
+" Rogue
+NeoBundleLazy "katono/rogue.vim", {
+      \ "autoload" : {"commands": ["Rogue"] }}
+
+"}}}
 
 " }}} Plugins which it may come into use someday...
 
@@ -660,6 +671,29 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-octopress"))
 endif
 "}}} octopress
 
+" previm {{{ not necessary in vim (markdown is useful as it can be easily recognized as "TEXT")
+" Markdown preview
+if ( has("win32unix") || has ("win64unix") ||
+      \has("mac") || has ("gui_macvim"))
+  NeoBundleLazy "kannokanno/previm", {
+        \"autoload": {"commands" : ["PrevimOpen"]}}
+else
+  NeoBundleLazy "kannokanno/previm", {
+        \ "depends": ["tryu/open-browser.vim"],
+        \"autoload": {"commands" : ["PrevimOpen"]}}
+endif
+if s:neobundle_enabled && ! empty(neobundle#get("previm"))
+  if ( has("win32unix") || has ("win64unix"))
+    " cygwin
+    let g:previm_open_cmd = "cygstart"
+  elseif ( has("mac") || has ("gui_macvim"))
+    " mac
+    let g:previm_open_cmd = "open"
+  endif
+endif
+
+"}}} previm
+
 " JavaScript {{{
 " * Something wrong at buffer change
 NeoBundle "marijnh/tern_for_vim"
@@ -744,6 +778,29 @@ endif
 NeoBundle "tyru/restart.vim"
 "}}}
 
+" ruby completion {{{
+  " Ruby completion " doesn't work...?
+  " Neocomplete is enough?
+  NeoBundle "osyo-manga/vim-monster"
+
+  if s:neobundle_enabled && ! empty(neobundle#get("vim-monster"))
+    if ! empty(neobundle#get("neocomplete.vim")) && !empty(neobundle#get("vimproc.vim"))
+      " Set async completion.
+      let g:monster#completion#rcodetools#backend = "async_rct_complete"
+
+      " Use neocomplete.vim
+      let g:neocomplete#sources#omni#input_patterns = {
+      \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
+      \}
+    endif
+  endif
+"}}}
+
+" vimshell {{{
+" Use shell in vim # not necessary on GNU screen
+NeoBundleLazy 'Shougo/vimshell', {
+  \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
+" }}} vimshell
 
 " Google Calendar/Tasks {{{
 " Use itchyny/calendar.vim
@@ -764,6 +821,23 @@ if s:neobundle_enabled && ! empty(neobundle#get("cloudboard.vim"))
   vnoremap <Space>y :CBYank 0<CR>
 endif
 " }}}
+
+" Windows StartMenu {{{
+if ( has("win32unix") || has ("win64unix") || has("win32") || has ("win64"))
+  NeoBundleLazy "mattn/startmenu-vim", {
+        \ "autoload" : { "commands": ["StartMenu"] }}
+  NeoBundleLazy "mattn/excelview-vim", {
+        \ "depends": "mattn/webapi-vim",
+        \ "autoload" : { "commands": ["ExcelView"] }}
+endif
+" }}}
+
+" Open browser GitHub {{{ not necessary. `hub browse` command is enough to open the current repository in the browser
+NeoBundleLazy "tyru/open-browser-github.vim", {
+      \ "depends": ["tryu/open-browser.vim"],
+      \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
+" }}}
+
 
 " }}} Currenlty, not necessary
 
@@ -807,7 +881,6 @@ NeoBundle "scrooloose/syntastic", {
 NeoBundle "google/vim-colorscheme-primary"
 " }}}
 
-
 " vim-better-whitespace {{{
 " Could be useful if 'set cursorline' is used, and highlight for background is used.
 NeoBundle "ntpeters/vim-better-whitespace"
@@ -841,6 +914,7 @@ nnoremap <Leader>" bi"<Esc>ea"<Esc>
 nnoremap <Leader>' bi'<Esc>ea'<Esc>
 nnoremap <Leader>` bi`<Esc>ea`<Esc>
 " }}}
+
 
 " }}} Unused/Obsolete settings for used plugins
 

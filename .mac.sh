@@ -89,6 +89,12 @@ if [ -f $(brew --prefix)/etc/brew-wrap ];then
   source $(brew --prefix)/etc/brew-wrap
 fi
 
+# brew-file setup for cmd version
+if brew command setup-file >&/dev/null;then
+  eval "$(brew setup-file)"
+fi
+
+
 # Cask application directory
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 

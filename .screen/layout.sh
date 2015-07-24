@@ -17,6 +17,7 @@ auto_save=on
 win_prepare=1
 n_win=4
 n_create=$n_win
+prepare=1
 
 if [ $# -gt 0 ];then
   name=$1

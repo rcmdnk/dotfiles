@@ -38,6 +38,16 @@ l_n=$((MAX-1))
 n=0
 non_exist=()
 
+# version check if > 4.3.0 or not
+version=$(screen -v|cut -d' ' -f3)
+v=${version%%.*}
+r=$(echo "$version"|cut -d. -f2)
+
+if [ "$v" -ge 5 ] || [ "$v" -ge 4 -a "$r" -ge 3 ];then
+  screen -X collapse
+  l_n=${n_windows}
+fi
+
 screen -X register . win_test >> $log 2>&1
 mkdir -p ~/.screen/
 test_file=~/.screen/win_test.txt
@@ -69,18 +79,18 @@ for i in $(seq $f_n $l_n);do
   fi
 done
 
-for i in ${non_exist[@]};do
+for i in "${non_exist[@]}";do
   debug try non_exist
-  debug i=$i, n=$n, n_windows=$n_windows
+  debug "i=$i, n=$n, n_windows=$n_windows"
   if [ $n -ge $n_windows ];then
     break
   fi
   if [ $n -lt $n_create ];then
-    debug create non_exist $i
+    debug "create non_exist $i"
     screen -X screen >>$log 2>&1
     w_exist=(${w_exist[@]} $i)
   else
-    debug push non_exist $i
+    debug "push non_exist $i"
     w_non=(${w_non[@]} $i)
   fi
   screen -X setenv win$n $i >>$log 2>&1
