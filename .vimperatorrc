@@ -31,12 +31,13 @@ style -name commandline-ime chrome://* #liberator-commandline-command input {ime
 set! browser.startup.page=1
 
 " complete
-" l: location bar completions
-" b: bookmarks
+" l: location bar completions (bookmarks, historyies)
 " S: suggestion of search engines
 " s: search engine names
 " f: local files
-set complete=lbSsf
+" b: bookmarks
+" h: history
+set complete=lSf
 
 " next/previous patterns (by ]]/[[)
 set nextpattern=^¥次,^¥続き,¥bnext,^>$,^(>>¥|??)$,^(>¥|??),(>¥|??),¥bmore¥b$
