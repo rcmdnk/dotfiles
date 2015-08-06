@@ -1080,6 +1080,10 @@ endfunction
 autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffMode()
 
 set diffopt=filler,vertical
+
+" Automatic diffoff
+autocmd MyAutoGroup WinEnter * if(winnr('$') == 1) && (getbufvar(winbufnr(0), '&diff')) == 1 | diffoff | endif
+
 " }}} diff mode
 
 " DiffOrig {{{
