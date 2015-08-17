@@ -37,7 +37,7 @@ set! browser.startup.page=1
 " f: local files
 " b: bookmarks
 " h: history
-set complete=lSf
+set complete=lS
 
 " next/previous patterns (by ]]/[[)
 set nextpattern=^¥次,^¥続き,¥bnext,^>$,^(>>¥|??)$,^(>¥|??),(>¥|??),¥bmore¥b$
