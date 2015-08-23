@@ -336,6 +336,7 @@ if s:use_neobundle && v:version >= 703
   " Sub mode
   NeoBundleLazy "kana/vim-submode", {
         \ "autoload": { "commands": ["submode"]}}
+  "NeoBundle "kana/vim-submode"
 
   " Open browser
   NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
