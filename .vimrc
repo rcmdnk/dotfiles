@@ -334,8 +334,6 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "nathanaelkane/vim-indent-guides"
 
   " Sub mode
-  "NeoBundleLazy "kana/vim-submode", {
-  "      \ "autoload": { "commands": ["submode"]}}
   NeoBundle "kana/vim-submode"
 
   " Open browser
@@ -732,6 +730,12 @@ set synmaxcol=1000 "default 3000
 
 " Load Man command even for other file types than man.
 runtime ftplugin/man.vim
+
+" No automatic break at the end of the file
+" https://groups.google.com/forum/#!topic/vim_dev/sMqIDokn9gY/discussion
+if (v:version == 704 && has("patch785")) || v:version >= 705
+  set nofixeol
+endif
 
 " }}} Basic settings
 
