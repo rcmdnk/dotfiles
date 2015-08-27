@@ -732,7 +732,6 @@ set synmaxcol=1000 "default 3000
 runtime ftplugin/man.vim
 
 " No automatic break at the end of the file
-" https://groups.google.com/forum/#!topic/vim_dev/sMqIDokn9gY/discussion
 if (v:version == 704 && has("patch785")) || v:version >= 705
   set nofixeol
 endif
