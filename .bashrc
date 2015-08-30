@@ -293,7 +293,19 @@ if ! type -a tree >& /dev/null;then
   alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'"
 fi
 
-function mdtopdf () { # pandoc helper {{{
+function md2pdf () { # pandoc helper {{{
+  if [[ "$OSTYPE" =~ darwin ]];then
+    if ! type -a iconv >& /dev/null;then
+      echo "Please install iconv"
+      return 1
+    fi
+  else
+    if ! type -a pandoc >& /dev/null;then
+      echo "Please install pandoc"
+      return 1
+    fi
+  fi
+
   if [ $# -eq 0 ];then
     echo "usage mdtopdf [output.pdf] [-t <theme>] input.md "
     return 1
