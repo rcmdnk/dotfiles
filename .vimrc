@@ -473,6 +473,9 @@ if s:use_neobundle && v:version >= 703
   " no more :set passte!
   "NeoBundle "ConradIrwin/vim-bracketed-paste"
 
+  " Code modification: one-liner <-> multi-line
+  NeoBundle "AndrewRadev/splitjoin.vim"
+
   """""""""""""""""""""""""""""""""
 
   " local plugins
@@ -2074,6 +2077,15 @@ if s:neobundle_enabled && ! empty(neobundle#get("rogue.vim"))
   let g:rogue#name = "aaa"
   let g:rogue#directory = g:vimdir . "/rogue"
   let g:rogue#japanese = 1
+endif
+"}}} rogue
+
+" splitjoin {{{
+if s:neobundle_enabled && ! empty(neobundle#get("splitjoin.vim"))
+  let g:splitjoin_split_mapping = ''
+  let g:splitjoin_join_mapping = ''
+  nmap <Leader>j :SplitjoinJoin<CR>
+  nmap <Leader>s :SplitjoinSplit<CR>
 endif
 "}}} rogue
 
