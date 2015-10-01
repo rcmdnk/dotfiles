@@ -333,8 +333,13 @@ javascript <<EOM
     { label: 'anchor', value: '<a href="%URL%">%TITLE%</a>', map:',y' },
     { label: 'markdown', value: 'markdown link', custom: function() {
       var t = content.document.title;
-      var l = content.location.href.replace(/https?:\/\/(rcmdnk.github.io|octopress.dev|en.dev)/,'');
-      return '['+t+']('+l+')';
+      var l = content.location.href;
+      if(l.contains("rcmdnk.github.io") || l.contains("octopress.dev") || l.contains("en.dev")){
+        l = l.replace(/https?:\/\/(rcmdnk.github.io|octopress.dev|en.dev)/,'');
+        return '{% post_card ' + l + ' %}';
+      }else{
+        return '['+t+']('+l+')';
+      }
     }, map:',i' },
     { label: 'blockquote', value: '{% blockquote %TTITLE% %URL% %}%SEL%{% endblockquote %}', map:',bq' },
     { label: 'ai',   value: 'amazon image.',
