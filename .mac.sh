@@ -104,3 +104,16 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 if [ -f /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc ];then
   export PATH=$PATH:/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources
 fi
+
+# Openssl
+OPENSSL_PATH=/usr/local/opt/openssl
+if [ -d "$OPENSSL_PATH" ];then
+  export PATH=$OPENSSL_PATH/bin:$PATH
+  export LD_LIBRARY_PATH=$OPENSSL_PATH/lib:$LD_LIBRARY_PATH
+  export CPATH=$OPENSSL_PATH/include:$LD_LIBRARY_PATH
+fi
+
+# For Gem
+export GEM_HOME=/usr/local/gems
+export PATH=$GEM_HOME/bin:$PATH
+
