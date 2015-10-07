@@ -12,3 +12,4 @@ If there is a file, it makes backup file (.bak)
     git clone git@github.com:rcmdnk/dotfiles
     cd dotfiles
     ./install.sh
+
