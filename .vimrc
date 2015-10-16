@@ -270,6 +270,7 @@ if s:use_neobundle && v:version >= 703
 
   " Auto bracket closing
   "NeoBundle "cohama/lexima.vim"
+  "NeoBundle "seletskiy/vim-autosurround"
 
   " Echo
   NeoBundleLazy "Shougo/echodoc", {
@@ -1271,6 +1272,12 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-surround"))
   xmap <Leader>a Sa
 endif
 " }}} vim-surround.vim
+
+" vim-autosurround {{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-autosurround"))
+  inoremap  ( (<C-O>:call AutoSurround(")")<CR>
+endif
+" }}}
 
 " vim-marching {{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-marching"))
