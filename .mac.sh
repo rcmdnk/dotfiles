@@ -1,5 +1,7 @@
+#!/usr/bin/env bash
+
 ## Use Vim in MacVim, if better
-#********* 
+#*********
 #**done at .bashrc like:
 #**      if [[ "$OSTYPE" =~ "darwin" ]] && [ -d /Applications/MacVim.app/Contents/MacOS ];then
 #**        export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/Applications/MacVim.app/Contents/MacOS:/usr/local/bin:$PATH
@@ -50,16 +52,16 @@
 # ssh agent
 if [ "$SSH_AUTH_SOCK" = "" ];then
   #export SSH_AUTH_SOCK=`/usr/sbin/lsof|grep ssh-agent|grep Listeners|awk '{print $8}'`
-  sock_tmp=(`ls -t /tmp/com.apple.launchd.*/Listeners 2>/dev/null`)
+  sock_tmp=($(ls -t /tmp/com.apple.launchd.*/Listeners 2>/dev/null))
   if [ ${#sock_tmp[@]} -eq 0 ];then
     # For Mavericks or older OS X
-    sock_tmp=(`ls -t /tmp/launchd-*/Listeners 2>/dev/null`)
+    sock_tmp=($(ls -t /tmp/launchd-*/Listeners 2>/dev/null))
   fi
-  for s in ${sock_tmp[@]};do
+  for s in "${sock_tmp[@]}";do
     export SSH_AUTH_SOCK=$s
     ssh-add -l >& /dev/null
     ret=$?
-    if [ $ret -eq 0 -o $ret -eq 1 ];then
+    if [ $ret -eq 0 ] || [ $ret -eq 1 ];then
       break
     fi
     unset SSH_AUTH_SOCK
@@ -67,53 +69,68 @@ if [ "$SSH_AUTH_SOCK" = "" ];then
   unset sock_tmp
 fi
 
-# completion from brew
-if [ "$BASH_VERSION" != "" ];then
-  brew_completion=$(brew --prefix 2>/dev/null)/etc/bash_completion
-  if [ $? -eq 0 ] && [ -f "$brew_completion" ];then
-    source $brew_completion
-  fi
-elif [ "$ZSH_VERSION" != "" ];then
-  for d in "/share/zsh-completions" "/share/zsh/zsh-site-functions";do
-    brew_completion=$(brew --prefix 2>/dev/null)$d
-    if [ $? -eq 0 ] && [ -d "$brew_completion" ];then
-      fpath=($brew_completion $fpath)
+
+# Homebrew
+
+brew_prefix=$(brew --prefix)
+if [ $? -eq 0 ];then
+  ## brew api token
+  source_file ~/.brew_api_token
+
+  ## completion from brew
+  if [ "$BASH_VERSION" != "" ];then
+    brew_completion="$brew_prefix/etc/bash_completion"
+    if [ -f "$brew_completion" ];then
+      source "$brew_completion"
     fi
-  done
-  autoload -Uz compinit
-  compinit
+  elif [ "$ZSH_VERSION" != "" ];then
+    for d in "/share/zsh-completions" "/share/zsh/zsh-site-functions";do
+      brew_completion="$brew_prefix/$d"
+      if [ -d "$brew_completion" ];then
+        fpath=($brew_completion $fpath)
+      fi
+    done
+    autoload -Uz compinit
+    compinit
+  fi
+
+  ## wrap brew (brew-wrap in brew-file)
+  if [ -f "$brew_prefix/etc/brew-wrap" ];then
+    source "$brew_prefix/etc/brew-wrap"
+  fi
+
+  ## brew-file setup for cmd version
+  if brew command setup-file >&/dev/null;then
+    eval "$(brew setup-file)"
+  fi
+
+  ## Cask application directory
+  export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
+  ## Python
+  if type -a brew >& /dev/null;then
+    if [ -d "$(brew --prefix)/lib/python2.7/site-packages" ];then
+      export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages:$PYTHONPATH
+    fi
+  fi
+
+  ## Openssl
+  OPENSSL_PATH=$(brew --prefix)/opt/openssl
+  if [ -d "$OPENSSL_PATH" ];then
+    #export PATH=$OPENSSL_PATH/bin:$PATH
+    export LD_LIBRARY_PATH=$OPENSSL_PATH/lib:$LD_LIBRARY_PATH
+    export CPATH=$OPENSSL_PATH/include:$LD_LIBRARY_PATH
+  fi
 fi
-
-# wrap brew (brew-wrap in brew-file)
-if [ -f $(brew --prefix)/etc/brew-wrap ];then
-  source $(brew --prefix)/etc/brew-wrap
-fi
-
-# brew-file setup for cmd version
-if brew command setup-file >&/dev/null;then
-  eval "$(brew setup-file)"
-fi
-
-
-# Cask application directory
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 # JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)
-
 if [ -f /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc ];then
   export PATH=$PATH:/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources
 fi
 
-# Openssl
-OPENSSL_PATH=/usr/local/opt/openssl
-if [ -d "$OPENSSL_PATH" ];then
-  #export PATH=$OPENSSL_PATH/bin:$PATH
-  export LD_LIBRARY_PATH=$OPENSSL_PATH/lib:$LD_LIBRARY_PATH
-  export CPATH=$OPENSSL_PATH/include:$LD_LIBRARY_PATH
-fi
-
 # For Gem
-export GEM_HOME=/usr/local/gems
-export PATH=$GEM_HOME/bin:$PATH
-
+if [ -d /usr/local/gems ];then
+  export GEM_HOME=/usr/local/gems
+  export PATH=$GEM_HOME/bin:$PATH
+fi
