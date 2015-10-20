@@ -49,23 +49,6 @@ export PATH=$HOME/usr/local/bin:$HOME/usr/bin:/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/usr/local/lib64:$HOME/usr/local/lib:$HOME/usr/lib64:$HOME/usr/lib:/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:/lib64:/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$HOME/usr/local/lib:$HOME/usr/lib/python:/usr/local/lib:/usr/lib/python:$PYTHONPATH
 #export PYTHONHOME=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
-# For Mac
-if [[ "$OSTYPE" =~ darwin ]];then
-  # For MacVim
-  #if [ -d /Applications/MacVim.app/Contents/MacOS ];then
-  #  export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
-  #fi
-  #if [ -d ~/Applications/MacVim.app/Contents/MacOS ];then
-  #  export PATH=~/Applications/MacVim.app/Contents/MacOS:$PATH
-  #fi
-
-  # Python
-  if type -a brew >& /dev/null;then
-    if [ -d "$(brew --prefix)/lib/python2.7/site-packages" ];then
-      export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages:$PYTHONPATH
-    fi
-  fi
-fi
 
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
@@ -677,9 +660,6 @@ fi
 
 # File used for working server
 source_file ~/.work.sh
-
-# brew api token
-source_file ~/.brew_api_token
 
 # File for special settings for each machine
 source_file ~/.local.sh
