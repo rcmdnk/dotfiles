@@ -361,7 +361,11 @@ javascript <<EOM
         }else if(content.content.document.getElementById('main-image')){
           s = content.document.getElementById('main-image').getAttribute('src');
         }else if(content.document.getElementById('landingImage')){
-          s = content.document.getElementById('landingImage').getAttribute('src');
+          if(content.document.getElementById('landingImage').getAttribute('data-old-hires')){
+            s = content.document.getElementById('landingImage').getAttribute('data-old-hires');
+          }else{
+            s = content.document.getElementById('landingImage').getAttribute('src');
+          }
         }else if(content.document.getElementById('imgThumbs')){
           var c = content.document.getElementById('imgThumbs').getElementsByTagName("img");
           if (c.length > 0){
@@ -414,7 +418,11 @@ javascript <<EOM
         }else if(content.content.document.getElementById('main-image')){
           var s = content.document.getElementById('main-image').getAttribute('src');
         }else if(content.document.getElementById('landingImage')){
-          var s = content.document.getElementById('landingImage').getAttribute('src');
+          if(content.document.getElementById('landingImage').getAttribute('data-old-hires')){
+            s = content.document.getElementById('landingImage').getAttribute('data-old-hires');
+          }else{
+            s = content.document.getElementById('landingImage').getAttribute('src');
+          }
         }else if(content.document.getElementById('imgThumbs')){
           var c = content.document.getElementById('imgThumbs').getElementsByTagName("img");
           if (c.length > 0){
