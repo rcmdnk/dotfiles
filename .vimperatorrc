@@ -413,10 +413,11 @@ javascript <<EOM
           return;
         }
         var l = 'http://www.amazon.co.jp/gp/product/'+asin+'?ie=UTF8&camp=1207&creative=8411&creativeASIN='+asin+'&linkCode=shr&tag='+id;
+        var s = "";
         if(content.document.getElementById('prodImage')){ 
-          var s = content.document.getElementById('prodImage').getAttribute('src');
+          s = content.document.getElementById('prodImage').getAttribute('src');
         }else if(content.content.document.getElementById('main-image')){
-          var s = content.document.getElementById('main-image').getAttribute('src');
+          s = content.document.getElementById('main-image').getAttribute('src');
         }else if(content.document.getElementById('landingImage')){
           if(content.document.getElementById('landingImage').getAttribute('data-old-hires')){
             s = content.document.getElementById('landingImage').getAttribute('data-old-hires');
@@ -428,8 +429,8 @@ javascript <<EOM
           if (c.length > 0){
             s = c[0].getAttribute('src');
           }
-        }else if(content.document.getElementById('imgThumbs')){
-          var c = content.document.getElementById('imgThumbs').getElementsByTagName("img");
+        }else if(content.document.getElementById('coverArt_feature_div')){
+          var c = content.document.getElementById('coverArt_feature_div').getElementsByTagName("img");
           if (c.length > 0){
             s = c[0].getAttribute('src');
           }
