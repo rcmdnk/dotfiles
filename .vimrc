@@ -40,9 +40,9 @@ if s:use_neobundle && v:version >= 703
     let g:neobundleReadMe=expand(g:neobundledir . "/README.md")
     if !filereadable(g:neobundleReadMe)
       echo "Neobundle is not installed, install now "
-      echo "git clone git://github.com/Shougo/neobundle.vim "
+      echo "git clone https://github.com/Shougo/neobundle.vim "
             \ .  g:neobundledir
-      call system("git clone git://github.com/Shougo/neobundle.vim "
+      call system("git clone https://github.com/Shougo/neobundle.vim "
             \ .  g:neobundledir)
     endif
     let s:neobundle_enabled=1
