@@ -1393,7 +1393,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("neocomplcache.vim"))
   let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
   let g:neocomplcache_text_mode_filetypes =
         \ {'text': 1, 'plaintex':1, 'javascript': 1,
-        \  'mkd': 1, 'perl': 1, 'html': 1}
+        \  'mkd': 1, 'markdown': 1, 'perl': 1, 'html': 1}
 endif
 " }}}
 
