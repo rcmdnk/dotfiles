@@ -1768,7 +1768,6 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown"))
   let g:vim_markdown_liquid=1
   let g:vim_markdown_frontmatter=1
   let g:vim_markdown_math=0
-  let g:vim_markdown_initial_foldlevel=&foldlevel
   let g:vim_markdown_better_folding=0
   autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text,html} setlocal filetype=markdown
   "autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text} setlocal filetype=markdown
