@@ -121,6 +121,9 @@ if [ $? -eq 0 ];then
     export LD_LIBRARY_PATH=$OPENSSL_PATH/lib:$LD_LIBRARY_PATH
     export CPATH=$OPENSSL_PATH/include:$LD_LIBRARY_PATH
   fi
+
+  ## Alias
+  alias cask='brew cask'
 fi
 
 # JAVA_HOME
