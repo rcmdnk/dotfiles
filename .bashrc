@@ -244,13 +244,15 @@ alias gcg="make clean && make"
 alias bc="bc -l"
 alias ssh="ssh -Y"
 alias svnHeadDiff="svn diff --revision=HEAD"
-alias svnd="svn diff | vim -"
-#alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
-alias vim="vim -X" # no X
-alias vi="vim" # vi->vim
-alias memo="vim ~/.memo.md"
-alias vid="vim -d"
-alias vinon="vim -u NONE"
+if type -a vim >& /dev/null;then
+  alias svnd="svn diff | vim -"
+  #alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
+  alias vim="vim -X" # no X
+  alias vi="vim" # vi->vim
+  alias memo="vim ~/.memo.md"
+  alias vid="vim -d"
+  alias vinon="vim -u NONE"
+fi
 alias grep="grep --color=auto -s"
 #alias c="multi_clipboard -W"
 alias put='multi_clipboard -x'
@@ -356,7 +358,7 @@ function man () { # man wrapper {{{
   unset MANPAGER
   val=$(command man "$@" 2>&1)
   ret=$?
-  if [ $ret -eq 0 ];then
+  if [ $ret -eq 0 ] && type -a vim >& /dev/null;then
     echo "$val"|col -bx|vim -R -c 'set ft=man' -
   else
     echo "$val"
