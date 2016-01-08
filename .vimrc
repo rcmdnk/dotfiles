@@ -476,6 +476,9 @@ if s:use_neobundle && v:version >= 703
   " Code modification: one-liner <-> multi-line
   NeoBundle "AndrewRadev/splitjoin.vim"
 
+  " Funny comment
+  NeoBundle "haya14busa/niconicomment.vim"
+
   """""""""""""""""""""""""""""""""
 
   " local plugins
