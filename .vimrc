@@ -341,8 +341,7 @@ if s:use_neobundle && v:version >= 703
         \ "mappings" : "<Plug>(openbrowser-smart-search)"}}
 
   " Easymotion
-  NeoBundleLazy "Lokaltog/vim-easymotion", {"autoload": {
-        \ "mappings" : ["<Plug>(easymotion-s2)", "<Plug>(easymotion-bd-W)"]}}
+  NeoBundle "easymotion/vim-easymotion"
 
   "" Syntax checking
   NeoBundle "scrooloose/syntastic", {
@@ -1500,31 +1499,13 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-easymotion"))
   let g:EasyMotion_space_jump_first=1
   let g:EasyMotion_smartcase=1
   let g:EasyMotion_use_upper=1
-  let g:EasyMotion_keys="HJKLASDFGYUIOPQWERTNMZXCVB"
+  let g:EasyMotion_keys="hjklasdfgyuiopqwertnmzxcvb"
   hi EasyMotionTarget ctermbg=none ctermfg=red
   hi EasyMotionShade  ctermbg=none ctermfg=blue
 
-  nmap S <Plug>(easymotion-s2)
-  xmap S <Plug>(easymotion-s2)
-  omap S <Plug>(easymotion-s2)
+  map S <Plug>(easymotion-sn)
   map <Leader>f <Plug>(easymotion-bd-W)
-
-  "map f <Plug>(easymotion-bd-fl)
-  "map t <Plug>(easymotion-bd-tl)
-  "map F <Plug>(easymotion-bd-Fl)
-  "map T <Plug>(easymotion-bd-Tl)
-
-  let g:EasyMotion_startofline=0
-  map <Leader>j <Plug>(easymotion-j)
-  map <Leader>k <Plug>(easymotion-k)
-
-  "nmap g/ <Plug>(easymotion-sn) "g/ is used by incsearch
-  "xmap g/ <Plug>(easymotion-sn)
-  "omap g/ <Plug>(easymotion-sn)
-  "map  / <Plug>(easymotion-sn)
-  "omap / <Plug>(easymotion-tn)
-  "map  n <Plug>(easymotion-next)
-  "map  N <Plug>(easymotion-prev)
+  "nmap <Leader>f <Plug>(easymotion-overwin-w)
 endif
 " }}} vim-easymotion
 
@@ -2092,10 +2073,10 @@ endif
 if s:neobundle_enabled && ! empty(neobundle#get("splitjoin.vim"))
   let g:splitjoin_split_mapping = ''
   let g:splitjoin_join_mapping = ''
-  nmap <Leader>j :SplitjoinJoin<CR>
-  nmap <Leader>s :SplitjoinSplit<CR>
+  nmap <Leader><Leader>j :SplitjoinJoin<CR>
+  nmap <Leader><Leader>s :SplitjoinSplit<CR>
 endif
-"}}} rogue
+"}}} splitjoin
 
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))
