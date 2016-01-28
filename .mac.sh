@@ -84,9 +84,9 @@ if [ $? -eq 0 ];then
       source "$brew_completion"
     fi
   elif [ "$ZSH_VERSION" != "" ];then
-    for d in "/share/zsh-completions" "/share/zsh/zsh-site-functions";do
+    for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
       brew_completion="$brew_prefix/$d"
-      if [ -d "$brew_completion" ];then
+      if [ -d "$brew_completion" ] && ! echo "$fpath" |grep -q "$brew_completion";then
         fpath=($brew_completion $fpath)
       fi
     done
