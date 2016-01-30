@@ -508,8 +508,10 @@ function dic () { # dictionary {{{
 # Remove the end "/" and change -r to -R
 if ! cp --version 2>/dev/null |grep -q GNU;then
   function cp () {
-    local opt=()
-    local vals=()
+    local -a opt
+    opt=()
+    local -a vals
+    vals=()
     while [ $# -gt 0 ];do
       if [[ "$1" == -* ]];then
         if [ "$1" == "-r" ];then
@@ -613,7 +615,8 @@ else
 fi
 ## completion
 #_completion_suffix_alias () {
-#  local files=()
+#  local -a files
+#  files=()
 #  for s in "${_suffix_vim[@]}";do
 #    files=("${files[@]}" $(ls *.${s} 2>/dev/null))
 #  done
