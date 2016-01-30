@@ -196,6 +196,11 @@
       fi;\
     };f"
   update = "!f () {\
+      if  [ \"$1\" = \"--nocommit\" ] || [ \"$1\" = 0 ];then \
+        if !git status | grep -q \"nothing to commit\";then \
+          return;\
+        fi;\
+      fi;\
       update=0;\
       difffiles=`git status|grep -e 'new file' -e 'modified'|cut -d':' -f2`;\
       if [ \"$difffiles\" ];then \
