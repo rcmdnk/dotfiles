@@ -197,7 +197,7 @@
     };f"
   update = "!f () {\
       if  [ \"$1\" = \"--nocommit\" ] || [ \"$1\" = 0 ];then \
-        if !git status | grep -q \"nothing to commit\";then \
+        if ! git status | grep -q \"nothing to commit\";then \
           return;\
         fi;\
       fi;\
