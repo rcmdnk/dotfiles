@@ -343,7 +343,7 @@ if s:use_neobundle && v:version >= 703
   " Easymotion
   NeoBundle "easymotion/vim-easymotion"
 
-  "" Syntax checking
+  " Syntax checking
   NeoBundle "scrooloose/syntastic", {
       \ "depends": ["Shougo/vimproc"]}
 
@@ -398,12 +398,12 @@ if s:use_neobundle && v:version >= 703
         \  "autoload" : {"commands": ["Ref"] }}
 
   " LanguageTool
-  "NeoBundleLazy "vim-scripts/LanguageTool", {
-  "      \  "autoload" : {"commands": ["LanguageToolCheck"] }}
+  NeoBundleLazy "vim-scripts/LanguageTool", {
+        \  "autoload" : {"commands": ["LanguageToolCheck"] }}
 
   " Grammer check with LanguageTool
-  NeoBundleLazy "rhysd/vim-grammarous", {
-        \  "autoload" : {"commands": ["GrammarousCheck"] }}
+  "NeoBundleLazy "rhysd/vim-grammarous", {
+  "      \  "autoload" : {"commands": ["GrammarousCheck"] }}
 
   " Excite Translate
   NeoBundleLazy "mattn/excitetranslate-vim", {
