@@ -402,8 +402,8 @@ if s:use_neobundle && v:version >= 703
         \  "autoload" : {"commands": ["LanguageToolCheck"] }}
 
   " Grammer check with LanguageTool
-  "NeoBundleLazy "rhysd/vim-grammarous", {
-  "      \  "autoload" : {"commands": ["GrammarousCheck"] }}
+  NeoBundleLazy "rhysd/vim-grammarous", {
+        \  "autoload" : {"commands": ["GrammarousCheck"] }}
 
   " Excite Translate
   NeoBundleLazy "mattn/excitetranslate-vim", {
@@ -1589,7 +1589,8 @@ endif
 " LanguageTool{{{
 if s:neobundle_enabled && ! empty(neobundle#get("LanguageTool"))
   " jar file settings
-  let s:languagetool_version="2.6"
+  let s:languagetool_version="3.2"
+  "let s:languagetool_version="2.1"
   let s:languagetool_zip="LanguageTool-".s:languagetool_version.".zip"
   let s:languagetool_download=
         \"http://www.languagetool.org/download/".s:languagetool_zip
