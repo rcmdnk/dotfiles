@@ -450,7 +450,7 @@ if s:use_neobundle && v:version >= 703
   NeoBundle "AndrewRadev/linediff.vim"
 
   " Character base diff
-  "NeoBundle "vim-scripts/diffchar.vim"
+  NeoBundle "vim-scripts/diffchar.vim"
 
   " diff enhanced
   NeoBundle "chrisbra/vim-diff-enhanced"
@@ -1047,10 +1047,10 @@ augroup MyColors
   autocmd ColorScheme * hi PmenuSbar ctermbg=255 ctermfg=0 guifg=#000000 guibg=#FFFFFF
 
   " colors for diff mode
-  autocmd ColorScheme * hi DiffAdd ctermbg=17 guibg=slateblue
+  autocmd ColorScheme * hi DiffAdd cterm=bold ctermbg=17 gui=bold guibg=slateblue
   autocmd ColorScheme * hi DiffChange ctermbg=22 guibg=darkgreen
   autocmd ColorScheme * hi DiffText cterm=bold ctermbg=52 gui=bold guibg=olivedrab
-  autocmd ColorScheme * hi DiffDelete term=bold ctermfg=12 ctermbg=6 gui=bold guifg=Blue guibg=coral
+  autocmd ColorScheme * hi DiffDelete ctermbg=6 guibg=coral
 
   " Colors for search
   autocmd ColorScheme * hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
@@ -1077,13 +1077,12 @@ colorscheme ron
 " diff mode {{{
 function! SetDiffMode()
   if &diff
-    "set wrap " not work...
     set nospell
     " force to warp at diff mode
-    set wrap
-    wincmd w
-    set wrap
-    wincmd w
+    "set wrap
+    "wincmd w
+    "set wrap
+    "wincmd w
   endif
 endfunction
 autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffMode()
@@ -1989,6 +1988,14 @@ if s:neobundle_enabled && ! empty(neobundle#get("linediff.vim"))
   let g:linediff_second_buffer_command = 'rightbelow vertical new'
 endif
 "}}} linediff
+
+" vim-diff-enhanced {{{
+if s:neobundle_enabled && ! empty(neobundle#get("vim-diff-enhanced"))
+  if &diff
+    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+  endif
+endif
+"}}} vim-diff-enhanced
 
 " vim-expand-region {{{
 if s:neobundle_enabled && ! empty(neobundle#get("vim-expand-region"))

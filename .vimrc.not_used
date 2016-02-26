@@ -999,9 +999,9 @@ nnoremap <Leader>` bi`<Esc>ea`<Esc>
 ""     [c
 "" * Go to Previous Diff
 ""     ]c
-"" * Copy current buffer's structure to another structure
-""     do
 "" * Copy another's buffer's structure to current structure
+""     do
+"" * Copy current buffer's structure to another structure
 ""     dp
 "" * Diff to original when it was opened
 ""   :DiffOrig
