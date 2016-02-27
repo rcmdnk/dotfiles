@@ -38,4 +38,7 @@ alias mail='email'
 #}}}
 
 # Use Windows' symbolic link
-export CYGWIN="winsymlinks $CYGWIN"
+# On Windows 10, it needs Administrator's right
+# For normal user, it makes shortcut for Windows
+#export CYGWIN="winsymlinks:native"
+export CYGWIN="winsymlinks:nativestrict"
