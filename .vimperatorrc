@@ -465,6 +465,10 @@ javascript <<EOM
 EOM
 " }}}
 
+" appendAnchor.js {{{
+let g:auto_append_anchor = "true"
+" }}}
+
 " dont-kill-me-my-lovely-input.js {{{
 " https://gist.github.com/anekos/2944628
 js <<EOM
@@ -498,6 +502,7 @@ EOM
 " local settings
 source! ~/My\ Dropbox/08_Settings/vimpr/vimperatorrc.local
 source! ~/Dropbox/08_Settings/vimpr/vimperatorrc.local
+source! ~/vimperatorrc.local
 "" }}}
 
 "echo ".vimperatorrc sourced"
