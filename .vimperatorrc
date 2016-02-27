@@ -192,13 +192,16 @@ hi -append HintActive text-decoration: none; -moz-border-radius: 4px; -moz-box-s
 
 hi Normal color: LightYellow; background: Black; font-size: 12pt; opacity: 0.7;
 hi CmdLine color: LightYellow; background: Black; font-size: 14pt;
+
 hi InfoMsg color: LightYellow; background: Black; font-size: 12pt;
 hi ModeMsg color: LightYellow; background: Black; font-size: 12pt;
 hi MoreMsg color: LimeGreen; background: Black;
-hi LineNr color: DeepPink; background: Black; font-size: 12pt;
-hi Question color: Yellow; background: Black; font-size: 12pt;
 hi WarningMsg color: DeepPink; background: Black; font-size: 12pt;
 hi ErrorMsg color: white; background: red; font-size: 12pt;
+
+hi LineNr color: DeepPink; background: Black; font-size: 12pt;
+hi Question color: Yellow; background: Black; font-size: 12pt;
+
 hi NonText background: #000;
 hi Null color: CornflowerBlue;
 hi Tag color: CornflowerBlue;
