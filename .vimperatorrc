@@ -106,6 +106,8 @@ nnoremap <C-w> <Nop>
 "nnoremap b <Nop>
 "nnoremap s ;a
 "nnoremap b a
+nnoremap H :tabmove! -1<CR>
+nnoremap L :tabmove! +1<CR>
 nnoremap b :open about:mybookmarks<cr>
 nnoremap <C-g> YP
 nnoremap s ;s
@@ -115,6 +117,7 @@ nnoremap <C-m> <CR>
 "nnoremap <C-j> <NL>
 nnoremap <C-[> <Esc>
 nnoremap Q :qmarks<CR>
+nnoremap U :undo<Space>
 nnoremap ; :
 nnoremap : ;
 
@@ -156,7 +159,7 @@ inoremap <C-p> <Nop>
 "inoremap <M-i> <C-i>
 "inoremap <C-i> <Nop>
 
-" caret mode
+" visual (caret) mode
 vnoremap <C-g> y<Esc><Esc>P
 
 " }}}
@@ -498,3 +501,5 @@ source! ~/Dropbox/08_Settings/vimpr/vimperatorrc.local
 "" }}}
 
 "echo ".vimperatorrc sourced"
+
+" vim: set filetype=vim :
