@@ -1079,10 +1079,10 @@ function! SetDiffMode()
   if &diff
     set nospell
     " force to warp at diff mode
-    "set wrap
-    "wincmd w
-    "set wrap
-    "wincmd w
+    set wrap
+    wincmd w
+    set wrap
+    wincmd w
   endif
 endfunction
 autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffMode()
