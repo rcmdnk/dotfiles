@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.subversion.config')
+exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.neobundle' '.subversion.config')
 instdir="$HOME"
 
 backup="bak"

@@ -1,496 +1,79 @@
 " vimrc
 "
-" Managed at: https://github.com/rcmdnk/dotfiles/blob/master/.vimrc
-" Todo/Obsolete settings are in https://github.com/rcmdnk/dotfiles/blob/master/.vimrc.not_used
 
 " Flags {{{
-let s:use_neobundle=1
+let s:use_dein = 1
 " }}}
 
 " vi compatibility {{{
 if !&compatible
-  " disable vi compatible mode (much better!)
+  " Disable vi compatible mode (much better!)
+  " Necessary for dein.vim
   set nocompatible
 endif
 " }}}
 
 " Prepare .vim dir {{{
+let s:vimdir = $HOME . "/.vim"
 if has("vim_starting")
-  let g:vimdir=$HOME . "/.vim"
-  if ! isdirectory(g:vimdir)
-    call system("mkdir " . g:vimdir)
+  if ! isdirectory(s:vimdir)
+    call system("mkdir " . s:vimdir)
   endif
 endif
 " }}}
 
-" neobundle {{{
-
-"" usage:
-" :NeoBundleUpdate " update plugins below
-" :NeoBundleInstall" install plugins below
-" :NeoBundleClean  " remove plugins removed from below
-
-let s:neobundle_enabled=0
-if s:use_neobundle && v:version >= 703
+" dein {{{
+let s:dein_enabled  =0
+if s:use_dein && v:version >= 704
+  let s:dein_enabled = 1
   " set path
+  let s:dein_dir = s:vimdir . '/dein'
+  let s:dein_github = s:dein_dir . '/repos/github.com'
+  let s:dein_repo_name = "Shougo/dein.vim"
+  let s:dein_repo_dir = s:dein_github . '/' . s:dein_repo_name
   if has("vim_starting")
-    let g:bundledir=g:vimdir . "/bundle"
-    let g:neobundledir=g:bundledir . "/neobundle.vim"
-    let &runtimepath = &runtimepath . "," . g:neobundledir
-    let g:neobundleReadMe=expand(g:neobundledir . "/README.md")
-    if !filereadable(g:neobundleReadMe)
-      echo "Neobundle is not installed, install now "
-      echo "git clone https://github.com/Shougo/neobundle.vim "
-            \ .  g:neobundledir
-      call system("git clone https://github.com/Shougo/neobundle.vim "
-            \ .  g:neobundledir)
+    if !isdirectory(s:dein_repo_dir)
+      echo "dein is not installed, install now "
+      let s:dein_repo = "https://github.com/" . s:dein_repo_name
+      echo "git clone " . s:dein_repo . " " . s:dein_repo_dir
+      call system("git clone " . s:dein_repo . " " . s:dein_repo_dir)
     endif
-    let s:neobundle_enabled=1
   endif
+  let &runtimepath = &runtimepath . "," . s:dein_repo_dir
 
-  call neobundle#begin(g:bundledir)
+  call dein#begin(s:dein_dir)
 
   """"plugins"""""
 
-  " NeoBundle
-  NeoBundleFetch "Shougo/neobundle.vim"
+  let s:dein_list = [expand('<sfile>')]
+  let s:toml      = expand('~/.dein.toml')
+  let s:lazy_toml = expand('~/.dein_lazy.toml')
+  for f in [s:toml, s:lazy_toml]
+    if filereadable(f)
+      call add(s:dein_list, f)
+    endif
+  endfor
 
-  " NeoBundle recipes
-  "NeoBundle "Shougo/neobundle-vim-scripts"
-
-  " Make template of NeoBundle
-  "NeoBundleLazy "LeafCage/nebula.vim",{
-  "      \"autoload":{
-  "      \"commands":[
-  "      \"NebulaPutLazy", "NebulaPutFromClipboard",
-  "      \"NebulaYankOptions", "NebulaPutConfig"]}}
-
-  " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
-  NeoBundle "Shougo/vimproc", {
-        \"build" : {
-        \"windows" : "tools\\update-dll-mingw",
-        \"cygwin" : "make -f make_cygwin.mak",
-        \"mac" : "make -f make_mac.mak",
-        \"linux" : "make",
-        \"unix" : "gmake"}}
-
-  """ Unlike "fuzzyfinder" or "ku", it doesn't use the built-in completion of vim {{{
-  """ Searches and display information->:help Unite
-  NeoBundleLazy "Shougo/unite.vim" , {
-        \ "autoload" : { "commands" : [ "Unite" ] }}
-
-  " Source for unite: mark
-  NeoBundle "tacroe/unite-mark"
-
-  " Source for unite: help
-  NeoBundle "tsukkee/unite-help"
-
-  " Source for unite: history/command, history/search
-  NeoBundle "thinca/vim-unite-history"
-
-  " Source for unite: fold
-  NeoBundle "osyo-manga/unite-fold"
-
-  " Source for unite: locate
-  NeoBundle "ujihisa/unite-locate"
-
-  " Source for unite: colorscheme
-  NeoBundle "ujihisa/unite-colorscheme"
-
-  " Source for unite: mru
-  NeoBundle "Shougo/neomru.vim"
-
-  " Source for unite: outline : shows error
-  "NeoBundle "h1mesuke/unite-outline"
-  "}}}
-
-  " Completion
-  "let g:completion = "Shougo/neocomplcache.vim"
-  if has('lua') && (( v:version == 703 && has('patch885')) || (v:version >= 704))
-    let g:completion = "Shougo/neocomplete.vim"
-    NeoBundleLazy g:completion, {
-          \ "autoload": {"insert": 1 }}
-
-    " look - display lines beginning with a given string, using with neocomplete/neocomplcache
-    NeoBundleLazy "ujihisa/neco-look", {"depends": [g:completion],
-          \ "autoload": {"insert": 1}}
-    "NeoBundleLazy "mitsuse/kompl", {"depends": [g:completion]}
+  if dein#load_cache(s:dein_list)
+    if filereadable(s:toml)
+      call dein#load_toml(s:toml,      {'lazy': 0})
+    endif
+    if filereadable(s:lazy_toml)
+      call dein#load_toml(s:lazy_toml, {'lazy': 1})
+    endif
+    call dein#save_cache()
   endif
 
-  " Snippet
-  NeoBundle "Shougo/neosnippet"
-  NeoBundle "Shougo/neosnippet-snippets"
-  NeoBundle "honza/vim-snippets"
-  NeoBundle "rcmdnk/vim-octopress-snippets"
+  call dein#end()
 
-  " textobj {{{
-  NeoBundle "kana/vim-textobj-user"
-
-  "" entire: ae, ie
-  "NeoBundle "kana/vim-textobj-entire"
-
-  " line: al, il
-  "NeoBundle "kana/vim-textobj-line"
-
-  "" indent: al, il
-  "NeoBundle "kana/vim-textobj-indent"
-
-  "" function: af, if
-  "NeoBundle "kana/vim-textobj-function"
-
-  "" syntax: ay, iy
-  "NeoBundle "kana/vim-textobj-syntax"
-
-  "" jabraces: ajb, ijb
-  "NeoBundle "kana/vim-textobj-jabraces"
-
-  "" last pattern: a/, i/
-  "NeoBundle "kana/vim-textobj-lastpat"
-
-  "" fold: az, iz
-  "NeoBundle "kana/vim-textobj-fold"
-
-  "" diff(1): adf, idf
-  "NeoBundle "kana/vim-textobj-diff"
-
-  "" datetime: ada, ida
-  "NeoBundle "kana/vim-textobj-datetime"
-
-  "" underscore: a_, i_
-  "NeoBundle "kana/vim-textobj-underscore"
-
-  "" django_template: adb, idb
-  "NeoBundle "kana/vim-textobj-django-template"
-
-  "" between: af, if
-  "NeoBundle "thinca/vim-textobj-between"
-
-  "" comment: ac, ic
-  "NeoBundle "thinca/vim-textobj-comment"
-
-  "" JavaScript Function: af, if
-  "NeoBundle "thinca/vim-textobj-function-javascript"
-
-  "" Perl Function: af, if
-  "NeoBundle "thinca/vim-textobj-function-perl"
-
-  "" last paste: ap, ip
-  "NeoBundle "gilligan/textobj-lastpaste"
-
-  "" mbboundary: am, im
-  "NeoBundle "deton/textobj-mbboundary.vim"
-
-  "" xml attribute: axa, ixa
-  "NeoBundle "akiyan/vim-textobj-xml-attribute"
-
-  "" php: aP, iP
-  "NeoBundle "akiyan/vim-textobj-php"
-
-  "" space: aS, iS
-  "NeoBundle "saihoooooooo/vim-textobj-space"
-
-  "" URL: au, iu
-  "NeoBundle "mattn/vim-textobj-url"
-
-  "" snake_case: a,w, i,w
-  "NeoBundle "h1mesuke/textobj-wiw"
-
-  "" lastinserted: au, iu
-  "NeoBundle "rhysd/vim-textobj-lastinserted"
-
-  "" continuous line: av, iv
-  "NeoBundle "rhysd/vim-textobj-continuous-line"
-
-  "" ruby: arr, brr
-  "NeoBundle "rhysd/vim-textobj-ruby"
-
-  "" xbrackets: axb, ixb
-  "NeoBundle "https://bitbucket.org/anyakichi/vim-textobj-xbrackets"
-
-  "" motionmotion: am, im
-  "NeoBundle "hchbaw/textobj-motionmotion.vim"
-
-  "" enclosedsyntax: aq, iq
-  "NeoBundle "deris/vim-textobj-enclosedsyntax"
-
-  "" headwordofline: ah, ih
-  "NeoBundle "deris/vim-textobj-headwordofline"
-
-  "" LaTeX: ae, ie
-  "NeoBundle "rbonvall/vim-textobj-latex"
-
-  "" parameter: a, i,
-  "NeoBundle "sgur/vim-textobj-parameter"
-
-  "" cell: ac, ic
-  "NeoBundle "mattn/vim-textobj-cell"
-
-  "" context: icx
-  "NeoBundle "osyo-manga/vim-textobj-context"
-
-  "" multiblock: asb, isb
-  "NeoBundle "osyo-manga/vim-textobj-multiblock"
-
-  "" indblock: ao, io
-  "NeoBundle "glts/vim-textobj-indblock"
-
-  "" dash: a-, i-
-  "NeoBundle "RyanMcG/vim-textobj-dash"
-
-  "" Python af, if
-  "NeoBundle "bps/vim-textobj-python"
-
-  "" #ifdef: a#, i#
-  "NeoBundle "anyakichi/vim-textobj-ifdef"
-
-  "" HTML: ahf, ihf
-  "NeoBundle "mjbrownie/html-textobjects"
-
-  "" keyvalue: dak, dik,  dav, div
-  "NeoBundle "vimtaku/vim-textobj-keyvalue"
-
-  " wildfire
-  NeoBundle "gcmt/wildfire.vim"
-  "}}}
-
-  " operator {{{
-  NeoBundle "kana/vim-operator-user"
-  NeoBundle "kana/vim-operator-replace"
-  "NeoBundle 'emonkak/vim-operator-sort'
-  "NeoBundle 'tyru/operator-reverse.vim'
-  "NeoBundle "rhysd/vim-operator-surround" " -> use vim-surround
-  "}}}
-
-  " Support repeat for surround, speedating, easymotion, etc...
-  NeoBundle "tpope/vim-repeat"
-
-  " Easy to change surround
-  NeoBundle "tpope/vim-surround"
-
-  " Auto bracket closing
-  "NeoBundle "cohama/lexima.vim"
-  "NeoBundle "seletskiy/vim-autosurround"
-
-  " Echo
-  NeoBundleLazy "Shougo/echodoc", {
-        \ "autoload": { "insert": 1 }}
-
-  " gundo
-  NeoBundleLazy "sjl/gundo.vim", {
-        \ "autoload": {"commands": ["GundoToggle"]}}
-
-  " Align
-  NeoBundle "h1mesuke/vim-alignta"
-
-  " c++ syntax with c++11 support
-  NeoBundle "vim-jp/cpp-vim"
-
-  " c++ completion
-  NeoBundle "osyo-manga/vim-marching"
-
-  " c++ formatting
-  NeoBundle "rhysd/vim-clang-format"
-
-  " CSS3 (Sass)
-  NeoBundle "hail2u/vim-css3-syntax.git"
-
-  " Markdown syntax
-  NeoBundle "junegunn/vader.vim"
-  NeoBundle "godlygeek/tabular"
-  NeoBundle "joker1007/vim-markdown-quote-syntax"
-  NeoBundle "rcmdnk/vim-markdown"
-  "NeoBundle "plasticboy/vim-markdown"
-
-  " Python indent
-  NeoBundle "hynek/vim-python-pep8-indent"
-
-  "" Jedi for python
-  "NeoBundleLazy "davidhalter/jedi-vim", {
-  "    \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
-
-  " Folding method for python, but makes completion too slow...?
-  NeoBundleLazy "vim-scripts/python_fold", {
-      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
-
-  " Java
-  NeoBundle "koron/java-helper-vim"
-
-  " Applescript
-  NeoBundle "applescript.vim"
-
-  " Automatic LaTeX Plugins
-  "NeoBundle "coot/atp_vim"
-
-  " Powershell
-  NeoBundle "PProvost/vim-ps1"
-
-  " Go
-  NeoBundle "nsf/gocode"
-
-  " Another status line
-  NeoBundle "itchyny/lightline.vim"
-
-  " Visual indent guides: make moving slow?
-  NeoBundle "nathanaelkane/vim-indent-guides"
-
-  " Sub mode
-  NeoBundle "kana/vim-submode"
-
-  " Open browser
-  NeoBundleLazy "tyru/open-browser.vim", { "autoload": {
-        \ "mappings" : "<Plug>(openbrowser-smart-search)"}}
-
-  " Easymotion
-  NeoBundle "easymotion/vim-easymotion"
-
-  " Syntax checking
-  NeoBundle "scrooloose/syntastic", {
-      \ "depends": ["Shougo/vimproc"]}
-
-  " Syntax checking
-  "NeoBundle "osyo-manga/vim-watchdogs", {
-  "    \ "depends": ["Shougo/vimproc", "thinca/vim-quickrun",
-  "                 \"dannyob/quickfixstatus",
-  "                 \"osyo-manga/shabadou.vim", "cohama/vim-hier",
-  "                 \"KazuakiM/vim-qfsigns"]}
-
-  " Syntax for vim
-  NeoBundle "dbakker/vim-lint"
-
-  " Change current directory to root, for git/svn, etc...
-  NeoBundle "airblade/vim-rooter"
-
-  " Count searching objects
-  NeoBundle "osyo-manga/vim-anzu"
-
-  " Improved incremental searching
-  NeoBundle "haya14busa/incsearch.vim"
-
-  " Git
-  NeoBundle "tpope/vim-fugitive" " necessary ('depends' in gitv is not enough. Maybe it uses autoload...?)
-  NeoBundleLazy "gregsexton/gitv", {
-        \ "depends": ["tpope/vim-fugitive"],
-        \ "autoload": { "commands": ["Gitv"]}}
-
-  " Show added/deleted/modified lines for several version control system
-  NeoBundle "mhinz/vim-signify"
-
-  " For git/svn status, log
-  NeoBundleLazy "hrsh7th/vim-versions.git", {
-        \ "autoload": { "commands": ["UniteVersions"]}}
-
-  " Version control (especially for VCSVimDiff (<Leader>cv)
-  NeoBundle 'vcscommand.vim'
-
-  " Gist
-  NeoBundleLazy "mattn/gist-vim", {
-        \ "depends": ["mattn/webapi-vim"],
-        \ "autoload": {"commands": ["Gist"] }}
-
-  " Date increment
-  "NeoBundle "tpope/vim-speeddating"
-
-  " Table
-  NeoBundle "dhruvasagar/vim-table-mode"
-
-  " vim-ref
-  NeoBundleLazy "thinca/vim-ref", {
-        \  "autoload" : {"commands": ["Ref"] }}
-
-  " LanguageTool
-  NeoBundleLazy "vim-scripts/LanguageTool", {
-        \  "autoload" : {"commands": ["LanguageToolCheck"] }}
-
-  " Grammer check with LanguageTool
-  NeoBundleLazy "rhysd/vim-grammarous", {
-        \  "autoload" : {"commands": ["GrammarousCheck"] }}
-
-  " Excite Translate
-  NeoBundleLazy "mattn/excitetranslate-vim", {
-        \ "depends": "mattn/webapi-vim",
-        \ "autoload" : { "commands": ["ExciteTranslate"] }}
-
-  " Google Translate
-  NeoBundleLazy "daisuzu/translategoogle.vim", {
-        \ "autoload" : { "commands": ["TranslateGoogle", "TranslateGoogleCmd"] }}
-
-  " Make benchmark result of vimrc
-  NeoBundleLazy "mattn/benchvimrc-vim",{
-        \ "autoload" : {"commands": ["BenchVimrc"] }}
-
-  " The NERD Tree: File Explorer
-  NeoBundleLazy "scrooloose/nerdtree", {
-        \ "autoload" : { "commands": ["NERDTreeToggle"] }}
-
-  " Source Explorer
-  NeoBundleLazy "wesleyche/SrcExpl", {
-        \ "autoload" : { "commands": ["SrcExplToggle"] }}
-
-  " For Tags
-  NeoBundleLazy "majutsushi/tagbar", {
-        \ "autoload": { "commands": ["TagbarToggle"] }}
-
-  " Make help
-  NeoBundleLazy "LeafCage/vimhelpgenerator",{
-        \ "autoload" : {"commands": ["VimHelpGenerator"] }}
-
-  " yank
-  NeoBundle "LeafCage/yankround.vim"
-
-  " over
-  NeoBundle "osyo-manga/vim-over"
-
-  " vim-multiple-cursors, like Sublime Text's multiple selection
-  NeoBundle "terryma/vim-multiple-cursors"
-
-  " switch
-  "NeoBundle "AndrewRadev/switch.vim"
-
-  " linediff
-  NeoBundle "AndrewRadev/linediff.vim"
-
-  " Character base diff
-  NeoBundle "vim-scripts/diffchar.vim"
-
-  " diff enhanced
-  NeoBundle "chrisbra/vim-diff-enhanced"
-
-  " expand region
-  NeoBundle "terryma/vim-expand-region"
-
-  " Highlight on the fly
-  NeoBundle "t9md/vim-quickhl"
-
-  " Calendar/Tasks
-  NeoBundleLazy "itchyny/calendar.vim", {
-        \ "autoload" : {"commands": ["Calendar"] }}
-
-  " Especially for CSV editing
-  NeoBundleLazy "rbtnn/rabbit-ui.vim",{
-        \ "autoload" : {"commands": ["EditCSV"] }}
-
-  " no more :set passte!
-  "NeoBundle "ConradIrwin/vim-bracketed-paste"
-
-  " Code modification: one-liner <-> multi-line
-  NeoBundle "AndrewRadev/splitjoin.vim"
-
-  " Funny comment
-  NeoBundle "haya14busa/niconicomment.vim"
-
-  """""""""""""""""""""""""""""""""
-
-  " local plugins
-  NeoBundleLocal ~/.vim/local/bundle
   """"plugins end"""""
 
-  " End of NeoBundle
-  call neobundle#end()
-
   " Installation check.
-  NeoBundleCheck
+  if dein#check_install()
+    call dein#install()
+  endif
 endif
-" }}} neobundle
+" }}} dein
 
 " Basic settings {{{
 
@@ -956,7 +539,7 @@ nnoremap <silent> <Leader>P :setlocal paste!<CR>:setlocal paste?<CR>
 inoremap <silent> <C-]> <C-o>:setlocal paste!<CR>
 
 " *, #, stay at current word->mapped for anzu
-if ! s:neobundle_enabled || empty(neobundle#get("vim-anzu"))
+if ! s:dein_enabled || ! dein#tap("vim-anzu")
   " swap * and g*, and add <C-o> to stay on current word.
   nnoremap g* *<C-o>
   nnoremap * g*<C-o>
@@ -1077,12 +660,8 @@ colorscheme ron
 " diff mode {{{
 function! SetDiffMode()
   if &diff
-    set nospell
-    " force to warp at diff mode
-    set wrap
-    wincmd w
-    set wrap
-    wincmd w
+    setlocal nospell
+    setlocal wrap<
   endif
 endfunction
 autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffMode()
@@ -1120,7 +699,7 @@ set undolevels=1000
 " }}} undo
 
 " gundo {{{
-if s:neobundle_enabled && ! empty(neobundle#get("gundo.vim"))
+if s:dein_enabled && dein#tap("gundo.vim")
   nnoremap U :GundoToggle<CR>
   let g:gundo_width = 30
   let g:gundo_preview_height = 15
@@ -1130,7 +709,7 @@ endif
 " }}} gundo
 
 " Unite {{{
-if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
+if s:dein_enabled && dein#tap("unite.vim")
   autocmd MyAutoGroup FileType unite call s:unite_my_settings()
   function! s:unite_my_settings()
     nmap <buffer><Esc> <Plug>(unite_exit)
@@ -1177,7 +756,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("unite.vim"))
   let g:unite_split_rule="botright" " default topleft
   let g:unite_winheight=10          " default 20
   let g:unite_winwidth=60           " default 90
-  let g:unite_data_directory=g:vimdir . ".cache/unite"
+  let g:unite_data_directory=s:vimdir . ".cache/unite"
 
   " Unite prefix
   nnoremap [unite] <Nop>
@@ -1215,7 +794,7 @@ endif
 " }}} Unite
 
 " wildfire {{{
-if s:neobundle_enabled && ! empty(neobundle#get("wildfire.vim"))
+if s:dein_enabled && dein#tap("wildfire.vim")
   let g:wildfire_objects = {
         \ "*" : ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'it'],
         \}
@@ -1231,16 +810,16 @@ endif
 " operator {{{
 nnoremap [oper] <Nop>
 nm <Leader>o [oper]
-if s:neobundle_enabled && ! empty(neobundle#get("vim-operator-sort"))
+if s:dein_enabled && dein#tap("vim-operator-sort")
   map [oper]s <Plug>(operator-sort)
 endif
-if s:neobundle_enabled && ! empty(neobundle#get("operator-reverse.vim"))
+if s:dein_enabled && dein#tap("operator-reverse.vim")
   map [oper]r  <Plug>(operator-reverse-text)
 endif
 "}}}
 
 " vim-surround {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-surround"))
+if s:dein_enabled && dein#tap("vim-surround")
   let g:surround_{char2nr("a")} = "**\r**"
   nmap <Leader>{ ysiw{
   nmap <Leader>} ysiw}
@@ -1274,13 +853,13 @@ endif
 " }}} vim-surround.vim
 
 " vim-autosurround {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-autosurround"))
+if s:dein_enabled && dein#tap("vim-autosurround")
   inoremap  ( (<C-O>:call AutoSurround(")")<CR>
 endif
 " }}}
 
 " vim-marching {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-marching"))
+if s:dein_enabled && dein#tap("vim-marching")
   let g:marching_enable_neocomplete = 1
   if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
@@ -1291,7 +870,7 @@ endif
 " }}} vim-marching
 
 " vim-clang-format {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-clang-format"))
+if s:dein_enabled && dein#tap("vim-clang-format")
   let g:clang_format#style_options = {
               \ "AccessModifierOffset" : -4,
               \ "AllowShortIfStatementsOnASingleLine" : "true",
@@ -1301,7 +880,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-clang-format"))
   autocmd MyAutoGroup FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
   autocmd MyAutoGroup FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
   " if you install vim-operator-user
-  if ! empty(neobundle#get("vim-operator-user"))
+  if dein#tap("vim-operator-user")
     autocmd MyAutoGroup FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
   endif
 endif
@@ -1355,7 +934,7 @@ nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " }}} yankshare
 
 " yankround {{{
-if s:neobundle_enabled && ! empty(neobundle#get("yankround.vim"))
+if s:dein_enabled && dein#tap("yankround.vim")
   nmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
   xmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
   nmap <expr> P (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-P)'
@@ -1372,7 +951,7 @@ endif
 " }}}
 
 " vim-over {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-over"))
+if s:dein_enabled && dein#tap("vim-over")
   nnoremap <Leader>c :OverCommandLine<CR>%s/
   xnoremap <Leader>c :OverCommandLine<CR>s/
 endif
@@ -1386,7 +965,7 @@ set statusline+=%=%l/%L,%c%V%8P
 " }}} status line
 
 " neocomplcache {{{
-if s:neobundle_enabled && ! empty(neobundle#get("neocomplcache.vim"))
+if s:dein_enabled && dein#tap("neocomplcache.vim")
   let g:acp_enableAtStartup = 1
   let g:neocomplcache_enable_startup = 1
   let g:neocomplcache_enable_smart_case = 1
@@ -1399,7 +978,7 @@ endif
 " }}}
 
 " neocomplete {{{
-if s:neobundle_enabled && ! empty(neobundle#get("neocomplete.vim"))
+if s:dein_enabled && dein#tap("neocomplete.vim")
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#max_list = 20
   let g:neocomplete#min_keyword_length = 3
@@ -1431,7 +1010,7 @@ endif
 " }}}
 
 " neosnippet {{{
-if s:neobundle_enabled && ! empty(neobundle#get("neosnippet"))
+if s:dein_enabled && dein#tap("neosnippet")
   imap <C-s> <Plug>(neosnippet_expand_or_jump)
   smap <C-s> <Plug>(neosnippet_expand_or_jump)
   xmap <C-s> <Plug>(neosnippet_expand_target)
@@ -1441,12 +1020,12 @@ if s:neobundle_enabled && ! empty(neobundle#get("neosnippet"))
   let g:neosnippet#enable_snipmate_compatibility = 1
   let g:neosnippet#disable_runtime_snippets = {'_' : 1}
   let g:neosnippet#snippets_directory = []
-  if ! empty(neobundle#get("vim-octopress-snippets"))
-    let g:neosnippet#snippets_directory += [expand(g:bundledir . '/vim-octopress-snippets/neosnippets')]
+  if dein#tap("vim-octopress-snippets")
+    let g:neosnippet#snippets_directory += [expand(s:dein_github . '/vim-octopress-snippets/neosnippets')]
   endif
-  let g:neosnippet#snippets_directory += [expand(g:bundledir . '/neosnippet-snippets/neosnippets')]
-  if ! empty(neobundle#get("vim-snippets"))
-    let g:neosnippet#snippets_directory += [expand(g:bundledir . '/vim-snippets/snippets')]
+  let g:neosnippet#snippets_directory += [expand(s:dein_github . '/neosnippet-snippets/neosnippets')]
+  if dein#tap("vim-snippets")
+    let g:neosnippet#snippets_directory += [expand(s:dein_github . '/vim-snippets/snippets')]
   endif
 endif
 " }}}
@@ -1491,7 +1070,7 @@ endif
 " }}} paste
 
 " vim-easymotion{{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-easymotion"))
+if s:dein_enabled && dein#tap("vim-easymotion")
   let g:EasyMotion_do_mapping=0
   let g:EasyMotion_grouping=1
   let g:EasyMotion_enter_jump_first=1
@@ -1509,7 +1088,7 @@ endif
 " }}} vim-easymotion
 
 " jedi-vim{{{
-if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
+if s:dein_enabled && dein#tap("jedi-vim")
   let g:jedi#auto_initialization = 1
   let g:jedi#auto_vim_configuration = 1
 
@@ -1530,7 +1109,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("jedi-vim"))
   autocmd MyAutoGroup FileType python setlocal completeopt-=preview
 
   " w/ neocomplete
-  if ! empty(neobundle#get("neocomplete.vim"))
+  if dein#tap("neocomplete.vim")
     autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#completions
     let g:jedi#completions_enabled = 0
     let g:jedi#auto_vim_configuration = 0
@@ -1542,7 +1121,7 @@ endif
 " }}} jedi-vim
 
 " vim-indent-guides{{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-indent-guides"))
+if s:dein_enabled && dein#tap("vim-indent-guides")
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level = 1
   let g:indent_guides_auto_colors = 0
@@ -1552,7 +1131,7 @@ endif
 "}}} vim-indent-guides
 
 " vim-submode{{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-submode"))
+if s:dein_enabled && dein#tap("vim-submode")
   call submode#enter_with("winsize", "n", "", "<C-w>>", "<C-w>>")
   call submode#enter_with("winsize", "n", "", "<C-w><", "<C-w><")
   call submode#enter_with("winsize", "n", "", "<C-w>+", "<C-w>+")
@@ -1572,13 +1151,13 @@ endif
 "}}} vim-submode
 
 " vim-operator-replace{{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-operator-replace"))
+if s:dein_enabled && dein#tap("vim-operator-replace")
   map _  <Plug>(operator-replace)
 endif
 "}}} vim-operator-replace
 
 " open-browser{{{
-if s:neobundle_enabled && ! empty(neobundle#get("open-browser.vim"))
+if s:dein_enabled && dein#tap("open-browser.vim")
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
   nmap gx <Plug>(openbrowser-smart-search)
   xmap gx <Plug>(openbrowser-smart-search)
@@ -1586,14 +1165,14 @@ endif
 "}}} open-browser
 
 " LanguageTool{{{
-if s:neobundle_enabled && ! empty(neobundle#get("LanguageTool"))
+if s:dein_enabled && dein#tap("LanguageTool")
   " jar file settings
   let s:languagetool_version="3.2"
   "let s:languagetool_version="2.1"
   let s:languagetool_zip="LanguageTool-".s:languagetool_version.".zip"
   let s:languagetool_download=
         \"http://www.languagetool.org/download/".s:languagetool_zip
-  let s:languagetool_parent_dir=g:vimdir."/languagetool/"
+  let s:languagetool_parent_dir=s:vimdir."/languagetool/"
   let s:languagetool_dir=s:languagetool_parent_dir."/LanguageTool-"
         \.s:languagetool_version."/"
   let s:languagetool_v_file=s:languagetool_dir."/version_in_vim"
@@ -1625,13 +1204,13 @@ endif
 "}}} LanguageTool
 
 " ExciteTranslate{{{
-if s:neobundle_enabled && ! empty(neobundle#get("excitetranslate-vim"))
+if s:dein_enabled && dein#tap("excitetranslate-vim")
   xnoremap <Leader>x :ExciteTranslate<CR>
 endif
 "}}} LanguageTool
 
 " vim-anzu{{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-anzu"))
+if s:dein_enabled && dein#tap("vim-anzu")
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
   nmap * g*<C-o><Plug>(anzu-update-search-status-with-echo)
@@ -1642,7 +1221,7 @@ endif
 "}}} vim-anzu
 
 " incsearch{{{
-if s:neobundle_enabled && ! empty(neobundle#get("incsearch.vim"))
+if s:dein_enabled && dein#tap("incsearch.vim")
   map / <Plug>(incsearch-forward)
   map ? <Plug>(incsearch-backward)
   map g/ <Plug>(incsearch-stay)
@@ -1651,7 +1230,7 @@ endif
 "}}} vim-anzu
 
 " syntastic{{{
-if s:neobundle_enabled && ! empty(neobundle#get("syntastic"))
+if s:dein_enabled && dein#tap("syntastic")
   " Disable automatic check at file open/close
   let g:syntastic_check_on_open=0
   let g:syntastic_check_on_wq=0
@@ -1670,7 +1249,7 @@ endif
 "}}} syntastic
 
 " vim-watchdogs{{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-watchdogs"))
+if s:dein_enabled && dein#tap("vim-watchdogs")
   let g:watchdogs_check_BufWritePost_enable = 1
   let g:watchdogs_check_CursorHold_enable = 1
   if !exists("g:quickrun_config")
@@ -1693,7 +1272,7 @@ endif
 "}}} vim-watchdogs
 
 " vim-hier{{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-hier"))
+if s:dein_enabled && dein#tap("vim-hier")
   highlight qf_error ctermfg=255 ctermbg=1
   highlight qf_warning ctermfg=255 ctermbg=3
   highlight qf_info ctermfg=255 ctermbg=2
@@ -1704,7 +1283,7 @@ endif
 " }}} vim-hier
 
 " vim-rooter{{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-rooter"))
+if s:dein_enabled && dein#tap("vim-rooter")
   " Default: move to root directory by <Leader>cd or :Rooter
 
   " Change only current window's directory
@@ -1719,7 +1298,7 @@ endif
 "}}} vim-rooter
 
 " signify{{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-signify"))
+if s:dein_enabled && dein#tap("vim-signify")
   let g:signify_disable_by_default = 1
   let g:signify_cursorhold_normal = 1
   let g:signify_cursorhold_insert = 1
@@ -1731,7 +1310,7 @@ endif
 "}}} signify
 
 " vim-markdown-quote-syntax {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown-quote-syntax"))
+if s:dein_enabled && dein#tap("vim-markdown-quote-syntax")
   let g:markdown_quote_syntax_on_filetypes = ['txt', 'text']
   let g:markdown_quote_syntax_filetypes = {
         \ "css" : {
@@ -1748,7 +1327,7 @@ endif
 " }}} vim-markdown-quote-syntax
 
 " markdown {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-markdown"))
+if s:dein_enabled && dein#tap("vim-markdown")
   let g:vim_markdown_liquid=1
   let g:vim_markdown_frontmatter=1
   let g:vim_markdown_math=0
@@ -1759,20 +1338,20 @@ endif
 " }}} vim-markdown
 
 " applescript{{{
-if s:neobundle_enabled && ! empty(neobundle#get("applescript.vim"))
+if s:dein_enabled && dein#tap("applescript.vim")
   autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setlocal filetype=applescript
   "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬<CR>
 endif
 "}}} applescript
 
 " gocode{{{
-if s:neobundle_enabled && ! empty(neobundle#get("gocode"))
+if s:dein_enabled && dein#tap("gocode")
   let g:gocomplete#system_function = 'vimproc#system'
 endif
 "}}} applescript
 
 " lightline.vim {{{
-if s:neobundle_enabled && ! empty(neobundle#get("lightline.vim"))
+if s:dein_enabled && dein#tap("lightline.vim")
   let g:lightline = {
         \"colorscheme": "jellybeans",
         \"active": {
@@ -1847,7 +1426,7 @@ endif
 "}}} lightline.vim
 
 " vim-ref {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-ref"))
+if s:dein_enabled && dein#tap("vim-ref")
   " Set webdict sources
   let g:ref_source_webdict_sites = {
         \   "je": {
@@ -1893,13 +1472,13 @@ endif
 " NERDTree+SrcExpl+tagbar {{{
 
 " The NERD Tree  {{{
-if s:neobundle_enabled && ! empty(neobundle#get("nerdtree"))
+if s:dein_enabled && dein#tap("nerdtree")
   nnoremap <Leader>N :NERDTreeToggle<CR>
 endif
 "}}}
 
 " SrcExpl  {{{
-if s:neobundle_enabled && ! empty(neobundle#get("SrcExpl"))
+if s:dein_enabled && dein#tap("SrcExpl")
   " Set refresh time in ms
   let g:SrcExpl_RefreshTime = 1000
   " Is update tags when SrcExpl is opened
@@ -1926,7 +1505,7 @@ endif
 "}}}
 
 " tagbar {{{
-if s:neobundle_enabled && ! empty(neobundle#get("tagbar"))
+if s:dein_enabled && dein#tap("tagbar")
   " Width (default 40)
   let g:tagbar_width = 20
   " Mappings
@@ -1934,10 +1513,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("tagbar"))
 endif
 "}}} tagbar
 
-if s:neobundle_enabled &&
-      \! empty(neobundle#get("nerdtree")) &&
-      \! empty(neobundle#get("SrcExpl")) &&
-      \! empty(neobundle#get("tagbar"))
+if s:dein_enabled && dein#tap("nerdtree") && dein#tap("SrcExpl") && dein#tap("tagbar")
   nnoremap <silent> <Leader>A :SrcExplToggle<CR>:NERDTreeToggle<CR>:TagbarToggle<CR>
 endif
 
@@ -1968,7 +1544,7 @@ endif
 " }}} cscope
 
 " gist-vim {{{
-if s:neobundle_enabled && ! empty(neobundle#get("gist-vim"))
+if s:dein_enabled && dein#tap("gist-vim")
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
   " Disable default Gist command
@@ -1977,20 +1553,20 @@ endif
 "}}} gist-vim
 
 " switch {{{
-if s:neobundle_enabled && ! empty(neobundle#get("switch.vim"))
+if s:dein_enabled && dein#tap("switch.vim")
   nnoremap - :Switch<cr>
 endif
 "}}} switch
 
 " linediff {{{
-if s:neobundle_enabled && ! empty(neobundle#get("linediff.vim"))
+if s:dein_enabled && dein#tap("linediff.vim")
   let g:linediff_first_buffer_command  = 'leftabove new'
   let g:linediff_second_buffer_command = 'rightbelow vertical new'
 endif
 "}}} linediff
 
 " vim-diff-enhanced {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-diff-enhanced"))
+if s:dein_enabled && dein#tap("vim-diff-enhanced")
   if &diff
     let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
   endif
@@ -1998,7 +1574,7 @@ endif
 "}}} vim-diff-enhanced
 
 " vim-expand-region {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-expand-region"))
+if s:dein_enabled && dein#tap("vim-expand-region")
   let g:expand_region_text_objects = {
         \ 'iw'  :0,
         \ 'iW'  :0,
@@ -2011,7 +1587,7 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-expand-region"))
         \ 'ip'  :0,
         \ 'ie'  :0,
         \ }
-  if ! empty(neobundle#get("vim-submode"))
+  if dein#tap("vim-submode")
     call submode#enter_with('expand-region', 'nv', 'r', '<Leader>e', '<Plug>(expand_region_expand)')
     call submode#map('expand-region', 'nv', 'r', 'e', '<Plug>(expand_region_expand)')
     call submode#map('expand-region', 'nv', 'r', 'w', '<Plug>(expand_region_shrink)')
@@ -2020,7 +1596,7 @@ endif
 "}}} switch
 
 " vim-quickhl {{{
-if s:neobundle_enabled && ! empty(neobundle#get("vim-quickhl"))
+if s:dein_enabled && dein#tap("vim-quickhl")
   nmap <Subleader>m <Plug>(quickhl-manual-this)
   xmap <Subleader>m <Plug>(quickhl-manual-this)
   nmap <Subleader>M <Plug>(quickhl-manual-reset)
@@ -2028,26 +1604,26 @@ if s:neobundle_enabled && ! empty(neobundle#get("vim-quickhl"))
 
   nmap <Subleader>j <Plug>(quickhl-cword-toggle)
   nmap <Subleader>] <Plug>(quickhl-tag-toggle)
-  "if ! empty(neobundle#get("vim-operator-user"))
+  "if dein#tap("vim-operator-user")
   "  map H <Plug>(operator-quickhl-manual-this-motion)
   "endif
 endif
 "}}} switch
 
 " calendar.vim {{{
-if s:neobundle_enabled && ! empty(neobundle#get("calendar.vim"))
+if s:dein_enabled && dein#tap("calendar.vim")
   let g:calendar_google_calendar = 1
   let g:calendar_google_task = 1
   let g:calendar_first_day = "sunday"
   let g:calendar_frame = 'default'
-  if ! empty(neobundle#get("vim-indent-guides"))
+  if dein#tap("vim-indent-guides")
     autocmd MyAutoGroup FileType calendar IndentGuidesDisable
   endif
 endif
 "}}} calendar.vim
 
 " rabbit-ui.vim {{{
-if s:neobundle_enabled && ! empty(neobundle#get("rabbit-ui.vim"))
+if s:dein_enabled && dein#tap("rabbit-ui.vim")
   function! s:edit_csv(path)
     call writefile(map(rabbit_ui#gridview(
           \ map(readfile(expand(a:path)),'split(v:val,",",1)')),
@@ -2058,7 +1634,7 @@ endif
 "}}} rabbit-ui.vim
 
 " diffhar {{{
-if s:neobundle_enabled && ! empty(neobundle#get("diffchar.vim"))
+if s:dein_enabled && dein#tap("diffchar.vim")
   function! SetDiffChar()
     if &diff
       execute "%SDChar"
@@ -2070,15 +1646,15 @@ endif
 "}}} diffchar
 
 " rogue {{{
-if s:neobundle_enabled && ! empty(neobundle#get("rogue.vim"))
+if s:dein_enabled && dein#tap("rogue.vim")
   let g:rogue#name = "aaa"
-  let g:rogue#directory = g:vimdir . "/rogue"
+  let g:rogue#directory = s:vimdir . "/rogue"
   let g:rogue#japanese = 1
 endif
 "}}} rogue
 
 " splitjoin {{{
-if s:neobundle_enabled && ! empty(neobundle#get("splitjoin.vim"))
+if s:dein_enabled && dein#tap("splitjoin.vim")
   let g:splitjoin_split_mapping = ''
   let g:splitjoin_join_mapping = ''
   nmap <Leader><Leader>j :SplitjoinJoin<CR>
@@ -2093,13 +1669,6 @@ endif
 
 if filereadable(expand("./.vimrc.dir"))
   execute "source" expand("./.vimrc.dir")
-endif
-" }}}
-
-" neobundle on_source {{{
-if !has("vim_starting")
-  " Call on_source hook when reloading .vimrc.
-  call neobundle#call_hook("on_source")
 endif
 " }}}
 
