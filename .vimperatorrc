@@ -10,25 +10,133 @@ set runtimepath=~/My\ Dropbox/08_Settings/vimpr/vimperator,~/Dropbox/08_Settings
 
 " }}}
 
+" about:config {{{
+" [About:config entries - MozillaZine Knowledge Base](http://kb.mozillazine.org/About:config_entries)
+
+" Settings in Option
+" # General
+" ## Startup
+set! browser.shell.checkDefaultBrowser=false
+" 0: Blank page, 1: Homepage, 3: Previous view (not 2)
+"set! browser.startup.page=1
+"set! browser.startup.homepage=about:home
+" ## Download
+" If not set, use default download directory of the OS
+"set! browser.download.dir=''
+"set! browser.download.useDownloadDir=true
+" ## Tab group
+" 1: current tab, 2: in a new window, 3: in a new tab
+"set! browser.link.open_newwindow=3
+set! browser.tabs.warnOnClose=false
+set! browser.tabs.warnOnOpen=false
+" true: only current tab is loaded at restore, false: 3 pages are loaded
+"set! browser.sessionstore.restore_on_demand=true
+set! browser.tabs.loadInBackground=true
+
+" # Search
+"set! browser.search.defaultenginename=Google
+"set! browser.search.suggest.enabled=true
+
+" # Content
+" ## Popup
+"set! dom.disable_open_during_load=true
+" ## Font and color
+"set! font.name.sans-serif.ja='Hiragino Kaku Gothic ProN'
+"set! font.size.variable.ja=15
+" ## Language
+"set! intl.accept_languages=ja,en-us,en
+
+" # Privacy
+" ## Tracking
+"set! privacy.donottrackheader.enabled=false
+"set! privacy.trackingprotection.pbmode.enabled=true
+" ## History
+"set! places.history.enabled=true
+" 0: Enable all, 2: Disable all
+"set! network.cookie.cookieBehavior=0
+" Following clearOnShutdowns are enabled only when sanitizeOnShutdown is enabled.
+"set! privacy.sanitize.sanitizeOnShutdown=false
+"set! privacy.clearOnShutdown.history=true
+"set! privacy.clearOnShutdown.downloads=true
+"set! privacy.clearOnShutdown.cookies=true
+"set! privacy.clearOnShutdown.sessions=true
+"set! privacy.clearOnShutdown.cache=true
+"set! privacy.clearOnShutdown.formdata=true
+"set! privacy.clearOnShutdown.siteSettings=false
+"set! privacy.clearOnShutdown.offlineApps=false
+" ## Location bar
+"set! browser.urlbar.suggest.history=true
+"set! browser.urlbar.suggest.bookmark=true
+"set! browser.urlbar.suggest.openpage= rue
+
+" # Security
+" ## General
+set! xpinstall.whitelist.required=false
+" ## Login information
+
+" # Sync
+" ## Synchronize all machines (string?)
+"set! services.sync.engineStatusChanged.tabs=''
+"set! services.sync.engineStatusChanged.history=''
+"set! services.sync.engineStatusChanged.bookmarks=''
+"set! services.sync.engineStatusChanged.addons=''
+"set! services.sync.engineStatusChanged.passwords=''
+"set! services.sync.engineStatusChanged.prefs=''
+"set! services.sync.engineStatusChanged.prefs.modified=''
+
+" # Advanced
+" ## General
+" ### Accessibility
+"set! accessibility.browsewithcaret=false
+"set! accessibility.typeaheadfind=false
+"set! accessibility.blockautorefresh=false
+" ### Browsing
+set! general.autoScroll=false
+"set! general.smoothScroll=true
+"set! layers.acceleration.disabled=false
+" 0: Disable, 1: Enable for multi-line controls, 2: Enable for multi-line controls and single-line controls.
+"set! layout.spellcheckDefault=1
+" ## Data selection
+set! datareporting.healthreport.uploadEnabled=false
+" ## Update
+" ### Firefox's update
+"set! app.update.auto=true
+"set! app.update.mode=1
+"set! app.update.enabled=true
+" ### Automatically update following softwares
+"set! browser.search.update=true
+" ### Certification
+
+" Other settings
+set! browser.urlbar.suggest.searches=true
+set! browser.tabs.autoHide=false
+set! browser.tabs.closeWindowWithLastTab=false
+set! general.general.warnOnAboutConfig=false
+" 0: Do nothing, 1: Scroll Contents, 2: Got back/forward in the history, 3: Zoom in/out
+set! mousewheel.with_control.action=1
+" Wait for a dialog (ms)
+set! security.dialog_enable_delay=0
+set! ui.caretWidth=2
+" }}}
+
+" style {{{
+"style chrome://* #statusbar-display:not([type="overLink"]) {display: none !important;}
+"style chrome://* #statusbar-display {display: none;}
+style chrome://* .statuspanel-label {display: none;}
+" }}}
+
+
 " basic settings {{{
 "set guioptions=mTBrb
 set titlestring=Firefox
 set focuscontent
 "set defsearch=googleall
 set defsearch=google
-set! ui.caretWidth=2
 set gui+=noaddons
 set suggestengines=google
 
-" disable access key
-"set! ui.key.contentAcess=0
-"set! ui.key.chromeAcess=0
-
 " always ime off for command line mode
 style -name commandline-ime chrome://* #liberator-commandline-command input {ime-mode: inactive;}
-
-" start page
-set! browser.startup.page=1
 
 " complete
 " l: location bar completions (bookmarks, historyies)
@@ -46,14 +154,6 @@ set previouspattern=^¥前,^¥戻,¥bprev|previous¥b,^<$,^(<<¥|??)$,^(<¥|??),
 " for hint
 "set hintchars=ifjklasdweuocvbnm
 set hintchars=hjklasdfgyuiopqwertnmzxcvb
-
-" style
-"style chrome://* #statusbar-display:not([type="overLink"]) {display: none !important;}
-"style chrome://* #statusbar-display {display: none;}
-style chrome://* .statuspanel-label {display: none;}
-
-" user_pref
-set! extensions.adblockplus.sidebar_key="Accel Shift Q"
 
 " }}}
 
