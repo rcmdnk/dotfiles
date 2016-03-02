@@ -31,7 +31,7 @@ set! browser.tabs.warnOnClose=false
 set! browser.tabs.warnOnOpen=false
 " true: only current tab is loaded at restore, false: 3 pages are loaded
 "set! browser.sessionstore.restore_on_demand=true
-set! browser.tabs.loadInBackground=true
+"set! browser.tabs.loadInBackground=true
 
 " # Search
 "set! browser.search.defaultenginename=Google
@@ -41,10 +41,10 @@ set! browser.tabs.loadInBackground=true
 " ## Popup
 "set! dom.disable_open_during_load=true
 " ## Font and color
-"set! font.name.sans-serif.ja='Hiragino Kaku Gothic ProN'
+"set! font.name.sans-serif.ja=Hiragino\ Kaku\ Gothic\ ProN
 "set! font.size.variable.ja=15
 " ## Language
-"set! intl.accept_languages=ja,en-us,en
+"set! intl.accept_languages=ja,\ en-us,\ en
 
 " # Privacy
 " ## Tracking
@@ -76,13 +76,12 @@ set! xpinstall.whitelist.required=false
 
 " # Sync
 " ## Synchronize all machines (string?)
-"set! services.sync.engineStatusChanged.tabs=''
-"set! services.sync.engineStatusChanged.history=''
-"set! services.sync.engineStatusChanged.bookmarks=''
-"set! services.sync.engineStatusChanged.addons=''
-"set! services.sync.engineStatusChanged.passwords=''
-"set! services.sync.engineStatusChanged.prefs=''
-"set! services.sync.engineStatusChanged.prefs.modified=''
+set! services.sync.engine.tabs=false
+"set! services.sync.engine.history=true
+"set! services.sync.engine.bookmarks=true
+"set! services.sync.engine.addons=true
+"set! services.sync.engine.passwords=true
+"set! services.sync.engine.prefs=true
 
 " # Advanced
 " ## General
@@ -442,7 +441,7 @@ javascript <<EOM
       var l = content.location.href;
       if(l.contains("rcmdnk.github.io") || l.contains("octopress.dev") || l.contains("en.dev")){
         l = l.replace(/https?:\/\/(rcmdnk.github.io|octopress.dev|en.dev)/,'');
-        return '{% post_card ' + l + ' %}';
+        return '{% post_card ' + l + ' ' + t + ' %}';
       }else{
         return '['+t+']('+l+')';
       }

@@ -6,12 +6,21 @@ repo = 'Shougo/dein.vim'
 [[plugins]]
 repo = 'Shougo/vimproc'
 
-  [plugins.build]
-  windows = 'tools\\update-dll-mingw'
-  cygwin = 'make -f make_cygwin.mak'
-  mac = 'make -f make_mac.mak'
-  linux = 'make'
-  unix = 'gmake'
+  [plugins]
+  make = build
+
+# Snippet
+[[plugins]]
+repo = 'Shougo/neosnippet'
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'honza/vim-snippets'
+
+[[plugins]]
+repo = 'rcmdnk/vim-octopress-snippets'
 
 # Operator
 [[plugins]]

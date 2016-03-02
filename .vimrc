@@ -1021,11 +1021,13 @@ if s:dein_enabled && dein#tap("neosnippet")
   let g:neosnippet#disable_runtime_snippets = {'_' : 1}
   let g:neosnippet#snippets_directory = []
   if dein#tap("vim-octopress-snippets")
-    let g:neosnippet#snippets_directory += [expand(s:dein_github . '/vim-octopress-snippets/neosnippets')]
+    let g:neosnippet#snippets_directory += [expand(s:dein_github . '/rcmdnk/vim-octopress-snippets/neosnippets')]
   endif
-  let g:neosnippet#snippets_directory += [expand(s:dein_github . '/neosnippet-snippets/neosnippets')]
+  if dein#tap("neosnippet-snippets")
+    let g:neosnippet#snippets_directory += [expand(s:dein_github . '/Shougo/neosnippet-snippets/neosnippets')]
+  endif
   if dein#tap("vim-snippets")
-    let g:neosnippet#snippets_directory += [expand(s:dein_github . '/vim-snippets/snippets')]
+    let g:neosnippet#snippets_directory += [expand(s:dein_github . '/honza/vim-snippets/snippets')]
   endif
 endif
 " }}}
