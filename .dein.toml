@@ -1,0 +1,184 @@
+# dein
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+# Asynchronous execution library: need for vimshell, Gmail, unite, etc...
+[[plugins]]
+repo = 'Shougo/vimproc'
+
+  [plugins.build]
+  windows = 'tools\\update-dll-mingw'
+  cygwin = 'make -f make_cygwin.mak'
+  mac = 'make -f make_mac.mak'
+  linux = 'make'
+  unix = 'gmake'
+
+# Operator
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+depends = ['vim-operator-user']
+
+# Support repeat for surround, speedating, easymotion, etc...
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+# Easy to change surround
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+# Align
+[[plugins]]
+repo = 'h1mesuke/vim-alignta'
+
+# c++ syntax with c++11 support
+[[plugins]]
+repo = 'vim-jp/cpp-vim'
+
+# c++ completion
+[[plugins]]
+repo = 'osyo-manga/vim-marching'
+
+# c++ formatting
+[[plugins]]
+repo = 'rhysd/vim-clang-format'
+
+# CSS3 (Sass)
+[[plugins]]
+repo = 'hail2u/vim-css3-syntax.git'
+
+# Markdown syntax
+[[plugins]]
+repo = 'junegunn/vader.vim'
+
+[[plugins]]
+repo = 'godlygeek/tabular'
+
+[[plugins]]
+repo = 'joker1007/vim-markdown-quote-syntax'
+
+[[plugins]]
+repo = 'rcmdnk/vim-markdown'
+
+# Python indent
+[[plugins]]
+repo = 'hynek/vim-python-pep8-indent'
+
+# Folding method for python, but makes completion too slow...?
+[[plugins]]
+repo = 'vim-scripts/python_fold'
+
+# Java
+[[plugins]]
+repo = 'koron/java-helper-vim'
+
+# Applescript
+[[plugins]]
+repo = 'applescript.vim'
+
+# Automatic LaTeX Plugins
+[[plugins]]
+repo = 'coot/atp_vim'
+
+# Powershell
+[[plugins]]
+repo = 'PProvost/vim-ps1'
+
+# Go
+[[plugins]]
+repo = 'nsf/gocode'
+
+# Another status line
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+
+# Visual indent guides: make moving slow?
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+
+# Sub mode
+[[plugins]]
+repo = 'kana/vim-submode'
+
+# Easymotion
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+
+# Syntax checking
+[[plugins]]
+repo = 'scrooloose/syntastic'
+depends = ['vimproc']
+
+# Syntax for vim
+[[plugins]]
+repo = 'dbakker/vim-lint'
+
+# Change current directory to root, for git/svn, etc...
+[[plugins]]
+repo = 'airblade/vim-rooter'
+
+# Count searching objects
+[[plugins]]
+repo = 'osyo-manga/vim-anzu'
+
+# Improved incremental searching
+[[plugins]]
+repo = 'haya14busa/incsearch.vim'
+
+# Git
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+# Show added/deleted/modified lines for several version control system
+[[plugins]]
+repo = 'mhinz/vim-signify'
+
+# Version control (especially for VCSVimDiff (<Leader>cv)
+[[plugins]]
+repo = 'vcscommand.vim'
+
+# Table
+[[plugins]]
+repo = 'dhruvasagar/vim-table-mode'
+
+# yank
+[[plugins]]
+repo = 'LeafCage/yankround.vim'
+
+# over
+[[plugins]]
+repo = 'osyo-manga/vim-over'
+
+# vim-multiple-cursors, like Sublime Text's multiple selection
+[[plugins]]
+repo = 'terryma/vim-multiple-cursors'
+
+# linediff
+[[plugins]]
+repo = 'AndrewRadev/linediff.vim'
+
+# Character base diff
+[[plugins]]
+repo = 'vim-scripts/diffchar.vim'
+
+# diff enhanced
+[[plugins]]
+repo = 'chrisbra/vim-diff-enhanced'
+
+# expand region
+[[plugins]]
+repo = 'terryma/vim-expand-region'
+
+# Highlight on the fly
+[[plugins]]
+repo = 't9md/vim-quickhl'
+
+# Code modification: one-liner <-> multi-line
+[[plugins]]
+repo = 'AndrewRadev/splitjoin.vim'
+
+# Funny comment
+[[plugins]]
+repo = 'haya14busa/niconicomment.vim'
