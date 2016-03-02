@@ -44,23 +44,23 @@ on_source = ['unite.vim']
 repo = 'Shougo/neocomplete.vim'
 on_i = 1
 
-# Snippet
-[[plugins]]
-repo = 'Shougo/neosnippet'
-on_i
-on_map = ['<Plug>(neosnippet_expand_or_jump)', '<Plug>(neosnippet_expand_target)']
-
-[[plugins]]
-repo = 'Shougo/neosnippet-snippets'
-on_source = ['neosnippet']
-
-[[plugins]]
-repo = 'honza/vim-snippets'
-on_source = ['neosnippet']
-
-[[plugins]]
-repo = 'rcmdnk/vim-octopress-snippets'
-on_source = ['neosnippet']
+## Snippet
+#[[plugins]]
+#repo = 'Shougo/neosnippet'
+#on_i
+#on_map = ['<Plug>(neosnippet_expand_or_jump)', '<Plug>(neosnippet_expand_target)']
+#
+#[[plugins]]
+#repo = 'Shougo/neosnippet-snippets'
+#on_source = ['neosnippet']
+#
+#[[plugins]]
+#repo = 'honza/vim-snippets'
+#on_source = ['neosnippet']
+#
+#[[plugins]]
+#repo = 'rcmdnk/vim-octopress-snippets'
+#on_source = ['neosnippet']
 
 # Gundo
 [[plugins]]
