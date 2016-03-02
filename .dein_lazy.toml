@@ -1,0 +1,154 @@
+# Unlike 'fuzzyfinder' or 'ku', it doesn't use the built-in completion of vim {{{
+# Searches and display information->:help Unite
+[[plugins]]
+repo = 'Shougo/unite.vim'
+on_cmd = ['Unie']
+
+# Source for unite: mark
+[[plugins]]
+repo = 'tacroe/unite-mark'
+on_source = ['unite.vim']
+
+# Source for unite: help
+[[plugins]]
+repo = 'tsukkee/unite-help'
+on_source = ['unite.vim']
+
+# Source for unite: history/command, history/search
+[[plugins]]
+repo = 'thinca/vim-unite-history'
+on_source = ['unite.vim']
+
+# Source for unite: fold
+[[plugins]]
+repo = 'osyo-manga/unite-fold'
+on_source = ['unite.vim']
+
+# Source for unite: locate
+[[plugins]]
+repo = 'ujihisa/unite-locate'
+on_source = ['unite.vim']
+
+# Source for unite: colorscheme
+[[plugins]]
+repo = 'ujihisa/unite-colorscheme'
+on_source = ['unite.vim']
+
+# Source for unite: mru
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+on_source = ['unite.vim']
+
+# Completion
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+on_i = 1
+
+# Snippet
+[[plugins]]
+repo = 'Shougo/neosnippet'
+on_i
+on_map = ['<Plug>(neosnippet_expand_or_jump)', '<Plug>(neosnippet_expand_target)']
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+on_source = ['neosnippet']
+
+[[plugins]]
+repo = 'honza/vim-snippets'
+on_source = ['neosnippet']
+
+[[plugins]]
+repo = 'rcmdnk/vim-octopress-snippets'
+on_source = ['neosnippet']
+
+# Gundo
+[[plugins]]
+repo = 'sjl/gundo.vim'
+on_cmd = ['GundoToggle']
+
+# Open browser
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+on_map = ['<Plug>(openbrowser-smart-search)']
+
+# Git
+[[plugins]]
+repo = 'gregsexton/gitv'
+depends = ['tpope/vim-fugitive']
+on_cmd = ['Gitv']
+
+# For git/svn status, log
+[[plugins]]
+repo = 'hrsh7th/vim-versions.git'
+on_cmd = ['UniteVersions']
+
+# Gist
+[[plugins]]
+repo = 'mattn/gist-vim'
+depends = ['mattn/webapi-vim']
+on_cmd = ['Gist']
+
+# vim-ref
+[[plugins]]
+repo = 'thinca/vim-ref'
+on_cmd = ['Ref']
+
+
+# LanguageTool
+[[plugins]]
+repo = 'vim-scripts/LanguageTool'
+on_cmd = ['LanguageToolCheck']
+
+# Grammer check with LanguageTool
+[[plugins]]
+repo = 'rhysd/vim-grammarous'
+on_cmd = ['GrammarousCheck']
+
+# Excite Translate
+[[plugins]]
+repo = 'mattn/excitetranslate-vim'
+depends = ['mattn/webapi-vim']
+on_cmd = ['ExciteTranslate']
+
+# Google Translate
+[[plugins]]
+repo = 'daisuzu/translategoogle.vim'
+on_cmd = ['TranslateGoogle', 'TranslateGoogleCmd']
+
+# Make benchmark result of vimrc
+[[plugins]]
+repo = 'mattn/benchvimrc-vim'
+on_cmd = ['BenchVimrc']
+
+
+# The NERD Tree: File Explorer
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+on_cmd = ['NERDTreeToggle']
+
+# Source Explorer
+[[plugins]]
+repo = 'wesleyche/SrcExpl'
+on_cmd = ['SrcExplToggle']
+
+# For Tags
+[[plugins]]
+repo = 'majutsushi/tagbar'
+on_cmd = ['TagbarToggle']
+
+# Make help
+[[plugins]]
+repo = 'LeafCage/vimhelpgenerator'
+on_cmd = ['VimHelpGenerator']
+
+# Calendar/Tasks
+[[plugins]]
+repo = 'itchyny/calendar.vim'
+on_cmd = ['Calendar']
+
+# Especially for CSV editing
+[[plugins]]
+repo = 'rbtnn/rabbit-ui.vim'
+on_cmd = ['EditCSV']
+
