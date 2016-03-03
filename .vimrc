@@ -23,7 +23,7 @@ endif
 " }}}
 
 " dein {{{
-let s:dein_enabled  =0
+let s:dein_enabled  = 0
 if s:use_dein && v:version >= 704
   let s:dein_enabled = 1
   " set path
@@ -46,7 +46,7 @@ if s:use_dein && v:version >= 704
   """"plugins"""""
 
   let s:dein_list = [expand('<sfile>')]
-  let s:toml      = expand('~/.dein.toml')
+  let s:toml = expand('~/.dein.toml')
   let s:lazy_toml = expand('~/.dein_lazy.toml')
   for f in [s:toml, s:lazy_toml]
     if filereadable(f)
@@ -963,19 +963,6 @@ set statusline=%<%f\ %m%r%h%w
 set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
 set statusline+=%=%l/%L,%c%V%8P
 " }}} status line
-
-" neocomplcache {{{
-if s:dein_enabled && dein#tap("neocomplcache.vim")
-  let g:acp_enableAtStartup = 1
-  let g:neocomplcache_enable_startup = 1
-  let g:neocomplcache_enable_smart_case = 1
-  let g:neocomplcache_min_syntax_length = 3
-  let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-  let g:neocomplcache_text_mode_filetypes =
-        \ {'text': 1, 'plaintex':1, 'javascript': 1,
-        \  'mkd': 1, 'markdown': 1, 'perl': 1, 'html': 1}
-endif
-" }}}
 
 " neocomplete {{{
 if s:dein_enabled && dein#tap("neocomplete.vim")
