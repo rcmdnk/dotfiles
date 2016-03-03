@@ -1,37 +1,18 @@
-# Source for unite: mark
+# Unlike 'fuzzyfinder' or 'ku', it doesn't use the built-in completion of vim
+# Searches and display information->:help Unite
 [[plugins]]
-repo = 'tacroe/unite-mark'
-on_source = ['unite.vim']
-
-# Source for unite: help
-[[plugins]]
-repo = 'tsukkee/unite-help'
-on_source = ['unite.vim']
-
-# Source for unite: history/command, history/search
-[[plugins]]
-repo = 'thinca/vim-unite-history'
-on_source = ['unite.vim']
-
-# Source for unite: fold
-[[plugins]]
-repo = 'osyo-manga/unite-fold'
-on_source = ['unite.vim']
-
-# Source for unite: locate
-[[plugins]]
-repo = 'ujihisa/unite-locate'
-on_source = ['unite.vim']
-
-# Source for unite: colorscheme
-[[plugins]]
-repo = 'ujihisa/unite-colorscheme'
-on_source = ['unite.vim']
+repo = 'Shougo/unite.vim'
+on_cmd = ['Unite']
 
 # Source for unite: mru
 [[plugins]]
 repo = 'Shougo/neomru.vim'
 on_source = ['unite.vim']
+on_map = ['<Plug>(neosnippet_expand_or_jump)', '<Plug>(neosnippet_expand_target)']
+
+# Snippet
+[[plugins]]
+repo = 'Shougo/neosnippet'
 
 # Completion
 [[plugins]]
@@ -58,6 +39,10 @@ on_cmd = ['Gitv']
 [[plugins]]
 repo = 'hrsh7th/vim-versions.git'
 on_cmd = ['UniteVersions']
+
+# webapi
+[[plugins]]
+repo = 'mattn/webapi-vim'
 
 # Gist
 [[plugins]]
@@ -117,8 +102,7 @@ on_cmd = ['VimHelpGenerator']
 repo = 'itchyny/calendar.vim'
 on_cmd = ['Calendar']
 
-# Especially for CSV editing
+# Funny comment
 [[plugins]]
-repo = 'rbtnn/rabbit-ui.vim'
-on_cmd = ['EditCSV']
-
+repo = 'haya14busa/niconicomment.vim'
+on_cmd = ['Niconicomment']

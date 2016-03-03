@@ -671,5 +671,3 @@ source_file ~/.work.sh
 source_file ~/.local.sh
 
 # }}} Setup for each environment
-
-DEBUG=1
