@@ -8,11 +8,6 @@ on_cmd = ['Unite']
 [[plugins]]
 repo = 'Shougo/neomru.vim'
 on_source = ['unite.vim']
-on_map = ['<Plug>(neosnippet_expand_or_jump)', '<Plug>(neosnippet_expand_target)']
-
-# Snippet
-[[plugins]]
-repo = 'Shougo/neosnippet'
 
 # Completion
 [[plugins]]
