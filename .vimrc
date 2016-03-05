@@ -41,24 +41,269 @@ if s:use_dein && v:version >= 704
 
   call dein#begin(s:dein_dir)
 
-  """"plugins"""""
+  if dein#load_cache()
 
-  let s:dein_list = [expand('<sfile>')]
-  let s:toml = expand('~/.dein.toml')
-  let s:lazy_toml = expand('~/.dein_lazy.toml')
-  for f in [s:toml, s:lazy_toml]
-    if filereadable(f)
-      call add(s:dein_list, f)
-    endif
-  endfor
+    " dein
+    call dein#add('Shougo/dein.vim')
 
-  if dein#load_cache(s:dein_list)
-    if filereadable(s:toml)
-      call dein#load_toml(s:toml, {'lazy': 0})
-    endif
-    if filereadable(s:lazy_toml)
-      call dein#load_toml(s:lazy_toml, {'lazy': 1})
-    endif
+    " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
+    call dein#add('Shougo/vimproc', {'build': 'make'})
+
+    " Unite {{{
+    " Unlike 'fuzzyfinder' or 'ku', it doesn't use the built-in completion of vim
+    " Searches and display information->:help Unite
+    call dein#add('Shougo/unite.vim', {
+          \ 'depends': ['vimproc'],
+          \ 'on_cmd': ['Unite'],
+          \ 'lazy': 1})
+
+    " Source for unite: mru
+    call dein#add('Shougo/neomru.vim', {'depdens': ['unite.vim']})
+
+    " Source for unite: mark
+    call dein#add('tacroe/unite-mark', {'depdens': ['unie.vim']})
+
+    " Source for unite: help
+    call dein#add('tsukkee/unite-help', {'depdens': ['unie.vim']})
+
+    " Source for unite: history/command, history/search
+    call dein#add('thinca/vim-unite-history', {'depdens': ['unie.vim']})
+
+    " Source for unite: fold
+    call dein#add('osyo-manga/unite-fold', {'depdens': ['unie.vim']})
+
+    " Source for unite: locate
+    call dein#add('ujihisa/unite-locate', {'depdens': ['unie.vim']})
+
+    " Source for unite: colorscheme
+    call dein#add('ujihisa/unite-colorscheme', {'depdens': ['unie.vim']})
+    " }}}
+
+    " Snippet
+    call dein#add('Shougo/neosnippet')
+    "on_map: ['<Plug>(neosnippet_expand_or_jump)', '<Plug>(neosnippet_expand_target)']
+    call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
+    call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
+    call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
+
+    " Operator
+    call dein#add('kana/vim-operator-user')
+    call dein#add('kana/vim-operator-replace', {'depdens': ['vim-operator-user']})
+
+    " Support repeat for surround, speedating, easymotion, etc...
+    call dein#add('tpope/vim-repeat')
+
+    " Easy to change surround
+    call dein#add('tpope/vim-surround')
+
+    " Align
+    call dein#add('h1mesuke/vim-alignta')
+
+    " c++ syntax with c++11 support
+    call dein#add('vim-jp/cpp-vim')
+
+    " c++ completion
+    call dein#add('osyo-manga/vim-marching')
+
+    " c++ formatting
+    call dein#add('rhysd/vim-clang-format')
+
+    " CSS3 (Sass)
+    call dein#add('hail2u/vim-css3-syntax.git')
+
+    " Markdown syntax
+    call dein#add('junegunn/vader.vim')
+"
+    call dein#add('godlygeek/tabular')
+"
+    call dein#add('joker1007/vim-markdown-quote-syntax')
+"
+    call dein#add('rcmdnk/vim-markdown')
+
+    " Python indent
+    call dein#add('hynek/vim-python-pep8-indent')
+
+    " Folding method for python, but makes completion too slow...?
+    call dein#add('vim-scripts/python_fold')
+
+    " Java
+    call dein#add('koron/java-helper-vim')
+
+    " Applescript
+    call dein#add('applescript.vim')
+
+    " Automatic LaTeX Plugins
+    call dein#add('coot/atp_vim')
+
+    " Powershell
+    call dein#add('PProvost/vim-ps1')
+
+    " Go
+    call dein#add('nsf/gocode')
+
+    " Another status line
+    call dein#add('itchyny/lightline.vim')
+
+    " Visual indent guides: make moving slow?
+    call dein#add('nathanaelkane/vim-indent-guides')
+
+    " Sub mode
+    call dein#add('kana/vim-submode')
+
+    " Easymotion
+    call dein#add('easymotion/vim-easymotion')
+
+    " Syntax checking
+    call dein#add('scrooloose/syntastic', {'depends': ['vimproc']})
+
+    " Syntax for vim
+    call dein#add('dbakker/vim-lint')
+
+    " Change current directory to root, for git/svn, etc...
+    call dein#add('airblade/vim-rooter')
+
+    " Count searching objects
+    call dein#add('osyo-manga/vim-anzu')
+
+    " Improved incremental searching
+    call dein#add('haya14busa/incsearch.vim')
+
+    " Git
+    call dein#add('tpope/vim-fugitive')
+
+    " Show added/deleted/modified lines for several version control system
+    call dein#add('mhinz/vim-signify')
+
+    " Version control (especially for VCSVimDiff (<Leader>cv)
+    call dein#add('vcscommand.vim')
+
+    " Table
+    call dein#add('dhruvasagar/vim-table-mode')
+
+    " yank
+    call dein#add('LeafCage/yankround.vim')
+
+    " over
+    call dein#add('osyo-manga/vim-over')
+
+    " vim-multiple-cursors, like Sublime Text's multiple selection
+    call dein#add('terryma/vim-multiple-cursors')
+
+    " linediff
+    call dein#add('AndrewRadev/linediff.vim', {
+          \ 'on_cmd': ['Linediff'],
+          \ 'lazy': 1})
+
+    " Character base diff
+    call dein#add('vim-scripts/diffchar.vim')
+
+    " diff enhanced
+    call dein#add('chrisbra/vim-diff-enhanced')
+
+    " expand region
+    call dein#add('terryma/vim-expand-region')
+
+    " Highlight on the fly
+    call dein#add('t9md/vim-quickhl')
+
+    " Code modification: one-liner <-> multi-line
+    call dein#add('AndrewRadev/splitjoin.vim')
+
+    " Especially for CSV editing
+    call dein#add('rbtnn/rabbit-ui.vim')
+
+    " Completion
+    call dein#add('Shougo/neocomplete.vim', {
+          \ 'on_i': 1,
+          \ 'lazy': 1})
+
+    " Gundo
+    call dein#add('sjl/gundo.vim', {
+          \ 'on_cmd': ['GundoToggle'],
+          \ 'lazy': 1})
+
+    " Open browser
+    call dein#add('tyru/open-browser.vim', {
+          \ 'on_map': ['<Plug>(openbrowser-smart-search)'],
+          \ 'lazy': 1})
+
+    " Git
+    call dein#add('gregsexton/gitv', {
+          \ 'depdens': ['tpope/vim-fugitive'],
+          \ 'on_cmd': ['Gitv'],
+          \ 'lazy': 1})
+
+    " For git/svn status, log
+    call dein#add('hrsh7th/vim-versions.git', {
+          \ 'on_cmd': ['UniteVersions'],
+          \ 'lazy': 1})
+
+    " webapi
+    call dein#add('mattn/webapi-vim')
+
+    " Gist
+    call dein#add('mattn/gist-vim', {
+          \ 'depdens': ['mattn/webapi-vim'],
+          \ 'on_cmd': ['Gist'],
+          \ 'lazy': 1})
+
+    " vim-ref
+    call dein#add('thinca/vim-ref', {
+          \ 'on_cmd': ['Ref'],
+          \ 'lazy': 1})
+
+    " Grammer check with LanguageTool
+    call dein#add('rhysd/vim-grammarous', {
+          \ 'on_cmd': ['GrammarousCheck'],
+          \ 'lazy': 1})
+
+    " Excite Translate
+    call dein#add('mattn/excitetranslate-vim', {
+          \ 'depdens': ['mattn/webapi-vim'],
+          \ 'on_cmd': ['ExciteTranslate'],
+          \ 'lazy': 1})
+
+    " Google Translate
+    call dein#add('daisuzu/translategoogle.vim', {
+          \ 'on_cmd': ['TranslateGoogle', 'TranslateGoogleCmd'],
+          \ 'lazy': 1})
+
+    " Make benchmark result of vimrc
+    call dein#add('mattn/benchvimrc-vim', {
+          \ 'on_cmd': ['BenchVimrc'],
+          \ 'lazy': 1})
+
+
+    " The NERD Tree: File Explorer
+    call dein#add('scrooloose/nerdtree', {
+          \ 'on_cmd': ['NERDTreeToggle'],
+          \ 'lazy': 1})
+
+    " Source Explorer
+    call dein#add('wesleyche/SrcExpl', {
+          \ 'on_cmd': ['SrcExplToggle'],
+          \ 'lazy': 1})
+
+    " For Tags
+    call dein#add('majutsushi/tagbar', {
+          \ 'on_cmd': ['TagbarToggle'],
+          \ 'lazy': 1})
+
+    " Make help
+    call dein#add('LeafCage/vimhelpgenerator', {
+          \ 'on_cmd': ['VimHelpGenerator'],
+          \ 'lazy': 1})
+
+    " Calendar/Tasks
+    call dein#add('itchyny/calendar.vim', {
+          \ 'on_cmd': ['Calendar'],
+          \ 'lazy': 1})
+
+    " Funny comment
+    call dein#add('haya14busa/niconicomment.vim', {
+          \ 'on_cmd': ['Niconicomment'],
+          \ 'lazy':1 })
+
     call dein#save_cache()
   endif
 

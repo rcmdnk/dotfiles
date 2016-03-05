@@ -1,3 +1,25 @@
+# Use load_toml in vimrc
+#
+#    let s:dein_list = [expand('<sfile>')]
+#    let s:toml = expand('~/.dein.toml')
+#    let s:lazy_toml = expand('~/.dein_lazy.toml')
+#    for f in [s:toml, s:lazy_toml]
+#      if filereadable(f)
+#        call add(s:dein_list, f)
+#      endif
+#    endfor
+#
+#    if dein#load_cache(s:dein_list)
+#      if filereadable(s:toml)
+#        call dein#load_toml(s:toml, {'lazy': 0})
+#      endif
+#      if filereadable(s:lazy_toml)
+#        call dein#load_toml(s:lazy_toml, {'lazy': 1})
+#      endif
+#      call dein#save_cache()
+#    endif
+
+
 # dein
 [[plugins]]
 repo = 'Shougo/dein.vim'
