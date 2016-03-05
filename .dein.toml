@@ -39,6 +39,10 @@ on_source = ['unite.vim']
 
 # Snippet
 [[plugins]]
+repo = 'Shougo/neosnippet'
+#on_map = ['<Plug>(neosnippet_expand_or_jump)', '<Plug>(neosnippet_expand_target)']
+
+[[plugins]]
 repo = 'Shougo/neosnippet-snippets'
 on_source = ['neosnippet']
 
@@ -135,9 +139,9 @@ repo = 'itchyny/lightline.vim'
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
 
-# Sub mode
-[[plugins]]
-repo = 'kana/vim-submode'
+## Sub mode
+#[[plugins]]
+#repo = 'kana/vim-submode'
 
 # Easymotion
 [[plugins]]
