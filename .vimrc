@@ -69,6 +69,9 @@ if s:use_dein && v:version >= 704
     " Source for unite: history/command, history/search
     call dein#add('thinca/vim-unite-history', {'depdens': ['unie.vim']})
 
+    " Source for unite: history/yank
+    call dein#add('Shougo/neoyank.vim', {'depdens': ['unie.vim']})
+
     " Source for unite: fold
     call dein#add('osyo-manga/unite-fold', {'depdens': ['unie.vim']})
 
@@ -79,9 +82,12 @@ if s:use_dein && v:version >= 704
     call dein#add('ujihisa/unite-colorscheme', {'depdens': ['unie.vim']})
     " }}}
 
+
     " Snippet
     call dein#add('Shougo/neosnippet')
-    "on_map: ['<Plug>(neosnippet_expand_or_jump)', '<Plug>(neosnippet_expand_target)']
+    "      \ 'on_map': ['<Plug>(neosnippet_expand_or_jump)',
+    "      \          '<Plug>(neosnippet_expand_target)'],
+    "      \ 'lazy': 1})
     call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
     call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
     call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
@@ -97,7 +103,9 @@ if s:use_dein && v:version >= 704
     call dein#add('tpope/vim-surround')
 
     " Align
-    call dein#add('h1mesuke/vim-alignta')
+    call dein#add('h1mesuke/vim-alignta', {
+          \ 'on_cmd': ['Alignta'],
+          \ 'lazy': 1})
 
     " c++ syntax with c++11 support
     call dein#add('vim-jp/cpp-vim')
@@ -113,11 +121,11 @@ if s:use_dein && v:version >= 704
 
     " Markdown syntax
     call dein#add('junegunn/vader.vim')
-"
+
     call dein#add('godlygeek/tabular')
-"
+
     call dein#add('joker1007/vim-markdown-quote-syntax')
-"
+
     call dein#add('rcmdnk/vim-markdown')
 
     " Python indent
@@ -177,9 +185,6 @@ if s:use_dein && v:version >= 704
     " Version control (especially for VCSVimDiff (<Leader>cv)
     call dein#add('vcscommand.vim')
 
-    " Table
-    call dein#add('dhruvasagar/vim-table-mode')
-
     " yank
     call dein#add('LeafCage/yankround.vim')
 
@@ -199,6 +204,9 @@ if s:use_dein && v:version >= 704
 
     " diff enhanced
     call dein#add('chrisbra/vim-diff-enhanced')
+
+    " wildfire
+    call dein#add("gcmt/wildfire.vim")
 
     " expand region
     call dein#add('terryma/vim-expand-region')
@@ -842,6 +850,12 @@ cnoremap <C-a> <C-b>
 " Write as root
 cnoremap w!! w !sudo tee > /dev/null %
 
+" status line
+set laststatus=2 " always show
+set statusline=%<%f\ %m%r%h%w
+set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
+set statusline+=%=%l/%L,%c%V%8P
+
 " }}} map
 
 " Colors {{{
@@ -904,7 +918,7 @@ colorscheme ron
 function! SetDiffMode()
   if &diff
     setlocal nospell
-    setlocal wrap<
+    setlocal wrap
   endif
 endfunction
 autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffMode()
@@ -1014,41 +1028,48 @@ if s:dein_enabled && dein#tap("unite.vim")
   " show register
   nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
   " show opened file history including current buffers
-  "nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
-  nnoremap <silent> [unite]m :Unite file_mru<CR>
+  if dein#tap("neomru.vim")
+    nnoremap <silent> [unite]m :Unite file_mru<CR>
+  else
+    nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
+  endif
   " show lines of current file
   nnoremap <silent> [unite]l :Unite line<CR>
   " search (like ack.vim/ag.vim)
   nnoremap <silent> [unite]/ :Unite grep:.<CR>
-  " Yank (like yankring/yankstack)
-  "let g:unite_source_history_yank_enable = 1
-  "nnoremap <silent> [unite]y :Unite history/yank<CR>
-  nnoremap <silent> [unite]y :Unite yankround<CR>
-
-  " sources outside of unite
-  nnoremap <silent> [unite]M :Unite mark<CR>
-  nnoremap <silent> [unite]c :Unite history/command<CR>
-  nnoremap <silent> [unite]S :Unite history/search<CR>
-  nnoremap <silent> [unite]F :Unite fold<CR>
-  nnoremap <silent> [unite]L :Unite locate<CR>
-  nnoremap <silent> [unite]C :Unite colorscheme<CR>
-  nnoremap <silent> [unite]s :Unite neosnippet<CR>
+  " yank
+  if dein#tap("neoyank.vim")
+    nnoremap <silent> [unite]y :Unite history/yank<CR>
+  elseif dein#tap("yankround.vim")
+    nnoremap <silent> [unite]y :Unite yankround<CR>
+  endif
+  " mark
+  if dein#tap("unite-mark")
+    nnoremap <silent> [unite]M :Unite mark<CR>
+  endif
+  " history
+  if dein#tap("vim-unite-history")
+    nnoremap <silent> [unite]c :Unite history/command<CR>
+    nnoremap <silent> [unite]S :Unite history/search<CR>
+  endif
+  " hold
+  if dein#tap("unite-fold")
+    nnoremap <silent> [unite]F :Unite fold<CR>
+  endif
+  " locate
+  if dein#tap("unite-locate")
+    nnoremap <silent> [unite]L :Unite locate<CR>
+  endif
+  " coloscheme
+  if dein#tap("unite-colorscheme")
+    nnoremap <silent> [unite]C :Unite colorscheme<CR>
+  endif
+  " snippet
+  if dein#tap("neosnipet")
+    nnoremap <silent> [unite]s :Unite neosnippet<CR>
+  endif
 endif
 " }}} Unite
-
-" wildfire {{{
-if s:dein_enabled && dein#tap("wildfire.vim")
-  let g:wildfire_objects = {
-        \ "*" : ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'it'],
-        \}
-
-  " This selects the next closest text object.
-  let g:wildfire_fuel_map = "<ENTER>"
-
-  " This selects the previous closest text object.
-  let g:wildfire_water_map = "<BS>"
-endif
-"}}}
 
 " operator {{{
 nnoremap [oper] <Nop>
@@ -1103,12 +1124,14 @@ endif
 
 " vim-marching {{{
 if s:dein_enabled && dein#tap("vim-marching")
-  let g:marching_enable_neocomplete = 1
-  if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
+  if dein#tap("neocomplete.vim")
+    let g:marching_enable_neocomplete = 1
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.cpp =
+        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
   endif
-  let g:neocomplete#force_omni_input_patterns.cpp =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 endif
 " }}} vim-marching
 
@@ -1199,13 +1222,6 @@ if s:dein_enabled && dein#tap("vim-over")
   xnoremap <Leader>c :OverCommandLine<CR>s/
 endif
 " }}}
-
-" status line {{{
-set laststatus=2 " always show
-set statusline=%<%f\ %m%r%h%w
-set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
-set statusline+=%=%l/%L,%c%V%8P
-" }}} status line
 
 " neocomplete {{{
 if s:dein_enabled && dein#tap("neocomplete.vim")
@@ -1805,6 +1821,20 @@ if s:dein_enabled && dein#tap("vim-diff-enhanced")
 endif
 "}}} vim-diff-enhanced
 
+" wildfire {{{
+if s:dein_enabled && dein#tap("wildfire.vim")
+  let g:wildfire_objects = {
+        \ "*" : ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'it'],
+        \}
+
+  " This selects the next closest text object.
+  let g:wildfire_fuel_map = "<ENTER>"
+
+  " This selects the previous closest text object.
+  let g:wildfire_water_map = "<BS>"
+endif
+"}}}
+
 " vim-expand-region {{{
 if s:dein_enabled && dein#tap("vim-expand-region")
   let g:expand_region_text_objects = {
@@ -1825,7 +1855,7 @@ if s:dein_enabled && dein#tap("vim-expand-region")
     call submode#map('expand-region', 'nv', 'r', 'w', '<Plug>(expand_region_shrink)')
   endif
 endif
-"}}} switch
+"}}} vim-expand-region
 
 " vim-quickhl {{{
 if s:dein_enabled && dein#tap("vim-quickhl")
