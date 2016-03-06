@@ -838,6 +838,11 @@ NeoBundleLazy "tyru/open-browser-github.vim", {
       \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
 " }}}
 
+" Table {{{
+" There are tabular and Alignta.
+call dein#add('dhruvasagar/vim-table-mode')
+" }}}
+
 
 " }}} Currenlty, not necessary
 
