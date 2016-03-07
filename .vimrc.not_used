@@ -26,6 +26,42 @@ NeoBundle "mitsuhiko/vim-python-combined"
 " Syntastics or watch-dogs is enough.
 NeoBundle "nvie/vim-flake8"
 
+" jedi-vim{{{
+"" Jedi for python
+NeoBundleLazy "davidhalter/jedi-vim", {
+    \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
+if s:dein_enabled && dein#tap("jedi-vim")
+  let g:jedi#auto_initialization = 1
+  let g:jedi#auto_vim_configuration = 1
+
+  nnoremap [jedi] <Nop>
+  xnoremap [jedi] <Nop>
+  nmap <Leader>j [jedi]
+  xmap <Leader>j [jedi]
+
+  let g:jedi#completions_command = "<C-N>"
+  let g:jedi#goto_assignments_command = "[jedi]g"
+  let g:jedi#goto_definitions_command = "[jedi]d"
+  let g:jedi#documentation_command = "[jedi]K"
+  let g:jedi#rename_command = "[jedi]r"
+  let g:jedi#usages_command = "[jedi]n"
+  let g:jedi#popup_select_first = 0
+  let g:jedi#popup_on_dot = 0
+
+  autocmd MyAutoGroup FileType python setlocal completeopt-=preview
+
+  " w/ neocomplete
+  if dein#tap("neocomplete.vim")
+    autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#completions
+    let g:jedi#completions_enabled = 0
+    let g:jedi#auto_vim_configuration = 0
+    let g:neocomplete#force_omni_input_patterns.python =
+    \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+    " alternative pattern: '\h\w*\|[^. \t]\.\w*'
+  endif
+endif
+" }}} jedi-vim
+
 " virtual env (not used)
 NeoBundle "jmcantrell/vim-virtualenv"
 " }}}
@@ -273,6 +309,10 @@ NeoBundle 'ujihisa/unite-colorscheme'
 " Source for unite: font
 " * Only for gui
 NeoBundle 'ujihisa/unite-font'
+" coloscheme
+if dein#tap("unite-colorscheme")
+  nnoremap <silent> [unite]C :Unite colorscheme<CR>
+endif
 
 " }}}
 
@@ -568,6 +608,15 @@ NeoBundleLazy "kakkyz81/evervim",{
   \                            "EvervimOpenBrowser", "EvervimSetup"]}}
 " }}}
 
+" Changed {{{
+" Displays signs on changed lines, since last save
+" -> use DiffOrig, if necessary
+NeoBundleLazy "Changed", {
+  \ "autoload": {"commands": ["Changed"]}}
+}
+" }}}
+
+" For Version Control System {{{
 " gitgutter{{{
 " Show added/deleted/modified line for git
 " * Use signify, which can do for svn or others in addiiton to git
@@ -579,12 +628,31 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-gitgutter"))
 endif
 "}}} gitgutter
 
-" Changed {{{
-" Displays signs on changed lines
-" Use signify
-NeoBundleLazy "Changed", {
-  \ "autoload": {"commands": ["Changed"]}}
-}
+" signify{{{
+" Show added/deleted/modified lines for several version control system
+" vcscommand is enough
+" if you want to show marks always, it is useful, though.
+call dein#add('mhinz/vim-signify', {
+      \ 'on_cmd': ['SignifyToggle'],
+      \ 'lazy': 1})
+if s:dein_enabled && dein#tap("vim-signify")
+  let g:signify_disable_by_default = 1
+  let g:signify_cursorhold_normal = 1
+  let g:signify_cursorhold_insert = 1
+  nmap <Leader>gj <Plug>(signify-next-jump)
+  nmap <Leader>gk <Plug>(signify-prev-jump)
+  nnoremap <Leader>gt :SignifyToggle<CR>
+  nnoremap <Leader>gh :SignifyToggleHighlight<CR>
+endif
+"}}} signify
+
+" For git/svn status, log {{{
+call dein#add('hrsh7th/vim-versions.git', {
+      \ 'depends': ['unite.vim'],
+      \ 'on_cmd': ['UniteVersions'],
+      \ 'lazy': 1})
+" }}}
+
 " }}}
 
 " vim-singleton {{{
@@ -693,6 +761,24 @@ if s:neobundle_enabled && ! empty(neobundle#get("previm"))
 endif
 
 "}}} previm
+
+" vim-rooter{{{
+" Change current directory to root, for git/svn, etc...
+" not used
+call dein#add('airblade/vim-rooter')
+if s:dein_enabled && dein#tap("vim-rooter")
+  " Default: move to root directory by <Leader>cd or :Rooter
+
+  " Change only current window's directory
+  let g:rooter_use_lcd = 1
+  " Do not automatically change the directory
+  let g:rooter_manual_only = 1
+  " Stop the automatic change (some files are )
+  let g:rooter_manual_only = 1
+  " files/directories for the root directory
+  let g:rooter_patterns = ['tags', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', 'Makefile', 'GNUMakefile', 'GNUmakefile', '.svn/']
+endif
+"}}} vim-rooter
 
 " JavaScript {{{
 " * Something wrong at buffer change
@@ -842,6 +928,151 @@ NeoBundleLazy "tyru/open-browser-github.vim", {
 " There are tabular and Alignta.
 call dein#add('dhruvasagar/vim-table-mode')
 " }}}
+
+" Language {{{
+" LanguageTool{{{
+" Use vim-grammarous
+NeoBundleLazy "vim-scripts/LanguageTool", {
+      \  "autoload" : {"commands": ["LanguageToolCheck"] }}
+if s:neobundle_enabled && ! empty(neobundle#get("LanguageTool"))
+  " jar file settings
+  let s:languagetool_version="3.2"
+  "let s:languagetool_version="2.1"
+  let s:languagetool_zip="LanguageTool-".s:languagetool_version.".zip"
+  let s:languagetool_download=
+        \"http://www.languagetool.org/download/".s:languagetool_zip
+  let s:languagetool_parent_dir=g:vimdir."/languagetool/"
+  let s:languagetool_dir=s:languagetool_parent_dir."/LanguageTool-"
+        \.s:languagetool_version."/"
+  let s:languagetool_v_file=s:languagetool_dir."/version_in_vim"
+
+  let g:languagetool_jar=s:languagetool_dir."/languagetool-commandline.jar"
+
+  " Check/Prepare LanguageTool
+  let s:languagetool_v_test=system("cat " . s:languagetool_v_file)
+  if s:languagetool_v_test != s:languagetool_version
+    echo s:languagetool_v_test
+    echo "Preparing LanguageTool..."
+    echo "getting " . s:languagetool_download . "..."
+    call system("rm -rf " . s:languagetool_dir)
+    call system("rm -rf " . s:languagetool_dir . "/*.zip*")
+    call system("mkdir -p " . s:languagetool_parent_dir)
+    execute "lcd" s:languagetool_parent_dir
+    call system("wget " . s:languagetool_download)
+    echo "done wget " . s:languagetool_download
+    call system("unzip " . s:languagetool_zip )
+    call system("rm -f " . s:languagetool_zip)
+    call system("printf " . s:languagetool_version . " > " . s:languagetool_v_file)
+    lcd -
+  endif
+
+  " Other settings
+  " If lang is not set, spellang value is used (if it is not set neithr, use en-US).
+  "let g:languagetool_lang="en-US"
+endif
+"}}} LanguageTool
+
+" Excite Translate {{{
+" There are translategoogle
+call dein#add('mattn/excitetranslate-vim', {
+      \ 'depdens': ['mattn/webapi-vim'],
+      \ 'on_cmd': ['ExciteTranslate'],
+      \ 'lazy': 1})
+if s:dein_enabled && dein#tap("excitetranslate-vim")
+  xnoremap <Leader>x :ExciteTranslate<CR>
+endif
+"}}} exciteTranslate
+
+
+"}}}
+
+" Syntax {{{
+" vim-watchdogs {{{
+" Use Syntastic, instead
+NeoBundle "osyo-manga/vim-watchdogs", {
+    \ "depends": ["Shougo/vimproc", "thinca/vim-quickrun",
+                 \"dannyob/quickfixstatus",
+                 \"osyo-manga/shabadou.vim", "cohama/vim-hier",
+                 \"KazuakiM/vim-qfsigns"]}
+
+if s:dein_enabled && dein#tap("vim-watchdogs")
+  let g:watchdogs_check_BufWritePost_enable = 1
+  let g:watchdogs_check_CursorHold_enable = 1
+  if !exists("g:quickrun_config")
+    let g:quickrun_config = {}
+  endif
+  let g:quickrun_config["watchdogs_checker/_"] = {
+  \ "outputter/quickfix/open_cmd" : "",
+  \ "runner/vimproc/updatetime" : 50,
+  \ "hook/qfsigns_update/enable_exit": 1,
+  \ "hook/qfsigns_update/priority_exit": 3,
+  \}
+  let s:flake8 = system('flake8 --version 2>/dev/null')
+  if s:flake8 != ""
+    let g:quickrun_config["python/watchdogs_checker"] = {
+    \ "type" : "watchdogs_checker/flake8"
+    \}
+  endif
+  call watchdogs#setup(g:quickrun_config)
+endif
+"}}} vim-watchdogs
+" vim-hier{{{
+if s:dein_enabled && dein#tap("vim-hier")
+  highlight qf_error ctermfg=255 ctermbg=1
+  highlight qf_warning ctermfg=255 ctermbg=3
+  highlight qf_info ctermfg=255 ctermbg=2
+  let g:hier_highlight_group_qf   = 'qf_error'
+  let g:hier_highlight_group_qfw  = 'qf_warning'
+  let g:hier_highlight_group_qfi  = 'qf_info'
+endif
+" }}} vim-hier
+
+" }}}
+
+" operator {{{
+" replace is used
+" not use sort, reverse, surround
+NeoBundle "kana/vim-operator-user"
+NeoBundle "kana/vim-operator-replace"
+"NeoBundle 'emonkak/vim-operator-sort'
+"NeoBundle 'tyru/operator-reverse.vim'
+"NeoBundle "rhysd/vim-operator-surround" " -> use vim-surround
+if s:dein_enabled && dein#tap("vim-operator-user")
+  nnoremap [oper] <Nop>
+  nm <Leader>o [oper]
+  if s:dein_enabled && dein#tap("vim-operator-sort")
+    map [oper]s <Plug>(operator-sort)
+  endif
+  if s:dein_enabled && dein#tap("operator-reverse.vim")
+    map [oper]r  <Plug>(operator-reverse-text)
+  endif
+endif
+" }}} operator
+
+" Auto bracket closing {{{
+NeoBundle "cohama/lexima.vim"
+NeoBundle "seletskiy/vim-autosurround"
+if s:dein_enabled && dein#tap("vim-autosurround")
+  inoremap  ( (<C-O>:call AutoSurround(")")<CR>
+endif
+" }}}
+
+" switch {{{
+" switch
+NeoBundle "AndrewRadev/switch.vim"
+
+if s:dein_enabled && dein#tap("switch.vim")
+  nnoremap - :Switch<cr>
+endif
+"}}} switch
+
+" rogue {{{
+if s:dein_enabled && dein#tap("rogue.vim")
+  let g:rogue#name = "aaa"
+  let g:rogue#directory = s:vimdir . "/rogue"
+  let g:rogue#japanese = 1
+endif
+"}}} rogue
 
 
 " }}} Currenlty, not necessary
