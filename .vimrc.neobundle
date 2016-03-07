@@ -304,10 +304,6 @@ if s:use_neobundle && v:version >= 703
   " Python indent
   NeoBundle "hynek/vim-python-pep8-indent"
 
-  "" Jedi for python
-  "NeoBundleLazy "davidhalter/jedi-vim", {
-  "    \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
-
   " Folding method for python, but makes completion too slow...?
   NeoBundleLazy "vim-scripts/python_fold", {
       \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
@@ -442,9 +438,6 @@ if s:use_neobundle && v:version >= 703
 
   " vim-multiple-cursors, like Sublime Text's multiple selection
   NeoBundle "terryma/vim-multiple-cursors"
-
-  " switch
-  "NeoBundle "AndrewRadev/switch.vim"
 
   " linediff
   NeoBundle "AndrewRadev/linediff.vim"
@@ -2064,14 +2057,6 @@ if s:neobundle_enabled && ! empty(neobundle#get("diffchar.vim"))
   "autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffChar()
 endif
 "}}} diffchar
-
-" rogue {{{
-if s:neobundle_enabled && ! empty(neobundle#get("rogue.vim"))
-  let g:rogue#name = "aaa"
-  let g:rogue#directory = g:vimdir . "/rogue"
-  let g:rogue#japanese = 1
-endif
-"}}} rogue
 
 " splitjoin {{{
 if s:neobundle_enabled && ! empty(neobundle#get("splitjoin.vim"))

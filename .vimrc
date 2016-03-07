@@ -1,5 +1,4 @@
 " vimrc
-"
 
 " Flags {{{
 let s:use_dein = 1
@@ -61,29 +60,32 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/neomru.vim', {'depdens': ['unite.vim']})
 
     " Source for unite: mark
-    call dein#add('tacroe/unite-mark', {'depdens': ['unie.vim']})
+    call dein#add('tacroe/unite-mark', {'depdens': ['unite.vim']})
 
     " Source for unite: help
-    call dein#add('tsukkee/unite-help', {'depdens': ['unie.vim']})
+    call dein#add('tsukkee/unite-help', {'depdens': ['unite.vim']})
 
     " Source for unite: history/command, history/search
-    call dein#add('thinca/vim-unite-history', {'depdens': ['unie.vim']})
+    call dein#add('thinca/vim-unite-history', {'depdens': ['unite.vim']})
 
     " Source for unite: history/yank
-    call dein#add('Shougo/neoyank.vim', {'depdens': ['unie.vim']})
+    call dein#add('Shougo/neoyank.vim', {'depdens': ['unite.vim']})
 
     " Source for unite: fold
-    call dein#add('osyo-manga/unite-fold', {'depdens': ['unie.vim']})
+    call dein#add('osyo-manga/unite-fold', {'depdens': ['unite.vim']})
 
     " Source for unite: locate
-    call dein#add('ujihisa/unite-locate', {'depdens': ['unie.vim']})
+    call dein#add('ujihisa/unite-locate', {'depdens': ['unite.vim']})
 
-    " Source for unite: colorscheme
-    call dein#add('ujihisa/unite-colorscheme', {'depdens': ['unie.vim']})
     " }}}
 
+    " Completion {{{
+    call dein#add('Shougo/neocomplete.vim', {
+          \ 'on_i': 1,
+          \ 'lazy': 1})
+    " }}}
 
-    " Snippet
+    " Snippet {{{
     call dein#add('Shougo/neosnippet')
     "      \ 'on_map': ['<Plug>(neosnippet_expand_or_jump)',
     "      \          '<Plug>(neosnippet_expand_target)'],
@@ -91,51 +93,9 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
     call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
     call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
+    " }}}
 
-    " Operator
-    call dein#add('kana/vim-operator-user')
-    call dein#add('kana/vim-operator-replace', {'depdens': ['vim-operator-user']})
-
-    " Support repeat for surround, speedating, easymotion, etc...
-    call dein#add('tpope/vim-repeat')
-
-    " Easy to change surround
-    call dein#add('tpope/vim-surround')
-
-    " Align
-    call dein#add('h1mesuke/vim-alignta', {
-          \ 'on_cmd': ['Alignta'],
-          \ 'lazy': 1})
-
-    " c++ syntax with c++11 support
-    call dein#add('vim-jp/cpp-vim')
-
-    " c++ completion
-    call dein#add('osyo-manga/vim-marching')
-
-    " c++ formatting
-    call dein#add('rhysd/vim-clang-format')
-
-    " CSS3 (Sass)
-    call dein#add('hail2u/vim-css3-syntax.git')
-
-    " Markdown syntax
-    call dein#add('junegunn/vader.vim')
-
-    call dein#add('godlygeek/tabular')
-
-    call dein#add('joker1007/vim-markdown-quote-syntax')
-
-    call dein#add('rcmdnk/vim-markdown')
-
-    " Python indent
-    call dein#add('hynek/vim-python-pep8-indent')
-
-    " Folding method for python, but makes completion too slow...?
-    call dein#add('vim-scripts/python_fold')
-
-    " Java
-    call dein#add('koron/java-helper-vim')
+    " Code syntax, tools for each language {{{
 
     " Applescript
     call dein#add('applescript.vim')
@@ -143,57 +103,62 @@ if s:use_dein && v:version >= 704
     " Automatic LaTeX Plugins
     call dein#add('coot/atp_vim')
 
+    " CSS3 (Sass)
+    call dein#add('hail2u/vim-css3-syntax.git')
+
+    " c++ {{{
+    " syntax with c++11 support
+    call dein#add('vim-jp/cpp-vim')
+    " c++ completion
+    call dein#add('osyo-manga/vim-marching')
+    " c++ formatting
+    call dein#add('rhysd/vim-clang-format')
+    " }}}
+
+    " Go
+    " Extra plugins for Go
+    call dein#add('vim-jp/vim-go-extra')
+
+    " Java
+    call dein#add('koron/java-helper-vim')
+
+    " Markdown {{{
+    call dein#add('junegunn/vader.vim')
+    call dein#add('godlygeek/tabular')
+    call dein#add('joker1007/vim-markdown-quote-syntax')
+    call dein#add('rcmdnk/vim-markdown')
+    " }}}
+
+    " Python {{{
+    " indent
+    call dein#add('hynek/vim-python-pep8-indent')
+    " Folding method for python, but makes completion too slow...?
+    call dein#add('vim-scripts/python_fold')
+    " }}}
+
     " Powershell
     call dein#add('PProvost/vim-ps1')
 
-    " Go
-    call dein#add('nsf/gocode')
+    " Vim Syntax
+    call dein#add('dbakker/vim-lint')
 
-    " Another status line
+    " Syntax checking
+    call dein#add('scrooloose/syntastic', {'depends': ['vimproc']})
+    " }}}
+
+    " View {{{
+    " Status line
     call dein#add('itchyny/lightline.vim')
 
     " Visual indent guides: make moving slow?
     call dein#add('nathanaelkane/vim-indent-guides')
 
-    " Sub mode
-    call dein#add('kana/vim-submode')
+    " Gundo
+    call dein#add('sjl/gundo.vim', {
+          \ 'on_cmd': ['GundoToggle'],
+          \ 'lazy': 1})
 
-    " Easymotion
-    call dein#add('easymotion/vim-easymotion')
-
-    " Syntax checking
-    call dein#add('scrooloose/syntastic', {'depends': ['vimproc']})
-
-    " Syntax for vim
-    call dein#add('dbakker/vim-lint')
-
-    " Change current directory to root, for git/svn, etc...
-    call dein#add('airblade/vim-rooter')
-
-    " Count searching objects
-    call dein#add('osyo-manga/vim-anzu')
-
-    " Improved incremental searching
-    call dein#add('haya14busa/incsearch.vim')
-
-    " Git
-    call dein#add('tpope/vim-fugitive')
-
-    " Show added/deleted/modified lines for several version control system
-    call dein#add('mhinz/vim-signify')
-
-    " Version control (especially for VCSVimDiff (<Leader>cv)
-    call dein#add('vcscommand.vim')
-
-    " yank
-    call dein#add('LeafCage/yankround.vim')
-
-    " over
-    call dein#add('osyo-manga/vim-over')
-
-    " vim-multiple-cursors, like Sublime Text's multiple selection
-    call dein#add('terryma/vim-multiple-cursors')
-
+    " Diff {{{
     " linediff
     call dein#add('AndrewRadev/linediff.vim', {
           \ 'on_cmd': ['Linediff'],
@@ -204,84 +169,9 @@ if s:use_dein && v:version >= 704
 
     " diff enhanced
     call dein#add('chrisbra/vim-diff-enhanced')
+    " }}} Diff
 
-    " wildfire
-    call dein#add("gcmt/wildfire.vim")
-
-    " expand region
-    call dein#add('terryma/vim-expand-region')
-
-    " Highlight on the fly
-    call dein#add('t9md/vim-quickhl')
-
-    " Code modification: one-liner <-> multi-line
-    call dein#add('AndrewRadev/splitjoin.vim')
-
-    " Especially for CSV editing
-    call dein#add('rbtnn/rabbit-ui.vim')
-
-    " Completion
-    call dein#add('Shougo/neocomplete.vim', {
-          \ 'on_i': 1,
-          \ 'lazy': 1})
-
-    " Gundo
-    call dein#add('sjl/gundo.vim', {
-          \ 'on_cmd': ['GundoToggle'],
-          \ 'lazy': 1})
-
-    " Open browser
-    call dein#add('tyru/open-browser.vim', {
-          \ 'on_map': ['<Plug>(openbrowser-smart-search)'],
-          \ 'lazy': 1})
-
-    " Git
-    call dein#add('gregsexton/gitv', {
-          \ 'depdens': ['tpope/vim-fugitive'],
-          \ 'on_cmd': ['Gitv'],
-          \ 'lazy': 1})
-
-    " For git/svn status, log
-    call dein#add('hrsh7th/vim-versions.git', {
-          \ 'on_cmd': ['UniteVersions'],
-          \ 'lazy': 1})
-
-    " webapi
-    call dein#add('mattn/webapi-vim')
-
-    " Gist
-    call dein#add('mattn/gist-vim', {
-          \ 'depdens': ['mattn/webapi-vim'],
-          \ 'on_cmd': ['Gist'],
-          \ 'lazy': 1})
-
-    " vim-ref
-    call dein#add('thinca/vim-ref', {
-          \ 'on_cmd': ['Ref'],
-          \ 'lazy': 1})
-
-    " Grammer check with LanguageTool
-    call dein#add('rhysd/vim-grammarous', {
-          \ 'on_cmd': ['GrammarousCheck'],
-          \ 'lazy': 1})
-
-    " Excite Translate
-    call dein#add('mattn/excitetranslate-vim', {
-          \ 'depdens': ['mattn/webapi-vim'],
-          \ 'on_cmd': ['ExciteTranslate'],
-          \ 'lazy': 1})
-
-    " Google Translate
-    call dein#add('daisuzu/translategoogle.vim', {
-          \ 'on_cmd': ['TranslateGoogle', 'TranslateGoogleCmd'],
-          \ 'lazy': 1})
-
-    " Make benchmark result of vimrc
-    call dein#add('mattn/benchvimrc-vim', {
-          \ 'on_cmd': ['BenchVimrc'],
-          \ 'lazy': 1})
-
-
+    " IDE like {{{
     " The NERD Tree: File Explorer
     call dein#add('scrooloose/nerdtree', {
           \ 'on_cmd': ['NERDTreeToggle'],
@@ -296,21 +186,149 @@ if s:use_dein && v:version >= 704
     call dein#add('majutsushi/tagbar', {
           \ 'on_cmd': ['TagbarToggle'],
           \ 'lazy': 1})
+    " }}} IDE like
+    " }}} View
+
+    " Version Control System {{{
+    " Git
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('gregsexton/gitv', {
+          \ 'depdens': ['tpope/vim-fugitive'],
+          \ 'on_cmd': ['Gitv'],
+          \ 'lazy': 1})
+
+    " Version control (especially for VCSVimDiff (<Leader>cv)
+    call dein#add('vcscommand.vim')
+
+    " webapi
+    call dein#add('mattn/webapi-vim')
+
+    " Gist
+    call dein#add('mattn/gist-vim', {
+          \ 'depdens': ['mattn/webapi-vim'],
+          \ 'on_cmd': ['Gist'],
+          \ 'lazy': 1})
+    " }}} Version Control System
+
+    " Selection {{{
+    " wildfire
+    call dein#add("gcmt/wildfire.vim")
+
+    " expand region
+    call dein#add('terryma/vim-expand-region')
+
+    " Highlight on the fly
+    call dein#add('t9md/vim-quickhl')
+    " }}} Selection
+
+    " Search {{{
+    " Count searching objects
+    call dein#add('osyo-manga/vim-anzu')
+
+    " Improved incremental searching
+    call dein#add('haya14busa/incsearch.vim')
+    " }}} Search
+
+    " Edit {{{
+    " textobj {{{
+    call dein#add('kana/vim-textobj-user')
+    " line: al, il
+    call dein#add('kana/vim-textobj-line', {'depends': ['vim-textobj-user']})
+    " line: ai, ii
+    call dein#add('kana/vim-textobj-indent', {'depends': ['vim-textobj-user']})
+    " function: af, if
+    call dein#add('kana/vim-textobj-function', {'depends': ['vim-textobj-user']})
+    " comment: ac, ic
+    call dein#add('thinca/vim-textobj-comment', {'depends': ['vim-textobj-user']})
+    " }}}
+
+    " Operator {{{
+    call dein#add('kana/vim-operator-user')
+    call dein#add('kana/vim-operator-replace', {'depdens': ['vim-operator-user']})
+    " }}}
+
+    " Align
+    call dein#add('h1mesuke/vim-alignta', {
+          \ 'on_cmd': ['Alignta'],
+          \ 'lazy': 1})
+
+    " yank
+    call dein#add('LeafCage/yankround.vim')
+
+    " over
+    call dein#add('osyo-manga/vim-over')
+
+    " vim-multiple-cursors, like Sublime Text's multiple selection
+    call dein#add('terryma/vim-multiple-cursors')
+
+    " Easy to change surround
+    call dein#add('tpope/vim-surround')
+
+    " Especially for CSV editing
+    call dein#add('rbtnn/rabbit-ui.vim')
+
+    " Code modification: one-liner <-> multi-line
+    call dein#add('AndrewRadev/splitjoin.vim')
+    " }}} Edit
+
+    " Move {{{
+    " Easymotion
+    call dein#add('easymotion/vim-easymotion')
+
+    " }}} Move
+
+    " Check language, web source {{{
+    " vim-ref
+    call dein#add('thinca/vim-ref', {
+          \ 'on_cmd': ['Ref'],
+          \ 'lazy': 1})
+
+    " Grammer check with LanguageTool
+    call dein#add('rhysd/vim-grammarous', {
+          \ 'on_cmd': ['GrammarousCheck'],
+          \ 'lazy': 1})
+
+    " Google Translate
+    call dein#add('daisuzu/translategoogle.vim', {
+          \ 'on_cmd': ['TranslateGoogle', 'TranslateGoogleCmd'],
+          \ 'lazy': 1})
+    " }}}
+
+    " Tools {{{
+    " Support repeat for surround, speedating, easymotion, etc...
+    call dein#add('tpope/vim-repeat')
+
+    " Sub mode
+    call dein#add('kana/vim-submode')
+
+    " Make benchmark result of vimrc
+    call dein#add('mattn/benchvimrc-vim', {
+          \ 'on_cmd': ['BenchVimrc'],
+          \ 'lazy': 1})
+
 
     " Make help
     call dein#add('LeafCage/vimhelpgenerator', {
           \ 'on_cmd': ['VimHelpGenerator'],
           \ 'lazy': 1})
 
+    " Open browser
+    call dein#add('tyru/open-browser.vim', {
+          \ 'on_map': ['<Plug>(openbrowser-smart-search)'],
+          \ 'lazy': 1})
+
     " Calendar/Tasks
     call dein#add('itchyny/calendar.vim', {
           \ 'on_cmd': ['Calendar'],
           \ 'lazy': 1})
+    " }}}
 
+    " Fun {{{
     " Funny comment
     call dein#add('haya14busa/niconicomment.vim', {
           \ 'on_cmd': ['Niconicomment'],
           \ 'lazy':1 })
+    " }}}
 
     call dein#save_cache()
   endif
@@ -384,12 +402,12 @@ set nolinebreak
 set breakat=
 "set showbreak=+\   " set showbreak
 set showbreak=
-if (v:version == 704 && has("patch338")) || v:version >= 705
-  "set breakindent    " indent even for wrapped lines
-  "" breakindent option (autocmd is necessary when new file is opened in Vim)
-  "" necessary even for default(min:20,shift:0)
-  "autocmd MyAutoGroup BufEnter * set breakindentopt=min:20,shift:0
-endif
+"if (v:version == 704 && has("patch338")) || v:version >= 705
+"  set breakindent    " indent even for wrapped lines
+"  " breakindent option (autocmd is necessary when new file is opened in Vim)
+"  " necessary even for default(min:20,shift:0)
+"  autocmd MyAutoGrup BufEnter * set breakindentopt=min:20,shift:0
+"endif
 
 set expandtab      " do :retab -> tab->space
 
@@ -447,6 +465,7 @@ set cmdheight=1    " Command line height
 set showmatch      " Show maching one for inserted bracket
 set matchtime=1    " 0.1*matchtime sec for showing matching pattern (default:5)
 set pumheight=20   " length of popup menu for completion
+set splitright     " New window is right
 
 set spell          " Spell check highlight
 "set nospell        " No spell check
@@ -789,14 +808,6 @@ nnoremap <silent> <Leader>p "+gP
 nnoremap <silent> <Leader>P :setlocal paste!<CR>:setlocal paste?<CR>
 inoremap <silent> <C-]> <C-o>:setlocal paste!<CR>
 
-" *, #, stay at current word->mapped for anzu
-if ! s:dein_enabled || ! dein#tap("vim-anzu")
-  " swap * and g*, and add <C-o> to stay on current word.
-  nnoremap g* *<C-o>
-  nnoremap * g*<C-o>
-  nnoremap # #<C-o>
-endif
-
 " Open vimrc
 nnoremap <Leader><Leader> :tabedit $MYVIMRC<CR>
 
@@ -955,15 +966,116 @@ set undolevels=1000
 "nnoremap <C-r> g+
 " }}} undo
 
-" gundo {{{
-if s:dein_enabled && dein#tap("gundo.vim")
-  nnoremap U :GundoToggle<CR>
-  let g:gundo_width = 30
-  let g:gundo_preview_height = 15
-  let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
-  let g:gundo_preview_bottom = 1 " Show preview at the bottom
+" yank share with wviminfo/rviminfo {{{
+"
+" yankshare prefix
+noremap [yshare] <Nop>
+map s [yshare]
+
+let g:yankshare_file = expand("~/.vim/yankshare.txt")
+if !exists("g:yankshare_file")
+  let g:yankshare_file = "/tmp/yankshare.txt"
 endif
-" }}} gundo
+
+
+function! YSStore() range
+  call writefile([getreg("s")], g:yankshare_file, "b")
+endfunction
+
+function! YSLoad() range
+  call setreg("s", readfile(g:yankshare_file, "b")[0])
+endfunction
+
+nnoremap <silent> [yshare]y  "syy:call YSStore()<CR>
+nnoremap <silent> [yshare]yy "syy:call YSStore()<CR>
+nnoremap <silent> [yshare]Y  "sY:call YSStore()<CR>
+nnoremap <silent> [yshare]y$ "sy$:call YSStore()<CR>
+nnoremap <silent> [yshare]y0 "sy0:call YSStore()<CR>
+nnoremap <silent> [yshare]yw "syw:call YSStore()<CR>
+nnoremap <silent> [yshare]cc "scc<ESC>:call YSStore()<CR>i
+nnoremap <silent> [yshare]C  "sC<ESC>:call YSStore()<CR>i
+nnoremap <silent> [yshare]c$ "sc$<ESC>:call YSStore()<CR>i
+nnoremap <silent> [yshare]c0 "sc0<ESC>:call YSStore()<CR>i
+nnoremap <silent> [yshare]cw "scw<ESC>:call YSStore()<CR>i
+nnoremap <silent> [yshare]dd "sdd:call YSStore()<CR>
+nnoremap <silent> [yshare]D  "sD:call YSStore()<CR>
+nnoremap <silent> [yshare]d$ "sd$:call YSStore()<CR>
+nnoremap <silent> [yshare]d0 "sd0:call YSStore()<CR>
+nnoremap <silent> [yshare]dw "sdw:call YSStore()<CR>
+
+xnoremap <silent> [yshare]y "sy:call YSStore()<CR>
+xnoremap <silent> [yshare]c "sc<ESC>:call YSStore()<CR>i
+xnoremap <silent> [yshare]d "sd:call YSStore()<CR>
+
+nnoremap <silent> [yshare]p :call YSLoad()<CR>"sp
+nnoremap <silent> [yshare]P :call YSLoad()<CR>"sP
+nnoremap <silent> [yshare]gp :call YSLoad()<CR>"sgp
+nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
+" }}} yankshare
+
+" matchpair, matchit {{{
+"set matchpairs = (:),{:},[:]
+set matchpairs+=<:>
+source $VIMRUNTIME/macros/matchit.vim
+" matchpairs is necessary...?
+"let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,if:fi'
+let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,{%.*%}:{% *end.*%}'
+let b:match_ignorecase = 1
+" }}} matchpair, matchit
+
+" paste at normal mode {{{
+
+" if not well work... (though it seems working)
+" need more understanding of vim/screen pasting...
+" can use :a! for temporally paste mode
+" or :set paste ,....., :set nopaste
+" or set noautoindent, ...., : set autoindent
+
+" it seems working in Mac, but not in Windows (putty+XWin)
+
+if &term =~ "screen" || &term =~ "xterm"
+  if &term =~ "screen"
+    let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
+    let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
+    let &pastetoggle = "\e[201~"
+  else
+    let &t_SI .= &t_SI . "\e[?2004h"
+    let &t_EI .= "\e[?2004l" . &t_EI
+    let &pastetoggle = "\e[201~"
+  endif
+  function! XTermPasteBegin(ret)
+    set paste
+    return a:ret
+  endfunction
+  imap <special> <expr> <Esc>[200~ XTermPasteBegin(""'
+endif
+" }}} paste
+
+" tag {{{
+if has("path_extra")
+  set tags+=tags;
+endif
+"}}} tag
+
+" cscope {{{
+if has("cscope")
+  set csprg=/usr/local/bin/cscope
+  set csto=0
+  set cst
+  set nocsverb
+  " add any database in current directory
+  if filereadable("cscope.out")
+    cs add cscope.out
+    " else add database pointed to by environment
+  elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+  endif
+  set csverb
+  set cscopequickfix=s-,c-,d-,i-,t-,e-
+endif
+" }}} cscope
+
+" Plugin settings {{{
 
 " Unite {{{
 if s:dein_enabled && dein#tap("unite.vim")
@@ -1027,21 +1139,15 @@ if s:dein_enabled && dein#tap("unite.vim")
   "nnoremap <silent> [unite]f :<C-u>Unite file_rec/async:!<CR>
   " show register
   nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
+  " show lines of current file
+  nnoremap <silent> [unite]l :Unite line<CR>
+  " search (like ack.vim/ag.vim)
+  nnoremap <silent> [unite]/ :Unite grep:.<CR>
   " show opened file history including current buffers
   if dein#tap("neomru.vim")
     nnoremap <silent> [unite]m :Unite file_mru<CR>
   else
     nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
-  endif
-  " show lines of current file
-  nnoremap <silent> [unite]l :Unite line<CR>
-  " search (like ack.vim/ag.vim)
-  nnoremap <silent> [unite]/ :Unite grep:.<CR>
-  " yank
-  if dein#tap("neoyank.vim")
-    nnoremap <silent> [unite]y :Unite history/yank<CR>
-  elseif dein#tap("yankround.vim")
-    nnoremap <silent> [unite]y :Unite yankround<CR>
   endif
   " mark
   if dein#tap("unite-mark")
@@ -1052,6 +1158,12 @@ if s:dein_enabled && dein#tap("unite.vim")
     nnoremap <silent> [unite]c :Unite history/command<CR>
     nnoremap <silent> [unite]S :Unite history/search<CR>
   endif
+  " yank
+  if dein#tap("neoyank.vim")
+    nnoremap <silent> [unite]y :Unite history/yank<CR>
+  elseif dein#tap("yankround.vim")
+    nnoremap <silent> [unite]y :Unite yankround<CR>
+  endif
   " hold
   if dein#tap("unite-fold")
     nnoremap <silent> [unite]F :Unite fold<CR>
@@ -1060,168 +1172,12 @@ if s:dein_enabled && dein#tap("unite.vim")
   if dein#tap("unite-locate")
     nnoremap <silent> [unite]L :Unite locate<CR>
   endif
-  " coloscheme
-  if dein#tap("unite-colorscheme")
-    nnoremap <silent> [unite]C :Unite colorscheme<CR>
-  endif
   " snippet
   if dein#tap("neosnipet")
     nnoremap <silent> [unite]s :Unite neosnippet<CR>
   endif
 endif
 " }}} Unite
-
-" operator {{{
-nnoremap [oper] <Nop>
-nm <Leader>o [oper]
-if s:dein_enabled && dein#tap("vim-operator-sort")
-  map [oper]s <Plug>(operator-sort)
-endif
-if s:dein_enabled && dein#tap("operator-reverse.vim")
-  map [oper]r  <Plug>(operator-reverse-text)
-endif
-"}}}
-
-" vim-surround {{{
-if s:dein_enabled && dein#tap("vim-surround")
-  let g:surround_{char2nr("a")} = "**\r**"
-  nmap <Leader>{ ysiw{
-  nmap <Leader>} ysiw}
-  nmap <Leader>[ ysiw[
-  nmap <Leader>] ysiw]
-  nmap <Leader>( ysiw(
-  nmap <Leader>) ysiw)
-  nmap <Leader>< ysiw<
-  nmap <Leader>> ysiw>
-  nmap <Leader>" ysiw"
-  nmap <Leader>' ysiw'
-  nmap <Leader>` ysiw`
-  nmap <Leader>* ysiw*
-  nmap <Leader><Leader>* ysiw*wysiw*
-  nmap <Leader>a ysiwa
-  xmap { S{
-  xmap } S}
-  xmap [ S[
-  xmap ] S]
-  xmap ( S(
-  xmap ) S)
-  xmap < S<
-  xmap > S>
-  xmap " S"
-  xmap ' S'
-  xmap ` S`
-  xmap * S*
-  xmap <Leader>* S*gvS*
-  xmap <Leader>a Sa
-endif
-" }}} vim-surround.vim
-
-" vim-autosurround {{{
-if s:dein_enabled && dein#tap("vim-autosurround")
-  inoremap  ( (<C-O>:call AutoSurround(")")<CR>
-endif
-" }}}
-
-" vim-marching {{{
-if s:dein_enabled && dein#tap("vim-marching")
-  if dein#tap("neocomplete.vim")
-    let g:marching_enable_neocomplete = 1
-    if !exists('g:neocomplete#force_omni_input_patterns')
-      let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#force_omni_input_patterns.cpp =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-  endif
-endif
-" }}} vim-marching
-
-" vim-clang-format {{{
-if s:dein_enabled && dein#tap("vim-clang-format")
-  let g:clang_format#style_options = {
-              \ "AccessModifierOffset" : -4,
-              \ "AllowShortIfStatementsOnASingleLine" : "true",
-              \ "AlwaysBreakTemplateDeclarations" : "true",
-              \ "Standard" : "C++11"}
-  " map to <Leader>cf in C++ code
-  autocmd MyAutoGroup FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-  autocmd MyAutoGroup FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-  " if you install vim-operator-user
-  if dein#tap("vim-operator-user")
-    autocmd MyAutoGroup FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
-  endif
-endif
-" }}} vim-clang-format
-
-" yank share with wviminfo/rviminfo {{{
-"
-" yankshare prefix
-noremap [yshare] <Nop>
-map s [yshare]
-
-let g:yankshare_file = expand("~/.vim/yankshare.txt")
-if !exists("g:yankshare_file")
-  let g:yankshare_file = "/tmp/yankshare.txt"
-endif
-
-
-function! YSStore() range
-  call writefile([getreg("s")], g:yankshare_file, "b")
-endfunction
-
-function! YSLoad() range
-  call setreg("s", readfile(g:yankshare_file, "b")[0])
-endfunction
-
-nnoremap <silent> [yshare]y  "syy:call YSStore()<CR>
-nnoremap <silent> [yshare]yy "syy:call YSStore()<CR>
-nnoremap <silent> [yshare]Y  "sY:call YSStore()<CR>
-nnoremap <silent> [yshare]y$ "sy$:call YSStore()<CR>
-nnoremap <silent> [yshare]y0 "sy0:call YSStore()<CR>
-nnoremap <silent> [yshare]yw "syw:call YSStore()<CR>
-nnoremap <silent> [yshare]cc "scc<ESC>:call YSStore()<CR>i
-nnoremap <silent> [yshare]C  "sC<ESC>:call YSStore()<CR>i
-nnoremap <silent> [yshare]c$ "sc$<ESC>:call YSStore()<CR>i
-nnoremap <silent> [yshare]c0 "sc0<ESC>:call YSStore()<CR>i
-nnoremap <silent> [yshare]cw "scw<ESC>:call YSStore()<CR>i
-nnoremap <silent> [yshare]dd "sdd:call YSStore()<CR>
-nnoremap <silent> [yshare]D  "sD:call YSStore()<CR>
-nnoremap <silent> [yshare]d$ "sd$:call YSStore()<CR>
-nnoremap <silent> [yshare]d0 "sd0:call YSStore()<CR>
-nnoremap <silent> [yshare]dw "sdw:call YSStore()<CR>
-
-xnoremap <silent> [yshare]y "sy:call YSStore()<CR>
-xnoremap <silent> [yshare]c "sc<ESC>:call YSStore()<CR>i
-xnoremap <silent> [yshare]d "sd:call YSStore()<CR>
-
-nnoremap <silent> [yshare]p :call YSLoad()<CR>"sp
-nnoremap <silent> [yshare]P :call YSLoad()<CR>"sP
-nnoremap <silent> [yshare]gp :call YSLoad()<CR>"sgp
-nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
-" }}} yankshare
-
-" yankround {{{
-if s:dein_enabled && dein#tap("yankround.vim")
-  nmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
-  xmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
-  nmap <expr> P (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-P)'
-  nmap gp <Plug>(yankround-gp)
-  xmap gp <Plug>(yankround-gp)
-  nmap gP <Plug>(yankround-gP)
-  nmap <C-p> <Plug>(yankround-prev)
-  nmap <C-n> <Plug>(yankround-next)
-  let g:yankround_max_history = 30
-  let g:yankround_dir = '~/.vim/yankround'
-  let g:yankround_max_element_length = 0
-  let g:yankround_use_region_hl = 1
-endif
-" }}}
-
-" vim-over {{{
-if s:dein_enabled && dein#tap("vim-over")
-  nnoremap <Leader>c :OverCommandLine<CR>%s/
-  xnoremap <Leader>c :OverCommandLine<CR>s/
-endif
-" }}}
 
 " neocomplete {{{
 if s:dein_enabled && dein#tap("neocomplete.vim")
@@ -1266,296 +1222,55 @@ if s:dein_enabled && dein#tap("neosnippet")
   let g:neosnippet#enable_snipmate_compatibility = 1
   let g:neosnippet#disable_runtime_snippets = {'_' : 1}
   let g:neosnippet#snippets_directory = []
-  if dein#tap("vim-octopress-snippets")
-    let g:neosnippet#snippets_directory += [expand(s:dein_github . '/rcmdnk/vim-octopress-snippets/neosnippets')]
-  endif
   if dein#tap("neosnippet-snippets")
     let g:neosnippet#snippets_directory += [expand(s:dein_github . '/Shougo/neosnippet-snippets/neosnippets')]
   endif
   if dein#tap("vim-snippets")
     let g:neosnippet#snippets_directory += [expand(s:dein_github . '/honza/vim-snippets/snippets')]
   endif
+  if dein#tap("vim-octopress-snippets")
+    let g:neosnippet#snippets_directory += [expand(s:dein_github . '/rcmdnk/vim-octopress-snippets/neosnippets')]
+  endif
 endif
 " }}}
 
-" matchpair, matchit {{{
-"set matchpairs = (:),{:},[:]
-set matchpairs+=<:>
-source $VIMRUNTIME/macros/matchit.vim
-" matchpairs is necessary...?
-"let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,if:fi'
-let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,{%.*%}:{% *end.*%}'
-let b:match_ignorecase = 1
-" }}} matchpair, matchit
-
-" paste at normal mode{{{
-
-" if not well work... (though it seems working)
-" need more understanding of vim/screen pasting...
-" can use :a! for temporally paste mode
-" or :set paste ,....., :set nopaste
-" or set noautoindent, ...., : set autoindent
-
-" it seems working in Mac, but not in Windows (putty+XWin)
-
-if &term =~ "screen" || &term =~ "xterm"
-  if &term =~ "screen"
-    let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
-    let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
-    let &pastetoggle = "\e[201~"
-  else
-    let &t_SI .= &t_SI . "\e[?2004h"
-    let &t_EI .= "\e[?2004l" . &t_EI
-    let &pastetoggle = "\e[201~"
-  endif
-  function! XTermPasteBegin(ret)
-    set paste
-    return a:ret
-  endfunction
-  imap <special> <expr> <Esc>[200~ XTermPasteBegin(""'
+" Code syntax, tools for each language {{{ 
+" applescript{{{
+if s:dein_enabled && dein#tap("applescript.vim")
+  autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setlocal filetype=applescript
+  "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬<CR>
 endif
+"}}} applescript
 
-" }}} paste
-
-" vim-easymotion{{{
-if s:dein_enabled && dein#tap("vim-easymotion")
-  let g:EasyMotion_do_mapping=0
-  let g:EasyMotion_grouping=1
-  let g:EasyMotion_enter_jump_first=1
-  let g:EasyMotion_space_jump_first=1
-  let g:EasyMotion_smartcase=1
-  let g:EasyMotion_use_upper=1
-  let g:EasyMotion_keys="hjklasdfgyuiopqwertnmzxcvb"
-  hi EasyMotionTarget ctermbg=none ctermfg=red
-  hi EasyMotionShade  ctermbg=none ctermfg=blue
-
-  map S <Plug>(easymotion-sn)
-  map <Leader>f <Plug>(easymotion-bd-W)
-  "nmap <Leader>f <Plug>(easymotion-overwin-w)
-endif
-" }}} vim-easymotion
-
-" jedi-vim{{{
-if s:dein_enabled && dein#tap("jedi-vim")
-  let g:jedi#auto_initialization = 1
-  let g:jedi#auto_vim_configuration = 1
-
-  nnoremap [jedi] <Nop>
-  xnoremap [jedi] <Nop>
-  nmap <Leader>j [jedi]
-  xmap <Leader>j [jedi]
-
-  let g:jedi#completions_command = "<C-N>"
-  let g:jedi#goto_assignments_command = "[jedi]g"
-  let g:jedi#goto_definitions_command = "[jedi]d"
-  let g:jedi#documentation_command = "[jedi]K"
-  let g:jedi#rename_command = "[jedi]r"
-  let g:jedi#usages_command = "[jedi]n"
-  let g:jedi#popup_select_first = 0
-  let g:jedi#popup_on_dot = 0
-
-  autocmd MyAutoGroup FileType python setlocal completeopt-=preview
-
-  " w/ neocomplete
+" vim-marching {{{
+if s:dein_enabled && dein#tap("vim-marching")
   if dein#tap("neocomplete.vim")
-    autocmd MyAutoGroup FileType python setlocal omnifunc=jedi#completions
-    let g:jedi#completions_enabled = 0
-    let g:jedi#auto_vim_configuration = 0
-    let g:neocomplete#force_omni_input_patterns.python =
-    \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-    " alternative pattern: '\h\w*\|[^. \t]\.\w*'
+    let g:marching_enable_neocomplete = 1
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.cpp =
+        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
   endif
 endif
-" }}} jedi-vim
+" }}} vim-marching
 
-" vim-indent-guides{{{
-if s:dein_enabled && dein#tap("vim-indent-guides")
-  let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_start_level = 1
-  let g:indent_guides_auto_colors = 0
-  autocmd MyAutoGroup VimEnter,Colorscheme * hi IndentGuidesEven term=bold ctermfg=9 ctermbg=235
-  autocmd MyAutoGroup VimEnter,Colorscheme * hi IndentGuidesOdd term=bold ctermfg=9 ctermbg=239
-endif
-"}}} vim-indent-guides
-
-" vim-submode{{{
-if s:dein_enabled && dein#tap("vim-submode")
-  call submode#enter_with("winsize", "n", "", "<C-w>>", "<C-w>>")
-  call submode#enter_with("winsize", "n", "", "<C-w><", "<C-w><")
-  call submode#enter_with("winsize", "n", "", "<C-w>+", "<C-w>+")
-  call submode#enter_with("winsize", "n", "", "<C-w>-", "<C-w>-")
-  call submode#enter_with("winsize", "n", "", "<C-w>e", "<C-w>><C-w><")
-  call submode#enter_with("winsize", "n", "", "<C-w><C-e>", "<C-w>><C-w><")
-  call submode#map("winsize", "n", "", ">", "<C-w>>")
-  call submode#map("winsize", "n", "", "<", "<C-w><")
-  call submode#map("winsize", "n", "", "+", "<C-w>-")
-  call submode#map("winsize", "n", "", "-", "<C-w>+")
-  call submode#map("winsize", "n", "", "l", "<C-w>>")
-  call submode#map("winsize", "n", "", "h", "<C-w><")
-  call submode#map("winsize", "n", "", "j", "<C-w>-")
-  call submode#map("winsize", "n", "", "k", "<C-w>+")
-  call submode#map("winsize", "n", "", "=", "<C-w>=")
-endif
-"}}} vim-submode
-
-" vim-operator-replace{{{
-if s:dein_enabled && dein#tap("vim-operator-replace")
-  map _  <Plug>(operator-replace)
-endif
-"}}} vim-operator-replace
-
-" open-browser{{{
-if s:dein_enabled && dein#tap("open-browser.vim")
-  let g:netrw_nogx = 1 " disable netrw's gx mapping.
-  nmap gx <Plug>(openbrowser-smart-search)
-  xmap gx <Plug>(openbrowser-smart-search)
-endif
-"}}} open-browser
-
-" LanguageTool{{{
-if s:dein_enabled && dein#tap("LanguageTool")
-  " jar file settings
-  let s:languagetool_version="3.2"
-  "let s:languagetool_version="2.1"
-  let s:languagetool_zip="LanguageTool-".s:languagetool_version.".zip"
-  let s:languagetool_download=
-        \"http://www.languagetool.org/download/".s:languagetool_zip
-  let s:languagetool_parent_dir=s:vimdir."/languagetool/"
-  let s:languagetool_dir=s:languagetool_parent_dir."/LanguageTool-"
-        \.s:languagetool_version."/"
-  let s:languagetool_v_file=s:languagetool_dir."/version_in_vim"
-
-  let g:languagetool_jar=s:languagetool_dir."/languagetool-commandline.jar"
-
-  " Check/Prepare LanguageTool
-  let s:languagetool_v_test=system("cat " . s:languagetool_v_file)
-  if s:languagetool_v_test != s:languagetool_version
-    echo s:languagetool_v_test
-    echo "Preparing LanguageTool..."
-    echo "getting " . s:languagetool_download . "..."
-    call system("rm -rf " . s:languagetool_dir)
-    call system("rm -rf " . s:languagetool_dir . "/*.zip*")
-    call system("mkdir -p " . s:languagetool_parent_dir)
-    execute "lcd" s:languagetool_parent_dir
-    call system("wget " . s:languagetool_download)
-    echo "done wget " . s:languagetool_download
-    call system("unzip " . s:languagetool_zip )
-    call system("rm -f " . s:languagetool_zip)
-    call system("printf " . s:languagetool_version . " > " . s:languagetool_v_file)
-    lcd -
+" vim-clang-format {{{
+if s:dein_enabled && dein#tap("vim-clang-format")
+  let g:clang_format#style_options = {
+              \ "AccessModifierOffset" : -4,
+              \ "AllowShortIfStatementsOnASingleLine" : "true",
+              \ "AlwaysBreakTemplateDeclarations" : "true",
+              \ "Standard" : "C++11"}
+  " map to <Leader>cf in C++ code
+  autocmd MyAutoGroup FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+  autocmd MyAutoGroup FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+  " if you install vim-operator-user
+  if dein#tap("vim-operator-user")
+    autocmd MyAutoGroup FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
   endif
-
-  " Other settings
-  " If lang is not set, spellang value is used (if it is not set neithr, use en-US).
-  "let g:languagetool_lang="en-US"
 endif
-"}}} LanguageTool
-
-" ExciteTranslate{{{
-if s:dein_enabled && dein#tap("excitetranslate-vim")
-  xnoremap <Leader>x :ExciteTranslate<CR>
-endif
-"}}} LanguageTool
-
-" vim-anzu{{{
-if s:dein_enabled && dein#tap("vim-anzu")
-  nmap n <Plug>(anzu-n-with-echo)
-  nmap N <Plug>(anzu-N-with-echo)
-  nmap * g*<C-o><Plug>(anzu-update-search-status-with-echo)
-  "nm g* g*<C-o><Plug>(anzu-update-search-status-with-echo)
-  nmap # #<C-o><Plug>(anzu-update-search-status-with-echo)
-  let g:airline#extensions#anzu#enabled=0
-endif
-"}}} vim-anzu
-
-" incsearch{{{
-if s:dein_enabled && dein#tap("incsearch.vim")
-  map / <Plug>(incsearch-forward)
-  map ? <Plug>(incsearch-backward)
-  map g/ <Plug>(incsearch-stay)
-  let g:incsearch#magic = '\v'
-endif
-"}}} vim-anzu
-
-" syntastic{{{
-if s:dein_enabled && dein#tap("syntastic")
-  " Disable automatic check at file open/close
-  let g:syntastic_check_on_open=0
-  let g:syntastic_check_on_wq=0
-  " C
-  let g:syntastic_c_check_header = 1
-  " C++
-  let g:syntastic_cpp_check_header = 1
-  " Java
-  let g:syntastic_java_javac_config_file_enabled = 1
-  let g:syntastic_java_javac_config_file = "$HOME/.syntastic_javac_config"
-  " python
-  let g:syntastic_python_checkers = ['flake8']
-  " ruby
-  let g:syntastic_ruby_checkers = ['rubocop']
-endif
-"}}} syntastic
-
-" vim-watchdogs{{{
-if s:dein_enabled && dein#tap("vim-watchdogs")
-  let g:watchdogs_check_BufWritePost_enable = 1
-  let g:watchdogs_check_CursorHold_enable = 1
-  if !exists("g:quickrun_config")
-    let g:quickrun_config = {}
-  endif
-  let g:quickrun_config["watchdogs_checker/_"] = {
-  \ "outputter/quickfix/open_cmd" : "",
-  \ "runner/vimproc/updatetime" : 50,
-  \ "hook/qfsigns_update/enable_exit": 1,
-  \ "hook/qfsigns_update/priority_exit": 3,
-  \}
-  let s:flake8 = system('flake8 --version 2>/dev/null')
-  if s:flake8 != ""
-    let g:quickrun_config["python/watchdogs_checker"] = {
-    \ "type" : "watchdogs_checker/flake8"
-    \}
-  endif
-  call watchdogs#setup(g:quickrun_config)
-endif
-"}}} vim-watchdogs
-
-" vim-hier{{{
-if s:dein_enabled && dein#tap("vim-hier")
-  highlight qf_error ctermfg=255 ctermbg=1
-  highlight qf_warning ctermfg=255 ctermbg=3
-  highlight qf_info ctermfg=255 ctermbg=2
-  let g:hier_highlight_group_qf   = 'qf_error'
-  let g:hier_highlight_group_qfw  = 'qf_warning'
-  let g:hier_highlight_group_qfi  = 'qf_info'
-endif
-" }}} vim-hier
-
-" vim-rooter{{{
-if s:dein_enabled && dein#tap("vim-rooter")
-  " Default: move to root directory by <Leader>cd or :Rooter
-
-  " Change only current window's directory
-  let g:rooter_use_lcd = 1
-  " Do not automatically change the directory
-  let g:rooter_manual_only = 1
-  " Stop the automatic change (some files are )
-  let g:rooter_manual_only = 1
-  " files/directories for the root directory
-  let g:rooter_patterns = ['tags', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', 'Makefile', 'GNUMakefile', 'GNUmakefile', '.svn/']
-endif
-"}}} vim-rooter
-
-" signify{{{
-if s:dein_enabled && dein#tap("vim-signify")
-  let g:signify_disable_by_default = 1
-  let g:signify_cursorhold_normal = 1
-  let g:signify_cursorhold_insert = 1
-  nmap <Leader>gj <Plug>(signify-next-jump)
-  nmap <Leader>gk <Plug>(signify-prev-jump)
-  nnoremap <Leader>gt :SignifyToggle<CR>
-  nnoremap <Leader>gh :SignifyToggleHighlight<CR>
-endif
-"}}} signify
+" }}} vim-clang-format
 
 " vim-markdown-quote-syntax {{{
 if s:dein_enabled && dein#tap("vim-markdown-quote-syntax")
@@ -1585,19 +1300,27 @@ if s:dein_enabled && dein#tap("vim-markdown")
 endif
 " }}} vim-markdown
 
-" applescript{{{
-if s:dein_enabled && dein#tap("applescript.vim")
-  autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setlocal filetype=applescript
-  "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬<CR>
+" syntastic{{{
+if s:dein_enabled && dein#tap("syntastic")
+  " Disable automatic check at file open/close
+  let g:syntastic_check_on_open=0
+  let g:syntastic_check_on_wq=0
+  " C
+  let g:syntastic_c_check_header = 1
+  " C++
+  let g:syntastic_cpp_check_header = 1
+  " Java
+  let g:syntastic_java_javac_config_file_enabled = 1
+  let g:syntastic_java_javac_config_file = "$HOME/.syntastic_javac_config"
+  " python
+  let g:syntastic_python_checkers = ['flake8']
+  " ruby
+  let g:syntastic_ruby_checkers = ['rubocop']
 endif
-"}}} applescript
+"}}} syntastic
+" }}} Code syntax, tools for each language
 
-" gocode{{{
-if s:dein_enabled && dein#tap("gocode")
-  let g:gocomplete#system_function = 'vimproc#system'
-endif
-"}}} applescript
-
+" View {{{
 " lightline.vim {{{
 if s:dein_enabled && dein#tap("lightline.vim")
   let g:lightline = {
@@ -1673,49 +1396,53 @@ if s:dein_enabled && dein#tap("lightline.vim")
 endif
 "}}} lightline.vim
 
-" vim-ref {{{
-if s:dein_enabled && dein#tap("vim-ref")
-  " Set webdict sources
-  let g:ref_source_webdict_sites = {
-        \   "je": {
-        \     "url": "http://dictionary.infoseek.ne.jp/jeword/%s",
-        \   },
-        \   "ej": {
-        \     "url": "http://dictionary.infoseek.ne.jp/ejword/%s",
-        \   },
-        \   "wiki": {
-        \     "url": "http://ja.wikipedia.org/wiki/%s",
-        \   },
-        \ }
-
-  " Set default
-  let g:ref_source_webdict_sites.default = "ej"
-
-  " Filter
-  function! g:ref_source_webdict_sites.je.filter(output)
-    return join(split(a:output, "\n")[15 :], "\n")
-  endfunction
-  function! g:ref_source_webdict_sites.ej.filter(output)
-    return join(split(a:output, "\n")[15 :], "\n")
-  endfunction
-  function! g:ref_source_webdict_sites.wiki.filter(output)
-    return join(split(a:output, "\n")[17 :], "\n")
-  endfunction
-
-  " vim-ref prefix
-  nnoremap [ref] <Nop>
-  xnoremap [ref] <Nop>
-  nmap <Leader>r [ref]
-  xmap <Leader>r [ref]
-  nnoremap [ref]j :Ref webdict je<Subleader>
-  nnoremap [ref]e :Ref webdict ej<Subleader>
-  nnoremap [ref]w :Ref webdict wiki<Subleader>
-  nnoremap [ref]m :Ref man<Subleader>
-  xnoremap [ref]j :<C-u>Ref webdict je <C-R><C-w><CR>
-  xnoremap [ref]e :<C-u>Ref webdict ej <C-R><C-w><CR>
-  xnoremap [ref]w :<C-u>Ref webdict wiki <C-R><C-w><CR>
+" vim-indent-guides{{{
+if s:dein_enabled && dein#tap("vim-indent-guides")
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_start_level = 1
+  let g:indent_guides_auto_colors = 0
+  autocmd MyAutoGroup VimEnter,Colorscheme * hi IndentGuidesEven term=bold ctermfg=9 ctermbg=235
+  autocmd MyAutoGroup VimEnter,Colorscheme * hi IndentGuidesOdd term=bold ctermfg=9 ctermbg=239
 endif
-"}}}
+"}}} vim-indent-guides
+
+" gundo {{{
+if s:dein_enabled && dein#tap("gundo.vim")
+  nnoremap U :GundoToggle<CR>
+  let g:gundo_width = 30
+  let g:gundo_preview_height = 15
+  let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
+  let g:gundo_preview_bottom = 1 " Show preview at the bottom
+endif
+" }}} gundo
+
+" linediff {{{
+if s:dein_enabled && dein#tap("linediff.vim")
+  let g:linediff_first_buffer_command  = 'leftabove new'
+  let g:linediff_second_buffer_command = 'rightbelow vertical new'
+endif
+"}}} linediff
+
+" diffhar {{{
+if s:dein_enabled && dein#tap("diffchar.vim")
+  function! SetDiffChar()
+    if &diff
+      execute "%SDChar"
+    endif
+  endfunction
+  " It doesn't work well for complicated files...
+  "autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffChar()
+endif
+
+"}}} diffchar
+
+" vim-diff-enhanced {{{
+if s:dein_enabled && dein#tap("vim-diff-enhanced")
+  if &diff
+    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+  endif
+endif
+"}}} vim-diff-enhanced
 
 " NERDTree+SrcExpl+tagbar {{{
 
@@ -1767,30 +1494,6 @@ endif
 
 " }}}
 
-" tag {{{
-if has("path_extra")
-  set tags+=tags;
-endif
-"}}} tag
-
-" cscope {{{
-if has("cscope")
-  set csprg=/usr/local/bin/cscope
-  set csto=0
-  set cst
-  set nocsverb
-  " add any database in current directory
-  if filereadable("cscope.out")
-    cs add cscope.out
-    " else add database pointed to by environment
-  elseif $CSCOPE_DB != ""
-    cs add $CSCOPE_DB
-  endif
-  set csverb
-  set cscopequickfix=s-,c-,d-,i-,t-,e-
-endif
-" }}} cscope
-
 " gist-vim {{{
 if s:dein_enabled && dein#tap("gist-vim")
   let g:gist_detect_filetype = 1
@@ -1799,32 +1502,13 @@ if s:dein_enabled && dein#tap("gist-vim")
   cnoremap <silent> Gist<CR> echo 'use Gist -P to make a public gist'<CR>
 endif
 "}}} gist-vim
+" }}}
 
-" switch {{{
-if s:dein_enabled && dein#tap("switch.vim")
-  nnoremap - :Switch<cr>
-endif
-"}}} switch
-
-" linediff {{{
-if s:dein_enabled && dein#tap("linediff.vim")
-  let g:linediff_first_buffer_command  = 'leftabove new'
-  let g:linediff_second_buffer_command = 'rightbelow vertical new'
-endif
-"}}} linediff
-
-" vim-diff-enhanced {{{
-if s:dein_enabled && dein#tap("vim-diff-enhanced")
-  if &diff
-    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
-  endif
-endif
-"}}} vim-diff-enhanced
-
+" Selection {{{
 " wildfire {{{
 if s:dein_enabled && dein#tap("wildfire.vim")
   let g:wildfire_objects = {
-        \ "*" : ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'it'],
+        \ "*" : ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at'],
         \}
 
   " This selects the next closest text object.
@@ -1833,21 +1517,21 @@ if s:dein_enabled && dein#tap("wildfire.vim")
   " This selects the previous closest text object.
   let g:wildfire_water_map = "<BS>"
 endif
-"}}}
+" }}}
 
 " vim-expand-region {{{
 if s:dein_enabled && dein#tap("vim-expand-region")
   let g:expand_region_text_objects = {
-        \ 'iw'  :0,
-        \ 'iW'  :0,
-        \ 'i"'  :0,
-        \ 'i''' :0,
+        \ 'iw'  :1,
+        \ 'iW'  :1,
+        \ 'i"'  :1,
+        \ 'i''' :1,
         \ 'i]'  :1,
         \ 'ib'  :1,
         \ 'iB'  :1,
-        \ 'il'  :0,
-        \ 'ip'  :0,
-        \ 'ie'  :0,
+        \ 'il'  :1,
+        \ 'ip'  :1,
+        \ 'ie'  :1,
         \ }
   if dein#tap("vim-submode")
     call submode#enter_with('expand-region', 'nv', 'r', '<Leader>e', '<Plug>(expand_region_expand)')
@@ -1855,7 +1539,7 @@ if s:dein_enabled && dein#tap("vim-expand-region")
     call submode#map('expand-region', 'nv', 'r', 'w', '<Plug>(expand_region_shrink)')
   endif
 endif
-"}}} vim-expand-region
+" }}} vim-expand-region
 
 " vim-quickhl {{{
 if s:dein_enabled && dein#tap("vim-quickhl")
@@ -1870,19 +1554,102 @@ if s:dein_enabled && dein#tap("vim-quickhl")
   "  map H <Plug>(operator-quickhl-manual-this-motion)
   "endif
 endif
-"}}} switch
+" }}} quickhl
+" }}} Selection
 
-" calendar.vim {{{
-if s:dein_enabled && dein#tap("calendar.vim")
-  let g:calendar_google_calendar = 1
-  let g:calendar_google_task = 1
-  let g:calendar_first_day = "sunday"
-  let g:calendar_frame = 'default'
-  if dein#tap("vim-indent-guides")
-    autocmd MyAutoGroup FileType calendar IndentGuidesDisable
-  endif
+" Search {{{
+" vim-anzu {{{
+if s:dein_enabled && dein#tap("vim-anzu")
+  nmap n <Plug>(anzu-n-with-echo)
+  nmap N <Plug>(anzu-N-with-echo)
+  nmap * g*<C-o><Plug>(anzu-update-search-status-with-echo)
+  "nm g* g*<C-o><Plug>(anzu-update-search-status-with-echo)
+  nmap # #<C-o><Plug>(anzu-update-search-status-with-echo)
+  let g:airline#extensions#anzu#enabled=0
+else
+  " swap * and g*, and add <C-o> to stay on current word.
+  nnoremap g* *<C-o>
+  nnoremap * g*<C-o>
+  nnoremap # #<C-o>
 endif
-"}}} calendar.vim
+" }}} vim-anzu
+
+" incsearch {{{
+if s:dein_enabled && dein#tap("incsearch.vim")
+  map / <Plug>(incsearch-forward)
+  map ? <Plug>(incsearch-backward)
+  map g/ <Plug>(incsearch-stay)
+  let g:incsearch#magic = '\v'
+endif
+" }}} incsearch
+" }}} Search
+
+" Edit {{{
+" Operator {{{
+" vim-operator-replace{{{
+if s:dein_enabled && dein#tap("vim-operator-replace")
+  map _  <Plug>(operator-replace)
+endif
+" }}} vim-operator-replace
+" }}} Operator
+
+" yankround {{{
+if s:dein_enabled && dein#tap("yankround.vim")
+  nmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
+  xmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
+  nmap <expr> P (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-P)'
+  nmap gp <Plug>(yankround-gp)
+  xmap gp <Plug>(yankround-gp)
+  nmap gP <Plug>(yankround-gP)
+  nmap <C-p> <Plug>(yankround-prev)
+  nmap <C-n> <Plug>(yankround-next)
+  let g:yankround_max_history = 30
+  let g:yankround_dir = '~/.vim/yankround'
+  let g:yankround_max_element_length = 0
+  let g:yankround_use_region_hl = 1
+endif
+" }}} yankround
+
+" vim-over {{{
+if s:dein_enabled && dein#tap("vim-over")
+  nnoremap <Leader>c :OverCommandLine<CR>%s/
+  xnoremap <Leader>c :OverCommandLine<CR>s/
+endif
+" }}} vim-over
+
+" vim-surround {{{
+if s:dein_enabled && dein#tap("vim-surround")
+  let g:surround_{char2nr("a")} = "**\r**"
+  nmap <Leader>{ ysiw{
+  nmap <Leader>} ysiw}
+  nmap <Leader>[ ysiw[
+  nmap <Leader>] ysiw]
+  nmap <Leader>( ysiw(
+  nmap <Leader>) ysiw)
+  nmap <Leader>< ysiw<
+  nmap <Leader>> ysiw>
+  nmap <Leader>" ysiw"
+  nmap <Leader>' ysiw'
+  nmap <Leader>` ysiw`
+  nmap <Leader>* ysiw*
+  nmap <Leader><Leader>* ysiw*wysiw*
+  nmap <Leader>a ysiwa
+  xmap { S{
+  xmap } S}
+  xmap [ S[
+  xmap ] S]
+  xmap ( S(
+  xmap ) S)
+  xmap < S<
+  xmap > S>
+  xmap " S"
+  xmap ' S'
+  xmap ` S`
+  xmap * S*
+  xmap <Leader>* S*gvS*
+  xmap <Leader>a Sa
+endif
+" }}} vim-surround.vim
 
 " rabbit-ui.vim {{{
 if s:dein_enabled && dein#tap("rabbit-ui.vim")
@@ -1895,26 +1662,6 @@ if s:dein_enabled && dein#tap("rabbit-ui.vim")
 endif
 "}}} rabbit-ui.vim
 
-" diffhar {{{
-if s:dein_enabled && dein#tap("diffchar.vim")
-  function! SetDiffChar()
-    if &diff
-      execute "%SDChar"
-    endif
-  endfunction
-  " It doesn't work well for complicated files...
-  "autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffChar()
-endif
-"}}} diffchar
-
-" rogue {{{
-if s:dein_enabled && dein#tap("rogue.vim")
-  let g:rogue#name = "aaa"
-  let g:rogue#directory = s:vimdir . "/rogue"
-  let g:rogue#japanese = 1
-endif
-"}}} rogue
-
 " splitjoin {{{
 if s:dein_enabled && dein#tap("splitjoin.vim")
   let g:splitjoin_split_mapping = ''
@@ -1922,7 +1669,126 @@ if s:dein_enabled && dein#tap("splitjoin.vim")
   nmap <Leader><Leader>j :SplitjoinJoin<CR>
   nmap <Leader><Leader>s :SplitjoinSplit<CR>
 endif
-"}}} splitjoin
+" }}} splitjoin
+" }}} Edit
+
+" Move {{{
+" vim-easymotion{{{
+if s:dein_enabled && dein#tap("vim-easymotion")
+  let g:EasyMotion_do_mapping=0
+  let g:EasyMotion_grouping=1
+  let g:EasyMotion_enter_jump_first=1
+  let g:EasyMotion_space_jump_first=1
+  let g:EasyMotion_smartcase=1
+  let g:EasyMotion_use_upper=1
+  let g:EasyMotion_keys="hjklasdfgyuiopqwertnmzxcvb"
+  hi EasyMotionTarget ctermbg=none ctermfg=red
+  hi EasyMotionShade  ctermbg=none ctermfg=blue
+
+  map S <Plug>(easymotion-sn)
+  map <Leader>f <Plug>(easymotion-bd-W)
+  "nmap <Leader>f <Plug>(easymotion-overwin-w)
+endif
+" }}} vim-easymotion
+" }}} Move
+
+" Check language, web source {{{
+" vim-ref {{{
+if s:dein_enabled && dein#tap("vim-ref")
+  " Set webdict sources
+  let g:ref_source_webdict_sites = {
+        \   "je": {
+        \     "url": "http://dictionary.infoseek.ne.jp/jeword/%s",
+        \   },
+        \   "ej": {
+        \     "url": "http://dictionary.infoseek.ne.jp/ejword/%s",
+        \   },
+        \   "wiki": {
+        \     "url": "http://ja.wikipedia.org/wiki/%s",
+        \   },
+        \ }
+
+  " Set default
+  let g:ref_source_webdict_sites.default = "ej"
+
+  " Filter
+  function! g:ref_source_webdict_sites.je.filter(output)
+    return join(split(a:output, "\n")[15 :], "\n")
+  endfunction
+  function! g:ref_source_webdict_sites.ej.filter(output)
+    return join(split(a:output, "\n")[15 :], "\n")
+  endfunction
+  function! g:ref_source_webdict_sites.wiki.filter(output)
+    return join(split(a:output, "\n")[17 :], "\n")
+  endfunction
+
+  " vim-ref prefix
+  nnoremap [ref] <Nop>
+  xnoremap [ref] <Nop>
+  nmap <Leader>r [ref]
+  xmap <Leader>r [ref]
+  nnoremap [ref]j :Ref webdict je<Space>
+  nnoremap [ref]e :Ref webdict ej<Space>
+  nnoremap [ref]w :Ref webdict wiki<Space>
+  nnoremap [ref]m :Ref man<Space>
+  xnoremap [ref]j :<C-u>Ref webdict je <C-R><C-w><CR>
+  xnoremap [ref]e :<C-u>Ref webdict ej <C-R><C-w><CR>
+  xnoremap [ref]w :<C-u>Ref webdict wiki <C-R><C-w><CR>
+endif
+" }}} vim-ref
+
+" translategoogle {{{
+if s:dein_enabled && dein#tap("translategoogle.vim")
+  let g:translategoogle_language = ["ja", "en", "fr"]
+  let g:translategoogle_default_sl = "en"
+  let g:translategoogle_default_tl = "ja"
+endif
+" }}} translategoogle.vim
+" }}} Check language, web source
+
+" Tools {{{
+" vim-submode{{{
+if s:dein_enabled && dein#tap("vim-submode")
+  call submode#enter_with("winsize", "n", "", "<C-w>>", "<C-w>>")
+  call submode#enter_with("winsize", "n", "", "<C-w><", "<C-w><")
+  call submode#enter_with("winsize", "n", "", "<C-w>+", "<C-w>+")
+  call submode#enter_with("winsize", "n", "", "<C-w>-", "<C-w>-")
+  call submode#enter_with("winsize", "n", "", "<C-w>e", "<C-w>><C-w><")
+  call submode#enter_with("winsize", "n", "", "<C-w><C-e>", "<C-w>><C-w><")
+  call submode#map("winsize", "n", "", ">", "<C-w>>")
+  call submode#map("winsize", "n", "", "<", "<C-w><")
+  call submode#map("winsize", "n", "", "+", "<C-w>-")
+  call submode#map("winsize", "n", "", "-", "<C-w>+")
+  call submode#map("winsize", "n", "", "l", "<C-w>>")
+  call submode#map("winsize", "n", "", "h", "<C-w><")
+  call submode#map("winsize", "n", "", "j", "<C-w>-")
+  call submode#map("winsize", "n", "", "k", "<C-w>+")
+  call submode#map("winsize", "n", "", "=", "<C-w>=")
+endif
+"}}} vim-submode
+
+" open-browser{{{
+if s:dein_enabled && dein#tap("open-browser.vim")
+  let g:netrw_nogx = 1 " disable netrw's gx mapping.
+  nmap gx <Plug>(openbrowser-smart-search)
+  xmap gx <Plug>(openbrowser-smart-search)
+endif
+"}}} open-browser
+
+" calendar.vim {{{
+if s:dein_enabled && dein#tap("calendar.vim")
+  let g:calendar_google_calendar = 1
+  let g:calendar_google_task = 1
+  let g:calendar_first_day = "sunday"
+  let g:calendar_frame = 'default'
+  if dein#tap("vim-indent-guides")
+    autocmd MyAutoGroup FileType calendar IndentGuidesDisable
+  endif
+endif
+"}}} calendar.vim
+" }}} Tools
+
+" }}} Plugin settings
 
 " local settings {{{
 if filereadable(expand("~/.vimrc.local"))
