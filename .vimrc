@@ -45,8 +45,16 @@ if s:use_dein && v:version >= 704
     " dein
     call dein#add('Shougo/dein.vim')
 
+    " Basic tools {{{
     " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
     call dein#add('Shougo/vimproc', {'build': 'make'})
+
+    " Support repeat for surround, speedating, easymotion, etc...
+    call dein#add('tpope/vim-repeat')
+
+    " Sub mode
+    call dein#add('kana/vim-submode')
+    " }}}
 
     " Unite {{{
     " Unlike 'fuzzyfinder' or 'ku', it doesn't use the built-in completion of vim
@@ -81,6 +89,10 @@ if s:use_dein && v:version >= 704
 
     " Completion {{{
     call dein#add('Shougo/neocomplete.vim', {
+          \ 'on_i': 1,
+          \ 'lazy': 1})
+    call dein#add('ujihisa/neco-look', {
+          \ 'depends': ['neocomplete.vim'],
           \ 'on_i': 1,
           \ 'lazy': 1})
     " }}}
@@ -153,11 +165,6 @@ if s:use_dein && v:version >= 704
     " Visual indent guides: make moving slow?
     call dein#add('nathanaelkane/vim-indent-guides')
 
-    " Gundo
-    call dein#add('sjl/gundo.vim', {
-          \ 'on_cmd': ['GundoToggle'],
-          \ 'lazy': 1})
-
     " Diff {{{
     " linediff
     call dein#add('AndrewRadev/linediff.vim', {
@@ -214,9 +221,6 @@ if s:use_dein && v:version >= 704
     " wildfire
     call dein#add("gcmt/wildfire.vim")
 
-    " expand region
-    call dein#add('terryma/vim-expand-region')
-
     " Highlight on the fly
     call dein#add('t9md/vim-quickhl')
     " }}} Selection
@@ -246,6 +250,11 @@ if s:use_dein && v:version >= 704
     call dein#add('kana/vim-operator-user')
     call dein#add('kana/vim-operator-replace', {'depdens': ['vim-operator-user']})
     " }}}
+
+    " Gundo
+    call dein#add('sjl/gundo.vim', {
+          \ 'on_cmd': ['GundoToggle'],
+          \ 'lazy': 1})
 
     " Align
     call dein#add('h1mesuke/vim-alignta', {
@@ -294,18 +303,11 @@ if s:use_dein && v:version >= 704
           \ 'lazy': 1})
     " }}}
 
-    " Tools {{{
-    " Support repeat for surround, speedating, easymotion, etc...
-    call dein#add('tpope/vim-repeat')
-
-    " Sub mode
-    call dein#add('kana/vim-submode')
-
+    " Other tools {{{
     " Make benchmark result of vimrc
     call dein#add('mattn/benchvimrc-vim', {
           \ 'on_cmd': ['BenchVimrc'],
           \ 'lazy': 1})
-
 
     " Make help
     call dein#add('LeafCage/vimhelpgenerator', {
@@ -1077,6 +1079,28 @@ endif
 
 " Plugin settings {{{
 
+" Basic tools {{{
+" vim-submode{{{
+if s:dein_enabled && dein#tap("vim-submode")
+  call submode#enter_with("winsize", "n", "", "<C-w>>", "<C-w>>")
+  call submode#enter_with("winsize", "n", "", "<C-w><", "<C-w><")
+  call submode#enter_with("winsize", "n", "", "<C-w>+", "<C-w>+")
+  call submode#enter_with("winsize", "n", "", "<C-w>-", "<C-w>-")
+  call submode#enter_with("winsize", "n", "", "<C-w>e", "<C-w>><C-w><")
+  call submode#enter_with("winsize", "n", "", "<C-w><C-e>", "<C-w>><C-w><")
+  call submode#map("winsize", "n", "", ">", "<C-w>>")
+  call submode#map("winsize", "n", "", "<", "<C-w><")
+  call submode#map("winsize", "n", "", "+", "<C-w>-")
+  call submode#map("winsize", "n", "", "-", "<C-w>+")
+  call submode#map("winsize", "n", "", "l", "<C-w>>")
+  call submode#map("winsize", "n", "", "h", "<C-w><")
+  call submode#map("winsize", "n", "", "j", "<C-w>-")
+  call submode#map("winsize", "n", "", "k", "<C-w>+")
+  call submode#map("winsize", "n", "", "=", "<C-w>=")
+endif
+"}}} vim-submode
+" }}}
+
 " Unite {{{
 if s:dein_enabled && dein#tap("unite.vim")
   autocmd MyAutoGroup FileType unite call s:unite_my_settings()
@@ -1406,16 +1430,6 @@ if s:dein_enabled && dein#tap("vim-indent-guides")
 endif
 "}}} vim-indent-guides
 
-" gundo {{{
-if s:dein_enabled && dein#tap("gundo.vim")
-  nnoremap U :GundoToggle<CR>
-  let g:gundo_width = 30
-  let g:gundo_preview_height = 15
-  let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
-  let g:gundo_preview_bottom = 1 " Show preview at the bottom
-endif
-" }}} gundo
-
 " linediff {{{
 if s:dein_enabled && dein#tap("linediff.vim")
   let g:linediff_first_buffer_command  = 'leftabove new'
@@ -1509,7 +1523,7 @@ endif
 if s:dein_enabled && dein#tap("wildfire.vim")
   let g:wildfire_objects = {
         \ "*" : ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at'],
-        \}
+        \ }
 
   " This selects the next closest text object.
   let g:wildfire_fuel_map = "<ENTER>"
@@ -1518,28 +1532,6 @@ if s:dein_enabled && dein#tap("wildfire.vim")
   let g:wildfire_water_map = "<BS>"
 endif
 " }}}
-
-" vim-expand-region {{{
-if s:dein_enabled && dein#tap("vim-expand-region")
-  let g:expand_region_text_objects = {
-        \ 'iw'  :1,
-        \ 'iW'  :1,
-        \ 'i"'  :1,
-        \ 'i''' :1,
-        \ 'i]'  :1,
-        \ 'ib'  :1,
-        \ 'iB'  :1,
-        \ 'il'  :1,
-        \ 'ip'  :1,
-        \ 'ie'  :1,
-        \ }
-  if dein#tap("vim-submode")
-    call submode#enter_with('expand-region', 'nv', 'r', '<Leader>e', '<Plug>(expand_region_expand)')
-    call submode#map('expand-region', 'nv', 'r', 'e', '<Plug>(expand_region_expand)')
-    call submode#map('expand-region', 'nv', 'r', 'w', '<Plug>(expand_region_shrink)')
-  endif
-endif
-" }}} vim-expand-region
 
 " vim-quickhl {{{
 if s:dein_enabled && dein#tap("vim-quickhl")
@@ -1585,6 +1577,16 @@ endif
 " }}} Search
 
 " Edit {{{
+" gundo {{{
+if s:dein_enabled && dein#tap("gundo.vim")
+  nnoremap U :GundoToggle<CR>
+  let g:gundo_width = 30
+  let g:gundo_preview_height = 15
+  let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
+  let g:gundo_preview_bottom = 1 " Show preview at the bottom
+endif
+" }}} gundo
+
 " Operator {{{
 " vim-operator-replace{{{
 if s:dein_enabled && dein#tap("vim-operator-replace")
@@ -1746,27 +1748,7 @@ endif
 " }}} translategoogle.vim
 " }}} Check language, web source
 
-" Tools {{{
-" vim-submode{{{
-if s:dein_enabled && dein#tap("vim-submode")
-  call submode#enter_with("winsize", "n", "", "<C-w>>", "<C-w>>")
-  call submode#enter_with("winsize", "n", "", "<C-w><", "<C-w><")
-  call submode#enter_with("winsize", "n", "", "<C-w>+", "<C-w>+")
-  call submode#enter_with("winsize", "n", "", "<C-w>-", "<C-w>-")
-  call submode#enter_with("winsize", "n", "", "<C-w>e", "<C-w>><C-w><")
-  call submode#enter_with("winsize", "n", "", "<C-w><C-e>", "<C-w>><C-w><")
-  call submode#map("winsize", "n", "", ">", "<C-w>>")
-  call submode#map("winsize", "n", "", "<", "<C-w><")
-  call submode#map("winsize", "n", "", "+", "<C-w>-")
-  call submode#map("winsize", "n", "", "-", "<C-w>+")
-  call submode#map("winsize", "n", "", "l", "<C-w>>")
-  call submode#map("winsize", "n", "", "h", "<C-w><")
-  call submode#map("winsize", "n", "", "j", "<C-w>-")
-  call submode#map("winsize", "n", "", "k", "<C-w>+")
-  call submode#map("winsize", "n", "", "=", "<C-w>=")
-endif
-"}}} vim-submode
-
+" Other tools {{{
 " open-browser{{{
 if s:dein_enabled && dein#tap("open-browser.vim")
   let g:netrw_nogx = 1 " disable netrw's gx mapping.

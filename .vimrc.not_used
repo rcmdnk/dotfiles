@@ -1,24 +1,182 @@
 " ==============================================
-" Plugins which it may come into use someday... {{{
+" Unused plugins {{{
 " ==============================================
 
-" python {{{
-" jedi-vim
-" Python autocompletion
-" Show error of
-"     ImportError: No module named os
-" when PYTHONPATH was changed (updated for brew-pip on Mac)...
-NeoBundleLazy "davidhalter/jedi-vim", {
-      \ "rev" : "dev",
-      \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
-" this filetypes are unnecessary, neither, as they are loaded only when python file is loaded.
+" Basic tools {{{
+" vim-reunions {{{
+" For asynchronous process
+NeoBundle "osyo-manga/vim-reunions"
+" }}} vim-reunions
 
-" Folding method for python, but makes completion too slow...?
-NeoBundle "vim-scripts/python_fold"
+" vim-quickrun {{{
+" * Not necessary on GNU sceen...
+NeoBundleLazy "thinca/vim-quickrun", { "autoload" : {
+  \ "mappings" : [
+  \ ["nxo", "<Plug>(quickrun)"]] }}
+" }}}
 
+" vim-singleton {{{
+" Don't launch new vim instance
+" * for Gvim heavy user?
+NeoBundle "thinca/vim-singleton"
+" }}}
+
+" vimshell {{{
+" Use shell in vim # not necessary on GNU screen
+NeoBundleLazy 'Shougo/vimshell', {
+  \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
+" }}} vimshell
+
+" }}}
+
+" Unite {{{
+" sources {{{
+" Source for unite: colorscheme
+" * ':colorscheme' command is enough (Tab shows candidates)
+NeoBundle 'ujihisa/unite-colorscheme'
+" Source for unite: font
+" * Only for gui
+NeoBundle 'ujihisa/unite-font'
+" coloscheme
+if dein#tap("unite-colorscheme")
+  nnoremap <silent> [unite]C :Unite colorscheme<CR>
+endif
+" }}}
+
+" QuickBuf {{{
+" bufffer management
+" Unite is enough?
+
+NeoBundle "QuickBuf"
+
+if s:neobundle_enable && ! empty(neobundle#get("QuickBuf"))
+  let g:qb_hotkey = "<Subleader>b"
+endif
+" }}} QuickBuf
+" }}}
+
+" Completion {{{
+" neocomplcache {{{
+"let g:completion = "Shougo/neocomplcache.vim"
+if has('lua') && (( v:version == 703 && has('patch885')) || (v:version >= 704))
+  let g:completion = "Shougo/neocomplete.vim"
+  NeoBundleLazy g:completion, {
+        \ "autoload": {"insert": 1 }}
+
+  " look - display lines beginning with a given string, using with neocomplete/neocomplcache
+  NeoBundleLazy "ujihisa/neco-look", {"depends": [g:completion],
+        \ "autoload": {"insert": 1}}
+  "NeoBundleLazy "mitsuse/kompl", {"depends": [g:completion]}
+endif
+
+if s:neobundle_enabled && ! empty(neobundle#get("neocomplcache.vim"))
+  let g:acp_enableAtStartup = 1
+  let g:neocomplcache_enable_startup = 1
+  let g:neocomplcache_enable_smart_case = 1
+  let g:neocomplcache_min_syntax_length = 3
+  let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+  let g:neocomplcache_text_mode_filetypes =
+        \ {'text': 1, 'plaintex':1, 'javascript': 1,
+        \  'mkd': 1, 'markdown': 1, 'perl': 1, 'html': 1}
+endif
+" }}}
+" }}}
+
+" Snippet {{{
+" }}}
+
+" Code syntax, tools for each language {{{
+" syntastic with pip {{{
+" (currently flake8 or other modules are installed independently)
+NeoBundle "scrooloose/syntastic", {
+  \ "build": {
+  \   "windows": ["pip install flake8", "npm -g install coffeelint"],
+  \   "cygwin": ["pip install flake8", "npm -g install coffeelint"],
+  \   "mac": ["pip install flake8", "npm -g install coffeelint"],
+  \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
+" }}}
+
+" vim-watchdogs {{{
+" Use Syntastic, instead
+NeoBundle "osyo-manga/vim-watchdogs", {
+    \ "depends": ["Shougo/vimproc", "thinca/vim-quickrun",
+                 \"dannyob/quickfixstatus",
+                 \"osyo-manga/shabadou.vim", "cohama/vim-hier",
+                 \"KazuakiM/vim-qfsigns"]}
+
+if s:dein_enabled && dein#tap("vim-watchdogs")
+  let g:watchdogs_check_BufWritePost_enable = 1
+  let g:watchdogs_check_CursorHold_enable = 1
+  if !exists("g:quickrun_config")
+    let g:quickrun_config = {}
+  endif
+  let g:quickrun_config["watchdogs_checker/_"] = {
+  \ "outputter/quickfix/open_cmd" : "",
+  \ "runner/vimproc/updatetime" : 50,
+  \ "hook/qfsigns_update/enable_exit": 1,
+  \ "hook/qfsigns_update/priority_exit": 3,
+  \}
+  let s:flake8 = system('flake8 --version 2>/dev/null')
+  if s:flake8 != ""
+    let g:quickrun_config["python/watchdogs_checker"] = {
+    \ "type" : "watchdogs_checker/flake8"
+    \}
+  endif
+  call watchdogs#setup(g:quickrun_config)
+endif
+"}}} vim-watchdogs
+
+" vim-hier{{{
+if s:dein_enabled && dein#tap("vim-hier")
+  highlight qf_error ctermfg=255 ctermbg=1
+  highlight qf_warning ctermfg=255 ctermbg=3
+  highlight qf_info ctermfg=255 ctermbg=2
+  let g:hier_highlight_group_qf   = 'qf_error'
+  let g:hier_highlight_group_qfw  = 'qf_warning'
+  let g:hier_highlight_group_qfi  = 'qf_info'
+endif
+" }}} vim-hier
+
+" Tags {{{
+" taglist{{{
+" Use tagbar instead (appearance seems almost same)
+" but taglist failed to make tags...?
+NeoBundle "taglist.vim"
+if s:neobundle_enable && ! empty(neobundle#get("taglist.vim"))
+  set tags=tags
+  "let Tlist_Ctags_Cmd = "/usr/bin/ctags"
+  let Tlist_Show_One_File = 1
+  let Tlist_Use_Right_Window = 1
+  let Tlist_Exit_OnlyWindow = 1
+  nnoremap <silent> <leader>l :TlistToggle<CR>
+endif
+"}}} taglist
+
+" ctags{{{
+" make ctags for current file
+NeoBundle "ctags.vim"
+" }}}
+" }}}
+
+" c++ {{{
+" clang_complete{{{
+NeoBundleLazy "Rip-Rip/clang_complete", {
+  \"autoload" : { "filetypes" : ["c", "cpp"] }}
+
+if s:neobundle_enable && ! empty(neobundle#get("lang_complete"))
+  "g:clang_use_library = 1
+  "g:clang_complete_auto = 0
+endif
+" }}} clang_complete
+" }}}
+
+" JavaScript {{{
+" * Something wrong at buffer change
+NeoBundle "marijnh/tern_for_vim"
+"}}}
+
+" Python {{{
 " Python syntax
-" seems default syntax is enough
-" indent is not enough for pep8
 " use "hynek/vim-python-pep8-indent", instead
 NeoBundle "mitsuhiko/vim-python-combined"
 
@@ -27,7 +185,12 @@ NeoBundle "mitsuhiko/vim-python-combined"
 NeoBundle "nvie/vim-flake8"
 
 " jedi-vim{{{
-"" Jedi for python
+" jedi-vim
+" Python autocompletion
+" Show error of
+"     ImportError: No module named os
+" when PYTHONPATH was changed (updated for brew-pip on Mac)...
+" this filetypes are unnecessary, neither, as they are loaded only when python file is loaded.
 NeoBundleLazy "davidhalter/jedi-vim", {
     \ "autoload": { "filetypes": [ "python", "python3", "djangohtml"] }}
 if s:dein_enabled && dein#tap("jedi-vim")
@@ -64,23 +227,109 @@ endif
 
 " virtual env (not used)
 NeoBundle "jmcantrell/vim-virtualenv"
+" }}} Python
+
+" Markdown {{{
+" vim-quick-run-markdown-gfm {{{
+" need gfm GitHub Flavored Markdown...?
+NeoBundleLazy "superbrothers/vim-quickrun-markdown-gfm", {
+      \"depends":
+      \  ["tryu/open-browser.vim","thinca/vim-quickrun", "mattn/webapi-vim"]}
+if s:neobundle_enabled && ! empty(neobundle#get("quickrun"))
+                       &&! empty(neobundle#get("vim-quickrun-markdown-gfm"))
+  let g:quickrun_config = {
+  \   'markdown': {
+  \     'type': 'markdown/gfm',
+  \     'outputter': 'browser'
+  \   }
+  \ }
+endif
+"}}}
+
+" Syntax {{{
+"NeoBundle "plasticboy/vim-markdown"
+"NeoBundle "tpope/vim-markdown"
+"NeoBundle "hallison/vim-markdown"
+"NeoBundle "Markdown"
 " }}}
 
-" vim-reunions {{{
-" For asynchronous process
-"NeoBundle "osyo-manga/vim-reunions"
-" }}} vim-reunions
+" jekyll.vim{{{
+" these commands are not necessary to be done in vim
+NeoBundle "csexton/jekyll.vim"
 
-" vim-smartchr {{{
-" Toggle insert words
-" * Example is for ' = ', ' == ', '='
-" * maybe it can be used more useful way, but now it it not used.
-NeoBundle "kana/vim-smartchr"
-
-if s:neobundle_enable && ! empty(neobundle#get("vim-smartchr"))
-  inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
+if s:neobundle_enable && ! empty(neobundle#get("jekyll.vim"))
+  let g:jekyll_path = "~/Dropbox/05_WebService/octopress/source/"
 endif
-" }}} vim-smartchr
+"}}} jekyll.vim
+
+" octopress {{{
+" Highlight for octopress
+" * vim-markdown is rather good (no syntax for jekyll?)
+NeoBundle "tangledhelix/vim-octopress"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-octopress"))
+  autocmd BufNewFile,BufRead *.md,*.textile set filetype=octopress
+endif
+"}}} octopress
+
+" previm {{{ not necessary in vim (markdown is useful as it can be easily recognized as "TEXT")
+" Markdown preview
+if ( has("win32unix") || has ("win64unix") ||
+      \has("mac") || has ("gui_macvim"))
+  NeoBundleLazy "kannokanno/previm", {
+        \"autoload": {"commands" : ["PrevimOpen"]}}
+else
+  NeoBundleLazy "kannokanno/previm", {
+        \ "depends": ["tryu/open-browser.vim"],
+        \"autoload": {"commands" : ["PrevimOpen"]}}
+endif
+if s:neobundle_enabled && ! empty(neobundle#get("previm"))
+  if ( has("win32unix") || has ("win64unix"))
+    " cygwin
+    let g:previm_open_cmd = "cygstart"
+  elseif ( has("mac") || has ("gui_macvim"))
+    " mac
+    let g:previm_open_cmd = "open"
+  endif
+endif
+
+"}}} previm
+
+" }}}
+
+" Ruby {{{
+  " Ruby completion " doesn't work...?
+  " Neocomplete is enough?
+  NeoBundle "osyo-manga/vim-monster"
+
+  if s:neobundle_enabled && ! empty(neobundle#get("vim-monster"))
+    if ! empty(neobundle#get("neocomplete.vim")) && !empty(neobundle#get("vimproc.vim"))
+      " Set async completion.
+      let g:monster#completion#rcodetools#backend = "async_rct_complete"
+
+      " Use neocomplete.vim
+      let g:neocomplete#sources#omni#input_patterns = {
+      \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
+      \}
+    endif
+  endif
+"}}}
+" }}} Code syntax, tools for each language
+
+" View {{{
+" Color scheme {{{
+NeoBundle "ujihisa/unite-colorscheme"
+NeoBundle "tomasr/molokai"
+colorscheme molokai
+NeoBundle "nanotech/jellybeans.vim"
+NeoBundle "altercation/vim-colors-solarized"
+NeoBundle "vim-scripts/newspaper.vim"
+NeoBundle "w0ng/vim-hybrid"
+NeoBundle "noahfrederick/vim-hemisu"
+NeoBundle "google/vim-colorscheme-primary"
+
+"colorscheme blue
+" }}}
 
 " rainbow_parentheses {{{
 " Highlight bracket
@@ -116,17 +365,587 @@ if s:neobundle_enable && ! empty(neobundle#get("rainbow_parentheses.vim"))
 endif
 " }}} rainbow_parentheses
 
-" clang_complete{{{
-NeoBundleLazy "Rip-Rip/clang_complete", {
-  \"autoload" : { "filetypes" : ["c", "cpp"] }}
+" for hl_matchit {{{
+" Vim plugin to highlight matchit.vim
+" # Make it too slow especially for files which have many brackets
+" # It can match such "if" in vimrc
+" # But it seems too much...
+NeoBundle "vimtaku/hl_matchit.vim"
 
-if s:neobundle_enable && ! empty(neobundle#get("lang_complete"))
-  "g:clang_use_library = 1
-  "g:clang_complete_auto = 0
+if s:neobundle_enable && ! empty(neobundle#get("hl_matchit.vim"))
+  let g:hl_matchit_enable_on_vim_startup = 1
+  let g:hl_matchit_hl_groupname = 'Title'
+  let g:hl_matchit_allow_ft_regexp = 'html\|vim\|ruby\|sh'
 endif
-" }}} clang_complete
+" }}} hl_matchit
 
-" Games {{{
+" undotree {{{
+" Another undo, need vim7.3+patch005
+" Use gundo instead
+NeoBundle "mbbill/undotree"
+
+if s:neobundle_enable && ! empty(neobundle#get("undotree"))
+  nmap <Leader>U :UndotreeToggle<CR>
+  let g:undotree_SetFocusWhenToggle = 1
+  let g:undotree_SplitLocation = "topleft"
+  let g:undotree_SplitWidth = 35
+  let g:undotree_diffAutoOpen = 1
+  let g:undotree_diffpanelHeight = 25
+  let g:undotree_RelativeTimestamp = 1
+  let g:undotree_TreeNodeShape = "*"
+  let g:undotree_HighlightChangedText = 1
+  let g:undotree_HighlightSyntax = "UnderLined"
+endif
+" }}}
+
+" vim-pcompleteowerline {{{
+" Cool Status Line
+" * Use lightline
+NeoBundle "Lokaltog/vim-pcompleteowerline"
+" }}}
+
+" vim-airline{{{
+" Another status line
+" * Use lightlin
+NeoBundle "bling/vim-airline"
+
+" inu/nuco
+"NeoBundle "osyo-manga/vim-airline-inu"
+"NeoBundle "osyo-manga/vim-airline-nuko"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-airline"))
+  let g:airline_left_sep=''
+  let g:airline_right_sep=''
+  let g:airline_inactive_collapse=1
+  let g:airline_theme="bubblegum"
+  let g:airline_section_z="%4l/%L:%3c"
+endif
+"}}} vim-airline
+
+" vim-insert-linenr {{{
+" Highlight line number
+" * Line number is not used...
+NeoBundle 'cohama/vim-insert-linenr'
+" }}}
+
+" Visual-Mark {{{
+" visualize marks
+" * unite + unite-mark is an alternative
+NeoBundle "Visual-Mark"
+
+if s:neobundle_enable && ! empty(neobundle#get("Visual-Mark"))
+  " Visual Mark prefix
+  nnoremap [vmark] <Nop>
+  nmap <Leader>v [vmark]
+  nmap <silent> [vmark]v <Plug>Vm_toggle_sign
+  nmap <silent> [vmark]j <Plug>Vm_goto_next_sign
+  nmap <silent> [vmark]k <Plug>Vm_goto_prev_sign
+  " submot doesn't work?
+  "if ! empty(neobundle#get("vim-submode"))
+  "  call submode#enter_with("visualmark", "n", "", ",vj", "<Plug>Vm_goto_next_sign")
+  "  call submode#enter_with("visualmark", "n", "", ",vk", "<Plug>Vm_goto_prev_sign")
+  "  call submode#map("visualmark", "n", "", ",vj", "<Plug>Vm_goto_next_sign")
+  "  call submode#map("visualmark", "n", "", ",vk", "<Plug>V<Leader>m_goto_prev_sign")
+  "  call submode#map("visualmark", "n", "", "vj", "<Plug>Vm<Leader>_goto_next_sign")
+  "  call submode#map("visualmark", "n", "", "vk", "<Plug>Vm_goto_prev_sign")
+  "  call submode#map("visualmark", "n", "", "j", "<Plug>Vm_goto_next_sign")
+  "  call submode#map("visualmark", "n", "", "k", "<Plug>Vm_goto_prev_sign")
+  "endif
+endif
+" }}} surround.vim
+
+" Changed {{{
+" Displays signs on changed lines, since last save
+" -> use DiffOrig, if necessary
+NeoBundleLazy "Changed", {
+  \ "autoload": {"commands": ["Changed"]}}
+}
+" }}}
+
+" File Explorer {{{
+" * Use SrcExpl
+
+" ctrlp {{{
+NeoBundle "kien/ctrlp.vim"
+if s:neobundle_enable && ! empty(neobundle#get("ctrlp.vim"))
+  "let g:ctrlp_map = "<c-p>"
+endif
+"}}} ctrlp
+
+NeoBundle "scrooloose/nerdtree"
+NeoBundle "trinity.vim"
+NeoBundle "The-NERD-tree"
+NeoBundle "Source-Explorer-srcexpl.vim"
+NeoBundle "mru.vim"
+" }}}
+
+" vim-better-whitespace {{{
+" Could be useful if 'set cursorline' is used, and highlight for background is used.
+NeoBundle "ntpeters/vim-better-whitespace"
+" }}}
+
+" }}} View
+
+" Version Control System {{{
+" gitgutter{{{
+" Show added/deleted/modified line for git
+" * Use signify, which can do for svn or others in addiiton to git
+NeoBundleLazy "airblade/vim-gitgutter", {
+  \ "autoload": { "commands": ["GitGutterEnable","GitGutterToggle"]}}
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-gitgutter"))
+  nnoremap <Leader>g :GitGutterToggle<CR>
+endif
+"}}} gitgutter
+
+" signify{{{
+" Show added/deleted/modified lines for several version control system
+" vcscommand is enough
+" if you want to show marks always, it is useful, though.
+call dein#add('mhinz/vim-signify', {
+      \ 'on_cmd': ['SignifyToggle'],
+      \ 'lazy': 1})
+if s:dein_enabled && dein#tap("vim-signify")
+  let g:signify_disable_by_default = 1
+  let g:signify_cursorhold_normal = 1
+  let g:signify_cursorhold_insert = 1
+  nmap <Leader>gj <Plug>(signify-next-jump)
+  nmap <Leader>gk <Plug>(signify-prev-jump)
+  nnoremap <Leader>gt :SignifyToggle<CR>
+  nnoremap <Leader>gh :SignifyToggleHighlight<CR>
+endif
+"}}} signify
+
+" For git/svn status, log {{{
+call dein#add('hrsh7th/vim-versions.git', {
+      \ 'depends': ['unite.vim'],
+      \ 'on_cmd': ['UniteVersions'],
+      \ 'lazy': 1})
+" }}}
+
+" vim-rooter{{{
+" Change current directory to root, for git/svn, etc...
+" not used
+call dein#add('airblade/vim-rooter')
+if s:dein_enabled && dein#tap("vim-rooter")
+  " Default: move to root directory by <Leader>cd or :Rooter
+
+  " Change only current window's directory
+  let g:rooter_use_lcd = 1
+  " Do not automatically change the directory
+  let g:rooter_manual_only = 1
+  " Stop the automatic change (some files are )
+  let g:rooter_manual_only = 1
+  " files/directories for the root directory
+  let g:rooter_patterns = ['tags', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', 'Makefile', 'GNUMakefile', 'GNUmakefile', '.svn/']
+endif
+"}}} vim-rooter
+" }}} Version Control System
+
+" Selection {{{
+" }}}
+
+" Search {{{
+" vim-seek {{{
+" Jump to letters (two letters) after "s"
+" * / (search) or easymoting can be alternatives...
+NeoBundle "goldfeld/vim-seek"
+" }}}
+
+" }}}
+
+" Edit {{{
+" operator {{{
+" replace is used
+" not use sort, reverse, surround
+NeoBundle "kana/vim-operator-user"
+NeoBundle "kana/vim-operator-replace"
+"NeoBundle 'emonkak/vim-operator-sort'
+"NeoBundle 'tyru/operator-reverse.vim'
+"NeoBundle "rhysd/vim-operator-surround" " -> use vim-surround
+if s:dein_enabled && dein#tap("vim-operator-user")
+  nnoremap [oper] <Nop>
+  nm <Leader>o [oper]
+  if s:dein_enabled && dein#tap("vim-operator-sort")
+    map [oper]s <Plug>(operator-sort)
+  endif
+  if s:dein_enabled && dein#tap("operator-reverse.vim")
+    map [oper]r  <Plug>(operator-reverse-text)
+  endif
+endif
+" }}} operator
+
+" Align {{{
+" Align codes
+" http://www.drchip.org/astronaut/vim/align.html#Examples
+" * Use 'h1mesuke/vim-alignta' instead
+NeoBundle "Align"
+" }}} Align
+
+" Table {{{
+" There are tabular and Alignta.
+call dein#add('dhruvasagar/vim-table-mode')
+" }}}
+
+" vim-surround {{{
+" Each to change surround
+" * use original surround.vim
+NeoBundle "anyakichi/vim-surround"
+if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
+  "
+endif
+" }}}
+
+" vim-smartchr {{{
+" Toggle insert words
+" * Example is for ' = ', ' == ', '='
+" * maybe it can be used more useful way, but now it it not used.
+NeoBundle "kana/vim-smartchr"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-smartchr"))
+  inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
+endif
+" }}} vim-smartchr
+
+" vim-auto-save {{{
+" * normally, it is better to save by hand.
+"NeoBundle "vim-scripts/vim-auto-save"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-auto-save"))
+  " auto save interval is 'updatetime'(=200 ms as default)
+  let g:auto_save = 1
+
+endif
+" }}} vim-auto-save
+
+" YankRing {{{
+" Easy to use history of yanks (see below settings)
+" * Strange behavior (couse it map all y/d/c/x)
+" Use yankround, instead.vim
+NeoBundle "vim-scripts/YankRing.vim"
+
+if s:neobundle_enable && ! empty(neobundle#get("YankRing.vim"))
+  nnoremap <Leader>y :YRShow<CR>
+  " avoid to store single letter to normal register
+  let g:yankring_history_dir=g:vimdir
+  "let g:yankring_n_keys = 'Y D' " Y D x X
+  "let g:yankring_enabled=0 " 1
+  let g:yankring_max_history=50 " 100
+  let g:yankring_max_display=50 " 500
+  "let g:yankring_ignore_duplicate=0 " 1
+  let g:yankring_dot_repeat_yank=1
+  let g:yankring_clipboard_monitor=0 " 1
+  let g:yankring_min_element_length=2 " 1, :skip all single letter copy
+  "let g:yankring_persist=0 " 1
+  "let g:yankring_share_between_instances=0 " 1
+  "let g:yankring_window_use_separate=0 " 1
+  "let g:yankring_window_use_horiz=0
+  "let g:yankring_window_auto_close=0 " 1
+  let g:yankring_window_width=50 " 30
+  "let g:yankring_window_use_right=0 " 1
+  "let g:yankring_window_increment=15 " 1
+  let g:yankring_manage_numbered_reg = 1 " 0
+  "let g:yankring_paste_check_default_register = 0 "1
+
+  " for warning :The yankring can only persist if the viminfo setting has a !
+  "set viminfo+=!
+endif
+" }}} YankRing
+
+" vim-yankstack {{{
+" Yank stack (similar as YankRing)
+" * same as YankRing, it map y/d/c/x...
+NeoBundle "maxbrunsfeld/vim-yankstack"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-yankstack"))
+  nmap <M-p> <Plug>yankstack_substitute_older_paste
+  nmap <M-n> <Plug>yankstack_substitute_newer_paste
+endif
+" }}} vim-yankstack
+
+" yanktmp {{{
+" Use yanks in different processes (see below settings)
+" * It can yank only a line
+" * replaced by own setting
+NeoBundle "yanktmp.vim"
+
+if s:neobundle_enable && ! empty(neobundle#get("yanktmp.vim"))
+  let g:yanktmp_file = $HOME."/.vim/vimyanktmp"
+
+  " yanktmp prefix
+  noremap [yanktmp] <Nop>
+  map s [yanktmp]
+
+  " show buffer
+  noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
+  noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
+  noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
+endif
+" }}} yanktmp
+
+" vim-smartinput {{{
+" smart input
+" * Can't use for repeat
+NeoBundle "kana/vim-smartinput"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
+  " Put/Remove space at first in bracket
+  call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
+  call smartinput#define_rule({
+    \'at'    : '(\%#)',
+    \'char'  : '<Space>',
+    \'input' : '<Space><Space><Left>',
+    \})
+  call smartinput#define_rule({
+    \'at'    : '( \%# )',
+    \'char'  : '<BS>',
+    \'input' : '<Del><BS>',
+    \})
+
+  " Add ; for c++ class/struct/enum
+  call smartinput#define_rule({
+    \'at'       : '\%(\<struct\>\|\<class\>\|\<enum\>\)\s*\w\+.*\%#',
+    \'char'     : '{',
+    \'input'    : '{};<Left><Left>',
+    \'filetype' : ['cpp'],
+    \})
+
+  " * Replaced by: nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
+  call smartinput#define_rule({
+  \   'at': '\s\+\%#',
+  \   'char': '<CR>',
+  \   'input': '<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>',
+  \   })
+endif
+" }}} vim-smartinput
+
+" vim-smartword {{{
+" smart word
+" * If it is not used so much (as capital W/B...),
+" * it is better to use original one...
+NeoBundle 'kana/vim-smartword'
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-smartword"))
+  " Use W/B/E/gE, such w is not useful to map here
+  " especially for text object treatment, such 'cw'.
+  map W  <Plug>(smartword-w)
+  map B  <Plug>(smartword-b)
+  map E  <Plug>(smartword-e)
+  map gE  <Plug>(smartword-ge)
+  " original keys ('\' is not a <leader> for now)
+  noremap <Subleader>W  W
+  noremap <subleader>B  B
+  noremap <subleader>E  E
+  noremap <subleader>gE  gE
+endif
+" }}} vim-smartword
+
+" Auto bracket closing {{{
+NeoBundle "cohama/lexima.vim"
+NeoBundle "seletskiy/vim-autosurround"
+if s:dein_enabled && dein#tap("vim-autosurround")
+  inoremap  ( (<C-O>:call AutoSurround(")")<CR>
+endif
+" }}}
+
+" switch {{{
+" switch
+NeoBundle "AndrewRadev/switch.vim"
+
+if s:dein_enabled && dein#tap("switch.vim")
+  nnoremap - :Switch<cr>
+endif
+"}}} switch
+
+" savevers {{{
+" File Edit History
+" * Make several backup file named *.clean, to follow history easily.
+" * Not so useful when persistent_undo is enabled,
+" * but rather it makes things complex as it makes too many '.clean' files...
+NeoBundle "savevers.vim"
+
+if s:neobundle_enable && ! empty(neobundle#get("savevers.vim"))
+  set patchmode=.clean
+  set backup
+  let savevers_types = "*"
+  let savevers_dirs = &backupdir
+  let versdiff_no_resize=1
+  nmap <silent> <F5> :VersDiff -<cr>
+  nmap <silent> <F6> :VersDiff +<cr>
+  nmap <silent> <F8> :VersDiff -c<cr>
+endif
+" }}}
+
+" restart {{{
+" For Gvim
+NeoBundle "tyru/restart.vim"
+"}}}
+
+" }}}
+
+" Move {{{
+" clever-f {{{
+" Can use f instead of ;, after fx move
+" Can move even to other lines
+" * annoying at making macros...
+NeoBundle "rhysd/clever-f.vim"
+"}}}
+" }}}
+
+" Check language, web source {{{
+" LanguageTool{{{
+" Use vim-grammarous
+NeoBundleLazy "vim-scripts/LanguageTool", {
+      \  "autoload" : {"commands": ["LanguageToolCheck"] }}
+if s:neobundle_enabled && ! empty(neobundle#get("LanguageTool"))
+  " jar file settings
+  let s:languagetool_version="3.2"
+  "let s:languagetool_version="2.1"
+  let s:languagetool_zip="LanguageTool-".s:languagetool_version.".zip"
+  let s:languagetool_download=
+        \"http://www.languagetool.org/download/".s:languagetool_zip
+  let s:languagetool_parent_dir=g:vimdir."/languagetool/"
+  let s:languagetool_dir=s:languagetool_parent_dir."/LanguageTool-"
+        \.s:languagetool_version."/"
+  let s:languagetool_v_file=s:languagetool_dir."/version_in_vim"
+
+  let g:languagetool_jar=s:languagetool_dir."/languagetool-commandline.jar"
+
+  " Check/Prepare LanguageTool
+  let s:languagetool_v_test=system("cat " . s:languagetool_v_file)
+  if s:languagetool_v_test != s:languagetool_version
+    echo s:languagetool_v_test
+    echo "Preparing LanguageTool..."
+    echo "getting " . s:languagetool_download . "..."
+    call system("rm -rf " . s:languagetool_dir)
+    call system("rm -rf " . s:languagetool_dir . "/*.zip*")
+    call system("mkdir -p " . s:languagetool_parent_dir)
+    execute "lcd" s:languagetool_parent_dir
+    call system("wget " . s:languagetool_download)
+    echo "done wget " . s:languagetool_download
+    call system("unzip " . s:languagetool_zip )
+    call system("rm -f " . s:languagetool_zip)
+    call system("printf " . s:languagetool_version . " > " . s:languagetool_v_file)
+    lcd -
+  endif
+
+  " Other settings
+  " If lang is not set, spellang value is used (if it is not set neithr, use en-US).
+  "let g:languagetool_lang="en-US"
+endif
+"}}} LanguageTool
+
+" Excite Translate {{{
+" There are translategoogle
+call dein#add('mattn/excitetranslate-vim', {
+      \ 'depdens': ['mattn/webapi-vim'],
+      \ 'on_cmd': ['ExciteTranslate'],
+      \ 'lazy': 1})
+if s:dein_enabled && dein#tap("excitetranslate-vim")
+  xnoremap <Leader>x :ExciteTranslate<CR>
+endif
+"}}} exciteTranslate
+
+
+" }}}
+
+" Other tools {{{
+" Gmail{{{
+NeoBundleLazy "yuratomo/gmail.vim",{
+  \ "autoload" : {"commands": ["Gmail"]},
+  \ "depends" : ["Shougo/vimproc"]}
+
+if s:neobundle_enable && ! empty(neobundle#get("gmail.vim"))
+  let g:gmail_imap = "imap.gmail.com:993"
+  let g:gmail_smtp = "smtp.gmail.com:465"
+  " path for openssl
+  let &path = $path."/usr/bin"
+  if filereadable(expand("$HOME/.Gmail.vim"))
+    source $HOME/.Gmail.vim
+  endif
+endif
+" }}} Gmail
+
+" SimpleNote{{{
+NeoBundleLazy "mattn/vimplenote-vim",{
+  \ "autoload" : {"commands": ["VimpleNote"]}}
+if s:neobundle_enable && ! empty(neobundle#get("simplenote.vim"))
+  " for simplenote.vim
+  "let g:SimplenoteUsername = ""
+  "let g:SimplenotePassword = """
+  if filereadable(expand("$HOME/.Simplenote.vim"))
+    source $HOME/.Simplenote.vim
+  endif
+endif
+
+NeoBundleLazy "mrtazz/simplenote.vim",{
+  \ "autoload" : {"commands": ["Simplenote"]}}
+if s:neobundle_enable && ! empty(neobundle#get("vimplenote-vim"))
+  " for vimplenote-vim
+  "let g:VimpleNoteUsername = ""
+  "let g:VimpleNotePassword = ""
+  " move to $HOME/.VimpleNote
+  if filereadable(expand("$HOME/.VimpleNote.vim"))
+    " in vimplenote/autoload/vimplenote.vim:get_email(),
+    " email must be input even if VimpleNoteUsername was defined,
+    " because it checks self.token, it is always 0 here...
+    source $HOME/.VimpleNote.vim
+  endif
+  function! Sn()
+    VimpleNote -l
+    wincmd w
+    wincmd q
+  endfunction
+endif
+" }}} Simplenote
+
+" Evernte {{{
+" evernote: need markdown library...
+NeoBundleLazy "kakkyz81/evervim",{
+  \ "autoload" : {"commands": ["EvervimNotebookList", "EvervimListTags",
+  \                            "EvervimSearchByQuery", "EvervimCreateNote",
+  \                            "EvervimOpenBrowser", "EvervimSetup"]}}
+" }}}
+
+" Google Calendar/Tasks {{{
+" Use itchyny/calendar.vim
+
+NeoBundle "mattn/calendar-vim"
+
+" Google Tasks
+NeoBundleLazy "mattn/googletasks-vim", {
+  \ "depends": "mattn/webapi-vim",
+  \ "autoload" : { "commands": ["GoogleTasks"] }}
+" }}}
+
+" cloudboard  {{{
+NeoBundle "brookhong/cloudboard.vim"
+if s:neobundle_enabled && ! empty(neobundle#get("cloudboard.vim"))
+  py import vim
+  nnoremap <Space>p :CBPut 0<CR>
+  vnoremap <Space>y :CBYank 0<CR>
+endif
+" }}}
+
+" Windows StartMenu {{{
+if ( has("win32unix") || has ("win64unix") || has("win32") || has ("win64"))
+  NeoBundleLazy "mattn/startmenu-vim", {
+        \ "autoload" : { "commands": ["StartMenu"] }}
+  NeoBundleLazy "mattn/excelview-vim", {
+        \ "depends": "mattn/webapi-vim",
+        \ "autoload" : { "commands": ["ExcelView"] }}
+endif
+" }}}
+
+" Open browser GitHub {{{ not necessary. `hub browse` command is enough to open the current repository in the browser
+NeoBundleLazy "tyru/open-browser-github.vim", {
+      \ "depends": ["tryu/open-browser.vim"],
+      \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
+" }}}
+
+" }}}
+
+" Fun {{{
 " Habatobi
 NeoBundleLazy "mattn/habatobi-vim",{
       \ "autoload" : {"commands": ["Habatobi"] }}
@@ -139,13 +958,29 @@ NeoBundleLazy "mattn/flappyvird-vim",{
 NeoBundleLazy "rbtnn/puyo.vim",{
       \ "autoload" : {"commands": ["Puyo"] }}
 
-" Rogue
+" rogue {{{
 NeoBundleLazy "katono/rogue.vim", {
       \ "autoload" : {"commands": ["Rogue"] }}
+if s:dein_enabled && dein#tap("rogue.vim")
+  let g:rogue#name = "aaa"
+  let g:rogue#directory = s:vimdir . "/rogue"
+  let g:rogue#japanese = 1
+endif
+"}}} rogue
 
-"}}}
 
-" }}} Plugins which it may come into use someday...
+" splash{{{
+" show what you like on start-up
+NeoBundle "thinca/vim-splash"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-splash"))
+  let g:splash#path = $HOME . "/.vimrc"
+endif
+"}}} splash
+
+" }}}
+
+
 
 " =========================
 " Currenlty, not necessary {{{
@@ -302,777 +1137,33 @@ endfunction
 
 " }}}
 
-" unite sources {{{
-" Source for unite: colorscheme
-" * ':colorscheme' command is enough (Tab shows candidates)
-NeoBundle 'ujihisa/unite-colorscheme'
-" Source for unite: font
-" * Only for gui
-NeoBundle 'ujihisa/unite-font'
-" coloscheme
-if dein#tap("unite-colorscheme")
-  nnoremap <silent> [unite]C :Unite colorscheme<CR>
-endif
-
 " }}}
 
-" vim-auto-save {{{
-" * normally, it is better to save by hand.
-"NeoBundle "vim-scripts/vim-auto-save"
+" vim-expand-region {{{
+" wildfire.vim is similar one (though it can only expand)
+" vim-expand-region make it very slow when it is called at the first time...?
+call dein#add('terryma/vim-expand-region')
 
-if s:neobundle_enable && ! empty(neobundle#get("vim-auto-save"))
-  " auto save interval is 'updatetime'(=200 ms as default)
-  let g:auto_save = 1
-
-endif
-" }}} vim-auto-save
-
-" vim-quickrun {{{
-" * Not necessary on GNU sceen...
-NeoBundleLazy "thinca/vim-quickrun", { "autoload" : {
-  \ "mappings" : [
-  \ ["nxo", "<Plug>(quickrun)"]] }}
-" }}}
-
-" vim-quick-run-markdown-gfm {{{
-" need gfm GitHub Flavored Markdown...?
-NeoBundleLazy "superbrothers/vim-quickrun-markdown-gfm", {
-      \"depends":
-      \  ["tryu/open-browser.vim","thinca/vim-quickrun", "mattn/webapi-vim"]}
-if s:neobundle_enabled && ! empty(neobundle#get("quickrun"))
-                       &&! empty(neobundle#get("vim-quickrun-markdown-gfm"))
-  let g:quickrun_config = {
-  \   'markdown': {
-  \     'type': 'markdown/gfm',
-  \     'outputter': 'browser'
-  \   }
-  \ }
-endif
-"}}}
-
-" Markdown {{{
-"NeoBundle "plasticboy/vim-markdown"
-"NeoBundle "tpope/vim-markdown"
-"NeoBundle "hallison/vim-markdown"
-"NeoBundle "Markdown"
-" }}} Markdown
-
-" for hl_matchit {{{
-" Vim plugin to highlight matchit.vim
-" # Make it too slow especially for files which have many brackets
-" # It can match such "if" in vimrc
-" # But it seems too much...
-NeoBundle "vimtaku/hl_matchit.vim"
-
-if s:neobundle_enable && ! empty(neobundle#get("hl_matchit.vim"))
-  let g:hl_matchit_enable_on_vim_startup = 1
-  let g:hl_matchit_hl_groupname = 'Title'
-  let g:hl_matchit_allow_ft_regexp = 'html\|vim\|ruby\|sh'
-endif
-" }}} hl_matchit
-
-" YankRing {{{
-" Easy to use history of yanks (see below settings)
-" * Strange behavior (couse it map all y/d/c/x)
-NeoBundle "vim-scripts/YankRing.vim"
-
-if s:neobundle_enable && ! empty(neobundle#get("YankRing.vim"))
-  nnoremap <Leader>y :YRShow<CR>
-  " avoid to store single letter to normal register
-  let g:yankring_history_dir=g:vimdir
-  "let g:yankring_n_keys = 'Y D' " Y D x X
-  "let g:yankring_enabled=0 " 1
-  let g:yankring_max_history=50 " 100
-  let g:yankring_max_display=50 " 500
-  "let g:yankring_ignore_duplicate=0 " 1
-  let g:yankring_dot_repeat_yank=1
-  let g:yankring_clipboard_monitor=0 " 1
-  let g:yankring_min_element_length=2 " 1, :skip all single letter copy
-  "let g:yankring_persist=0 " 1
-  "let g:yankring_share_between_instances=0 " 1
-  "let g:yankring_window_use_separate=0 " 1
-  "let g:yankring_window_use_horiz=0
-  "let g:yankring_window_auto_close=0 " 1
-  let g:yankring_window_width=50 " 30
-  "let g:yankring_window_use_right=0 " 1
-  "let g:yankring_window_increment=15 " 1
-  let g:yankring_manage_numbered_reg = 1 " 0
-  "let g:yankring_paste_check_default_register = 0 "1
-
-  " for warning :The yankring can only persist if the viminfo setting has a !
-  "set viminfo+=!
-endif
-" }}} YankRing
-
-" vim-yankstack {{{
-" Yank stack (similar as YankRing)
-" * same as YankRing, it map y/d/c/x...
-NeoBundle "maxbrunsfeld/vim-yankstack"
-
-if s:neobundle_enable && ! empty(neobundle#get("vim-yankstack"))
-  nmap <M-p> <Plug>yankstack_substitute_older_paste
-  nmap <M-n> <Plug>yankstack_substitute_newer_paste
-endif
-" }}} vim-yankstack
-
-" yanktmp {{{
-" Use yanks in different processes (see below settings)
-" * It can yank only a line
-" * replaced by own setting
-NeoBundle "yanktmp.vim"
-
-if s:neobundle_enable && ! empty(neobundle#get("yanktmp.vim"))
-  let g:yanktmp_file = $HOME."/.vim/vimyanktmp"
-
-  " yanktmp prefix
-  noremap [yanktmp] <Nop>
-  map s [yanktmp]
-
-  " show buffer
-  noremap <silent> [yanktmp]y :call YanktmpYank()<CR>
-  noremap <silent> [yanktmp]p :call YanktmpPaste_p()<CR>
-  noremap <silent> [yanktmp]P :call YanktmpPaste_P()<CR>
-endif
-" }}} yanktmp
-
-" savevers {{{
-" File Edit History
-" * Make several backup file named *.clean, to follow history easily.
-" * Not so useful when persistent_undo is enabled,
-" * but rather it makes things complex as it makes too many '.clean' files...
-NeoBundle "savevers.vim"
-
-if s:neobundle_enable && ! empty(neobundle#get("savevers.vim"))
-  set patchmode=.clean
-  set backup
-  let savevers_types = "*"
-  let savevers_dirs = &backupdir
-  let versdiff_no_resize=1
-  nmap <silent> <F5> :VersDiff -<cr>
-  nmap <silent> <F6> :VersDiff +<cr>
-  nmap <silent> <F8> :VersDiff -c<cr>
-endif
-" }}}
-
-" undotree {{{
-" Another undo, need vim7.3+patch005
-" Use gundo instead
-NeoBundle "mbbill/undotree"
-
-if s:neobundle_enable && ! empty(neobundle#get("undotree"))
-  nmap <Leader>U :UndotreeToggle<CR>
-  let g:undotree_SetFocusWhenToggle = 1
-  let g:undotree_SplitLocation = "topleft"
-  let g:undotree_SplitWidth = 35
-  let g:undotree_diffAutoOpen = 1
-  let g:undotree_diffpanelHeight = 25
-  let g:undotree_RelativeTimestamp = 1
-  let g:undotree_TreeNodeShape = "*"
-  let g:undotree_HighlightChangedText = 1
-  let g:undotree_HighlightSyntax = "UnderLined"
-endif
-" }}}
-
-" Align {{{
-" Align codes
-" http://www.drchip.org/astronaut/vim/align.html#Examples
-" * Use 'h1mesuke/vim-alignta' instead
-NeoBundle "Align"
-" }}} Align
-
-" vim-surround {{{
-" Each to change surround
-" * use original surround.vim
-NeoBundle "anyakichi/vim-surround"
-if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
-  "
-endif
-" }}}
-
-" vim-pcompleteowerline {{{
-" Cool Status Line
-" * Use lightline
-NeoBundle "Lokaltog/vim-pcompleteowerline"
-" }}}
-
-" vim-airline{{{
-" Another status line
-" * Use lightlin
-NeoBundle "bling/vim-airline"
-
-" inu/nuco
-"NeoBundle "osyo-manga/vim-airline-inu"
-"NeoBundle "osyo-manga/vim-airline-nuko"
-
-if s:neobundle_enable && ! empty(neobundle#get("vim-airline"))
-  let g:airline_left_sep=''
-  let g:airline_right_sep=''
-  let g:airline_inactive_collapse=1
-  let g:airline_theme="bubblegum"
-  let g:airline_section_z="%4l/%L:%3c"
-endif
-"}}} vim-airline
-
-" vim-insert-linenr {{{
-" Highlight line number
-" * Line number is not used...
-NeoBundle 'cohama/vim-insert-linenr'
-" }}}
-
-" vim-seek {{{
-" Jump to letters (two letters) after "s"
-" * / (search) or easymoting can be alternatives...
-NeoBundle "goldfeld/vim-seek"
-" }}}
-
-" Visual-Mark {{{
-" visualize marks
-" * unite + unite-mark is an alternative
-NeoBundle "Visual-Mark"
-
-if s:neobundle_enable && ! empty(neobundle#get("Visual-Mark"))
-  " Visual Mark prefix
-  nnoremap [vmark] <Nop>
-  nmap <Leader>v [vmark]
-  nmap <silent> [vmark]v <Plug>Vm_toggle_sign
-  nmap <silent> [vmark]j <Plug>Vm_goto_next_sign
-  nmap <silent> [vmark]k <Plug>Vm_goto_prev_sign
-  " submot doesn't work?
-  "if ! empty(neobundle#get("vim-submode"))
-  "  call submode#enter_with("visualmark", "n", "", ",vj", "<Plug>Vm_goto_next_sign")
-  "  call submode#enter_with("visualmark", "n", "", ",vk", "<Plug>Vm_goto_prev_sign")
-  "  call submode#map("visualmark", "n", "", ",vj", "<Plug>Vm_goto_next_sign")
-  "  call submode#map("visualmark", "n", "", ",vk", "<Plug>V<Leader>m_goto_prev_sign")
-  "  call submode#map("visualmark", "n", "", "vj", "<Plug>Vm<Leader>_goto_next_sign")
-  "  call submode#map("visualmark", "n", "", "vk", "<Plug>Vm_goto_prev_sign")
-  "  call submode#map("visualmark", "n", "", "j", "<Plug>Vm_goto_next_sign")
-  "  call submode#map("visualmark", "n", "", "k", "<Plug>Vm_goto_prev_sign")
-  "endif
-endif
-" }}} surround.vim
-
-" Gmail{{{
-NeoBundleLazy "yuratomo/gmail.vim",{
-  \ "autoload" : {"commands": ["Gmail"]},
-  \ "depends" : ["Shougo/vimproc"]}
-
-if s:neobundle_enable && ! empty(neobundle#get("gmail.vim"))
-  let g:gmail_imap = "imap.gmail.com:993"
-  let g:gmail_smtp = "smtp.gmail.com:465"
-  " path for openssl
-  let &path = $path."/usr/bin"
-  if filereadable(expand("$HOME/.Gmail.vim"))
-    source $HOME/.Gmail.vim
+if s:dein_enabled && dein#tap("vim-expand-region")
+  let g:expand_region_text_objects = {
+        \ 'iw'  :1,
+        \ 'iW'  :1,
+        \ 'i"'  :1,
+        \ 'i''' :1,
+        \ 'i]'  :1,
+        \ 'ib'  :1,
+        \ 'iB'  :1,
+        \ 'il'  :1,
+        \ 'ip'  :1,
+        \ 'ie'  :1,
+        \ }
+  if dein#tap("vim-submode")
+    call submode#enter_with('expand-region', 'nv', 'r', '<Leader>e', '<Plug>(expand_region_expand)')
+    call submode#map('expand-region', 'nv', 'r', 'e', '<Plug>(expand_region_expand)')
+    call submode#map('expand-region', 'nv', 'r', 'w', '<Plug>(expand_region_shrink)')
   endif
 endif
-" }}} Gmail
-
-" SimpleNote{{{
-NeoBundleLazy "mattn/vimplenote-vim",{
-  \ "autoload" : {"commands": ["VimpleNote"]}}
-if s:neobundle_enable && ! empty(neobundle#get("simplenote.vim"))
-  " for simplenote.vim
-  "let g:SimplenoteUsername = ""
-  "let g:SimplenotePassword = """
-  if filereadable(expand("$HOME/.Simplenote.vim"))
-    source $HOME/.Simplenote.vim
-  endif
-endif
-
-NeoBundleLazy "mrtazz/simplenote.vim",{
-  \ "autoload" : {"commands": ["Simplenote"]}}
-if s:neobundle_enable && ! empty(neobundle#get("vimplenote-vim"))
-  " for vimplenote-vim
-  "let g:VimpleNoteUsername = ""
-  "let g:VimpleNotePassword = ""
-  " move to $HOME/.VimpleNote
-  if filereadable(expand("$HOME/.VimpleNote.vim"))
-    " in vimplenote/autoload/vimplenote.vim:get_email(),
-    " email must be input even if VimpleNoteUsername was defined,
-    " because it checks self.token, it is always 0 here...
-    source $HOME/.VimpleNote.vim
-  endif
-  function! Sn()
-    VimpleNote -l
-    wincmd w
-    wincmd q
-  endfunction
-endif
-" }}} Simplenote
-
-" Evernte {{{
-" evernote: need markdown library...
-NeoBundleLazy "kakkyz81/evervim",{
-  \ "autoload" : {"commands": ["EvervimNotebookList", "EvervimListTags",
-  \                            "EvervimSearchByQuery", "EvervimCreateNote",
-  \                            "EvervimOpenBrowser", "EvervimSetup"]}}
-" }}}
-
-" Changed {{{
-" Displays signs on changed lines, since last save
-" -> use DiffOrig, if necessary
-NeoBundleLazy "Changed", {
-  \ "autoload": {"commands": ["Changed"]}}
-}
-" }}}
-
-" For Version Control System {{{
-" gitgutter{{{
-" Show added/deleted/modified line for git
-" * Use signify, which can do for svn or others in addiiton to git
-NeoBundleLazy "airblade/vim-gitgutter", {
-  \ "autoload": { "commands": ["GitGutterEnable","GitGutterToggle"]}}
-
-if s:neobundle_enable && ! empty(neobundle#get("vim-gitgutter"))
-  nnoremap <Leader>g :GitGutterToggle<CR>
-endif
-"}}} gitgutter
-
-" signify{{{
-" Show added/deleted/modified lines for several version control system
-" vcscommand is enough
-" if you want to show marks always, it is useful, though.
-call dein#add('mhinz/vim-signify', {
-      \ 'on_cmd': ['SignifyToggle'],
-      \ 'lazy': 1})
-if s:dein_enabled && dein#tap("vim-signify")
-  let g:signify_disable_by_default = 1
-  let g:signify_cursorhold_normal = 1
-  let g:signify_cursorhold_insert = 1
-  nmap <Leader>gj <Plug>(signify-next-jump)
-  nmap <Leader>gk <Plug>(signify-prev-jump)
-  nnoremap <Leader>gt :SignifyToggle<CR>
-  nnoremap <Leader>gh :SignifyToggleHighlight<CR>
-endif
-"}}} signify
-
-" For git/svn status, log {{{
-call dein#add('hrsh7th/vim-versions.git', {
-      \ 'depends': ['unite.vim'],
-      \ 'on_cmd': ['UniteVersions'],
-      \ 'lazy': 1})
-" }}}
-
-" }}}
-
-" vim-singleton {{{
-" Don't launch new vim instance
-" * for Gvim heavy user?
-NeoBundle "thinca/vim-singleton"
-" }}}
-
-" splash{{{
-" show what you like on start-up
-NeoBundle "thinca/vim-splash"
-
-if s:neobundle_enable && ! empty(neobundle#get("vim-splash"))
-  let g:splash#path = $HOME . "/.vimrc"
-endif
-"}}} splash
-
-" File Explorer {{{
-" * Use SrcExpl
-
-" ctrlp {{{
-NeoBundle "kien/ctrlp.vim"
-if s:neobundle_enable && ! empty(neobundle#get("ctrlp.vim"))
-  "let g:ctrlp_map = "<c-p>"
-endif
-"}}} ctrlp
-
-NeoBundle "scrooloose/nerdtree"
-NeoBundle "trinity.vim"
-NeoBundle "The-NERD-tree"
-NeoBundle "Source-Explorer-srcexpl.vim"
-NeoBundle "mru.vim"
-" }}}
-
-" Tags {{{
-" taglist{{{
-" Use tagbar instead (appearance seems almost same)
-" but taglist failed to make tags...?
-NeoBundle "taglist.vim"
-if s:neobundle_enable && ! empty(neobundle#get("taglist.vim"))
-  set tags=tags
-  "let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-  let Tlist_Show_One_File = 1
-  let Tlist_Use_Right_Window = 1
-  let Tlist_Exit_OnlyWindow = 1
-  nnoremap <silent> <leader>l :TlistToggle<CR>
-endif
-"}}} taglist
-
-" ctags{{{
-" make ctags for current file
-NeoBundle "ctags.vim"
-" }}}
-" }}}
-
-" Color scheme {{{
-NeoBundle "ujihisa/unite-colorscheme"
-NeoBundle "tomasr/molokai"
-colorscheme molokai
-NeoBundle "nanotech/jellybeans.vim"
-NeoBundle "altercation/vim-colors-solarized"
-NeoBundle "vim-scripts/newspaper.vim"
-NeoBundle "w0ng/vim-hybrid"
-NeoBundle "noahfrederick/vim-hemisu"
-"colorscheme blue
-" }}}
-
-" jekyll.vim{{{
-" these commands are not necessary to be done in vim
-NeoBundle "csexton/jekyll.vim"
-
-if s:neobundle_enable && ! empty(neobundle#get("jekyll.vim"))
-  let g:jekyll_path = "~/Dropbox/05_WebService/octopress/source/"
-endif
-"}}} applescript
-
-" octopress {{{
-" Highlight for octopress
-" * vim-markdown is rather good (no syntax for jekyll?)
-NeoBundle "tangledhelix/vim-octopress"
-
-if s:neobundle_enable && ! empty(neobundle#get("vim-octopress"))
-  autocmd BufNewFile,BufRead *.md,*.textile set filetype=octopress
-endif
-"}}} octopress
-
-" previm {{{ not necessary in vim (markdown is useful as it can be easily recognized as "TEXT")
-" Markdown preview
-if ( has("win32unix") || has ("win64unix") ||
-      \has("mac") || has ("gui_macvim"))
-  NeoBundleLazy "kannokanno/previm", {
-        \"autoload": {"commands" : ["PrevimOpen"]}}
-else
-  NeoBundleLazy "kannokanno/previm", {
-        \ "depends": ["tryu/open-browser.vim"],
-        \"autoload": {"commands" : ["PrevimOpen"]}}
-endif
-if s:neobundle_enabled && ! empty(neobundle#get("previm"))
-  if ( has("win32unix") || has ("win64unix"))
-    " cygwin
-    let g:previm_open_cmd = "cygstart"
-  elseif ( has("mac") || has ("gui_macvim"))
-    " mac
-    let g:previm_open_cmd = "open"
-  endif
-endif
-
-"}}} previm
-
-" vim-rooter{{{
-" Change current directory to root, for git/svn, etc...
-" not used
-call dein#add('airblade/vim-rooter')
-if s:dein_enabled && dein#tap("vim-rooter")
-  " Default: move to root directory by <Leader>cd or :Rooter
-
-  " Change only current window's directory
-  let g:rooter_use_lcd = 1
-  " Do not automatically change the directory
-  let g:rooter_manual_only = 1
-  " Stop the automatic change (some files are )
-  let g:rooter_manual_only = 1
-  " files/directories for the root directory
-  let g:rooter_patterns = ['tags', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', 'Makefile', 'GNUMakefile', 'GNUmakefile', '.svn/']
-endif
-"}}} vim-rooter
-
-" JavaScript {{{
-" * Something wrong at buffer change
-NeoBundle "marijnh/tern_for_vim"
-"}}}
-
-" QuickBuf {{{
-" bufffer management
-" Unite is enough?
-
-NeoBundle "QuickBuf"
-
-if s:neobundle_enable && ! empty(neobundle#get("QuickBuf"))
-  let g:qb_hotkey = "<Subleader>b"
-endif
-"}}} QuickBuf
-
-" clever-f {{{
-" Can use f instead of ;, after fx move
-" Can move even to other lines
-" * annoying at making macros...
-NeoBundle "rhysd/clever-f.vim"
-"}}}
-
-" vim-smartinput {{{
-" smart input
-" * Can't use for repeat
-NeoBundle "kana/vim-smartinput"
-
-if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
-  " Put/Remove space at first in bracket
-  call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
-  call smartinput#define_rule({
-    \'at'    : '(\%#)',
-    \'char'  : '<Space>',
-    \'input' : '<Space><Space><Left>',
-    \})
-  call smartinput#define_rule({
-    \'at'    : '( \%# )',
-    \'char'  : '<BS>',
-    \'input' : '<Del><BS>',
-    \})
-
-  " Add ; for c++ class/struct/enum
-  call smartinput#define_rule({
-    \'at'       : '\%(\<struct\>\|\<class\>\|\<enum\>\)\s*\w\+.*\%#',
-    \'char'     : '{',
-    \'input'    : '{};<Left><Left>',
-    \'filetype' : ['cpp'],
-    \})
-endif
-" }}} vim-smartinput
-
-" vim-smartword {{{
-" smart word
-" * If it is not used so much (as capital W/B...),
-" * it is better to use original one...
-NeoBundle 'kana/vim-smartword'
-
-if s:neobundle_enable && ! empty(neobundle#get("vim-smartword"))
-  " Use W/B/E/gE, such w is not useful to map here
-  " especially for text object treatment, such 'cw'.
-  map W  <Plug>(smartword-w)
-  map B  <Plug>(smartword-b)
-  map E  <Plug>(smartword-e)
-  map gE  <Plug>(smartword-ge)
-  " original keys ('\' is not a <leader> for now)
-  noremap <Subleader>W  W
-  noremap <subleader>B  B
-  noremap <subleader>E  E
-  noremap <subleader>gE  gE
-endif
-" }}} vim-smartword
-
-" vim-multiple-cursors {{{
-" multiple cursor
-" * map <C-n>?, not good for yankround
-"NeoBundle "terryma/vim-multiple-cursors"
-" }}} vim-multiple-cursors
-
-" restart {{{
-" For Gvim
-NeoBundle "tyru/restart.vim"
-"}}}
-
-" ruby completion {{{
-  " Ruby completion " doesn't work...?
-  " Neocomplete is enough?
-  NeoBundle "osyo-manga/vim-monster"
-
-  if s:neobundle_enabled && ! empty(neobundle#get("vim-monster"))
-    if ! empty(neobundle#get("neocomplete.vim")) && !empty(neobundle#get("vimproc.vim"))
-      " Set async completion.
-      let g:monster#completion#rcodetools#backend = "async_rct_complete"
-
-      " Use neocomplete.vim
-      let g:neocomplete#sources#omni#input_patterns = {
-      \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
-      \}
-    endif
-  endif
-"}}}
-
-" vimshell {{{
-" Use shell in vim # not necessary on GNU screen
-NeoBundleLazy 'Shougo/vimshell', {
-  \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
-" }}} vimshell
-
-" Google Calendar/Tasks {{{
-" Use itchyny/calendar.vim
-
-NeoBundle "mattn/calendar-vim"
-
-" Google Tasks
-NeoBundleLazy "mattn/googletasks-vim", {
-  \ "depends": "mattn/webapi-vim",
-  \ "autoload" : { "commands": ["GoogleTasks"] }}
-" }}}
-
-" cloudboard  {{{
-NeoBundle "brookhong/cloudboard.vim"
-if s:neobundle_enabled && ! empty(neobundle#get("cloudboard.vim"))
-  py import vim
-  nnoremap <Space>p :CBPut 0<CR>
-  vnoremap <Space>y :CBYank 0<CR>
-endif
-" }}}
-
-" Windows StartMenu {{{
-if ( has("win32unix") || has ("win64unix") || has("win32") || has ("win64"))
-  NeoBundleLazy "mattn/startmenu-vim", {
-        \ "autoload" : { "commands": ["StartMenu"] }}
-  NeoBundleLazy "mattn/excelview-vim", {
-        \ "depends": "mattn/webapi-vim",
-        \ "autoload" : { "commands": ["ExcelView"] }}
-endif
-" }}}
-
-" Open browser GitHub {{{ not necessary. `hub browse` command is enough to open the current repository in the browser
-NeoBundleLazy "tyru/open-browser-github.vim", {
-      \ "depends": ["tryu/open-browser.vim"],
-      \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
-" }}}
-
-" Table {{{
-" There are tabular and Alignta.
-call dein#add('dhruvasagar/vim-table-mode')
-" }}}
-
-" Language {{{
-" LanguageTool{{{
-" Use vim-grammarous
-NeoBundleLazy "vim-scripts/LanguageTool", {
-      \  "autoload" : {"commands": ["LanguageToolCheck"] }}
-if s:neobundle_enabled && ! empty(neobundle#get("LanguageTool"))
-  " jar file settings
-  let s:languagetool_version="3.2"
-  "let s:languagetool_version="2.1"
-  let s:languagetool_zip="LanguageTool-".s:languagetool_version.".zip"
-  let s:languagetool_download=
-        \"http://www.languagetool.org/download/".s:languagetool_zip
-  let s:languagetool_parent_dir=g:vimdir."/languagetool/"
-  let s:languagetool_dir=s:languagetool_parent_dir."/LanguageTool-"
-        \.s:languagetool_version."/"
-  let s:languagetool_v_file=s:languagetool_dir."/version_in_vim"
-
-  let g:languagetool_jar=s:languagetool_dir."/languagetool-commandline.jar"
-
-  " Check/Prepare LanguageTool
-  let s:languagetool_v_test=system("cat " . s:languagetool_v_file)
-  if s:languagetool_v_test != s:languagetool_version
-    echo s:languagetool_v_test
-    echo "Preparing LanguageTool..."
-    echo "getting " . s:languagetool_download . "..."
-    call system("rm -rf " . s:languagetool_dir)
-    call system("rm -rf " . s:languagetool_dir . "/*.zip*")
-    call system("mkdir -p " . s:languagetool_parent_dir)
-    execute "lcd" s:languagetool_parent_dir
-    call system("wget " . s:languagetool_download)
-    echo "done wget " . s:languagetool_download
-    call system("unzip " . s:languagetool_zip )
-    call system("rm -f " . s:languagetool_zip)
-    call system("printf " . s:languagetool_version . " > " . s:languagetool_v_file)
-    lcd -
-  endif
-
-  " Other settings
-  " If lang is not set, spellang value is used (if it is not set neithr, use en-US).
-  "let g:languagetool_lang="en-US"
-endif
-"}}} LanguageTool
-
-" Excite Translate {{{
-" There are translategoogle
-call dein#add('mattn/excitetranslate-vim', {
-      \ 'depdens': ['mattn/webapi-vim'],
-      \ 'on_cmd': ['ExciteTranslate'],
-      \ 'lazy': 1})
-if s:dein_enabled && dein#tap("excitetranslate-vim")
-  xnoremap <Leader>x :ExciteTranslate<CR>
-endif
-"}}} exciteTranslate
-
-
-"}}}
-
-" Syntax {{{
-" vim-watchdogs {{{
-" Use Syntastic, instead
-NeoBundle "osyo-manga/vim-watchdogs", {
-    \ "depends": ["Shougo/vimproc", "thinca/vim-quickrun",
-                 \"dannyob/quickfixstatus",
-                 \"osyo-manga/shabadou.vim", "cohama/vim-hier",
-                 \"KazuakiM/vim-qfsigns"]}
-
-if s:dein_enabled && dein#tap("vim-watchdogs")
-  let g:watchdogs_check_BufWritePost_enable = 1
-  let g:watchdogs_check_CursorHold_enable = 1
-  if !exists("g:quickrun_config")
-    let g:quickrun_config = {}
-  endif
-  let g:quickrun_config["watchdogs_checker/_"] = {
-  \ "outputter/quickfix/open_cmd" : "",
-  \ "runner/vimproc/updatetime" : 50,
-  \ "hook/qfsigns_update/enable_exit": 1,
-  \ "hook/qfsigns_update/priority_exit": 3,
-  \}
-  let s:flake8 = system('flake8 --version 2>/dev/null')
-  if s:flake8 != ""
-    let g:quickrun_config["python/watchdogs_checker"] = {
-    \ "type" : "watchdogs_checker/flake8"
-    \}
-  endif
-  call watchdogs#setup(g:quickrun_config)
-endif
-"}}} vim-watchdogs
-" vim-hier{{{
-if s:dein_enabled && dein#tap("vim-hier")
-  highlight qf_error ctermfg=255 ctermbg=1
-  highlight qf_warning ctermfg=255 ctermbg=3
-  highlight qf_info ctermfg=255 ctermbg=2
-  let g:hier_highlight_group_qf   = 'qf_error'
-  let g:hier_highlight_group_qfw  = 'qf_warning'
-  let g:hier_highlight_group_qfi  = 'qf_info'
-endif
-" }}} vim-hier
-
-" }}}
-
-" operator {{{
-" replace is used
-" not use sort, reverse, surround
-NeoBundle "kana/vim-operator-user"
-NeoBundle "kana/vim-operator-replace"
-"NeoBundle 'emonkak/vim-operator-sort'
-"NeoBundle 'tyru/operator-reverse.vim'
-"NeoBundle "rhysd/vim-operator-surround" " -> use vim-surround
-if s:dein_enabled && dein#tap("vim-operator-user")
-  nnoremap [oper] <Nop>
-  nm <Leader>o [oper]
-  if s:dein_enabled && dein#tap("vim-operator-sort")
-    map [oper]s <Plug>(operator-sort)
-  endif
-  if s:dein_enabled && dein#tap("operator-reverse.vim")
-    map [oper]r  <Plug>(operator-reverse-text)
-  endif
-endif
-" }}} operator
-
-" Auto bracket closing {{{
-NeoBundle "cohama/lexima.vim"
-NeoBundle "seletskiy/vim-autosurround"
-if s:dein_enabled && dein#tap("vim-autosurround")
-  inoremap  ( (<C-O>:call AutoSurround(")")<CR>
-endif
-" }}}
-
-" switch {{{
-" switch
-NeoBundle "AndrewRadev/switch.vim"
-
-if s:dein_enabled && dein#tap("switch.vim")
-  nnoremap - :Switch<cr>
-endif
-"}}} switch
-
-" rogue {{{
-if s:dein_enabled && dein#tap("rogue.vim")
-  let g:rogue#name = "aaa"
-  let g:rogue#directory = s:vimdir . "/rogue"
-  let g:rogue#japanese = 1
-endif
-"}}} rogue
+" }}} vim-expand-region
 
 
 " }}} Currenlty, not necessary
@@ -1080,47 +1171,6 @@ endif
 " =============================
 " Unused/Obsolete settings {{{
 " =============================
-
-" NeoBundle {{{
-" Installation check.
-if neobundle#exists_not_installed_bundles()
-  echomsg "Not installed bundles : " .
-    \ string(neobundle#get_not_installed_bundle_names())
-  NeoBundleInstall
-endif
-" }}}
-
-" vim-smartinput {{{
-NeoBundle "kana/vim-smartinput"
-
-if s:neobundle_enable && ! empty(neobundle#get("vim-smartinput"))
-  " Remove spaces at the end of line
-  " * Replaced by: nnoremap <Leader><Space>  :%s/<Space>\+$//g<CR><C-o>
-  call smartinput#define_rule({
-  \   'at': '\s\+\%#',
-  \   'char': '<CR>',
-  \   'input': '<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR>',
-  \   })
-endif
-" }}}
-
-" syntastic {{{
-NeoBundle "scrooloose/syntastic", {
-  \ "build": {
-  \   "windows": ["pip install flake8", "npm -g install coffeelint"],
-  \   "cygwin": ["pip install flake8", "npm -g install coffeelint"],
-  \   "mac": ["pip install flake8", "npm -g install coffeelint"],
-  \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
-" }}}
-
-" color scheme {{{
-NeoBundle "google/vim-colorscheme-primary"
-" }}}
-
-" vim-better-whitespace {{{
-" Could be useful if 'set cursorline' is used, and highlight for background is used.
-NeoBundle "ntpeters/vim-better-whitespace"
-" }}}
 
 " Markdown {{{
 " not necessary for current plugins
