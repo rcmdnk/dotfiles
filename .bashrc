@@ -25,7 +25,7 @@ function source_file() {
     echo "ERROR!!! source_file is called w/o an argument"
     return
   fi
-  arg=$1
+  arg="$1"
   shift
   if [ -r "$arg" ]; then
     source "$arg"
@@ -105,7 +105,7 @@ if type -a src-hilite-lesspipe.sh >& /dev/null && type -a source-highlight >& /d
   export LESSOPEN='| src-hilite-lesspipe.sh %s'
 fi
 
-# TMPDIR fix for Cygwin
+# TMPDIR fix, especially for Cygwin
 if [ ! "$TMPDIR" ];then
   if [ "$TMP" ];then
     export TMPDIR=$TMP
@@ -631,9 +631,7 @@ fi
 # Disable terminal lock
 tty -s && stty stop undef
 tty -s && stty start undef
-if [[ "$OSTYPE" =~ darwin ]];then
-  tty -s && stty discard undef
-fi
+[[ "$OSTYPE" =~ darwin ]] && tty -s && stty discard undef
 # }}}
 
 # For screen {{{
@@ -650,19 +648,13 @@ source_file ~/.screen/setup.sh
 #       at above Local path settings (before alias/function definitions)
 
 # File used in linux
-if [[ "$OSTYPE" =~ linux ]];then
-  source_file ~/.linux.sh
-fi
+[[ "$OSTYPE" =~ linux ]] && source_file ~/.linux.sh
 
 # File used in mac
-if [[ "$OSTYPE" =~ darwin ]];then
-  source_file ~/.mac.sh
-fi
+[[ "$OSTYPE" =~ darwin ]] && source_file ~/.mac.sh
 
 # File used in windows (cygwin)
-if [[ "$OSTYPE" =~ cygwin ]];then
-  source_file ~/.win.sh
-fi
+[[ "$OSTYPE" =~ cygwin ]] && source_file ~/.win.sh
 
 # File used for working server
 source_file ~/.work.sh

@@ -54,6 +54,9 @@ if s:use_dein && v:version >= 704
 
     " Sub mode
     call dein#add('kana/vim-submode')
+
+    " webapi
+    call dein#add('mattn/webapi-vim')
     " }}}
 
     " Unite {{{
@@ -92,9 +95,7 @@ if s:use_dein && v:version >= 704
           \ 'on_i': 1,
           \ 'lazy': 1})
     call dein#add('ujihisa/neco-look', {
-          \ 'depends': ['neocomplete.vim'],
-          \ 'on_i': 1,
-          \ 'lazy': 1})
+          \ 'depends': ['neocomplete.vim']})
     " }}}
 
     " Snippet {{{
@@ -172,7 +173,7 @@ if s:use_dein && v:version >= 704
           \ 'lazy': 1})
 
     " Character base diff
-    call dein#add('vim-scripts/diffchar.vim')
+    call dein#add('rickhowe/diffchar.vim')
 
     " diff enhanced
     call dein#add('chrisbra/vim-diff-enhanced')
@@ -205,10 +206,9 @@ if s:use_dein && v:version >= 704
           \ 'lazy': 1})
 
     " Version control (especially for VCSVimDiff (<Leader>cv)
-    call dein#add('vcscommand.vim')
-
-    " webapi
-    call dein#add('mattn/webapi-vim')
+    call dein#add('vcscommand.vim', {
+          \ 'on_cmd': ['VCSVimDiff'],
+          \ 'lazy': 1})
 
     " Gist
     call dein#add('mattn/gist-vim', {
@@ -229,7 +229,7 @@ if s:use_dein && v:version >= 704
     " Count searching objects
     call dein#add('osyo-manga/vim-anzu')
 
-    " Improved incremental searching
+    " Improved incremental searching (default incsearch shows only the next one.)
     call dein#add('haya14busa/incsearch.vim')
     " }}} Search
 
@@ -265,7 +265,9 @@ if s:use_dein && v:version >= 704
     call dein#add('LeafCage/yankround.vim')
 
     " over
-    call dein#add('osyo-manga/vim-over')
+    call dein#add('osyo-manga/vim-over', {
+          \ 'on_cmd': ['OverCommandLine'],
+          \ 'lazy': 1})
 
     " vim-multiple-cursors, like Sublime Text's multiple selection
     call dein#add('terryma/vim-multiple-cursors')
@@ -273,16 +275,14 @@ if s:use_dein && v:version >= 704
     " Easy to change surround
     call dein#add('tpope/vim-surround')
 
-    " Especially for CSV editing
-    call dein#add('rbtnn/rabbit-ui.vim')
-
-    " Code modification: one-liner <-> multi-line
-    call dein#add('AndrewRadev/splitjoin.vim')
     " }}} Edit
 
     " Move {{{
     " Easymotion
-    call dein#add('easymotion/vim-easymotion')
+    call dein#add('easymotion/vim-easymotion', {
+          \ 'on_map': ['<Plug>(easymotion-sn)', '<Plug>(easymotion-bd-W)',
+          \            '<Plug>(easymotion-bd-w)'],
+          \ 'lazy': 1})
 
     " }}} Move
 
@@ -309,27 +309,13 @@ if s:use_dein && v:version >= 704
           \ 'on_cmd': ['BenchVimrc'],
           \ 'lazy': 1})
 
-    " Make help
-    call dein#add('LeafCage/vimhelpgenerator', {
-          \ 'on_cmd': ['VimHelpGenerator'],
-          \ 'lazy': 1})
-
     " Open browser
     call dein#add('tyru/open-browser.vim', {
           \ 'on_map': ['<Plug>(openbrowser-smart-search)'],
           \ 'lazy': 1})
-
-    " Calendar/Tasks
-    call dein#add('itchyny/calendar.vim', {
-          \ 'on_cmd': ['Calendar'],
-          \ 'lazy': 1})
     " }}}
 
     " Fun {{{
-    " Funny comment
-    call dein#add('haya14busa/niconicomment.vim', {
-          \ 'on_cmd': ['Niconicomment'],
-          \ 'lazy':1 })
     " }}}
 
     call dein#save_cache()
@@ -1103,7 +1089,6 @@ endif
 
 " Unite {{{
 if s:dein_enabled && dein#tap("unite.vim")
-  autocmd MyAutoGroup FileType unite call s:unite_my_settings()
   function! s:unite_my_settings()
     nmap <buffer><Esc> <Plug>(unite_exit)
     imap <buffer> jj      <Plug>(unite_insert_leave)
@@ -1142,6 +1127,7 @@ if s:dein_enabled && dein#tap("unite.vim")
     " Runs "split" action by <C-s>.
     imap <silent><buffer><expr> <C-s>     unite#do_action('split')
   endfunction
+  autocmd MyAutoGroup FileType unite call s:unite_my_settings()
   " start with insert mode (can start narrow result in no time)
   let g:unite_enable_start_insert=1
   " window
@@ -1437,24 +1423,9 @@ if s:dein_enabled && dein#tap("linediff.vim")
 endif
 "}}} linediff
 
-" diffhar {{{
-if s:dein_enabled && dein#tap("diffchar.vim")
-  function! SetDiffChar()
-    if &diff
-      execute "%SDChar"
-    endif
-  endfunction
-  " It doesn't work well for complicated files...
-  "autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffChar()
-endif
-
-"}}} diffchar
-
 " vim-diff-enhanced {{{
 if s:dein_enabled && dein#tap("vim-diff-enhanced")
-  if &diff
-    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
-  endif
+  let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
 endif
 "}}} vim-diff-enhanced
 
@@ -1505,7 +1476,13 @@ endif
 if s:dein_enabled && dein#tap("nerdtree") && dein#tap("SrcExpl") && dein#tap("tagbar")
   nnoremap <silent> <Leader>A :SrcExplToggle<CR>:NERDTreeToggle<CR>:TagbarToggle<CR>
 endif
+" }}}
+" }}}
 
+" Version Control System {{{
+" vcscommand.vim {{{
+  let VCSCommandDisableMappings = 1
+  nnoremap <Leader>cv :VCSVimDiff<CR>
 " }}}
 
 " gist-vim {{{
@@ -1515,7 +1492,7 @@ if s:dein_enabled && dein#tap("gist-vim")
   " Disable default Gist command
   cnoremap <silent> Gist<CR> echo 'use Gist -P to make a public gist'<CR>
 endif
-"}}} gist-vim
+" }}} gist-vim
 " }}}
 
 " Selection {{{
@@ -1614,8 +1591,8 @@ endif
 
 " vim-over {{{
 if s:dein_enabled && dein#tap("vim-over")
-  nnoremap <Leader>c :OverCommandLine<CR>%s/
-  xnoremap <Leader>c :OverCommandLine<CR>s/
+  nnoremap <Leader>o :OverCommandLine<CR>%s/
+  xnoremap <Leader>o :OverCommandLine<CR>s/
 endif
 " }}} vim-over
 
@@ -1652,26 +1629,6 @@ if s:dein_enabled && dein#tap("vim-surround")
   xmap <Leader>a Sa
 endif
 " }}} vim-surround.vim
-
-" rabbit-ui.vim {{{
-if s:dein_enabled && dein#tap("rabbit-ui.vim")
-  function! s:edit_csv(path)
-    call writefile(map(rabbit_ui#gridview(
-          \ map(readfile(expand(a:path)),'split(v:val,",",1)')),
-          \ "join(v:val, ',')"), expand(a:path))
-  endfunction
-  command! -nargs=1 -complete=file EditCSV  :call <sid>edit_csv(<q-args>)
-endif
-"}}} rabbit-ui.vim
-
-" splitjoin {{{
-if s:dein_enabled && dein#tap("splitjoin.vim")
-  let g:splitjoin_split_mapping = ''
-  let g:splitjoin_join_mapping = ''
-  nmap <Leader><Leader>j :SplitjoinJoin<CR>
-  nmap <Leader><Leader>s :SplitjoinSplit<CR>
-endif
-" }}} splitjoin
 " }}} Edit
 
 " Move {{{
@@ -1705,8 +1662,11 @@ if s:dein_enabled && dein#tap("vim-ref")
         \   "ej": {
         \     "url": "http://dictionary.infoseek.ne.jp/ejword/%s",
         \   },
-        \   "wiki": {
+        \   "wikipedia": {
         \     "url": "http://ja.wikipedia.org/wiki/%s",
+        \   },
+        \   "wikipedia_en": {
+        \     "url": "http://wikipedia.org/wiki/%s",
         \   },
         \ }
 
@@ -1720,7 +1680,10 @@ if s:dein_enabled && dein#tap("vim-ref")
   function! g:ref_source_webdict_sites.ej.filter(output)
     return join(split(a:output, "\n")[15 :], "\n")
   endfunction
-  function! g:ref_source_webdict_sites.wiki.filter(output)
+  function! g:ref_source_webdict_sites.wikipedia.filter(output)
+    return join(split(a:output, "\n")[17 :], "\n")
+  endfunction
+  function! g:ref_source_webdict_sites.wikipedia_en.filter(output)
     return join(split(a:output, "\n")[17 :], "\n")
   endfunction
 
@@ -1731,11 +1694,11 @@ if s:dein_enabled && dein#tap("vim-ref")
   xmap <Leader>r [ref]
   nnoremap [ref]j :Ref webdict je<Space>
   nnoremap [ref]e :Ref webdict ej<Space>
-  nnoremap [ref]w :Ref webdict wiki<Space>
+  nnoremap [ref]w :Ref webdict wikipedia<Space>
   nnoremap [ref]m :Ref man<Space>
   xnoremap [ref]j :<C-u>Ref webdict je <C-R><C-w><CR>
   xnoremap [ref]e :<C-u>Ref webdict ej <C-R><C-w><CR>
-  xnoremap [ref]w :<C-u>Ref webdict wiki <C-R><C-w><CR>
+  xnoremap [ref]w :<C-u>Ref webdict wikipedia <C-R><C-w><CR>
 endif
 " }}} vim-ref
 
@@ -1755,21 +1718,8 @@ if s:dein_enabled && dein#tap("open-browser.vim")
   nmap gx <Plug>(openbrowser-smart-search)
   xmap gx <Plug>(openbrowser-smart-search)
 endif
-"}}} open-browser
-
-" calendar.vim {{{
-if s:dein_enabled && dein#tap("calendar.vim")
-  let g:calendar_google_calendar = 1
-  let g:calendar_google_task = 1
-  let g:calendar_first_day = "sunday"
-  let g:calendar_frame = 'default'
-  if dein#tap("vim-indent-guides")
-    autocmd MyAutoGroup FileType calendar IndentGuidesDisable
-  endif
-endif
-"}}} calendar.vim
+" }}} open-browser
 " }}} Tools
-
 " }}} Plugin settings
 
 " local settings {{{
