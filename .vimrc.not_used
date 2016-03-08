@@ -587,15 +587,6 @@ NeoBundle "Align"
 call dein#add('dhruvasagar/vim-table-mode')
 " }}}
 
-" vim-surround {{{
-" Each to change surround
-" * use original surround.vim
-NeoBundle "anyakichi/vim-surround"
-if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
-  "
-endif
-" }}}
-
 " vim-smartchr {{{
 " Toggle insert words
 " * Example is for ' = ', ' == ', '='
@@ -606,17 +597,6 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-smartchr"))
   inoremap <buffer><expr> = smartchr#one_of(' = ', ' == ', '=')
 endif
 " }}} vim-smartchr
-
-" vim-auto-save {{{
-" * normally, it is better to save by hand.
-"NeoBundle "vim-scripts/vim-auto-save"
-
-if s:neobundle_enable && ! empty(neobundle#get("vim-auto-save"))
-  " auto save interval is 'updatetime'(=200 ms as default)
-  let g:auto_save = 1
-
-endif
-" }}} vim-auto-save
 
 " YankRing {{{
 " Easy to use history of yanks (see below settings)
@@ -748,14 +728,14 @@ if s:dein_enabled && dein#tap("vim-autosurround")
 endif
 " }}}
 
-" switch {{{
-" switch
-NeoBundle "AndrewRadev/switch.vim"
-
-if s:dein_enabled && dein#tap("switch.vim")
-  nnoremap - :Switch<cr>
+" vim-surround {{{
+" Each to change surround
+" * use original surround.vim
+NeoBundle "anyakichi/vim-surround"
+if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
+  "
 endif
-"}}} switch
+" }}}
 
 " savevers {{{
 " File Edit History
@@ -776,11 +756,59 @@ if s:neobundle_enable && ! empty(neobundle#get("savevers.vim"))
 endif
 " }}}
 
+" switch {{{
+" switch
+NeoBundle "AndrewRadev/switch.vim"
+
+if s:dein_enabled && dein#tap("switch.vim")
+  nnoremap - :Switch<cr>
+endif
+"}}} switch
+
 " restart {{{
 " For Gvim
 NeoBundle "tyru/restart.vim"
 "}}}
 
+" vim-auto-save {{{
+" * normally, it is better to save by hand.
+"NeoBundle "vim-scripts/vim-auto-save"
+
+if s:neobundle_enable && ! empty(neobundle#get("vim-auto-save"))
+  " auto save interval is 'updatetime'(=200 ms as default)
+  let g:auto_save = 1
+
+endif
+" }}} vim-auto-save
+
+" rabbit-ui.vim {{{
+" Especially for CSV editing
+" Too slow...
+call dein#add('rbtnn/rabbit-ui.vim')
+
+if s:dein_enabled && dein#tap("rabbit-ui.vim")
+  function! s:edit_csv(path)
+    call writefile(map(rabbit_ui#gridview(
+          \ map(readfile(expand(a:path)),'split(v:val,",",1)')),
+          \ "join(v:val, ',')"), expand(a:path))
+  endfunction
+  command! -nargs=1 -complete=file EditCSV  :call <sid>edit_csv(<q-args>)
+endif
+"}}} rabbit-ui.vim
+
+" splitjoin {{{
+" Code modification: one-liner <-> multi-line
+" not so expected.
+call dein#add('AndrewRadev/splitjoin.vim', {
+      \ 'on_cmd': ['SplitjoinJoin', 'SplitjoinJoin'],
+      \ 'lazy': 1})
+if s:dein_enabled && dein#tap("splitjoin.vim")
+  let g:splitjoin_split_mapping = ''
+  let g:splitjoin_join_mapping = ''
+  nmap <Leader><Leader>j :SplitjoinJoin<CR>
+  nmap <Leader><Leader>s :SplitjoinSplit<CR>
+endif
+" }}} splitjoin
 " }}}
 
 " Move {{{
@@ -943,6 +971,26 @@ NeoBundleLazy "tyru/open-browser-github.vim", {
       \ "autoload": { "commands" : ["OpenGithubFile","OpenGithubIssue"] }}
 " }}}
 
+" vimhelpgenerator {{{
+call dein#add('LeafCage/vimhelpgenerator', {
+      \ 'on_cmd': ['VimHelpGenerator'],
+      \ 'lazy': 1})
+" }}}
+
+" calendar.vim {{{
+call dein#add('itchyny/calendar.vim', {
+      \ 'on_cmd': ['Calendar'],
+      \ 'lazy': 1})
+if s:dein_enabled && dein#tap("calendar.vim")
+  let g:calendar_google_calendar = 1
+  let g:calendar_google_task = 1
+  let g:calendar_first_day = "sunday"
+  let g:calendar_frame = 'default'
+  if dein#tap("vim-indent-guides")
+    autocmd MyAutoGroup FileType calendar IndentGuidesDisable
+  endif
+endif
+"}}} calendar.vim
 " }}}
 
 " Fun {{{
@@ -968,7 +1016,6 @@ if s:dein_enabled && dein#tap("rogue.vim")
 endif
 "}}} rogue
 
-
 " splash{{{
 " show what you like on start-up
 NeoBundle "thinca/vim-splash"
@@ -977,6 +1024,11 @@ if s:neobundle_enable && ! empty(neobundle#get("vim-splash"))
   let g:splash#path = $HOME . "/.vimrc"
 endif
 "}}} splash
+
+" Funny comment
+call dein#add('haya14busa/niconicomment.vim', {
+      \ 'on_cmd': ['NiconiComment'],
+      \ 'lazy':1 })
 
 " }}}
 
@@ -1140,7 +1192,7 @@ endfunction
 " }}}
 
 " vim-expand-region {{{
-" wildfire.vim is similar one (though it can only expand)
+" wildfire.vim is similar one
 " vim-expand-region make it very slow when it is called at the first time...?
 call dein#add('terryma/vim-expand-region')
 
