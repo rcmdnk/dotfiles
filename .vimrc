@@ -25,11 +25,14 @@ endif
 let s:dein_enabled  = 0
 if s:use_dein && v:version >= 704
   let s:dein_enabled = 1
-  " set path
+
+  " Set dein paths
   let s:dein_dir = s:vimdir . '/dein'
   let s:dein_github = s:dein_dir . '/repos/github.com'
   let s:dein_repo_name = "Shougo/dein.vim"
   let s:dein_repo_dir = s:dein_github . '/' . s:dein_repo_name
+
+  " Check dein has been installed or not.
   if !isdirectory(s:dein_repo_dir)
     echo "dein is not installed, install now "
     let s:dein_repo = "https://github.com/" . s:dein_repo_name
@@ -38,8 +41,10 @@ if s:use_dein && v:version >= 704
   endif
   let &runtimepath = &runtimepath . "," . s:dein_repo_dir
 
+  " Begin plugin part {{{
   call dein#begin(s:dein_dir)
 
+  " Check chache
   if dein#load_cache()
 
     " dein
@@ -47,7 +52,13 @@ if s:use_dein && v:version >= 704
 
     " Basic tools {{{
     " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
-    call dein#add('Shougo/vimproc', {'build': 'make'})
+    call dein#add('Shougo/vimproc', {
+          \ 'build': {
+          \     'windows': 'tools\\update-dll-mingw',
+          \     'cygwin': 'make -f make_cygwin.mak',
+          \     'mac': 'make -f make_mac.mak',
+          \     'linux': 'make',
+          \     'unix': 'gmake'}})
 
     " Support repeat for surround, speedating, easymotion, etc...
     call dein#add('tpope/vim-repeat')
@@ -91,11 +102,13 @@ if s:use_dein && v:version >= 704
     " }}}
 
     " Completion {{{
-    call dein#add('Shougo/neocomplete.vim', {
-          \ 'on_i': 1,
-          \ 'lazy': 1})
-    call dein#add('ujihisa/neco-look', {
-          \ 'depends': ['neocomplete.vim']})
+    if has('lua')
+      call dein#add('Shougo/neocomplete.vim', {
+            \ 'on_i': 1,
+            \ 'lazy': 1})
+      call dein#add('ujihisa/neco-look', {
+            \ 'depends': ['neocomplete.vim']})
+    endif
     " }}}
 
     " Snippet {{{
@@ -322,6 +335,7 @@ if s:use_dein && v:version >= 704
   endif
 
   call dein#end()
+  " }}} dein end
 
   """"plugins end"""""
 
@@ -1082,7 +1096,12 @@ if s:dein_enabled && dein#tap("vim-submode")
   call submode#map("winsize", "n", "", "h", "<C-w><")
   call submode#map("winsize", "n", "", "j", "<C-w>-")
   call submode#map("winsize", "n", "", "k", "<C-w>+")
+  call submode#map("winsize", "n", "", "<C-l>", "<C-w>>")
+  call submode#map("winsize", "n", "", "<C-h>", "<C-w><")
+  call submode#map("winsize", "n", "", "<C-j>", "<C-w>-")
+  call submode#map("winsize", "n", "", "<C-k>", "<C-w>+")
   call submode#map("winsize", "n", "", "=", "<C-w>=")
+  call submode#map("winsize", "n", "", "<C-=>", "<C-w>=")
 endif
 "}}} vim-submode
 " }}}
