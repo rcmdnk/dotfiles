@@ -71,8 +71,7 @@ if s:use_dein && v:version >= 704
     " }}}
 
     " Unite {{{
-    " Unlike 'fuzzyfinder' or 'ku', it doesn't use the built-in completion of vim
-    " Searches and display information->:help Unite
+    " Search and display information from arbitrary sources
     call dein#add('Shougo/unite.vim', {
           \ 'depends': ['vimproc'],
           \ 'on_cmd': ['Unite'],
@@ -93,12 +92,11 @@ if s:use_dein && v:version >= 704
     " Source for unite: history/yank
     call dein#add('Shougo/neoyank.vim', {'depdens': ['unite.vim']})
 
-    " Source for unite: fold
-    call dein#add('osyo-manga/unite-fold', {'depdens': ['unite.vim']})
+    " Source for unite: tag
+    call dein#add('tsukkee/unite-tag', {'depdens': ['unite.vim']})
 
-    " Source for unite: locate
-    call dein#add('ujihisa/unite-locate', {'depdens': ['unite.vim']})
-
+    " Source for unite: outline
+    call dein#add('Shougo/unite-outline', {'depdens': ['unite.vim']})
     " }}}
 
     " Completion {{{
@@ -114,7 +112,7 @@ if s:use_dein && v:version >= 704
     " Snippet {{{
     call dein#add('Shougo/neosnippet')
     "      \ 'on_map': ['<Plug>(neosnippet_expand_or_jump)',
-    "      \          '<Plug>(neosnippet_expand_target)'],
+    "      \            '<Plug>(neosnippet_expand_target)'],
     "      \ 'lazy': 1})
     call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
     call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
@@ -326,6 +324,9 @@ if s:use_dein && v:version >= 704
     call dein#add('tyru/open-browser.vim', {
           \ 'on_map': ['<Plug>(openbrowser-smart-search)'],
           \ 'lazy': 1})
+
+    " Database access
+    call dein#add('dbext.vim')
     " }}}
 
     " Fun {{{
@@ -336,8 +337,6 @@ if s:use_dein && v:version >= 704
 
   call dein#end()
   " }}} dein end
-
-  """"plugins end"""""
 
   " Installation check.
   if dein#check_install()
@@ -527,20 +526,6 @@ let g:sh_noisk=1
 " Set nopaste when it comes back to Normal mode
 autocmd MyAutoGroup InsertLeave * setlocal nopaste
 
-" Avoid to paste/insert in non-editing place
-if has("virtualedit") && &virtualedit =~# '\<all\>'
-  " p should be fixed, with yankround -> it maps p
-  nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
-  nnoremap <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
-  nnoremap <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
-  nnoremap <expr> r (col('.') >= col('$') ? '$' : '') . 'r'
-  nnoremap <expr> R (col('.') >= col('$') ? '$' : '') . 'R'
-  nnoremap <expr> . (col('.') >= col('$') ? '$' : '') . '.'
-  " autocmd is needed to overwrite YRShow's map,
-  " and "_x to avoid register 1 letter
-  autocmd MyAutoGroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
-endif
-
 " VimShowHlGroup: Show highlight group name under a cursor
 command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
 " VimShowHlItem: Show highlight item name under a cursor
@@ -596,6 +581,11 @@ if (v:version == 704 && has("patch785")) || v:version >= 705
   set nofixeol
 endif
 
+" status line
+set laststatus=2 " always show
+set statusline=%<%f\ %m%r%h%w
+set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
+set statusline+=%=%l/%L,%c%V%8P
 " }}} Basic settings
 
 " map (for other than each plugin){{{
@@ -752,56 +742,6 @@ nnoremap ! :q!<CR>
 nnoremap <Leader>q :bdelete<CR>
 nnoremap <Leader>w :w<CR>:bdelete<CR>
 
-" remove trail spaces, align
-if v:version >= 703
-  function! s:indent_all()
-    normal! mxgg=G'x
-    delmarks x
-  endfunction
-  command! IndentAll call s:indent_all()
-
-  function! s:delete_space()
-    normal! mxG$
-    let flags = "w"
-    while search(" $", flags) > 0
-      s/ \+$//g
-      let flags = "W"
-    endwhile
-    'x
-    delmarks x
-  endfunction
-  command! DeleteSpace call s:delete_space()
-
-  function! s:align_code()
-    retab
-    IndentAll
-    DeleteSpace
-  endfunction
-  command! AlignCode call s:align_code()
-
-  function! s:align_all_buf()
-    for i in  range(1, bufnr("$"))
-      if buflisted(i)
-        execute "buffer" i
-        call AlignCode()
-        update
-        bdelete
-      endif
-    endfor
-    quit
-  endfunction
-  command! AlignAllBuf call s:align_all_buf()
-
-  "nnoremap <Leader><Subleader> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
-
-  " remove trail spaces for all
-  nnoremap <Leader><Space> :DeleteSpace<CR>
-
-  " remove trail spaces at selected region
-  xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
-
-endif
-
 " Fix Y
 nnoremap Y y$
 
@@ -824,6 +764,20 @@ nnoremap / /\v
 " Close immediately by q, set non-modifiable settings
 autocmd MyAutoGroup FileType help,qf,man,ref nnoremap <buffer> q :q!<CR>
 autocmd MyAutoGroup FileType help,qf,man,ref setlocal nospell ts=8 nolist ro nomod noma
+
+" Avoid to paste/insert in non-editing place
+if has("virtualedit") && &virtualedit =~# '\<all\>'
+  " p should be fixed, with yankround -> it maps p
+  nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
+  nnoremap <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
+  nnoremap <expr> a (col('.') >= col('$') ? '$' : '') . 'a'
+  nnoremap <expr> r (col('.') >= col('$') ? '$' : '') . 'r'
+  nnoremap <expr> R (col('.') >= col('$') ? '$' : '') . 'R'
+  nnoremap <expr> . (col('.') >= col('$') ? '$' : '') . '.'
+  " autocmd is needed to overwrite YRShow's map,
+  " and "_x to avoid register 1 letter
+  autocmd MyAutoGroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
+endif
 
 """ insert mode
 
@@ -862,13 +816,6 @@ cnoremap <C-a> <C-b>
 
 " Write as root
 cnoremap w!! w !sudo tee > /dev/null %
-
-" status line
-set laststatus=2 " always show
-set statusline=%<%f\ %m%r%h%w
-set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
-set statusline+=%=%l/%L,%c%V%8P
-
 " }}} map
 
 " Colors {{{
@@ -1077,6 +1024,56 @@ if has("cscope")
 endif
 " }}} cscope
 
+" Remove trail spaces and align {{{
+if v:version >= 703
+  function! s:indent_all()
+    normal! mxgg=G'x
+    delmarks x
+  endfunction
+  command! IndentAll call s:indent_all()
+
+  function! s:delete_space()
+    normal! mxG$
+    let flags = "w"
+    while search(" $", flags) > 0
+      s/ \+$//g
+      let flags = "W"
+    endwhile
+    'x
+    delmarks x
+  endfunction
+  command! DeleteSpace call s:delete_space()
+
+  function! s:align_code()
+    retab
+    IndentAll
+    DeleteSpace
+  endfunction
+  command! AlignCode call s:align_code()
+
+  function! s:align_all_buf()
+    for i in  range(1, bufnr("$"))
+      if buflisted(i)
+        execute "buffer" i
+        call AlignCode()
+        update
+        bdelete
+      endif
+    endfor
+    quit
+  endfunction
+  command! AlignAllBuf call s:align_all_buf()
+
+  "nnoremap <Leader><Subleader> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
+
+  " remove trail spaces for all   
+  nnoremap <Leader><Space> :DeleteSpace<CR>  
+
+  " remove trail spaces at selected region 
+  xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
+endif
+" }}} Remove trail spaces and align
+
 " Plugin settings {{{
 
 " Basic tools {{{
@@ -1183,23 +1180,23 @@ if s:dein_enabled && dein#tap("unite.vim")
     nnoremap <silent> [unite]M :Unite mark<CR>
   endif
   " history
+  if dein#tap("unite-help")
+    nnoremap <silent> [unite]h :Unite -start-insert help<CR>
+  endif
+  " history
   if dein#tap("vim-unite-history")
     nnoremap <silent> [unite]c :Unite history/command<CR>
     nnoremap <silent> [unite]S :Unite history/search<CR>
+  endif
+  " tag
+  if dein#tap("unite-tag")
+    nnoremap <silent> [unite]t :Unite tag<CR>
   endif
   " yank
   if dein#tap("neoyank.vim")
     nnoremap <silent> [unite]y :Unite history/yank<CR>
   elseif dein#tap("yankround.vim")
     nnoremap <silent> [unite]y :Unite yankround<CR>
-  endif
-  " hold
-  if dein#tap("unite-fold")
-    nnoremap <silent> [unite]F :Unite fold<CR>
-  endif
-  " locate
-  if dein#tap("unite-locate")
-    nnoremap <silent> [unite]L :Unite locate<CR>
   endif
   " snippet
   if dein#tap("neosnipet")

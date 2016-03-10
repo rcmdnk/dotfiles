@@ -37,9 +37,25 @@ NeoBundle 'ujihisa/unite-colorscheme'
 " Source for unite: font
 " * Only for gui
 NeoBundle 'ujihisa/unite-font'
+" Source for unite: fold
+call dein#add('osyo-manga/unite-fold', {'depdens': ['unite.vim']})
+
+" Source for unite: locate
+call dein#add('ujihisa/unite-locate', {'depdens': ['unite.vim']})
+" Source for unite: outline
+call dein#add('Shougo/unite-outline', {'depdens': ['unite.vim']})
+
 " coloscheme
 if dein#tap("unite-colorscheme")
   nnoremap <silent> [unite]C :Unite colorscheme<CR>
+endif
+" locate
+if dein#tap("unite-locate")
+  nnoremap <silent> [unite]L :Unite locate<CR>
+endif
+" fold
+if dein#tap("unite-fold")
+  nnoremap <silent> [unite]F :Unite fold<CR>
 endif
 " }}}
 
