@@ -44,7 +44,7 @@ if s:use_dein && v:version >= 704
   " Begin plugin part {{{
   call dein#begin(s:dein_dir)
 
-  " Check chache
+  " Check cache
   if dein#load_cache()
 
     " dein
