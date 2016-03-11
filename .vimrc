@@ -177,6 +177,9 @@ if s:use_dein && v:version >= 704
     " Visual indent guides: make moving slow?
     call dein#add('nathanaelkane/vim-indent-guides')
 
+    " Konfekt/FastFold
+    call dein#add('Konfekt/FastFold')
+
     " Diff {{{
     " linediff
     call dein#add('AndrewRadev/linediff.vim', {
@@ -377,8 +380,6 @@ set backspace=indent,eol,start
 
 set modeline       " enable to use settings written in the file
 " use with comment lines: e.g.)
-" # vim setlocal foldmethod=marker:
-" # vim setlocal foldmarker={{{,}}}:
 set modelines=3    " number of lines to be read (form top and bottom) for
 " modeline
 set tabstop=2      " width of <Tab> in view
@@ -454,6 +455,7 @@ set ruler          " Show the cursor position all the time
 set showcmd        " Display incomplete commands
 set novisualbell   " No visual bell
 "set cursorline     " Enable highlight on current line:
+"set cursorcolumn   " Enable highlight on current column:
                    " but make moving cursor slow for heavily highlighted file...
 "set scrolloff=999  " Show cursor at middle
 " (scrolloff is number of lines which should be shown above and below cursor.
@@ -487,20 +489,8 @@ set wildmode=list:longest
 set wildmenu
 
 " Folding
-setlocal foldmethod=marker
-setlocal foldmarker={{{,}}} "default
-autocmd MyAutoGroup FileType py setlocal foldmethod=syntax
-autocmd MyAutoGroup FileType cpp,cxx,C setlocal foldmethod=marker foldmarker={,}
 set foldnestmax=1
 set foldlevel=100 "open at first
-
-autocmd MyAutoGroup InsertEnter * if &l:foldmethod ==# 'expr'
-      \ | let b:foldinfo = [&l:foldmethod, &l:foldexpr]
-      \ | setlocal foldmethod=manual foldexpr=0
-      \ | endif
-autocmd MyAutoGroup InsertLeave * if exists('b:foldinfo')
-      \ | let [&l:foldmethod, &l:foldexpr] = b:foldinfo
-      \ | endif
 
 " When editing a file, always jump to the last known cursor position.
 autocmd MyAutoGroup BufReadPost *
@@ -571,7 +561,7 @@ command! SyntaxInfo call s:get_syn_info()
 
 " Max columns for syntax search
 " Such XML file has too much syntax which make vim drastically slow
-set synmaxcol=1000 "default 3000
+set synmaxcol=200 "default 3000
 
 " Load Man command even for other file types than man.
 runtime ftplugin/man.vim
@@ -962,9 +952,12 @@ nnoremap <silent> [yshare]gp :call YSLoad()<CR>"sgp
 nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " }}} yankshare
 
-" matchpair, matchit {{{
-"set matchpairs = (:),{:},[:]
+" matchparen,matchpair, matchit {{{
+" Don't load matchparen (highlight parens actively, make slow)
+let loaded_matchparen = 1
+"matchpairs, default: (:),{:},[:]
 set matchpairs+=<:>
+autocmd MyAutoGroup FileType c,cpp,java set matchpairs+==:;
 source $VIMRUNTIME/macros/matchit.vim
 " matchpairs is necessary...?
 "let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,if:fi'
@@ -1746,22 +1739,6 @@ endif
 if filereadable(expand("./.vimrc.dir"))
   execute "source" expand("./.vimrc.dir")
 endif
-" }}}
-
-" Vim Power {{{
-" http://vim-jp.org/vim-users-jp/2009/07/10/Hack-39.html
-function! Scouter(file, ...)
-  let pat = '^\s*$\|^\s*"'
-  let lines = readfile(a:file)
-  if !a:0 || !a:1
-    let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
-  endif
-  return len(filter(lines,'v:val !~ pat'))
-endfunction
-command! -bar -bang -nargs=? -complete=file Scouter
-      \        echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
-command! -bar -bang -nargs=? -complete=file GScouter
-      \        echo Scouter(empty(<q-args>) ? $MYGVIMRC : expand(<q-args>), <bang>0)
 " }}}
 
 " vim: foldmethod=marker
