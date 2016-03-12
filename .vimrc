@@ -408,7 +408,7 @@ set showbreak=
 "  set breakindent    " indent even for wrapped lines
 "  " breakindent option (autocmd is necessary when new file is opened in Vim)
 "  " necessary even for default(min:20,shift:0)
-"  autocmd MyAutoGrup BufEnter * set breakindentopt=min:20,shift:0
+"  autocmd MyAutoGroup BufEnter * set breakindentopt=min:20,shift:0
 "endif
 
 set expandtab      " do :retab -> tab->space
@@ -561,7 +561,7 @@ command! SyntaxInfo call s:get_syn_info()
 
 " Max columns for syntax search
 " Such XML file has too much syntax which make vim drastically slow
-set synmaxcol=200 "default 3000
+set synmaxcol=1000 "default 3000
 
 " Load Man command even for other file types than man.
 runtime ftplugin/man.vim
@@ -959,10 +959,11 @@ let loaded_matchparen = 1
 set matchpairs+=<:>
 autocmd MyAutoGroup FileType c,cpp,java set matchpairs+==:;
 source $VIMRUNTIME/macros/matchit.vim
-" matchpairs is necessary...?
-"let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,if:fi'
-let b:match_words = &matchpairs . ',<:>,<div.*>:</div>,{%.*%}:{% *end.*%}'
-let b:match_ignorecase = 1
+function! s:set_matchit()
+  "let b:match_words = b:match_words . ',{%.*%}:{% *end.*%}'
+  let b:match_ignorecase = 1
+endfunction
+autocmd MyAutoGroup BufEnter * call s:set_matchit()
 " }}} matchpair, matchit
 
 " paste at normal mode {{{
