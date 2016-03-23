@@ -640,7 +640,7 @@ source_file ~/.screen/setup.sh
 
 # {{{ For Travis CI
 # added by travis gem
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+source_file ~/.travis/travis.sh
 # }}}
 
 # Setup for each environment {{{
