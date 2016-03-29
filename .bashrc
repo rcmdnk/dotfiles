@@ -160,7 +160,7 @@ HISTFILESIZE=100000
 # erasedups # erase a duplication in the past
 export HISTCONTROL=erasedups
 #export HISTIGNORE="?:??:???:????:history:cd ../"
-export HISTIGNORE="cd:cd -:cd ../:ls:sd:cl*:pwd*:rm *:history"
+export HISTIGNORE="cd:cd -:cd ../:ls:sd:cl*:pwd*:history"
 #shopt -s histappend # append to hist (not overwrite),
                     # don't use with below share_history
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
