@@ -52,13 +52,7 @@ if s:use_dein && v:version >= 704
 
     " Basic tools {{{
     " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
-    call dein#add('Shougo/vimproc', {
-          \ 'build': {
-          \     'windows': 'tools\\update-dll-mingw',
-          \     'cygwin': 'make -f make_cygwin.mak',
-          \     'mac': 'make -f make_mac.mak',
-          \     'linux': 'make',
-          \     'unix': 'gmake'}})
+    call dein#add('Shougo/vimproc', {'build': 'make'})
 
     " Support repeat for surround, speedating, easymotion, etc...
     call dein#add('tpope/vim-repeat')
