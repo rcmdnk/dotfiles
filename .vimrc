@@ -42,10 +42,10 @@ if s:use_dein && v:version >= 704
   let &runtimepath = &runtimepath . "," . s:dein_repo_dir
 
   " Begin plugin part {{{
-  call dein#begin(s:dein_dir)
 
   " Check cache
-  if dein#load_cache()
+  if dein#load_state(s:dein_dir)
+    call dein#begin(s:dein_dir)
 
     " dein
     call dein#add('Shougo/dein.vim')
@@ -329,10 +329,11 @@ if s:use_dein && v:version >= 704
     " Fun {{{
     " }}}
 
-    call dein#save_cache()
+    call dein#end()
+
+    call dein#save_state()
   endif
 
-  call dein#end()
   " }}} dein end
 
   " Installation check.
@@ -1502,9 +1503,10 @@ endif
 " Selection {{{
 " wildfire {{{
 if s:dein_enabled && dein#tap("wildfire.vim")
-  let g:wildfire_objects = {
-        \ "*" : ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at'],
-        \ }
+  "let g:wildfire_objects = {
+  "      \ "*" : ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at'],
+  "      \ }
+  let g:wildfire_objects = ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at']
 
   " This selects the next closest text object.
   let g:wildfire_fuel_map = "<ENTER>"
