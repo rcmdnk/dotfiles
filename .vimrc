@@ -174,6 +174,9 @@ if s:use_dein && v:version >= 704
     " Konfekt/FastFold
     call dein#add('Konfekt/FastFold')
 
+    " replacement of matchparen
+    call dein#add('itchyny/vim-parenmatch')
+
     " Diff {{{
     " linediff
     call dein#add('AndrewRadev/linediff.vim', {
@@ -947,8 +950,15 @@ nnoremap <silent> [yshare]gp :call YSLoad()<CR>"sgp
 nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " }}} yankshare
 
+" vim-parenmatch{{{
+if s:dein_enabled && dein#tap("vim-parenmatch")
+  let g:loaded_matchparen = 1
+endif
+"}}} vim-parenmatch
+
 " matchparen,matchpair, matchit {{{
 " Don't load matchparen (highlight parens actively, make slow)
+" vim-parenmatch fills in it.
 let loaded_matchparen = 1
 "matchpairs, default: (:),{:},[:]
 set matchpairs+=<:>
