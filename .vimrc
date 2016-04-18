@@ -174,8 +174,10 @@ if s:use_dein && v:version >= 704
     " Konfekt/FastFold
     call dein#add('Konfekt/FastFold')
 
-    " replacement of matchparen
-    call dein#add('itchyny/vim-parenmatch')
+    " replacement of matchparen (require OptionSet sutocommand event)
+    if (v:version == 704 && has("patch786")) || v:version >= 705
+      call dein#add('itchyny/vim-parenmatch')
+    endif
 
     " Diff {{{
     " linediff
