@@ -950,12 +950,6 @@ nnoremap <silent> [yshare]gp :call YSLoad()<CR>"sgp
 nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " }}} yankshare
 
-" vim-parenmatch{{{
-if s:dein_enabled && dein#tap("vim-parenmatch")
-  let g:loaded_matchparen = 1
-endif
-"}}} vim-parenmatch
-
 " matchparen,matchpair, matchit {{{
 " Don't load matchparen (highlight parens actively, make slow)
 " vim-parenmatch fills in it.
