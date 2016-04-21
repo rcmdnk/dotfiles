@@ -273,6 +273,7 @@ if type -a hub >& /dev/null;then
   eval "$(hub alias -s)" # Use GitHub wrapper for git
 fi
 #alias evernote_mail="evernote_mail -u"
+alias stow="stow --override='share/info/dir'"
 
 # pseudo tree
 if ! type -a tree >& /dev/null;then
