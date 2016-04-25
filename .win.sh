@@ -37,8 +37,19 @@ alias open='cygstart'
 alias mail='email'
 #}}}
 
-# Use Windows' symbolic link
+# Use Windows' symbolic link {{{
 # On Windows 10, it needs Administrator's right
 # For normal user, it makes shortcut for Windows
 #export CYGWIN="winsymlinks:native"
 export CYGWIN="winsymlinks:nativestrict"
+#}}}
+
+# moba xterm {{{
+if [ "$HOME" = "/home/mobaxterm" ];then
+  unalias apt-cyg >& /dev/null
+  hash -r
+  function apt-cyg () {
+    PATH=/bin:$PATH /bin/apt-cyg "$@"
+  }
+fi
+#}}}
