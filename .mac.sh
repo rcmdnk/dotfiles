@@ -124,6 +124,10 @@ if [ $? -eq 0 ];then
 
   ## Alias
   alias cask='brew cask'
+
+  ## Disable Analytics
+  export HOMEBREW_NO_ANALYTICS=1
+
 fi
 
 # JAVA_HOME
