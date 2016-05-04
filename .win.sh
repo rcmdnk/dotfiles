@@ -45,11 +45,13 @@ export CYGWIN="winsymlinks:nativestrict"
 #}}}
 
 # moba xterm {{{
-if [ "$HOME" = "/home/mobaxterm" ];then
-  unalias apt-cyg >& /dev/null
-  hash -r
-  function apt-cyg () {
-    PATH=/bin:$PATH /bin/apt-cyg "$@"
-  }
-fi
+# Note: for when using same HOME with Cygwin
+#       but it makes complex, so it is much better to keep HOME separated...
+#if [ "$HOME" = "/home/mobaxterm" ];then
+#  unalias apt-cyg >& /dev/null
+#  hash -r
+#  function apt-cyg () {
+#    PATH=/bin:$PATH /bin/apt-cyg "$@"
+#  }
+#fi
 #}}}
