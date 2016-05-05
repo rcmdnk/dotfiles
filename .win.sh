@@ -48,6 +48,7 @@ export CYGWIN="winsymlinks:nativestrict"
 # Note: for when using same HOME with Cygwin
 #       but it makes complex, so it is much better to keep HOME separated...
 #if [ "$HOME" = "/home/mobaxterm" ];then
+#  . /etc/baseprofile
 #  unalias apt-cyg >& /dev/null
 #  hash -r
 #  function apt-cyg () {
