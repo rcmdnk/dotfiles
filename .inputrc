@@ -132,7 +132,7 @@ $endif
 "\e~-":"\C-ucd -;ls\C-m"
 
 # du
-"\ed": "\C-ufor a in *;do du -s -m $a;done\C-m"
+"\ed": "\C-ufor a in *;do du -s -m "$a";done\C-m"
 
 # /dev/null
 "\e;": ">& /dev/null\C-m"
