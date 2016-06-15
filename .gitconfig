@@ -180,6 +180,7 @@
     };f"
   check = "!f () {\
       if [ -f ~/.gitavoid ];then \
+        is_avoid=0;\
         for f in `git ls-files`;do \
           if [ ! -f $f ];then \
             continue;\
@@ -187,66 +188,47 @@
           while read a;do \
             if grep -i -q $a $f;then \
               echo \"avoid word $a is included in $f!!!\";\
+              is_avoid=1;\
               return 1;\
             fi;\
           done < ~/.gitavoid;\
         done;\
+        return $is_avoid;\
       else \
         echo 'WARNING: There is no ~/.gitavoid file!';\
+        return 2;\
       fi;\
     };f"
   update = "!f () {\
+      pwd;\
       if  [ \"$1\" = \"--nocommit\" ] || [ \"$1\" = 0 ];then \
-        if ! git status | grep -q \"nothing to commit\";then \
-          return;\
+        echo '$ git status';\
+        ret=$(git status);\
+        echo \"$ret\";\
+        if ! echo \"$ret\" | grep -q \"nothing to commit\";then \
+          echo 'There are non committed changes.';\
+          return 0;\
         fi;\
       fi;\
-      update=0;\
-      difffiles=`git status|grep -e 'new file' -e 'modified'|cut -d':' -f2`;\
-      if [ \"$difffiles\" ];then \
-        pwd;\
-        if [ -f ~/.gitavoid ];then \
-          for f in `git ls-files`;do \
-            if [ ! -f $f ];then \
-              continue;\
-            fi;\
-            while read a;do \
-              if grep -i -q $a $f;then \
-                echo \"avoid word $a is included in $f!!!\";\
-                return 1;\
-              fi;\
-            done < ~/.gitavoid;\
-          done;\
-        else \
-          echo 'WARNING: There is no ~/.gitavoid file!';\
-        fi;\
-        printf \"\n\";\
-        update=1;\
-      fi;\
-      ret=`git commit -a -m \"$difffiles, from $OSTYPE\"`;\
-      if echo $ret|grep -q 'changed';then \
-        if [ $update -eq 0 ];then \
-          pwd;\
-        fi;\
-        echo $ret;\
-        update=1;\
-      fi;\
-      ret=$(git pull --rebase);\
-      if [ \"$(echo $ret|grep \"Already up-to-date\")\" = \"\" ] &&\
-         [ \"$(echo $ret|grep \"is up to date\")\" = \"\" ];then \
-        if [ $update -eq 0 ];then \
-          pwd;\
-        fi;\
-        echo $ret;\
-        update=1;\
-      fi;\
-      ret=$(git push 2>&1);\
-      if ! echo $ret|grep -q -e 'Everything up-to-date' -e 'Permission';then \
-        if [ $update -eq 0 ];then \
-          pwd;\
-        fi;\
-        echo $ret;\
-      fi;\
-      git gc > /dev/null 2>&1;\
+      echo $ git check;\
+      git check;\
+      st=$?;\
+      if [ $st != 0 ];then $st;return;fi;\
+      difffiles=$(git status|grep -e 'new file' -e 'modified'|cut -d':' -f2);\
+      echo git commit -a -m \"$difffiles, from $OSTYPE\";\
+      git commit -a -m \"$difffiles, from $OSTYPE\";\
+      echo $ git pull --rebase;\
+      git pull --rebase;\
+      st=$?;\
+      if [ $st != 0 ];then $st;return;fi;\
+      echo $ git push;\
+      git push;\
+      st=$?;\
+      if [ $st != 0 ];then $st;return;fi;\
+      echo $ git gc;\
+      git gc;\
+      st=$?;\
+      if [ $st != 0 ];then $st;return;fi;\
+      return 0;\
     };f"
   up = update
