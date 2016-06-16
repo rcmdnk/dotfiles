@@ -186,7 +186,7 @@ if s:use_dein && v:version >= 704
           \ 'lazy': 1})
 
     " Character base diff
-    call dein#add('rickhowe/diffchar.vim')
+    "call dein#add('rickhowe/diffchar.vim')
 
     " diff enhanced
     call dein#add('chrisbra/vim-diff-enhanced')
