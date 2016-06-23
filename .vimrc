@@ -283,7 +283,7 @@ if s:use_dein && v:version >= 704
           \ 'lazy': 1})
 
     " vim-multiple-cursors, like Sublime Text's multiple selection
-    call dein#add('terryma/vim-multiple-cursors')
+    "call dein#add('terryma/vim-multiple-cursors')
 
     " Easy to change surround
     call dein#add('tpope/vim-surround')
@@ -1061,10 +1061,10 @@ if v:version >= 703
 
   "nnoremap <Leader><Subleader> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
 
-  " remove trail spaces for all   
-  nnoremap <Leader><Space> :DeleteSpace<CR>  
+  " remove trail spaces for all
+  nnoremap <Leader><Space> :DeleteSpace<CR>
 
-  " remove trail spaces at selected region 
+  " remove trail spaces at selected region
   xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
 endif
 " }}} Remove trail spaces and align
@@ -1255,7 +1255,7 @@ if s:dein_enabled && dein#tap("neosnippet")
 endif
 " }}}
 
-" Code syntax, tools for each language {{{ 
+" Code syntax, tools for each language {{{
 " applescript{{{
 if s:dein_enabled && dein#tap("applescript.vim")
   autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setlocal filetype=applescript
