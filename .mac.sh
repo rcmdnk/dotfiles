@@ -104,6 +104,9 @@ if [ $? -eq 0 ];then
     eval "$(brew setup-file)"
   fi
 
+  ## List only leaves in Brewfile
+  export HOMEBREW_BREWFILE_LEAVES=1
+
   ## Cask application directory
   export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 

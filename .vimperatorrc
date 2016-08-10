@@ -439,7 +439,7 @@ javascript <<EOM
     { label: 'markdown', value: 'markdown link', custom: function() {
       var t = content.document.title;
       var l = content.location.href;
-      if(l.contains("rcmdnk.github.io") || l.contains("octopress.dev") || l.contains("en.dev")){
+      if(l.includes("rcmdnk.github.io") || l.includes("octopress.dev") || l.includes("en.dev")){
         l = l.replace(/https?:\/\/(rcmdnk.github.io|octopress.dev|en.dev)/,'');
         return '{% post_card ' + l + ' ' + t + ' %}';
       }else{
