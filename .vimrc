@@ -94,13 +94,13 @@ if s:use_dein && v:version >= 704
     " }}}
 
     " Completion {{{
-    if has('lua')
-      call dein#add('Shougo/neocomplete.vim', {
-            \ 'on_i': 1,
-            \ 'lazy': 1})
-      call dein#add('ujihisa/neco-look', {
-            \ 'depends': ['neocomplete.vim']})
-    endif
+    "if has('lua')
+    "  call dein#add('Shougo/neocomplete.vim', {
+    "        \ 'on_i': 1,
+    "        \ 'lazy': 1})
+    "  call dein#add('ujihisa/neco-look', {
+    "        \ 'depends': ['neocomplete.vim']})
+    "endif
     " }}}
 
     " Snippet {{{
