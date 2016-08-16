@@ -481,6 +481,11 @@ javascript <<EOM
           if (c.length > 0){
             s = c[0].getAttribute('src');
           }
+        }else if(content.document.getElementById('ebooks-img-canvas')){
+          var c = content.document.getElementById('ebooks-img-canvas').getElementsByTagName("img");
+          if (c.length > 0){
+            s = c[0].getAttribute('src');
+          }
         }
         if (s == ""){
           alert("Failed to get image!");
@@ -536,6 +541,11 @@ javascript <<EOM
           }
         }else if(content.document.getElementById('coverArt_feature_div')){
           var c = content.document.getElementById('coverArt_feature_div').getElementsByTagName("img");
+          if (c.length > 0){
+            s = c[0].getAttribute('src');
+          }
+        }else if(content.document.getElementById('ebooks-img-canvas')){
+          var c = content.document.getElementById('ebooks-img-canvas').getElementsByTagName("img");
           if (c.length > 0){
             s = c[0].getAttribute('src');
           }

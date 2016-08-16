@@ -664,3 +664,4 @@ source_file ~/.work.sh
 source_file ~/.local.sh
 
 # }}} Setup for each environment
+if [ -f $(brew --prefix)/etc/bash_completion ]; then source $(brew --prefix)/etc/bash_completion; fi
