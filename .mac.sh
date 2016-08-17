@@ -79,10 +79,7 @@ if [ $? -eq 0 ];then
 
   ## completion from brew
   if [ "$BASH_VERSION" != "" ];then
-    brew_completion="$brew_prefix/etc/bash_completion"
-    if [ -f "$brew_completion" ];then
-      source "$brew_completion"
-    fi
+    source_file "$brew_prefix/etc/bash_completion"
   elif [ "$ZSH_VERSION" != "" ];then
     for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
       brew_completion="$brew_prefix/$d"
@@ -95,9 +92,7 @@ if [ $? -eq 0 ];then
   fi
 
   ## wrap brew (brew-wrap in brew-file)
-  if [ -f "$brew_prefix/etc/brew-wrap" ];then
-    source "$brew_prefix/etc/brew-wrap"
-  fi
+  source_file "$brew_prefix/etc/brew-wrap"
 
   ## brew-file setup for cmd version
   if brew command setup-file >&/dev/null;then
