@@ -213,7 +213,7 @@
       echo $ git check;\
       git check;\
       st=$?;\
-      if [ $st != 0 ];then $st;return;fi;\
+      if [ $st != 0 ];then $st;echo Failed to git check; return 1;fi;\
       difffiles=$(git status|grep -e 'new file' -e 'modified'|cut -d':' -f2);\
       if [ \"$difffiles\" != \"\" ];then \
         echo git commit -a -m \"$difffiles, from $OSTYPE\";\
@@ -222,17 +222,17 @@
       echo $ git pull --rebase;\
       git pull --rebase;\
       st=$?;\
-      if [ $st != 0 ];then $st;return;fi;\
+      if [ $st != 0 ];then $st;echo Failed to git pull --rebase;return 1;fi;\
       if [ \"$difffiles\" != \"\" ];then \
         echo $ git push;\
         git push;\
         st=$?;\
-        if [ $st != 0 ];then $st;return;fi;\
+        if [ $st != 0 ];then $st;echo Failed to git push; return 1;fi;\
       fi;\
       echo $ git gc;\
-      git gc;\
+      git gc >& /dev/null;\
       st=$?;\
-      if [ $st != 0 ];then $st;return;fi;\
+      if [ $st != 0 ];then $st;echo Failed to git gc; return 1;fi;\
       return 0;\
     };f"
   up = update
