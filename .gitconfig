@@ -215,16 +215,20 @@
       st=$?;\
       if [ $st != 0 ];then $st;return;fi;\
       difffiles=$(git status|grep -e 'new file' -e 'modified'|cut -d':' -f2);\
-      echo git commit -a -m \"$difffiles, from $OSTYPE\";\
-      git commit -a -m \"$difffiles, from $OSTYPE\";\
+      if [ \"$difffiles\" != \"\" ];then \
+        echo git commit -a -m \"$difffiles, from $OSTYPE\";\
+        git commit -a -m \"$difffiles, from $OSTYPE\";\
+      fi;\
       echo $ git pull --rebase;\
       git pull --rebase;\
       st=$?;\
       if [ $st != 0 ];then $st;return;fi;\
-      echo $ git push;\
-      git push;\
-      st=$?;\
-      if [ $st != 0 ];then $st;return;fi;\
+      if [ \"$difffiles\" != \"\" ];then \
+        echo $ git push;\
+        git push;\
+        st=$?;\
+        if [ $st != 0 ];then $st;return;fi;\
+      fi;\
       echo $ git gc;\
       git gc;\
       st=$?;\
