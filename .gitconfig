@@ -230,7 +230,7 @@
         if [ $st != 0 ];then $st;echo Failed to git push; return 1;fi;\
       fi;\
       echo $ git gc;\
-      git gc >& /dev/null;\
+      git gc > /dev/null 2>&1;\
       st=$?;\
       if [ $st != 0 ];then $st;echo Failed to git gc; return 1;fi;\
       return 0;\
