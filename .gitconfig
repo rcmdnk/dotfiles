@@ -223,12 +223,10 @@
       git pull --rebase;\
       st=$?;\
       if [ $st != 0 ];then $st;echo Failed to git pull --rebase;return 1;fi;\
-      if [ \"$difffiles\" != \"\" ];then \
-        echo $ git push;\
-        git push;\
-        st=$?;\
-        if [ $st != 0 ];then $st;echo Failed to git push; return 1;fi;\
-      fi;\
+      echo $ git push;\
+      git push;\
+      st=$?;\
+      if [ $st != 0 ];then $st;echo Failed to git push; return 1;fi;\
       echo $ git gc;\
       git gc >& /dev/null;\
       st=$?;\

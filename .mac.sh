@@ -100,7 +100,7 @@ if [ $? -eq 0 ];then
   fi
 
   ## List only leaves in Brewfile
-  export HOMEBREW_BREWFILE_LEAVES=1
+  export HOMEBREW_BREWFILE_LEAVES=0
 
   ## Cask application directory
   export HOMEBREW_CASK_OPTS="--appdir=/Applications"
