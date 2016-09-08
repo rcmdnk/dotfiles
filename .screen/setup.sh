@@ -5,7 +5,7 @@ function screen () { # Screen wrapper {{{
   # in which the host can be changed at every login
 
   #touch ~/.hostForScreen
-  if [ $# = 0 ] || [ "$1" = "-r" ] || [ "$1" = "-R" ] || [ "$1" = "-x" ];then
+  if [ $# = 0 ] || [ "$1" = "-r" ] || [ "$1" = "-R" ] || [ "$1" = "-x" ] || [ "$1" = "-n" ];then
     #sed -i -e "/^$(hostname).*/d" ~/.hostForScreen
     #hostname >> ~/.hostForScreen
     ## keep 10 histories
@@ -15,11 +15,15 @@ function screen () { # Screen wrapper {{{
     echo "$DISPLAY"> ~/.display.txt
   fi
 
-  options="$*"
-  if [ $# = 0 ];then
-    # Don't make another screen session, if any session is detached.
-    options="-R"
+  local options=""
+  if [ $# = 0 ] || [ "$1" != "-n" ];then
+    # Don't make another screen session, if any session exists.
+    options="-d -r"
   fi
+  if [ "$1" == "-n" ];then
+    shift
+  fi
+  options="$* $options"
 
   # launch screen
   command screen $options
