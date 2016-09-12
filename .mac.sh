@@ -69,27 +69,25 @@ if [ "$SSH_AUTH_SOCK" = "" ];then
   unset sock_tmp
 fi
 
-
 # Homebrew
-
 brew_prefix=$(brew --prefix)
 if [ $? -eq 0 ];then
   ## brew api token
   source_file ~/.brew_api_token
 
-  ## completion from brew
-  if [ "$BASH_VERSION" != "" ];then
-    source_file "$brew_prefix/etc/bash_completion"
-  elif [ "$ZSH_VERSION" != "" ];then
-    for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
-      brew_completion="$brew_prefix/$d"
-      if [ -d "$brew_completion" ] && ! echo "$fpath" |grep -q "$brew_completion";then
-        fpath=($brew_completion $fpath)
-      fi
-    done
-    autoload -Uz compinit
-    compinit
-  fi
+  ### completion from brew
+  #if [ "$BASH_VERSION" != "" ];then
+  #  source_file "$brew_prefix/etc/bash_completion"
+  #elif [ "$ZSH_VERSION" != "" ];then
+  #  for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
+  #    brew_completion="$brew_prefix/$d"
+  #    if [ -d "$brew_completion" ] && ! echo "$fpath" |grep -q "$brew_completion";then
+  #      fpath=($brew_completion $fpath)
+  #    fi
+  #  done
+  #  autoload -Uz compinit
+  #  compinit
+  #fi
 
   ## wrap brew (brew-wrap in brew-file)
   source_file "$brew_prefix/etc/brew-wrap"
@@ -125,7 +123,6 @@ if [ $? -eq 0 ];then
 
   ## Disable Analytics
   export HOMEBREW_NO_ANALYTICS=1
-
 fi
 
 # JAVA_HOME

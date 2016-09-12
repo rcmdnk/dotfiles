@@ -28,13 +28,13 @@ function screen () { # Screen wrapper {{{
   # launch screen
   command screen $options
 }
-alias screenr="screen -d -r"
+alias screenr="command screen -d -r"
 
-export SCREENDIR=$HOME/.screen_$(hostname|cut -d. -f1)
-if [ ! -d "$SCREENDIR" ];then
-  mkdir -p "$SCREENDIR"
-fi
-chmod 700 "$SCREENDIR"
+#export SCREENDIR=$HOME/.screen_$(hostname|cut -d. -f1)
+#if [ ! -d "$SCREENDIR" ];then
+#  mkdir -p "$SCREENDIR"
+#fi
+#chmod 700 "$SCREENDIR"
 # }}}
 
 
