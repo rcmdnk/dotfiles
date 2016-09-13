@@ -16,9 +16,35 @@ function screen () { # Screen wrapper {{{
   fi
 
   local options=""
-  if [ $# = 0 ] || [ "$1" != "-n" ];then
-    # Don't make another screen session, if any session exists.
-    options="-d -r"
+  if [ $# = 0 ];then
+    sockets=$(command screen -ls|grep -v " on:"|grep -v " in ")
+    if ! echo "$sockets" | grep -q "No Sockets found";then
+      # Don't make another screen session, if any session exists.
+      n_sockets=$(echo "$sockets"|wc -l)
+      if [ $n_sockets -eq 1 ];then
+        options="-d -r"
+      else
+        if type -a sentaku >& /dev/null;then
+          session=$(echo "$sockets"|sentaku -s $'\n'|awk '{print $1}'|cut -d'.' -f1)
+          if [ "$session" = "" ];then
+            return
+          fi
+        else
+          n=1
+          while read -r s;do
+            printf "%-2s %s\n" "$n" "$s"
+            ((n++))
+          done < <(echo "$sockets")
+          printf "\nChoose session: "
+          read i
+          if ! expr "$i" : '[0-9]*' >/dev/null || [ "$i" -ge "$n" ];then
+            return
+          fi
+          session=$(echo "$sockets"|sed -n "${i},${i}p"|awk '{print $1}'|cut -d'.' -f1)
+        fi
+        options="-d -r $session"
+      fi
+    fi
   fi
   if [ "$1" == "-n" ];then
     shift
@@ -30,11 +56,11 @@ function screen () { # Screen wrapper {{{
 }
 alias screenr="command screen -d -r"
 
-#export SCREENDIR=$HOME/.screen_$(hostname|cut -d. -f1)
-#if [ ! -d "$SCREENDIR" ];then
-#  mkdir -p "$SCREENDIR"
-#fi
-#chmod 700 "$SCREENDIR"
+export SCREENDIR=$HOME/.screen_$(hostname|cut -d. -f1)
+if [ ! -d "$SCREENDIR" ];then
+  mkdir -p "$SCREENDIR"
+fi
+chmod 700 "$SCREENDIR"
 # }}}
 
 
