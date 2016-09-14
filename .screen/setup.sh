@@ -17,10 +17,11 @@ function screen () { # Screen wrapper {{{
 
   local options=""
   if [ $# = 0 ];then
-    sockets=$(command screen -ls|grep -v " on:"|grep -v " in "|grep -v "^$")
+    sockets=$(command screen -ls)
     if ! echo "$sockets" | grep -q "No Sockets found";then
+      sockets=$(echo "$sockets"|grep -v " on:"|grep -v " in "|grep -v "^$")
       # Don't make another screen session, if any session exists.
-      n_sockets=$(echo -n "$sockets"|wc -l)
+      n_sockets=$(echo "$sockets"|grep -c '')
       if [ $n_sockets -eq 0 ];then
         options=""
       elif [ $n_sockets -eq 1 ];then
