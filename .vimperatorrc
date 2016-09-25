@@ -124,7 +124,6 @@ set! ui.caretWidth=2
 style chrome://* .statuspanel-label {display: none;}
 " }}}
 
-
 " basic settings {{{
 "set guioptions=mTBrb
 set titlestring=Firefox
@@ -430,7 +429,7 @@ mappings.addUserMap(
 EOM
 " }}}
 
-"copy.js {{{
+" copy.js {{{
 javascript <<EOM
 (function () {
   liberator.globalVariables.copy_templates = [
@@ -616,6 +615,9 @@ source! ~/My\ Dropbox/08_Settings/vimpr/vimperatorrc.local
 source! ~/Dropbox/08_Settings/vimpr/vimperatorrc.local
 source! ~/vimperatorrc.local
 "" }}}
+
+" Temporary fix of completion
+js services.services.autoCompleteSearch.class_="@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
 
 "echo ".vimperatorrc sourced"
 
