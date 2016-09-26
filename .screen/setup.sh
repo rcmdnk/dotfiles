@@ -17,8 +17,8 @@ function screen () { # Screen wrapper {{{
 
   local options=""
   if [ $# = 0 ];then
-    sockets=$(command screen -ls|grep Attached|grep Detached)
-    n_sockets=$(echo "$sockets"|grep -c '')
+    sockets=$(command screen -ls|grep -e Attached -e Detached)
+    n_sockets=$(printf "$sockets"|grep -c '')
     if [ $n_sockets -ge 1 ];then
       # Don't make another screen session, if any session exists.
       if [ $n_sockets -eq 1 ];then
