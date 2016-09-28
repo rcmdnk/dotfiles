@@ -21,7 +21,9 @@ function screen () { # Screen wrapper {{{
     n_sockets=$(printf "$sockets"|grep -c '')
     if [ $n_sockets -ge 1 ];then
       # Don't make another screen session, if any session exists.
+      echo $n_sockets
       if [ $n_sockets -eq 1 ];then
+        echo "n_sockets = 1"
         options="-d -r"
       else
         if type -a sentaku >& /dev/null;then

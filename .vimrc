@@ -157,6 +157,9 @@ if s:use_dein && v:version >= 704
     " Powershell
     call dein#add('PProvost/vim-ps1')
 
+    " Homebrew
+    call dein#add('xu-cheng/brew.vim')
+
     " Vim Syntax
     call dein#add('dbakker/vim-lint')
 
