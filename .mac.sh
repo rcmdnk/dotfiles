@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+if ! type -a source_file >&/dev/null;then
+  function source_file() {
+    if [ $# -lt 1 ];then
+      echo "ERROR!!! source_file is called w/o an argument"
+      return
+    fi
+    arg="$1"
+    shift
+    if [ -r "$arg" ]; then
+      source "$arg"
+    fi
+  } # }}} Function for sourcing with precheck of the file
+fi
+
 ## Use Vim in MacVim, if better
 #*********
 #**done at .bashrc like:
@@ -75,19 +89,19 @@ if [ $? -eq 0 ];then
   ## brew api token
   source_file ~/.brew_api_token
 
-  ### completion from brew
-  #if [ "$BASH_VERSION" != "" ];then
-  #  source_file "$brew_prefix/etc/bash_completion"
-  #elif [ "$ZSH_VERSION" != "" ];then
-  #  for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
-  #    brew_completion="$brew_prefix/$d"
-  #    if [ -d "$brew_completion" ] && ! echo "$fpath" |grep -q "$brew_completion";then
-  #      fpath=($brew_completion $fpath)
-  #    fi
-  #  done
-  #  autoload -Uz compinit
-  #  compinit
-  #fi
+  ## completion from brew
+  if [ "$BASH_VERSION" != "" ];then
+    source_file "$brew_prefix/etc/bash_completion"
+  elif [ "$ZSH_VERSION" != "" ];then
+    for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
+      brew_completion="$brew_prefix/$d"
+      if [ -d "$brew_completion" ] && ! echo "$fpath" |grep -q "$brew_completion";then
+        fpath=($brew_completion $fpath)
+      fi
+    done
+    autoload -Uz compinit
+    compinit
+  fi
 
   ## wrap brew (brew-wrap in brew-file)
   source_file "$brew_prefix/etc/brew-wrap"
