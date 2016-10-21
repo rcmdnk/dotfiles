@@ -192,7 +192,9 @@ if s:use_dein && v:version >= 704
     "call dein#add('rickhowe/diffchar.vim')
 
     " diff enhanced
-    call dein#add('chrisbra/vim-diff-enhanced')
+    if v:version >= 800
+      call dein#add('chrisbra/vim-diff-enhanced')
+    endif
     " }}} Diff
 
     " IDE like {{{
@@ -571,7 +573,7 @@ runtime ftplugin/man.vim
 
 " No automatic break at the end of the file
 if (v:version == 704 && has("patch785")) || v:version >= 705
-  set nofixeol
+  set nofixendofline
 endif
 
 " status line
