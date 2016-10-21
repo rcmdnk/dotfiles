@@ -459,7 +459,7 @@ set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:% " Set words for above
 set ruler          " Show the cursor position all the time
 set showcmd        " Display incomplete commands
 set novisualbell   " No visual bell
-"set cursorline     " Enable highlight on current line:
+set cursorline     " Enable highlight on current line:
 "set cursorcolumn   " Enable highlight on current column:
                    " but make moving cursor slow for heavily highlighted file...
 "set scrolloff=999  " Show cursor at middle
@@ -832,7 +832,11 @@ augroup MyColors
 
     " SpecialKey, needed for cursorline
     autocmd ColorScheme * hi link MySpecialKey SpecialKey
-    autocmd VimEnter,WinEnter * let w:m_sp = matchadd("MySpecialKey", '\(\t\| \+$\)')
+    if v:version >= 702
+      autocmd VimEnter,WinEnter * let w:m_sp = matchadd("MySpecialKey", '\(\t\| \+$\)')
+    else
+      autocmd VimEnter,WinEnter * match MySpecialKey '\(\t\| \+$\)'
+    end
   endif
 
   " colors for completion
@@ -863,7 +867,11 @@ augroup MyColors
 
   " two-byte space
   autocmd ColorScheme * hi link TwoByteSpace Error
-  autocmd VimEnter,WinEnter * let w:m_tbs = matchadd("TwoByteSpace", '　')
+  if v:version >= 702
+    autocmd VimEnter,WinEnter * let w:m_tbs = matchadd("TwoByteSpace", '　')
+  else
+    autocmd VimEnter,WinEnter * 2match TwoByteSpace '　'
+  end
 augroup END
 
 colorscheme ron
@@ -1025,53 +1033,51 @@ endif
 " }}} cscope
 
 " Remove trail spaces and align {{{
-if v:version >= 703
-  function! s:indent_all()
-    normal! mxgg=G'x
-    delmarks x
-  endfunction
-  command! IndentAll call s:indent_all()
+function! s:indent_all()
+  normal! mxgg=G'x
+  delmarks x
+endfunction
+command! IndentAll call s:indent_all()
 
-  function! s:delete_space()
-    normal! mxG$
-    let flags = "w"
-    while search(" $", flags) > 0
-      s/ \+$//g
-      let flags = "W"
-    endwhile
-    'x
-    delmarks x
-  endfunction
-  command! DeleteSpace call s:delete_space()
+function! s:delete_space()
+  normal! mxG$
+  let flags = "w"
+  while search(" $", flags) > 0
+    s/ \+$//g
+    let flags = "W"
+  endwhile
+  'x
+  delmarks x
+endfunction
+command! DeleteSpace call s:delete_space()
 
-  function! s:align_code()
-    retab
-    IndentAll
-    DeleteSpace
-  endfunction
-  command! AlignCode call s:align_code()
+function! s:align_code()
+  retab
+  IndentAll
+  DeleteSpace
+endfunction
+command! AlignCode call s:align_code()
 
-  function! s:align_all_buf()
-    for i in  range(1, bufnr("$"))
-      if buflisted(i)
-        execute "buffer" i
-        call AlignCode()
-        update
-        bdelete
-      endif
-    endfor
-    quit
-  endfunction
-  command! AlignAllBuf call s:align_all_buf()
+function! s:align_all_buf()
+  for i in  range(1, bufnr("$"))
+    if buflisted(i)
+      execute "buffer" i
+      AlignCode
+      update
+      bdelete
+    endif
+  endfor
+  quit
+endfunction
+command! AlignAllBuf call s:align_all_buf()
 
-  "nnoremap <Leader><Subleader> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
+"nnoremap <Leader><Subleader> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
 
-  " remove trail spaces for all
-  nnoremap <Leader><Space> :DeleteSpace<CR>
+" remove trail spaces for all
+nnoremap <Leader><Space> :DeleteSpace<CR>
 
-  " remove trail spaces at selected region
-  xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
-endif
+" remove trail spaces at selected region
+xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
 " }}} Remove trail spaces and align
 
 " Plugin settings {{{
