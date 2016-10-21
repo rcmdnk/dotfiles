@@ -422,6 +422,7 @@ set swapfile       " use swap file
 set nobackup       " do not keep a backup file
 set nowritebackup  " do not create backup file
 
+" Add Mac's temporary space
 let &backupskip="/private/tmp/*," . &backupskip
 
 let s:defdir=&directory
