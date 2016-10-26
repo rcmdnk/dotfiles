@@ -460,7 +460,7 @@ set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:% " Set words for above
 set ruler          " Show the cursor position all the time
 set showcmd        " Display incomplete commands
 set novisualbell   " No visual bell
-set cursorline     " Enable highlight on current line:
+"set cursorline     " Enable highlight on current line:
 "set cursorcolumn   " Enable highlight on current column:
                    " but make moving cursor slow for heavily highlighted file...
 "set scrolloff=999  " Show cursor at middle
