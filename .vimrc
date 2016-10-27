@@ -237,7 +237,7 @@ if s:use_dein && v:version >= 704
 
     " Selection {{{
     " wildfire
-    call dein#add("gcmt/wildfire.vim")
+    "call dein#add("gcmt/wildfire.vim")
 
     " Highlight on the fly
     call dein#add('t9md/vim-quickhl')
@@ -671,11 +671,12 @@ noremap <Leader>gU gU
 " cursor move
 " Left (C-h default: <BS> ~ h)
 "nnoremap <C-h> h
-" Right (C-j default: <NL> ~ j)
+" Down (C-j default: <NL> ~ j)
 "nnoremap <C-j> j
+nnoremap <RETURN> j
 " Up (C-k default: Non)
 nnoremap <C-k> k
-" Down (C-l default: Clear and redraw the screen)
+" Right (C-l default: Clear and redraw the screen)
 nnoremap <C-l> l
 " Go to Head (C-a default: Increment)-><C-a> can't be used with vim-speeddating
 "nnoremap <C-a> 0
@@ -1527,10 +1528,10 @@ if s:dein_enabled && dein#tap("wildfire.vim")
   let g:wildfire_objects = ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at']
 
   " This selects the next closest text object.
-  let g:wildfire_fuel_map = "<ENTER>"
+  map <RETURN> <Plug>(wildfire-fuel)
 
   " This selects the previous closest text object.
-  let g:wildfire_water_map = "<BS>"
+  vmap <BS> <Plug>(wildfire-water)
 endif
 " }}}
 
