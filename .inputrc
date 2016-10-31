@@ -123,8 +123,12 @@ $endif
 #"\el":"\C-e | less\C-m"
 
 # ls
-"\el":"\C-uls\C-m"
-"\es":"\C-uls -ltr\C-m"
+#"\el":"\C-uls\C-m"
+#"\es":"\C-uls -ltr\C-m"
+"\C-l":"\C-uls\C-m"
+
+# C-l to \el
+"\el":"\C-uclear\C-m"
 
 # cd
 #"\eu":"\C-u\C-e\C-ucd ../\C-mls\C-m"
@@ -146,3 +150,4 @@ $endif
 
 # ps
 "\ep": "\C-ups -U $USER\C-m"
+
