@@ -192,9 +192,9 @@ if s:use_dein && v:version >= 704
     "call dein#add('rickhowe/diffchar.vim')
 
     " diff enhanced
-    if v:version >= 800
-      call dein#add('chrisbra/vim-diff-enhanced')
-    endif
+    "if v:version >= 800
+    "  call dein#add('chrisbra/vim-diff-enhanced')
+    "endif
     " }}} Diff
 
     " IDE like {{{
