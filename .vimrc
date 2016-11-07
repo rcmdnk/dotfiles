@@ -673,7 +673,7 @@ noremap <Leader>gU gU
 "nnoremap <C-h> h
 " Down (C-j default: <NL> ~ j)
 "nnoremap <C-j> j
-nnoremap <RETURN> j
+"nnoremap <RETURN> j
 " Up (C-k default: Non)
 nnoremap <C-k> k
 " Right (C-l default: Clear and redraw the screen)
