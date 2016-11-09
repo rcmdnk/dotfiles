@@ -84,32 +84,28 @@ if [ "$SSH_AUTH_SOCK" = "" ];then
 fi
 
 # Homebrew
-brew_prefix=$(brew --prefix)
-if [ $? -eq 0 ];then
+brew_prefix=$(command brew --prefix)
+ret=$?
+if [ $ret -eq 0 ];then
   ## brew api token
   source_file ~/.brew_api_token
 
-  ## completion from brew
-  if [ "$BASH_VERSION" != "" ];then
-    source_file "$brew_prefix/etc/bash_completion"
-  elif [ "$ZSH_VERSION" != "" ];then
-    for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
-      brew_completion="$brew_prefix/$d"
-      if [ -d "$brew_completion" ] && ! echo "$fpath" |grep -q "$brew_completion";then
-        fpath=($brew_completion $fpath)
-      fi
-    done
-    autoload -Uz compinit
-    compinit
-  fi
+  ### completion from brew (disabled to faster reading)
+  #if [ "$BASH_VERSION" != "" ];then
+  #  source_file "$brew_prefix/etc/bash_completion"
+  #elif [ "$ZSH_VERSION" != "" ];then
+  #  for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
+  #    brew_completion="$brew_prefix/$d"
+  #    if [ -d "$brew_completion" ] && ! echo "$fpath" |grep -q "$brew_completion";then
+  #      fpath=($brew_completion $fpath)
+  #    fi
+  #  done
+  #  autoload -Uz compinit
+  #  compinit
+  #fi
 
   ## wrap brew (brew-wrap in brew-file)
   source_file "$brew_prefix/etc/brew-wrap"
-
-  ## brew-file setup for cmd version
-  if brew command setup-file >&/dev/null;then
-    eval "$(brew setup-file)"
-  fi
 
   ## List only leaves in Brewfile
   export HOMEBREW_BREWFILE_LEAVES=0
@@ -119,13 +115,13 @@ if [ $? -eq 0 ];then
 
   ## Python
   if type -a brew >& /dev/null;then
-    if [ -d "$(brew --prefix)/lib/python2.7/site-packages" ];then
-      export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages:$PYTHONPATH
+    if [ -d "$brew_prefix/lib/python2.7/site-packages" ];then
+      export PYTHONPATH="${brew_prefix}/lib/python2.7/site-packages":$PYTHONPATH
     fi
   fi
 
   ## Openssl
-  OPENSSL_PATH=$(brew --prefix)/opt/openssl
+  OPENSSL_PATH="$brew_prefix/opt/openssl"
   if [ -d "$OPENSSL_PATH" ];then
     export PATH=$OPENSSL_PATH/bin:$PATH
     export LD_LIBRARY_PATH=$OPENSSL_PATH/lib:$LD_LIBRARY_PATH
