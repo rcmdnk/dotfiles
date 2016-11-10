@@ -90,19 +90,19 @@ if [ $ret -eq 0 ];then
   ## brew api token
   source_file ~/.brew_api_token
 
-  ### completion from brew (disabled to faster reading)
-  #if [ "$BASH_VERSION" != "" ];then
-  #  source_file "$brew_prefix/etc/bash_completion"
-  #elif [ "$ZSH_VERSION" != "" ];then
-  #  for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
-  #    brew_completion="$brew_prefix/$d"
-  #    if [ -d "$brew_completion" ] && ! echo "$fpath" |grep -q "$brew_completion";then
-  #      fpath=($brew_completion $fpath)
-  #    fi
-  #  done
-  #  autoload -Uz compinit
-  #  compinit
-  #fi
+  ## completion from brew (disabled to faster reading)
+  if [ "$BASH_VERSION" != "" ];then
+    source_file "$brew_prefix/etc/bash_completion"
+  elif [ "$ZSH_VERSION" != "" ];then
+    for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
+      brew_completion="$brew_prefix/$d"
+      if [ -d "$brew_completion" ] && ! echo "$fpath" |grep -q "$brew_completion";then
+        fpath=($brew_completion $fpath)
+      fi
+    done
+    autoload -Uz compinit
+    compinit
+  fi
 
   ## wrap brew (brew-wrap in brew-file)
   source_file "$brew_prefix/etc/brew-wrap"
