@@ -58,7 +58,7 @@ if s:use_dein && v:version >= 704
     call dein#add('tpope/vim-repeat')
 
     " Sub mode
-    call dein#add('kana/vim-submode')
+    "call dein#add('kana/vim-submode')
 
     " webapi
     call dein#add('mattn/webapi-vim')
@@ -673,7 +673,7 @@ noremap <Leader>gU gU
 "nnoremap <C-h> h
 " Down (C-j default: <NL> ~ j)
 "nnoremap <C-j> j
-"nnoremap <RETURN> j
+nnoremap <RETURN> j
 " Up (C-k default: Non)
 nnoremap <C-k> k
 " Right (C-l default: Clear and redraw the screen)
