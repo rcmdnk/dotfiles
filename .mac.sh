@@ -114,10 +114,8 @@ if [ $ret -eq 0 ];then
   export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
   ## Python
-  if type -a brew >& /dev/null;then
-    if [ -d "$brew_prefix/lib/python2.7/site-packages" ];then
-      export PYTHONPATH="${brew_prefix}/lib/python2.7/site-packages":$PYTHONPATH
-    fi
+  if [ -d "$brew_prefix/lib/python2.7/site-packages" ];then
+    export PYTHONPATH="${brew_prefix}/lib/python2.7/site-packages":$PYTHONPATH
   fi
 
   ## Openssl
