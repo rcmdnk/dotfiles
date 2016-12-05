@@ -119,7 +119,7 @@ if s:use_dein && v:version >= 704
     call dein#add('applescript.vim')
 
     " Automatic LaTeX Plugins
-    call dein#add('coot/atp_vim')
+    "call dein#add('coot/atp_vim')
 
     " CSS3 (Sass)
     call dein#add('hail2u/vim-css3-syntax.git')
@@ -159,6 +159,9 @@ if s:use_dein && v:version >= 704
 
     " Homebrew
     call dein#add('xu-cheng/brew.vim')
+
+    " LaTex
+    call dein#add('lervag/vimtex')
 
     " Vim Syntax
     call dein#add('dbakker/vim-lint')
