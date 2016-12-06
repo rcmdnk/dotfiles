@@ -616,9 +616,6 @@ source! ~/Dropbox/08_Settings/vimpr/vimperatorrc.local
 source! ~/vimperatorrc.local
 "" }}}
 
-" Temporary fix of completion
-js services.services.autoCompleteSearch.class_="@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
-
 "echo ".vimperatorrc sourced"
 
 " vim: set filetype=vim :
