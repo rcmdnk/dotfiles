@@ -4,19 +4,11 @@
 let s:use_dein = 1
 " }}}
 
-" vi compatibility {{{
-if !&compatible
-  " Disable vi compatible mode (much better!)
-  " Necessary for dein.vim
-  set nocompatible
-endif
-" }}}
-
 " Prepare .vim dir {{{
-let s:vimdir = $HOME . "/.vim"
-if has("vim_starting")
+let s:vimdir = $HOME . '/.vim'
+if has('vim_starting')
   if ! isdirectory(s:vimdir)
-    call system("mkdir " . s:vimdir)
+    call system('mkdir ' . s:vimdir)
   endif
 endif
 " }}}
@@ -29,17 +21,17 @@ if s:use_dein && v:version >= 704
   " Set dein paths
   let s:dein_dir = s:vimdir . '/dein'
   let s:dein_github = s:dein_dir . '/repos/github.com'
-  let s:dein_repo_name = "Shougo/dein.vim"
+  let s:dein_repo_name = 'Shougo/dein.vim'
   let s:dein_repo_dir = s:dein_github . '/' . s:dein_repo_name
 
   " Check dein has been installed or not.
   if !isdirectory(s:dein_repo_dir)
-    echo "dein is not installed, install now "
-    let s:dein_repo = "https://github.com/" . s:dein_repo_name
-    echo "git clone " . s:dein_repo . " " . s:dein_repo_dir
-    call system("git clone " . s:dein_repo . " " . s:dein_repo_dir)
+    echo 'dein is not installed, install now '
+    let s:dein_repo = 'https://github.com/' . s:dein_repo_name
+    echo 'git clone ' . s:dein_repo . ' ' . s:dein_repo_dir
+    call system('git clone ' . s:dein_repo . ' ' . s:dein_repo_dir)
   endif
-  let &runtimepath = &runtimepath . "," . s:dein_repo_dir
+  let &runtimepath = &runtimepath . ',' . s:dein_repo_dir
 
   " Begin plugin part {{{
 
@@ -181,7 +173,7 @@ if s:use_dein && v:version >= 704
     call dein#add('Konfekt/FastFold')
 
     " replacement of matchparen (require OptionSet sutocommand event)
-    if (v:version == 704 && has("patch786")) || v:version >= 705
+    if (v:version == 704 && has('patch786')) || v:version >= 705
       call dein#add('itchyny/vim-parenmatch')
     endif
 
@@ -240,7 +232,7 @@ if s:use_dein && v:version >= 704
 
     " Selection {{{
     " wildfire
-    "call dein#add("gcmt/wildfire.vim")
+    "call dein#add('gcmt/wildfire.vim')
 
     " Highlight on the fly
     call dein#add('t9md/vim-quickhl')
@@ -371,6 +363,7 @@ syntax on
 
 " Encode
 set encoding=utf-8
+scriptencoding utf-8
 set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp,default,latin
 
 " need for two-byte characters in this script, need to be after set encodeing
@@ -398,11 +391,11 @@ set cinoptions=g0  " g0: no indent for private/public/protected
 
 "set textwidth=0    " a longer line than textwidth will be broken (0: disable)
 autocmd MyAutoGroup FileType *  setlocal textwidth=0 " overwrite ftplugin settings
-if exists ("&colorcolumn")
+if exists ('&colorcolumn')
   set colorcolumn=80 " put line on 80
   "set colorcolumn=+1 " put line on textwidth+1
   " Change background for 80-end of the line
-  "execute "set colorcolumn=" . join(range(80, 999), ",")
+  "execute 'set colorcolumn=' . join(range(80, 999), ',')
 endif
 set wrap           " longer line is wrapped
 set display=lastline " Show all even if there is many characters in one line.
@@ -412,7 +405,7 @@ set nolinebreak
 set breakat=
 "set showbreak=+\   " set showbreak
 set showbreak=
-"if (v:version == 704 && has("patch338")) || v:version >= 705
+"if (v:version == 704 && has('patch338')) || v:version >= 705
 "  set breakindent    " indent even for wrapped lines
 "  " breakindent option (autocmd is necessary when new file is opened in Vim)
 "  " necessary even for default(min:20,shift:0)
@@ -426,7 +419,7 @@ set nobackup       " do not keep a backup file
 set nowritebackup  " do not create backup file
 
 " Add Mac's temporary space
-let &backupskip="/private/tmp/*," . &backupskip
+let &backupskip='/private/tmp/*,' . &backupskip
 
 let s:defdir=&directory
 let s:defbackup=&backupdir
@@ -437,12 +430,12 @@ elseif ! empty($TMPDIR) && isdirectory($TMPDIR)
 elseif ! empty($TEMP) && isdirectory($TEMP)
   let s:tmpdir=$TEMP
 else
-  let s:tmpdir="./"
+  let s:tmpdir='./'
 endif
-let &directory=s:tmpdir . "," . s:defdir " directory for swap file
-let &backupdir=s:tmpdir . "," . s:defdir " directory for backup file
+let &directory=s:tmpdir . ',' . s:defdir " directory for swap file
+let &backupdir=s:tmpdir . ',' . s:defdir " directory for backup file
 
-if has("win32") || has ("win64")
+if has('win32') || has ('win64')
   set viminfo+=n~/.vim/viminfo_win
 else
   set viminfo+=n~/.vim/viminfo
@@ -482,12 +475,12 @@ set splitright     " New window is right
 set spell          " Spell check highlight
 "set nospell        " No spell check
 
-if (v:version == 704 && has("patch88")) || v:version >= 705
+if (v:version == 704 && has('patch88')) || v:version >= 705
   set spelllang+=cjk " Ignore double-width characters
 endif
 
 " IME setting
-if has("multi_byte_ime") || has("xim") || has("gui_macvim")
+if has('multi_byte_ime') || has('xim') || has('gui_macvim')
   set iminsert=0
   set imsearch=0
   inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
@@ -519,7 +512,7 @@ set switchbuf=useopen
 " virtualedit (can move to non-editing places: e.x. right of $)
 set virtualedit=all
 
-" For shell script (sh.vim), don't append "." to iskeyword
+" For shell script (sh.vim), don't append '.' to iskeyword
 let g:sh_noisk=1
 
 " Set nopaste when it comes back to Normal mode
@@ -528,10 +521,10 @@ autocmd MyAutoGroup InsertLeave * setlocal nopaste
 " VimShowHlGroup: Show highlight group name under a cursor
 command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
 " VimShowHlItem: Show highlight item name under a cursor
-command! VimShowHlItem echo synIDattr(synID(line("."), col("."), 1), "name")
+command! VimShowHlItem echo synIDattr(synID(line('.'), col('.'), 1), 'name')
 
 function! s:get_syn_id(transparent)
-  let synid = synID(line("."), col("."), 1)
+  let synid = synID(line('.'), col('.'), 1)
   if a:transparent
     return synIDtrans(synid)
   else
@@ -539,32 +532,32 @@ function! s:get_syn_id(transparent)
   endif
 endfunction
 function! s:get_syn_attr(synid)
-  let name = synIDattr(a:synid, "name")
-  let ctermfg = synIDattr(a:synid, "fg", "cterm")
-  let ctermbg = synIDattr(a:synid, "bg", "cterm")
-  let guifg = synIDattr(a:synid, "fg", "gui")
-  let guibg = synIDattr(a:synid, "bg", "gui")
+  let name = synIDattr(a:synid, 'name')
+  let ctermfg = synIDattr(a:synid, 'fg', 'cterm')
+  let ctermbg = synIDattr(a:synid, 'bg', 'cterm')
+  let guifg = synIDattr(a:synid, 'fg', 'gui')
+  let guibg = synIDattr(a:synid, 'bg', 'gui')
   return {
-        \ "name": name,
-        \ "ctermfg": ctermfg,
-        \ "ctermbg": ctermbg,
-        \ "guifg": guifg,
-        \ "guibg": guibg}
+        \ 'name': name,
+        \ 'ctermfg': ctermfg,
+        \ 'ctermbg': ctermbg,
+        \ 'guifg': guifg,
+        \ 'guibg': guibg}
 endfunction
 function! s:get_syn_info()
   let baseSyn = s:get_syn_attr(s:get_syn_id(0))
-  echo "name: " . baseSyn.name .
-        \ " ctermfg: " . baseSyn.ctermfg .
-        \ " ctermbg: " . baseSyn.ctermbg .
-        \ " guifg: " . baseSyn.guifg .
-        \ " guibg: " . baseSyn.guibg
+  echo 'name: ' . baseSyn.name .
+        \ ' ctermfg: ' . baseSyn.ctermfg .
+        \ ' ctermbg: ' . baseSyn.ctermbg .
+        \ ' guifg: ' . baseSyn.guifg .
+        \ ' guibg: ' . baseSyn.guibg
   let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
-  echo "link to"
-  echo "name: " . linkedSyn.name .
-        \ " ctermfg: " . linkedSyn.ctermfg .
-        \ " ctermbg: " . linkedSyn.ctermbg .
-        \ " guifg: " . linkedSyn.guifg .
-        \ " guibg: " . linkedSyn.guibg
+  echo 'link to'
+  echo 'name: ' . linkedSyn.name .
+        \ ' ctermfg: ' . linkedSyn.ctermfg .
+        \ ' ctermbg: ' . linkedSyn.ctermbg .
+        \ ' guifg: ' . linkedSyn.guifg .
+        \ ' guibg: ' . linkedSyn.guibg
 endfunction
 command! SyntaxInfo call s:get_syn_info()
 
@@ -576,7 +569,7 @@ set synmaxcol=1000 "default 3000
 runtime ftplugin/man.vim
 
 " No automatic break at the end of the file
-if (v:version == 704 && has("patch785")) || v:version >= 705
+if (v:version == 704 && has('patch785')) || v:version >= 705
   set nofixendofline
 endif
 
@@ -649,7 +642,7 @@ set statusline+=%=%l/%L,%c%V%8P
 """ Normal + Visual modes
 
 " mapleader (<Leader>) (default is \)
-let g:mapleader = ","
+let g:mapleader = ','
 " use \, as , instead
 noremap <Subleader> <Nop>
 map <Space> <Subleader>
@@ -766,7 +759,7 @@ autocmd MyAutoGroup FileType help,qf,man,ref nnoremap <buffer> q :q!<CR>
 autocmd MyAutoGroup FileType help,qf,man,ref setlocal nospell ts=8 nolist ro nomod noma
 
 " Avoid to paste/insert in non-editing place
-if has("virtualedit") && &virtualedit =~# '\<all\>'
+if has('virtualedit') && &virtualedit =~# '\<all\>'
   " p should be fixed, with yankround -> it maps p
   nnoremap <expr> p (col('.') >= col('$') ? '$' : '') . 'p'
   nnoremap <expr> i (col('.') >= col('$') ? '$' : '') . 'i'
@@ -838,7 +831,7 @@ augroup MyColors
     " SpecialKey, needed for cursorline
     autocmd ColorScheme * hi link MySpecialKey SpecialKey
     if v:version >= 702
-      autocmd VimEnter,WinEnter * let w:m_sp = matchadd("MySpecialKey", '\(\t\| \+$\)')
+      autocmd VimEnter,WinEnter * let w:m_sp = matchadd('MySpecialKey', '\(\t\| \+$\)')
     else
       autocmd VimEnter,WinEnter * match MySpecialKey '\(\t\| \+$\)'
     end
@@ -873,7 +866,7 @@ augroup MyColors
   " two-byte space
   autocmd ColorScheme * hi link TwoByteSpace Error
   if v:version >= 702
-    autocmd VimEnter,WinEnter * let w:m_tbs = matchadd("TwoByteSpace", '　')
+    autocmd VimEnter,WinEnter * let w:m_tbs = matchadd('TwoByteSpace', '　')
   else
     autocmd VimEnter,WinEnter * 2match TwoByteSpace '　'
   end
@@ -902,18 +895,18 @@ autocmd MyAutoGroup WinEnter * if(winnr('$') == 1) && (getbufvar(winbufnr(0), '&
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
-if !exists(":DiffOrig")
+if !exists(':DiffOrig')
   command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
         \ | wincmd p | diffthis
 endif
 " }}} DiffOrig
 
 " undo {{{
-if has("persistent_undo")
-  let vimundodir=expand("~/.vim/undo")
+if has('persistent_undo')
+  let vimundodir=expand('~/.vim/undo')
   let &undodir = vimundodir
   if ! isdirectory(vimundodir)
-    call system("mkdir " . vimundodir)
+    call system('mkdir ' . vimundodir)
   endif
   set undofile
   set undoreload=1000
@@ -929,18 +922,18 @@ set undolevels=1000
 noremap [yshare] <Nop>
 map s [yshare]
 
-let g:yankshare_file = expand("~/.vim/yankshare.txt")
-if !exists("g:yankshare_file")
-  let g:yankshare_file = "/tmp/yankshare.txt"
+let g:yankshare_file = expand('~/.vim/yankshare.txt')
+if !exists('g:yankshare_file')
+  let g:yankshare_file = '/tmp/yankshare.txt'
 endif
 
 
 function! YSStore() range
-  call writefile([getreg("s")], g:yankshare_file, "b")
+  call writefile([getreg('s')], g:yankshare_file, 'b')
 endfunction
 
 function! YSLoad() range
-  call setreg("s", readfile(g:yankshare_file, "b")[0])
+  call setreg('s', readfile(g:yankshare_file, 'b')[0])
 endfunction
 
 nnoremap <silent> [yshare]y  "syy:call YSStore()<CR>
@@ -995,8 +988,8 @@ autocmd MyAutoGroup BufEnter * call s:set_matchit()
 
 " it seems working in Mac, but not in Windows (putty+XWin)
 
-if &term =~ "screen" || &term =~ "xterm"
-  if &term =~ "screen"
+if &term =~? 'screen' || &term =~? 'xterm'
+  if &term =~? 'screen'
     let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
     let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
     let &pastetoggle = "\e[201~"
@@ -1014,22 +1007,22 @@ endif
 " }}} paste
 
 " tag {{{
-if has("path_extra")
+if has('path_extra')
   set tags+=tags;
 endif
 "}}} tag
 
 " cscope {{{
-if has("cscope")
+if has('cscope')
   set csprg=/usr/local/bin/cscope
   set csto=0
   set cst
   set nocsverb
   " add any database in current directory
-  if filereadable("cscope.out")
+  if filereadable('cscope.out')
     cs add cscope.out
     " else add database pointed to by environment
-  elseif $CSCOPE_DB != ""
+  elseif $CSCOPE_DB !=# ''
     cs add $CSCOPE_DB
   endif
   set csverb
@@ -1046,10 +1039,11 @@ command! IndentAll call s:indent_all()
 
 function! s:delete_space()
   normal! mxG$
-  let flags = "w"
-  while search(" $", flags) > 0
-    s/ \+$//g
-    let flags = "W"
+  let flags = 'w'
+  while search(' $', flags) > 0
+    let line = getline('.')
+    call setline('.', substitute(getline('.'), ' \+$', '', ''))
+    let flags = 'W'
   endwhile
   'x
   delmarks x
@@ -1064,9 +1058,9 @@ endfunction
 command! AlignCode call s:align_code()
 
 function! s:align_all_buf()
-  for i in  range(1, bufnr("$"))
+  for i in  range(1, bufnr('$'))
     if buflisted(i)
-      execute "buffer" i
+      execute 'buffer' i
       AlignCode
       update
       bdelete
@@ -1089,33 +1083,33 @@ xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
 
 " Basic tools {{{
 " vim-submode{{{
-if s:dein_enabled && dein#tap("vim-submode")
-  call submode#enter_with("winsize", "n", "", "<C-w>>", "<C-w>>")
-  call submode#enter_with("winsize", "n", "", "<C-w><", "<C-w><")
-  call submode#enter_with("winsize", "n", "", "<C-w>+", "<C-w>+")
-  call submode#enter_with("winsize", "n", "", "<C-w>-", "<C-w>-")
-  call submode#enter_with("winsize", "n", "", "<C-w>e", "<C-w>><C-w><")
-  call submode#enter_with("winsize", "n", "", "<C-w><C-e>", "<C-w>><C-w><")
-  call submode#map("winsize", "n", "", ">", "<C-w>>")
-  call submode#map("winsize", "n", "", "<", "<C-w><")
-  call submode#map("winsize", "n", "", "+", "<C-w>-")
-  call submode#map("winsize", "n", "", "-", "<C-w>+")
-  call submode#map("winsize", "n", "", "l", "<C-w>>")
-  call submode#map("winsize", "n", "", "h", "<C-w><")
-  call submode#map("winsize", "n", "", "j", "<C-w>-")
-  call submode#map("winsize", "n", "", "k", "<C-w>+")
-  call submode#map("winsize", "n", "", "<C-l>", "<C-w>>")
-  call submode#map("winsize", "n", "", "<C-h>", "<C-w><")
-  call submode#map("winsize", "n", "", "<C-j>", "<C-w>-")
-  call submode#map("winsize", "n", "", "<C-k>", "<C-w>+")
-  call submode#map("winsize", "n", "", "=", "<C-w>=")
-  call submode#map("winsize", "n", "", "<C-=>", "<C-w>=")
+if s:dein_enabled && dein#tap('vim-submode')
+  call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+  call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+  call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+  call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+  call submode#enter_with('winsize', 'n', '', '<C-w>e', '<C-w>><C-w><')
+  call submode#enter_with('winsize', 'n', '', '<C-w><C-e>', '<C-w>><C-w><')
+  call submode#map('winsize', 'n', '', '>', '<C-w>>')
+  call submode#map('winsize', 'n', '', '<', '<C-w><')
+  call submode#map('winsize', 'n', '', '+', '<C-w>-')
+  call submode#map('winsize', 'n', '', '-', '<C-w>+')
+  call submode#map('winsize', 'n', '', 'l', '<C-w>>')
+  call submode#map('winsize', 'n', '', 'h', '<C-w><')
+  call submode#map('winsize', 'n', '', 'j', '<C-w>-')
+  call submode#map('winsize', 'n', '', 'k', '<C-w>+')
+  call submode#map('winsize', 'n', '', '<C-l>', '<C-w>>')
+  call submode#map('winsize', 'n', '', '<C-h>', '<C-w><')
+  call submode#map('winsize', 'n', '', '<C-j>', '<C-w>-')
+  call submode#map('winsize', 'n', '', '<C-k>', '<C-w>+')
+  call submode#map('winsize', 'n', '', '=', '<C-w>=')
+  call submode#map('winsize', 'n', '', '<C-=>', '<C-w>=')
 endif
 "}}} vim-submode
 " }}}
 
 " Unite {{{
-if s:dein_enabled && dein#tap("unite.vim")
+if s:dein_enabled && dein#tap('unite.vim')
   function! s:unite_my_settings()
     nmap <buffer><Esc> <Plug>(unite_exit)
     imap <buffer> jj      <Plug>(unite_insert_leave)
@@ -1127,7 +1121,7 @@ if s:dein_enabled && dein#tap("unite.vim")
     imap <buffer> '     <Plug>(unite_quick_match_default_action)
     nmap <buffer> '     <Plug>(unite_quick_match_default_action)
     imap <buffer><expr> x
-          \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
+          \ unite#smart_map('x', '\<Plug>(unite_quick_match_choose_action)')
     nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
     nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
     imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
@@ -1151,7 +1145,7 @@ if s:dein_enabled && dein#tap("unite.vim")
           \ empty(unite#mappings#get_current_filters()) ?
           \ ['sorter_reverse'] : [])
 
-    " Runs "split" action by <C-s>.
+    " Runs 'split' action by <C-s>.
     imap <silent><buffer><expr> <C-s>     unite#do_action('split')
   endfunction
   autocmd MyAutoGroup FileType unite call s:unite_my_settings()
@@ -1159,10 +1153,10 @@ if s:dein_enabled && dein#tap("unite.vim")
   let g:unite_enable_start_insert=1
   " window
   "let g:unite_enable_split_vertically=1
-  let g:unite_split_rule="botright" " default topleft
+  let g:unite_split_rule='botright' " default topleft
   let g:unite_winheight=10          " default 20
   let g:unite_winwidth=60           " default 90
-  let g:unite_data_directory=s:vimdir . ".cache/unite"
+  let g:unite_data_directory=s:vimdir . '.cache/unite'
 
   " Unite prefix
   nnoremap [unite] <Nop>
@@ -1181,43 +1175,43 @@ if s:dein_enabled && dein#tap("unite.vim")
   " search (like ack.vim/ag.vim)
   nnoremap <silent> [unite]/ :Unite grep:.<CR>
   " show opened file history including current buffers
-  if dein#tap("neomru.vim")
+  if dein#tap('neomru.vim')
     nnoremap <silent> [unite]m :Unite file_mru<CR>
   else
     nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
   endif
   " mark
-  if dein#tap("unite-mark")
+  if dein#tap('unite-mark')
     nnoremap <silent> [unite]M :Unite mark<CR>
   endif
   " history
-  if dein#tap("unite-help")
+  if dein#tap('unite-help')
     nnoremap <silent> [unite]h :Unite -start-insert help<CR>
   endif
   " history
-  if dein#tap("vim-unite-history")
+  if dein#tap('vim-unite-history')
     nnoremap <silent> [unite]c :Unite history/command<CR>
     nnoremap <silent> [unite]S :Unite history/search<CR>
   endif
   " tag
-  if dein#tap("unite-tag")
+  if dein#tap('unite-tag')
     nnoremap <silent> [unite]t :Unite tag<CR>
   endif
   " yank
-  if dein#tap("neoyank.vim")
+  if dein#tap('neoyank.vim')
     nnoremap <silent> [unite]y :Unite history/yank<CR>
-  elseif dein#tap("yankround.vim")
+  elseif dein#tap('yankround.vim')
     nnoremap <silent> [unite]y :Unite yankround<CR>
   endif
   " snippet
-  if dein#tap("neosnipet")
+  if dein#tap('neosnipet')
     nnoremap <silent> [unite]s :Unite neosnippet<CR>
   endif
 endif
 " }}} Unite
 
 " neocomplete {{{
-if s:dein_enabled && dein#tap("neocomplete.vim")
+if s:dein_enabled && dein#tap('neocomplete.vim')
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#max_list = 20
   let g:neocomplete#min_keyword_length = 3
@@ -1237,8 +1231,8 @@ if s:dein_enabled && dein#tap("neocomplete.vim")
         \  'vim':0, 'sh':0, 'javascript':0, 'perl':0}
   let g:neocomplete#same_filetypes = {}
   let g:neocomplete#same_filetypes._ = '_'
-  "inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
+  "inoremap <expr> <TAB>  pumvisible() ? '\<C-n>' : '\<TAB>'
+  inoremap <expr> <Tab> pumvisible() ? '\<C-n>' : neocomplete#start_manual_complete()
   "inoremap <expr> <A-y>  neocomplete#close_popup()
   "inoremap <expr> <A-e>  neocomplete#cancel_popup()
   "inoremap <expr> <A-l>  neocomplete#complete_common_string()
@@ -1249,7 +1243,7 @@ endif
 " }}}
 
 " neosnippet {{{
-if s:dein_enabled && dein#tap("neosnippet")
+if s:dein_enabled && dein#tap('neosnippet')
   imap <C-s> <Plug>(neosnippet_expand_or_jump)
   smap <C-s> <Plug>(neosnippet_expand_or_jump)
   xmap <C-s> <Plug>(neosnippet_expand_target)
@@ -1259,13 +1253,13 @@ if s:dein_enabled && dein#tap("neosnippet")
   let g:neosnippet#enable_snipmate_compatibility = 1
   let g:neosnippet#disable_runtime_snippets = {'_' : 1}
   let g:neosnippet#snippets_directory = []
-  if dein#tap("neosnippet-snippets")
+  if dein#tap('neosnippet-snippets')
     let g:neosnippet#snippets_directory += [expand(s:dein_github . '/Shougo/neosnippet-snippets/neosnippets')]
   endif
-  if dein#tap("vim-snippets")
+  if dein#tap('vim-snippets')
     let g:neosnippet#snippets_directory += [expand(s:dein_github . '/honza/vim-snippets/snippets')]
   endif
-  if dein#tap("vim-octopress-snippets")
+  if dein#tap('vim-octopress-snippets')
     let g:neosnippet#snippets_directory += [expand(s:dein_github . '/rcmdnk/vim-octopress-snippets/neosnippets')]
   endif
 endif
@@ -1273,15 +1267,15 @@ endif
 
 " Code syntax, tools for each language {{{
 " applescript{{{
-if s:dein_enabled && dein#tap("applescript.vim")
+if s:dein_enabled && dein#tap('applescript.vim')
   autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setlocal filetype=applescript
   "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬<CR>
 endif
 "}}} applescript
 
 " vim-marching {{{
-if s:dein_enabled && dein#tap("vim-marching")
-  if dein#tap("neocomplete.vim")
+if s:dein_enabled && dein#tap('vim-marching')
+  if dein#tap('neocomplete.vim')
     let g:marching_enable_neocomplete = 1
     if !exists('g:neocomplete#force_omni_input_patterns')
       let g:neocomplete#force_omni_input_patterns = {}
@@ -1293,41 +1287,41 @@ endif
 " }}} vim-marching
 
 " vim-clang-format {{{
-if s:dein_enabled && dein#tap("vim-clang-format")
+if s:dein_enabled && dein#tap('vim-clang-format')
   let g:clang_format#style_options = {
-              \ "AccessModifierOffset" : -4,
-              \ "AllowShortIfStatementsOnASingleLine" : "true",
-              \ "AlwaysBreakTemplateDeclarations" : "true",
-              \ "Standard" : "C++11"}
+              \ 'AccessModifierOffset' : -4,
+              \ 'AllowShortIfStatementsOnASingleLine' : 'true',
+              \ 'AlwaysBreakTemplateDeclarations' : 'true',
+              \ 'Standard' : 'C++11'}
   " map to <Leader>cf in C++ code
   autocmd MyAutoGroup FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
   autocmd MyAutoGroup FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
   " if you install vim-operator-user
-  if dein#tap("vim-operator-user")
+  if dein#tap('vim-operator-user')
     autocmd MyAutoGroup FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
   endif
 endif
 " }}} vim-clang-format
 
 " vim-markdown-quote-syntax {{{
-if s:dein_enabled && dein#tap("vim-markdown-quote-syntax")
+if s:dein_enabled && dein#tap('vim-markdown-quote-syntax')
   let g:markdown_quote_syntax_on_filetypes = ['txt', 'text']
   let g:markdown_quote_syntax_filetypes = {
-        \ "css" : {
-        \   "start" : "css",
+        \ 'css' : {
+        \   'start' : 'css',
         \},
-        \ "scss" : {
-        \   "start" : "scss",
+        \ 'scss' : {
+        \   'start' : 'scss',
         \},
-        \ "markdown" : {
-        \   "start" : "markdown",
+        \ 'markdown' : {
+        \   'start' : 'markdown',
         \},
   \}
 endif
 " }}} vim-markdown-quote-syntax
 
 " markdown {{{
-if s:dein_enabled && dein#tap("vim-markdown")
+if s:dein_enabled && dein#tap('vim-markdown')
   let g:vim_markdown_liquid=1
   let g:vim_markdown_frontmatter=1
   let g:vim_markdown_math=0
@@ -1338,7 +1332,7 @@ endif
 " }}} vim-markdown
 
 " syntastic{{{
-if s:dein_enabled && dein#tap("syntastic")
+if s:dein_enabled && dein#tap('syntastic')
   " Disable automatic check at file open/close
   let g:syntastic_check_on_open=0
   let g:syntastic_check_on_wq=0
@@ -1348,7 +1342,7 @@ if s:dein_enabled && dein#tap("syntastic")
   let g:syntastic_cpp_check_header = 1
   " Java
   let g:syntastic_java_javac_config_file_enabled = 1
-  let g:syntastic_java_javac_config_file = "$HOME/.syntastic_javac_config"
+  let g:syntastic_java_javac_config_file = '$HOME/.syntastic_javac_config'
   " python
   let g:syntastic_python_checkers = ['flake8']
   " ruby
@@ -1359,14 +1353,14 @@ endif
 
 " View {{{
 " lightline.vim {{{
-if s:dein_enabled && dein#tap("lightline.vim")
+if s:dein_enabled && dein#tap('lightline.vim')
   let g:lightline = {
-        \"colorscheme": "jellybeans",
-        \"active": {
-        \"left": [["test", "mode", "filename"], ["fugitive"]],
-        \"right": [["lineinfo"], ["fileinfo"]]},
-        \"component_visible_condition": {
-        \"fugitive": '(exists("*fugitive#head") && ""!=fugitive#head())'},
+        \'colorscheme': 'jellybeans',
+        \'active': {
+        \'left': [['test', 'mode', 'filename'], ['fugitive']],
+        \'right': [['lineinfo'], ['fileinfo']]},
+        \'component_visible_condition': {
+        \'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'},
         \'component_function': {
         \'test': 'LLFunc',
         \'mode': 'LLMode',
@@ -1383,15 +1377,15 @@ if s:dein_enabled && dein#tap("lightline.vim")
   function! LLMode()
     let ps = ''
     if &paste
-      let ps = " P"
+      let ps = ' P'
     endif
     return lightline#mode() . ps
   endfunction
 
   function! LLFileName()
-    let fn = expand("%:t")
-    let ro = &ft !~? 'help' && &readonly ? " RO" : ""
-    let mo = &modifiable && &modified ? " +" : ""
+    let fn = expand('%:t')
+    let ro = &ft !~? 'help' && &readonly ? ' RO' : ''
+    let mo = &modifiable && &modified ? ' +' : ''
     return fn . ro . mo
   endfunction
 
@@ -1409,22 +1403,22 @@ if s:dein_enabled && dein#tap("lightline.vim")
     let ff = &fileformat
     let fe = (strlen(&fenc) ? &fenc : &enc)
     let ft = (strlen(&filetype) ? &filetype : 'no')
-    let fi = ff . " " . fe . " " . ft
+    let fi = ff . ' ' . fe . ' ' . ft
     return winwidth('.') >=
           \  strlen(LLMode()) + 2
           \+ strlen(LLFileName()) + 2
           \+ strlen(LLFugitive())
-          \+ ((exists("*fugitive#head") && ""!=fugitive#head()) ? 2 : 0)
+          \+ ((exists('*fugitive#head') && ''!=#fugitive#head()) ? 2 : 0)
           \+ strlen(fi) + 2
           \+ strlen(LLLineInfo()) + 2
           \? fi : ''
   endfunction
 
   function! LLLineInfo()
-    let cl = line(".")
-    let ll = line("$")
-    let cc = col(".")
-    let li = printf("%4d/%d:%3d", cl, ll, cc)
+    let cl = line('.')
+    let ll = line('$')
+    let cc = col('.')
+    let li = printf('%4d/%d:%3d', cl, ll, cc)
     return winwidth('.') >=
           \  strlen(LLFileName()) + 2
           \+ strlen(li) + 2
@@ -1434,7 +1428,7 @@ endif
 "}}} lightline.vim
 
 " vim-indent-guides{{{
-if s:dein_enabled && dein#tap("vim-indent-guides")
+if s:dein_enabled && dein#tap('vim-indent-guides')
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level = 1
   let g:indent_guides_auto_colors = 0
@@ -1444,14 +1438,14 @@ endif
 "}}} vim-indent-guides
 
 " linediff {{{
-if s:dein_enabled && dein#tap("linediff.vim")
+if s:dein_enabled && dein#tap('linediff.vim')
   let g:linediff_first_buffer_command  = 'leftabove new'
   let g:linediff_second_buffer_command = 'rightbelow vertical new'
 endif
 "}}} linediff
 
 " vim-diff-enhanced {{{
-if s:dein_enabled && dein#tap("vim-diff-enhanced")
+if s:dein_enabled && dein#tap('vim-diff-enhanced')
   let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
 endif
 "}}} vim-diff-enhanced
@@ -1459,13 +1453,13 @@ endif
 " NERDTree+SrcExpl+tagbar {{{
 
 " The NERD Tree  {{{
-if s:dein_enabled && dein#tap("nerdtree")
+if s:dein_enabled && dein#tap('nerdtree')
   nnoremap <Leader>N :NERDTreeToggle<CR>
 endif
 "}}}
 
 " SrcExpl  {{{
-if s:dein_enabled && dein#tap("SrcExpl")
+if s:dein_enabled && dein#tap('SrcExpl')
   " Set refresh time in ms
   let g:SrcExpl_RefreshTime = 1000
   " Is update tags when SrcExpl is opened
@@ -1492,7 +1486,7 @@ endif
 "}}}
 
 " tagbar {{{
-if s:dein_enabled && dein#tap("tagbar")
+if s:dein_enabled && dein#tap('tagbar')
   " Width (default 40)
   let g:tagbar_width = 20
   " Mappings
@@ -1500,7 +1494,7 @@ if s:dein_enabled && dein#tap("tagbar")
 endif
 "}}} tagbar
 
-if s:dein_enabled && dein#tap("nerdtree") && dein#tap("SrcExpl") && dein#tap("tagbar")
+if s:dein_enabled && dein#tap('nerdtree') && dein#tap('SrcExpl') && dein#tap('tagbar')
   nnoremap <silent> <Leader>A :SrcExplToggle<CR>:NERDTreeToggle<CR>:TagbarToggle<CR>
 endif
 " }}}
@@ -1513,7 +1507,7 @@ endif
 " }}}
 
 " gist-vim {{{
-if s:dein_enabled && dein#tap("gist-vim")
+if s:dein_enabled && dein#tap('gist-vim')
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
   " Disable default Gist command
@@ -1524,11 +1518,11 @@ endif
 
 " Selection {{{
 " wildfire {{{
-if s:dein_enabled && dein#tap("wildfire.vim")
+if s:dein_enabled && dein#tap('wildfire.vim')
   "let g:wildfire_objects = {
-  "      \ "*" : ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at'],
+  "      \ '*' : ['iw', "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at'],
   "      \ }
-  let g:wildfire_objects = ["iw", "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at']
+  let g:wildfire_objects = ['iw', "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at']
 
   " This selects the next closest text object.
   map <RETURN> <Plug>(wildfire-fuel)
@@ -1539,7 +1533,7 @@ endif
 " }}}
 
 " vim-quickhl {{{
-if s:dein_enabled && dein#tap("vim-quickhl")
+if s:dein_enabled && dein#tap('vim-quickhl')
   nmap <Subleader>m <Plug>(quickhl-manual-this)
   xmap <Subleader>m <Plug>(quickhl-manual-this)
   nmap <Subleader>M <Plug>(quickhl-manual-reset)
@@ -1547,7 +1541,7 @@ if s:dein_enabled && dein#tap("vim-quickhl")
 
   nmap <Subleader>j <Plug>(quickhl-cword-toggle)
   nmap <Subleader>] <Plug>(quickhl-tag-toggle)
-  "if dein#tap("vim-operator-user")
+  "if dein#tap('vim-operator-user')
   "  map H <Plug>(operator-quickhl-manual-this-motion)
   "endif
 endif
@@ -1556,7 +1550,7 @@ endif
 
 " Search {{{
 " vim-anzu {{{
-if s:dein_enabled && dein#tap("vim-anzu")
+if s:dein_enabled && dein#tap('vim-anzu')
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
   nmap * g*<C-o><Plug>(anzu-update-search-status-with-echo)
@@ -1572,7 +1566,7 @@ endif
 " }}} vim-anzu
 
 " incsearch {{{
-if s:dein_enabled && dein#tap("incsearch.vim")
+if s:dein_enabled && dein#tap('incsearch.vim')
   map / <Plug>(incsearch-forward)
   map ? <Plug>(incsearch-backward)
   map g/ <Plug>(incsearch-stay)
@@ -1583,7 +1577,7 @@ endif
 
 " Edit {{{
 " gundo {{{
-if s:dein_enabled && dein#tap("gundo.vim")
+if s:dein_enabled && dein#tap('gundo.vim')
   nnoremap U :GundoToggle<CR>
   let g:gundo_width = 30
   let g:gundo_preview_height = 15
@@ -1594,14 +1588,14 @@ endif
 
 " Operator {{{
 " vim-operator-replace{{{
-if s:dein_enabled && dein#tap("vim-operator-replace")
+if s:dein_enabled && dein#tap('vim-operator-replace')
   map _  <Plug>(operator-replace)
 endif
 " }}} vim-operator-replace
 " }}} Operator
 
 " yankround {{{
-if s:dein_enabled && dein#tap("yankround.vim")
+if s:dein_enabled && dein#tap('yankround.vim')
   nmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
   xmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
   nmap <expr> P (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-P)'
@@ -1618,15 +1612,15 @@ endif
 " }}} yankround
 
 " vim-over {{{
-if s:dein_enabled && dein#tap("vim-over")
+if s:dein_enabled && dein#tap('vim-over')
   nnoremap <Leader>o :OverCommandLine<CR>%s/
   xnoremap <Leader>o :OverCommandLine<CR>s/
 endif
 " }}} vim-over
 
 " vim-surround {{{
-if s:dein_enabled && dein#tap("vim-surround")
-  let g:surround_{char2nr("a")} = "**\r**"
+if s:dein_enabled && dein#tap('vim-surround')
+  let g:surround_{char2nr('a')} = '**\r**'
   nmap <Leader>{ ysiw{
   nmap <Leader>} ysiw}
   nmap <Leader>[ ysiw[
@@ -1661,14 +1655,14 @@ endif
 
 " Move {{{
 " vim-easymotion{{{
-if s:dein_enabled && dein#tap("vim-easymotion")
+if s:dein_enabled && dein#tap('vim-easymotion')
   let g:EasyMotion_do_mapping=0
   let g:EasyMotion_grouping=1
   let g:EasyMotion_enter_jump_first=1
   let g:EasyMotion_space_jump_first=1
   let g:EasyMotion_smartcase=1
   let g:EasyMotion_use_upper=1
-  let g:EasyMotion_keys="hjklasdfgyuiopqwertnmzxcvb"
+  let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvb'
   hi EasyMotionTarget ctermbg=none ctermfg=red
   hi EasyMotionShade  ctermbg=none ctermfg=blue
 
@@ -1681,38 +1675,38 @@ endif
 
 " Check language, web source {{{
 " vim-ref {{{
-if s:dein_enabled && dein#tap("vim-ref")
+if s:dein_enabled && dein#tap('vim-ref')
   " Set webdict sources
   let g:ref_source_webdict_sites = {
-        \   "je": {
-        \     "url": "http://dictionary.infoseek.ne.jp/jeword/%s",
+        \   'je': {
+        \     'url': 'http://dictionary.infoseek.ne.jp/jeword/%s',
         \   },
-        \   "ej": {
-        \     "url": "http://dictionary.infoseek.ne.jp/ejword/%s",
+        \   'ej': {
+        \     'url': 'http://dictionary.infoseek.ne.jp/ejword/%s',
         \   },
-        \   "wikipedia": {
-        \     "url": "http://ja.wikipedia.org/wiki/%s",
+        \   'wikipedia': {
+        \     'url': 'http://ja.wikipedia.org/wiki/%s',
         \   },
-        \   "wikipedia_en": {
-        \     "url": "http://wikipedia.org/wiki/%s",
+        \   'wikipedia_en': {
+        \     'url': 'http://wikipedia.org/wiki/%s',
         \   },
         \ }
 
   " Set default
-  let g:ref_source_webdict_sites.default = "ej"
+  let g:ref_source_webdict_sites.default = 'ej'
 
   " Filter
   function! g:ref_source_webdict_sites.je.filter(output)
-    return join(split(a:output, "\n")[15 :], "\n")
+    return join(split(a:output, '\n')[15 :], '\n')
   endfunction
   function! g:ref_source_webdict_sites.ej.filter(output)
-    return join(split(a:output, "\n")[15 :], "\n")
+    return join(split(a:output, '\n')[15 :], '\n')
   endfunction
   function! g:ref_source_webdict_sites.wikipedia.filter(output)
-    return join(split(a:output, "\n")[17 :], "\n")
+    return join(split(a:output, '\n')[17 :], '\n')
   endfunction
   function! g:ref_source_webdict_sites.wikipedia_en.filter(output)
-    return join(split(a:output, "\n")[17 :], "\n")
+    return join(split(a:output, '\n')[17 :], '\n')
   endfunction
 
   " vim-ref prefix
@@ -1731,17 +1725,17 @@ endif
 " }}} vim-ref
 
 " translategoogle {{{
-if s:dein_enabled && dein#tap("translategoogle.vim")
-  let g:translategoogle_language = ["ja", "en", "fr"]
-  let g:translategoogle_default_sl = "en"
-  let g:translategoogle_default_tl = "ja"
+if s:dein_enabled && dein#tap('translategoogle.vim')
+  let g:translategoogle_language = ['ja', 'en', 'fr']
+  let g:translategoogle_default_sl = 'en'
+  let g:translategoogle_default_tl = 'ja'
 endif
 " }}} translategoogle.vim
 " }}} Check language, web source
 
 " Other tools {{{
 " open-browser{{{
-if s:dein_enabled && dein#tap("open-browser.vim")
+if s:dein_enabled && dein#tap('open-browser.vim')
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
   nmap gx <Plug>(openbrowser-smart-search)
   xmap gx <Plug>(openbrowser-smart-search)
@@ -1751,12 +1745,12 @@ endif
 " }}} Plugin settings
 
 " local settings {{{
-if filereadable(expand("~/.vimrc.local"))
-  execute "source" expand("~/.vimrc.local")
+if filereadable(expand('~/.vimrc.local'))
+  execute 'source' expand('~/.vimrc.local')
 endif
 
-if filereadable(expand("./.vimrc.dir"))
-  execute "source" expand("./.vimrc.dir")
+if filereadable(expand('./.vimrc.dir'))
+  execute 'source' expand('./.vimrc.dir')
 endif
 " }}}
 
