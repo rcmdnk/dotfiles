@@ -50,7 +50,7 @@ if s:use_dein && v:version >= 704
     call dein#add('tpope/vim-repeat')
 
     " Sub mode
-    "call dein#add('kana/vim-submode')
+    call dein#add('kana/vim-submode')
 
     " webapi
     call dein#add('mattn/webapi-vim')
@@ -159,7 +159,9 @@ if s:use_dein && v:version >= 704
     call dein#add('dbakker/vim-lint')
 
     " Syntax checking
-    call dein#add('scrooloose/syntastic', {'depends': ['vimproc']})
+    "call dein#add('vim-syntastic/syntastic')
+    call dein#add('neomake/neomake')
+    call dein#add('benjie/neomake-local-eslint.vim')
     " }}}
 
     " View {{{
@@ -1349,6 +1351,33 @@ if s:dein_enabled && dein#tap('syntastic')
   let g:syntastic_ruby_checkers = ['rubocop']
 endif
 "}}} syntastic
+
+" neomake{{{
+if s:dein_enabled && dein#tap('neomake')
+  autocmd MyAutoGroup BufWritePost * Neomake
+
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi NeomakeInfoSign term=bold ctermfg=0 ctermbg=6 gui=bold guifg=Blue guibg=coral
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi link NeomakeInfo NeomakeInfoSign
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi NeomakeWarningSign term=standout ctermfg=0 ctermbg=11 guifg=Black guibg=orange
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi link NeomakeWarning NeomakeWarningSign
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi NeomakeErrorSign term=reverse ctermfg=15 ctermbg=9 guifg=White guibg=Red
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi link NeomakeError NeomakeErrorSign
+
+  let g:neomake_javascript_enabled_makers = ['eslint']
+
+  let g:neomake_error_sign = {'text': '✖', 'texthl': 'NeomakeErrorSign'}
+  let g:neomake_warning_sign = {
+      \   'text': '⚠',
+      \   'texthl': 'NeomakeWarningSign',
+      \ }
+  let g:neomake_message_sign = {
+       \   'text': '➤',
+       \   'texthl': 'NeomakeMessageSign',
+       \ }
+  let g:neomake_info_sign = {'text': 'ℹ', 'texthl': 'NeomakeInfoSign'}
+endif
+"}}} neomake
+
 " }}} Code syntax, tools for each language
 
 " View {{{
