@@ -438,8 +438,8 @@ javascript <<EOM
     { label: 'markdown', value: 'markdown link', custom: function() {
       var t = content.document.title;
       var l = content.location.href;
-      if(l.includes("rcmdnk.github.io") || l.includes("octopress.dev") || l.includes("en.dev")){
-        l = l.replace(/https?:\/\/(rcmdnk.github.io|octopress.dev|en.dev)/,'');
+      if(l.includes("rcmdnk.com") || l.includes("octopress.dev") || l.includes("en.dev")){
+        l = l.replace(/https?:\/\/(rcmdnk.com|octopress.dev|en.dev)/,'');
         return '{% post_card ' + l + ' ' + t + ' %}';
       }else{
         return '['+t+']('+l+')';
