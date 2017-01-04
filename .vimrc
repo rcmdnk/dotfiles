@@ -331,6 +331,9 @@ if s:use_dein && v:version >= 704
 
     " Database access
     call dein#add('dbext.vim')
+
+    " Like spacemacs, but for vim
+    call dein#add('SpaceVim/SpaceVim')
     " }}}
 
     " Fun {{{
