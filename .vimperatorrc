@@ -490,8 +490,8 @@ javascript <<EOM
           alert("Failed to get image!");
           return;
         }
-        var p = s.replace(/http:.*\/I\/([^\.]+).*$/,'$1');
-        var a = s.replace(/(http:.*com).*/,'$1/images/I/');
+        var p = s.replace(/http.*\/I\/([^\.]+).*$/,'$1');
+        var a = s.replace(/(http.*com).*/,'$1/images/I/');
         var e = s.split(".").pop();
         var i = a + p + '._SS' + x + '_.' + e;
         if(content.document.getElementById('btAsinTitle')){
@@ -553,8 +553,8 @@ javascript <<EOM
           alert("Failed to get image!");
           return;
         }
-        var p = s.replace(/http:.*\/I\/([^\.]+).*$/,'$1');
-        var a = s.replace(/(http:.*com).*/,'$1/images/I/');
+        var p = s.replace(/http.*\/I\/([^\.]+).*$/,'$1');
+        var a = s.replace(/(http.*com).*/,'$1/images/I/');
         var e = s.split(".").pop();
         var i = a + p + '._SS' + x + '_.' + e;
         if(content.document.getElementById('btAsinTitle')){
