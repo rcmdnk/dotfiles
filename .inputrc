@@ -98,11 +98,11 @@ $endif
 "\C-g\C-f": "\C-e\C-ufind . -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -name \"**\"\C-b\C-b"
 "\C-gf": "\C-e\C-ufind . -path \"./.svn\" -prune -o -path \"./.git\" -prune -o" -name \"**\"\C-b\C-b"
 # grep uniq
-"\C-g\C-u": "\C-e\C-ufind . -print0 -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -type f -o -type l|xargs -0 grep -l -s \"\"\C-b"
-"\C-gu": "\C-e\C-ufind . -print0 -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -type f -o -type l|xargs -0 grep -l -s \"\"\C-b"
+"\C-g\C-u": "\C-e\C-ufind . -print0 -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -type f -o -type l|xargs -0 grep -l \"\"\C-b"
+"\C-gu": "\C-e\C-ufind . -print0 -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -type f -o -type l|xargs -0 grep -l \"\"\C-b"
 # grep uniq and open with vi
-"\C-g\C-v": "\C-e\C-uvi $(find . -print0 -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -type f -o -type l0|xargs -0 grep -l -s \"\")\C-b\C-b"
-"\C-gv": "\C-e\C-uvi $(find . -print0 -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -type f -o -type l|xargs -0 grep -l -s \"\")\C-b\C-b"
+"\C-g\C-v": "\C-e\C-uvi $(find . -print0 -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -type f -o -type l0|xargs -0 grep -l \"\")\C-b\C-b"
+"\C-gv": "\C-e\C-uvi $(find . -print0 -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -type f -o -type l|xargs -0 grep -l \"\")\C-b\C-b"
 
 # Quote/Bracket
 "\e\"": "\eb\"\ef\""
