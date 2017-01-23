@@ -627,48 +627,6 @@ fi
 #complete -D -F _completion_suffix_alias -o bashdefault -o default
 # }}}
 
-# {{{ output
-_output_date_format='%Y%m%d %H:%M:%S'
-_output_level=0 # 0: debug, 1: info, 2: notice, 3: warn, 4: err
-_err_color="31"
-_warn_color="33"
-_notice_color="36"
-_info_color=""
-_debug_color="3"
-function err () { # {{{
-  if [ $_output_level -gt 4 ];then
-    return
-  fi
-  printf "\e[${_err_color}m[$(date +"$_output_date_format")] [ERROR]: %s\e[m\n"  "$*"
-}
-function warn () { # {{{
-  if [ $_output_level -gt 3 ];then
-    return
-  fi
-  printf "\e[${_warn_color}m[$(date +"$_output_date_format")] [WARNING]: %s\e[m\n" "$*"
-}
-function notice () { # {{{
-  if [ $_output_level -gt 2 ];then
-    return
-  fi
-  printf "\e[${_notice_color}m[$(date +"$_output_date_format")] [NOTICE]: %s\e[m\n" "$*"
-}
-function info () { # {{{
-  if [ $_output_level -gt 1 ];then
-    return
-  fi
-  printf "\e[${_info_color}m[$(date +"$_output_date_format")] [INFO]: %s\e[m\n" "$*"
-}
-function debug () { # {{{
-  if [ $_output_level -gt 0 ];then
-    return
-  fi
-  printf "\e[${_debug_color}m[$(date +"$_output_date_format")] [DEBUG]: %s\e[m\n" "$*"
-}
-# }}}
-
-# }}}
-
 # }}} Alias, Function
 
 # stty {{{
@@ -682,10 +640,17 @@ tty -s && stty start undef
 source_file ~/.screen/setup.sh
 # }}} For screen
 
-# {{{ For Travis CI
+# For Travis CI {{{
 # added by travis gem
 source_file ~/.travis/travis.sh
 # }}}
+
+# Shell logger{{{
+# added by travis gem
+source_file ~/usr/etc/shell-logger
+# }}}
+
+
 
 # Setup for each environment {{{
 # Note: such PATH setting should be placed
