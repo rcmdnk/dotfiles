@@ -146,7 +146,7 @@ $endif
 "\C-t": ""
 
 # xargs
-"\ex": "\C-ufind . -print0 -name \"**\" 2>/dev/null| xargs -0\C-a\ef\ef\C-f\C-f\C-f"
+"\ex": "\C-ufind . -print0 -name \"**\" 2>/dev/null| xargs -0\C-a\ef\ef\ef\C-f\C-f\C-f"
 
 # ps
 "\ep": "\C-ups -U $USER\C-m"
