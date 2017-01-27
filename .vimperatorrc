@@ -191,6 +191,15 @@ silent qmark s javascript:void%20window.open('http://www.similarweb.com/website/
 "-----------------------------------------------------------------
 
 " normal mode
+" mapleader (<Leader>) (default is \)
+let g:mapleader = ','
+" use \, as , instead
+noremap <Subleader> <Nop>
+map <Space> <Subleader>
+noremap <Subleader>, ,
+
+nnoremap <Leader>. :source ~/.vimperatorrc<CR>
+
 "nnoremap <C-v> <C-v><C-v>
 "nnoremap <C-c> <C-v><C-c>
 nnoremap <C-h> h
@@ -596,6 +605,19 @@ mappings.addUserMap(
 );
 EOM
 " }}}
+
+" For Firefox 51 and later (e10s enabled version) {{{
+nnoremap t :mytabopen about:blank<CR>:open<Space>
+command! mytabopen -nargs=1 -description "Open with new tab" :js liberator.open("<args>", liberator.NEW_TAB);
+
+nnoremap <C-n> :js gBrowser.mTabContainer.advanceSelectedTab(1, true)<CR>
+nnoremap <C-p> :js gBrowser.mTabContainer.advanceSelectedTab(-1, true)<CR>
+nnoremap d :js gBrowser.removeTab(gBrowser.mCurrentTab)<CR>
+nnoremap r :js gBrowser.reload()<CR>
+nnoremap R :js gBrowser.reload(true)<CR>
+nnoremap u :js undoCloseTab()<CR>
+" Example keybinding: xt
+"}}}
 
 " settings for each environment {{{
 "set editor="C:/Program\\\ Files/vim/gvim.exe" " Done with Addons
