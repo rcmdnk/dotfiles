@@ -103,6 +103,9 @@ $endif
 # grep uniq and open with vi
 "\C-g\C-v": "\C-e\C-uvi $(find . -print0 -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -type f -o -type l0|xargs -0 grep -l \"\")\C-b\C-b"
 "\C-gv": "\C-e\C-uvi $(find . -print0 -path \"./.svn\" -prune -o -path \"./.git\" -prune -o -type f -o -type l|xargs -0 grep -l \"\")\C-b\C-b"
+# grep Japanese with nkf
+"\C-gj": "\C-e\C-ucat |nkf --ic=utf8|grep \"\"\C-a\ef "
+"\C-g\C-j": "\C-e\C-ucat |nkf --ic=utf8|grep \"\"\C-a\ef "
 
 # Quote/Bracket
 "\e\"": "\eb\"\ef\""
