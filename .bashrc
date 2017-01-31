@@ -500,9 +500,81 @@ function linkcheck () { # Function to find the original file for the symbolic li
   done
 } # }}}
 
-function dic () { # dictionary {{{
-  w3m "http://ejje.weblio.jp/content/$1" | grep -A3 "用例"
-} # }}}
+# dictionary {{{
+function weblio () {
+  if ! type -a w3m >& /dev/null;then
+    echo "Please install w3m"
+    return 1
+  fi
+  if [ "$#" -eq 0 ];then
+    echo "usage: $0 [option] <word>"
+    echo "options: -m (show meanings), -e (show examples)"
+    echo "If no option is given, show the result page with w3m."
+  fi
+  local flag=""
+  if [ "$#" -gt 1 ];then
+    if [ "$1" = "-m" ];then
+      flag="meaning"
+      shift
+    elif [ "$1" = "-e" ];then
+      flag="example"
+      shift
+    fi
+  fi
+  if [ "$flag" = "" ];then
+    w3m "http://ejje.weblio.jp/content/$1"
+    return $?
+  fi
+  local page=$(w3m "http://ejje.weblio.jp/content/$1")
+  if [ "$flag" = "meaning" ];then
+    local start=($(printf "$page"|grep -n "主な意"|cut -d: -f1))
+    local end=($(printf "$page"|grep -n "イディオムやフレーズ"|cut -d: -f1))
+    if [ "${start[0]}" = "" ] || [ "${end[0]}" = "" ];then
+      echo "No result found (always no result for Japanese)."
+      return 1
+    fi
+    printf "$page"|sed -n $((start[0]+3)),$((end[0]))p
+  elif [ "$flag" = "example" ];then
+    local start=($(printf "$page"|grep -n "を含む例文一覧"|cut -d: -f1))
+    local end=($(printf "$page"|grep -n "例文の一覧を見る自分の例文帳を見る"|cut -d: -f1))
+    printf "$page"|sed -n $((start[0]+6)),$((end[0]-2))p|sed "s/ 例文帳に追加//g"
+  fi
+}
+function alc () {
+  if ! type -a w3m >& /dev/null;then
+    echo "Please install w3m"
+    return 1
+  fi
+  if [ "$#" -eq 0 ];then
+    echo "usage: $0 [option] <word>"
+    echo "options: -m (show meanings), -e (show examples)"
+    echo "If no option is given, show the result page with w3m."
+  fi
+  local flag=""
+  if [ "$#" -gt 1 ];then
+    if [ "$1" = "-m" ];then
+      flag="meaning"
+      shift
+    elif [ "$1" = "-e" ];then
+      flag="example"
+      shift
+    fi
+  fi
+  if [ "$flag" = "" ];then
+    w3m "http://eow.alc.co.jp/search?q=$1"
+    return $?
+  fi
+  local page=$(w3m "http://eow.alc.co.jp/search?q=test")
+  local lines=($(printf "$page"|grep -n "次へ"|cut -d: -f1))
+  if [ "$flag" = "meaning" ];then
+    local lines2=($(printf "$page"|grep -n "単語帳"|cut -d: -f1))
+    printf "$page"|sed -n $((lines[0]+2)),$((lines2[0]-1))p
+  elif [ "$flag" = "example" ];then
+    printf "$page"|sed -n $((lines[0]+2)),$((lines[1]-1))p
+  fi
+}
+alias dic=alc
+# }}}
 
 # For GNU-BSD compatibility {{{
 

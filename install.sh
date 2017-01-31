@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml')
+exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m')
 instdir="$HOME"
 
 backup="bak"
@@ -70,12 +70,12 @@ echo "Install .X to $instdir"
 echo "**********************************************"
 echo
 if [ $dryrun -ne 1 ];then
-  mkdir -p $instdir
+  mkdir -p "$instdir"
 else
   echo "*** This is dry run, not install anything ***"
 fi
 for f in .*;do
-  for e in ${exclude[@]};do
+  for e in "${exclude[@]}";do
     flag=0
     if [ "$f" = "$e" ];then
       flag=1
@@ -91,7 +91,7 @@ for f in .*;do
   if [ $dryrun -eq 1 ];then
     install=0
   fi
-  if [ "`ls "$target" 2>/dev/null`" != "" ];then
+  if [ "$(ls "$target" 2>/dev/null)" != "" ];then
     exist=(${exist[@]} "$f")
     if [ $dryrun -eq 1 ];then
       echo -n ""
@@ -117,7 +117,7 @@ install=1
 if [ $dryrun -eq 1 ];then
   install=0
 fi
-if [ "`ls "$target" 2>/dev/null`" != "" ];then
+if [ "$(ls "$target" 2>/dev/null)" != "" ];then
   exist=(${exist[@]} "$f")
   if [ $dryrun -eq 1 ];then
     echo -n ""
@@ -137,8 +137,38 @@ if [ $install -eq 1 ];then
 fi
 
 # for screen
-ls .screen/*.sh >& /dev/null && for f in $(ls .screen/*.sh);do chmod 755 $f;done
+if [ $dryrun -ne 1 ];then
+  ls .screen/*.sh >& /dev/null && for f in $(ls .screen/*.sh);do chmod 755 $f;done
+fi
 
+# w3m
+for f in .w3m/*;do
+  target="$instdir/$f"
+  install=1
+  if [ $dryrun -eq 1 ];then
+    install=0
+  fi
+  mkdir -p "$(basename "$target")"
+  if [ "$(ls "$target" 2>/dev/null)" != "" ];then
+    exist=(${exist[@]} "$f")
+    if [ $dryrun -eq 1 ];then
+      echo -n ""
+    elif [ $overwrite -eq 0 ];then
+      install=0
+    elif [ "$backup" != "" ];then
+      mv "$target" "${target}.$backup"
+    else
+      rm "$target"
+    fi
+  else
+    newlink=(${newlink[@]} "$f")
+  fi
+  if [ $install -eq 1 ];then
+    ln -s "$curdir/$f" "$target"
+  fi
+done
+
+# Summary
 if [ $dryrun -eq 1 ];then
   echo "Following files don't exist:"
 else

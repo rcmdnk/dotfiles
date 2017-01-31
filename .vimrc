@@ -1652,7 +1652,7 @@ endif
 
 " vim-surround {{{
 if s:dein_enabled && dein#tap('vim-surround')
-  let g:surround_{char2nr('a')} = '**\r**'
+  let g:surround_{char2nr('a')} = "**\r**"
   nmap <Leader>{ ysiw{
   nmap <Leader>} ysiw}
   nmap <Leader>[ ysiw[
@@ -1710,6 +1710,9 @@ endif
 if s:dein_enabled && dein#tap('vim-ref')
   " Set webdict sources
   let g:ref_source_webdict_sites = {
+        \   'alc': {
+        \     'url': 'http://eow.alc.co.jp/search?q=%s',
+        \   },
         \   'je': {
         \     'url': 'http://dictionary.infoseek.ne.jp/jeword/%s',
         \   },
@@ -1724,21 +1727,37 @@ if s:dein_enabled && dein#tap('vim-ref')
         \   },
         \ }
 
-  " Set default
-  let g:ref_source_webdict_sites.default = 'ej'
-
-  " Filter
+  "" Filter
+  function! g:ref_source_webdict_sites.alc.filter(output)
+    let l:arr = split(a:output, "\n")
+    let l:start = 0
+    let l:end = 0
+    for l:i in range(len(l:arr))
+      if l:arr[l:i] =~# '次へ'
+        if l:start == 0
+          let l:start = l:i + 2
+        elseif l:end == 0
+          let l:end = l:i - 1
+          break
+        endif
+      endif
+    endfor
+    if l:start == 0
+      return "No result found"
+    endif
+    return join(l:arr[l:start : l:end], "\n")
+  endfunction
   function! g:ref_source_webdict_sites.je.filter(output)
-    return join(split(a:output, '\n')[15 :], '\n')
+    return join(split(a:output, "\n")[15 :], "\n")
   endfunction
   function! g:ref_source_webdict_sites.ej.filter(output)
-    return join(split(a:output, '\n')[15 :], '\n')
+    return join(split(a:output, "\n")[16 :], "\n")
   endfunction
   function! g:ref_source_webdict_sites.wikipedia.filter(output)
-    return join(split(a:output, '\n')[17 :], '\n')
+    return join(split(a:output, "\n")[17 :], "\n")
   endfunction
   function! g:ref_source_webdict_sites.wikipedia_en.filter(output)
-    return join(split(a:output, '\n')[17 :], '\n')
+    return join(split(a:output, "\n")[17 :], "\n")
   endfunction
 
   " vim-ref prefix
@@ -1746,13 +1765,16 @@ if s:dein_enabled && dein#tap('vim-ref')
   xnoremap [ref] <Nop>
   nmap <Leader>r [ref]
   xmap <Leader>r [ref]
+  nnoremap [ref]a :Ref webdict alc <Space>
   nnoremap [ref]j :Ref webdict je<Space>
   nnoremap [ref]e :Ref webdict ej<Space>
   nnoremap [ref]w :Ref webdict wikipedia<Space>
   nnoremap [ref]m :Ref man<Space>
+  xnoremap [ref]a :<C-u>Ref webdict alc <C-R><C-w><CR>
   xnoremap [ref]j :<C-u>Ref webdict je <C-R><C-w><CR>
   xnoremap [ref]e :<C-u>Ref webdict ej <C-R><C-w><CR>
   xnoremap [ref]w :<C-u>Ref webdict wikipedia <C-R><C-w><CR>
+  nnoremap <silent> <Leader>d :Ref webdict alc <C-R><C-w><CR>
 endif
 " }}} vim-ref
 

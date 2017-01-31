@@ -616,7 +616,6 @@ nnoremap d :js gBrowser.removeTab(gBrowser.mCurrentTab)<CR>
 nnoremap r :js gBrowser.reload()<CR>
 nnoremap R :js gBrowser.reload(true)<CR>
 nnoremap u :js undoCloseTab()<CR>
-" Example keybinding: xt
 "}}}
 
 " settings for each environment {{{
