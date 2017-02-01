@@ -606,18 +606,6 @@ mappings.addUserMap(
 EOM
 " }}}
 
-" For Firefox 51 and later (e10s enabled version) {{{
-nnoremap t :mytabopen about:blank<CR>:open<Space>
-command! mytabopen -nargs=1 -description "Open with new tab" :js liberator.open("<args>", liberator.NEW_TAB);
-
-nnoremap <C-n> :js gBrowser.mTabContainer.advanceSelectedTab(1, true)<CR>
-nnoremap <C-p> :js gBrowser.mTabContainer.advanceSelectedTab(-1, true)<CR>
-nnoremap d :js gBrowser.removeTab(gBrowser.mCurrentTab)<CR>
-nnoremap r :js gBrowser.reload()<CR>
-nnoremap R :js gBrowser.reload(true)<CR>
-nnoremap u :js undoCloseTab()<CR>
-"}}}
-
 " settings for each environment {{{
 "set editor="C:/Program\\\ Files/vim/gvim.exe" " Done with Addons
 set editor="gvim.exe"

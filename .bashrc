@@ -537,6 +537,10 @@ function weblio () {
   elif [ "$flag" = "example" ];then
     local start=($(printf "$page"|grep -n "を含む例文一覧"|cut -d: -f1))
     local end=($(printf "$page"|grep -n "例文の一覧を見る自分の例文帳を見る"|cut -d: -f1))
+    if [ "${start[0]}" = "" ] || [ "${end[0]}" = "" ];then
+      echo "No result found (always no result for Japanese)."
+      return 1
+    fi
     printf "$page"|sed -n $((start[0]+6)),$((end[0]-2))p|sed "s/ 例文帳に追加//g"
   fi
 }
@@ -564,16 +568,43 @@ function alc () {
     w3m "http://eow.alc.co.jp/search?q=$1"
     return $?
   fi
-  local page=$(w3m "http://eow.alc.co.jp/search?q=test")
-  local lines=($(printf "$page"|grep -n "次へ"|cut -d: -f1))
+  local page=$(w3m "http://eow.alc.co.jp/search?q=$1")
+  if printf "$page"|grep -q "該当する項目は見つかりませんでした。";then
+    printf "$page"|grep "該当する項目は見つかりませんでした。"
+    return 2
+  fi
+  local next_lines=($(printf "$page"|grep -n "次へ"|cut -d: -f1))
+  local start=(${next_lines[0]})
+  local end=(${next_lines[1]})
+  if [ "${start[0]}" = "" ];then
+    local start=($(printf "$page"|grep -n "英辞郎データ提供元 EDP のサイトへ"|cut -d: -f1))
+    if [ "${start[0]}" = "" ];then
+      echo "No result found."
+      return 3
+    fi
+  fi
   if [ "$flag" = "meaning" ];then
     local lines2=($(printf "$page"|grep -n "単語帳"|cut -d: -f1))
-    printf "$page"|sed -n $((lines[0]+2)),$((lines2[0]-1))p
+    if [ "${lines2[0]}" = "" ];then
+      echo "No result found."
+      return 4
+    fi
+    printf "$page"|sed -n $((start[0]+2)),$((lines2[0]-1))p
   elif [ "$flag" = "example" ];then
-    printf "$page"|sed -n $((lines[0]+2)),$((lines[1]-1))p
+    if [ "${end[0]}" = "" ];then
+      printf "$page"|grep -n "単語帳"|tail -n1|cut -d: -f1
+      local end=($(printf "$page"|grep -n "単語帳"|tail -n1|cut -d: -f1))
+    fi
+    if [ "${end[0]}" = "" ];then
+      echo "No result found."
+      return 5
+    fi
+    printf "$page"|sed -n $((start[0]+2)),$((end[0]-1))p
   fi
 }
-alias dic=alc
+function dic () {
+  alc -e "$1"|less
+}
 # }}}
 
 # For GNU-BSD compatibility {{{
