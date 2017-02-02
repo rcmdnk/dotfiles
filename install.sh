@@ -32,8 +32,8 @@ while getopts b:e:i:ndh OPT;do
     "i" ) instdir="$OPTARG" ;;
     "n" ) overwrite=0 ;;
     "d" ) dryrun=1 ;;
-    "h" ) echo "$HELP" 1>&2; exit ;;
-    * ) echo "$HELP" 1>&2; exit ;;
+    "h" ) echo "$HELP" 1>&2; exit;;
+    * ) echo "$HELP" 1>&2; exit 1;;
   esac
 done
 
