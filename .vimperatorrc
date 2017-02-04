@@ -225,6 +225,8 @@ nnoremap <C-m> <CR>
 nnoremap <C-[> <Esc>
 nnoremap Q :qmarks<CR>
 nnoremap U :undo<Space>
+" disable macro
+nnoremap q <Nop>
 nnoremap ; :
 nnoremap : ;
 
