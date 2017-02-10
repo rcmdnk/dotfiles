@@ -116,6 +116,13 @@ set! mousewheel.with_control.action=1
 " Wait for a dialog (ms)
 set! security.dialog_enable_delay=0
 set! ui.caretWidth=2
+" Reduce load
+set! browser.sessionstore.interval=600000
+set! image.mem.discardable=false
+set! browser.sessionstore.resume_from_crash=false
+"set! browser.sessionstore.max_windows_undo=3
+"set! browser.sessionstore.max_windows_undo=3
+"set! browser.sessionstore.max_tabs_undo=10
 " }}}
 
 " style {{{
@@ -628,5 +635,3 @@ source! ~/vimperatorrc.local
 "" }}}
 
 "echo ".vimperatorrc sourced"
-
-" vim: set filetype=vim :
