@@ -164,7 +164,7 @@ if s:use_dein && v:version >= 704
     " Syntax checking
     "call dein#add('vim-syntastic/syntastic')
     call dein#add('neomake/neomake')
-    call dein#add('benjie/neomake-local-eslint.vim')
+    "call dein#add('benjie/neomake-local-eslint.vim')
     " }}}
 
     " View {{{
