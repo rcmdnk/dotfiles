@@ -1799,6 +1799,22 @@ endif
 " }}} Tools
 " }}} Plugin settings
 
+" OS specific settings {{{
+if has('unix')
+endif
+
+if has('mac')
+"  if executable('inputsource')
+"    autocmd MyAutoGroup InsertLeave * :call system('nputsource com.google.inputmethod.Japanese.Roaman')
+"  elseif executable('swim')
+"    autocmd MyAutoGroup InsertLeave * :call system('swim use com.apple.keyboardlayout.all')
+"  endif
+endif
+
+if has('win32') || has('win64')
+endif
+" }}}
+
 " local settings {{{
 if filereadable(expand('~/.vimrc.local'))
   execute 'source' expand('~/.vimrc.local')
