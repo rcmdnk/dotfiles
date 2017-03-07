@@ -485,11 +485,20 @@ if (v:version == 704 && has('patch88')) || v:version >= 705
   set spelllang+=cjk " Ignore double-width characters
 endif
 
-" IME setting
+"set timeoutlen=50
+set ttimeoutlen=1
 if has('multi_byte_ime') || has('xim') || has('gui_macvim')
   set iminsert=0
   set imsearch=0
-  inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+  inoremap <silent> <ESC> <C-o>:set iminsert=0<CR><ESC>
+elseif has('mac')
+  let g:imeoff = $HOME . '/Library/Scripts/eisu.scpt'
+  if filereadable(g:imeoff)
+    "autocmd MyAutoGroup InsertLeave * :call system('osascript ' . g:imeoff)
+    inoremap <silent> <ESC> <C-o>:call system('osascript ' . g:imeoff)<CR><ESC>
+    inoremap <silent> <C-j> <ESC>:call system('osascript ' . g:imeoff)<CR>
+    nnoremap <silent> <ESC> :call system('osascript ' . g:imeoff)<CR><ESC>
+  endif
 endif
 
 " bash-like tab completion
@@ -1804,11 +1813,15 @@ if has('unix')
 endif
 
 if has('mac')
-"  if executable('inputsource')
-"    autocmd MyAutoGroup InsertLeave * :call system('nputsource com.google.inputmethod.Japanese.Roaman')
-"  elseif executable('swim')
-"    autocmd MyAutoGroup InsertLeave * :call system('swim use com.apple.keyboardlayout.all')
-"  endif
+  "let s:imeoff = $HOME . '/Library/Scripts/eisu.scpt'
+  "if filereadable(s:imeoff)
+  "  autocmd MyAutoGroup InsertLeave * :call system('osascript ' . s:imeoff)
+  "endif
+  "if executable('inputsource')
+  "  autocmd MyAutoGroup InsertLeave * :call system('inputsource com.google.inputmethod.Japanese.Roaman')
+  "elseif executable('swim')
+  "  autocmd MyAutoGroup InsertLeave * :call system('swim use com.apple.keyboardlayout.all')
+  "endif
 endif
 
 if has('win32') || has('win64')
