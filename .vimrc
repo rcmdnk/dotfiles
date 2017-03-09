@@ -486,7 +486,7 @@ if (v:version == 704 && has('patch88')) || v:version >= 705
 endif
 
 "set timeoutlen=50
-set ttimeoutlen=1
+"set ttimeoutlen=1
 if has('multi_byte_ime') || has('xim') || has('gui_macvim')
   set iminsert=0
   set imsearch=0
@@ -494,10 +494,11 @@ if has('multi_byte_ime') || has('xim') || has('gui_macvim')
 elseif has('mac')
   let g:imeoff = $HOME . '/Library/Scripts/eisu.scpt'
   if filereadable(g:imeoff)
-    "autocmd MyAutoGroup InsertLeave * :call system('osascript ' . g:imeoff)
-    inoremap <silent> <ESC> <C-o>:call system('osascript ' . g:imeoff)<CR><ESC>
-    inoremap <silent> <C-j> <ESC>:call system('osascript ' . g:imeoff)<CR>
-    nnoremap <silent> <ESC> :call system('osascript ' . g:imeoff)<CR><ESC>
+    set timeout timeoutlen=1000 ttimeoutlen=1
+    autocmd MyAutoGroup InsertLeave * :call system('osascript ' . g:imeoff)
+    "inoremap <silent> <ESC> <ESC>:call system('osascript ' . g:imeoff)<CR>
+    "noremap <silent> <C-\> <ESC>:call system('osascript ' . g:imeoff)<CR>
+    noremap <silent> <ESC> <ESC>:call system('osascript ' . g:imeoff)<CR>
   endif
 endif
 
@@ -664,8 +665,8 @@ map <Space> <Subleader>
 noremap <Subleader>, ,
 
 " fix meta-keys
-map <ESC>p <M-p>
-map <ESC>n <M-n>
+"map <ESC>p <M-p>
+"map <ESC>n <M-n>
 
 " Swap colon <-> semicolon
 noremap ; :
@@ -1003,22 +1004,26 @@ autocmd MyAutoGroup BufEnter * call s:set_matchit()
 
 " it seems working in Mac, but not in Windows (putty+XWin)
 
-if &term =~? 'screen' || &term =~? 'xterm'
-  if &term =~? 'screen'
-    let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
-    let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
-    let &pastetoggle = "\e[201~"
-  else
-    let &t_SI .= &t_SI . "\e[?2004h"
-    let &t_EI .= "\e[?2004l" . &t_EI
-    let &pastetoggle = "\e[201~"
-  endif
-  function! XTermPasteBegin(ret)
-    set paste
-    return a:ret
-  endfunction
-  imap <special> <expr> <Esc>[200~ XTermPasteBegin(""'
-endif
+" This setting change ttimeoutlen behavior:
+" timeoutlen (for mapping delay) is used even for ESC + X key code delay,
+" because it map <ESC> + [200~
+
+"if &term =~? 'screen' || &term =~? 'xterm'
+"  if &term =~? 'screen'
+"    let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
+"    let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
+"    let &pastetoggle = "\e[201~"
+"  else
+"    let &t_SI .= &t_SI . "\e[?2004h"
+"    let &t_EI .= "\e[?2004l" . &t_EI
+"    let &pastetoggle = "\e[201~"
+"  endif
+"  function! XTermPasteBegin(ret)
+"    set paste
+"    return a:ret
+"  endfunction
+"  imap <special> <expr> <Esc>[200~ XTermPasteBegin(""'
+"endif
 " }}} paste
 
 " tag {{{
