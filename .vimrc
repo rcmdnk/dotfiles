@@ -162,8 +162,8 @@ if s:use_dein && v:version >= 704
     call dein#add('vimperator/vimperator.vim')
 
     " Syntax checking
-    "call dein#add('vim-syntastic/syntastic')
-    call dein#add('neomake/neomake')
+    call dein#add('vim-syntastic/syntastic')
+    "call dein#add('neomake/neomake')
     "call dein#add('benjie/neomake-local-eslint.vim')
     " }}}
 
@@ -335,6 +335,10 @@ if s:use_dein && v:version >= 704
     " Database access
     call dein#add('dbext.vim')
 
+    " Plugin template
+    call dein#add('mopp/layoutplugin.vim', {
+          \ 'on_cmd': ['LayoutPlugin'],})
+
     " }}}
 
     " Fun {{{
@@ -483,23 +487,6 @@ set spell          " Spell check highlight
 
 if (v:version == 704 && has('patch88')) || v:version >= 705
   set spelllang+=cjk " Ignore double-width characters
-endif
-
-"set timeoutlen=50
-"set ttimeoutlen=1
-if has('multi_byte_ime') || has('xim') || has('gui_macvim')
-  set iminsert=0
-  set imsearch=0
-  inoremap <silent> <ESC> <C-o>:set iminsert=0<CR><ESC>
-elseif has('mac')
-  let g:imeoff = $HOME . '/Library/Scripts/eisu.scpt'
-  if filereadable(g:imeoff)
-    set timeout timeoutlen=1000 ttimeoutlen=1
-    autocmd MyAutoGroup InsertLeave * :call system('osascript ' . g:imeoff)
-    "inoremap <silent> <ESC> <ESC>:call system('osascript ' . g:imeoff)<CR>
-    "noremap <silent> <C-\> <ESC>:call system('osascript ' . g:imeoff)<CR>
-    noremap <silent> <ESC> <ESC>:call system('osascript ' . g:imeoff)<CR>
-  endif
 endif
 
 " bash-like tab completion
@@ -1383,16 +1370,16 @@ if s:dein_enabled && dein#tap('neomake')
 
   let g:neomake_javascript_enabled_makers = ['eslint']
 
-  let g:neomake_error_sign = {'text': '✖', 'texthl': 'NeomakeErrorSign'}
+  let g:neomake_error_sign = {'text': 'e', 'texthl': 'NeomakeErrorSign'}
   let g:neomake_warning_sign = {
-      \   'text': '⚠',
+      \   'text': 'w',
       \   'texthl': 'NeomakeWarningSign',
       \ }
   let g:neomake_message_sign = {
-       \   'text': '➤',
+       \   'text': 'm',
        \   'texthl': 'NeomakeMessageSign',
        \ }
-  let g:neomake_info_sign = {'text': 'ℹ', 'texthl': 'NeomakeInfoSign'}
+  let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
 endif
 "}}} neomake
 
@@ -1814,23 +1801,14 @@ endif
 " }}} Plugin settings
 
 " OS specific settings {{{
-if has('unix')
-endif
-
-if has('mac')
-  "let s:imeoff = $HOME . '/Library/Scripts/eisu.scpt'
-  "if filereadable(s:imeoff)
-  "  autocmd MyAutoGroup InsertLeave * :call system('osascript ' . s:imeoff)
-  "endif
-  "if executable('inputsource')
-  "  autocmd MyAutoGroup InsertLeave * :call system('inputsource com.google.inputmethod.Japanese.Roaman')
-  "elseif executable('swim')
-  "  autocmd MyAutoGroup InsertLeave * :call system('swim use com.apple.keyboardlayout.all')
-  "endif
-endif
-
 if has('win32') || has('win64')
+
+elseif has('mac')
+
+elseif has('unix')
+
 endif
+
 " }}}
 
 " local settings {{{
