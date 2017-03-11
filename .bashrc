@@ -253,8 +253,7 @@ if type -a vim >& /dev/null;then
   alias vid="vim -d"
   alias vinon="vim -u NONE"
 fi
-export GREP_OPTIONS="--color=auto -s"
-#alias grep="grep --color=auto -s"
+alias grep="grep --color=auto -s"
 #alias c="multi_clipboard -W"
 alias put='multi_clipboard -x'
 alias del="trash -r"
