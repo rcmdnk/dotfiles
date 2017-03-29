@@ -1,0 +1,16 @@
+keymap h HELP
+keymap H MOVE_LEFT
+keymap j UP
+keymap k DOWN
+keymap J MOVE_DOWN
+keymap K MOVE_UP
+keymap l LIST
+keymap L MOVE_RIGHT
+keymap C-f NEXT_PAGE
+keymap C-b PREV_PAGE
+keymap C-o PREV
+keymap C-i NEXT
+keymap q ABORT
+keymap r RELOAD
+keymap R VERSION
+
