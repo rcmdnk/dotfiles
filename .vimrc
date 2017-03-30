@@ -3,7 +3,12 @@
 " Flags {{{
 let s:use_dein = 0
 if filereadable(expand("~/.vim_dein"))
-  let s:use_dein = 1
+  let s:git = system("which git")
+  if strlen(s:git) == 0
+    let s:use_dein = 0
+  else
+    let s:use_dein = 1
+  endif
 endif
 " }}}
 
