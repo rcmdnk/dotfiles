@@ -1,9 +1,9 @@
 " vimrc
 
 " Flags {{{
-let s:use_dein = 1
-if filereadable(expand("~/.vim_no_dein"))
-  let s:use_dein = 0
+let s:use_dein = 0
+if filereadable(expand("~/.vim_dein"))
+  let s:use_dein = 1
 endif
 " }}}
 
