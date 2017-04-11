@@ -230,7 +230,6 @@
       echo $ git gc;\
       git gc > /dev/null 2>&1;\
       st=$?;\
-      if [ $st != 0 ];then echo Failed to git gc; return $st;fi;\
-      return 0;\
+      if [ $st != 0 ];then echo Failed to git gc; return 1;fi;\
     };f"
   up = update
