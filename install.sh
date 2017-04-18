@@ -5,6 +5,7 @@ instdir="$HOME"
 
 backup="bak"
 overwrite=1
+relative=0
 dryrun=0
 newlink=()
 exist=()
@@ -20,16 +21,18 @@ Arguments:
           Set \"\" if backups are not necessary
       -e  Set additional exclude file (default: ${exclude[@]})
       -i  Set install directory (default: $instdir)
+      -r  Use relative path (default: absolute path)
       -n  Don't overwrite if file is already exist
       -d  Dry run, don't install anything
       -h  Print Help (this message) and exit
 "
 
-while getopts b:e:i:ndh OPT;do
+while getopts b:e:i:rndh OPT;do
   case $OPT in
     "b" ) backup=$OPTARG ;;
     "e" ) exclude=(${exclude[@]} "$OPTARG") ;;
     "i" ) instdir="$OPTARG" ;;
+    "r" ) relative=1 ;;
     "n" ) overwrite=0 ;;
     "d" ) dryrun=1 ;;
     "h" ) echo "$HELP" 1>&2; exit;;
@@ -65,6 +68,9 @@ if [[ "$OSTYPE" =~ cygwin ]];then
 # }}}
 fi
 
+if [ $relative -eq 1 ];then
+  curdir=$(pwd)
+fi
 echo "**********************************************"
 echo "Install .X to $instdir"
 echo "**********************************************"
