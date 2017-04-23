@@ -397,6 +397,9 @@ set hlsearch
 " start : character before the starting point of the insert mode
 set backspace=indent,eol,start
 
+set foldmethod=marker
+set foldmarker={{{,}}}
+
 set modeline       " enable to use settings written in the file
 " use with comment lines: e.g.)
 set modelines=3    " number of lines to be read (form top and bottom) for
