@@ -686,18 +686,21 @@ if [ "$BASH_VERSINFO" -ge 4 ];then
     fi
   fi
   command_not_found_handle() {
-    cmd=$1
-    shift
-    args=( "$@" )
-
-    if [ -f "$cmd" ];then
+    if [ -f "$1" ];then
       if echo " ${_suffix_vim[*]} "|grep -q "${1##*.}";then
-        echo "$cmd is a file, open $cmd with vi..."
-        vi "$cmd"
-        return $?
+        if type -a vi >& /dev/null;then
+          echo "$1 is a file, open $1 with vi..."
+          vi "$1"
+          return $?
+        fi
+      elif [ "${1##*.}" = "ps1" ];then
+        if type -a powershell >& /dev/null;then
+          powershell "$@"
+          return $?
+        fi
       fi
     fi
-    orig_command_not_found_handle "$cmd" "${args[@]}"
+    orig_command_not_found_handle "$@"
   }
   shopt -s autocd # cd to the directory, if it is given as a command.
 else
@@ -711,6 +714,8 @@ else
         elif echo " ${_suffix_vim[*]} "|grep -q "${cmd##*.}";then
           echo "$cmd is a file, open $cmd with vi..."
           vi "$cmd"
+        elif [ "${cmd##*.}" = "ps1" ];then
+          powershell "$@"
         fi
       fi
     fi
