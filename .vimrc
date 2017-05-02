@@ -1365,6 +1365,8 @@ if s:dein_enabled && dein#tap('syntastic')
   let g:syntastic_python_checkers = ['flake8']
   " ruby
   let g:syntastic_ruby_checkers = ['rubocop']
+  " args for shellcheck
+  let g:syntastic_sh_shellcheck_args = "-e SC1090,SC2164"
 endif
 "}}} syntastic
 
