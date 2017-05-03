@@ -683,7 +683,7 @@ noremap <Leader>gU gU
 "nnoremap <C-h> h
 " Down (C-j default: <NL> ~ j)
 "nnoremap <C-j> j
-nnoremap <RETURN> j
+"nnoremap <RETURN> j
 " Up (C-k default: Non)
 nnoremap <C-k> k
 " Right (C-l default: Clear and redraw the screen)
@@ -1284,7 +1284,7 @@ endif
 " }}}
 
 " Code syntax, tools for each language {{{
-" applescript{{{
+" applescript {{{
 if s:dein_enabled && dein#tap('applescript.vim')
   autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setlocal filetype=applescript
   "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬<CR>
@@ -1349,7 +1349,7 @@ if s:dein_enabled && dein#tap('vim-markdown')
 endif
 " }}} vim-markdown
 
-" syntastic{{{
+" syntastic {{{
 if s:dein_enabled && dein#tap('syntastic')
   " Disable automatic check at file open/close
   let g:syntastic_check_on_open=0
@@ -1366,11 +1366,11 @@ if s:dein_enabled && dein#tap('syntastic')
   " ruby
   let g:syntastic_ruby_checkers = ['rubocop']
   " args for shellcheck
-  let g:syntastic_sh_shellcheck_args = "-e SC1090,SC2164"
+  let g:syntastic_sh_shellcheck_args = "-e SC1090,SC2059,SC2155,SC2164"
 endif
 "}}} syntastic
 
-" neomake{{{
+" neomake {{{
 if s:dein_enabled && dein#tap('neomake')
   autocmd MyAutoGroup BufWritePost * Neomake
 

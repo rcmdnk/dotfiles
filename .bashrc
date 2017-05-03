@@ -37,7 +37,7 @@ PROMPT_COMMAND=""
 source_file /etc/bashrc
 # Remove the last ";" from PROMPT_COMMAND
 # Necessary for Mac Terminal.app
-PROMPT_COMMAND=$(echo "${PROMPT_COMMAND}"|sed 's/; *$//')
+PROMPT_COMMAND="${PROMPT_COMMAND//; */}"
 if type -a busybox >& /dev/null;then
   PROMPT_COMMAND=""
 fi
@@ -659,7 +659,7 @@ if ! type -a tac >& /dev/null;then
         echo "usage: tac <file>"
         return 1
       fi
-      sed -e '1!G;h;$!d' "$1"|while read line;do
+      sed -e '1!G;h;$!d' "$1"|while read -r line;do
         echo "$line"
       done
     }
@@ -670,10 +670,10 @@ fi
 # }}} For GNU-BSD compatibility
 
 # Suffix aliases/auto cd {{{
-if [ "$BASH_VERSINFO" -ge 4 ];then
+if [ "${BASH_VERSINFO[0]}" -ge 4 ];then
   _suffix_vim=(md markdown txt text tex cc c C cxx h hh java py rb sh)
   alias_function() {
-    eval "${1}() $(declare -f ${2} | sed 1d)"
+    eval "${1}() $(declare -f "${2}" | sed 1d)"
   }
   if ! type -a orig_command_not_found_handle >& /dev/null;then
     if type -a command_not_found_handle >& /dev/null;then
