@@ -116,7 +116,7 @@ if s:use_dein && v:version >= 704
     " Code syntax, tools for each language {{{
 
     " Applescript
-    call dein#add('applescript.vim')
+    call dein#add('vim-scripts/applescript.vim')
 
     " Automatic LaTeX Plugins
     "call dein#add('coot/atp_vim')
@@ -232,7 +232,7 @@ if s:use_dein && v:version >= 704
           \ 'lazy': 1})
 
     " Version control (especially for VCSVimDiff (<Leader>cv)
-    call dein#add('vcscommand.vim', {
+    call dein#add('vim-scripts/vcscommand.vim', {
           \ 'on_cmd': ['VCSVimDiff'],
           \ 'lazy': 1})
 
@@ -341,7 +341,7 @@ if s:use_dein && v:version >= 704
           \ 'lazy': 1})
 
     " Database access
-    call dein#add('dbext.vim')
+    call dein#add('vim-scripts/dbext.vim')
 
     " Plugin template
     call dein#add('mopp/layoutplugin.vim', {
