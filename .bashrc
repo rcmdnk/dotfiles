@@ -100,8 +100,8 @@ fi
 #export LESSCHARSET=utf-8
 #ascii,dos,ebcdic,IBM-1047,iso8859,koi8-r,latin1,next
 
+export LESS='-i -m -R -M -W -x2'
 if type -a src-hilite-lesspipe.sh >& /dev/null && type -a source-highlight >& /dev/null;then
-  export LESS='-i -R -M -W -x2'
   export LESSOPEN='| src-hilite-lesspipe.sh %s'
 fi
 
