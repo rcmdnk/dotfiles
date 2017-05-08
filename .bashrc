@@ -100,9 +100,13 @@ fi
 #export LESSCHARSET=utf-8
 #ascii,dos,ebcdic,IBM-1047,iso8859,koi8-r,latin1,next
 
-export LESS='-i -m -R -M -W -x2'
-if type -a src-hilite-lesspipe.sh >& /dev/null && type -a source-highlight >& /dev/null;then
-  export LESSOPEN='| src-hilite-lesspipe.sh %s'
+export LESS='-I -R -M -W -x2'
+if type -a source-highlight >& /dev/null;then
+  if type -a my_lesspipe >& /dev/null;then
+    export LESSOPEN='| my_lesspipe %s'
+  elif type -a src-hilite-lesspipe.sh >& /dev/null;then
+    export LESSOPEN='| src-hilite-lesspipe.sh %s'
+  fi
 fi
 
 # TMPDIR fix, especially for Cygwin
@@ -165,7 +169,7 @@ export HISTIGNORE="cd:cd -:cd ../:ls:sd:cl*:pwd*:history"
                     # don't use with below share_history
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # Method to remove failed command {{{
-#function histRemoveFail () {
+#function history_remove_fail () {
 #  local result=$?
 #  if [ $result -ne 0 ];then
 #    local n=`history 1|awk '{print $1}'`
@@ -174,7 +178,7 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 #    fi
 #  fi
 #}
-#PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}histRemoveFail"
+#PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history_remove_fail"
 # }}}
 
 # Method to share history at the same time,
@@ -263,7 +267,7 @@ alias hischeck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
 alias hischeckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}'|sort|uniq -c|sort -n"
 alias sort='LC_ALL=C sort'
 alias uniq='LC_ALL=C uniq'
-alias t='less +F'
+alias t='less -L +F'
 alias iocheck='find /proc -name io |xargs egrep "write|read"|sort -n -k 2'
 alias now='date +"%Y%m%d %T"'
 if type -a thefuck >& /dev/null;then
