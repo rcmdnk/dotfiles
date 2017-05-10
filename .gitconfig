@@ -200,7 +200,6 @@
       fi;\
     };f"
   update = "!f () {\
-      pwd;\
       if  [ \"$1\" = \"--nocommit\" ] || [ \"$1\" = 0 ];then \
         echo '$ git status';\
         ret=$(git status);\
