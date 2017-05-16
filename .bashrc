@@ -406,9 +406,11 @@ function del_tail () { # Delete trailing white space {{{
 }
 # }}}
 
-# targz/tarbz2/press: File compression/decompression {{{
-alias targz="tar xzf"
+# tar/press: File compression/decompression {{{
+alias targz="tar zxf"
 alias tarbz2="tar jxf"
+alias tarxz="tar Jxf"
+alias tarZ="tar zxf"
 
 function press () {
   local remove=0

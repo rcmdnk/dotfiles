@@ -145,6 +145,7 @@ if s:use_dein && v:version >= 704
     call dein#add('godlygeek/tabular')
     call dein#add('joker1007/vim-markdown-quote-syntax')
     call dein#add('rcmdnk/vim-markdown')
+    "call dein#add('plasticboy/vim-markdown')
     " }}}
 
     " Python {{{
@@ -1343,7 +1344,7 @@ if s:dein_enabled && dein#tap('vim-markdown')
   let g:vim_markdown_liquid=1
   let g:vim_markdown_frontmatter=1
   let g:vim_markdown_math=0
-  let g:vim_markdown_better_folding=0
+  let g:vim_markdown_better_folding=1
   autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text,html} setlocal filetype=markdown
   "autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text} setlocal filetype=markdown
 endif
