@@ -58,7 +58,7 @@ if s:use_dein && v:version >= 704
     call dein#add('tpope/vim-repeat')
 
     " Sub mode
-    "call dein#add('kana/vim-submode')
+    call dein#add('kana/vim-submode')
 
     " webapi
     call dein#add('mattn/webapi-vim')
