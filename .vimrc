@@ -507,7 +507,8 @@ set wildmenu
 
 " Folding
 set foldnestmax=1
-set foldlevel=100 "open at first
+"set foldlevel=100 "open at first
+set foldlevel=1 "open at first
 
 " When editing a file, always jump to the last known cursor position.
 autocmd MyAutoGroup BufReadPost *
@@ -1343,7 +1344,9 @@ endif
 if s:dein_enabled && dein#tap('vim-markdown')
   let g:vim_markdown_liquid=1
   let g:vim_markdown_frontmatter=1
-  let g:vim_markdown_math=0
+  let g:vim_markdown_toml_frontmatter=1
+  let g:vim_markdown_json_frontmatter=1
+  let g:vim_markdown_math=1
   let g:vim_markdown_better_folding=1
   autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text,html} setlocal filetype=markdown
   "autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text} setlocal filetype=markdown
