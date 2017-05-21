@@ -1347,6 +1347,7 @@ if s:dein_enabled && dein#tap('vim-markdown')
   let g:vim_markdown_json_frontmatter=1
   let g:vim_markdown_math=1
   let g:vim_markdown_better_folding=1
+  let g:vim_markdown_folding_level=6
   let g:vim_markdown_emphasis_multiline=0
   autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text,html} setlocal filetype=markdown
   "autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text} setlocal filetype=markdown
