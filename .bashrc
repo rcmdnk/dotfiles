@@ -36,14 +36,15 @@ function source_file() {
 PROMPT_COMMAND=""
 source_file /etc/bashrc
 # Remove the last ";" from PROMPT_COMMAND
-# Necessary for Mac Terminal.app
-PROMPT_COMMAND="${PROMPT_COMMAND//; */}"
+## Necessary for Mac Terminal.app
+PROMPT_COMMAND=$(echo ${PROMPT_COMMAND})
+PROMPT_COMMAND="${PROMPT_COMMAND%;}"
 if type -a busybox >& /dev/null;then
   PROMPT_COMMAND=""
 fi
 # }}}
 
-# Local path {{{
+## Local path {{{
 # PATH, LD_LIBRARY_PATH under HOME
 export PATH=$HOME/usr/local/bin:$HOME/usr/bin:$HOME/bin:/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=$HOME/usr/local/lib64:$HOME/usr/local/lib:$HOME/usr/lib64:$HOME/usr/lib:/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:/lib64:/lib:$LD_LIBRARY_PATH
