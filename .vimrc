@@ -441,7 +441,7 @@ set nobackup       " do not keep a backup file
 set nowritebackup  " do not create backup file
 
 " Add Mac's temporary space
-let &backupskip='/private/tmp/*,' . &backupskip
+set backupskip+=/private/tmp/*
 
 let s:defdir=&directory
 let s:defbackup=&backupdir
