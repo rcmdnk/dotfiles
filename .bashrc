@@ -212,7 +212,7 @@ if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
   if type -a dircolors >& /dev/null;then
     eval "$(dircolors ~/.colourrc)"
   fi
-  if [ "$LS_COLORS" = "" ];then
+  if [ -z "$LS_COLORS" ];then
     source_file "$HOME/.lscolors"
   fi
 elif [[ "$OSTYPE" =~ darwin ]];then
@@ -321,7 +321,7 @@ function md2pdf () { # pandoc helper {{{
       return 1
     fi
   done
-  if [ "$input" = "" ];then
+  if [ -z "$input" ];then
     echo "usage mdtopdf [output.pdf] [-t <theme>] input.md "
     return 1
   fi
@@ -527,7 +527,7 @@ function weblio () {
       shift
     fi
   fi
-  if [ "$flag" = "" ];then
+  if [ -z "$flag" ];then
     w3m "http://ejje.weblio.jp/content/$1"
     return $?
   fi
@@ -535,7 +535,7 @@ function weblio () {
   if [ "$flag" = "meaning" ];then
     local start=($(printf "$page"|grep -n "主な意"|cut -d: -f1))
     local end=($(printf "$page"|grep -n "イディオムやフレーズ"|cut -d: -f1))
-    if [ "${start[0]}" = "" ] || [ "${end[0]}" = "" ];then
+    if [ -z "${start[0]}" ] || [ -z "${end[0]}" ];then
       echo "No result found (always no result for Japanese)."
       return 1
     fi
@@ -543,7 +543,7 @@ function weblio () {
   elif [ "$flag" = "example" ];then
     local start=($(printf "$page"|grep -n "を含む例文一覧"|cut -d: -f1))
     local end=($(printf "$page"|grep -n "例文の一覧を見る自分の例文帳を見る"|cut -d: -f1))
-    if [ "${start[0]}" = "" ] || [ "${end[0]}" = "" ];then
+    if [ -z "${start[0]}" ] || [ -z "${end[0]}" ];then
       echo "No result found (always no result for Japanese)."
       return 1
     fi
@@ -570,7 +570,7 @@ function alc () {
       shift
     fi
   fi
-  if [ "$flag" = "" ];then
+  if [ -z "$flag" ];then
     w3m "http://eow.alc.co.jp/search?q=$1"
     return $?
   fi
@@ -582,26 +582,26 @@ function alc () {
   local next_lines=($(printf "$page"|grep -n "次へ"|cut -d: -f1))
   local start=(${next_lines[0]})
   local end=(${next_lines[1]})
-  if [ "${start[0]}" = "" ];then
+  if [ -z "${start[0]}" ];then
     local start=($(printf "$page"|grep -n "英辞郎データ提供元 EDP のサイトへ"|cut -d: -f1))
-    if [ "${start[0]}" = "" ];then
+    if [ -z "${start[0]}" ];then
       echo "No result found."
       return 3
     fi
   fi
   if [ "$flag" = "meaning" ];then
     local lines2=($(printf "$page"|grep -n "単語帳"|cut -d: -f1))
-    if [ "${lines2[0]}" = "" ];then
+    if [ -z "${lines2[0]}" ];then
       echo "No result found."
       return 4
     fi
     printf "$page"|sed -n $((start[0]+2)),$((lines2[0]-1))p
   elif [ "$flag" = "example" ];then
-    if [ "${end[0]}" = "" ];then
+    if [ -z "${end[0]}" ];then
       printf "$page"|grep -n "単語帳"|tail -n1|cut -d: -f1
       local end=($(printf "$page"|grep -n "単語帳"|tail -n1|cut -d: -f1))
     fi
-    if [ "${end[0]}" = "" ];then
+    if [ -z "${end[0]}" ];then
       echo "No result found."
       return 5
     fi

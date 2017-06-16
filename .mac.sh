@@ -44,9 +44,9 @@ fi
 #  vimret=`echo -n '$xx = '$mvimvn' <=> '$vimvn';print "$xx \n"'|perl`
 #  if [ $vimret -eq 1 ];then
 #    mvimflag=1
-#  elif [ "$mvimpatches" = "" ];then
+#  elif [ -z "$mvimpatches" ];then
 #    mvimflag=0
-#  elif [ "$vimpatches" = "" ];then
+#  elif [ -z "$vimpatches" ];then
 #    mvimflag=1
 #  else
 #    vimret=`echo -n '$xx = '$mvimpatches' <=> '$vimpatches';print "$xx \n"'|perl`
@@ -64,7 +64,7 @@ fi
 #fi
 
 # ssh agent
-if [ "$SSH_AUTH_SOCK" = "" ];then
+if [ -z "$SSH_AUTH_SOCK" ];then
   #export SSH_AUTH_SOCK=`/usr/sbin/lsof|grep ssh-agent|grep Listeners|awk '{print $8}'`
   sock_tmp=($(ls -t /tmp/com.apple.launchd.*/Listeners 2>/dev/null))
   if [ ${#sock_tmp[@]} -eq 0 ];then
