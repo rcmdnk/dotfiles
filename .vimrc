@@ -171,7 +171,7 @@ if s:use_dein && v:version >= 704
     call dein#add('vimperator/vimperator.vim')
 
     " Syntax checking
-    call dein#add('vim-syntastic/syntastic')
+    "call dein#add('vim-syntastic/syntastic')
     "call dein#add('neomake/neomake')
     "call dein#add('benjie/neomake-local-eslint.vim')
     " }}}
