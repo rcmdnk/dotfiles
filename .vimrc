@@ -143,7 +143,8 @@ if s:use_dein && v:version >= 704
     " Markdown {{{
     call dein#add('junegunn/vader.vim')
     call dein#add('godlygeek/tabular')
-    call dein#add('joker1007/vim-markdown-quote-syntax')
+    "call dein#add('joker1007/vim-markdown-quote-syntax')
+    call dein#add('rcmdnk/vim-markdown-quote-syntax')
     call dein#add('rcmdnk/vim-markdown')
     "call dein#add('plasticboy/vim-markdown')
     " }}}
@@ -1333,7 +1334,7 @@ if s:dein_enabled && dein#tap('vim-markdown-quote-syntax')
         \   'start' : 'scss',
         \},
         \ 'markdown' : {
-        \   'start' : 'markdown',
+        \   "start" : '\%(markdown\|md\)',
         \},
   \}
 endif
