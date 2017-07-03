@@ -141,7 +141,7 @@ if s:use_dein && v:version >= 704
     call dein#add('koron/java-helper-vim')
 
     " Markdown {{{
-    call dein#add('junegunn/vader.vim')
+    "call dein#add('junegunn/vader.vim')
     call dein#add('godlygeek/tabular')
     "call dein#add('joker1007/vim-markdown-quote-syntax')
     call dein#add('rcmdnk/vim-markdown-quote-syntax')
@@ -320,7 +320,7 @@ if s:use_dein && v:version >= 704
           \ 'on_cmd': ['Ref'],
           \ 'lazy': 1})
 
-    " Grammer check with LanguageTool
+    " Grammar check with LanguageTool
     call dein#add('rhysd/vim-grammarous', {
           \ 'on_cmd': ['GrammarousCheck'],
           \ 'lazy': 1})
@@ -329,29 +329,6 @@ if s:use_dein && v:version >= 704
     call dein#add('daisuzu/translategoogle.vim', {
           \ 'on_cmd': ['TranslateGoogle', 'TranslateGoogleCmd'],
           \ 'lazy': 1})
-    " }}}
-
-    " Other tools {{{
-    " Make benchmark result of vimrc
-    call dein#add('mattn/benchvimrc-vim', {
-          \ 'on_cmd': ['BenchVimrc'],
-          \ 'lazy': 1})
-
-    " Open browser
-    call dein#add('tyru/open-browser.vim', {
-          \ 'on_map': ['<Plug>(openbrowser-smart-search)'],
-          \ 'lazy': 1})
-
-    " Database access
-    call dein#add('vim-scripts/dbext.vim')
-
-    " Plugin template
-    call dein#add('mopp/layoutplugin.vim', {
-          \ 'on_cmd': ['LayoutPlugin'],})
-
-    " }}}
-
-    " Fun {{{
     " }}}
 
     call dein#end()
@@ -1807,15 +1784,6 @@ endif
 " }}} translategoogle.vim
 " }}} Check language, web source
 
-" Other tools {{{
-" open-browser{{{
-if s:dein_enabled && dein#tap('open-browser.vim')
-  let g:netrw_nogx = 1 " disable netrw's gx mapping.
-  nmap gx <Plug>(openbrowser-smart-search)
-  xmap gx <Plug>(openbrowser-smart-search)
-endif
-" }}} open-browser
-" }}} Tools
 " }}} Plugin settings
 
 " OS specific settings {{{

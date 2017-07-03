@@ -1007,6 +1007,39 @@ if s:dein_enabled && dein#tap("calendar.vim")
   endif
 endif
 "}}} calendar.vim
+
+" open-browser{{{
+" Use netw's gx (enabled as deafult if not set netrw_nogx = 1
+" Open browser
+call dein#add('tyru/open-browser.vim', {
+      \ 'on_map': ['<Plug>(openbrowser-smart-search)'],
+      \ 'lazy': 1})
+
+if s:dein_enabled && dein#tap('open-browser.vim')
+  let g:netrw_nogx = 1 " disable netrw's gx mapping.
+  nmap gx <Plug>(openbrowser-smart-search)
+  xmap gx <Plug>(openbrowser-smart-search)
+endif
+" }}} open-browser
+
+" layoutplugin{{{
+" Not use normally
+" Plugin template
+call dein#add('mopp/layoutplugin.vim', {
+      \ 'on_cmd': ['LayoutPlugin'],})
+" }}} layoutplugin
+
+" benchvimrc-vim{{{
+" Make benchmark result of vimrc
+call dein#add('mattn/benchvimrc-vim', {
+      \ 'on_cmd': ['BenchVimrc'],
+      \ 'lazy': 1})
+" }}}
+
+" dbext.vim{{{
+" Database access
+call dein#add('vim-scripts/dbext.vim')
+" }}}
 " }}}
 
 " Fun {{{
