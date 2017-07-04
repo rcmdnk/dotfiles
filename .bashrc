@@ -46,14 +46,27 @@ fi
 
 ## Local path {{{
 # PATH, LD_LIBRARY_PATH under HOME
-export PATH=$HOME/usr/local/bin:$HOME/usr/bin:$HOME/bin:/usr/local/bin:$PATH
-export LD_LIBRARY_PATH=$HOME/usr/local/lib64:$HOME/usr/local/lib:$HOME/usr/lib64:$HOME/usr/lib:/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:/lib64:/lib:$LD_LIBRARY_PATH
-export PYTHONPATH=$HOME/usr/local/lib:$HOME/usr/lib/python:/usr/local/lib:/usr/lib/python:$PYTHONPATH
-#export PYTHONHOME=$HOME/usr/lib/python:$HOME/usr/local/lib:$PYTHONPATH
+export x86_64=0
+if uname -a|grep -q x86_64;then
+  export x86_64=1
+fi
+for p in "/" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
+  if ! echo "$PATH"|grep -q -e "^$p/bin" -e ":$p/bin";then
+    export PATH="$p/bin:$PATH"
+  fi
+  if ! echo "$LD_LIBRARY_PATH"|grep -q -e "^$p/lib" -e ":$p/lib";then
+    export LD_LIBRARY_PATH="$p/lib:$LD_LIBRARY_PATH"
+  fi
+  if [ "$x86_64" = 1 ];then
+    if ! echo "$LD_LIBRARY_PATH"|grep -q -e "^$p/lib64" -e ":$p/lib64";then
+      export LD_LIBRARY_PATH="$p/lib64:$LD_LIBRARY_PATH"
+    fi
+  fi
+  if ! echo "$PYTHONPATH"|grep -q -e "^$p/lib" -e ":$p/lib";then
+    export PYTHONPATH="$p/lib/python:$p/lib:$PYTHONPATH"
+  fi
+done
 export GOPATH=$HOME/.go
-
-# Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 # }}} Local path
 
 # Shell/Environmental variables {{{
@@ -154,6 +167,13 @@ shopt -s dotglob # Include dot files in the results of pathname expansion
 shopt -s extglob # Extended pattern matching is enabled.
 shopt -s no_empty_cmd_completion # Don't complete for an empty line
 # }}} shopt
+
+# stty {{{
+# Disable terminal lock
+tty -s && stty stop undef
+tty -s && stty start undef
+[[ "$OSTYPE" =~ darwin ]] && tty -s && stty discard undef
+# }}}
 
 # History {{{
 HISTSIZE=100000
@@ -712,47 +732,24 @@ if [ "${BASH_VERSINFO[0]}" -ge 4 ];then
   }
   shopt -s autocd # cd to the directory, if it is given as a command.
 fi
-
-## completion
-#_completion_suffix_alias () {
-#  local -a files
-#  files=()
-#  for s in "${_suffix_vim[@]}";do
-#    files=("${files[@]}" $(ls *.${s} 2>/dev/null))
-#  done
-#  COMPREPLY=("${files[@]}")
-#}
-#complete -D -F _completion_suffix_alias -o bashdefault -o default
-# }}}
-
+#}}}
 # }}} Alias, Function
-
-# stty {{{
-# Disable terminal lock
-tty -s && stty stop undef
-tty -s && stty start undef
-[[ "$OSTYPE" =~ darwin ]] && tty -s && stty discard undef
-# }}}
-
-# For screen {{{
-source_file ~/.screen/setup.sh
-# }}} For screen
-
-# For Travis CI {{{
-# added by travis gem
-source_file ~/.travis/travis.sh
-# }}}
-
-# Shell logger{{{
-# added by travis gem
-source_file ~/usr/etc/shell-logger
-# }}}
-
-
 
 # Setup for each environment {{{
 # Note: such PATH setting should be placed
 #       at above Local path settings (before alias/function definitions)
+
+# Shell logger
+source_file ~/usr/etc/shell-logger
+
+# added by travis gem
+source_file ~/.travis/travis.sh
+
+# Load RVM into a shell session *as a function*
+source_file ~/.rvm/scripts/rvm
+
+# For screen
+source_file ~/.screen/setup.sh
 
 # File used in linux
 [[ "$OSTYPE" =~ linux ]] && source_file ~/.linux.sh
