@@ -141,7 +141,7 @@ if s:use_dein && v:version >= 704
     call dein#add('koron/java-helper-vim')
 
     " Markdown {{{
-    "call dein#add('junegunn/vader.vim')
+    call dein#add('junegunn/vader.vim')
     call dein#add('godlygeek/tabular')
     "call dein#add('joker1007/vim-markdown-quote-syntax')
     call dein#add('rcmdnk/vim-markdown-quote-syntax')

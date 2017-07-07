@@ -311,11 +311,10 @@ function md2pdf () { # pandoc helper {{{
       echo "Please install iconv"
       return 1
     fi
-  else
-    if ! type -a pandoc >& /dev/null;then
-      echo "Please install pandoc"
-      return 1
-    fi
+  fi
+  if ! type -a pandoc >& /dev/null;then
+    echo "Please install pandoc"
+    return 1
   fi
 
   if [ $# -eq 0 ];then
