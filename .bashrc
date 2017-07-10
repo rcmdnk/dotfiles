@@ -291,6 +291,7 @@ alias uniq='LC_ALL=C uniq'
 alias t='less -L +F'
 alias iocheck='find /proc -name io |xargs egrep "write|read"|sort -n -k 2'
 alias now='date +"%Y%m%d %T"'
+alias pip_upgrade="pip list --outdated --format=legacy|cut -d' ' -f1|xargs pip install -U"
 if type -a thefuck >& /dev/null;then
   alias fuck='eval $(thefuck $(fc -ln -1))'
 fi
