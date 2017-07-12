@@ -1787,14 +1787,13 @@ endif
 " }}} Plugin settings
 
 " OS specific settings {{{
-if has('win32') || has('win64')
-
-elseif has('mac')
-
-elseif has('unix')
-
-endif
-
+"if has('win32') || has('win64')
+"
+"elseif has('mac')
+"
+"elseif has('unix')
+"
+"endif
 " }}}
 
 " local settings {{{

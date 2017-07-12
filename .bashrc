@@ -372,6 +372,10 @@ alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 # }}}
 
 function man () { # man wrapper {{{
+  if [ $# -ne 1 ] || [[ "$1" =~ ^- ]];then
+    command man "$@"
+    return $?
+  fi
   local p
   local m
   if [ "$PAGER" != "" ];then
@@ -384,8 +388,12 @@ function man () { # man wrapper {{{
   unset MANPAGER
   val=$(command man "$@" 2>&1)
   ret=$?
-  if [ $ret -eq 0 ] && type -a vim >& /dev/null;then
-    echo "$val"|col -bx|vim -R -c 'set ft=man' -
+  if [ $ret -eq 0 ];then
+    if type -a vim >& /dev/null;then
+      echo "$val"|col -bx|vim -R -c 'set ft=man' -
+    else
+      command man "$@"
+    fi
   else
     echo "$val"
   fi
@@ -398,7 +406,7 @@ function man () { # man wrapper {{{
   return $ret
 } # }}}
 
-function change () { # Change words in file by sed{{{
+function change () { # Change words in file by sed {{{
   case $# in
     0)
       echo "enter file name and words of before and after"
