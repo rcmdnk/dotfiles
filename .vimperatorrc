@@ -13,7 +13,7 @@ set runtimepath=~/My\ Dropbox/08_Settings/vimpr/vimperator,~/Dropbox/08_Settings
 " about:config {{{
 " [About:config entries - MozillaZine Knowledge Base](http://kb.mozillazine.org/About:config_entries)
 
-" Settings in Option
+" Settings in Option {{{
 " # General
 " ## Startup
 set! browser.shell.checkDefaultBrowser=false
@@ -105,8 +105,9 @@ set! datareporting.healthreport.uploadEnabled=false
 " ### Automatically update following softwares
 "set! browser.search.update=true
 " ### Certification
+" }}}
 
-" Other settings
+" Other than Option
 set! browser.urlbar.suggest.searches=true
 set! browser.tabs.autoHide=false
 set! browser.tabs.closeWindowWithLastTab=false
@@ -123,6 +124,12 @@ set! browser.sessionstore.resume_from_crash=false
 "set! browser.sessionstore.max_windows_undo=3
 "set! browser.sessionstore.max_windows_undo=3
 "set! browser.sessionstore.max_tabs_undo=10
+
+" Search
+set! accessibility.typeaheadfind.casesensitive=2
+set! findbar.highlightAll=false
+set! findbar.entireword=false
+set! findbar.modalHighlight=false
 " }}}
 
 " style {{{

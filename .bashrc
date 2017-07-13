@@ -3,20 +3,17 @@
 
 # Check if this is first time to read bashrc or not {{{
 # (subshell, screen, etc...)
-function reset_path () {
-  if [ ! "$INIT_PATH" ];then
-    # Set initial values of PATH, LD_LIBRARY_PATH, PYTHONPATH
-    export INIT_PATH=$PATH
-    export INIT_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-    export INIT_PYTHONPATH=$PYTHONPATH
-  else
-    # Reset paths
-    export PATH=$INIT_PATH
-    export LD_LIBRARY_PATH=$INIT_LD_LIBRARY_PATH
-    export PYTHONPATH=$INIT_PYTHONPATH
-  fi
-}
-reset_path
+if [ ! "$INIT_PATH" ];then
+  # Set initial values of PATH, LD_LIBRARY_PATH, PYTHONPATH
+  export INIT_PATH=$PATH
+  export INIT_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+  export INIT_PYTHONPATH=$PYTHONPATH
+else
+  # Reset paths
+  export PATH=$INIT_PATH
+  export LD_LIBRARY_PATH=$INIT_LD_LIBRARY_PATH
+  export PYTHONPATH=$INIT_PYTHONPATH
+fi
 # }}} Check if this is first time to read bashrc or not
 
 # Function for sourcing with precheck of the file {{{
