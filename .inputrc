@@ -129,7 +129,7 @@ $endif
 # ls
 #"\el":"\C-uls\C-m"
 #"\es":"\C-uls -ltr\C-m"
-"\C-l":"\C-uls\C-m"
+#"\C-l":"\C-uls\C-m"
 
 # C-l to \el
 "\el":"\C-uclear\C-m"
