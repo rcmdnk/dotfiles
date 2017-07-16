@@ -29,7 +29,7 @@
   ba = branch -a
   co = checkout
   ce = checkout --orphan # checkout empty(orphan ) branch
-  cl = clone
+  cl = clone --reecursive
   ci = commit -a
   ad = add -A
   rbm = rebase master
