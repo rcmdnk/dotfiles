@@ -47,20 +47,20 @@ export x86_64=0
 if uname -a|grep -q x86_64;then
   export x86_64=1
 fi
-for p in "/" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
+for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
   if ! echo "$PATH"|grep -q -e "^$p/bin" -e ":$p/bin";then
-    export PATH="$p/bin:$PATH"
+    export PATH="$p/bin${PATH:+:$PATH}"
   fi
   if ! echo "$LD_LIBRARY_PATH"|grep -q -e "^$p/lib" -e ":$p/lib";then
-    export LD_LIBRARY_PATH="$p/lib:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$p/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
   fi
   if [ "$x86_64" = 1 ];then
     if ! echo "$LD_LIBRARY_PATH"|grep -q -e "^$p/lib64" -e ":$p/lib64";then
-      export LD_LIBRARY_PATH="$p/lib64:$LD_LIBRARY_PATH"
+      export LD_LIBRARY_PATH="$p/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
     fi
   fi
   if ! echo "$PYTHONPATH"|grep -q -e "^$p/lib" -e ":$p/lib";then
-    export PYTHONPATH="$p/lib/python:$p/lib:$PYTHONPATH"
+    export PYTHONPATH="$p/lib/python$p/lib:${PYTHONPATH:+:$PYTHONPATH}"
   fi
 done
 export GOPATH=$HOME/.go
