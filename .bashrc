@@ -4,15 +4,17 @@
 # Check if this is first time to read bashrc or not {{{
 # (subshell, screen, etc...)
 if [ ! "$INIT_PATH" ];then
-  # Set initial values of PATH, LD_LIBRARY_PATH, PYTHONPATH
+  # Set initial values of PATH, LD_LIBRARY_PATH, PYTHONPATH, PKG_CONFIG_PATH
   export INIT_PATH=$PATH
   export INIT_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
   export INIT_PYTHONPATH=$PYTHONPATH
+  export INIT_PKG_CONFIG_PATH=$PKG_CONFIG_PATH
 else
   # Reset paths
   export PATH=$INIT_PATH
   export LD_LIBRARY_PATH=$INIT_LD_LIBRARY_PATH
   export PYTHONPATH=$INIT_PYTHONPATH
+  export PKG_CONFIG_PATH=$INIT_PKG_CONFIG_PATH
 fi
 # }}} Check if this is first time to read bashrc or not
 
@@ -54,13 +56,19 @@ for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
   if ! echo "$LD_LIBRARY_PATH"|grep -q -e "^$p/lib" -e ":$p/lib";then
     export LD_LIBRARY_PATH="$p/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
   fi
+  if ! echo "$PYTHONPATH"|grep -q -e "^$p/lib" -e ":$p/lib";then
+    export PYTHONPATH="$p/lib/python$p/lib:${PYTHONPATH:+:$PYTHONPATH}"
+  fi
+  if ! echo "$PKG_CONFIG_PATH"|grep -q -e "^$p/lib/pkgconfig" -e ":$p/lib/pkgconfig";then
+    export PKG_CONFIG_PATH="$p/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+  fi
   if [ "$x86_64" = 1 ];then
     if ! echo "$LD_LIBRARY_PATH"|grep -q -e "^$p/lib64" -e ":$p/lib64";then
       export LD_LIBRARY_PATH="$p/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
     fi
-  fi
-  if ! echo "$PYTHONPATH"|grep -q -e "^$p/lib" -e ":$p/lib";then
-    export PYTHONPATH="$p/lib/python$p/lib:${PYTHONPATH:+:$PYTHONPATH}"
+    if ! echo "$PKG_CONFIG_PATH"|grep -q -e "^$p/lib64/pkgconfig" -e ":$p/lib64/pkgconfig";then
+      export PKG_CONFIG_PATH="$p/lib64/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+    fi
   fi
 done
 export GOPATH=$HOME/.go
