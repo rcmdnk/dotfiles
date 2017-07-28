@@ -117,6 +117,9 @@ if [ $ret -eq 0 ];then
   if [ -d "$brew_prefix/lib/python2.7/site-packages" ];then
     export PYTHONPATH="${brew_prefix}/lib/python2.7/site-packages":$PYTHONPATH
   fi
+  if [ -d "$(brew --prefix)/opt/python/libexec/bin" ];then
+    export PATH="$(brew --prefix)/opt/python/libexec/bin:$PATH"
+  fi
 
   ## Openssl
   OPENSSL_PATH="$brew_prefix/opt/openssl"
