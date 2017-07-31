@@ -1,8 +1,8 @@
 [user]
   name = rcmdnk
   email = rcmdnk@gmail.com
-#  name = rcmdnk-test
-#  email = rcmdnk+test@gmail.com
+  name = rcmdnk-test
+  email = rcmdnk+test@gmail.com
 [github]
   user = rcmdnk
 [core]
