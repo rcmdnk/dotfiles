@@ -4,9 +4,7 @@
 let s:use_dein = 0
 if filereadable(expand("~/.vim_dein"))
   let s:git = system("which git")
-  if strlen(s:git) == 0
-    let s:use_dein = 0
-  else
+  if strlen(s:git) != 0
     let s:use_dein = 1
   endif
 endif
