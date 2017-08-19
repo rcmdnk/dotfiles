@@ -1,13 +1,7 @@
 " vimrc
 
 " Flags {{{
-let s:use_dein = 0
-if filereadable(expand("~/.vim_dein"))
-  let s:git = system("which git")
-  if strlen(s:git) != 0
-    let s:use_dein = 1
-  endif
-endif
+let s:use_dein = 1
 " }}}
 
 " Prepare .vim dir {{{
@@ -21,9 +15,7 @@ endif
 
 " dein {{{
 let s:dein_enabled  = 0
-if s:use_dein && v:version >= 704
-  let s:dein_enabled = 1
-
+if s:use_dein && !filereadable(expand("~/.vim_no_dein")) && v:version >= 704
   " Set dein paths
   let s:dein_dir = s:vimdir . '/dein'
   let s:dein_github = s:dein_dir . '/repos/github.com'
@@ -32,6 +24,12 @@ if s:use_dein && v:version >= 704
 
   " Check dein has been installed or not.
   if !isdirectory(s:dein_repo_dir)
+    if !filereadable(expand("~/.vim_no_dein"))
+      let s:git = system("which git")
+      if strlen(s:git) != 0
+        let s:use_dein = 1
+      endif
+    endif
     echo 'dein is not installed, install now '
     let s:dein_repo = 'https://github.com/' . s:dein_repo_name
     echo 'git clone ' . s:dein_repo . ' ' . s:dein_repo_dir
@@ -141,8 +139,7 @@ if s:use_dein && v:version >= 704
     " Markdown {{{
     call dein#add('junegunn/vader.vim')
     call dein#add('godlygeek/tabular')
-    "call dein#add('joker1007/vim-markdown-quote-syntax')
-    call dein#add('rcmdnk/vim-markdown-quote-syntax')
+    call dein#add('joker1007/vim-markdown-quote-syntax')
     call dein#add('rcmdnk/vim-markdown')
     "call dein#add('plasticboy/vim-markdown')
     " }}}
