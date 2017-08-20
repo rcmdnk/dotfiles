@@ -15,29 +15,34 @@ endif
 
 " dein {{{
 let s:dein_enabled  = 0
-if s:use_dein && !filereadable(expand("~/.vim_no_dein")) && v:version >= 704
-  " Set dein paths
-  let s:dein_dir = s:vimdir . '/dein'
-  let s:dein_github = s:dein_dir . '/repos/github.com'
-  let s:dein_repo_name = 'Shougo/dein.vim'
-  let s:dein_repo_dir = s:dein_github . '/' . s:dein_repo_name
+if v:version >= 704 && s:use_dein && !filereadable(expand("~/.vim_no_dein"))
+  let s:git = system("which git")
+  if strlen(s:git) != 0
+    " Set dein paths
+    let s:dein_dir = s:vimdir . '/dein'
+    let s:dein_github = s:dein_dir . '/repos/github.com'
+    let s:dein_repo_name = 'Shougo/dein.vim'
+    let s:dein_repo_dir = s:dein_github . '/' . s:dein_repo_name
 
-  " Check dein has been installed or not.
-  if !isdirectory(s:dein_repo_dir)
-    if !filereadable(expand("~/.vim_no_dein"))
-      let s:git = system("which git")
-      if strlen(s:git) != 0
-        let s:use_dein = 1
+    " Check dein has been installed or not.
+    if !isdirectory(s:dein_repo_dir)
+      let s:is_clone = confirm("Prepare dein?", "Yes\nNo", 2)
+      if s:is_clone == 1
+        let s:dein_enabled = 1
+        echo 'dein is not installed, install now '
+        let s:dein_repo = 'https://github.com/' . s:dein_repo_name
+        echo 'git clone ' . s:dein_repo . ' ' . s:dein_repo_dir
+        call system('git clone ' . s:dein_repo . ' ' . s:dein_repo_dir)
       endif
+    else
+      let s:dein_enabled = 1
     endif
-    echo 'dein is not installed, install now '
-    let s:dein_repo = 'https://github.com/' . s:dein_repo_name
-    echo 'git clone ' . s:dein_repo . ' ' . s:dein_repo_dir
-    call system('git clone ' . s:dein_repo . ' ' . s:dein_repo_dir)
   endif
-  let &runtimepath = &runtimepath . ',' . s:dein_repo_dir
+endif
 
-  " Begin plugin part {{{
+" Begin plugin part {{{
+if s:dein_enabled
+  let &runtimepath = &runtimepath . ',' . s:dein_repo_dir
 
   " Check cache
   if dein#load_state(s:dein_dir)
