@@ -119,9 +119,6 @@ if s:dein_enabled
     " Applescript
     call dein#add('vim-scripts/applescript.vim')
 
-    " Automatic LaTeX Plugins
-    "call dein#add('coot/atp_vim')
-
     " CSS3 (Sass)
     call dein#add('hail2u/vim-css3-syntax.git')
 
@@ -165,7 +162,7 @@ if s:dein_enabled
     " LaTex
     call dein#add('lervag/vimtex')
 
-    " Vim Syntax
+    " Vim Syntax Checker
     call dein#add('dbakker/vim-lint')
 
     " Vimperator

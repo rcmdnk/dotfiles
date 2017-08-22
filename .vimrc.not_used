@@ -330,6 +330,16 @@ endif
     endif
   endif
 "}}}
+
+" AutoHotkey {{{
+" Default file ...share/vim/vim80/syntax/autohotkey.vim has better (and newer) definitions.
+call dein#add('vim-scripts/autohotkey-ahk')
+"}}}
+
+" Latex {{{
+" Automatic LaTeX Plugins
+call dein#add('coot/atp_vim')
+" }}}
 " }}} Code syntax, tools for each language
 
 " View {{{
