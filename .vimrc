@@ -135,8 +135,17 @@ if s:dein_enabled
     " Extra plugins for Go
     call dein#add('vim-jp/vim-go-extra')
 
+    " Homebrew
+    call dein#add('xu-cheng/brew.vim')
+
+    " HTML
+    call dein#add('othree/html5.vim')
+
     " Java
     call dein#add('koron/java-helper-vim')
+
+    " JavaScript
+    call dein#add('jelera/vim-javascript-syntax')
 
     " Markdown {{{
     call dein#add('junegunn/vader.vim')
@@ -156,8 +165,9 @@ if s:dein_enabled
     " Powershell
     call dein#add('PProvost/vim-ps1')
 
-    " Homebrew
-    call dein#add('xu-cheng/brew.vim')
+    " Ruby (rails, erb)
+    call dein#add('vim-ruby/vim-ruby')
+    call dein#add('tpope/vim-rails')
 
     " LaTex
     call dein#add('lervag/vimtex')
@@ -263,12 +273,14 @@ if s:dein_enabled
     call dein#add('kana/vim-textobj-user')
     " line: al, il
     call dein#add('kana/vim-textobj-line', {'depends': ['vim-textobj-user']})
-    " line: ai, ii
+    " indent: ai, ii
     call dein#add('kana/vim-textobj-indent', {'depends': ['vim-textobj-user']})
     " function: af, if
     call dein#add('kana/vim-textobj-function', {'depends': ['vim-textobj-user']})
     " comment: ac, ic
     call dein#add('thinca/vim-textobj-comment', {'depends': ['vim-textobj-user']})
+    " erb object: viE, ciE, daE
+    call dein#add('whatyouhide/vim-textobj-erb', {'depends': ['vim-textobj-user']})
     " }}}
 
     " Operator {{{
@@ -299,6 +311,9 @@ if s:dein_enabled
 
     " Easy to change surround
     call dein#add('tpope/vim-surround')
+
+    " if...end
+    call dein#add('tpope/vim-endwise')
 
     " }}} Edit
 
@@ -354,6 +369,9 @@ filetype plugin indent on
 
 " Switch syntax highlighting on, when the terminal has colors
 syntax on
+
+" Filetype
+autocmd MyAutoGroup BufRead,BufNewFile *.{json.erb} set filetype=ruby
 
 " Encode
 set encoding=utf-8
