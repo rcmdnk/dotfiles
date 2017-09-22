@@ -102,18 +102,41 @@ endif
 " }}}
 
 " Code syntax, tools for each language {{{
+" Use ale
 " syntastic with pip {{{
 " (currently flake8 or other modules are installed independently)
+call dein#add('vim-syntastic/syntastic')
 NeoBundle "scrooloose/syntastic", {
   \ "build": {
   \   "windows": ["pip install flake8", "npm -g install coffeelint"],
   \   "cygwin": ["pip install flake8", "npm -g install coffeelint"],
   \   "mac": ["pip install flake8", "npm -g install coffeelint"],
   \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
-" }}}
+
+" syntastic {{{
+if s:dein_enabled && dein#tap('syntastic')
+  " Disable automatic check at file open/close
+  let g:syntastic_check_on_open=0
+  let g:syntastic_check_on_wq=0
+  " C
+  let g:syntastic_c_check_header = 1
+  " C++
+  let g:syntastic_cpp_check_header = 1
+  " Java
+  let g:syntastic_java_javac_config_file_enabled = 1
+  let g:syntastic_java_javac_config_file = '$HOME/.syntastic_javac_config'
+  " python
+  let g:syntastic_python_checkers = ['flake8']
+  " ruby
+  let g:syntastic_ruby_checkers = ['rubocop']
+  " args for shellcheck
+  let g:syntastic_sh_shellcheck_args = "-e SC1090,SC2059,SC2155,SC2164"
+endif
+"}}} syntastic
+
 
 " vim-watchdogs {{{
-" Use Syntastic, instead
+" Use ale
 NeoBundle "osyo-manga/vim-watchdogs", {
     \ "depends": ["Shougo/vimproc", "thinca/vim-quickrun",
                  \"dannyob/quickfixstatus",
@@ -141,6 +164,37 @@ if s:dein_enabled && dein#tap("vim-watchdogs")
   call watchdogs#setup(g:quickrun_config)
 endif
 "}}} vim-watchdogs
+
+" neomake{{{
+call dein#add('neomake/neomake')
+call dein#add('benjie/neomake-local-eslint.vim')
+" neomake {{{
+if s:dein_enabled && dein#tap('neomake')
+  autocmd MyAutoGroup BufWritePost * Neomake
+
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi NeomakeInfoSign term=bold ctermfg=0 ctermbg=6 gui=bold guifg=Blue guibg=coral
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi link NeomakeInfo NeomakeInfoSign
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi NeomakeWarningSign term=standout ctermfg=0 ctermbg=11 guifg=Black guibg=orange
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi link NeomakeWarning NeomakeWarningSign
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi NeomakeErrorSign term=reverse ctermfg=15 ctermbg=9 guifg=White guibg=Red
+  autocmd MyAutoGroup VimEnter,ColorScheme * hi link NeomakeError NeomakeErrorSign
+
+  let g:neomake_javascript_enabled_makers = ['eslint']
+
+  let g:neomake_error_sign = {'text': 'e', 'texthl': 'NeomakeErrorSign'}
+  let g:neomake_warning_sign = {
+      \   'text': 'w',
+      \   'texthl': 'NeomakeWarningSign',
+      \ }
+  let g:neomake_message_sign = {
+       \   'text': 'm',
+       \   'texthl': 'NeomakeMessageSign',
+       \ }
+  let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
+endif
+"}}} neomake
+
+" }}}
 
 " vim-hier{{{
 if s:dein_enabled && dein#tap("vim-hier")

@@ -15,8 +15,8 @@ endif
 
 " dein {{{
 let s:dein_enabled  = 0
-if v:version >= 704 && s:use_dein && !filereadable(expand("~/.vim_no_dein"))
-  let s:git = system("which git")
+if v:version >= 704 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
+  let s:git = system('which git')
   if strlen(s:git) != 0
     " Set dein paths
     let s:dein_dir = s:vimdir . '/dein'
@@ -26,7 +26,7 @@ if v:version >= 704 && s:use_dein && !filereadable(expand("~/.vim_no_dein"))
 
     " Check dein has been installed or not.
     if !isdirectory(s:dein_repo_dir)
-      let s:is_clone = confirm("Prepare dein?", "Yes\nNo", 2)
+      let s:is_clone = confirm('Prepare dein?', 'Yes\nNo', 2)
       if s:is_clone == 1
         let s:dein_enabled = 1
         echo 'dein is not installed, install now '
@@ -179,9 +179,8 @@ if s:dein_enabled
     call dein#add('vimperator/vimperator.vim')
 
     " Syntax checking
-    call dein#add('vim-syntastic/syntastic')
-    "call dein#add('neomake/neomake')
-    "call dein#add('benjie/neomake-local-eslint.vim')
+    "call dein#add('vim-syntastic/syntastic')
+    call dein#add('w0rp/ale')
     " }}}
 
     " View {{{
@@ -532,41 +531,44 @@ command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1))
 command! VimShowHlItem echo synIDattr(synID(line('.'), col('.'), 1), 'name')
 
 function! s:get_syn_id(transparent)
-  let synid = synID(line('.'), col('.'), 1)
+  let l:synid = synID(line('.'), col('.'), 1)
   if a:transparent
-    return synIDtrans(synid)
+    return synIDtrans(l:synid)
   else
-    return synid
+    return l:synid
   endif
 endfunction
+
 function! s:get_syn_attr(synid)
-  let name = synIDattr(a:synid, 'name')
-  let ctermfg = synIDattr(a:synid, 'fg', 'cterm')
-  let ctermbg = synIDattr(a:synid, 'bg', 'cterm')
-  let guifg = synIDattr(a:synid, 'fg', 'gui')
-  let guibg = synIDattr(a:synid, 'bg', 'gui')
+  let l:name = synIDattr(a:synid, 'name')
+  let l:ctermfg = synIDattr(a:synid, 'fg', 'cterm')
+  let l:ctermbg = synIDattr(a:synid, 'bg', 'cterm')
+  let l:guifg = synIDattr(a:synid, 'fg', 'gui')
+  let l:guibg = synIDattr(a:synid, 'bg', 'gui')
   return {
-        \ 'name': name,
-        \ 'ctermfg': ctermfg,
-        \ 'ctermbg': ctermbg,
-        \ 'guifg': guifg,
-        \ 'guibg': guibg}
+        \ 'name': l:name,
+        \ 'ctermfg': l:ctermfg,
+        \ 'ctermbg': l:ctermbg,
+        \ 'guifg': l:guifg,
+        \ 'guibg': l:guibg}
 endfunction
+
 function! s:get_syn_info()
-  let baseSyn = s:get_syn_attr(s:get_syn_id(0))
-  echo 'name: ' . baseSyn.name .
-        \ ' ctermfg: ' . baseSyn.ctermfg .
-        \ ' ctermbg: ' . baseSyn.ctermbg .
-        \ ' guifg: ' . baseSyn.guifg .
-        \ ' guibg: ' . baseSyn.guibg
-  let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
+  let l:baseSyn = s:get_syn_attr(s:get_syn_id(0))
+  echo 'name: ' . l:baseSyn.name .
+        \ ' ctermfg: ' . l:baseSyn.ctermfg .
+        \ ' ctermbg: ' . l:baseSyn.ctermbg .
+        \ ' guifg: ' . l:baseSyn.guifg .
+        \ ' guibg: ' . l:baseSyn.guibg
+  let l:linkedSyn = s:get_syn_attr(s:get_syn_id(1))
   echo 'link to'
-  echo 'name: ' . linkedSyn.name .
-        \ ' ctermfg: ' . linkedSyn.ctermfg .
-        \ ' ctermbg: ' . linkedSyn.ctermbg .
-        \ ' guifg: ' . linkedSyn.guifg .
-        \ ' guibg: ' . linkedSyn.guibg
+  echo 'name: ' . l:linkedSyn.name .
+        \ ' ctermfg: ' . l:linkedSyn.ctermfg .
+        \ ' ctermbg: ' . l:linkedSyn.ctermbg .
+        \ ' guifg: ' . l:linkedSyn.guifg .
+        \ ' guibg: ' . l:linkedSyn.guibg
 endfunction
+
 command! SyntaxInfo call s:get_syn_info()
 
 " Max columns for syntax search
@@ -654,7 +656,8 @@ let g:mapleader = ','
 " use \, as , instead
 noremap <Subleader> <Nop>
 map <Space> <Subleader>
-noremap <Subleader>, ,
+nnoremap <Subleader>, ,
+xnoremap <Subleader>, ,
 
 " fix meta-keys
 "map <ESC>p <M-p>
@@ -679,9 +682,9 @@ noremap <Leader>gU gU
 "nnoremap <C-j> j
 "nnoremap <RETURN> j
 " Up (C-k default: Non)
-nnoremap <C-k> k
+"nnoremap <C-k> k
 " Right (C-l default: Clear and redraw the screen)
-nnoremap <C-l> l
+"nnoremap <C-l> l
 " Go to Head (C-a default: Increment)-><C-a> can't be used with vim-speeddating
 "nnoremap <C-a> 0
 nnoremap <M-h> 0
@@ -750,9 +753,6 @@ nnoremap Y y$
 nnoremap <silent> <Leader>p "+gP
 nnoremap <silent> <Leader>P :setlocal paste!<CR>:setlocal paste?<CR>
 inoremap <silent> <C-]> <C-o>:setlocal paste!<CR>
-
-" Open vimrc
-nnoremap <Leader><Leader> :tabedit $MYVIMRC<CR>
 
 " Source vimrc
 nnoremap <Leader>. :source $MYVIMRC<CR>
@@ -911,10 +911,10 @@ endif
 
 " undo {{{
 if has('persistent_undo')
-  let vimundodir=expand('~/.vim/undo')
-  let &undodir = vimundodir
-  if ! isdirectory(vimundodir)
-    call system('mkdir ' . vimundodir)
+  let s:vimundodir=expand('~/.vim/undo')
+  let &undodir = s:vimundodir
+  if ! isdirectory(s:vimundodir)
+    call system('mkdir ' . s:vimundodir)
   endif
   set undofile
   set undoreload=1000
@@ -974,7 +974,7 @@ nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
 " matchparen,matchpair, matchit {{{
 " Don't load matchparen (highlight parens actively, make slow)
 " vim-parenmatch fills in it.
-let loaded_matchparen = 1
+let g:loaded_matchparen = 1
 "matchpairs, default: (:),{:},[:]
 set matchpairs+=<:>
 autocmd MyAutoGroup FileType c,cpp,java set matchpairs+==:;
@@ -1026,10 +1026,10 @@ endif
 
 " cscope {{{
 if has('cscope')
-  set csprg=/usr/local/bin/cscope
-  set csto=0
-  set cst
-  set nocsverb
+  set cscopeprg=/usr/local/bin/cscope
+  set cscopetagorder=0
+  set cscopetag
+  set nocscopeverbose
   " add any database in current directory
   if filereadable('cscope.out')
     cs add cscope.out
@@ -1037,7 +1037,7 @@ if has('cscope')
   elseif $CSCOPE_DB !=# ''
     cs add $CSCOPE_DB
   endif
-  set csverb
+  set cscopeverbose
   set cscopequickfix=s-,c-,d-,i-,t-,e-
 endif
 " }}} cscope
@@ -1051,11 +1051,10 @@ command! IndentAll call s:indent_all()
 
 function! s:delete_space()
   normal! mxG$
-  let flags = 'w'
-  while search(' $', flags) > 0
-    let line = getline('.')
+  let l:flags = 'w'
+  while search(' $', l:flags) > 0
     call setline('.', substitute(getline('.'), ' \+$', '', ''))
-    let flags = 'W'
+    let l:flags = 'W'
   endwhile
   'x
   delmarks x
@@ -1070,9 +1069,9 @@ endfunction
 command! AlignCode call s:align_code()
 
 function! s:align_all_buf()
-  for i in  range(1, bufnr('$'))
-    if buflisted(i)
-      execute 'buffer' i
+  for l:i in  range(1, bufnr('$'))
+    if buflisted(l:i)
+      execute 'buffer' l:i
       AlignCode
       update
       bdelete
@@ -1145,8 +1144,8 @@ if s:dein_enabled && dein#tap('unite.vim')
     nnoremap <silent><buffer><expr> l
           \ unite#smart_map('l', unite#do_action('default'))
 
-    let unite = unite#get_current_unite()
-    if unite.buffer_name =~# '^search'
+    let l:unite = unite#get_current_unite()
+    if l:unite.buffer_name =~# '^search'
       nnoremap <silent><buffer><expr> r     unite#do_action('replace')
     else
       nnoremap <silent><buffer><expr> r     unite#do_action('rename')
@@ -1326,7 +1325,7 @@ if s:dein_enabled && dein#tap('vim-markdown-quote-syntax')
         \   'start' : 'scss',
         \},
         \ 'markdown' : {
-        \   "start" : '\%(markdown\|md\)',
+        \   'start' : '\%(markdown\|md\)',
         \},
   \}
 endif
@@ -1346,52 +1345,15 @@ if s:dein_enabled && dein#tap('vim-markdown')
 endif
 " }}} vim-markdown
 
-" syntastic {{{
-if s:dein_enabled && dein#tap('syntastic')
-  " Disable automatic check at file open/close
-  let g:syntastic_check_on_open=0
-  let g:syntastic_check_on_wq=0
-  " C
-  let g:syntastic_c_check_header = 1
-  " C++
-  let g:syntastic_cpp_check_header = 1
-  " Java
-  let g:syntastic_java_javac_config_file_enabled = 1
-  let g:syntastic_java_javac_config_file = '$HOME/.syntastic_javac_config'
-  " python
-  let g:syntastic_python_checkers = ['flake8']
-  " ruby
-  let g:syntastic_ruby_checkers = ['rubocop']
-  " args for shellcheck
-  let g:syntastic_sh_shellcheck_args = "-e SC1090,SC2059,SC2155,SC2164"
+" ale {{{
+if s:dein_enabled && dein#tap('ale')
+  nmap <silent> <Subleader>p <Plug>(ale_previous)
+  nmap <silent> <Subleader>n <Plug>(ale_next)
+  if dein#tap('lightline.vim')
+    autocmd MyAutoGroup User ALELint call lightline#update()
+  endif
 endif
-"}}} syntastic
-
-" neomake {{{
-if s:dein_enabled && dein#tap('neomake')
-  autocmd MyAutoGroup BufWritePost * Neomake
-
-  autocmd MyAutoGroup VimEnter,ColorScheme * hi NeomakeInfoSign term=bold ctermfg=0 ctermbg=6 gui=bold guifg=Blue guibg=coral
-  autocmd MyAutoGroup VimEnter,ColorScheme * hi link NeomakeInfo NeomakeInfoSign
-  autocmd MyAutoGroup VimEnter,ColorScheme * hi NeomakeWarningSign term=standout ctermfg=0 ctermbg=11 guifg=Black guibg=orange
-  autocmd MyAutoGroup VimEnter,ColorScheme * hi link NeomakeWarning NeomakeWarningSign
-  autocmd MyAutoGroup VimEnter,ColorScheme * hi NeomakeErrorSign term=reverse ctermfg=15 ctermbg=9 guifg=White guibg=Red
-  autocmd MyAutoGroup VimEnter,ColorScheme * hi link NeomakeError NeomakeErrorSign
-
-  let g:neomake_javascript_enabled_makers = ['eslint']
-
-  let g:neomake_error_sign = {'text': 'e', 'texthl': 'NeomakeErrorSign'}
-  let g:neomake_warning_sign = {
-      \   'text': 'w',
-      \   'texthl': 'NeomakeWarningSign',
-      \ }
-  let g:neomake_message_sign = {
-       \   'text': 'm',
-       \   'texthl': 'NeomakeMessageSign',
-       \ }
-  let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
-endif
-"}}} neomake
+" }}}
 
 " }}} Code syntax, tools for each language
 
@@ -1401,73 +1363,128 @@ if s:dein_enabled && dein#tap('lightline.vim')
   let g:lightline = {
         \'colorscheme': 'jellybeans',
         \'active': {
-        \'left': [['test', 'mode', 'filename'], ['fugitive']],
-        \'right': [['lineinfo'], ['fileinfo']]},
+              \'left': [['prepare', 'mode', 'filename'], ['fugitive']],
+              \'right': [['lineinfo'], ['fileinfo'], ['ale']]},
         \'component_visible_condition': {
-        \'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'},
+              \'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'},
         \'component_function': {
-        \'test': 'LLFunc',
-        \'mode': 'LLMode',
-        \'filename': 'LLFileName',
-        \'fugitive': 'LLFugitive',
-        \'fileinfo': 'LLFileInfo',
-        \'lineinfo': 'LLLineInfo',
-        \},
+              \'prepare': 'LLPrepare',
+              \'mode': 'LLMode',
+              \'filename': 'LLFileName',
+              \'fugitive': 'LLFugitive',
+              \'fileinfo': 'LLFileInfo',
+              \'lineinfo': 'LLLineInfo',
+              \'ale': 'LLAle',
+              \},
         \ 'separator': { 'left': '', 'right': '' },
         \ 'subseparator': { 'left': '', 'right': '' }
         \}
   let g:lightline.inactive = g:lightline.active
 
-  function! LLMode()
-    let ps = ''
-    if &paste
-      let ps = ' P'
+  function! LLPrepare()
+    let g:ll_mode = ''
+    let g:ll_filename = ''
+    let g:ll_fugitive = ''
+    let g:ll_fileinfo = ''
+    let g:ll_lineinfo = ''
+    let g:ll_ale = ''
+
+    let l:ww = winwidth('.')
+    let l:total_len = 0
+
+    let g:ll_mode = lightline#mode() . (&paste ? ' P' : '')
+    if g:ll_mode !=# ''
+      let l:total_len += strlen(g:ll_mode) + 2
+      if l:ww < l:total_len
+        return ''
+      endif
     endif
-    return lightline#mode() . ps
+
+    let g:ll_lineinfo = printf('%d/%d:%d', line('.'), line('$'), col('.'))
+    if g:ll_lineinfo !=# ''
+      let l:total_len += strlen(g:ll_lineinfo) + 2
+      echo l:ww . ' ' . l:total_len
+      if l:ww < l:total_len
+        let g:ll_lineinfo = ''
+        return ''
+      endif
+    endif
+
+    let g:ll_filename = expand('%:t') . (&filetype !~? 'help' && &readonly ? ' RO' : '') . (&modifiable && &modified ? ' +' : '')
+    if g:ll_filename !=# ''
+      let l:total_len += strlen(g:ll_filename) + 2
+      if l:ww < l:total_len
+        let g:ll_filename = ''
+        return ''
+      endif
+    endif
+
+    let g:ll_fileinfo = &fileformat . ' ' . (strlen(&fileencoding) ? &fileencoding : &encoding) . ' ' . (strlen(&filetype) ? &filetype : 'no')
+    if g:ll_fileinfo !=# ''
+      let l:total_len += strlen(g:ll_fileinfo) + 2
+      if l:ww < l:total_len
+        let g:ll_fileinfo = ''
+        return ''
+      endif
+    endif
+
+    let g:ll_ale = LLGetAle()
+    if g:ll_ale !=# ''
+      let l:total_len += strlen(g:ll_ale) + 2
+      if l:ww < l:total_len
+        let g:ll_ale = ''
+        return ''
+      endif
+    endif
+
+    let g:ll_fugitive = exists('*fugitive#head') ? fugitive#head() : ''
+    if g:ll_fugitive !=# ''
+      let l:total_len += strlen(g:ll_fugitive) + 2
+      if l:ww < l:total_len
+        let g:ll_fugitive = ''
+        return ''
+      endif
+    endif
+
+    return ''
+  endfunction
+
+  function! LLMode()
+    return g:ll_mode
   endfunction
 
   function! LLFileName()
-    let fn = expand('%:t')
-    let ro = &ft !~? 'help' && &readonly ? ' RO' : ''
-    let mo = &modifiable && &modified ? ' +' : ''
-    return fn . ro . mo
+    return g:ll_filename
   endfunction
 
   function! LLFugitive()
-    let fu = exists('*fugitive#head') ? fugitive#head() : ''
-    return winwidth('.') >=
-          \  strlen(LLMode()) + 2
-          \+ strlen(LLFileName()) + 2
-          \+ strlen(fu) + 2
-          \+ strlen(LLLineInfo()) + 2
-          \? fu : ''
+    return g:ll_fugitive
   endfunction
 
   function! LLFileInfo()
-    let ff = &fileformat
-    let fe = (strlen(&fenc) ? &fenc : &enc)
-    let ft = (strlen(&filetype) ? &filetype : 'no')
-    let fi = ff . ' ' . fe . ' ' . ft
-    return winwidth('.') >=
-          \  strlen(LLMode()) + 2
-          \+ strlen(LLFileName()) + 2
-          \+ strlen(LLFugitive())
-          \+ ((exists('*fugitive#head') && ''!=#fugitive#head()) ? 2 : 0)
-          \+ strlen(fi) + 2
-          \+ strlen(LLLineInfo()) + 2
-          \? fi : ''
+    return g:ll_fileinfo
   endfunction
 
   function! LLLineInfo()
-    let cl = line('.')
-    let ll = line('$')
-    let cc = col('.')
-    let li = printf('%4d/%d:%3d', cl, ll, cc)
-    return winwidth('.') >=
-          \  strlen(LLFileName()) + 2
-          \+ strlen(li) + 2
-          \? li : ''
+    return g:ll_lineinfo
   endfunction
+
+  function! LLAle()
+    return g:ll_ale
+  endfunction
+
+  if dein#tap('ale')
+    function! LLGetAle()
+      let l:count = ale#statusline#Count(bufnr(''))
+      let l:errors = l:count.error + l:count.style_error
+      let l:warnings = l:count.warning + l:count.style_warning
+      return l:count.total == 0 ? 'OK' : 'E:' . l:errors . ' W:' . l:warnings
+    endfunction
+  else
+    function! LLGetAle()
+      return ''
+    endfunction
+  endif
 endif
 "}}} lightline.vim
 
@@ -1546,7 +1563,7 @@ endif
 
 " Version Control System {{{
 " vcscommand.vim {{{
-  let VCSCommandDisableMappings = 1
+  let g:VCSCommandDisableMappings = 1
   nnoremap <Leader>cv :VCSVimDiff<CR>
 " }}}
 
@@ -1578,16 +1595,19 @@ endif
 
 " vim-quickhl {{{
 if s:dein_enabled && dein#tap('vim-quickhl')
-  nmap <Subleader>m <Plug>(quickhl-manual-this)
-  xmap <Subleader>m <Plug>(quickhl-manual-this)
-  nmap <Subleader>M <Plug>(quickhl-manual-reset)
-  xmap <Subleader>M <Plug>(quickhl-manual-reset)
-
-  nmap <Subleader>j <Plug>(quickhl-cword-toggle)
-  nmap <Subleader>] <Plug>(quickhl-tag-toggle)
-  "if dein#tap('vim-operator-user')
-  "  map H <Plug>(operator-quickhl-manual-this-motion)
-  "endif
+  nnoremap [quickhl] <Nop>
+  xnoremap [quickhl] <Nop>
+  nmap <Leader>h [quickhl]
+  xmap <Leader>h [quickhl]
+  nmap [quickhl]m <Plug>(quickhl-manual-this)
+  xmap [quickhl]m <Plug>(quickhl-manual-this)
+  nmap [quickhl]w <Plug>(quickhl-manual-this-whole-word)
+  xmap [quickhl]w <Plug>(quickhl-manual-this-whole-word)
+  nmap [quickhl]M <Plug>(quickhl-manual-reset)
+  xmap [quickhl]M <Plug>(quickhl-manual-reset)
+  nmap [quickhl]j <Plug>(quickhl-cword-toggle)
+  nmap [quickhl]] <Plug>(quickhl-tag-toggle)
+  map [quickhl]H <Plug>(operator-quickhl-manual-this-motion)
 endif
 " }}} quickhl
 " }}} Selection
@@ -1664,7 +1684,6 @@ endif
 
 " vim-surround {{{
 if s:dein_enabled && dein#tap('vim-surround')
-  let g:surround_{char2nr('a')} = "**\r**"
   nmap <Leader>{ ysiw{
   nmap <Leader>} ysiw}
   nmap <Leader>[ ysiw[
@@ -1678,7 +1697,6 @@ if s:dein_enabled && dein#tap('vim-surround')
   nmap <Leader>` ysiw`
   nmap <Leader>* ysiw*
   nmap <Leader><Leader>* ysiw*wysiw*
-  nmap <Leader>a ysiwa
   xmap { S{
   xmap } S}
   xmap [ S[
@@ -1692,7 +1710,6 @@ if s:dein_enabled && dein#tap('vim-surround')
   xmap ` S`
   xmap * S*
   xmap <Leader>* S*gvS*
-  xmap <Leader>a Sa
 endif
 " }}} vim-surround.vim
 " }}} Edit
@@ -1755,7 +1772,7 @@ if s:dein_enabled && dein#tap('vim-ref')
       endif
     endfor
     if l:start == 0
-      return "No result found"
+      return 'No result found'
     endif
     return join(l:arr[l:start : l:end], "\n")
   endfunction
