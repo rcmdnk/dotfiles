@@ -1352,6 +1352,7 @@ if s:dein_enabled && dein#tap('ale')
   if dein#tap('lightline.vim')
     autocmd MyAutoGroup User ALELint call lightline#update()
   endif
+  let g:ale_sh_shellcheck_options = "-e SC1090,SC2059,SC2155,SC2164"
 endif
 " }}}
 
@@ -1403,7 +1404,6 @@ if s:dein_enabled && dein#tap('lightline.vim')
     let g:ll_lineinfo = printf('%d/%d:%d', line('.'), line('$'), col('.'))
     if g:ll_lineinfo !=# ''
       let l:total_len += strlen(g:ll_lineinfo) + 2
-      echo l:ww . ' ' . l:total_len
       if l:ww < l:total_len
         let g:ll_lineinfo = ''
         return ''

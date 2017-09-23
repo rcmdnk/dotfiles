@@ -134,7 +134,6 @@ if s:dein_enabled && dein#tap('syntastic')
 endif
 "}}} syntastic
 
-
 " vim-watchdogs {{{
 " Use ale
 NeoBundle "osyo-manga/vim-watchdogs", {
