@@ -179,8 +179,11 @@ if s:dein_enabled
     call dein#add('vimperator/vimperator.vim')
 
     " Syntax checking
-    "call dein#add('vim-syntastic/syntastic')
-    call dein#add('w0rp/ale')
+    if has('job') && has('channel') && has('timers')
+      call dein#add('w0rp/ale')
+    else
+      call dein#add('vim-syntastic/syntastic')
+    endif
     " }}}
 
     " View {{{
@@ -1345,14 +1348,33 @@ if s:dein_enabled && dein#tap('vim-markdown')
 endif
 " }}} vim-markdown
 
-" ale {{{
+" ale/syntastic {{{
 if s:dein_enabled && dein#tap('ale')
+  let g:ale_lint_on_enter = 0
   nmap <silent> <Subleader>p <Plug>(ale_previous)
   nmap <silent> <Subleader>n <Plug>(ale_next)
+  nmap <silent> <Subleader>a <Plug>(ale_toggle)
   if dein#tap('lightline.vim')
     autocmd MyAutoGroup User ALELint call lightline#update()
   endif
-  let g:ale_sh_shellcheck_options = "-e SC1090,SC2059,SC2155,SC2164"
+  let g:ale_sh_shellcheck_options = '-e SC1090,SC2059,SC2155,SC2164'
+elseif s:dein_enabled && dein#tap('syntastic')
+  " Disable automatic check at file open/close
+  let g:syntastic_check_on_open=0
+  let g:syntastic_check_on_wq=0
+  " C
+  let g:syntastic_c_check_header = 1
+  " C++
+  let g:syntastic_cpp_check_header = 1
+  " Java
+  let g:syntastic_java_javac_config_file_enabled = 1
+  let g:syntastic_java_javac_config_file = '$HOME/.syntastic_javac_config'
+  " python
+  let g:syntastic_python_checkers = ['flake8']
+  " ruby
+  let g:syntastic_ruby_checkers = ['rubocop']
+  " args for shellcheck
+  let g:syntastic_sh_shellcheck_args = '-e SC1090,SC2059,SC2155,SC2164'
 endif
 " }}}
 
