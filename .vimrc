@@ -43,9 +43,7 @@ endif
 " Begin plugin part {{{
 if s:dein_enabled
   let &runtimepath = &runtimepath . ',' . s:dein_repo_dir
-
   let g:dein#install_process_timeout =  600
-  let g:dein#types#git#default_protocol = 'ssh'
 
   " Check cache
   if dein#load_state(s:dein_dir)
@@ -936,11 +934,7 @@ set undolevels=1000
 noremap [yshare] <Nop>
 map s [yshare]
 
-let g:yankshare_file = expand('~/.vim/yankshare.txt')
-if !exists('g:yankshare_file')
-  let g:yankshare_file = '/tmp/yankshare.txt'
-endif
-
+let g:yankshare_file = get(g:, 'yankshare_file', expand('~/.vim/yankshare.txt'))
 
 function! YSStore() range
   call writefile([getreg('s')], g:yankshare_file, 'b')
@@ -1285,8 +1279,8 @@ endif
 " Code syntax, tools for each language {{{
 " applescript {{{
 if s:dein_enabled && dein#tap('applescript.vim')
-  autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript :setlocal filetype=applescript
-  "autocmd MyAutoGroup FileType applescript :inoremap <buffer> <S-CR>  ¬<CR>
+  autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript setlocal filetype=applescript
+  "autocmd MyAutoGroup FileType applescript inoremap <buffer> <S-CR>  ¬<CR>
 endif
 "}}} applescript
 
@@ -1294,9 +1288,8 @@ endif
 if s:dein_enabled && dein#tap('vim-marching')
   if dein#tap('neocomplete.vim')
     let g:marching_enable_neocomplete = 1
-    if !exists('g:neocomplete#force_omni_input_patterns')
-      let g:neocomplete#force_omni_input_patterns = {}
-    endif
+    let g:neocomplete#force_omni_input_patterns =
+        \ get(g:, 'neocomplete#force_omni_input_patterns', {})
     let g:neocomplete#force_omni_input_patterns.cpp =
         \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
   endif
@@ -1364,7 +1357,9 @@ if s:dein_enabled && dein#tap('ale')
     call ale#Queue(0, 'lint_file')
   endfunction
   command! ALEList call s:ale_list()
+  nnoremap <Subleader>m  :ALEList<CR>
   autocmd MyAutoGroup FileType qf nnoremap <silent> <buffer> q :let g:ale_open_list = 0<CR>:q!<CR>
+  autocmd MyAutoGroup FileType help,qf,man,ref let b:ale_enabled = 0
 
   if dein#tap('lightline.vim')
     autocmd MyAutoGroup User ALELint call lightline#update()
@@ -1510,10 +1505,13 @@ if s:dein_enabled && dein#tap('lightline.vim')
 
   if dein#tap('ale')
     function! LLGetAle()
-      let l:count = ale#statusline#Count(bufnr(''))
-      let l:errors = l:count.error + l:count.style_error
-      let l:warnings = l:count.warning + l:count.style_warning
-      return l:count.total == 0 ? 'OK' : 'E:' . l:errors . ' W:' . l:warnings
+      if get(b:, 'ale_enabled', get(g:, 'ale_enabled', 0))
+        let l:count = ale#statusline#Count(bufnr(''))
+        let l:errors = l:count.error + l:count.style_error
+        let l:warnings = l:count.warning + l:count.style_warning
+        return l:count.total == 0 ? 'OK' : 'E:' . l:errors . ' W:' . l:warnings
+      endif
+      return ''
     endfunction
   else
     function! LLGetAle()
