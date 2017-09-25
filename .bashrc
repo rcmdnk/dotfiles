@@ -36,7 +36,6 @@ PROMPT_COMMAND=""
 source_file /etc/bashrc
 # Remove the last ";" from PROMPT_COMMAND
 ## Necessary for Mac Terminal.app
-PROMPT_COMMAND=$(echo ${PROMPT_COMMAND})
 PROMPT_COMMAND="${PROMPT_COMMAND%;}"
 if type -a busybox >& /dev/null;then
   PROMPT_COMMAND=""
