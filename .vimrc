@@ -44,6 +44,9 @@ endif
 if s:dein_enabled
   let &runtimepath = &runtimepath . ',' . s:dein_repo_dir
 
+  let g:dein#install_process_timeout =  600
+  let g:dein#types#git#default_protocol = 'ssh'
+
   " Check cache
   if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)
