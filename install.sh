@@ -3,7 +3,7 @@
 exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m')
 instdir="$HOME"
 
-backup="bak"
+backup=""
 overwrite=1
 relative=0
 dryrun=0
@@ -17,9 +17,8 @@ HELP="Usage: $0 [-nd] [-b <backup file postfix>] [-e <exclude file>] [-i <instal
 Make links of dot files in home directory (default:$instdir)
 
 Arguments:
-      -b  Set backup postfix (default: make *.bak file)
-          Set \"\" if backups are not necessary
-      -e  Set additional exclude file (default: ${exclude[@]})
+      -b  Set backup postfix, like \"bak\" (default: \"\": no back up is made)
+      -e  Set additional exclude file (default: ${exclude[*]})
       -i  Set install directory (default: $instdir)
       -r  Use relative path (default: absolute path)
       -n  Don't overwrite if file is already exist
@@ -180,7 +179,7 @@ if [ $dryrun -eq 1 ];then
 else
   echo "Following files were newly installed:"
 fi
-echo "  ${newlink[@]}"
+echo "  ${newlink[*]}"
 echo
 echo -n "Following files existed"
 if [ $dryrun -eq 1 ];then
@@ -192,5 +191,5 @@ elif [ "$backup" != "" ];then
 else
   echo "Following files existed, replaced old one:"
 fi
-echo "  ${exist[@]}"
+echo "  ${exist[*]}"
 echo

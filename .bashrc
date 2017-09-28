@@ -264,8 +264,8 @@ alias lt='ls -altr'
 if type -a colordiff >& /dev/null;then
   alias diff='colordiff'
 fi
-#alias badlink='find -L . -depth 1 -type l -ls'
-alias badlink='find -L . -type l -ls'
+alias badlink='find -L . -depth 1 -type l -ls'
+alias badlinkall='find -L . -type l -ls'
 #alias g='gmake'
 alias g='make'
 alias gc="make clean"

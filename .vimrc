@@ -53,9 +53,6 @@ if s:dein_enabled
     call dein#add('Shougo/dein.vim')
 
     " Basic tools {{{
-    " Asynchronous execution library: need for vimshell, Gmail, unite, etc...
-    call dein#add('Shougo/vimproc', {'build': 'make'})
-
     " Support repeat for surround, speedating, easymotion, etc...
     call dein#add('tpope/vim-repeat')
 
@@ -69,7 +66,6 @@ if s:dein_enabled
     " Unite {{{
     " Search and display information from arbitrary sources
     call dein#add('Shougo/unite.vim', {
-          \ 'depends': ['vimproc'],
           \ 'on_cmd': ['Unite'],
           \ 'lazy': 1})
 
@@ -681,14 +677,14 @@ noremap <Leader>gU gU
 
 " cursor move
 " Left (C-h default: <BS> ~ h)
-"nnoremap <C-h> h
+nnoremap <C-h> h
 " Down (C-j default: <NL> ~ j)
-"nnoremap <C-j> j
+nnoremap <C-j> j
 "nnoremap <RETURN> j
 " Up (C-k default: Non)
-"nnoremap <C-k> k
+nnoremap <C-k> k
 " Right (C-l default: Clear and redraw the screen)
-"nnoremap <C-l> l
+nnoremap <C-l> l
 " Go to Head (C-a default: Increment)-><C-a> can't be used with vim-speeddating
 "nnoremap <C-a> 0
 nnoremap <M-h> 0
@@ -1122,7 +1118,7 @@ endif
 " Unite {{{
 if s:dein_enabled && dein#tap('unite.vim')
   function! s:unite_my_settings()
-    nmap <buffer><Esc> <Plug>(unite_exit)
+"    nmap <buffer><Esc> <Plug>(unite_exit)
     imap <buffer> jj      <Plug>(unite_insert_leave)
     "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
 
@@ -1385,7 +1381,6 @@ elseif s:dein_enabled && dein#tap('syntastic')
   let g:syntastic_sh_shellcheck_args = '-e SC1090,SC2059,SC2155,SC2164'
 endif
 " }}}
-
 " }}} Code syntax, tools for each language
 
 " View {{{
