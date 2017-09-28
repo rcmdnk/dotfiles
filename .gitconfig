@@ -4,12 +4,10 @@
 [github]
   user = rcmdnk
 [core]
-# filemode = false
   autocrlf = false
   editor = vim
   execludesfile = ~/.gitignore_global
 [push]
-# default = simple
   default = matching
 [fetch]
   prune = true
@@ -19,19 +17,29 @@
 [diff]
   algorithm = histogram
 [alias]
-  st = status
+  ad = add -A
+  ba = branch -a
+  br = branch
+  current-branch = rev-parse --abbrev-ref HEAD
+  cb = current-branch
+  checkout-empty = checkout --orphan # checkout empty(orphan) branch
+  ce = checkout-empty
+  ci = commit -a
+  cl = clone --recursive
+  co = checkout
+  git-dir = rev-parse --git-dir
+  log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
+  log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
+  log-tag = log --decorate=full
+  ls = ls-files
+  mh = rebase -i HEAD~10 # merge head
+  rbm = rebase master
   sb = show-branch
   sh = show
+  st = status
   su = stash -u # stash also untracked
-  br = branch
-  ba = branch -a
-  co = checkout
-  ce = checkout --orphan # checkout empty(orphan ) branch
-  cl = clone --reecursive
-  ci = commit -a
-  ad = add -A
-  rbm = rebase master
-  mh = rebase -i HEAD~10 # merge head
+  top = rev-parse --show-toplevel
+  root = top
   dns = diff --name-status
   dm = diff master
   dw = diff --color-words
@@ -52,12 +60,6 @@
       git difftool --tool=vimdiff --no-prompt $*;\
     fi;\
   };f"
-  ls = ls-files
-  log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
-  log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
-  log-tag = log --decorate=full
-  top = rev-parse --show-toplevel
-  root = top
   sm = submodule
   smad = "!f () {\
     if [ $# -lt 1 ];then \
@@ -94,9 +96,6 @@
     echo rm -rf ${sm};\
     rm -rf ${sm};\
   };f"
-  git-dir = rev-parse --git-dir
-  current-branch = rev-parse --abbrev-ref HEAD
-  cb = current-branch
   pull-dry-run  = "!git fetch origin;\
     b=$(git rev-parse --abbrev-ref HEAD);\
     git diff --stat --summary ${b}..origin/${b}"

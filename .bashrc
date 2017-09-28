@@ -764,13 +764,13 @@ source_file ~/.rvm/scripts/rvm
 source_file ~/.screen/setup.sh
 
 # File used in linux
-[[ "$OSTYPE" =~ linux ]] && source_file ~/.linux.sh
+[[ "$OSTYPE" =~ linux ]] && source_file ~/.linuxrc
 
 # File used in mac
-[[ "$OSTYPE" =~ darwin ]] && source_file ~/.mac.sh
+[[ "$OSTYPE" =~ darwin ]] && source_file ~/.macrc
 
 # File used in windows (cygwin)
-[[ "$OSTYPE" =~ cygwin ]] && source_file ~/.win.sh
+[[ "$OSTYPE" =~ cygwin ]] && source_file ~/.winrc
 
 # File used for working server
 source_file ~/.work.sh
