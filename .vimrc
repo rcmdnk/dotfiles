@@ -450,10 +450,11 @@ let &directory=s:tmpdir . ',' . s:defdir " directory for swap file
 let &backupdir=s:tmpdir . ',' . s:defdir " directory for backup file
 
 if has('win32') || has ('win64')
-  set viminfo+=n~/.vim/viminfo_win
+  let s:viminfo = 'viminfo_win'
 else
-  set viminfo+=n~/.vim/viminfo
+  let s:viminfo = 'viminfo'
 endif
+let &viminfo = &viminfo . ',n' . s:vimdir . '/' . s:viminfo
 
 set history=100    " Keep 100 lines of command line history
 
@@ -911,7 +912,7 @@ endif
 
 " undo {{{
 if has('persistent_undo')
-  let s:vimundodir=expand('~/.vim/undo')
+  let s:vimundodir=expand(s:vimdir . '/undo')
   let &undodir = s:vimundodir
   if ! isdirectory(s:vimundodir)
     call system('mkdir ' . s:vimundodir)
@@ -930,7 +931,7 @@ set undolevels=1000
 noremap [yshare] <Nop>
 map s [yshare]
 
-let g:yankshare_file = get(g:, 'yankshare_file', expand('~/.vim/yankshare.txt'))
+let g:yankshare_file = get(g:, 'yankshare_file', expand(s:vimdir . '/yankshare.txt'))
 
 function! YSStore() range
   call writefile([getreg('s')], g:yankshare_file, 'b')
@@ -1077,8 +1078,6 @@ function! s:align_all_buf()
 endfunction
 command! AlignAllBuf call s:align_all_buf()
 
-"nnoremap <Leader><Subleader> :ret<CR>:IndentAll<CR>:DeleteSpace<CR>
-
 " remove trail spaces for all
 nnoremap <Leader><Space> :DeleteSpace<CR>
 
@@ -1118,7 +1117,7 @@ endif
 " Unite {{{
 if s:dein_enabled && dein#tap('unite.vim')
   function! s:unite_my_settings()
-"    nmap <buffer><Esc> <Plug>(unite_exit)
+    nmap <buffer><Esc> <Plug>(unite_exit)
     imap <buffer> jj      <Plug>(unite_insert_leave)
     "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
 
@@ -1381,6 +1380,7 @@ elseif s:dein_enabled && dein#tap('syntastic')
   let g:syntastic_sh_shellcheck_args = '-e SC1090,SC2059,SC2155,SC2164'
 endif
 " }}}
+
 " }}} Code syntax, tools for each language
 
 " View {{{
@@ -1697,7 +1697,7 @@ if s:dein_enabled && dein#tap('yankround.vim')
   nmap <C-p> <Plug>(yankround-prev)
   nmap <C-n> <Plug>(yankround-next)
   let g:yankround_max_history = 30
-  let g:yankround_dir = '~/.vim/yankround'
+  let g:yankround_dir = s:vimdir . '/yankround'
   let g:yankround_max_element_length = 0
   let g:yankround_use_region_hl = 1
 endif
