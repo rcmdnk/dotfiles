@@ -1850,24 +1850,29 @@ endif
 
 " }}} Plugin settings
 
+" source other setting files{{{
+function! s:source_file(file)
+  let l:f = (expand(a:file))
+  if filereadable(l:f)
+    execute 'source' l:f
+  endif
+endfunction
+
 " OS specific settings {{{
-"if has('win32') || has('win64')
-"
-"elseif has('mac')
-"
-"elseif has('unix')
-"
-"endif
+if has('win32') || has('win64')
+  call s:source_file('~/.vimrc.win')
+elseif has('mac')
+  call s:source_file('~/.vimrc.mac')
+elseif has('unix')
+  call s:source_file('~/.vimrc.unix')
+endif
 " }}}
 
 " local settings {{{
-if filereadable(expand('~/.vimrc.local'))
-  execute 'source' expand('~/.vimrc.local')
-endif
+call s:source_file('~/.vimrc.local')
+call s:source_file('~/.vimrc.dir')
+" }}}
 
-if filereadable(expand('./.vimrc.dir'))
-  execute 'source' expand('./.vimrc.dir')
-endif
 " }}}
 
 " For vim w/o +eval{{{
