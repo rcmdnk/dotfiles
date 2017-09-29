@@ -1,5 +1,9 @@
 " vimrc
 
+" For vim w/o +eval{{{
+if 1
+" }}}
+
 " Flags {{{
 let s:use_dein = 1
 " }}}
@@ -1863,6 +1867,10 @@ endif
 
 if filereadable(expand('./.vimrc.dir'))
   execute 'source' expand('./.vimrc.dir')
+endif
+" }}}
+
+" For vim w/o +eval{{{
 endif
 " }}}
 
