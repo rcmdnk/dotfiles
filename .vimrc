@@ -1393,7 +1393,7 @@ if s:dein_enabled && dein#tap('lightline.vim')
   let g:lightline = {
         \'colorscheme': 'jellybeans',
         \'active': {
-              \'left': [['prepare', 'mode', 'filename'], ['fugitive']],
+              \'left': [['prepare', 'mode'], ['filename', 'fugitive']],
               \'right': [['lineinfo'], ['fileinfo'], ['ale']]},
         \'component_visible_condition': {
               \'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'},
@@ -1468,6 +1468,7 @@ if s:dein_enabled && dein#tap('lightline.vim')
 
     let g:ll_fugitive = exists('*fugitive#head') ? fugitive#head() : ''
     if g:ll_fugitive !=# ''
+      let g:ll_fugitive = '[' . g:ll_fugitive . ']'
       let l:total_len += strlen(g:ll_fugitive) + 2
       if l:ww < l:total_len
         let g:ll_fugitive = ''

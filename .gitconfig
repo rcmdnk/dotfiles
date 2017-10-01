@@ -40,6 +40,7 @@
   su = stash -u # stash also untracked
   top = rev-parse --show-toplevel
   root = top
+  p = push origin $(git rev-parse --abbrev-ref HEAD)
   dns = diff --name-status
   dm = diff master
   dw = diff --color-words
@@ -61,9 +62,10 @@
     fi;\
   };f"
   sm = submodule
+  smfe = submodule foreach
   smad = "!f () {\
     if [ $# -lt 1 ];then \
-      echo \"Usage: git smad git_repo_path [submodule parent path]\";\
+      echo \"Usage: git smad <git_repo_path> [submodule parent path]\";\
       exit;\
     fi;\
     git_repo=${1};\
@@ -80,7 +82,7 @@
   };f"
   smrm  = "!f () {\
     if [ $# -ne 1 ];then \
-      echo \"Usage: git smrm path/to/submodule\";\
+      echo \"Usage: git <smrm path/to/submodule>\";\
       exit;\
     fi;\
     sm=${1%/};\
