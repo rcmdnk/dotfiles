@@ -75,8 +75,6 @@ export GOPATH=$HOME/.go
 
 # Shell/Environmental variables {{{
 # Prompt
-#PS1="\[\e]0;\u@\h\w\a\][\h \W]\$ "
-#PS1="[\W]\$ "
 PS1="[\h \W]\$ "
 
 # XMODIFIERS
