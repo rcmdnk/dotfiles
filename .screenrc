@@ -93,7 +93,7 @@ bind k  eval    'focus up'
 bind l  eval    'focus right'
 bind ^h eval    'focus left'
 bind -k kb eval 'focus left' #Backspace
-#bind \015  eval 'focus down' #Enter
+bind \015  eval 'focus down' #Enter
 bind ^j eval    'focus down'
 bind ^k eval    'focus up'
 bind ^l eval    'focus right'
