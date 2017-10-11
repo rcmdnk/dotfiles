@@ -3,19 +3,20 @@
 
 # Check if this is first time to read bashrc or not {{{
 # (subshell, screen, etc...)
-if [ ! "$INIT_PATH" ];then
-  # Set initial values of PATH, LD_LIBRARY_PATH, PYTHONPATH, PKG_CONFIG_PATH
-  export INIT_PATH=$PATH
-  export INIT_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-  export INIT_PYTHONPATH=$PYTHONPATH
-  export INIT_PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-else
-  # Reset paths
-  export PATH=$INIT_PATH
-  export LD_LIBRARY_PATH=$INIT_LD_LIBRARY_PATH
-  export PYTHONPATH=$INIT_PYTHONPATH
-  export PKG_CONFIG_PATH=$INIT_PKG_CONFIG_PATH
-fi
+function _init_path () {
+  local p
+  for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
+    local ip=$(eval echo "\$INIT_$p")
+    if [ -z "$ip" ];then
+      # Set initial values
+      eval export INIT_$p="\$$p"
+    else
+      # Reset paths
+      eval export $p="$ip"
+    fi
+  done
+}
+_init_path
 # }}} Check if this is first time to read bashrc or not
 
 # Function for sourcing with precheck of the file {{{
