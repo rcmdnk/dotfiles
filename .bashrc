@@ -3,7 +3,7 @@
 
 # Check if this is first time to read bashrc or not {{{
 # (subshell, screen, etc...)
-function _init_path () {
+function _reset_path () {
   local p
   for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
     local ip=$(eval echo "\$INIT_$p")
@@ -16,7 +16,7 @@ function _init_path () {
     fi
   done
 }
-_init_path
+_reset_path
 # }}} Check if this is first time to read bashrc or not
 
 # Function for sourcing with precheck of the file {{{

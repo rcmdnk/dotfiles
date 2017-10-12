@@ -206,6 +206,7 @@
     if [ $st != 0 ];then echo Failed to git gc; return 1;fi;\
   };f"
   up = update
+  u = update
   deleted = log --diff-filter=D --summary
   restore = "!f () {\
     if [ \"$#\" -eq 0 ];then \
