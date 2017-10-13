@@ -20,7 +20,7 @@ _reset_path
 # }}} Check if this is first time to read bashrc or not
 
 # Function for sourcing with precheck of the file {{{
-function source_file() {
+function source_file () {
   if [ $# -lt 1 ];then
     echo "ERROR!!! source_file is called w/o an argument"
     return
@@ -771,10 +771,7 @@ source_file ~/.screen/setup.sh
 # File used in windows (cygwin)
 [[ "$OSTYPE" =~ cygwin ]] && source_file ~/.winrc
 
-# File used for working server
-source_file ~/.work.sh
-
 # File for special settings for each machine
-source_file ~/.local.sh
+source_file ~/.localrc
 
 # }}} Setup for each environment

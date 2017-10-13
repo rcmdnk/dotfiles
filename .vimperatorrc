@@ -218,6 +218,7 @@ nnoremap <Leader>. :source ~/.vimperatorrc<CR>
 "nnoremap <C-c> <C-v><C-c>
 nnoremap <C-h> h
 nnoremap <C-j> j
+nnoremap <RETURN> j
 nnoremap <C-k> k
 nnoremap <C-l> l
 nnoremap <C-w> <Nop>
