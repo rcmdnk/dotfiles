@@ -685,7 +685,7 @@ noremap <Leader>gU gU
 nnoremap <C-h> h
 " Down (C-j default: <NL> ~ j)
 nnoremap <C-j> j
-"nnoremap <RETURN> j
+nnoremap <RETURN> j
 " Up (C-k default: Non)
 nnoremap <C-k> k
 " Right (C-l default: Clear and redraw the screen)
@@ -716,6 +716,9 @@ nnoremap <Subleader>j G
 "nnoremap <C-z> <C-a>
 " Substitute for C-a (C-s default: non?)
 "nnoremap <C-s> <C-a>
+
+" Fix RETURN to C-j at win move (if C-j is mapped as RETURN at OS level)
+nnoremap <C-w><RETURN> <C-w><C-j>
 
 " tag jump (avoid crash with screen's key bind, C-' default: Non?)
 nnoremap <C-'> <C-t>
@@ -1111,6 +1114,7 @@ if s:dein_enabled && dein#tap('vim-submode')
   call submode#map('winsize', 'n', '', '<C-l>', '<C-w>>')
   call submode#map('winsize', 'n', '', '<C-h>', '<C-w><')
   call submode#map('winsize', 'n', '', '<C-j>', '<C-w>-')
+  call submode#map('winsize', 'n', '', '<RETURN>', '<C-w>-')
   call submode#map('winsize', 'n', '', '<C-k>', '<C-w>+')
   call submode#map('winsize', 'n', '', '=', '<C-w>=')
   call submode#map('winsize', 'n', '', '<C-=>', '<C-w>=')
