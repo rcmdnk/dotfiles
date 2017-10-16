@@ -96,6 +96,17 @@ if s:dein_enabled
     " }}}
 
     " Completion {{{
+    "if has('python3')
+    "  call dein#add('roxma/vim-hug-neovim-rpc')
+    "  call dein#add('roxma/nvim-yarp')
+    "  call dein#add('Shougo/deoplete.nvim')
+    "  call dein#add('Shougo/neco-syntax')
+    "  call dein#add('Shougo/neco-vim')
+    "  call dein#add('zchee/deoplete-clang')
+    "  call dein#add('zchee/deoplete-go')
+    "  call dein#add('zchee/deoplete-jedi')
+    "  call dein#add('zchee/deoplete-zsh')
+    "elseif has('lua')
     if has('lua')
       call dein#add('Shougo/neocomplete.vim', {
             \ 'on_i': 1,
@@ -1224,6 +1235,13 @@ if s:dein_enabled && dein#tap('unite.vim')
 endif
 " }}} Unite
 
+" deoplete.nvim {{{
+if s:dein_enabled && dein#tap('deoplete.nvim')
+  let g:deoplete#enable_at_startup = 1
+endif
+" }}} deoplete.nvim
+
+let g:deoplete#enable_at_startup = 1
 " neocomplete {{{
 if s:dein_enabled && dein#tap('neocomplete.vim')
   let g:neocomplete#enable_at_startup = 1
