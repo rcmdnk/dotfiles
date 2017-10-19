@@ -384,9 +384,6 @@ filetype plugin indent on
 " Switch syntax highlighting on, when the terminal has colors
 syntax on
 
-" Filetype
-autocmd MyAutoGroup BufRead,BufNewFile *.{json.erb} set filetype=ruby
-
 " Encode
 set encoding=utf-8
 scriptencoding utf-8
