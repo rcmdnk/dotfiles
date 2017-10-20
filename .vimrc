@@ -654,9 +654,9 @@ set statusline+=%=%l/%L,%c%V%8P
 
 " <C-h> == <BS>
 " <C-i> == <Tab>
-" <C=l> == <FF> (formfeed)
+" <C-l> == <FF> (formfeed)
 " <C-j> == <NL> (next line)
-" <C=m> == <CR> (return)
+" <C-m> == <CR> (return)
 " *** should not use <C-i> and <C-m> for mappings!
 " If you set mappings for <C-i> and <C-m>,
 " the mapping will also be enabled for <Tab> and <CR>, respectively.
