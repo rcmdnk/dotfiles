@@ -5,14 +5,15 @@
 # (subshell, screen, etc...)
 function _reset_path () {
   local p
-  for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
+  #for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
+  for p in PATH;do
     local ip=$(eval echo "\$INIT_$p")
     if [ -z "$ip" ];then
       # Set initial values
       eval export INIT_$p="\$$p"
     else
       # Reset paths
-      eval export $p="$ip"
+      eval export $p=\""$ip"\"
     fi
   done
 }
