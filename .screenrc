@@ -92,14 +92,15 @@ bind j  eval    'focus down'
 bind k  eval    'focus up'
 bind l  eval    'focus right'
 bind ^h eval    'focus left'
-bind -k kb eval 'focus left' #Backspace
-bind \015  eval 'focus down' #Enter
+bind ^? eval    'focus left' # Delete (Backspace)
+bind -k kb eval 'command -c move' 'focus left' # Delete (Backspace)
+bind \015  eval 'focus down' # Enter
 bind ^j eval    'focus down'
 bind ^k eval    'focus up'
 bind ^l eval    'focus right'
 
 #bind ^h eval    'command -c move' 'focus left'
-#bind -k kb eval 'command -c move' 'focus left' #Backspace
+#bind ^? eval 'command -c move' 'focus left' #Backspace
 #bind ^j eval    'command -c move' 'focus down'
 #bind ^k eval    'command -c move' 'focus up'
 #bind ^l eval    'command -c move' 'focus right'
@@ -110,7 +111,7 @@ bind ^l eval    'focus right'
 #bind -c move k eval     'focus up'
 #bind -c move l eval     'focus right'
 #bind -c move ^h eval    'command -c move' 'focus left'
-#bind -c move -k kb eval 'command -c move' 'focus left' #Backspace
+#bind -c move ^? eval 'command -c move' 'focus left' #Backspace
 #bind -c move ^j eval    'command -c move' 'focus down'
 #bind -c move ^k eval    'command -c move' 'focus up'
 #bind -c move ^l eval    'command -c move' 'focus right'
