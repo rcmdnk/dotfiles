@@ -375,40 +375,40 @@ function mynoglob_helper () { # noglob helpers {{{
 alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 # }}}
 
-function man () { # man wrapper {{{
-  if [ $# -ne 1 ] || [[ "$1" =~ ^- ]];then
-    command man "$@"
-    return $?
-  fi
-  local p
-  local m
-  if [ "$PAGER" != "" ];then
-    p="$PAGER"
-  fi
-  if [ "$MANPAGER" != "" ];then
-    m="$MANPAGER"
-  fi
-  unset PAGER
-  unset MANPAGER
-  val=$(command man "$@" 2>&1)
-  ret=$?
-  if [ $ret -eq 0 ];then
-    if type -a vim >& /dev/null;then
-      echo "$val"|col -bx|vim -R -c 'set ft=man' -
-    else
-      command man "$@"
-    fi
-  else
-    echo "$val"
-  fi
-  if [ "$p" != "" ];then
-    export PAGER="$p"
-  fi
-  if [ "$m" != "" ];then
-    export MANPAGER="$m"
-  fi
-  return $ret
-} # }}}
+#function man () { # man wrapper {{{
+#  if [ $# -ne 1 ] || [[ "$1" =~ ^- ]];then
+#    command man "$@"
+#    return $?
+#  fi
+#  local p
+#  local m
+#  if [ "$PAGER" != "" ];then
+#    p="$PAGER"
+#  fi
+#  if [ "$MANPAGER" != "" ];then
+#    m="$MANPAGER"
+#  fi
+#  unset PAGER
+#  unset MANPAGER
+#  val=$(command man "$@" 2>&1)
+#  ret=$?
+#  if [ $ret -eq 0 ];then
+#    if type -a vim >& /dev/null;then
+#      echo "$val"|col -bx|vim -R -c 'set ft=man' -
+#    else
+#      command man "$@"
+#    fi
+#  else
+#    echo "$val"
+#  fi
+#  if [ "$p" != "" ];then
+#    export PAGER="$p"
+#  fi
+#  if [ "$m" != "" ];then
+#    export MANPAGER="$m"
+#  fi
+#  return $ret
+#} # }}}
 
 function change () { # Change words in file by sed {{{
   case $# in

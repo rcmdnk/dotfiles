@@ -94,8 +94,8 @@ bind l  eval    'focus right'
 bind ^h eval    'focus left'
 bind ^? eval    'focus left' # Delete (Backspace)
 bind -k kb eval 'command -c move' 'focus left' # Delete (Backspace)
-bind \015  eval 'focus down' # Enter
 bind ^j eval    'focus down'
+bind \015  eval 'focus down' # Enter
 bind ^k eval    'focus up'
 bind ^l eval    'focus right'
 
@@ -201,7 +201,14 @@ bindkey -m Y eval 'stuff Y' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/n
 #bindkey -m D eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"' # problem at search in copy mode
 #bindkey -m $ eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"' # problem at search in copy mode
 bindkey -m W eval 'stuff W' 'writebuf' 'exec /bin/sh  -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"'
-bindkey -m ^[ eval ''
+#bindkey -m ^[ eval ''
+bindkey -m ^h stuff h
+bindkey -m ^? stuff h
+bindkey -m -k kb stuff h
+#bindkey -m ^j stuff j
+#bindkey -m  \015 stuff j
+bindkey -m ^k stuff k
+bindkey -m ^l stuff l
 
 # !!! should not be applied (especially for stdout (second one)).
 # Otherwise some outputs come to the window(?)
