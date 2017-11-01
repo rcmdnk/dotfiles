@@ -17,6 +17,10 @@
 [diff]
   algorithm = histogram
 [alias]
+  ac = "!f () {\
+    git add -A;\
+    git commit -a \"$@\";\
+  };f"
   ad = add -A
   ba = branch -a
   br = branch
