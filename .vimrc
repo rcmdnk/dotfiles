@@ -278,8 +278,6 @@ if s:dein_enabled
     " Count searching objects
     call dein#add('osyo-manga/vim-anzu')
 
-    " Improved incremental searching (default incsearch shows only the next one.)
-    call dein#add('haya14busa/incsearch.vim')
     " }}} Search
 
     " Edit {{{
@@ -772,11 +770,6 @@ inoremap <silent> <C-]> <C-o>:setlocal paste!<CR>
 
 " Source vimrc
 nnoremap <Leader>. :source $MYVIMRC<CR>
-
-" search: very magic mode
-nnoremap / /\v
-" to check patterns:
-" :h pattern-overview
 
 " Close immediately by q, set non-modifiable settings
 autocmd MyAutoGroup FileType help,qf,man,ref nnoremap <silent> <buffer> q :q!<CR>
@@ -1681,14 +1674,6 @@ else
 endif
 " }}} vim-anzu
 
-" incsearch {{{
-if s:dein_enabled && dein#tap('incsearch.vim')
-  map / <Plug>(incsearch-forward)
-  map ? <Plug>(incsearch-backward)
-  map g/ <Plug>(incsearch-stay)
-  let g:incsearch#magic = '\v'
-endif
-" }}} incsearch
 " }}} Search
 
 " Edit {{{
