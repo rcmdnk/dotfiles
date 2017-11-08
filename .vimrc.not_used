@@ -102,8 +102,10 @@ endif
 " }}}
 
 " Code syntax, tools for each language {{{
+
+" Code Syntax {{{
 " Use ale
-" syntastic with pip {{{
+" syntastic {{{
 " (currently flake8 or other modules are installed independently)
 call dein#add('vim-syntastic/syntastic')
 NeoBundle "scrooloose/syntastic", {
@@ -113,7 +115,6 @@ NeoBundle "scrooloose/syntastic", {
   \   "mac": ["pip install flake8", "npm -g install coffeelint"],
   \   "unix": ["pip install flake8", "npm -g install coffeelint"] }}
 
-" syntastic {{{
 if s:dein_enabled && dein#tap('syntastic')
   " Disable automatic check at file open/close
   let g:syntastic_check_on_open=0
@@ -167,7 +168,7 @@ endif
 " neomake{{{
 call dein#add('neomake/neomake')
 call dein#add('benjie/neomake-local-eslint.vim')
-" neomake {{{
+
 if s:dein_enabled && dein#tap('neomake')
   autocmd MyAutoGroup BufWritePost * Neomake
 
@@ -631,6 +632,17 @@ endif
 NeoBundle "goldfeld/vim-seek"
 " }}}
 
+" incsearch {{{
+" Improved incremental searching (default incsearch shows only the next one.)
+" The main feature, highlighting all incremental search match words, was included in Vim itself from 8.0.1238.
+call dein#add('haya14busa/incsearch.vim')
+if s:dein_enabled && dein#tap('incsearch.vim')
+  map / <Plug>(incsearch-forward)
+  map ? <Plug>(incsearch-backward)
+  map g/ <Plug>(incsearch-stay)
+  let g:incsearch#magic = '\v'
+endif
+" }}} incsearch
 " }}}
 
 " Edit {{{
@@ -888,6 +900,33 @@ if s:dein_enabled && dein#tap("splitjoin.vim")
   nmap <Leader><Leader>s :SplitjoinSplit<CR>
 endif
 " }}} splitjoin
+
+" vim-expand-region {{{
+" wildfire.vim is similar one
+" vim-expand-region make it very slow when it is called at the first time...?
+call dein#add('terryma/vim-expand-region')
+
+if s:dein_enabled && dein#tap("vim-expand-region")
+  let g:expand_region_text_objects = {
+        \ 'iw'  :1,
+        \ 'iW'  :1,
+        \ 'i"'  :1,
+        \ 'i''' :1,
+        \ 'i]'  :1,
+        \ 'ib'  :1,
+        \ 'iB'  :1,
+        \ 'il'  :1,
+        \ 'ip'  :1,
+        \ 'ie'  :1,
+        \ }
+  if dein#tap("vim-submode")
+    call submode#enter_with('expand-region', 'nv', 'r', '<Leader>e', '<Plug>(expand_region_expand)')
+    call submode#map('expand-region', 'nv', 'r', 'e', '<Plug>(expand_region_expand)')
+    call submode#map('expand-region', 'nv', 'r', 'w', '<Plug>(expand_region_shrink)')
+  endif
+endif
+" }}} vim-expand-region
+
 " }}}
 
 " Move {{{
@@ -1144,7 +1183,7 @@ call dein#add('haya14busa/niconicomment.vim', {
 
 " }}}
 
-
+" }}}
 
 " =========================
 " Currenlty, not necessary {{{
@@ -1287,6 +1326,12 @@ xnoremap ( "zdi(<C-R>z)<Esc>
 xnoremap " "zdi"<C-R>z"<Esc>
 xnoremap ' "zdi'<C-R>z'<Esc>
 
+" search: very magic mode
+nnoremap / /\v
+" to check patterns:
+" :h pattern-overview
+" }}}
+
 " open .vimrc when starting w/o argument {{{
 autocmd VimEnter * nested if @% == "" && s:GetBufByte() == 0 | edit $MYVIMRC | endif
 function! s:GetBufByte()
@@ -1298,37 +1343,6 @@ function! s:GetBufByte()
     endif
 endfunction
 " }}}
-
-" }}}
-
-" }}}
-
-" vim-expand-region {{{
-" wildfire.vim is similar one
-" vim-expand-region make it very slow when it is called at the first time...?
-call dein#add('terryma/vim-expand-region')
-
-if s:dein_enabled && dein#tap("vim-expand-region")
-  let g:expand_region_text_objects = {
-        \ 'iw'  :1,
-        \ 'iW'  :1,
-        \ 'i"'  :1,
-        \ 'i''' :1,
-        \ 'i]'  :1,
-        \ 'ib'  :1,
-        \ 'iB'  :1,
-        \ 'il'  :1,
-        \ 'ip'  :1,
-        \ 'ie'  :1,
-        \ }
-  if dein#tap("vim-submode")
-    call submode#enter_with('expand-region', 'nv', 'r', '<Leader>e', '<Plug>(expand_region_expand)')
-    call submode#map('expand-region', 'nv', 'r', 'e', '<Plug>(expand_region_expand)')
-    call submode#map('expand-region', 'nv', 'r', 'w', '<Plug>(expand_region_shrink)')
-  endif
-endif
-" }}} vim-expand-region
-
 
 " }}} Currenlty, not necessary
 
