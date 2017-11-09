@@ -67,34 +67,6 @@ if s:dein_enabled
     call dein#add('mattn/webapi-vim')
     " }}}
 
-    " Unite {{{
-    " Search and display information from arbitrary sources
-    call dein#add('Shougo/unite.vim', {
-          \ 'on_cmd': ['Unite'],
-          \ 'lazy': 1})
-
-    " Source for unite: mru
-    call dein#add('Shougo/neomru.vim', {'depdens': ['unite.vim']})
-
-    " Source for unite: mark
-    call dein#add('tacroe/unite-mark', {'depdens': ['unite.vim']})
-
-    " Source for unite: help
-    call dein#add('tsukkee/unite-help', {'depdens': ['unite.vim']})
-
-    " Source for unite: history/command, history/search
-    call dein#add('thinca/vim-unite-history', {'depdens': ['unite.vim']})
-
-    " Source for unite: history/yank
-    call dein#add('Shougo/neoyank.vim', {'depdens': ['unite.vim']})
-
-    " Source for unite: tag
-    call dein#add('tsukkee/unite-tag', {'depdens': ['unite.vim']})
-
-    " Source for unite: outline
-    call dein#add('Shougo/unite-outline', {'depdens': ['unite.vim']})
-    " }}}
-
     " Completion {{{
     "if has('python3')
     "  call dein#add('roxma/vim-hug-neovim-rpc')
@@ -199,6 +171,14 @@ if s:dein_enabled
     " }}}
 
     " View {{{
+    " Color scheme {{{
+    call dein#add('rcmdnk/rcmdnk-color.vim')
+    call dein#add('tomasr/molokai')
+    call dein#add('altercation/vim-colors-solarized')
+    call dein#add('w0ng/vim-hybrid')
+    " }}}
+
+
     " Status line
     call dein#add('itchyny/lightline.vim')
 
@@ -267,9 +247,6 @@ if s:dein_enabled
     " }}} Version Control System
 
     " Selection {{{
-    " wildfire
-    "call dein#add('gcmt/wildfire.vim')
-
     " Highlight on the fly
     call dein#add('t9md/vim-quickhl')
     " }}} Selection
@@ -330,12 +307,6 @@ if s:dein_enabled
     " }}} Edit
 
     " Move {{{
-    " Easymotion
-    call dein#add('easymotion/vim-easymotion', {
-          \ 'on_map': ['<Plug>(easymotion-sn)', '<Plug>(easymotion-bd-W)',
-          \            '<Plug>(easymotion-bd-w)'],
-          \ 'lazy': 1})
-
     " }}} Move
 
     " Check language, web source {{{
@@ -828,70 +799,6 @@ cnoremap <C-a> <C-b>
 cnoremap w!! w !sudo tee > /dev/null %
 " }}} map
 
-" Colors {{{
-
-augroup MyColors
-  autocmd!
-  " for spell checks
-  "autocmd ColorScheme * hi SpellBad cterm=inverse ctermbg=0
-  autocmd ColorScheme * hi SpellBad cterm=underline ctermbg=0
-  autocmd ColorScheme * hi SpellCap cterm=underline ctermbg=0
-  autocmd ColorScheme * hi SpellLocal cterm=underline ctermbg=0
-  autocmd ColorScheme * hi SpellRare cterm=underline ctermbg=0
-
-  " Set all white characters on black background for current line
-  if &cursorline
-    autocmd ColorScheme * hi CursorLine cterm=underline
-    autocmd InsertEnter * hi CursorLine cterm=bold
-    autocmd InsertLeave * hi CursorLine cterm=underline
-
-    " SpecialKey, needed for cursorline
-    autocmd ColorScheme * hi link MySpecialKey SpecialKey
-    if v:version >= 702
-      autocmd VimEnter,WinEnter * let w:m_sp = matchadd('MySpecialKey', '\(\t\| \+$\)')
-    else
-      autocmd VimEnter,WinEnter * match MySpecialKey '\(\t\| \+$\)'
-    end
-  endif
-
-  " colors for completion
-  autocmd ColorScheme * hi Pmenu ctermbg=255 ctermfg=0 guifg=#000000 guibg=#999999
-  autocmd ColorScheme * hi PmenuSel ctermbg=blue ctermfg=black
-  autocmd ColorScheme * hi PmenuSbar ctermbg=0 ctermfg=9
-  autocmd ColorScheme * hi PmenuSbar ctermbg=255 ctermfg=0 guifg=#000000 guibg=#FFFFFF
-
-  " colors for diff mode
-  autocmd ColorScheme * hi DiffAdd cterm=bold ctermbg=17 gui=bold guibg=slateblue
-  autocmd ColorScheme * hi DiffChange ctermbg=22 guibg=darkgreen
-  autocmd ColorScheme * hi DiffText cterm=bold ctermbg=52 gui=bold guibg=olivedrab
-  autocmd ColorScheme * hi DiffDelete ctermbg=6 guibg=coral
-
-  " Colors for search
-  autocmd ColorScheme * hi Search term=reverse ctermfg=Red ctermbg=11 guifg=Black
-
-  " Colors for SpecialKey
-  autocmd Colorscheme * hi SpecialKey term=bold ctermfg=9
-
-  " column
-  autocmd ColorScheme * hi ColorColumn ctermbg=017
-
-  " html
-  autocmd ColorScheme * hi link htmlItalic LineNr
-  autocmd ColorScheme * hi link htmlBold WarningMsg
-  autocmd ColorScheme * hi link htmlBoldItalic ErrorMsg
-
-  " two-byte space
-  autocmd ColorScheme * hi link TwoByteSpace Error
-  if v:version >= 702
-    autocmd VimEnter,WinEnter * let w:m_tbs = matchadd('TwoByteSpace', '　')
-  else
-    autocmd VimEnter,WinEnter * 2match TwoByteSpace '　'
-  end
-augroup END
-
-colorscheme ron
-" }}} colorscheme
-
 " diff mode {{{
 function! SetDiffMode()
   if &diff
@@ -1123,115 +1030,13 @@ endif
 "}}} vim-submode
 " }}}
 
-" Unite {{{
-if s:dein_enabled && dein#tap('unite.vim')
-  function! s:unite_my_settings()
-    nmap <buffer><Esc> <Plug>(unite_exit)
-    imap <buffer> jj      <Plug>(unite_insert_leave)
-    "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-
-    imap <buffer><expr> j unite#smart_map('j', '')
-    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
-    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-    imap <buffer> '     <Plug>(unite_quick_match_default_action)
-    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
-    imap <buffer><expr> x
-          \ unite#smart_map('x', '\<Plug>(unite_quick_match_choose_action)')
-    nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
-    nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
-    nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    nnoremap <silent><buffer><expr> l
-          \ unite#smart_map('l', unite#do_action('default'))
-
-    let l:unite = unite#get_current_unite()
-    if l:unite.buffer_name =~# '^search'
-      nnoremap <silent><buffer><expr> r     unite#do_action('replace')
-    else
-      nnoremap <silent><buffer><expr> r     unite#do_action('rename')
-    endif
-
-    nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
-    nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
-          \ empty(unite#mappings#get_current_filters()) ?
-          \ ['sorter_reverse'] : [])
-
-    " Runs 'split' action by <C-s>.
-    imap <silent><buffer><expr> <C-s>     unite#do_action('split')
-  endfunction
-  autocmd MyAutoGroup FileType unite call s:unite_my_settings()
-  " start with insert mode (can start narrow result in no time)
-  let g:unite_enable_start_insert=1
-  " window
-  "let g:unite_enable_split_vertically=1
-  let g:unite_split_rule='botright' " default topleft
-  let g:unite_winheight=10          " default 20
-  let g:unite_winwidth=60           " default 90
-  let g:unite_data_directory=s:vimdir . '.cache/unite'
-
-  " Unite prefix
-  nnoremap [unite] <Nop>
-  nmap <Leader>u [unite]
-
-  " show buffer
-  nnoremap <silent> [unite]b :Unite buffer<CR>
-  " show files/directories with full path
-  nnoremap <silent> [unite]f :Unite -buffer-name=files file<CR>
-  " show frecursive file search
-  "nnoremap <silent> [unite]f :<C-u>Unite file_rec/async:!<CR>
-  " show register
-  nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
-  " show lines of current file
-  nnoremap <silent> [unite]l :Unite line<CR>
-  " search (like ack.vim/ag.vim)
-  nnoremap <silent> [unite]/ :Unite grep:.<CR>
-  " show opened file history including current buffers
-  if dein#tap('neomru.vim')
-    nnoremap <silent> [unite]m :Unite file_mru<CR>
-  else
-    nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
-  endif
-  " mark
-  if dein#tap('unite-mark')
-    nnoremap <silent> [unite]M :Unite mark<CR>
-  endif
-  " history
-  if dein#tap('unite-help')
-    nnoremap <silent> [unite]h :Unite -start-insert help<CR>
-  endif
-  " history
-  if dein#tap('vim-unite-history')
-    nnoremap <silent> [unite]c :Unite history/command<CR>
-    nnoremap <silent> [unite]S :Unite history/search<CR>
-  endif
-  " tag
-  if dein#tap('unite-tag')
-    nnoremap <silent> [unite]t :Unite tag<CR>
-  endif
-  " yank
-  if dein#tap('neoyank.vim')
-    nnoremap <silent> [unite]y :Unite history/yank<CR>
-  elseif dein#tap('yankround.vim')
-    nnoremap <silent> [unite]y :Unite yankround<CR>
-  endif
-  " snippet
-  if dein#tap('neosnipet')
-    nnoremap <silent> [unite]s :Unite neosnippet<CR>
-  endif
-endif
-" }}} Unite
-
+" Completion {{{
 " deoplete.nvim {{{
 if s:dein_enabled && dein#tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
 endif
 " }}} deoplete.nvim
 
-let g:deoplete#enable_at_startup = 1
 " neocomplete {{{
 if s:dein_enabled && dein#tap('neocomplete.vim')
   let g:neocomplete#enable_at_startup = 1
@@ -1285,6 +1090,7 @@ if s:dein_enabled && dein#tap('neosnippet')
     let g:neosnippet#snippets_directory += [expand(s:dein_github . '/rcmdnk/vim-octopress-snippets/neosnippets')]
   endif
 endif
+" }}}
 " }}}
 
 " Code syntax, tools for each language {{{
@@ -1400,6 +1206,13 @@ endif
 " }}} Code syntax, tools for each language
 
 " View {{{
+
+" rcmdnk-color.vim {{{
+if s:dein_enabled && dein#tap('lightline.vim')
+  colorscheme rcmdnk
+endif
+" }}}
+
 " lightline.vim {{{
 if s:dein_enabled && dein#tap('lightline.vim')
   let g:lightline = {
@@ -1538,8 +1351,8 @@ if s:dein_enabled && dein#tap('vim-indent-guides')
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level = 1
   let g:indent_guides_auto_colors = 0
-  autocmd MyAutoGroup VimEnter,Colorscheme * hi IndentGuidesEven term=bold ctermfg=9 ctermbg=235
-  autocmd MyAutoGroup VimEnter,Colorscheme * hi IndentGuidesOdd term=bold ctermfg=9 ctermbg=239
+  hi IndentGuidesOdd  ctermbg=239
+  hi IndentGuidesEven ctermbg=235
 endif
 "}}} vim-indent-guides
 
@@ -1623,21 +1436,6 @@ endif
 " }}}
 
 " Selection {{{
-" wildfire {{{
-if s:dein_enabled && dein#tap('wildfire.vim')
-  "let g:wildfire_objects = {
-  "      \ '*' : ['iw', "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at'],
-  "      \ }
-  let g:wildfire_objects = ['iw', "i'", "a'", 'i"', 'a"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i>', 'a>', 'ip', 'ap', 'it', 'at']
-
-  " This selects the next closest text object.
-  map <RETURN> <Plug>(wildfire-fuel)
-
-  " This selects the previous closest text object.
-  vmap <BS> <Plug>(wildfire-water)
-endif
-" }}}
-
 " vim-quickhl {{{
 if s:dein_enabled && dein#tap('vim-quickhl')
   nnoremap [quickhl] <Nop>
@@ -1673,7 +1471,6 @@ else
   nnoremap # #<C-o>
 endif
 " }}} vim-anzu
-
 " }}} Search
 
 " Edit {{{
@@ -1752,23 +1549,6 @@ endif
 " }}} Edit
 
 " Move {{{
-" vim-easymotion{{{
-if s:dein_enabled && dein#tap('vim-easymotion')
-  let g:EasyMotion_do_mapping=0
-  let g:EasyMotion_grouping=1
-  let g:EasyMotion_enter_jump_first=1
-  let g:EasyMotion_space_jump_first=1
-  let g:EasyMotion_smartcase=1
-  let g:EasyMotion_use_upper=1
-  let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvb'
-  hi EasyMotionTarget ctermbg=none ctermfg=red
-  hi EasyMotionShade  ctermbg=none ctermfg=blue
-
-  map S <Plug>(easymotion-sn)
-  map <Leader>f <Plug>(easymotion-bd-W)
-  "nmap <Leader>f <Plug>(easymotion-overwin-w)
-endif
-" }}} vim-easymotion
 " }}} Move
 
 " Check language, web source {{{
