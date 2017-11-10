@@ -68,18 +68,19 @@ if s:dein_enabled
     " }}}
 
     " Completion {{{
-    "if has('python3')
-    "  call dein#add('roxma/vim-hug-neovim-rpc')
-    "  call dein#add('roxma/nvim-yarp')
-    "  call dein#add('Shougo/deoplete.nvim')
+    if has('nvim')  && has('python3')  " has('timers') for vim8.0
+      call dein#add('Shougo/deoplete.nvim')
+      if !has('nvim')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+        call dein#add('roxma/nvim-yarp')
+      endif
     "  call dein#add('Shougo/neco-syntax')
     "  call dein#add('Shougo/neco-vim')
     "  call dein#add('zchee/deoplete-clang')
     "  call dein#add('zchee/deoplete-go')
     "  call dein#add('zchee/deoplete-jedi')
     "  call dein#add('zchee/deoplete-zsh')
-    "elseif has('lua')
-    if has('lua')
+    elseif has('lua')
       call dein#add('Shougo/neocomplete.vim', {
             \ 'on_i': 1,
             \ 'lazy': 1})
@@ -171,13 +172,8 @@ if s:dein_enabled
     " }}}
 
     " View {{{
-    " Color scheme {{{
+    " Color scheme
     call dein#add('rcmdnk/rcmdnk-color.vim')
-    call dein#add('tomasr/molokai')
-    call dein#add('altercation/vim-colors-solarized')
-    call dein#add('w0ng/vim-hybrid')
-    " }}}
-
 
     " Status line
     call dein#add('itchyny/lightline.vim')
@@ -429,13 +425,13 @@ else
 endif
 let &directory=s:tmpdir . ',' . s:defdir " directory for swap file
 let &backupdir=s:tmpdir . ',' . s:defdir " directory for backup file
-
-if has('win32') || has ('win64')
-  let s:viminfo = 'viminfo_win'
-else
-  let s:viminfo = 'viminfo'
-endif
-let &viminfo = &viminfo . ',n' . s:vimdir . '/' . s:viminfo
+"
+"if has('win32') || has ('win64')
+"  let s:viminfo = 'viminfo_win'
+"else
+"  let s:viminfo = 'viminfo'
+"endif
+"let &viminfo = &viminfo . ',n' . s:vimdir . '/' . s:viminfo
 
 set history=100    " Keep 100 lines of command line history
 
@@ -1163,7 +1159,10 @@ endif
 
 " ale/syntastic {{{
 if s:dein_enabled && dein#tap('ale')
+  let g:ale_sign_column_always = 0
   let g:ale_lint_on_enter = 0
+  let g:ale_lint_on_save = 1
+  let g:ale_lint_on_text_changed = 'normal'
 
   nmap <silent> <Subleader>p <Plug>(ale_previous)
   nmap <silent> <Subleader>n <Plug>(ale_next)
@@ -1208,7 +1207,7 @@ endif
 " View {{{
 
 " rcmdnk-color.vim {{{
-if s:dein_enabled && dein#tap('lightline.vim')
+if s:dein_enabled && dein#tap('rcmdnk-color.vim')
   colorscheme rcmdnk
 endif
 " }}}
