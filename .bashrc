@@ -58,7 +58,7 @@ for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
     export LD_LIBRARY_PATH="$p/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
   fi
   if ! echo "$PYTHONPATH"|grep -q -e "^$p/lib" -e ":$p/lib";then
-    export PYTHONPATH="$p/lib/python$p/lib:${PYTHONPATH:+:$PYTHONPATH}"
+    export PYTHONPATH="$p/lib/python$p/lib${PYTHONPATH:+:$PYTHONPATH}"
   fi
   if ! echo "$PKG_CONFIG_PATH"|grep -q -e "^$p/lib/pkgconfig" -e ":$p/lib/pkgconfig";then
     export PKG_CONFIG_PATH="$p/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
