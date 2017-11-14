@@ -68,24 +68,25 @@ if s:dein_enabled
     " }}}
 
     " Completion {{{
-    if has('nvim')  && has('python3')  " has('timers') for vim8.0
+    "if (has('nvim')  || has('timers')) && has('python3')
+    if (has('nvim')) && has('python3')
       call dein#add('Shougo/deoplete.nvim')
       if !has('nvim')
-        call dein#add('roxma/vim-hug-neovim-rpc')
         call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
       endif
-    "  call dein#add('Shougo/neco-syntax')
-    "  call dein#add('Shougo/neco-vim')
-    "  call dein#add('zchee/deoplete-clang')
-    "  call dein#add('zchee/deoplete-go')
-    "  call dein#add('zchee/deoplete-jedi')
-    "  call dein#add('zchee/deoplete-zsh')
+      call dein#add('ujihisa/neco-look')
+      call dein#add('Shougo/neco-syntax')
+      call dein#add('Shougo/neco-vim')
+      call dein#add('zchee/deoplete-clang')
+      call dein#add('zchee/deoplete-go')
+      call dein#add('zchee/deoplete-jedi')
+      call dein#add('zchee/deoplete-zsh')
     elseif has('lua')
       call dein#add('Shougo/neocomplete.vim', {
             \ 'on_i': 1,
             \ 'lazy': 1})
-      call dein#add('ujihisa/neco-look', {
-            \ 'depends': ['neocomplete.vim']})
+      call dein#add('ujihisa/neco-look')
     endif
     " }}}
 
@@ -135,9 +136,8 @@ if s:dein_enabled
     " Markdown {{{
     call dein#add('junegunn/vader.vim')
     call dein#add('godlygeek/tabular')
-    call dein#add('joker1007/vim-markdown-quote-syntax')
+    "call dein#add('joker1007/vim-markdown-quote-syntax')
     call dein#add('rcmdnk/vim-markdown')
-    "call dein#add('plasticboy/vim-markdown')
     " }}}
 
     " Python {{{
