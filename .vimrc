@@ -68,8 +68,9 @@ if s:dein_enabled
     " }}}
 
     " Completion {{{
-    "if (has('nvim')  || has('timers')) && has('python3')
-    if (has('nvim')) && has('python3')
+    if ((has('nvim')  || has('timers')) && has('python3')) && system('pip3 show neovim') !=# ''
+    "let g:pip3neovim = system('pip3 show neovim')
+    "if ((has('nvim')  || has('timers')) && has('python3')) && g:pip3neovim !=# ''
       call dein#add('Shougo/deoplete.nvim')
       if !has('nvim')
         call dein#add('roxma/nvim-yarp')
