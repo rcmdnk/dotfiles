@@ -69,8 +69,6 @@ if s:dein_enabled
 
     " Completion {{{
     if ((has('nvim')  || has('timers')) && has('python3')) && system('pip3 show neovim') !=# ''
-    "let g:pip3neovim = system('pip3 show neovim')
-    "if ((has('nvim')  || has('timers')) && has('python3')) && g:pip3neovim !=# ''
       call dein#add('Shougo/deoplete.nvim')
       if !has('nvim')
         call dein#add('roxma/nvim-yarp')
@@ -79,15 +77,17 @@ if s:dein_enabled
       call dein#add('ujihisa/neco-look')
       call dein#add('Shougo/neco-syntax')
       call dein#add('Shougo/neco-vim')
-      call dein#add('zchee/deoplete-clang')
-      call dein#add('zchee/deoplete-go')
-      call dein#add('zchee/deoplete-jedi')
-      call dein#add('zchee/deoplete-zsh')
+      "call dein#add('zchee/deoplete-clang')
+      "call dein#add('zchee/deoplete-go')
+      "call dein#add('zchee/deoplete-jedi')
+      "call dein#add('zchee/deoplete-zsh')
     elseif has('lua')
       call dein#add('Shougo/neocomplete.vim', {
             \ 'on_i': 1,
             \ 'lazy': 1})
       call dein#add('ujihisa/neco-look')
+      call dein#add('Shougo/neco-syntax')
+      call dein#add('Shougo/neco-vim')
     endif
     " }}}
 
