@@ -1176,7 +1176,7 @@ if s:dein_enabled && dein#tap('ale')
   command! ALEList call s:ale_list()
   nnoremap <Subleader>m  :ALEList<CR>
   autocmd MyAutoGroup FileType qf nnoremap <silent> <buffer> q :let g:ale_open_list = 0<CR>:q!<CR>
-  autocmd MyAutoGroup FileType help,qf,man,ref let b:ale_enabled = 0
+  autocmd MyAutoGroup FileType help,qf,man,ref,markdown let b:ale_enabled = 0
 
   if dein#tap('lightline.vim')
     autocmd MyAutoGroup User ALELint call lightline#update()
