@@ -35,7 +35,7 @@ ignorecase on
 defflow off
 
 # For such ESC. Especially needed for Neovim (otherwise key is recognized as M-X (X is following key).) Default:300 ms.
-maptimeout 1
+maptimeout 0
 
 # Remove background color
 #defbce "on"
