@@ -273,13 +273,13 @@ alias gcg="make clean && make"
 alias bc="bc -l"
 alias ssh="ssh -Y"
 alias svnHeadDiff="svn diff --revision=HEAD"
-if type -a nvim >& /dev/null;then
-  alias svnd="svn diff | nvim -"
-  alias vi="nvim" # vi->vim
-  alias memo="nvim ~/.memo.md"
-  alias vid="nvim -d"
-  alias vinon="nvim -u NONE"
-elif type -a vim >& /dev/null;then
+#if type -a nvim >& /dev/null;then
+#  alias svnd="svn diff | nvim -"
+#  alias vi="nvim" # vi->vim
+#  alias memo="nvim ~/.memo.md"
+#  alias vid="nvim -d"
+#  alias vinon="nvim -u NONE"
+if type -a vim >& /dev/null;then
   alias svnd="svn diff | vim -"
   #alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
   alias vim="vim -X" # no X
