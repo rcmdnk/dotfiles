@@ -301,6 +301,8 @@ if s:dein_enabled
     " if...end
     call dein#add('tpope/vim-endwise')
 
+    " auto close blacket
+    call dein#add('cohama/lexima.vim')
     " }}} Edit
 
     " Move {{{
@@ -376,9 +378,11 @@ set modeline       " enable to use settings written in the file
 set modelines=3    " number of lines to be read (form top and bottom) for
 " modeline
 set tabstop=2      " width of <Tab> in view
+set smarttab       " smart tab
 set shiftwidth=2   " width for indent
 set softtabstop=0  " disable softtabstop function
 set autoindent     " autoindent
+set smartindent    " do indent by checking previous line.
 set cinoptions=g0  " g0: no indent for private/public/protected
 
 "set textwidth=0    " a longer line than textwidth will be broken (0: disable)
@@ -464,6 +468,7 @@ set showmatch      " Show maching one for inserted bracket
 set matchtime=1    " 0.1*matchtime sec for showing matching pattern (default:5)
 set pumheight=20   " length of popup menu for completion
 set splitright     " New window is right
+set whichwrap=b,s,h,l " Move to next/prev line by h/l (Only b(Backspace) and s(Space) are default)
 
 set spell          " Spell check highlight
 "set nospell        " No spell check

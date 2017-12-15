@@ -972,6 +972,17 @@ NeoBundle "anyakichi/vim-surround"
 if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
   "
 endif
+
+" vim-operator-flashy {{{
+" highlight copied region
+" There seems some conflicts with other color settings.
+call dein#add('haya14busa/vim-operator-flashy')
+if s:dein_enabled && dein#tap('vim-operator-flashy')
+  map y <Plug>(operator-flashy)
+  nmap Y <Plug>(operator-flashy)$
+endif
+" }}} vim-operator-flashy
+
 " }}}
 
 " savevers {{{
