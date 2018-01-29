@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if ! type -a source_file >&/dev/null;then
-  function source_file() {
+  source_file() {
     if [ $# -lt 1 ];then
       echo "ERROR!!! source_file is called w/o an argument"
       return

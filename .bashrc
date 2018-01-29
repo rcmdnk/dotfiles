@@ -3,7 +3,7 @@
 
 # Check if this is first time to read bashrc or not {{{
 # (subshell, screen, etc...)
-function _reset_path () {
+_reset_path () {
   local p
   #for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
   for p in PATH;do
@@ -21,7 +21,7 @@ _reset_path
 # }}} Check if this is first time to read bashrc or not
 
 # Function for sourcing with precheck of the file {{{
-function source_file () {
+source_file () {
   if [ $# -lt 1 ];then
     echo "ERROR!!! source_file is called w/o an argument"
     return
@@ -194,7 +194,7 @@ export HISTIGNORE="cd:cd -:cd ../:ls:sd:cl*:pwd*:history"
                     # don't use with below share_history
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # Method to remove failed command {{{
-#function history_remove_fail () {
+#history_remove_fail () {
 #  local result=$?
 #  if [ $result -ne 0 ];then
 #    local n=`history 1|awk '{print $1}'`
@@ -209,7 +209,7 @@ export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 # Method to share history at the same time,
 # w/o failed command (bit too strong...) {{{
 #shopt -u histappend # Overwrite
-#function share_history () {
+#share_history () {
 #  local result=$?
 #  if [ $result -eq 0 ];then # put only when the command succeeded
 #    history -a # append history to the file
@@ -316,7 +316,7 @@ if ! type -a tree >& /dev/null;then
   alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'"
 fi
 
-function md2pdf () { # pandoc helper {{{
+md2pdf () { # pandoc helper {{{
   if [[ "$OSTYPE" =~ darwin ]];then
     if ! type -a iconv >& /dev/null;then
       echo "Please install iconv"
@@ -367,7 +367,7 @@ function md2pdf () { # pandoc helper {{{
   eval "$cmd"
 } # }}}
 
-function mynoglob_helper () { # noglob helpers {{{
+mynoglob_helper () { # noglob helpers {{{
   "$@"
   case "$shopts" in
     *noglob*)
@@ -381,7 +381,7 @@ function mynoglob_helper () { # noglob helpers {{{
 alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 # }}}
 
-function man () { # man wrapper {{{
+man () { # man wrapper {{{
   if [ $# -ne 1 ] || [[ "$1" =~ ^- ]];then
     command man "$@"
     return $?
@@ -416,7 +416,7 @@ function man () { # man wrapper {{{
   return $ret
 } # }}}
 
-function change () { # Change words in file by sed {{{
+change () { # Change words in file by sed {{{
   case $# in
     0)
       echo "enter file name and words of before and after"
@@ -439,7 +439,7 @@ function change () { # Change words in file by sed {{{
 }
 # }}}
 
-function del_tail () { # Delete trailing white space {{{
+del_tail () { # Delete trailing white space {{{
   sed -i.bak 's/ \+$//g' "$1"
   rm -f "$1".bak
 }
@@ -451,7 +451,7 @@ alias tarbz2="tar jxf"
 alias tarxz="tar Jxf"
 alias tarZ="tar zxf"
 
-function press () {
+press () {
   local remove=0
   local HELP="
   usage: press [-r] directory_name [package_name]
@@ -485,7 +485,7 @@ function press () {
 }
 # }}}
 
-#function lw () {# Show output result with w3m {{{
+#lw () {# Show output result with w3m {{{
 #  sed -e 's/</\&lt;/g' |\
 #  sed -e 's/>/\&gt;/g' |\
 #  sed -e 's/\&/\&amp;/g' |\
@@ -496,10 +496,10 @@ function press () {
 # }}}
 
 ## emacs wrapper {{{
-#function emacs () { command emacs $@ & }
+#emacs () { command emacs $@ & }
 # }}}
 
-function path () { # path: function to get full path {{{
+path () { # path: function to get full path {{{
   if [ $# -eq 0 ];then
       echo "usage: path file/directory"
       return 1
@@ -511,7 +511,7 @@ function path () { # path: function to get full path {{{
 source_file ~/usr/etc/sd_cl
 # }}}
 
-function col256 () { # Show 256 colors{{{
+col256 () { # Show 256 colors{{{
   for c in {0..255};do
     local num=$(printf " %03d" $c)
     printf "\e[38;5;%sm$num\e[m" "$c"
@@ -522,12 +522,12 @@ function col256 () { # Show 256 colors{{{
   done
 } # }}}
 
-function calc () { # Function to calculate with perl (for decimal, etc...) {{{
+calc () { # Function to calculate with perl (for decimal, etc...) {{{
   local eq=$(echo "$@"|sed "s/\^/**/g")
   printf "\$xx =%s;print \"\$xx \\n\"" "$eq"|perl
 } # }}}
 
-function linkcheck () { # Function to find the original file for the symbolic link {{{
+linkcheck () { # Function to find the original file for the symbolic link {{{
   if [ "$#" -ne 1 ];then
     echo "Usage: linkcheck file/directory" >2
     return 1
@@ -545,7 +545,7 @@ function linkcheck () { # Function to find the original file for the symbolic li
 } # }}}
 
 # dictionary {{{
-function weblio () {
+weblio () {
   if ! type -a w3m >& /dev/null;then
     echo "Please install w3m"
     return 1
@@ -588,7 +588,7 @@ function weblio () {
     printf "$page"|sed -n $((start[0]+6)),$((end[0]-2))p|sed "s/ 例文帳に追加//g"
   fi
 }
-function alc () {
+alc () {
   if ! type -a w3m >& /dev/null;then
     echo "Please install w3m"
     return 1
@@ -646,7 +646,7 @@ function alc () {
     printf "$page"|sed -n $((start[0]+2)),$((end[0]-1))p
   fi
 }
-function dic () {
+dic () {
   alc -e "$1"|less
 }
 # }}}
@@ -656,7 +656,7 @@ function dic () {
 # cp wraper for BSD cp (make it like GNU cp){{{
 # Remove the end "/" and change -r to -R
 if ! cp --version 2>/dev/null |grep -q GNU;then
-  function cp () {
+  cp () {
     local -a opt
     opt=()
     local -a vals
@@ -699,7 +699,7 @@ if ! type -a tac >& /dev/null;then
   if ! tail --version 2>/dev/null|grep -q GNU;then
     alias tac='tail -r'
   else
-    function tac () {
+    tac () {
       if [ ! -f "$1" ];then
         echo "usage: tac <file>"
         return 1
