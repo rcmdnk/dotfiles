@@ -1,4 +1,5 @@
-function screen () { # Screen wrapper {{{
+#!/usr/bin/env bash
+screen () { # Screen wrapper {{{
   # Tips of screen for a cluster
   # This setting keeps the host name in which screen is running
   # for a case in the cluster,
@@ -19,9 +20,9 @@ function screen () { # Screen wrapper {{{
   if [ $# = 0 ];then
     sockets=$(command screen -ls|grep -e Attached -e Detached)
     n_sockets=$(printf "$sockets"|grep -c ^)
-    if [ $n_sockets -ge 1 ];then
+    if [ "$n_sockets" -ge 1 ];then
       # Don't make another screen session, if any session exists.
-      if [ $n_sockets -eq 1 ];then
+      if [ "$n_sockets" -eq 1 ];then
         options="-d -r"
       else
         if type -a sentaku >& /dev/null;then
@@ -32,11 +33,11 @@ function screen () { # Screen wrapper {{{
         else
           n=1
           while read -r s;do
-            printf "%-2s %s\n" "$n" "$s"
+            printf "%-2s %s\\n" "$n" "$s"
             ((n++))
           done < <(echo "$sockets")
-          printf "\nChoose session: "
-          read i
+          printf "\\nChoose session: "
+          read -r i
           if ! expr "$i" : '[0-9]*' >/dev/null || [ "$i" -ge "$n" ];then
             return
           fi
@@ -62,8 +63,7 @@ fi
 chmod 700 "$SCREENDIR"
 # }}}
 
-
-#function screen_check () { # Function to check remaining screen sessions in a cluster{{{
+#screen_check () { # Function to check remaining screen sessions in a cluster{{{
 #  touch .hostForScreen
 #  for h in `cat ~/.hostForScreen`;do
 #    echo "checking $h..."
@@ -82,7 +82,7 @@ chmod 700 "$SCREENDIR"
 #  mv ~/.hostForScreen.tmp ~/.hostForScreen
 ## }}}
 
-#function sc () { # ssh to the host which launched screen previously {{{
+#sc () { # ssh to the host which launched screen previously {{{
 #  touch .hostForScreen
 #  local n=1
 #  if [ $# -ne 0 ];then
@@ -106,7 +106,7 @@ if [[ "$TERM" =~ screen ]]; then # {{{
   #if [ -n "$STY" ] || [ -n "$TMUX" ];then # Only for the machine in which screen/tmux was launched
   if [ -n "$STY" ];then # Only for the machine in which screen was launched. {{{
     # Overwrite path to push to the clipboard list{{{
-    function path () {
+    path () {
       if [ $# -eq 0 ];then
           echo "usage: path file/directory"
           return 1
@@ -117,7 +117,7 @@ if [[ "$TERM" =~ screen ]]; then # {{{
     } # }}}
 
     # pwd wrapper (named as wc) to push pwd to the clipboard list{{{
-    function wd () {
+    wd () {
       local curdir=$(pwd -P)
       multi_clipboard -s "$curdir"
       echo "$curdir"
@@ -157,7 +157,7 @@ if [[ "$TERM" =~ screen ]]; then # {{{
   # }}}
 
   # Set display if screen is attached in other host than previous host {{{
-  function set_display () {
+  set_display () {
     if [ -f ~/.display.txt ];then
       #local d=`grep $HOSTNAME ~/.display.txt|awk '{print $2}'`
       local d=$(cat ~/.display.txt)
@@ -167,9 +167,9 @@ if [[ "$TERM" =~ screen ]]; then # {{{
   # }}}
 
   # Check TERM {{{
-  function set_term () {
+  set_term () {
     _terms=(screen.xterm-256color screen-256color xterm-256color screen-16color screen xterm-16color xterm)
-    for t in ${_terms[@]};do
+    for t in "${_terms[@]}";do
       if infocmp >&/dev/null;then
         break
       else
