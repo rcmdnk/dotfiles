@@ -39,7 +39,7 @@ source_file /etc/bashrc
 # Remove the last ";" from PROMPT_COMMAND
 ## Necessary for Mac Terminal.app
 PROMPT_COMMAND="${PROMPT_COMMAND%;}"
-if type -a busybox >& /dev/null;then
+if type busybox >& /dev/null;then
   PROMPT_COMMAND=""
 fi
 # }}}
@@ -95,7 +95,7 @@ export LC_ALL="en_US.UTF-8"
 #export LC_DATE="en_GB.UTF-8"
 
 # Editors
-if type -a vim >& /dev/null;then
+if type vim >& /dev/null;then
   export VISUAL=vim
   export EDITOR=vim
 fi
@@ -119,10 +119,10 @@ fi
 #ascii,dos,ebcdic,IBM-1047,iso8859,koi8-r,latin1,next
 
 export LESS='-I -R -M -W -x2'
-if type -a source-highlight >& /dev/null;then
-  if type -a my_lesspipe >& /dev/null;then
+if type source-highlight >& /dev/null;then
+  if type my_lesspipe >& /dev/null;then
     export LESSOPEN='| my_lesspipe %s'
-  elif type -a src-hilite-lesspipe.sh >& /dev/null;then
+  elif type src-hilite-lesspipe.sh >& /dev/null;then
     export LESSOPEN='| src-hilite-lesspipe.sh %s'
   fi
 fi
@@ -153,7 +153,7 @@ export TRASHBOX=~/.Trash # Where trash will be moved in
                          # (.Trash is Mac's trash box)
 export MAXTRASHBOXSIZE=1024 # Max trash box size in MB
                             # Used for clean up
-if type -a bc >& /dev/null;then
+if type bc >& /dev/null;then
   export MAXTRASHSIZE=$(echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1)
 else
   export MAXTRASHSIZE=100
@@ -233,7 +233,7 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
 # For ls color {{{
 if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
   # Linux
-  if type -a dircolors >& /dev/null;then
+  if type dircolors >& /dev/null;then
     eval "$(dircolors ~/.colourrc)"
   fi
   if [ -z "$LS_COLORS" ];then
@@ -261,9 +261,7 @@ elif [[ "$OSTYPE" =~ darwin ]];then
   alias la='ls -A -G'
 fi
 alias lt='ls -altr'
-if type -a colordiff >& /dev/null;then
-  alias diff='colordiff'
-fi
+type colordiff >& /dev/null && alias diff='colordiff'
 alias badlink='find -L . -depth 1 -type l -ls'
 alias badlinkall='find -L . -type l -ls'
 #alias g='gmake'
@@ -273,13 +271,13 @@ alias gcg="make clean && make"
 alias bc="bc -l"
 alias ssh="ssh -Y"
 alias svnHeadDiff="svn diff --revision=HEAD"
-#if type -a nvim >& /dev/null;then
+#if type nvim >& /dev/null;then
 #  alias svnd="svn diff | nvim -"
 #  alias vi="nvim" # vi->vim
 #  alias memo="nvim ~/.memo.md"
 #  alias vid="nvim -d"
 #  alias vinon="nvim -u NONE"
-if type -a vim >& /dev/null;then
+if type vim >& /dev/null;then
   alias svnd="svn diff | vim -"
   #alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
   alias vim="vim -X" # no X
@@ -302,28 +300,22 @@ alias t='less -L +F'
 alias iocheck='find /proc -name io |xargs egrep "write|read"|sort -n -k 2'
 alias now='date +"%Y%m%d %T"'
 alias pip_upgrade="pip list --outdated --format=legacy|cut -d' ' -f1|xargs pip install -U"
-if type -a thefuck >& /dev/null;then
-  alias fuck='eval $(thefuck $(fc -ln -1))'
-fi
-if type -a hub >& /dev/null;then
-  eval "$(hub alias -s)" # Use GitHub wrapper for git
-fi
+type thefuck >& /dev/null &&  alias fuck='eval $(thefuck $(fc -ln -1))'
+type hub >& /dev/null && eval "$(hub alias -s)" # Use GitHub wrapper for git
 #alias evernote_mail="evernote_mail -u"
 alias stow="stow --override='share/info/dir'"
-
-# pseudo tree
-if ! type -a tree >& /dev/null;then
-  alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'"
-fi
+type sshrc >& /dev/null && alias ssh="sshrc -Y"
+type moshrc >& /dev/null && alias mosh="moshrc"
+type tree >& /dev/null || alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'" # pseudo tree
 
 md2pdf () { # pandoc helper {{{
   if [[ "$OSTYPE" =~ darwin ]];then
-    if ! type -a iconv >& /dev/null;then
+    if ! type iconv >& /dev/null;then
       echo "Please install iconv"
       return 1
     fi
   fi
-  if ! type -a pandoc >& /dev/null;then
+  if ! type pandoc >& /dev/null;then
     echo "Please install pandoc"
     return 1
   fi
@@ -399,7 +391,7 @@ man () { # man wrapper {{{
   val=$(command man "$@" 2>&1)
   ret=$?
   if [ $ret -eq 0 ];then
-    if type -a vim >& /dev/null;then
+    if type vim >& /dev/null;then
       echo "$val"|col -bx|vim -R -c 'set ft=man' -
     else
       command man "$@"
@@ -546,7 +538,7 @@ linkcheck () { # Function to find the original file for the symbolic link {{{
 
 # dictionary {{{
 weblio () {
-  if ! type -a w3m >& /dev/null;then
+  if ! type w3m >& /dev/null;then
     echo "Please install w3m"
     return 1
   fi
@@ -589,7 +581,7 @@ weblio () {
   fi
 }
 alc () {
-  if ! type -a w3m >& /dev/null;then
+  if ! type w3m >& /dev/null;then
     echo "Please install w3m"
     return 1
   fi
@@ -695,11 +687,13 @@ fi
 # Note: There is "rev" command which
 #       reversing the order of characters in every line.
 # Set reverse command as tac for BSD
-if ! type -a tac >& /dev/null;then
+if ! type tac >& /dev/null;then
   if ! tail --version 2>/dev/null|grep -q GNU;then
     alias tac='tail -r'
   else
-    tac () {
+    # need "function" to avoid error on alias,
+    # even if this path is not used.
+    function tac () {
       if [ ! -f "$1" ];then
         echo "usage: tac <file>"
         return 1
@@ -720,8 +714,8 @@ if [ "${BASH_VERSINFO[0]}" -ge 4 ];then
   alias_function() {
     eval "${1}() $(declare -f "${2}" | sed 1d)"
   }
-  if ! type -a orig_command_not_found_handle >& /dev/null;then
-    if type -a command_not_found_handle >& /dev/null;then
+  if ! type orig_command_not_found_handle >& /dev/null;then
+    if type command_not_found_handle >& /dev/null;then
       alias_function orig_command_not_found_handle command_not_found_handle
     else
       orig_command_not_found_handle () {
@@ -735,12 +729,12 @@ if [ "${BASH_VERSINFO[0]}" -ge 4 ];then
     args=("$@")
     if [ -f "$cmd" ];then
       if echo " ${_suffix_vim[*]} "|grep -q "${cmd##*.}";then
-        if type -a vim >& /dev/null;then
+        if type vim >& /dev/null;then
           vim "${args[@]}"
           return $?
         fi
       elif [ "${cmd##*.}" = "ps1" ];then
-        if type -a powershell >& /dev/null;then
+        if type powershell >& /dev/null;then
           powershell -F "${args[@]}"
           return $?
         fi

@@ -165,18 +165,4 @@ if [[ "$TERM" =~ screen ]]; then # {{{
     fi
   }
   # }}}
-
-  # Check TERM {{{
-  set_term () {
-    _terms=(screen.xterm-256color screen-256color xterm-256color screen-16color screen xterm-16color xterm)
-    for t in "${_terms[@]}";do
-      if infocmp >&/dev/null;then
-        break
-      else
-        export TERM=$t
-      fi
-    done
-  }
-  set_term
-  # }}}
 fi # }}}
