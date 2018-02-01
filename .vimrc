@@ -138,7 +138,7 @@ if s:dein_enabled
     " Markdown {{{
     call dein#add('junegunn/vader.vim')
     call dein#add('godlygeek/tabular')
-    "call dein#add('joker1007/vim-markdown-quote-syntax')
+    call dein#add('joker1007/vim-markdown-quote-syntax')
     call dein#add('rcmdnk/vim-markdown')
     " }}}
 
@@ -199,14 +199,6 @@ if s:dein_enabled
     call dein#add('AndrewRadev/linediff.vim', {
           \ 'on_cmd': ['Linediff'],
           \ 'lazy': 1})
-
-    " Character base diff
-    "call dein#add('rickhowe/diffchar.vim')
-
-    " diff enhanced
-    "if v:version >= 800
-    "  call dein#add('chrisbra/vim-diff-enhanced')
-    "endif
     " }}} Diff
 
     " IDE like {{{
@@ -901,7 +893,6 @@ endif
 
 " cscope {{{
 if has('cscope')
-  set cscopeprg=/usr/local/bin/cscope
   set cscopetagorder=0
   set cscopetag
   set nocscopeverbose

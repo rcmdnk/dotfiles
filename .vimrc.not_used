@@ -696,6 +696,16 @@ NeoBundle "ntpeters/vim-better-whitespace"
 
 " }}} View
 
+" Diff {{{
+" Character base diff " Too much
+call dein#add('rickhowe/diffchar.vim')
+
+" diff enhanced " it makes even worse in most of cases. 
+if v:version >= 800
+  call dein#add('chrisbra/vim-diff-enhanced')
+endif
+" }}} Diff
+
 " Version Control System {{{
 " gitgutter{{{
 " Show added/deleted/modified line for git

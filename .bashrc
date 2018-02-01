@@ -503,17 +503,6 @@ path () { # path: function to get full path {{{
 source_file ~/usr/etc/sd_cl
 # }}}
 
-col256 () { # Show 256 colors{{{
-  for c in {0..255};do
-    local num=$(printf " %03d" $c)
-    printf "\e[38;5;%sm$num\e[m" "$c"
-    printf "\e[48;5;%sm$num\e[m" "$c"
-    if [ $((c%8)) -eq 7 ];then
-      echo
-    fi
-  done
-} # }}}
-
 calc () { # Function to calculate with perl (for decimal, etc...) {{{
   local eq=$(echo "$@"|sed "s/\^/**/g")
   printf "\$xx =%s;print \"\$xx \\n\"" "$eq"|perl
