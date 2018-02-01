@@ -3,21 +3,21 @@
 
 # Check if this is first time to read bashrc or not {{{
 # (subshell, screen, etc...)
-_reset_path () {
-  local p
-  #for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
-  for p in PATH;do
-    local ip=$(eval echo "\$INIT_$p")
-    if [ -z "$ip" ];then
-      # Set initial values
-      eval export INIT_$p="\$$p"
-    else
-      # Reset paths
-      eval export $p=\""$ip"\"
-    fi
-  done
-}
-_reset_path
+#_reset_path () {
+#  local p
+#  #for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
+#  for p in PATH;do
+#    local ip=$(eval echo "\$INIT_$p")
+#    if [ -z "$ip" ];then
+#      # Set initial values
+#      eval export INIT_$p="\$$p"
+#    else
+#      # Reset paths
+#      eval export $p=\""$ip"\"
+#    fi
+#  done
+#}
+#_reset_path
 # }}} Check if this is first time to read bashrc or not
 
 # Function for sourcing with precheck of the file {{{
