@@ -158,7 +158,6 @@ if s:dein_enabled && dein#tap('unite.vim')
 endif
 " }}} Unite
 
-
 " Unite {{{
 " sources {{{
 " Source for unite: colorscheme
@@ -968,7 +967,7 @@ endif
 " }}} vim-smartword
 
 " Auto bracket closing {{{
-NeoBundle "cohama/lexima.vim"
+" Use "cohama/lexima.vim"
 NeoBundle "seletskiy/vim-autosurround"
 if s:dein_enabled && dein#tap("vim-autosurround")
   inoremap  ( (<C-O>:call AutoSurround(")")<CR>
@@ -977,7 +976,7 @@ endif
 
 " vim-surround {{{
 " Each to change surround
-" * use original surround.vim
+" * use original tpope/surround.vim
 NeoBundle "anyakichi/vim-surround"
 if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
   "
@@ -1094,6 +1093,17 @@ if s:dein_enabled && dein#tap("vim-expand-region")
 endif
 " }}} vim-expand-region
 
+" vim-over {{{
+" Visual mode change is enough.
+call dein#add('osyo-manga/vim-over', {
+      \ 'on_cmd': ['OverCommandLine'],
+      \ 'lazy': 1})
+
+if s:dein_enabled && dein#tap('vim-over')
+  nnoremap <Leader>o :OverCommandLine<CR>%s/
+  xnoremap <Leader>o :OverCommandLine<CR>s/
+endif
+" }}} vim-over
 " }}}
 
 " Move {{{

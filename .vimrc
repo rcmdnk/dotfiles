@@ -283,13 +283,8 @@ if s:dein_enabled
     " yank
     call dein#add('LeafCage/yankround.vim')
 
-    " over
-    call dein#add('osyo-manga/vim-over', {
-          \ 'on_cmd': ['OverCommandLine'],
-          \ 'lazy': 1})
-
     " vim-multiple-cursors, like Sublime Text's multiple selection
-    "call dein#add('terryma/vim-multiple-cursors')
+    call dein#add('terryma/vim-multiple-cursors')
 
     " Easy to change surround
     call dein#add('tpope/vim-surround')
@@ -1377,7 +1372,13 @@ endif
 "}}} tagbar
 
 if s:dein_enabled && dein#tap('nerdtree') && dein#tap('SrcExpl') && dein#tap('tagbar')
-  nnoremap <silent> <Leader>A :SrcExplToggle<CR>:NERDTreeToggle<CR>:TagbarToggle<CR>
+  function! s:ide()
+    SrcExplToggle
+    NERDTreeToggle
+    TagbarToggle
+  endfunction
+  command! IDE call s:ide()
+  nnoremap <silent> <Leader>A :IDE<CR>
 endif
 " }}}
 " }}}
@@ -1472,12 +1473,12 @@ if s:dein_enabled && dein#tap('yankround.vim')
 endif
 " }}} yankround
 
-" vim-over {{{
-if s:dein_enabled && dein#tap('vim-over')
-  nnoremap <Leader>o :OverCommandLine<CR>%s/
-  xnoremap <Leader>o :OverCommandLine<CR>s/
+" vim-multiple-cursors {{{
+if s:dein_enabled && dein#tap('vim-multiple-cursors')
+  "let g:multi_cursor_use_default_mapping = 0
+  let g:multi_cursor_start_key = '<Leader>m'
 endif
-" }}} vim-over
+" }}} vim-multiple-cursors
 
 " vim-surround {{{
 if s:dein_enabled && dein#tap('vim-surround')
