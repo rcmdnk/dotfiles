@@ -967,7 +967,9 @@ endif
 " }}} vim-smartword
 
 " Auto bracket closing {{{
-" Use "cohama/lexima.vim"
+" There are more cases when I do not want to just write open bracket.
+call dein#add('cohama/lexima.vim')
+
 NeoBundle "seletskiy/vim-autosurround"
 if s:dein_enabled && dein#tap("vim-autosurround")
   inoremap  ( (<C-O>:call AutoSurround(")")<CR>
@@ -1312,7 +1314,7 @@ if s:dein_enabled && dein#tap("calendar.vim")
 endif
 "}}} calendar.vim
 
-" open-browser{{{
+" open-browser{{{ " Similar function is available in vim-markdown
 " Use netw's gx (enabled as deafult if not set netrw_nogx = 1
 " Open browser
 call dein#add('tyru/open-browser.vim', {

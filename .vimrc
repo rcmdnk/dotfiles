@@ -292,8 +292,6 @@ if s:dein_enabled
     " if...end
     call dein#add('tpope/vim-endwise')
 
-    " auto close blacket
-    call dein#add('cohama/lexima.vim')
     " }}} Edit
 
     " Move {{{
