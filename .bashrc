@@ -2,6 +2,7 @@
 # .bashrc
 
 # Check if this is first time to read bashrc or not {{{
+# ***This doesn't work well with sshrc***
 # (subshell, screen, etc...)
 #_reset_path () {
 #  local p
@@ -35,6 +36,7 @@ source_file () {
 
 # Source global definitions {{{
 PROMPT_COMMAND=""
+# Most of systems have useful default bashrc
 source_file /etc/bashrc
 # Remove the last ";" from PROMPT_COMMAND
 ## Necessary for Mac Terminal.app
@@ -170,6 +172,8 @@ shopt -s checkwinsize # Update the window size after each command
 shopt -s dotglob # Include dot files in the results of pathname expansion
 shopt -s extglob # Extended pattern matching is enabled.
 shopt -s no_empty_cmd_completion # Don't complete for an empty line
+shopt -s dirspell # Auto spell correction at tab-completion for cd
+shopt -s cdspell # Auto spell correction at cd
 # }}} shopt
 
 # stty {{{
@@ -180,16 +184,17 @@ tty -s && stty start undef
 # }}}
 
 # History {{{
-HISTSIZE=100000
+HISTSIZE=500000
 HISTFILESIZE=100000
 # HISTCONTROL:
 # ignoredups # ignore duplication
 # ignorespace # ignore command starting with space
 # ignoreboth # ignore dups and space
 # erasedups # erase a duplication in the past
-export HISTCONTROL=erasedups
+export HISTCONTROL="erasedups:ignoreboth"
 #export HISTIGNORE="?:??:???:????:history:cd ../"
-export HISTIGNORE="cd:cd -:cd ../:ls:sd:cl*:pwd*:history"
+export HISTIGNORE="cd:cd -:cd ../:ls:sd:cl*:pwd*:history:exit:bg:fg"
+
 #shopt -s histappend # append to hist (not overwrite),
                     # don't use with below share_history
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history

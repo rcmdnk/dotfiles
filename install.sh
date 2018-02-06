@@ -7,12 +7,13 @@ backup=""
 overwrite=1
 relative=0
 dryrun=0
+copy=0
 newlink=()
 exist=()
 curdir=$(pwd -P)
 
 # help
-HELP="Usage: $0 [-nd] [-b <backup file postfix>] [-e <exclude file>] [-i <install dir>]
+HELP="Usage: $0 [-rndh] [-b <backup file postfix>] [-e <exclude file>] [-i <install dir>]
 
 Make links of dot files in home directory (default:$instdir)
 
@@ -23,17 +24,19 @@ Arguments:
       -r  Use relative path (default: absolute path)
       -n  Don't overwrite if file is already exist
       -d  Dry run, don't install anything
+      -c  Copy files, instead of making links.
       -h  Print Help (this message) and exit
 "
 
 while getopts b:e:i:rndh OPT;do
   case $OPT in
     "b" ) backup=$OPTARG ;;
-    "e" ) exclude=(${exclude[@]} "$OPTARG") ;;
+    "e" ) exclude=("${exclude[@]}" "$OPTARG") ;;
     "i" ) instdir="$OPTARG" ;;
     "r" ) relative=1 ;;
     "n" ) overwrite=0 ;;
     "d" ) dryrun=1 ;;
+    "c" ) copy=1 ;;
     "h" ) echo "$HELP" 1>&2; exit;;
     * ) echo "$HELP" 1>&2; exit 1;;
   esac
@@ -41,7 +44,7 @@ done
 
 if [[ "$OSTYPE" =~ cygwin ]];then
   # ln wrapper{{{
-  function ln {
+  ln () {
     opt="/H"
     if [ "$1" = "-s" ];then
       opt=""
@@ -63,8 +66,17 @@ if [[ "$OSTYPE" =~ cygwin ]];then
     t_winpath=$(cygpath -w -a "$target")
     t_link=$(cygpath -w -a "$link")
     cmd /c mklink $opt "$t_link" "$t_winpath" > /dev/null
+  } # }}}
+fi
+
+if [ $copy -eq 1 ];then
+  install () {
+    cp -r "$1" "$2"
   }
-# }}}
+else
+  install () {
+    ln -s "$1" "$2"
+  }
 fi
 
 if [ $relative -eq 1 ];then
@@ -92,16 +104,16 @@ for f in .*;do
   fi
 
   target="$instdir/$f"
-  install=1
+  install_check=1
   if [ $dryrun -eq 1 ];then
-    install=0
+    install_check=0
   fi
   if [ "$(ls "$target" 2>/dev/null)" != "" ];then
-    exist=(${exist[@]} "$f")
+    exist=("${exist[@]}" "$f")
     if [ $dryrun -eq 1 ];then
       echo -n ""
     elif [ $overwrite -eq 0 ];then
-      install=0
+      install_check=0
     elif [ "$backup" != "" ];then
       mv "$target" "${target}.$backup"
     else
@@ -110,66 +122,62 @@ for f in .*;do
   else
     newlink=(${newlink[@]} "$f")
   fi
-  if [ $install -eq 1 ];then
-    ln -s "$curdir/$f" "$target"
+  if [ $install_check -eq 1 ];then
+    install "$curdir/$f" "$target"
   fi
 done
 
 # subversion config
 f=.subversion.config
 target="$instdir/.subversion/config"
-install=1
+install_check=1
 if [ $dryrun -eq 1 ];then
-  install=0
+  install_check=0
 fi
 if [ "$(ls "$target" 2>/dev/null)" != "" ];then
-  exist=(${exist[@]} "$f")
+  exist=("${exist[@]}" "$f")
   if [ $dryrun -eq 1 ];then
     echo -n ""
   elif [ $overwrite -eq 0 ];then
-    install=0
+    install_check=0
   elif [ "$backup" != "" ];then
     mv "$target" "${target}.$backup"
   else
     rm "$target"
   fi
 else
-  newlink=(${newlink[@]} "$f")
+  newlink=("${newlink[@]}" "$f")
 fi
-if [ $install -eq 1 ];then
+if [ $install_check -eq 1 ];then
   mkdir -p "$instdir/.subversion"
-  ln -s "$curdir/$f" "$target"
-fi
-
-# for screen
-if [ $dryrun -ne 1 ];then
-  ls .screen/*.sh >& /dev/null && for f in $(ls .screen/*.sh);do chmod 755 $f;done
+  install "$curdir/$f" "$target"
 fi
 
 # w3m
 for f in .w3m/*;do
+  [[ -e "$f" ]] || break
   target="$instdir/$f"
-  install=1
+  install_check=1
   if [ $dryrun -eq 1 ];then
-    install=0
+    install_check=0
   fi
-  mkdir -p "$(basename "$target")"
+  mkdir -p "$(dirname "$target")"
   if [ "$(ls "$target" 2>/dev/null)" != "" ];then
-    exist=(${exist[@]} "$f")
+    exist=("${exist[@]}" "$f")
     if [ $dryrun -eq 1 ];then
       echo -n ""
     elif [ $overwrite -eq 0 ];then
-      install=0
+      install_check=0
     elif [ "$backup" != "" ];then
       mv "$target" "${target}.$backup"
     else
       rm "$target"
     fi
   else
-    newlink=(${newlink[@]} "$f")
+    newlink=("${newlink[@]}" "$f")
   fi
-  if [ $install -eq 1 ];then
-    ln -s "$curdir/$f" "$target"
+  if [ $install_check -eq 1 ];then
+    install "$curdir/$f" "$target"
   fi
 done
 
