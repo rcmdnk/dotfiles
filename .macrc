@@ -119,6 +119,7 @@ if [ $ret -eq 0 ];then
   #fi
   if [ -d "$(brew --prefix)/opt/python/libexec/bin" ];then
     export PATH="$(brew --prefix)/opt/python/libexec/bin:$PATH"
+    export PYTHONPATH="$(brew --prefix)/opt/python/lib:$PYTHONPATH"
   fi
 
   ## Openssl

@@ -48,30 +48,34 @@ fi
 
 ## Local path {{{
 # PATH, LD_LIBRARY_PATH under HOME
-export x86_64=0
 if uname -a|grep -q x86_64;then
   export x86_64=1
+else
+  export x86_64=0
+fi
+add_path () {
+  local v=$1
+  local p=$2
+  local b=$3
+  local dir="$p/$b"
+  if [ ! -d "$dir" ];then
+    return 1
+  fi
+  if ! echo "\$$v"|grep -q -e "^${dir}" -e ":${dir}";then
+    eval "export ${v}=\"${dir}\${$v:+:\$$v}\""
+  fi
+}
+if [ -z "$PATH" ];then
+  # set PATH at least for grep
+  export PATH="/bin:/usr/bin"
 fi
 for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
-  if ! echo "$PATH"|grep -q -e "^$p/bin" -e ":$p/bin";then
-    export PATH="$p/bin${PATH:+:$PATH}"
-  fi
-  if ! echo "$LD_LIBRARY_PATH"|grep -q -e "^$p/lib" -e ":$p/lib";then
-    export LD_LIBRARY_PATH="$p/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-  fi
-  if ! echo "$PYTHONPATH"|grep -q -e "^$p/lib" -e ":$p/lib";then
-    export PYTHONPATH="$p/lib/python$p/lib${PYTHONPATH:+:$PYTHONPATH}"
-  fi
-  if ! echo "$PKG_CONFIG_PATH"|grep -q -e "^$p/lib/pkgconfig" -e ":$p/lib/pkgconfig";then
-    export PKG_CONFIG_PATH="$p/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
-  fi
+  add_path PATH "$p" bin
+  add_path LD_LIBRARY_PATH "$p" lib
+  add_path LD_LIBRARY_PATH "$p" lib/pkgconfig
   if [ "$x86_64" = 1 ];then
-    if ! echo "$LD_LIBRARY_PATH"|grep -q -e "^$p/lib64" -e ":$p/lib64";then
-      export LD_LIBRARY_PATH="$p/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-    fi
-    if ! echo "$PKG_CONFIG_PATH"|grep -q -e "^$p/lib64/pkgconfig" -e ":$p/lib64/pkgconfig";then
-      export PKG_CONFIG_PATH="$p/lib64/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
-    fi
+    add_path LD_LIBRARY_PATH "$p" lib64
+    add_path LD_LIBRARY_PATH "$p" lib64/pkgconfig
   fi
 done
 export GOPATH=$HOME/.go
@@ -79,7 +83,7 @@ export GOPATH=$HOME/.go
 
 # Shell/Environmental variables {{{
 # Prompt
-PS1="[\h \W]\$ "
+PS1="[\\h \\W]\$ "
 
 # XMODIFIERS
 #export XMODIFIERS="@im=kinput2"
@@ -243,9 +247,7 @@ if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
   if type dircolors >& /dev/null;then
     eval "$(dircolors ~/.colourrc)"
   fi
-  if [ -z "$LS_COLORS" ];then
-    source_file "$HOME/.lscolors"
-  fi
+  source_file "$HOME/.lscolors"
 elif [[ "$OSTYPE" =~ darwin ]];then
   # Mac (LSCOLORS, instead of LS_COLORS)
   export LSCOLORS=DxgxcxdxCxegedabagacad
@@ -380,7 +382,7 @@ mynoglob_helper () { # noglob helpers {{{
 alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
 # }}}
 
-man () { # man wrapper {{{
+man () { # man wrapper to use vim {{{
   if [ $# -ne 1 ] || [[ "$1" =~ ^- ]];then
     command man "$@"
     return $?
@@ -450,10 +452,31 @@ alias tarbz2="tar jxf"
 alias tarxz="tar Jxf"
 alias tarZ="tar zxf"
 
-press () {
+dec () {
+  if echo "$1"|grep -q "tar.gz$";then
+    tar zxf "$1"
+  elif echo "$1"|grep -q "tgz$";then
+    tar zxf "$1"
+  elif echo "$1"|grep -q "tar.xz$";then
+    tar Jxf "$1"
+  elif echo "$1"|grep -q "tar.bz2$";then
+    tar jxf "$1"
+  elif echo "$1"|grep -q "tar.Z$";then
+    tar zxf "$1"
+  elif echo "$1"|grep -q "tar$";then
+    tar xf "$1"
+  elif echo "$1"|grep -q "zip$";then
+    unzip "$1"
+  else
+    echo "$1 is not supported."
+    exit 1
+  fi
+}
+
+comp () {
   local remove=0
   local HELP="
-  usage: press [-r] directory_name [package_name]
+  usage: comp [-r] directory_name [package_name]
 
          -r for remove original directory
          if package_name is not given, it makes file:
