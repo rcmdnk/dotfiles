@@ -32,10 +32,13 @@ screen () { # Screen wrapper {{{
           fi
         else
           n=1
-          while read -r s;do
+          IFS_ORIG=$IFS
+          IFS=$'\n'
+          for s in $sockets;do
             printf "%-2s %s\\n" "$n" "$s"
             ((n++))
-          done < <(echo "$sockets")
+          done
+          IFS=$IFS_ORIG
           printf "\\nChoose session: "
           read -r i
           if ! expr "$i" : '[0-9]*' >/dev/null || [ "$i" -ge "$n" ];then

@@ -172,8 +172,10 @@ shopt -s checkwinsize # Update the window size after each command
 shopt -s dotglob # Include dot files in the results of pathname expansion
 shopt -s extglob # Extended pattern matching is enabled.
 shopt -s no_empty_cmd_completion # Don't complete for an empty line
-shopt -s dirspell # Auto spell correction at tab-completion for cd
 shopt -s cdspell # Auto spell correction at cd
+if [ "${BASH_VERSINFO[0]}" -ge 4 ];then
+  shopt -s dirspell # Auto spell correction at tab-completion for cd
+fi
 # }}} shopt
 
 # stty {{{
