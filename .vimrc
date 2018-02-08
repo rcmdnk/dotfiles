@@ -102,6 +102,38 @@ if s:dein_enabled
     call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
     " }}}
 
+    " Search/Display {{{
+    " Search and display information from arbitrary sources
+    if has('python3')
+      call dein#add('Shougo/denite.nvim')
+      call dein#add('Shougo/neomru.vim')
+    else
+      call dein#add('Shougo/unite.vim', {
+            \ 'on_cmd': ['Unite'],
+            \ 'lazy': 1})
+      " Source for unite: mru
+      call dein#add('Shougo/neomru.vim', {'depdens': ['unite.vim']})
+
+      " Source for unite: mark
+      call dein#add('tacroe/unite-mark', {'depdens': ['unite.vim']})
+
+      " Source for unite: help
+      call dein#add('tsukkee/unite-help', {'depdens': ['unite.vim']})
+
+      " Source for unite: history/command, history/search
+      call dein#add('thinca/vim-unite-history', {'depdens': ['unite.vim']})
+
+      " Source for unite: history/yank
+      call dein#add('Shougo/neoyank.vim', {'depdens': ['unite.vim']})
+
+      " Source for unite: tag
+      call dein#add('tsukkee/unite-tag', {'depdens': ['unite.vim']})
+
+      " Source for unite: outline
+      call dein#add('Shougo/unite-outline', {'depdens': ['unite.vim']})
+    endif
+    " }}}
+
     " Code syntax, tools for each language {{{
 
     " Applescript
@@ -950,7 +982,7 @@ xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
 " Plugin settings {{{
 
 " Basic tools {{{
-" vim-submode{{{
+" vim-submode {{{
 if s:dein_enabled && dein#tap('vim-submode')
   call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
   call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
@@ -974,8 +1006,8 @@ if s:dein_enabled && dein#tap('vim-submode')
   call submode#map('winsize', 'n', '', '=', '<C-w>=')
   call submode#map('winsize', 'n', '', '<C-=>', '<C-w>=')
 endif
-"}}} vim-submode
-" }}}
+" }}} vim-submode
+" }}} Basic tools
 
 " Completion {{{
 " deoplete.nvim {{{
@@ -1014,8 +1046,10 @@ if s:dein_enabled && dein#tap('neocomplete.vim')
 
   autocmd MyAutoGroup FileType python setlocal completeopt-=preview
 endif
-" }}}
+" }}} neocomplete
+" }}} Completion
 
+" Snippet
 " neosnippet {{{
 if s:dein_enabled && dein#tap('neosnippet')
   imap <C-s> <Plug>(neosnippet_expand_or_jump)
@@ -1037,8 +1071,201 @@ if s:dein_enabled && dein#tap('neosnippet')
     let g:neosnippet#snippets_directory += [expand(s:dein_github . '/rcmdnk/vim-octopress-snippets/neosnippets')]
   endif
 endif
+" }}} neosnippet
+" }}} Snippet
+
+" Search/Display {{{
+" Denite {{{
+if s:dein_enabled && dein#tap('denite.nvim')
+  " Add custom menus
+  let s:menus = {}
+  let s:menus.file = {'description': 'File search (buffer, file, file_rec, file_mru'}
+  let s:menus.line = {'description': 'Line search (change, grep, line, tag'}
+  let s:menus.others = {'description': 'Others (command, command_history, help)'}
+  let s:menus.file.command_candidates = [
+        \ ['Buffers', 'Denite buffer'],
+        \ ['Files in the current directory', 'Denite file'],
+        \ ['Files, recursive list under the current directory', 'Denite file_rec'],
+        \ ['Most recently used files', 'Denite file_mru']
+        \ ]
+  let s:menus.line.command_candidates = [
+        \ ['Changes', 'Denite change'],
+        \ ['grep', 'Denite grep'],
+        \ ['Lines', 'Denite line'],
+        \ ['Tags', 'Denite tag']
+        \ ]
+  let s:menus.others.command_candidates = [
+        \ ['Commands', 'Denite command'],
+        \ ['Command history', 'Denite command_history'],
+        \ ['Helps', 'Denite help']
+        \ ]
+
+  call denite#custom#var('menu', 'menus', s:menus)
+
+  nnoremap [denite] <Nop>
+  nmap <Leader>u [denite]
+  nnoremap <silent> [denite]b :Denite buffer<CR>
+  nnoremap <silent> [denite]c :Denite changes<CR>
+  nnoremap <silent> [denite]f :Denite file<CR>
+  nnoremap <silent> [denite]g :Denite grep<CR>
+  nnoremap <silent> [denite]h :Denite help<CR>
+  nnoremap <silent> [denite]h :Denite help<CR>
+  nnoremap <silent> [denite]l :Denite line<CR>
+  nnoremap <silent> [denite]t :Denite tag<CR>
+  nnoremap <silent> [denite]m :Denite file_mru<CR>
+  nnoremap <silent> [denite]u :Denite menu<CR>
+
+  call denite#custom#map(
+        \ 'insert',
+        \ '<Down>',
+        \ '<denite:move_to_next_line>',
+        \ 'noremap'
+        \)
+  call denite#custom#map(
+        \ 'insert',
+        \ '<Up>',
+        \ '<denite:move_to_previous_line>',
+        \ 'noremap'
+        \)
+  call denite#custom#map(
+        \ 'insert',
+        \ '<C-N>',
+        \ '<denite:move_to_next_line>',
+        \ 'noremap'
+        \)
+  call denite#custom#map(
+        \ 'insert',
+        \ '<C-P>',
+        \ '<denite:move_to_previous_line>',
+        \ 'noremap'
+        \)
+  call denite#custom#map(
+        \ 'insert',
+        \ '<C-G>',
+        \ '<denite:assign_next_txt>',
+        \ 'noremap'
+        \)
+  call denite#custom#map(
+        \ 'insert',
+        \ '<C-T>',
+        \ '<denite:assign_previous_line>',
+        \ 'noremap'
+        \)
+  call denite#custom#map(
+        \ 'normal',
+        \ '/',
+        \ '<denite:enter_mode:insert>',
+        \ 'noremap'
+        \)
+  call denite#custom#map(
+        \ 'insert',
+        \ '<Esc>',
+        \ '<denite:enter_mode:normal>',
+        \ 'noremap'
+        \)
 " }}}
-" }}}
+" Unite {{{
+elseif s:dein_enabled && dein#tap('unite.vim')
+  function! s:unite_my_settings()
+    nmap <buffer><Esc> <Plug>(unite_exit)
+    imap <buffer> jj      <Plug>(unite_insert_leave)
+    "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+
+    imap <buffer><expr> j unite#smart_map('j', '')
+    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    imap <buffer> '     <Plug>(unite_quick_match_default_action)
+    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
+    imap <buffer><expr> x
+          \ unite#smart_map('x', '\<Plug>(unite_quick_match_choose_action)')
+    nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
+    nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+    imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+    imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+    nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+    nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
+    nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    nnoremap <silent><buffer><expr> l
+          \ unite#smart_map('l', unite#do_action('default'))
+
+    let l:unite = unite#get_current_unite()
+    if l:unite.buffer_name =~# '^search'
+      nnoremap <silent><buffer><expr> r     unite#do_action('replace')
+    else
+      nnoremap <silent><buffer><expr> r     unite#do_action('rename')
+    endif
+
+    nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
+    nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
+          \ empty(unite#mappings#get_current_filters()) ?
+          \ ['sorter_reverse'] : [])
+
+    " Runs 'split' action by <C-s>.
+    imap <silent><buffer><expr> <C-s>     unite#do_action('split')
+  endfunction
+  autocmd MyAutoGroup FileType unite call s:unite_my_settings()
+  " start with insert mode (can start narrow result in no time)
+  let g:unite_enable_start_insert=1
+  " window
+  "let g:unite_enable_split_vertically=1
+  let g:unite_split_rule='botright' " default topleft
+  let g:unite_winheight=10          " default 20
+  let g:unite_winwidth=60           " default 90
+  let g:unite_data_directory=s:vimdir . '.cache/unite'
+
+  " Unite prefix
+  nnoremap [unite] <Nop>
+  nmap <Leader>u [unite]
+
+  " show buffer
+  nnoremap <silent> [unite]b :Unite buffer<CR>
+  " show files/directories with full path
+  nnoremap <silent> [unite]f :Unite -buffer-name=files file<CR>
+  " show frecursive file search
+  "nnoremap <silent> [unite]f :<C-u>Unite file_rec/async:!<CR>
+  " show register
+  nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
+  " show lines of current file
+  nnoremap <silent> [unite]l :Unite line<CR>
+  " search (like ack.vim/ag.vim)
+  nnoremap <silent> [unite]/ :Unite grep:.<CR>
+  " show opened file history including current buffers
+  if dein#tap('neomru.vim')
+    nnoremap <silent> [unite]m :Unite file_mru<CR>
+  else
+    nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
+  endif
+  " mark
+  if dein#tap('unite-mark')
+    nnoremap <silent> [unite]M :Unite mark<CR>
+  endif
+  " help
+  if dein#tap('unite-help')
+    nnoremap <silent> [unite]h :Unite -start-insert help<CR>
+  endif
+  " history
+  if dein#tap('vim-unite-history')
+    nnoremap <silent> [unite]c :Unite history/command<CR>
+    nnoremap <silent> [unite]S :Unite history/search<CR>
+  endif
+  " tag
+  if dein#tap('unite-tag')
+    nnoremap <silent> [unite]t :Unite tag<CR>
+  endif
+  " yank
+  if dein#tap('neoyank.vim')
+    nnoremap <silent> [unite]y :Unite history/yank<CR>
+  elseif dein#tap('yankround.vim')
+    nnoremap <silent> [unite]y :Unite yankround<CR>
+  endif
+  " snippet
+  if dein#tap('neosnipet')
+    nnoremap <silent> [unite]s :Unite neosnippet<CR>
+  endif
+endif
+" }}} Unite
+" }}} Search/Display
 
 " Code syntax, tools for each language {{{
 " applescript {{{
