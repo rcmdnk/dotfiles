@@ -69,27 +69,27 @@ if s:dein_enabled
     " }}}
 
     " Completion {{{
-    if ((has('nvim')  || has('timers')) && has('python3')) && system('pip3 show neovim') !=# ''
-      call dein#add('Shougo/deoplete.nvim')
-      if !has('nvim')
-        call dein#add('roxma/nvim-yarp')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-      endif
-      call dein#add('ujihisa/neco-look')
-      call dein#add('Shougo/neco-syntax')
-      call dein#add('Shougo/neco-vim')
-      "call dein#add('zchee/deoplete-clang')
-      "call dein#add('zchee/deoplete-go')
-      "call dein#add('zchee/deoplete-jedi')
-      "call dein#add('zchee/deoplete-zsh')
-    elseif has('lua')
-      call dein#add('Shougo/neocomplete.vim', {
-            \ 'on_i': 1,
-            \ 'lazy': 1})
-      call dein#add('ujihisa/neco-look')
-      call dein#add('Shougo/neco-syntax')
-      call dein#add('Shougo/neco-vim')
-    endif
+"    if ((has('nvim')  || has('timers')) && has('python3')) && system('pip3 show neovim') !=# ''
+"      call dein#add('Shougo/deoplete.nvim')
+"      if !has('nvim')
+"        call dein#add('roxma/nvim-yarp')
+"        call dein#add('roxma/vim-hug-neovim-rpc')
+"      endif
+"      call dein#add('ujihisa/neco-look')
+"      call dein#add('Shougo/neco-syntax')
+"      call dein#add('Shougo/neco-vim')
+"      "call dein#add('zchee/deoplete-clang')
+"      "call dein#add('zchee/deoplete-go')
+"      "call dein#add('zchee/deoplete-jedi')
+"      "call dein#add('zchee/deoplete-zsh')
+"    elseif has('lua')
+"      call dein#add('Shougo/neocomplete.vim', {
+"            \ 'on_i': 1,
+"            \ 'lazy': 1})
+"      call dein#add('ujihisa/neco-look')
+"      call dein#add('Shougo/neco-syntax')
+"      call dein#add('Shougo/neco-vim')
+"    endif
     " }}}
 
     " Snippet {{{
@@ -104,34 +104,34 @@ if s:dein_enabled
 
     " Search/Display {{{
     " Search and display information from arbitrary sources
-    if has('python3')
-      call dein#add('Shougo/denite.nvim')
-      call dein#add('Shougo/neomru.vim')
-    else
-      call dein#add('Shougo/unite.vim', {
-            \ 'on_cmd': ['Unite'],
-            \ 'lazy': 1})
-      " Source for unite: mru
-      call dein#add('Shougo/neomru.vim', {'depdens': ['unite.vim']})
-
-      " Source for unite: mark
-      call dein#add('tacroe/unite-mark', {'depdens': ['unite.vim']})
-
-      " Source for unite: help
-      call dein#add('tsukkee/unite-help', {'depdens': ['unite.vim']})
-
-      " Source for unite: history/command, history/search
-      call dein#add('thinca/vim-unite-history', {'depdens': ['unite.vim']})
-
-      " Source for unite: history/yank
-      call dein#add('Shougo/neoyank.vim', {'depdens': ['unite.vim']})
-
-      " Source for unite: tag
-      call dein#add('tsukkee/unite-tag', {'depdens': ['unite.vim']})
-
-      " Source for unite: outline
-      call dein#add('Shougo/unite-outline', {'depdens': ['unite.vim']})
-    endif
+"    if has('python3')
+"      call dein#add('Shougo/denite.nvim')
+"      call dein#add('Shougo/neomru.vim')
+"    else
+"      call dein#add('Shougo/unite.vim', {
+"            \ 'on_cmd': ['Unite'],
+"            \ 'lazy': 1})
+"      " Source for unite: mru
+"      call dein#add('Shougo/neomru.vim', {'depdens': ['unite.vim']})
+"
+"      " Source for unite: mark
+"      call dein#add('tacroe/unite-mark', {'depdens': ['unite.vim']})
+"
+"      " Source for unite: help
+"      call dein#add('tsukkee/unite-help', {'depdens': ['unite.vim']})
+"
+"      " Source for unite: history/command, history/search
+"      call dein#add('thinca/vim-unite-history', {'depdens': ['unite.vim']})
+"
+"      " Source for unite: history/yank
+"      call dein#add('Shougo/neoyank.vim', {'depdens': ['unite.vim']})
+"
+"      " Source for unite: tag
+"      call dein#add('tsukkee/unite-tag', {'depdens': ['unite.vim']})
+"
+"      " Source for unite: outline
+"      call dein#add('Shougo/unite-outline', {'depdens': ['unite.vim']})
+"    endif
     " }}}
 
     " Code syntax, tools for each language {{{
