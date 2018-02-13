@@ -295,7 +295,7 @@ if type vim >& /dev/null;then
   alias vid="vim -d"
   alias vinon="vim -u NONE"
 fi
-alias grep="grep --color=auto -s"
+alias grep="grep --color=auto -s "
 #alias c="multi_clipboard -W"
 alias put='multi_clipboard -x'
 alias del="trash -r"
@@ -316,6 +316,11 @@ alias stow="stow --override='share/info/dir'"
 type sshrc >& /dev/null && alias ssh="sshrc -Y"
 type moshrc >& /dev/null && alias mosh="moshrc"
 type tree >& /dev/null || alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'" # pseudo tree
+
+psgrep () { # {{{
+  local val=$1
+  ps ax | grep [${val::1}]${val:1}
+} # }}}
 
 md2pdf () { # pandoc helper {{{
   if [[ "$OSTYPE" =~ darwin ]];then
@@ -437,14 +442,12 @@ change () { # Change words in file by sed {{{
       echo "enter file name and words of before and after"
     ;;
   esac
-}
-# }}}
+} # }}}
 
 del_tail () { # Delete trailing white space {{{
   sed -i.bak 's/ \+$//g' "$1"
   rm -f "$1".bak
-}
-# }}}
+} # }}}
 
 # tar/press: File compression/decompression {{{
 alias targz="tar zxf"
