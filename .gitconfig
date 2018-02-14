@@ -152,6 +152,10 @@
     git tag -a ${tag} -m \"${comment}\";\
     git push --tag;\
   };f"
+  tag-delete = "!f () {\
+    git tag -d ${1};\
+    git push origin :${1};\
+  };f"
   cancel = "!f () {\
     git commit -a -m 'Temporary commit for cancel';\
     git reset --hard HEAD~;\
