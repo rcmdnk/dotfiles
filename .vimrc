@@ -69,7 +69,7 @@ if s:dein_enabled
     " }}}
 
     " Completion {{{
-    if ((has('nvim')  || has('timers')) && has('python3')) && system('pip3 show neovim') !=# ''
+    if (has('nvim')  || has('timers')) && has('python3')
       call dein#add('Shougo/deoplete.nvim')
       if !has('nvim')
         call dein#add('roxma/nvim-yarp')
@@ -198,7 +198,7 @@ if s:dein_enabled
     call dein#add('vimperator/vimperator.vim')
 
     " Syntax checking
-    if has('job') && has('channel') && has('timers')
+    if !has('nvim') || (has('job') && has('channel') && has('timers'))
       call dein#add('w0rp/ale')
     else
       call dein#add('vim-syntastic/syntastic')
@@ -1049,7 +1049,7 @@ endif
 " }}} neocomplete
 " }}} Completion
 
-" Snippet
+" Snippet {{{
 " neosnippet {{{
 if s:dein_enabled && dein#tap('neosnippet')
   imap <C-s> <Plug>(neosnippet_expand_or_jump)
@@ -1083,21 +1083,21 @@ if s:dein_enabled && dein#tap('denite.nvim')
   let s:menus.line = {'description': 'Line search (change, grep, line, tag'}
   let s:menus.others = {'description': 'Others (command, command_history, help)'}
   let s:menus.file.command_candidates = [
-        \ ['Buffers', 'Denite buffer'],
-        \ ['Files in the current directory', 'Denite file'],
-        \ ['Files, recursive list under the current directory', 'Denite file_rec'],
-        \ ['Most recently used files', 'Denite file_mru']
+        \ ['buffer', 'Denite buffer'],
+        \ ['file: Files in the current directory', 'Denite file'],
+        \ ['file_rec: Files, recursive list under the current directory', 'Denite file_rec'],
+        \ ['file_mru: Most recently used files', 'Denite file_mru']
         \ ]
   let s:menus.line.command_candidates = [
-        \ ['Changes', 'Denite change'],
+        \ ['change', 'Denite change'],
         \ ['grep', 'Denite grep'],
-        \ ['Lines', 'Denite line'],
-        \ ['Tags', 'Denite tag']
+        \ ['line', 'Denite line'],
+        \ ['tag', 'Denite tag']
         \ ]
   let s:menus.others.command_candidates = [
-        \ ['Commands', 'Denite command'],
-        \ ['Command history', 'Denite command_history'],
-        \ ['Helps', 'Denite help']
+        \ ['command', 'Denite command'],
+        \ ['command_history', 'Denite command_history'],
+        \ ['help', 'Denite help']
         \ ]
 
   call denite#custom#var('menu', 'menus', s:menus)
