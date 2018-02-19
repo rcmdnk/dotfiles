@@ -295,7 +295,6 @@ elif type vim >& /dev/null;then
   alias vid="vim -d"
   alias vinon="vim -u NONE"
 fi
-alias grep="grep --color=auto -s "
 #alias c="multi_clipboard -W"
 alias put='multi_clipboard -x'
 alias del="trash -r"
@@ -725,6 +724,44 @@ if ! type tac >& /dev/null;then
       done
     }
   fi
+fi
+# }}}
+
+# for ghq {{{
+if type ghq >& /dev/null;then
+  gh () {
+    cd "$(ghq root)/$(ghq list|sentaku)"
+  }
+
+  ghqget () {
+    if [ $# -eq 0 ];then
+      ghq --help
+      return
+    fi
+    repo="$1"
+    local n=$(echo "$repo"|awk '{n=split($1, tmp, "/")}{print n}')
+    if [ "$n" -eq 1 ];then
+      repo="$(git config  --get user.name)/$repo"
+    fi
+    ghq get -p "$repo"
+  }
+
+  ghqrm () {
+    if [ $# -gt 0 ];then
+      local repos=("$@")
+    else
+      local repos=($(ghq list|sentaku))
+    fi
+    for r in "${repos[@]}";do
+      local name="$(echo "$r"|awk '{n=split($0, tmp, "/")}{print tmp[n]}')"
+      local dir="$(find "$(ghq root)" -name "$name")"
+      if [ -n "$dir" ];then
+        rm -rf "$dir"
+      fi
+    done
+  }
+
+  alias ghqlist="ghq list"
 fi
 # }}}
 
