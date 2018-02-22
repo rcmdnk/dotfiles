@@ -65,7 +65,6 @@ if s:dein_enabled
 
     " webapi
     call dein#add('mattn/webapi-vim')
-
     " }}}
 
     " Completion {{{
