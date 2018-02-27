@@ -753,11 +753,45 @@ if type ghq >& /dev/null;then
       local repos=($(ghq list|sentaku))
     fi
     for r in "${repos[@]}";do
-      local name="$(echo "$r"|awk '{n=split($0, tmp, "/")}{print tmp[n]}')"
+      local n="$(echo "$r"|awk '{print split($0, tmp, "/")}')"
+      if [ "$n" -eq 1 ];then
+        local dir="$(ls -d "$(ghq root)/*/*/$r")"
+      elif [ "$n" -eq 2 ];then
+        local dir="$(ls -d "$(ghq root)/*/$r")"
+      elif [ "$n" -eq 3 ];then
+        local dir="$(ls -d "$(ghq root)/$r")"
+      else
+        local dir="$r"
+      fi
       local dir="$(find "$(ghq root)" -name "$name")"
       if [ -n "$dir" ];then
         rm -rf "$dir"
       fi
+    done
+  }
+
+  ghqgo () {
+    if [ $# -gt 0 ];then
+      local repos=("$@")
+    else
+      local repos=($(ghq list|sentaku))
+    fi
+    for r in "${repos[@]}";do
+      local n="$(echo "$r"|awk '{print split($0, tmp, "/")}')"
+      if [ "$n" -eq 1 ];then
+        local dir="$(ls -d "$(ghq root)/"*/*"/$r")"
+      elif [ "$n" -eq 2 ];then
+        local dir="$(ls -d "$(ghq root)/"*"/$r")"
+      elif [ "$n" -eq 3 ];then
+        local dir="$(ls -d "$(ghq root)/$r")"
+      else
+        local dir="$r"
+      fi
+      echo $dir
+      #if [ -n "$dir" ];then
+      #  cd "$dir"
+      #  break
+      #fi
     done
   }
 
