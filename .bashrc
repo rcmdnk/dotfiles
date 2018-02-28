@@ -280,13 +280,14 @@ alias gcg="make clean && make"
 alias bc="bc -l"
 alias ssh="ssh -Y"
 alias svnHeadDiff="svn diff --revision=HEAD"
-if type nvim >& /dev/null;then
-  alias svnd="svn diff | nvim -"
-  alias vi="nvim" # vi->vim
-  alias memo="nvim ~/.memo.md"
-  alias vid="nvim -d"
-  alias vinon="nvim -u NONE"
-elif type vim >& /dev/null;then
+#if type nvim >& /dev/null;then
+#  alias svnd="svn diff | nvim -"
+#  alias vi="nvim" # vi->vim
+#  alias memo="nvim ~/.memo.md"
+#  alias vid="nvim -d"
+#  alias vinon="nvim -u NONE"
+#elif type vim >& /dev/null;then
+if type vim >& /dev/null;then
   alias svnd="svn diff | vim -"
   #alias vim="vim -X --startuptime $TMPDIR/vim.startup.log" # no X, write startup processes
   alias vim="vim -X" # no X
@@ -542,19 +543,33 @@ calc () { # Function to calculate with perl (for decimal, etc...) {{{
 
 linkcheck () { # Function to find the original file for the symbolic link {{{
   if [ "$#" -ne 1 ];then
-    echo "Usage: linkcheck file/directory" >2
+    echo "Usage: linkcheck file/directory" >&2
     return 1
   fi
 
-  link="$1"
+  local curdir="$(pwd)"
+  local link="$1"
+  local prelink="$1"
   while :;do
     if [ -L "$link" ];then
+      echo "$link ->"
+      prelink=$link
       link=$(readlink "$link")
-    else
+      local dir="$(dirname "$prelink")"
+      if [ -d "$dir" ];then
+        cd "$dir"
+      fi
+    elif [ -e "$link" ];then
       echo "$link"
+      cd "$curdir"
       return 0
+    else
+      echo "$link does not exist!" >&2
+      cd "$curdir"
+      return 2
     fi
   done
+  cd "$curdir"
 } # }}}
 
 # dictionary {{{
@@ -755,9 +770,9 @@ if type ghq >& /dev/null;then
     for r in "${repos[@]}";do
       local n="$(echo "$r"|awk '{print split($0, tmp, "/")}')"
       if [ "$n" -eq 1 ];then
-        local dir="$(ls -d "$(ghq root)/*/*/$r")"
+        local dir="$(ls -d "$(ghq root)/"*/*"/$r")"
       elif [ "$n" -eq 2 ];then
-        local dir="$(ls -d "$(ghq root)/*/$r")"
+        local dir="$(ls -d "$(ghq root)/"*"/$r")"
       elif [ "$n" -eq 3 ];then
         local dir="$(ls -d "$(ghq root)/$r")"
       else

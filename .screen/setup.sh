@@ -116,7 +116,7 @@ if [[ "$TERM" =~ screen ]]; then # {{{
       fi
       fullpath="$(cd "$(dirname "$1")";pwd -P)/$(basename "$1")"
       echo "$fullpath"
-      multi_clipboard -s "$fullpath"
+      multi_clipboard -s "$fullpath" >& /dev/null
     } # }}}
 
     # pwd wrapper (named as wc) to push pwd to the clipboard list{{{
