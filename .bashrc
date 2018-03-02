@@ -802,11 +802,10 @@ if type ghq >& /dev/null;then
       else
         local dir="$r"
       fi
-      echo $dir
-      #if [ -n "$dir" ];then
-      #  cd "$dir"
-      #  break
-      #fi
+      if [ -n "$dir" ];then
+        cd "$dir"
+        break
+      fi
     done
   }
 

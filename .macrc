@@ -113,14 +113,12 @@ if [ $ret -eq 0 ];then
   ## Cask application directory
   export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
-  ## Python
-  #if [ -d "$brew_prefix/lib/python2.7/site-packages" ];then
-  #  export PYTHONPATH="${brew_prefix}/lib/python2.7/site-packages":$PYTHONPATH
+  ## Python2
+  # Use python for python2
+  #python2path="$brew_prefix/opt/python@2/libexec/bin"
+  #if [ -d "$python2path" ];then
+  #  export PATH="$PATH:$python2path"
   #fi
-  if [ -d "$(brew --prefix)/opt/python/libexec/bin" ];then
-    export PATH="$(brew --prefix)/opt/python/libexec/bin:$PATH"
-    export PYTHONPATH="$(brew --prefix)/opt/python/lib:$PYTHONPATH"
-  fi
 
   ## Openssl
   OPENSSL_PATH="$brew_prefix/opt/openssl"
