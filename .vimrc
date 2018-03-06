@@ -68,7 +68,8 @@ if s:dein_enabled
     " }}}
 
     " Completion {{{
-    if (has('nvim')  || has('timers')) && has('python3')
+    "if (has('nvim')  || has('timers')) && has('python3')
+    if (has('nvim')) && has('python3')
       call dein#add('Shougo/deoplete.nvim')
       if !has('nvim')
         call dein#add('roxma/nvim-yarp')
