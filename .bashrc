@@ -740,6 +740,9 @@ if ! type tac >& /dev/null;then
     }
   fi
 fi
+
+# mktemp
+alias mktempdir="mktemp 2>/dev/null||mktemp -t tmp"
 # }}}
 
 # for ghq {{{

@@ -13,7 +13,8 @@ screen () { # Screen wrapper {{{
     #tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
     #mv ~/.hostForScreen.tmp ~/.hostForScreen
     # write out DISPLAY of current terminal
-    echo "$DISPLAY"> ~/.display.txt
+    echo "export DISPLAY=$DISPLAY" > ~/.screen_update
+    echo "export SSHHOME=$DSSHHOME" >> ~/.screen_update
   fi
 
   local options=""
@@ -22,12 +23,10 @@ screen () { # Screen wrapper {{{
     n_sockets=$(printf "$sockets"|grep -c ^)
     if [ "$n_sockets" -ge 1 ];then
       # Don't make another screen session, if any session exists.
-      if [ "$n_sockets" -eq 1 ];then
-        options="-d -r"
-      else
+      if [ "$n_sockets" -gt 1 ];then
         if type -a sentaku >& /dev/null;then
-          session=$(echo "$sockets"|sentaku -s $'\n'|awk '{print $1}'|cut -d'.' -f1)
-          if [ "$session" = "" ];then
+          sockets=$(echo "$sockets"|sentaku -s $'\n')
+          if [ "$sockets" = "" ];then
             return
           fi
         else
@@ -44,10 +43,11 @@ screen () { # Screen wrapper {{{
           if ! expr "$i" : '[0-9]*' >/dev/null || [ "$i" -ge "$n" ];then
             return
           fi
-          session=$(echo "$sockets"|sed -n "${i},${i}p"|awk '{print $1}'|cut -d'.' -f1)
+          session=$(echo "$sockets"|sed -n "${i},${i}p")
         fi
-        options="-d -r $session"
       fi
+      session=$(echo "$sockets"|awk '{print $1}'|cut -d'.' -f1)
+      options="-d -r $session"
     fi
   fi
   if [ "$1" == "-n" ];then
@@ -103,8 +103,7 @@ chmod 700 "$SCREENDIR"
 export SCREENEXCHANGE=$HOME/.screen-exchange
 
 # functions/settings only for screen sessions {{{
-
-if [[ "$TERM" =~ screen ]]; then # {{{
+if [[ "$TERM" =~ screen ]]; then
 
   #if [ -n "$STY" ] || [ -n "$TMUX" ];then # Only for the machine in which screen/tmux was launched
   if [ -n "$STY" ];then # Only for the machine in which screen was launched. {{{
@@ -128,6 +127,7 @@ if [[ "$TERM" =~ screen ]]; then # {{{
     # }}}
   fi # }}}
 
+  # {{{
   PS1="\[\ek\h \W\e\134\e]0;\h \w\a\]\$(\
     ret=\$?
     rand=\$((RANDOM%36));\
@@ -157,6 +157,8 @@ if [[ "$TERM" =~ screen ]]; then # {{{
       fi\
     fi;\
     )"
+
+  PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}. ~/.screen_update"
   # }}}
 
   # Set display if screen is attached in other host than previous host {{{
