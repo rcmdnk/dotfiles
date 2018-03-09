@@ -14,7 +14,7 @@ screen () { # Screen wrapper {{{
     #mv ~/.hostForScreen.tmp ~/.hostForScreen
     # write out DISPLAY of current terminal
     echo "export DISPLAY=$DISPLAY" > ~/.screen_update
-    echo "export SSHHOME=$DSSHHOME" >> ~/.screen_update
+    echo "export SSHHOME=$SSHHOME" >> ~/.screen_update
   fi
 
   local options=""
