@@ -108,22 +108,16 @@ fi
 export PAGER=less
 
 # Terminfo
-if [ -d "$HOME/.terminfo/" ];then
-  export TERMINFO=$HOME/.terminfo
-elif [ -d "$HOME/usr/share/terminfo/" ];then
-  export TERMINFO=$HOME/usr/share/terminfo
-elif [ -d "$HOME/usr/share/lib/terminfo/" ];then
-  export TERMINFO=$HOME/usr/share/lib/terminfo
-elif [ -d /usr/share/terminfo/ ];then
-  export TERMINFO=/usr/share/terminfo
-elif [ -d /usr/share/lib/terminfo/ ];then
-  export TERMINFO=/usr/share/lib/terminfo
-fi
+for d in "$HOME/.terminfo/" "$HOME/usr/share/terminfo/" \
+         "$HOME/usr/share/lib/terminfo/" "/usr/share/terminfo/" \
+         "/usr/share/lib/terminfo";do
+  if [ -d "$d" ];then
+    export TERMINFO="$d"
+    break
+  fi
+done
 
 # For less
-#export LESSCHARSET=utf-8
-#ascii,dos,ebcdic,IBM-1047,iso8859,koi8-r,latin1,next
-
 export LESS='-I -R -M -W -x2'
 if type source-highlight >& /dev/null;then
   if type my_lesspipe >& /dev/null;then
@@ -192,53 +186,10 @@ tty -s && stty start undef
 # History {{{
 HISTSIZE=500000
 HISTFILESIZE=100000
-# HISTCONTROL:
-# ignoredups # ignore duplication
-# ignorespace # ignore command starting with space
-# ignoreboth # ignore dups and space
-# erasedups # erase a duplication in the past
 export HISTCONTROL="erasedups:ignoreboth"
-#export HISTIGNORE="?:??:???:????:history:cd ../"
-export HISTIGNORE="cd:cd -:cd ../:ls:sd:cl*:pwd*:history:exit:bg:fg"
-
-#shopt -s histappend # append to hist (not overwrite),
-                    # don't use with below share_history
+export HISTIGNORE="cd:cd :cd -:cd ../:ls:sd:cl*:pwd*:history:exit:bg:fg:git st:git push:git update"
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
-# Method to remove failed command {{{
-#history_remove_fail () {
-#  local result=$?
-#  if [ $result -ne 0 ];then
-#    local n=`history 1|awk '{print $1}'`
-#    if [ "x$n" != "x" ];then
-#      history -d $n
-#    fi
-#  fi
-#}
-#PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history_remove_fail"
-# }}}
-
-# Method to share history at the same time,
-# w/o failed command (bit too strong...) {{{
-#shopt -u histappend # Overwrite
-#share_history () {
-#  local result=$?
-#  if [ $result -eq 0 ];then # put only when the command succeeded
-#    history -a # append history to the file
-#    history -c # remove current history
-#    history -r # load history from the file
-#  else
-#    # don't put failed command
-#    history -c
-#    history -r
-#  fi
-#}
-#PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}share history"
-# }}}
-
-# Simple method to add history everytime {{{
-PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
-# }}}
-
+PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a;history -c;history -r"
 # }}} history
 
 # For ls color {{{
@@ -255,7 +206,6 @@ fi
 # }}} For ls color
 
 # Alias, Function {{{
-
 alias l='/bin/ls'
 if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
   if ls --color=auto --show-control-char >/dev/null 2>&1;then
@@ -273,7 +223,6 @@ alias lt='ls -altr'
 type colordiff >& /dev/null && alias diff='colordiff'
 alias badlink='find -L . -depth 1 -type l -ls'
 alias badlinkall='find -L . -type l -ls'
-#alias g='gmake'
 alias g='make'
 alias gc="make clean"
 alias gcg="make clean && make"
@@ -296,131 +245,22 @@ if type vim >& /dev/null;then
   alias vid="vim -d"
   alias vinon="vim -u NONE"
 fi
-#alias c="multi_clipboard -W"
 alias put='multi_clipboard -x'
 alias del="trash -r"
-# shellcheck disable=SC2142
-alias hischeck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
-# shellcheck disable=SC2142
-alias hischeckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}'|sort|uniq -c|sort -n"
+alias histcheck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
+alias histcheckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}'|sort|uniq -c|sort -n"
 alias sort='LC_ALL=C sort'
 alias uniq='LC_ALL=C uniq'
 alias t='less -L +F'
 alias iocheck='find /proc -name io |xargs egrep "write|read"|sort -n -k 2'
 alias now='date +"%Y%m%d %T"'
 alias pip_upgrade="pip list --outdated --format=legacy|cut -d' ' -f1|xargs pip install -U"
+alias stow="stow --override='share/info/dir'"
 type thefuck >& /dev/null &&  alias fuck='eval $(thefuck $(fc -ln -1))'
 type hub >& /dev/null && eval "$(hub alias -s)" # Use GitHub wrapper for git
-#alias evernote_mail="evernote_mail -u"
-alias stow="stow --override='share/info/dir'"
 type sshrc >& /dev/null && alias ssh="sshrc -Y"
 type moshrc >& /dev/null && alias mosh="moshrc"
 type tree >& /dev/null || alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'" # pseudo tree
-
-psgrep () { # {{{
-  local val=$1
-  ps ax | grep [${val::1}]${val:1}
-} # }}}
-
-md2pdf () { # pandoc helper {{{
-  if [[ "$OSTYPE" =~ darwin ]];then
-    if ! type iconv >& /dev/null;then
-      echo "Please install iconv"
-      return 1
-    fi
-  fi
-  if ! type pandoc >& /dev/null;then
-    echo "Please install pandoc"
-    return 1
-  fi
-
-  if [ $# -eq 0 ];then
-    echo "usage mdtopdf [output.pdf] [-t <theme>] input.md "
-    return 1
-  fi
-  input=""
-  output=""
-  theme="-V theme:Singapore"
-  istheme=0
-  for v in "$@";do
-    if [ $istheme -eq 1 ];then
-      theme="-V $v"
-      istheme=0
-    elif [ "$v" = "-t" ];then
-      istheme=1
-    elif [[ "$v" =~ \.md ]];then
-      input=$v
-    elif [[ "$v" =~ \.pdf ]];then
-      output=$v
-    else
-      echo "usage mdtopdf [output.pdf] [-t <theme>] input.md "
-      return 1
-    fi
-  done
-  if [ -z "$input" ];then
-    echo "usage mdtopdf [output.pdf] [-t <theme>] input.md "
-    return 1
-  fi
-  output=${output:-${input%.md}.pdf}
-  if [[ "$OSTYPE" =~ darwin ]];then
-    cmd="iconv -t UTF-8 $input | \
-      pandoc -t beamer -f markdown -o $output $theme --latex-engine=lualatex"
-  else
-    cmd="pandoc -t beamer $theme --latex-engine=lualatex \
-      $input -o $output"
-  fi
-  echo "$cmd"
-  eval "$cmd"
-} # }}}
-
-mynoglob_helper () { # noglob helpers {{{
-  "$@"
-  case "$shopts" in
-    *noglob*)
-      ;;
-    *)
-      set +f
-      ;;
-  esac
-  unset shopts
-}
-alias mynoglob='shopts="$SHELLOPTS";set -f;mynoglob_helper'
-# }}}
-
-man () { # man wrapper to use vim {{{
-  if [ $# -ne 1 ] || [[ "$1" =~ ^- ]];then
-    command man "$@"
-    return $?
-  fi
-  local p
-  local m
-  if [ "$PAGER" != "" ];then
-    p="$PAGER"
-  fi
-  if [ "$MANPAGER" != "" ];then
-    m="$MANPAGER"
-  fi
-  unset PAGER
-  unset MANPAGER
-  val=$(command man "$@" 2>&1)
-  ret=$?
-  if [ $ret -eq 0 ];then
-    if type vim >& /dev/null;then
-      echo "$val"|col -bx|vim -R -c 'set ft=man' -
-    else
-      command man "$@"
-    fi
-  else
-    echo "$val"
-  fi
-  if [ "$p" != "" ];then
-    export PAGER="$p"
-  fi
-  if [ "$m" != "" ];then
-    export MANPAGER="$m"
-  fi
-  return $ret
-} # }}}
 
 change () { # Change words in file by sed {{{
   case $# in
@@ -450,11 +290,6 @@ del_tail () { # Delete trailing white space {{{
 } # }}}
 
 # tar/press: File compression/decompression {{{
-alias targz="tar zxf"
-alias tarbz2="tar jxf"
-alias tarxz="tar Jxf"
-alias tarZ="tar zxf"
-
 dec () {
   if echo "$1"|grep -q "tar.gz$";then
     tar zxf "$1"
@@ -510,20 +345,6 @@ comp () {
 }
 # }}}
 
-#lw () {# Show output result with w3m {{{
-#  sed -e 's/</\&lt;/g' |\
-#  sed -e 's/>/\&gt;/g' |\
-#  sed -e 's/\&/\&amp;/g' |\
-#  sed -e 's/[^:]*/<a href="\0">\0<\/a>/' |\
-#  sed -e 's/$/<br\/>/' |\
-#  EDITOR='vi' w3m -T text/html
-#}
-# }}}
-
-## emacs wrapper {{{
-#emacs () { command emacs $@ & }
-# }}}
-
 path () { # path: function to get full path {{{
   if [ $# -eq 0 ];then
       echo "usage: path file/directory"
@@ -571,113 +392,6 @@ linkcheck () { # Function to find the original file for the symbolic link {{{
   done
   cd "$curdir"
 } # }}}
-
-# dictionary {{{
-weblio () {
-  if ! type w3m >& /dev/null;then
-    echo "Please install w3m"
-    return 1
-  fi
-  if [ "$#" -eq 0 ];then
-    echo "usage: $0 [option] <word>"
-    echo "options: -m (show meanings), -e (show examples)"
-    echo "If no option is given, show the result page with w3m."
-  fi
-  local flag=""
-  if [ "$#" -gt 1 ];then
-    if [ "$1" = "-m" ];then
-      flag="meaning"
-      shift
-    elif [ "$1" = "-e" ];then
-      flag="example"
-      shift
-    fi
-  fi
-  if [ -z "$flag" ];then
-    w3m "http://ejje.weblio.jp/content/$1"
-    return $?
-  fi
-  local page=$(w3m "http://ejje.weblio.jp/content/$1")
-  if [ "$flag" = "meaning" ];then
-    local start=($(printf "$page"|grep -n "主な意"|cut -d: -f1))
-    local end=($(printf "$page"|grep -n "イディオムやフレーズ"|cut -d: -f1))
-    if [ -z "${start[0]}" ] || [ -z "${end[0]}" ];then
-      echo "No result found (always no result for Japanese)."
-      return 1
-    fi
-    printf "$page"|sed -n $((start[0]+3)),$((end[0]))p
-  elif [ "$flag" = "example" ];then
-    local start=($(printf "$page"|grep -n "を含む例文一覧"|cut -d: -f1))
-    local end=($(printf "$page"|grep -n "例文の一覧を見る自分の例文帳を見る"|cut -d: -f1))
-    if [ -z "${start[0]}" ] || [ -z "${end[0]}" ];then
-      echo "No result found (always no result for Japanese)."
-      return 1
-    fi
-    printf "$page"|sed -n $((start[0]+6)),$((end[0]-2))p|sed "s/ 例文帳に追加//g"
-  fi
-}
-alc () {
-  if ! type w3m >& /dev/null;then
-    echo "Please install w3m"
-    return 1
-  fi
-  if [ "$#" -eq 0 ];then
-    echo "usage: $0 [option] <word>"
-    echo "options: -m (show meanings), -e (show examples)"
-    echo "If no option is given, show the result page with w3m."
-  fi
-  local flag=""
-  if [ "$#" -gt 1 ];then
-    if [ "$1" = "-m" ];then
-      flag="meaning"
-      shift
-    elif [ "$1" = "-e" ];then
-      flag="example"
-      shift
-    fi
-  fi
-  if [ -z "$flag" ];then
-    w3m "http://eow.alc.co.jp/search?q=$1"
-    return $?
-  fi
-  local page=$(w3m "http://eow.alc.co.jp/search?q=$1")
-  if printf "$page"|grep -q "該当する項目は見つかりませんでした。";then
-    printf "$page"|grep "該当する項目は見つかりませんでした。"
-    return 2
-  fi
-  local next_lines=($(printf "$page"|grep -n "次へ"|cut -d: -f1))
-  local start=(${next_lines[0]})
-  local end=(${next_lines[1]})
-  if [ -z "${start[0]}" ];then
-    local start=($(printf "$page"|grep -n "英辞郎データ提供元 EDP のサイトへ"|cut -d: -f1))
-    if [ -z "${start[0]}" ];then
-      echo "No result found."
-      return 3
-    fi
-  fi
-  if [ "$flag" = "meaning" ];then
-    local lines2=($(printf "$page"|grep -n "単語帳"|cut -d: -f1))
-    if [ -z "${lines2[0]}" ];then
-      echo "No result found."
-      return 4
-    fi
-    printf "$page"|sed -n $((start[0]+2)),$((lines2[0]-1))p
-  elif [ "$flag" = "example" ];then
-    if [ -z "${end[0]}" ];then
-      printf "$page"|grep -n "単語帳"|tail -n1|cut -d: -f1
-      local end=($(printf "$page"|grep -n "単語帳"|tail -n1|cut -d: -f1))
-    fi
-    if [ -z "${end[0]}" ];then
-      echo "No result found."
-      return 5
-    fi
-    printf "$page"|sed -n $((start[0]+2)),$((end[0]-1))p
-  fi
-}
-dic () {
-  alc -e "$1"|less
-}
-# }}}
 
 # For GNU-BSD compatibility {{{
 
@@ -792,7 +506,8 @@ if type ghq >& /dev/null;then
     if [ $# -gt 0 ];then
       local repos=("$@")
     else
-      local repos=($(ghq list|sentaku))
+      local repos
+      mapfile -t repos < <(ghq list|sentaku)
     fi
     for r in "${repos[@]}";do
       local n="$(echo "$r"|awk '{print split($0, tmp, "/")}')"
