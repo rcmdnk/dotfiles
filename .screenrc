@@ -199,11 +199,11 @@ bufferfile "$SCREENEXCHANGE"
 #bindkey -m ' ' eval 'stuff \040' 'writebuf' 'exec !!! multi_clipboard -I'
 # -> maybe `exec <direct command>` is not good?
 # -> `exec /bin/sh <command> seems better...
-bindkey -m ' ' eval 'stuff \040' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"'
-bindkey -m Y eval 'stuff Y' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"'
-#bindkey -m D eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"' # problem at search in copy mode
-#bindkey -m $ eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"' # problem at search in copy mode
-bindkey -m W eval 'stuff W' 'writebuf' 'exec /bin/sh  -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"'
+bindkey -m ' ' eval 'stuff \040' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"'
+bindkey -m Y eval 'stuff Y' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"'
+#bindkey -m D eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"' # problem at search in copy mode
+#bindkey -m $ eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"' # problem at search in copy mode
+bindkey -m W eval 'stuff W' 'writebuf' 'exec /bin/sh  -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"'
 bindkey -m ^[ eval ''
 # This affects on search word input, too, so ^h or ^j can't be changed.
 #bindkey -m ^h stuff h
@@ -216,24 +216,24 @@ bindkey -m ^k stuff k
 
 # !!! should not be applied (especially for stdout (second one)).
 # Otherwise some outputs come to the window(?)
-bind z eval 'command -c mc' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -S;fi"'
-bind ^z eval 'command -c mc' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -S;fi"'
-bind -c mc n eval 'command -c mc' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -n;fi"'
-bind -c mc ^n eval 'command -c mc' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -n;fi"'
-bind -c mc p eval 'command -c mc' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -p;fi"'
-bind -c mc ^p eval 'command -c mc' 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -p;fi"'
-bind -c mc q eval 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -q;fi"'
-bind -c mc ^q eval 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -q;fi"'
-bind -c mc ' ' eval 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -s;fi"'
+bind z eval 'command -c mc' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -S;fi"'
+bind ^z eval 'command -c mc' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -S;fi"'
+bind -c mc n eval 'command -c mc' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -n;fi"'
+bind -c mc ^n eval 'command -c mc' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -n;fi"'
+bind -c mc p eval 'command -c mc' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -p;fi"'
+bind -c mc ^p eval 'command -c mc' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -p;fi"'
+bind -c mc q eval 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -q;fi"'
+bind -c mc ^q eval 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -q;fi"'
+bind -c mc ' ' eval 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -s;fi"'
 # Enter (\012) doesn't work for bindings with command?
-#bind -c mc '\012' eval "!bash -c 'if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -s;fi'"
+#bind -c mc '\012' eval "!bash -c 'if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -S -s;fi'"
 
-bind a screen -t multi_clipboard /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -W;fi"
-bind ^a screen -t multi_clipboard /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -W;fi"
+bind a screen -t multi_clipboard /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -W;fi"
+bind ^a screen -t multi_clipboard /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -W;fi"
 
-bind A eval 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -x;fi"' 'echo "copied to OS clipboard"'
+bind A eval 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -x;fi"' 'echo "copied to OS clipboard"'
 # Ctrl-Capital is not capital, but bind lower case (Ctrl-a)...?
-#bind ^A eval 'exec /bin/sh -c "if type -a multi_clipboard >/dev/null 2>&1;then multi_clipboard -x;fi"'
+#bind ^A eval 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -x;fi"'
 
 # Term
 #term "screen-256color"
