@@ -158,7 +158,7 @@ if [[ "$TERM" =~ screen ]]; then
     fi;\
     )"
 
-  PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}. ~/.screen_update"
+  PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}touch ~/.screen_update;. ~/.screen_update"
   # }}}
 
   # Set display if screen is attached in other host than previous host {{{
