@@ -262,6 +262,28 @@ type sshrc >& /dev/null && alias ssh="sshrc -Y"
 type moshrc >& /dev/null && alias mosh="moshrc"
 type tree >& /dev/null || alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'" # pseudo tree
 
+man () { # man with vim {{{
+  if [ $# -ne 1 ] || [[ "$1" =~ ^- ]];then
+    command man "$@"
+    return $?
+  fi
+
+  unset PAGER
+  unset MANPAGER
+  val=$(command man "$@" 2>&1)
+  ret=$?
+  if [ $ret -eq 0 ];then
+    if type vim >& /dev/null;then
+      echo "$val"|col -bx|vim -R -c 'set ft=man' -
+    else
+      command man "$@"
+    fi
+  else
+    echo "$val"
+    return $ret
+  fi
+} # }}}
+
 change () { # Change words in file by sed {{{
   case $# in
     0)

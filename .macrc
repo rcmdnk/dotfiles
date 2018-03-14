@@ -96,8 +96,8 @@ if [ $ret -eq 0 ];then
   elif [ "$ZSH_VERSION" != "" ];then
     for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
       brew_completion="$brew_prefix/$d"
-      if [ -d "$brew_completion" ] && ! echo "$fpath" |grep -q "$brew_completion";then
-        fpath=($brew_completion $fpath)
+      if [ -d "$brew_completion" ] && ! echo " ${fpath[*]} " |grep -q " $brew_completion ";then
+        fpath=("$brew_completion" "${fpath[@]}")
       fi
     done
     autoload -Uz compinit
@@ -107,11 +107,11 @@ if [ $ret -eq 0 ];then
   ## wrap brew (brew-wrap in brew-file)
   source_file "$brew_prefix/etc/brew-wrap"
 
-  ## List only leaves in Brewfile
-  export HOMEBREW_BREWFILE_LEAVES=0
+  ## No emoji
+  export HOMEBREW_NO_EMOJI=1
 
-  ## Cask application directory
-  export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+  ## Disable Analytics
+  export HOMEBREW_NO_ANALYTICS=1
 
   ## Python2
   # Use python for python2
@@ -131,8 +131,6 @@ if [ $ret -eq 0 ];then
   ## Alias
   alias cask='brew cask'
 
-  ## Disable Analytics
-  export HOMEBREW_NO_ANALYTICS=1
 fi
 
 # JAVA_HOME
