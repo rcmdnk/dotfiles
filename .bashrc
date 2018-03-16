@@ -189,7 +189,7 @@ HISTFILESIZE=100000
 export HISTCONTROL="erasedups:ignoreboth"
 export HISTIGNORE="cd:cd :cd -:cd ../:ls:sd:cl*:pwd*:history:exit:bg:fg:git st:git push:git update"
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
-PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a;history -c;history -r"
+PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
 # }}} history
 
 # For ls color {{{
