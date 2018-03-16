@@ -220,7 +220,6 @@ elif [[ "$OSTYPE" =~ darwin ]];then
   alias la='ls -A -G'
 fi
 alias lt='ls -altr'
-type colordiff >& /dev/null && alias diff='colordiff'
 alias badlink='find -L . -depth 1 -type l -ls'
 alias badlinkall='find -L . -type l -ls'
 alias g='make'
@@ -260,6 +259,8 @@ type thefuck >& /dev/null &&  alias fuck='eval $(thefuck $(fc -ln -1))'
 type hub >& /dev/null && eval "$(hub alias -s)" # Use GitHub wrapper for git
 type sshrc >& /dev/null && alias ssh="sshrc -Y"
 type moshrc >& /dev/null && alias mosh="moshrc"
+type colordiff >& /dev/null && alias diff='colordiff'
+type ccat >& /dev/null && alias cat='ccat'
 type tree >& /dev/null || alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'" # pseudo tree
 
 man () { # man with vim {{{
