@@ -105,7 +105,6 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 # functions/settings only for screen sessions {{{
 if [[ "$TERM" =~ screen ]]; then
 
-  #if [ -n "$STY" ] || [ -n "$TMUX" ];then # Only for the machine in which screen/tmux was launched
   if [ -n "$STY" ];then # Only for the machine in which screen was launched. {{{
     # Overwrite path to push to the clipboard list{{{
     path () {
