@@ -484,8 +484,13 @@ alias mktempdir="mktemp 2>/dev/null||mktemp -t tmp"
 
 # for ghq {{{
 if type ghq >& /dev/null;then
-  gh () {
-    cd "$(ghq root)/$(ghq list|sentaku)"
+  ghqgo () {
+    if [ $# -gt 0 ];then
+      local repos="$*"
+    else
+      local repos=$(ghq list|sentaku)
+    fi
+    ghq look "$repos"
   }
 
   ghqget () {
@@ -525,32 +530,8 @@ if type ghq >& /dev/null;then
     done
   }
 
-  ghqgo () {
-    if [ $# -gt 0 ];then
-      local repos=("$@")
-    else
-      local repos
-      mapfile -t repos < <(ghq list|sentaku)
-    fi
-    for r in "${repos[@]}";do
-      local n="$(echo "$r"|awk '{print split($0, tmp, "/")}')"
-      if [ "$n" -eq 1 ];then
-        local dir="$(ls -d "$(ghq root)/"*/*"/$r")"
-      elif [ "$n" -eq 2 ];then
-        local dir="$(ls -d "$(ghq root)/"*"/$r")"
-      elif [ "$n" -eq 3 ];then
-        local dir="$(ls -d "$(ghq root)/$r")"
-      else
-        local dir="$r"
-      fi
-      if [ -n "$dir" ];then
-        cd "$dir"
-        break
-      fi
-    done
-  }
-
   alias ghqlist="ghq list"
+  alias ghqls="ghq list"
 fi
 # }}}
 
