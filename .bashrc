@@ -2,23 +2,20 @@
 # .bashrc
 
 # Check if this is first time to read bashrc or not {{{
-# ***This doesn't work well with sshrc***
-# (subshell, screen, etc...)
-#_reset_path () {
-#  local p
-#  #for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
-#  for p in PATH;do
-#    local ip=$(eval echo "\$INIT_$p")
-#    if [ -z "$ip" ];then
-#      # Set initial values
-#      eval export INIT_$p="\$$p"
-#    else
-#      # Reset paths
-#      eval export $p=\""$ip"\"
-#    fi
-#  done
-#}
-#_reset_path
+_reset_path () {
+  local p
+  for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
+    local ip=$(eval echo "\$INIT_$p")
+    if [ -z "$ip" ];then
+      # Set initial values
+      eval export INIT_$p="\$$p"
+    else
+      # Reset paths
+      eval export $p=\""$ip"\"
+    fi
+  done
+}
+_reset_path
 # }}} Check if this is first time to read bashrc or not
 
 # Function for sourcing with precheck of the file {{{
@@ -48,23 +45,64 @@ fi
 
 ## Local path {{{
 # PATH, LD_LIBRARY_PATH under HOME
-if uname -a|grep -q x86_64;then
+if uname -a|/usr/bin/grep -q x86_64;then
   export x86_64=1
 else
   export x86_64=0
 fi
 add_path () {
+  if [ $# -lt 3 ];then
+    echo "Usage: clean_path <PATH, LD_LIBRARY_PATH or  etc..> <parent dir> <last dir name> [1 to add in the last]"
+    return 1
+  fi
   local v=$1
   local p=$2
   local b=$3
+  local r=$4
   local dir="$p/$b"
   if [ ! -d "$dir" ];then
     return 1
   fi
-  if ! echo "\$$v"|grep -q -e "^${dir}" -e ":${dir}";then
-    eval "export ${v}=\"${dir}\${$v:+:\$$v}\""
+  if ! echo "\$$v"|/usr/bin/grep -q -e "^${dir}" -e ":${dir}";then
+    if [ "$r" = 1 ];then
+      eval "export ${v}=\"\${$v:+\$$v:}${dir}\""
+    else
+      eval "export ${v}=\"${dir}\${$v:+:\$$v}\""
+    fi
   fi
 }
+
+check_path () { # {{{
+  if [ $# -eq 0 ];then
+    echo "Usage: check_path <PATH, LD_LIBRARY_PATH or  etc..>"
+    return 1
+  fi
+  local v=$1
+  local LF=$'\\\x0A'
+  #eval "echo "\$$v"| sed 's/:/'"$LF"'/g'"
+  eval "echo \$$PATH"| sed 's/:/'"$LF"'/g'
+}
+# }}}
+
+clean_path () { # {{{
+  if [ $# -eq 0 ];then
+    echo "Usage: clean_path <PATH, LD_LIBRARY_PATH or  etc..>"
+    return 1
+  fi
+  local v=$(eval "echo \$$1")
+  local orig_ifs=$IFS
+  IFS=":"
+  local p_orig=($v)
+  IFS=$orig_ifs
+  v_tmp=""
+  for p in "${p_orig[@]}";do
+    add_path v_tmp "$(dirname "$p")" "$(basename "$p")" 1
+  done
+  #eval "export ${v}=\"\$${v_tmp}\""
+  eval "echo ${v}=\"\$${v_tmp}\""
+  unset v_tmp
+}
+
 if [ -z "$PATH" ];then
   # set PATH at least for grep
   export PATH="/bin:/usr/bin"
@@ -79,6 +117,9 @@ for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
   fi
 done
 export GOPATH=$HOME/.go
+if [ -n "$SSHHOME" ];then
+  add_path PATH "$SSHHOME" .sshrc
+fi
 # }}} Local path
 
 # Shell/Environmental variables {{{
@@ -375,6 +416,8 @@ path () { # path: function to get full path {{{
   fi
   echo "$(cd "$(dirname "$1")";pwd -P)/$(basename "$1")"
 } # }}}
+
+# }}}
 
 ## sd/cl: Directory save/move in different terminal {{{
 source_file ~/usr/etc/sd_cl
