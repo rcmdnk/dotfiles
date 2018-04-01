@@ -103,10 +103,6 @@ clean_path () { # {{{
   unset v_tmp
 }
 
-if [ -z "$PATH" ];then
-  # set PATH at least for grep
-  export PATH="/bin:/usr/bin"
-fi
 for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
   add_path PATH "$p" bin
   add_path LD_LIBRARY_PATH "$p" lib
