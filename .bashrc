@@ -45,7 +45,7 @@ fi
 
 ## Local path {{{
 # PATH, LD_LIBRARY_PATH under HOME
-if uname -a|/usr/bin/grep -q x86_64;then
+if uname -a|grep -q x86_64;then
   export x86_64=1
 else
   export x86_64=0
@@ -63,7 +63,7 @@ add_path () {
   if [ ! -d "$dir" ];then
     return 1
   fi
-  if ! echo "\$$v"|/usr/bin/grep -q -e "^${dir}" -e ":${dir}";then
+  if ! echo "\$$v"|grep -q -e "^${dir}" -e ":${dir}";then
     if [ "$r" = 1 ];then
       eval "export ${v}=\"\${$v:+\$$v:}${dir}\""
     else
