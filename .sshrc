@@ -13,5 +13,5 @@ set_term () {
   done
 }
 set_term
-type sshrc >& /dev/null && alias ssh="sshrc -Y"
-type moshrc >& /dev/null && alias mosh="moshrc"
+#type sshrc >& /dev/null && alias ssh="sshrc -Y"
+#type moshrc >& /dev/null && alias mosh="moshrc"
