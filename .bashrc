@@ -294,8 +294,8 @@ alias pip_upgrade="pip list --outdated --format=legacy|cut -d' ' -f1|xargs pip i
 alias stow="stow --override='share/info/dir'"
 type thefuck >& /dev/null &&  alias fuck='eval $(thefuck $(fc -ln -1))'
 type hub >& /dev/null && eval "$(hub alias -s)" # Use GitHub wrapper for git
-type sshrc >& /dev/null && alias ssh="sshrc -Y"
-type moshrc >& /dev/null && alias mosh="moshrc"
+#type sshrc >& /dev/null && alias ssh="sshrc -Y"
+#type moshrc >& /dev/null && alias mosh="moshrc"
 type colordiff >& /dev/null && alias diff='colordiff'
 type ccat >& /dev/null && alias cat='ccat'
 type tree >& /dev/null || alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'" # pseudo tree
