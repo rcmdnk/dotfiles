@@ -668,9 +668,9 @@ xnoremap <Subleader>, ,
 "map <ESC>p <M-p>
 "map <ESC>n <M-n>
 
-" Swap colon <-> semicolon
+" Use semicolon as colong
 noremap ; :
-noremap : ;
+"noremap : ;
 
 " Require <Leader> before gu*/gU* (Change to lowr/upper case)
 noremap gu <Nop>
