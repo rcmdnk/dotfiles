@@ -372,6 +372,9 @@ endif
 " JavaScript {{{
 " * Something wrong at buffer change
 NeoBundle "marijnh/tern_for_vim"
+
+" pangloss/vim-javascript is given more stars.
+call dein#add('jelera/vim-javascript-syntax')
 "}}}
 
 " Python {{{

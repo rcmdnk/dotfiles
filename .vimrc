@@ -165,7 +165,7 @@ if s:dein_enabled
     call dein#add('koron/java-helper-vim')
 
     " JavaScript
-    call dein#add('jelera/vim-javascript-syntax')
+    call dein#add('pangloss/vim-javascript')
 
     " Markdown {{{
     call dein#add('junegunn/vader.vim')
