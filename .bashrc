@@ -263,7 +263,6 @@ alias g='make'
 alias gc="make clean"
 alias gcg="make clean && make"
 alias bc="bc -l"
-alias ssh="ssh -Y"
 alias svnHeadDiff="svn diff --revision=HEAD"
 #if type nvim >& /dev/null;then
 #  alias svnd="svn diff | nvim -"
@@ -294,6 +293,7 @@ alias pip_upgrade="pip list --outdated --format=legacy|cut -d' ' -f1|xargs pip i
 alias stow="stow --override='share/info/dir'"
 type thefuck >& /dev/null &&  alias fuck='eval $(thefuck $(fc -ln -1))'
 type hub >& /dev/null && eval "$(hub alias -s)" # Use GitHub wrapper for git
+alias ssh="ssh -Y"
 #type sshrc >& /dev/null && alias ssh="sshrc -Y"
 #type moshrc >& /dev/null && alias mosh="moshrc"
 type colordiff >& /dev/null && alias diff='colordiff'
