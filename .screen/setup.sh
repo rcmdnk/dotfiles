@@ -7,11 +7,11 @@ screen () { # Screen wrapper {{{
 
   #touch ~/.hostForScreen
   if [ $# = 0 ] || [ "$1" = "-r" ] || [ "$1" = "-R" ] || [ "$1" = "-x" ] || [ "$1" = "-n" ];then
-    #sed -i -e "/^$(hostname).*/d" ~/.hostForScreen
-    #hostname >> ~/.hostForScreen
-    ## keep 10 histories
-    #tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
-    #mv ~/.hostForScreen.tmp ~/.hostForScreen
+    sed -i -e "/^$(hostname).*/d" ~/.hostForScreen
+    hostname >> ~/.hostForScreen
+    # keep 10 histories
+    tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
+    mv ~/.hostForScreen.tmp ~/.hostForScreen
     # write out DISPLAY of current terminal
     echo "export DISPLAY=$DISPLAY" > ~/.screen_update
     echo "export SSHHOME=$SSHHOME" >> ~/.screen_update
