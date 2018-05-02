@@ -71,15 +71,42 @@ if [[ "$OSTYPE" =~ cygwin ]];then
   } # }}}
 fi
 
-if [ $copy -eq 1 ];then
-  install () {
-    cp -r "$1" "$2"
-  }
-else
-  install () {
-    ln -s "$1" "$2"
-  }
-fi
+
+myinstall () {
+  origin="$1"
+  target="$2"
+  if [ -z "$origin" ] || [ -z "$target" ];then
+    echo "Wrong args for myinstall: origin=$origin, target=$target"
+    exit 1
+  fi
+
+  install_check=1
+  if [ $dryrun -eq 1 ];then
+    install_check=0
+  fi
+  if [ "$(ls "$target" 2>/dev/null)" != "" ];then
+    exist=("${exist[@]}" "$(basename "$target")")
+    if [ $dryrun -eq 1 ];then
+      echo -n ""
+    elif [ $overwrite -eq 0 ];then
+      install_check=0
+    elif [ "$backup" != "" ];then
+      mv "$target" "${target}.$backup"
+    else
+      rm "$target"
+    fi
+  else
+    newlink=("${newlink[@]}" "$(basename "$target")")
+  fi
+  if [ $install_check -eq 1 ];then
+    mkdir -p "$(dirname "$target")"
+    if [ $copy -eq 1 ];then
+      cp -r  "$origin" "$target"
+    else
+      ln -s  "$origin" "$target"
+    fi
+  fi
+}
 
 if [ $relative -eq 1 ];then
   curdir=$(pwd)
@@ -93,6 +120,7 @@ if [ $dryrun -ne 1 ];then
 else
   echo "*** This is dry run, not install anything ***"
 fi
+
 for f in .*;do
   for e in "${exclude[@]}";do
     flag=0
@@ -105,83 +133,19 @@ for f in .*;do
     continue
   fi
 
-  target="$instdir/$f"
-  install_check=1
-  if [ $dryrun -eq 1 ];then
-    install_check=0
-  fi
-  if [ "$(ls "$target" 2>/dev/null)" != "" ];then
-    exist=("${exist[@]}" "$f")
-    if [ $dryrun -eq 1 ];then
-      echo -n ""
-    elif [ $overwrite -eq 0 ];then
-      install_check=0
-    elif [ "$backup" != "" ];then
-      mv "$target" "${target}.$backup"
-    else
-      rm "$target"
-    fi
-  else
-    newlink=(${newlink[@]} "$f")
-  fi
-  if [ $install_check -eq 1 ];then
-    install "$curdir/$f" "$target"
-  fi
+  myinstall "$curdir/$f" "$instdir/$f"
 done
 
 # subversion config
-f=.subversion.config
-target="$instdir/.subversion/config"
-install_check=1
-if [ $dryrun -eq 1 ];then
-  install_check=0
-fi
-if [ "$(ls "$target" 2>/dev/null)" != "" ];then
-  exist=("${exist[@]}" "$f")
-  if [ $dryrun -eq 1 ];then
-    echo -n ""
-  elif [ $overwrite -eq 0 ];then
-    install_check=0
-  elif [ "$backup" != "" ];then
-    mv "$target" "${target}.$backup"
-  else
-    rm "$target"
-  fi
-else
-  newlink=("${newlink[@]}" "$f")
-fi
-if [ $install_check -eq 1 ];then
-  mkdir -p "$instdir/.subversion"
-  install "$curdir/$f" "$target"
-fi
+myinstall "$curdir/.subversion.config" "$instdir/.subversion/config"
 
 # w3m
 for f in .w3m/*;do
-  [[ -e "$f" ]] || break
-  target="$instdir/$f"
-  install_check=1
-  if [ $dryrun -eq 1 ];then
-    install_check=0
-  fi
-  mkdir -p "$(dirname "$target")"
-  if [ "$(ls "$target" 2>/dev/null)" != "" ];then
-    exist=("${exist[@]}" "$f")
-    if [ $dryrun -eq 1 ];then
-      echo -n ""
-    elif [ $overwrite -eq 0 ];then
-      install_check=0
-    elif [ "$backup" != "" ];then
-      mv "$target" "${target}.$backup"
-    else
-      rm "$target"
-    fi
-  else
-    newlink=("${newlink[@]}" "$f")
-  fi
-  if [ $install_check -eq 1 ];then
-    install "$curdir/$f" "$target"
-  fi
+  myinstall "$curdir/$f" "$instdir/$f"
 done
+
+# neovim
+myinstall "$curdir/.vimrc" "$instdir/.config/nvim/init.vim"
 
 # Summary
 if [ $dryrun -eq 1 ];then
