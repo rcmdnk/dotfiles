@@ -367,7 +367,7 @@ dec () {
     unzip "$1"
   else
     echo "$1 is not supported."
-    exit 1
+    return 1
   fi
 }
 
