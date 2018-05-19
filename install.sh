@@ -13,7 +13,7 @@ exist=()
 curdir=$(pwd -P)
 
 # help
-HELP="Usage: $0 [-rndsch] [-b <backup file postfix>] [-e <exclude file>] [-i <install dir>]
+HELP="Usage: $0 [-rndch] [-b <backup file postfix>] [-e <exclude file>] [-i <install dir>]
 
 Make links of dot files in home directory (default:$instdir)
 
