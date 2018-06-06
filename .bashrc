@@ -52,7 +52,7 @@ else
 fi
 add_path () {
   if [ $# -lt 3 ];then
-    echo "Usage: clean_path <PATH, LD_LIBRARY_PATH or  etc..> <parent dir> <last dir name> [1 to add in the last]"
+    echo "Usage: add_path <PATH, LD_LIBRARY_PATH or  etc..> <parent dir> <last dir name> [1 to add in the last]"
     return 1
   fi
   local v=$1
@@ -113,6 +113,9 @@ for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
   fi
 done
 export GOPATH=$HOME/.go
+if [ -n "$GOPATH/bin" ];then
+  add_path PATH "$GOPATH" bin
+fi
 if [ -n "$SSHHOME" ];then
   add_path PATH "$SSHHOME" .sshrc
 fi
