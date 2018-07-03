@@ -18,6 +18,8 @@ endif
 " }}}
 
 " dein {{{
+
+" check/prepare dein environment {{{
 let s:dein_enabled  = 0
 if v:version >= 704 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
   let s:git = system('which git')
@@ -43,6 +45,7 @@ if v:version >= 704 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
     endif
   endif
 endif
+" }}} check/prepare dein environment {{{
 
 " Begin plugin part {{{
 if s:dein_enabled
@@ -351,13 +354,12 @@ if s:dein_enabled
     call dein#save_state()
   endif
 
-  " }}} dein end
-
   " Installation check.
   if dein#check_install()
     call dein#install()
   endif
 endif
+" }}}
 " }}} dein
 
 " Basic settings {{{
