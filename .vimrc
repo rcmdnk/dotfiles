@@ -60,9 +60,6 @@ if s:dein_enabled
     call dein#add('Shougo/dein.vim')
 
     " Basic tools {{{
-    " Support repeat for surround, speedating, easymotion, etc...
-    call dein#add('tpope/vim-repeat')
-
     " Sub mode
     call dein#add('kana/vim-submode')
 
@@ -322,7 +319,7 @@ if s:dein_enabled
     call dein#add('terryma/vim-multiple-cursors')
 
     " Easy to change surround
-    call dein#add('tpope/vim-surround')
+    call dein#add('machakann/vim-sandwich')
 
     " if...end
     call dein#add('tpope/vim-endwise')
@@ -1707,34 +1704,45 @@ if s:dein_enabled && dein#tap('vim-multiple-cursors')
 endif
 " }}} vim-multiple-cursors
 
-" vim-surround {{{
-if s:dein_enabled && dein#tap('vim-surround')
-  nmap <Leader>{ ysiw{
-  nmap <Leader>} ysiw}
-  nmap <Leader>[ ysiw[
-  nmap <Leader>] ysiw]
-  nmap <Leader>( ysiw(
-  nmap <Leader>) ysiw)
-  nmap <Leader>< ysiw<
-  nmap <Leader>> ysiw>
-  nmap <Leader>" ysiw"
-  nmap <Leader>' ysiw'
-  nmap <Leader>` ysiw`
-  nmap <Leader>* ysiw*
-  nmap <Leader><Leader>* ysiw*wysiw*
-  xmap { S{
-  xmap } S}
-  xmap [ S[
-  xmap ] S]
-  xmap ( S(
-  xmap ) S)
-  xmap < S<
-  xmap > S>
-  xmap " S"
-  xmap ' S'
-  xmap ` S`
-  xmap * S*
-  xmap <Leader>* S*gvS*
+" vim-sandwich {{{
+if s:dein_enabled && dein#tap('vim-sandwich')
+  let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+  let g:sandwich#recipes += [
+        \   {
+        \     'buns': ['**', '**'],
+        \     'nesting': 0,
+        \     'input': ['a'],
+        \   },
+        \ ]
+
+  nmap <Leader>{ saiw{
+  nmap <Leader>} saiw}
+  nmap <Leader>[ saiw[
+  nmap <Leader>] saiw]
+  nmap <Leader>( saiw(
+  nmap <Leader>) saiw)
+  nmap <Leader>< saiw<
+  nmap <Leader>> saiw>
+  nmap <Leader>" saiw"
+  nmap <Leader>' saiw'
+  nmap <Leader>` saiw`
+  nmap <Leader>* saiw*
+  nmap <Leader>a saiwa
+  nmap <Leader><Leader>* saiwa
+  xmap { sa{
+  xmap } sa}
+  xmap [ sa[
+  xmap ] sa]
+  xmap ( sa(
+  xmap ) sa)
+  xmap < sa<
+  xmap > sa>
+  xmap " sa"
+  xmap ' sa'
+  xmap ` sa`
+  xmap * sa*
+  xmap a saa
+  xmap <Leader>* saa
 endif
 " }}} vim-surround.vim
 " }}} Edit

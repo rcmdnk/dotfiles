@@ -28,6 +28,11 @@ NeoBundleLazy 'Shougo/vimshell', {
   \ 'autoload' : { 'commands' : [ 'VimShell', "VimShellPop", "VimShellInteractive" ] }}
 " }}} vimshell
 
+" vim-repeat {{{
+" Support repeat for surround, speedating, easymotion, etc...
+" All these plugins are not used
+call dein#add('tpope/vim-repeat')
+" }}} vim-repeat
 " }}}
 
 " Unite {{{
@@ -986,6 +991,43 @@ NeoBundle "anyakichi/vim-surround"
 if s:neobundle_enable && (! empty(neobundle#get("surround.vim")) || ! empty(neobundle#get("vim-surround")))
   "
 endif
+" }}}
+
+" vim-surround {{{
+" Use machakann/vim-sandwith, as it doesn't need vim-repeat
+" surround's command: ys.. ds.. cs..
+" sandwich's command: sa.. sd.. sr..
+
+call dein#add('tpope/vim-surround')
+if s:dein_enabled && dein#tap('vim-surround')
+  nmap <Leader>{ ysiw{
+  nmap <Leader>} ysiw}
+  nmap <Leader>[ ysiw[
+  nmap <Leader>] ysiw]
+  nmap <Leader>( ysiw(
+  nmap <Leader>) ysiw)
+  nmap <Leader>< ysiw<
+  nmap <Leader>> ysiw>
+  nmap <Leader>" ysiw"
+  nmap <Leader>' ysiw'
+  nmap <Leader>` ysiw`
+  nmap <Leader>* ysiw*
+  nmap <Leader><Leader>* ysiw*wysiw*
+  xmap { S{
+  xmap } S}
+  xmap [ S[
+  xmap ] S]
+  xmap ( S(
+  xmap ) S)
+  xmap < S<
+  xmap > S>
+  xmap " S"
+  xmap ' S'
+  xmap ` S`
+  xmap * S*
+  xmap <Leader>* S*gvS*
+endif
+" }}} vim-surround.vim
 
 " vim-operator-flashy {{{
 " highlight copied region
@@ -996,8 +1038,6 @@ if s:dein_enabled && dein#tap('vim-operator-flashy')
   nmap Y <Plug>(operator-flashy)$
 endif
 " }}} vim-operator-flashy
-
-" }}}
 
 " savevers {{{
 " File Edit History
