@@ -358,6 +358,8 @@ dec () {
     tar zxf "$1"
   elif echo "$1"|grep -q "tgz$";then
     tar zxf "$1"
+  elif echo "$1"|grep -q "gz$";then
+    gzip -d "$1"
   elif echo "$1"|grep -q "tar.xz$";then
     tar Jxf "$1"
   elif echo "$1"|grep -q "tar.bz2$";then
