@@ -567,7 +567,6 @@ if type ghq >& /dev/null;then
       else
         local dir="$r"
       fi
-      local dir="$(find "$(ghq root)" -name "$name")"
       if [ -n "$dir" ];then
         rm -rf "$dir"
       fi
