@@ -534,7 +534,9 @@ if type ghq >& /dev/null;then
     else
       local repos=$(ghq list|sentaku)
     fi
-    ghq look "$repos"
+    if [ -n "$repos" ];then
+      ghq look "$repos"
+    fi
   }
 
   ghqget () {
