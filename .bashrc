@@ -535,7 +535,7 @@ if type ghq >& /dev/null;then
       local repos=$(ghq list|sentaku)
     fi
     if [ -n "$repos" ];then
-      ghq look "$repos"
+      cd "$(ghq root)/$repos"
     fi
   }
 
