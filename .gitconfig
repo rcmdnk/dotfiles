@@ -1,8 +1,6 @@
 [user]
 	name = rcmdnk
 	email = rcmdnk@gmail.com
-[github]
-	user = rcmdnk
 [core]
   autocrlf = false
   editor = vim
@@ -255,3 +253,5 @@
     done;\
     return $ret;\
   };f"
+[github]
+	user = rcmdnk
