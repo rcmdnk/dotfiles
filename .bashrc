@@ -113,7 +113,7 @@ for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
   fi
 done
 export GOPATH=$HOME/.go
-if [ -n "$GOPATH/bin" ];then
+if [ -d "$GOPATH/bin" ];then
   add_path PATH "$GOPATH" bin
 fi
 if [ -n "$SSHHOME" ];then
