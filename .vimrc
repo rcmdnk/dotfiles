@@ -45,7 +45,7 @@ if v:version >= 704 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
     endif
   endif
 endif
-" }}} check/prepare dein environment {{{
+" }}} check/prepare dein environment
 
 " Begin plugin part {{{
 if s:dein_enabled
