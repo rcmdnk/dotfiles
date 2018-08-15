@@ -1380,9 +1380,9 @@ endif
 " }}}
 
 " tomtom/tcomment_vim {{{
-" if s:dein_enabled && dein#tap('tcomment_vim')
-  let g:tcomment#options = {'whitespace': 'no'}
-" endif
+if s:dein_enabled && dein#tap('tcomment_vim')
+  "let g:tcomment#options = {'whitespace': 'no'}
+endif
 " }}}
 
 " }}} Code syntax, tools for each language
