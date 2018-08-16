@@ -300,7 +300,7 @@ alias ssh="ssh -Y"
 #type sshrc >& /dev/null && alias ssh="sshrc -Y"
 #type moshrc >& /dev/null && alias mosh="moshrc"
 type colordiff >& /dev/null && alias diff='colordiff'
-type ccat >& /dev/null && alias cat='ccat'
+type ccat >& /dev/null && alias cat='ccat --bg=dark'
 type tree >& /dev/null || alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'" # pseudo tree
 
 man () { # man with vim {{{
