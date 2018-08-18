@@ -143,3 +143,8 @@ $endif
 # ps
 "\ep": "\C-ups -U $USER\C-m"
 
+# move
+
+# grep prefix
+"\eo": "bd\C-m"
+"\ei": "fd\C-m"
