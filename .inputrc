@@ -123,10 +123,6 @@ $endif
 "\el":"\C-uls\C-m"
 "\es":"\C-uls -ltr\C-m"
 
-# cd
-"\eu":"\C-ucd ../;ls\C-m"
-"\e~-":"\C-ucd -;ls\C-m"
-
 # du
 "\ed": "\C-ufor a in *;do du -s -m "$a";done\C-m"
 
@@ -143,8 +139,12 @@ $endif
 # ps
 "\ep": "\C-ups -U $USER\C-m"
 
-# move
+# cd
+#"\eu":"\C-ucd ../\C-m"
+#"\e~-":"\C-ucd -;ls\C-m"
 
-# grep prefix
+# move
 "\eo": "bd\C-m"
 "\ei": "fd\C-m"
+"\eu": "up\C-m"
+

@@ -311,16 +311,16 @@ man () { # man with vim {{{
 
   unset PAGER
   unset MANPAGER
-  val=$(command man "$@" 2>&1)
+  var=$(command man "$@" 2>&1)
   ret=$?
   if [ $ret -eq 0 ];then
     if type vim >& /dev/null;then
-      echo "$val"|col -bx|vim -R -c 'set ft=man' -
+      echo "$var"|col -bx|vim -R -c 'set ft=man' -
     else
       command man "$@"
     fi
   else
-    echo "$val"
+    echo "$var"
     return $ret
   fi
 } # }}}
@@ -468,8 +468,8 @@ if ! cp --version 2>/dev/null |grep -q GNU;then
   cp () {
     local -a opt
     opt=()
-    local -a vals
-    vals=()
+    local -a vars
+    vars=()
     while [ $# -gt 0 ];do
       if [[ "$1" == -* ]];then
         if [ "$1" == "-r" ];then
@@ -478,11 +478,11 @@ if ! cp --version 2>/dev/null |grep -q GNU;then
           opt=("${opt[@]}" $1)
         fi
       else
-        vals=("${vals[@]}" ${1%/})
+        vars=("${vars[@]}" ${1%/})
       fi
       shift
     done
-    command cp "${opt[@]}" "${vals[@]}"
+    command cp "${opt[@]}" "${vars[@]}"
   }
 fi
 # }}}
