@@ -59,7 +59,12 @@ screen () { # Screen wrapper {{{
   command screen $options
 }
 
-export SCREENDIR=$HOME/.screen_$(hostname|cut -d. -f1)
+
+if [[ "$OSTYPE" =~ darwin ]];then
+  export SCREENDIR=$HOME/.screen_$(scutil --get ComputerName)
+else
+  export SCREENDIR=$HOME/.screen_$(hostname|cut -d. -f1)
+fi
 if [ ! -d "$SCREENDIR" ];then
   mkdir -p "$SCREENDIR"
 fi

@@ -7,6 +7,10 @@ PS1="[%n@%m %~]\$ "
 # Complement
 autoload -U compinit
 compinit
+zstyle ':completion:*:default' menu select=1
+zstyle ':completion::complete:*' use-cache true
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+setopt list_packed
 
 # allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD

@@ -7,6 +7,9 @@ set convert-meta off
 set input-meta on
 set output-meta on
 
+#set show-all-if-ambiguous on
+#TAB:menu-complete
+
 # vim mode
 #set editing-mode vi
 
@@ -138,13 +141,4 @@ $endif
 
 # ps
 "\ep": "\C-ups -U $USER\C-m"
-
-# cd
-#"\eu":"\C-ucd ../\C-m"
-#"\e~-":"\C-ucd -;ls\C-m"
-
-# move
-"\eo": "bd\C-m"
-"\ei": "fd\C-m"
-"\eu": "up\C-m"
 
