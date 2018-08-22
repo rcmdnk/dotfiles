@@ -5,6 +5,7 @@
   autocrlf = false
   editor = vim
   execludesfile = ~/.gitignore_global
+  quotepath = false
 [push]
   default = matching
 [fetch]
@@ -14,6 +15,10 @@
   keepBackup = false
 [diff]
   algorithm = histogram
+[pager]
+  branch = cat
+[color]
+  ui = auto
 [alias]
   ac = "!f () {\
     git add -A;\
@@ -55,7 +60,6 @@
   d3 = diff HEAD~~~
   d4 = diff HEAD~~~~
   d5 = diff HEAD~~~~~
-  d10 = diff HEAD~~~~~~~~~~
   d = "!f () {\
     if expr \"$1\" : \"[0-9]*\" >/dev/null;then \
       git diff HEAD~\"${@}\";\
