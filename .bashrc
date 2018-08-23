@@ -548,16 +548,16 @@ if type ghq >& /dev/null;then
     if [ $# -gt 0 ];then
       local repos="$*"
     else
-      local repos=$(ghq list|sentaku)
+      local repos=$(command ghq list|sentaku)
     fi
     if [ -n "$repos" ];then
-      cd "$(ghq root)/$repos"
+      cd "$(command ghq root)/$repos"
     fi
   }
 
   ghqget () {
     if [ $# -eq 0 ];then
-      ghq --help
+      command ghq --help
       return
     fi
     repo="$1"
@@ -565,23 +565,23 @@ if type ghq >& /dev/null;then
     if [ "$n" -eq 1 ];then
       repo="$(git config  --get user.name)/$repo"
     fi
-    ghq get -p "$repo"
+    command ghq get -p "$repo"
   }
 
   ghqrm () {
     if [ $# -gt 0 ];then
       local repos=("$@")
     else
-      local repos=($(ghq list|sentaku))
+      local repos=($(command ghq list|sentaku))
     fi
     for r in "${repos[@]}";do
       local n="$(echo "$r"|awk '{print split($0, tmp, "/")}')"
       if [ "$n" -eq 1 ];then
-        local dir="$(ls -d "$(ghq root)/"*/*"/$r")"
+        local dir="$(ls -d "$(command ghq root)/"*/*"/$r")"
       elif [ "$n" -eq 2 ];then
-        local dir="$(ls -d "$(ghq root)/"*"/$r")"
+        local dir="$(ls -d "$(command ghq root)/"*"/$r")"
       elif [ "$n" -eq 3 ];then
-        local dir="$(ls -d "$(ghq root)/$r")"
+        local dir="$(ls -d "$(command ghq root)/$r")"
       else
         local dir="$r"
       fi
@@ -591,8 +591,29 @@ if type ghq >& /dev/null;then
     done
   }
 
-  alias ghqlist="ghq list"
-  alias ghqls="ghq list"
+  alias ghqlist="command ghq list"
+  alias ghqls="command ghq list"
+
+  ghq () {
+    if [ "$1" = "go" ];then
+      shift
+      ghqgo "$@"
+    elif [ "$1" = "get" ];then
+      shift
+      ghqget "$@"
+    elif [ "$1" = "rm" ];then
+      shift
+      ghqrm "$@"
+    elif [ "$1" = "list" ];then
+      shift
+      ghqlist "$@"
+    elif [ "$1" = "ls" ];then
+      shift
+      ghqls "$@"
+    else
+      command ghq "$@"
+    fi
+  }
 fi
 # }}}
 
