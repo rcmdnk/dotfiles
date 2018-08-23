@@ -51,23 +51,21 @@ else
   export x86_64=0
 fi
 add_path () {
-  if [ $# -lt 3 ];then
-    echo "Usage: add_path <PATH, LD_LIBRARY_PATH or  etc..> <parent dir> <last dir name> [1 to add in the last]"
+  if [ $# -lt 2 ];then
+    echo "Usage: add_path <PATH, LD_LIBRARY_PATH or  etc..> <path> [1 to add in the last]"
     return 1
   fi
-  local v=$1
-  local p=$2
-  local b=$3
-  local r=$4
-  local dir="$p/$b"
-  if [ ! -d "$dir" ];then
+  local var="$1"
+  local path="$2"
+  local last=${3:-0}
+  if [ ! -d "$path" ];then
     return 1
   fi
-  if ! echo "\$$v"|grep -q -e "^${dir}" -e ":${dir}";then
-    if [ "$r" = 1 ];then
-      eval "export ${v}=\"\${$v:+\$$v:}${dir}\""
+  if ! echo "\$$var"|grep -q -e "^${path}" -e ":${path}";then
+    if [ "$last" = 1 ];then
+      eval "export ${var}=\"\${$var:+\$$var:}${path}\""
     else
-      eval "export ${v}=\"${dir}\${$v:+:\$$v}\""
+      eval "export ${var}=\"${path}\${$var:+:\$$var}\""
     fi
   fi
 }
@@ -96,7 +94,7 @@ clean_path () { # {{{
   IFS=$orig_ifs
   v_tmp=""
   for p in "${p_orig[@]}";do
-    add_path v_tmp "$(dirname "$p")" "$(basename "$p")" 1
+    add_path v_tmp "$p" 1
   done
   #eval "export ${v}=\"\$${v_tmp}\""
   eval "echo ${v}=\"\$${v_tmp}\""
@@ -104,21 +102,36 @@ clean_path () { # {{{
 }
 
 for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
-  add_path PATH "$p" bin
-  add_path LD_LIBRARY_PATH "$p" lib
-  add_path LD_LIBRARY_PATH "$p" lib/pkgconfig
+  add_path PATH "${p}/bin"
+  add_path LD_LIBRARY_PATH "${p}/lib"
+  add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig"
   if [ "$x86_64" = 1 ];then
-    add_path LD_LIBRARY_PATH "$p" lib64
-    add_path LD_LIBRARY_PATH "$p" lib64/pkgconfig
+    add_path LD_LIBRARY_PATH "${p}/lib64"
+    add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
   fi
 done
 export GOPATH=$HOME/.go
 if [ -d "$GOPATH/bin" ];then
-  add_path PATH "$GOPATH" bin
+  add_path PATH "${GOPATH}/bin"
 fi
 if [ -n "$SSHHOME" ];then
-  add_path PATH "$SSHHOME" .sshrc
+  add_path PATH "${SSHHOME}/.sshrc"
 fi
+_set_ghq_path () {
+  if type ghq >& /dev/null;then
+    local root=$(ghq root)
+    if [ -z "$root" ];then
+      root="$HOME/.ghq"
+    fi
+    for d in $(ghq list);do
+      local path="${root}/${d}/bin"
+      if [ -d "$path" ];then
+        add_path PATH "$path" 1
+      fi
+    done
+  fi
+}
+_set_ghq_path
 # }}} Local path
 
 # Shell/Environmental variables {{{
@@ -227,7 +240,7 @@ tty -s && stty start undef
 HISTSIZE=500000
 HISTFILESIZE=100000
 export HISTCONTROL="erasedups:ignoreboth"
-export HISTIGNORE="cd:cd :cd -:cd ../:ls:sd:cl*:pwd*:history:exit:bg:fg:git st:git push:git update"
+export HISTIGNORE="cd:cd :cd -:cd ../:ls:sd:cl:pwd:history:exit:bg:fg:git st:git push:git update"
 export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}history -a"
 # }}} history
