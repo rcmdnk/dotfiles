@@ -119,11 +119,11 @@ if [ -n "$SSHHOME" ];then
 fi
 _set_ghq_path () {
   if type ghq >& /dev/null;then
-    local root=$(ghq root)
+    local root=$(command ghq root)
     if [ -z "$root" ];then
       root="$HOME/.ghq"
     fi
-    for d in $(ghq list);do
+    for d in $(command ghq list);do
       local path="${root}/${d}/bin"
       if [ -d "$path" ];then
         add_path PATH "$path" 1
@@ -158,7 +158,7 @@ if type vim >& /dev/null;then
   export VISUAL=vim
   export EDITOR=vim
 fi
-export PAGER=less
+export PAGER="less -FXRS"
 
 # Terminfo
 for d in "$HOME/.terminfo/" "$HOME/usr/share/terminfo/" \
@@ -171,7 +171,7 @@ for d in "$HOME/.terminfo/" "$HOME/usr/share/terminfo/" \
 done
 
 # For less
-export LESS='-I -R -M -W -x2'
+export LESS='-FXSIRMW -x2'
 if type source-highlight >& /dev/null;then
   if type my_lesspipe >& /dev/null;then
     export LESSOPEN='| my_lesspipe %s'

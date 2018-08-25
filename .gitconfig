@@ -1,11 +1,14 @@
 [user]
-	name = rcmdnk
-	email = rcmdnk@gmail.com
+  name = rcmdnk
+  email = rcmdnk@gmail.com
+[github]
+  user = rcmdnk
 [core]
   autocrlf = false
   editor = vim
   execludesfile = ~/.gitignore_global
   quotepath = false
+  pager =
 [push]
   default = matching
 [fetch]
@@ -15,8 +18,8 @@
   keepBackup = false
 [diff]
   algorithm = histogram
-[pager]
-  branch = cat
+#[pager]
+#  branch =
 [color]
   ui = auto
 [alias]
@@ -257,5 +260,3 @@
     done;\
     return $ret;\
   };f"
-[github]
-	user = rcmdnk
