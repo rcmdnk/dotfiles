@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # .bashrc
 
-# Check if this is first time to read bashrc or not {{{
-_reset_path () {
+_reset_path () { # Check if this is first time to read bashrc or not {{{
   local p
   for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
     local ip=$(eval echo "\$INIT_$p")
@@ -18,8 +17,7 @@ _reset_path () {
 _reset_path
 # }}} Check if this is first time to read bashrc or not
 
-# Function for sourcing with precheck of the file {{{
-source_file () {
+source_file () { # Function for sourcing with precheck of the file {{{
   if [ $# -lt 1 ];then
     echo "ERROR!!! source_file is called w/o an argument"
     return
