@@ -19,10 +19,8 @@
   algorithm = histogram
 [pager]
   tag = false
-  log =  cat
 [color]
   ui = auto
-  diff = always
 [alias]
   ac = "!f () {\
     git add -A;\
