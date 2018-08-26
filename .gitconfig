@@ -8,7 +8,6 @@
   editor = vim
   execludesfile = ~/.gitignore_global
   quotepath = false
-  pager =
 [push]
   default = matching
 [fetch]
@@ -18,10 +17,12 @@
   keepBackup = false
 [diff]
   algorithm = histogram
-#[pager]
-#  branch =
+[pager]
+  tag = false
+  log =  cat
 [color]
   ui = auto
+  diff = always
 [alias]
   ac = "!f () {\
     git add -A;\

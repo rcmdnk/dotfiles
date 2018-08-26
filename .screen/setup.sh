@@ -60,7 +60,7 @@ screen () { # Screen wrapper {{{
 }
 
 
-if type scutil >/dev/null;then
+if type scutil >&/dev/null;then
   export SCREENDIR=$HOME/.screen_$(scutil --get ComputerName)
 else
   export SCREENDIR=$HOME/.screen_$(hostname|cut -d. -f1)
