@@ -156,7 +156,9 @@ if type vim >& /dev/null;then
   export VISUAL=vim
   export EDITOR=vim
 fi
-export PAGER="less -FXRS"
+if type less >& /dev/null;then
+  export PAGER="less"
+fi
 
 # Terminfo
 for d in "$HOME/.terminfo/" "$HOME/usr/share/terminfo/" \
@@ -169,7 +171,7 @@ for d in "$HOME/.terminfo/" "$HOME/usr/share/terminfo/" \
 done
 
 # For less
-export LESS='-FXSIRMW -x2'
+export LESS='-FXIRMW -x2'
 if type source-highlight >& /dev/null;then
   if type my_lesspipe >& /dev/null;then
     export LESSOPEN='| my_lesspipe %s'
@@ -313,19 +315,16 @@ alias ssh="ssh -Y"
 type colordiff >& /dev/null && alias diff='colordiff'
 if type ccat >& /dev/null;then
   alias cat='ccat --bg=dark -G String="fuchsia" -G Keyword="yellow" -G Plaintext="lightgray" -G Decimal="fuchsia" -G Punctuation="lightgray" -G Type="lightgray" -G Comment="turquoise"'
-  #alias cat='ccat --bg=dark -G String="fuchsia" -G Keyword="yellow" -G Plaintext="lightgray" -G Decimal="fuchsia" -G Punctuation="lightgray"'
 fi
 type tree >& /dev/null || alias tree="pwd && find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'" # pseudo tree
 
 man () { # man with vim {{{
-  if [ $# -ne 1 ] || [[ "$1" =~ ^- ]];then
+  if [ $# -ne 1 ] || [[ "$1" =~ ^- ]] || ! type vim >&/dev/null;then
     command man "$@"
     return $?
   fi
 
-  unset PAGER
-  unset MANPAGER
-  var=$(command man "$@" 2>&1)
+  var=$(command man -P cat "$@" 2>&1)
   ret=$?
   if [ $ret -eq 0 ];then
     if type vim >& /dev/null;then
@@ -429,7 +428,7 @@ path () { # path: function to get full path {{{
       echo "usage: path file/directory"
       return 1
   fi
-  echo "$(cd "$(dirname "$1")";pwd -P)/$(basename "$1")"
+  echo "$(cd "$(dirname "$1")";pwd)/$(basename "$1")"
 } # }}}
 
 # }}}
