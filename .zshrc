@@ -49,8 +49,6 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-history-substring-search"
 zplug "mafredri/zsh-async"
 
-
-
 # {{{ fzf
 zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
 zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
@@ -61,10 +59,7 @@ zplug "motemen/ghq", as:command, from:gh-r
 # {{{ after compinit (defer>=2)
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 # }}}
-
-
 # }}} Plugins
-
 
 # Check and install plugins {{{
 if ! zplug check --verbose; then

@@ -132,32 +132,40 @@ if [[ "$TERM" =~ screen ]]; then
   fi # }}}
 
   # {{{
-  PS1="\[\ek\h \W\e\134\e]0;\h \w\a\]\$(\
-    ret=\$?
+
+  # PS1 emotion
+  # "\\" doesn't work well, use \134 instead
+
+  # \ek ~ \e\134 : Screen's window title (`\t` in caption/hardstatus)
+  # \e]0; ~ \a   : Screen's hardstatus, instead of terminal's title bar (`\h` in caption/hardstatus)
+  # If you want to change terminal's title bar, use
+  # \eP\e]0; ~ \a\e\134 (\eP ~ \e\134 will send the words out)
+  PS1="\\[\\ek\\h \\W\\e\\134\\e]0;\\h \\w\\a\\]\$(\
+    ret=\$?;\
     rand=\$((RANDOM%36));\
     if [ \$ret -eq 0 ];then\
-      if [ \$rand -lt 3 ];then
-        printf '\[\e[m\](^_^)\[\e[m\] \$ ';\
+      if [ \$rand -lt 3 ];then\
+        printf '\\[\\e[m\\](^_^)\\[\\e[m\\] \$ ';\
       elif [ \$rand -lt 5 ];then\
-        printf '\[\e[m\](^_-)\[\e[m\] \$ ';\
+        printf '\\[\\e[m\\](^_-)\\[\\e[m\\] \$ ';\
       elif [ \$rand -lt 6 ];then\
-        printf '\[\e[m\](.^.)\[\e[m\] \$ ';\
+        printf '\\[\\e[m\\](.^.)\\[\\e[m\\] \$ ';\
       else\
-        printf '\[\e[m\](-_-)\[\e[m\] \$ ';\
+        printf '\\[\\e[m\\](-_-)\\[\\e[m\\] \$ ';\
       fi;\
     else\
       if [ \$rand -lt 6 ];then\
-        printf '\[\e[31m\](@o@)\[\e[m\] \$ ';\
+        printf '\\[\\e[31m\\](@o@)\\[\\e[m\\] \$ ';\
       elif [ \$rand -lt 12 ];then\
-        printf '\[\e[31;1m\](>_<)\[\e[m\] \$ ';\
+        printf '\\[\\e[31;1m\\](>_<)\\[\\e[m\\] \$ ';\
       elif [ \$rand -lt 18 ];then\
-        printf '\[\e[35m\](*_*)\[\e[m\] \$ ';\
+        printf '\\[\\e[35m\\](*_*)\\[\\e[m\\] \$ ';\
       elif [ \$rand -lt 24 ];then\
-        printf '\[\e[34m\](T_T)\[\e[m\] \$ ';\
+        printf '\\[\\e[34m\\](T_T)\\[\\e[m\\] \$ ';\
       elif [ \$rand -eq 30 ];then\
-        printf '\[\e[34;1m\](/_T)\[\e[m\] \$ ';\
+        printf '\\[\\e[34;1m\\](/_T)\\[\\e[m\\] \$ ';\
       else\
-        printf '\[\e[31m\](>_<)\[\e[m\] \$ ';\
+        printf '\\[\\e[31m\\](>_<)\\[\\e[m\\] \$ ';\
       fi\
     fi;\
     )"
