@@ -5,7 +5,7 @@ _reset_path () { # Check if this is first time to read bashrc or not {{{
   local p
   for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
     local ip=$(eval echo "\$INIT_$p")
-    if [ -z "$ip" ];then
+    if [[ -z "$ip" ]];then
       # Set initial values
       eval export INIT_$p="\$$p"
     else
@@ -16,30 +16,30 @@ _reset_path () { # Check if this is first time to read bashrc or not {{{
 } # }}} Check if this is first time to read bashrc or not
 
 _source_file () { # Function for sourcing with precheck of the file {{{
-  if [ $# -lt 1 ];then
+  if [[ $# -lt 1 ]];then
     echo "ERROR!!! Usage: _source_file <file>"
     return
   fi
   file="$1"
-  if [ -r "$file" ]; then
+  if [[ -r "$file" ]]; then
     source "$file"
   fi
 } # }}} Function for sourcing with precheck of the file
 
 ## PATH {{{
 _add_path () { # {{{
-  if [ $# -lt 2 ];then
+  if [[ $# -lt 2 ]];then
     echo "Usage: _add_path <PATH, LD_LIBRARY_PATH or  etc..> <path> [1 to add in the last]"
     return 1
   fi
   local var="$1"
   local path="$2"
   local last=${3:-0}
-  if [ ! -d "$path" ];then
+  if [[ ! -d "$path" ]];then
     return 1
   fi
   if ! echo "\$$var"|grep -q -e "^${path}" -e ":${path}";then
-    if [ "$last" = 1 ];then
+    if [[ "$last" = 1 ]];then
       eval "export ${var}=\"\${$var:+\$$var:}${path}\""
     else
       eval "export ${var}=\"${path}\${$var:+:\$$var}\""
@@ -48,7 +48,7 @@ _add_path () { # {{{
 } # }}}
 
 check_path () { # {{{
-  if [ $# -eq 0 ];then
+  if [[ $# -eq 0 ]];then
     echo "Usage: check_path <PATH, LD_LIBRARY_PATH or  etc..>"
     return 1
   fi
@@ -59,7 +59,7 @@ check_path () { # {{{
 } # }}}
 
 _clean_path () { # {{{
-  if [ $# -eq 0 ];then
+  if [[ $# -eq 0 ]];then
     echo "Usage: _clean_path <PATH, LD_LIBRARY_PATH or  etc..>"
     return 1
   fi
@@ -80,12 +80,12 @@ _clean_path () { # {{{
 _set_ghq_path () { # {{{
   if type ghq >& /dev/null;then
     local root=$(command ghq root)
-    if [ -z "$root" ];then
+    if [[ -z "$root" ]];then
       root="$HOME/.ghq"
     fi
     for d in $(command ghq list);do
       local path="${root}/${d}/bin"
-      if [ -d "$path" ];then
+      if [[ -d "$path" ]];then
         _add_path PATH "$path" 1
       fi
     done
@@ -103,16 +103,16 @@ _set_path () { # {{{
     _add_path PATH "${p}/bin"
     _add_path LD_LIBRARY_PATH "${p}/lib"
     _add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig"
-    if [ "$x86_64" = 1 ];then
+    if [[ "$x86_64" = 1 ]];then
       _add_path LD_LIBRARY_PATH "${p}/lib64"
       _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
     fi
   done
   export GOPATH=$HOME/.go
-  if [ -d "$GOPATH/bin" ];then
+  if [[ -d "$GOPATH/bin" ]];then
     _add_path PATH "${GOPATH}/bin"
   fi
-  if [ -n "$SSHHOME" ];then
+  if [[ -n "$SSHHOME" ]];then
     _add_path PATH "${SSHHOME}/.sshrc"
   fi
   _set_ghq_path
@@ -175,21 +175,21 @@ _set_env () { # Shell/Environmental variables {{{
   for d in "$HOME/.terminfo/" "$HOME/usr/share/terminfo/" \
            "$HOME/usr/share/lib/terminfo/" "/usr/share/terminfo/" \
            "/usr/share/lib/terminfo";do
-    if [ -d "$d" ];then
+    if [[ -d "$d" ]];then
       export TERMINFO="$d"
       break
     fi
   done
 
   # TMPDIR fix, especially for Cygwin
-  if [ ! "$TMPDIR" ];then
-    if [ "$TMP" ];then
+  if [[ ! "$TMPDIR" ]];then
+    if [[ "$TMP" ]];then
       export TMPDIR=$TMP
-    elif [ "$TEMP" ];then
+    elif [[ "$TEMP" ]];then
       export TMPDIR=$TEMP
-    elif [ -w "/tmp/$USER" ];then
+    elif [[ -w "/tmp/$USER" ]];then
       export TMPDIR=/tmp
-    elif [ -w /tmp ];then
+    elif [[ -w /tmp ]];then
       mkdir -p "/tmp/$USER"
       export TMPDIR=/tmp/$USER
     else
@@ -199,7 +199,7 @@ _set_env () { # Shell/Environmental variables {{{
   fi
 
   # Python
-  if [ -f "$HOME/.pythonstartup.py" ];then
+  if [[ -f "$HOME/.pythonstartup.py" ]];then
     export PYTHONSTARTUP="$HOME/.pythonstartup.py"
   fi
 
@@ -224,26 +224,26 @@ _emotional_prompt () {
   PS1="\$(\
     ret=\$?;\
     rand=\$((RANDOM%36));\
-    if [ \$ret -eq 0 ];then\
-      if [ \$rand -lt 3 ];then\
+    if [[ \$ret -eq 0 ]];then\
+      if [[ \$rand -lt 3 ]];then\
         printf '\\[\\e[m\\](^_^)\\[\\e[m\\] \$ ';\
-      elif [ \$rand -lt 5 ];then\
+      elif [[ \$rand -lt 5 ]];then\
         printf '\\[\\e[m\\](^_-)\\[\\e[m\\] \$ ';\
-      elif [ \$rand -lt 6 ];then\
+      elif [[ \$rand -lt 6 ]];then\
         printf '\\[\\e[m\\](.^.)\\[\\e[m\\] \$ ';\
       else\
         printf '\\[\\e[m\\](-_-)\\[\\e[m\\] \$ ';\
       fi;\
     else\
-      if [ \$rand -lt 6 ];then\
+      if [[ \$rand -lt 6 ]];then\
         printf '\\[\\e[31m\\](@o@)\\[\\e[m\\] \$ ';\
-      elif [ \$rand -lt 12 ];then\
+      elif [[ \$rand -lt 12 ]];then\
         printf '\\[\\e[31;1m\\](>_<)\\[\\e[m\\] \$ ';\
-      elif [ \$rand -lt 18 ];then\
+      elif [[ \$rand -lt 18 ]];then\
         printf '\\[\\e[35m\\](*_*)\\[\\e[m\\] \$ ';\
-      elif [ \$rand -lt 24 ];then\
+      elif [[ \$rand -lt 24 ]];then\
         printf '\\[\\e[34m\\](T_T)\\[\\e[m\\] \$ ';\
-      elif [ \$rand -eq 30 ];then\
+      elif [[ \$rand -eq 30 ]];then\
         printf '\\[\\e[34;1m\\](/_T)\\[\\e[m\\] \$ ';\
       else\
         printf '\\[\\e[31m\\](>_<)\\[\\e[m\\] \$ ';\
@@ -322,14 +322,14 @@ _set_alias () { # Alias {{{
 
 _set_function () { # Functions
   man () { # man with vim {{{
-    if [ $# -ne 1 ] || [[ "$1" =~ ^- ]] || ! type vim >&/dev/null;then
+    if [[ $# -ne 1 ||  "$1" =~ ^- ]] || ! type vim >&/dev/null;then
       command man "$@"
       return $?
     fi
 
     var=$(command man -P cat "$@" 2>&1)
     ret=$?
-    if [ $ret -eq 0 ];then
+    if [[ $ret -eq 0 ]];then
       if type vim >& /dev/null;then
         echo "$var"|col -bx|vim -R -c 'set ft=man' -
       else
@@ -401,9 +401,9 @@ _set_function () { # Functions
            if package_name is not given, it makes file:
            directory_name.tar.gz
   "
-    if [ $# -eq 0 ];then
+    if [[ $# -eq 0 ]];then
       echo "$HELP"
-    elif [ "$1" = "-d" ];then
+    elif [[ "$1" = "-d" ]];then
       remove=1
       shift
     fi
@@ -420,14 +420,14 @@ _set_function () { # Functions
       tar czf "${2}" "${dir}"
       ;;
     esac
-    if [ $remove -eq 1 ];then
+    if [[ $remove -eq 1 ]];then
       rm -rf "${dir}"
     fi
   }
   # }}}
 
   path () { # path: function to get full path {{{
-    if [ $# -eq 0 ];then
+    if [[ $# -eq 0 ]];then
         echo "usage: path file/directory"
         return 1
     fi
@@ -440,7 +440,7 @@ _set_function () { # Functions
   } # }}}
 
   linkcheck () { # Function to find the original file for the symbolic link {{{
-    if [ "$#" -ne 1 ];then
+    if [[ "$#" -ne 1 ]];then
       echo "Usage: linkcheck file/directory" >&2
       return 1
     fi
@@ -449,15 +449,15 @@ _set_function () { # Functions
     local link="$1"
     local prelink="$1"
     while :;do
-      if [ -L "$link" ];then
+      if [[ -L "$link" ]];then
         echo "$link ->"
         prelink=$link
         link=$(readlink "$link")
         local dir="$(dirname "$prelink")"
-        if [ -d "$dir" ];then
+        if [[ -d "$dir" ]];then
           cd "$dir"
         fi
-      elif [ -e "$link" ];then
+      elif [[ -e "$link" ]];then
         echo "$link"
         cd "$curdir"
         return 0
@@ -473,47 +473,47 @@ _set_function () { # Functions
   # for ghq {{{
   if type ghq >& /dev/null;then
     ghqgo () {
-      if [ $# -gt 0 ];then
+      if [[ $# -gt 0 ]];then
         local repos="$*"
       else
         local repos=$(command ghq list|sentaku)
       fi
-      if [ -n "$repos" ];then
+      if [[ -n "$repos" ]];then
         cd "$(command ghq root)/$repos"
       fi
     }
 
     ghqget () {
-      if [ $# -eq 0 ];then
+      if [[ $# -eq 0 ]];then
         command ghq --help
         return
       fi
       repo="$1"
       local n=$(echo "$repo"|awk '{n=split($1, tmp, "/")}{print n}')
-      if [ "$n" -eq 1 ];then
+      if [[ "$n" -eq 1 ]];then
         repo="$(git config  --get user.name)/$repo"
       fi
       command ghq get -p "$repo"
     }
 
     ghqrm () {
-      if [ $# -gt 0 ];then
+      if [[ $# -gt 0 ]];then
         local repos=("$@")
       else
         local repos=($(command ghq list|sentaku))
       fi
       for r in "${repos[@]}";do
         local n="$(echo "$r"|awk '{print split($0, tmp, "/")}')"
-        if [ "$n" -eq 1 ];then
+        if [[ "$n" -eq 1 ]];then
           local dir="$(ls -d "$(command ghq root)/"*/*"/$r")"
-        elif [ "$n" -eq 2 ];then
+        elif [[ "$n" -eq 2 ]];then
           local dir="$(ls -d "$(command ghq root)/"*"/$r")"
-        elif [ "$n" -eq 3 ];then
+        elif [[ "$n" -eq 3 ]];then
           local dir="$(ls -d "$(command ghq root)/$r")"
         else
           local dir="$r"
         fi
-        if [ -n "$dir" ];then
+        if [[ -n "$dir" ]];then
           rm -rf "$dir"
         fi
       done
@@ -523,19 +523,19 @@ _set_function () { # Functions
     alias ghqls="command ghq list"
 
     ghq () {
-      if [ "$1" = "go" ];then
+      if [[ "$1" = "go" ]];then
         shift
         ghqgo "$@"
-      elif [ "$1" = "get" ];then
+      elif [[ "$1" = "get" ]];then
         shift
         ghqget "$@"
-      elif [ "$1" = "rm" ];then
+      elif [[ "$1" = "rm" ]];then
         shift
         ghqrm "$@"
-      elif [ "$1" = "list" ];then
+      elif [[ "$1" = "list" ]];then
         shift
         ghqlist "$@"
-      elif [ "$1" = "ls" ];then
+      elif [[ "$1" = "ls" ]];then
         shift
         ghqls "$@"
       else
@@ -554,9 +554,9 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
       opt=()
       local -a vars
       vars=()
-      while [ $# -gt 0 ];do
+      while [[ $# -gt 0 ]];do
         if [[ "$1" == -* ]];then
-          if [ "$1" == "-r" ];then
+          if [[ "$1" == "-r" ]];then
             opt=("${opt[@]}" -R)
           else
             opt=("${opt[@]}" "$1")
@@ -595,7 +595,7 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
       # need "function" to avoid error on alias,
       # even if this path is not used.
       function tac () {
-        if [ ! -f "$1" ];then
+        if [[ ! -f "$1" ]];then
           echo "usage: tac <file>"
           return 1
         fi

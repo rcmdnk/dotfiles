@@ -49,7 +49,7 @@ shopt -s dotglob # Include dot files in the results of pathname expansion
 shopt -s extglob # Extended pattern matching is enabled.
 shopt -s no_empty_cmd_completion # Don't complete for an empty line
 shopt -s cdspell # Auto spell correction at cd
-if [ "${BASH_VERSINFO[0]}" -ge 4 ];then
+if [[ "${BASH_VERSINFO[0]}" -ge 4 ]];then
   shopt -s dirspell # Auto spell correction at tab-completion for cd
 fi
 # }}} shopt
@@ -64,7 +64,7 @@ _set_function
 _gnu_bsd_compatibility
 
 # Suffix aliases/auto cd {{{
-if [ "${BASH_VERSINFO[0]}" -ge 4 ];then
+if [[ "${BASH_VERSINFO[0]}" -ge 4 ]];then
   _suffix_vim=(md markdown txt text tex cc c C cxx h hh java py rb sh)
   alias_function() {
     eval "${1}() $(declare -f "${2}" | sed 1d)"
@@ -82,13 +82,13 @@ if [ "${BASH_VERSINFO[0]}" -ge 4 ];then
   command_not_found_handle() {
     cmd="$1"
     args=("$@")
-    if [ -f "$cmd" ];then
+    if [[ -f "$cmd" ]];then
       if echo " ${_suffix_vim[*]} "|grep -q "${cmd##*.}";then
         if type vim >& /dev/null;then
           vim "${args[@]}"
           return $?
         fi
-      elif [ "${cmd##*.}" = "ps1" ];then
+      elif [[ "${cmd##*.}" = "ps1" ]];then
         if type powershell >& /dev/null;then
           powershell -F "${args[@]}"
           return $?

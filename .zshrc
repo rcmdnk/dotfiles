@@ -8,71 +8,71 @@ if [ -f ~/.zsh_no_zplug ];then
   return
 fi
 
-if [ -d /usr/local/opt/zplug ];then
-  export ZPLUG_HOME=/usr/local/opt/zplug
-elif [ -d "$HOME/zplug" ];then
-  export ZPLUG_HOME="$HOME/.zplug"
-elif [[ "$OSTYPE" =~ darwin ]];then
-  if !type brew >&/dev/null;then
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  fi
-  brew install zplug
-  if [ $? -eq 0 ];then
-    export ZPLUG_HOME=/usr/local/opt/zplug
-  fi
-else
-  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-  if [ $? -eq 0 ];then
-    export ZPLUG_HOME="$HOME/.zplug"
-  fi
-fi
-
-# No setting if zlug is not available
-if [ -z "$ZPLUG_HOME" ];then
-  return
-fi
-
-source $ZPLUG_HOME/init.zsh
-# }}}
-
-# Plugins {{{
-# Self management
-zplug "zplug/zplug", hook-build:'zplug --self-manage'
-
-# Completion {{{
-zplug "zsh-users/zsh-completions"
-zplug "plugins/git",   from:oh-my-zsh
-zplug "peterhurford/git-aliases.zsh"
-# }}}
-
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-history-substring-search"
-zplug "mafredri/zsh-async"
-
-# {{{ fzf
-zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
-zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
-zplug "mollifier/anyframe"
-zplug "motemen/ghq", as:command, from:gh-r
-# }}}
-
-# {{{ after compinit (defer>=2)
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-# }}}
-# }}} Plugins
-
-# Check and install plugins {{{
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-# }}}
-
-# Load plugins # {{{
-zplug load --verbose >/dev/null
-# }}}
+#if [ -d /usr/local/opt/zplug ];then
+#  export ZPLUG_HOME=/usr/local/opt/zplug
+#elif [ -d "$HOME/zplug" ];then
+#  export ZPLUG_HOME="$HOME/.zplug"
+#elif [[ "$OSTYPE" =~ darwin ]];then
+#  if !type brew >&/dev/null;then
+#    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+#  fi
+#  brew install zplug
+#  if [ $? -eq 0 ];then
+#    export ZPLUG_HOME=/usr/local/opt/zplug
+#  fi
+#else
+#  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+#  if [ $? -eq 0 ];then
+#    export ZPLUG_HOME="$HOME/.zplug"
+#  fi
+#fi
+#
+## No setting if zlug is not available
+#if [ -z "$ZPLUG_HOME" ];then
+#  return
+#fi
+#
+#source $ZPLUG_HOME/init.zsh
+## }}}
+#
+## Plugins {{{
+## Self management
+#zplug "zplug/zplug", hook-build:'zplug --self-manage'
+#
+## Completion {{{
+#zplug "zsh-users/zsh-completions"
+#zplug "plugins/git",   from:oh-my-zsh
+#zplug "peterhurford/git-aliases.zsh"
+## }}}
+#
+#zplug "zsh-users/zsh-autosuggestions"
+#zplug "zsh-users/zsh-history-substring-search"
+#zplug "mafredri/zsh-async"
+#
+## {{{ fzf
+#zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
+#zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
+#zplug "mollifier/anyframe"
+#zplug "motemen/ghq", as:command, from:gh-r
+## }}}
+#
+## {{{ after compinit (defer>=2)
+#zplug "zsh-users/zsh-syntax-highlighting", defer:2
+## }}}
+## }}} Plugins
+#
+## Check and install plugins {{{
+#if ! zplug check --verbose; then
+#    printf "Install? [y/N]: "
+#    if read -q; then
+#        echo; zplug install
+#    fi
+#fi
+## }}}
+#
+## Load plugins # {{{
+#zplug load --verbose >/dev/null
+## }}}
 
 # Other personal settings
 PS1="[%n@%m %~]\$ "
