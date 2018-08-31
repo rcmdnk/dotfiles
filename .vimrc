@@ -313,7 +313,8 @@ if s:dein_enabled
           \ 'lazy': 1})
 
     " yank
-    call dein#add('LeafCage/yankround.vim')
+    "call dein#add('LeafCage/yankround.vim')
+    call dein#add('rcmdnk/yankround.vim')
 
     " vim-multiple-cursors, like Sublime Text's multiple selection
     call dein#add('terryma/vim-multiple-cursors')
