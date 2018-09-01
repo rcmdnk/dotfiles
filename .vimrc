@@ -21,7 +21,7 @@ endif
 
 " check/prepare dein environment {{{
 let s:dein_enabled  = 0
-if v:version >= 705 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
+if v:version >= 704 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
   let s:git = system('which git')
   if strlen(s:git) != 0
     " Set dein paths
@@ -222,7 +222,7 @@ if s:dein_enabled
     call dein#add('Konfekt/FastFold')
 
     " replacement of matchparen (require OptionSet sutocommand event)
-    if (v:version == 704 && has('patch786')) || v:version >= 705
+    if has('patch-7.4.786')
       call dein#add('itchyny/vim-parenmatch')
     endif
 
@@ -422,7 +422,7 @@ set nolinebreak
 set breakat=
 "set showbreak=+\   " set showbreak
 set showbreak=
-"if (v:version == 704 && has('patch338')) || v:version >= 705
+"if has('patch-7.4.338')
 "  set breakindent    " indent even for wrapped lines
 "  " breakindent option (autocmd is necessary when new file is opened in Vim)
 "  " necessary even for default(min:20,shift:0)
@@ -468,7 +468,15 @@ set nowrapscan     " Stop search at the edge of the file
 set infercase      " Ignore case for completion
 
 set nrformats=hex  " Not use cotal, alpha for increment or decrement
-set t_Co=256       " Enable 256 colors
+" Set 24 bit colors
+"if has('patch-7.4.1788')
+"  set termguicolors
+"elseif has('patch-7.4.1778')
+"  set guicolors
+"endif
+"if has('nvim')
+"  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"endif
 set list           " Show tab, end, trail empty
 set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:% " Set words for above
 set ruler          " Show the cursor position all the time
@@ -494,7 +502,7 @@ set whichwrap=b,s,h,l " Move to next/prev line by h/l (Only b(Backspace) and s(S
 set spell          " Spell check highlight
 "set nospell        " No spell check
 
-if (v:version == 704 && has('patch88')) || v:version >= 705
+if has('patch-7.4.38')
   set spelllang+=cjk " Ignore double-width characters
 endif
 
@@ -584,7 +592,7 @@ set synmaxcol=1000 "default 3000
 runtime ftplugin/man.vim
 
 " No automatic break at the end of the file
-if (v:version == 704 && has('patch785')) || v:version >= 705
+if has('patch-7.4.785')
   set nofixendofline
 endif
 

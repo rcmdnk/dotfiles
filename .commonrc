@@ -92,6 +92,13 @@ _set_ghq_path () { # {{{
   fi
 } # }}}
 
+_set_linuxbrew_path () { # {{{
+  _add_path PATH $HOME/.linuxbrew/bin
+  _add_path PATH $HOME/.linuxbrew/sbin
+  _add_path PATH /home/linuxbrew/.linuxbrew/bin
+  _add_path PATH /home/linuxbrew/.linuxbrew/sbin
+} # }}}
+
 _set_path () { # {{{
   if uname -a|grep -q x86_64;then
     local x86_64=1
@@ -116,6 +123,7 @@ _set_path () { # {{{
     _add_path PATH "${SSHHOME}/.sshrc"
   fi
   _set_ghq_path
+  _set_linuxbrew_path
 } # }}}
 # }}} PATH
 

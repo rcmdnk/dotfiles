@@ -40,6 +40,9 @@ maptimeout 1
 # Remove background color
 #defbce "on"
 
+# True color
+truecolor on
+
 # kill
 bind K kill
 
