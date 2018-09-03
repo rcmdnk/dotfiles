@@ -468,7 +468,9 @@ set nowrapscan     " Stop search at the edge of the file
 set infercase      " Ignore case for completion
 
 set nrformats=hex  " Not use cotal, alpha for increment or decrement
-" Set 24 bit colors
+" Enable 256 colors, this seems still necessary in some environments, in such GNU screen
+set t_Co=256
+" Set 24 bit colors, this makes wrong if the terminal does not support true color (need some terminal env check...)
 "if has('patch-7.4.1788')
 "  set termguicolors
 "elseif has('patch-7.4.1778')
