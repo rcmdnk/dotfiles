@@ -322,7 +322,9 @@ _set_alias () { # Alias {{{
   #type sshrc >& /dev/null && alias ssh="sshrc -Y"
   #type moshrc >& /dev/null && alias mosh="moshrc"
   type colordiff >& /dev/null && alias diff='colordiff'
-  if type ccat >& /dev/null;then
+  if type bat >& /dev/null;then
+    alias cat='bat'
+  elif type ccat >& /dev/null;then
     alias cat='ccat --bg=dark -G String="fuchsia" -G Keyword="yellow" -G Plaintext="lightgray" -G Decimal="fuchsia" -G Punctuation="lightgray" -G Type="lightgray" -G Comment="turquoise"'
   fi
   type tree >& /dev/null || alias tree="find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'" # pseudo tree
