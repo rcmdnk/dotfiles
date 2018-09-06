@@ -15,8 +15,6 @@ PROMPT_COMMAND=""
 # Source global definitions {{{
 # Most of systems have useful default bashrc, load it first on the clean status
 _source_file /etc/bashrc
-
-# Remove the last ";" from PROMPT_COMMAND
 # }}}
 
 # Manage PROMPT_COMMAND {{{
