@@ -110,27 +110,6 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 # functions/settings only for screen sessions {{{
 if [[ "$TERM" =~ screen ]]; then
 
-  if [ -n "$STY" ];then # Only for the machine in which screen was launched. {{{
-    # Overwrite path to push to the clipboard list{{{
-    path () {
-      if [ $# -eq 0 ];then
-          echo "usage: path file/directory"
-          return 1
-      fi
-      fullpath="$(cd "$(dirname "$1")";pwd -P)/$(basename "$1")"
-      echo "$fullpath"
-      multi_clipboard -s "$fullpath" >& /dev/null
-    } # }}}
-
-    # pwd wrapper (named as wc) to push pwd to the clipboard list{{{
-    wd () {
-      local curdir=$(pwd -P)
-      multi_clipboard -s "$curdir"
-      echo "$curdir"
-    }
-    # }}}
-  fi # }}}
-
   # {{{
 
   # PS1 emotion

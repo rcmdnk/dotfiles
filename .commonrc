@@ -4,7 +4,7 @@
 _reset_path () { # Check if this is first time to read bashrc or not {{{
   local p
   for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
-    local ip=$(eval echo "\$INIT_$p")
+    eval "local ip=\$INIT_$p"
     if [[ -z "$ip" ]];then
       # Set initial values
       eval export INIT_$p="\$$p"
@@ -38,7 +38,8 @@ _add_path () { # {{{
   if [[ ! -d "$path" ]];then
     return 1
   fi
-  if ! echo "\$$var"|grep -q -e "^${path}" -e ":${path}";then
+  eval local current=":\${$var}:"
+  if [[ "$current" != *:${path}:* ]];then
     if [[ "$last" = 1 ]];then
       eval "export ${var}=\"\${$var:+\$$var:}${path}\""
     else
@@ -54,8 +55,7 @@ check_path () { # {{{
   fi
   local v=$1
   local LF=$'\\\x0A'
-  #eval "echo "\$$v"| sed 's/:/'"$LF"'/g'"
-  eval "echo \$$PATH"| sed 's/:/'"$LF"'/g'
+  eval "echo \$$v"| sed 's/:/'"$LF"'/g'
 } # }}}
 
 _clean_path () { # {{{
@@ -63,7 +63,8 @@ _clean_path () { # {{{
     echo "Usage: _clean_path <PATH, LD_LIBRARY_PATH or  etc..>"
     return 1
   fi
-  local v=$(eval "echo \$$1")
+  local path_name=$1
+  eval "local v=\$$path"
   local orig_ifs=$IFS
   IFS=":"
   local p_orig=($v)
@@ -100,17 +101,12 @@ _set_linuxbrew_path () { # {{{
 } # }}}
 
 _set_path () { # {{{
-  if uname -a|grep -q x86_64;then
-    local x86_64=1
-  else
-    local x86_64=0
-  fi
-
+  local hardware=$(uname -m)
   for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
     _add_path PATH "${p}/bin"
     _add_path LD_LIBRARY_PATH "${p}/lib"
     _add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig"
-    if [[ "$x86_64" = 1 ]];then
+    if [[ "$hardware" == x86_64 ]];then
       _add_path LD_LIBRARY_PATH "${p}/lib64"
       _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
     fi
@@ -217,12 +213,7 @@ _set_env () { # Shell/Environmental variables {{{
                            # (.Trash is Mac's trash box)
   export MAXTRASHBOXSIZE=1024 # Max trash box size in MB
                               # Used for clean up
-  if type bc >& /dev/null;then
-    export MAXTRASHSIZE=$(echo $MAXTRASHBOXSIZE "*" 0.1|bc -l|cut -d. -f1)
-  else
-    export MAXTRASHSIZE=100
-  fi
-  # Trashes larger than MAXTRASHBOXSIZE will be removed by 'rm' directly
+  export MAXTRASHSIZE=100 # Trashes larger than MAXTRASHBOXSIZE will be removed by 'rm' directly
 
   # For my clipboards
   export CLMAXHIST=50
@@ -316,7 +307,7 @@ _set_alias () { # Alias {{{
   alias now='date +"%Y%m%d %T"'
   alias pip_upgrade="pip list --outdated --format=legacy|cut -d' ' -f1|xargs pip install -U"
   alias stow="stow --override='share/info/dir'"
-  type thefuck >& /dev/null &&  alias fuck='eval $(thefuck $(fc -ln -1))'
+  type thefuck >& /dev/null &&  eval "$(thefuck --alias)"
   type hub >& /dev/null && eval "$(hub alias -s)" # Use GitHub wrapper for git
   alias ssh="ssh -Y"
   #type sshrc >& /dev/null && alias ssh="sshrc -Y"
@@ -340,144 +331,11 @@ _set_function () { # Functions
     var=$(command man -P cat "$@" 2>&1)
     ret=$?
     if [[ $ret -eq 0 ]];then
-      if type vim >& /dev/null;then
-        echo "$var"|col -bx|vim -R -c 'set ft=man' -
-      else
-        command man "$@"
-      fi
+      echo "$var"|col -bx|vim -R -c 'set ft=man' -
     else
       echo "$var"
       return $ret
     fi
-  } # }}}
-
-  change () { # Change words in file by sed {{{
-    case $# in
-      0)
-        echo "enter file name and words of before and after"
-      ;;
-      1)
-        echo "enter words of before and after"
-      ;;
-      2)
-        sed -i.bak "s!$2!!g" "$1"
-        rm -f "$1".bak
-      ;;
-      3)
-        sed -i.bak "s!$2!$3!g" "$1"
-        rm -f "$1".bak
-      ;;
-      *)
-        echo "enter file name and words of before and after"
-      ;;
-    esac
-  } # }}}
-
-  del_tail () { # Delete trailing white space {{{
-    sed -i.bak 's/ \+$//g' "$1"
-    rm -f "$1".bak
-  } # }}}
-
-  # tar/press: File compression/decompression {{{
-  dec () {
-    if echo "$1"|grep -q "tar.gz$";then
-      tar zxf "$1"
-    elif echo "$1"|grep -q "tgz$";then
-      tar zxf "$1"
-    elif echo "$1"|grep -q "gz$";then
-      gzip -d "$1"
-    elif echo "$1"|grep -q "tar.xz$";then
-      tar Jxf "$1"
-    elif echo "$1"|grep -q "tar.bz2$";then
-      tar jxf "$1"
-    elif echo "$1"|grep -q "tar.Z$";then
-      tar zxf "$1"
-    elif echo "$1"|grep -q "tar$";then
-      tar xf "$1"
-    elif echo "$1"|grep -q "zip$";then
-      unzip "$1"
-    else
-      echo "$1 is not supported."
-      return 1
-    fi
-  }
-
-  comp () {
-    local remove=0
-    local HELP="
-    usage: comp [-r] directory_name [package_name]
-
-           -r for remove original directory
-           if package_name is not given, it makes file:
-           directory_name.tar.gz
-  "
-    if [[ $# -eq 0 ]];then
-      echo "$HELP"
-    elif [[ "$1" = "-d" ]];then
-      remove=1
-      shift
-    fi
-    local dir=${1%/*}
-    case "$#" in
-            0)
-      echo "$HELP"
-      ;;
-            1)
-      echo "${dir}"
-      tar czf "${dir}.tar.gz" "${dir}"
-      ;;
-            2)
-      tar czf "${2}" "${dir}"
-      ;;
-    esac
-    if [[ $remove -eq 1 ]];then
-      rm -rf "${dir}"
-    fi
-  }
-  # }}}
-
-  path () { # path: function to get full path {{{
-    if [[ $# -eq 0 ]];then
-        echo "usage: path file/directory"
-        return 1
-    fi
-    echo "$(cd "$(dirname "$1")";pwd)/$(basename "$1")"
-  } # }}}
-
-  calc () { # Function to calculate with perl (for decimal, etc...) {{{
-    local eq=$(echo "$@"|sed "s/\^/**/g")
-    printf "\$xx =%s;print \"\$xx \\n\"" "$eq"|perl
-  } # }}}
-
-  linkcheck () { # Function to find the original file for the symbolic link {{{
-    if [[ "$#" -ne 1 ]];then
-      echo "Usage: linkcheck file/directory" >&2
-      return 1
-    fi
-
-    local curdir="$(pwd)"
-    local link="$1"
-    local prelink="$1"
-    while :;do
-      if [[ -L "$link" ]];then
-        echo "$link ->"
-        prelink=$link
-        link=$(readlink "$link")
-        local dir="$(dirname "$prelink")"
-        if [[ -d "$dir" ]];then
-          cd "$dir"
-        fi
-      elif [[ -e "$link" ]];then
-        echo "$link"
-        cd "$curdir"
-        return 0
-      else
-        echo "$link does not exist!" >&2
-        cd "$curdir"
-        return 2
-      fi
-    done
-    cd "$curdir"
   } # }}}
 
   # for ghq {{{
@@ -556,9 +414,14 @@ _set_function () { # Functions
 } # }}} Functions
 
 _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
+  gnu_bsd_check () {
+    [[ $($1 --version 2>/dev/null) == *GNU* ]] && return 0
+    return 1
+  }
+
   # cp wraper for BSD cp (make it like GNU cp){{{
   # Remove the end "/" and change -r to -R
-  if ! cp --version 2>/dev/null |grep -q GNU;then
+  if ! gnu_bsd_check cp;then
     cp () {
       local -a opt
       opt=()
@@ -587,7 +450,7 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
   # BSD sed requires suffix for backup file when "-i" option is given
   # (for no backup, need ""),
   # while GNU sed can run w/o suffix and doesn't make backup file
-  if sed --version 2>/dev/null |grep -q GNU;then
+  if gnu_bsd_check sed;then
     alias sedi='sed -i"" '
   else
     alias sedi='sed -i "" '
@@ -599,7 +462,7 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
   #       reversing the order of characters in every line.
   # Set reverse command as tac for BSD
   if ! type tac >& /dev/null;then
-    if ! tail --version 2>/dev/null|grep -q GNU;then
+    if ! gnu_bsd_check tail;then
       alias tac='tail -r'
     else
       # need "function" to avoid error on alias,

@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # .bashrc
 
 # {{{ Initialization
@@ -81,7 +80,7 @@ if [[ "${BASH_VERSINFO[0]}" -ge 4 ]];then
     cmd="$1"
     args=("$@")
     if [[ -f "$cmd" ]];then
-      if echo " ${_suffix_vim[*]} "|grep -q "${cmd##*.}";then
+      if echo " ${_suffix_vim[*]} "|grep -q " ${cmd##*.} ";then
         if type vim >& /dev/null;then
           vim "${args[@]}"
           return $?

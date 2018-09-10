@@ -1,3 +1,5 @@
+# .zshrc
+
 # Load local machine's zshrc
 if [ -f /etc/zshrc ];then
   source /etc/zshrc
