@@ -478,9 +478,6 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
       }
     fi
   fi # }}} tac
-
-  # mktemp
-  alias mktempdir="mktemp 2>/dev/null||mktemp -t tmp"
 } # }}} GNU-BSD compatibility
 
 _source_files () {
