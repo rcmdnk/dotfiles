@@ -481,6 +481,26 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
 } # }}} GNU-BSD compatibility
 
 _source_files () {
+  # completion files in ghq
+  if type ghq >& /dev/null;then
+    local root=$(command ghq root)
+    if [[ -z "$root" ]];then
+      root="$HOME/.ghq"
+    fi
+    for d in $(command ghq list);do
+      if [ -n "$ZSH_VERSION" ];then
+        local path="${root}/${d}/share/zsh/site-functions/"
+      elif [ -n "$BASH_VERSION" ];then
+        local path="${root}/${d}/etc/bash_completion.d/"
+      else
+        continue
+      fi
+      for f in "$path"/*;do
+        _source_file "$f"
+      done
+    done
+  fi
+
   ## sd/cl: Directory save/move in different terminal
   _source_file ~/usr/etc/sd_cl
 
