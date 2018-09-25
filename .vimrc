@@ -21,7 +21,7 @@ endif
 
 " check/prepare dein environment {{{
 let s:dein_enabled  = 0
-if v:version >= 704 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
+if v:version > 704 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
   let s:git = system('which git')
   if strlen(s:git) != 0
     " Set dein paths
