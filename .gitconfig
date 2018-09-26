@@ -35,7 +35,16 @@
   ce = checkout-empty
   ci = commit -a
   cl = clone --recursive
-  co = checkout
+  co = "!f () {\
+    if [ $# -gt 0 ];then \
+      git checkout \"$@\";\
+    else \
+      branch=$(git branch --format \"%(refname:short)\"|sentaku);\
+      if [ -n \"$branch\" ];then \
+        git checkout $branch;\
+      fi;\
+    fi;\
+  };f"
   git-dir = rev-parse --git-dir
   log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
   log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'

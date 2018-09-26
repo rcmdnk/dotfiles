@@ -26,8 +26,10 @@ if v:version > 704 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
   if strlen(s:git) != 0
     " Set dein paths
     let s:dein_dir = s:vimdir . '/dein'
-    let s:dein_github = s:dein_dir . '/repos/github.com'
+    let s:git_server = 'github.com'
     let s:dein_repo_name = 'Shougo/dein.vim'
+    let s:dein_repo = 'https://' . s:git_server . '/' . s:dein_repo_name
+    let s:dein_github = s:dein_dir . '/repos/' . s:git_server
     let s:dein_repo_dir = s:dein_github . '/' . s:dein_repo_name
 
     " Check dein has been installed or not.
@@ -36,9 +38,11 @@ if v:version > 704 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
       if s:is_clone == 1
         let s:dein_enabled = 1
         echo 'dein is not installed, install now '
-        let s:dein_repo = 'https://github.com/' . s:dein_repo_name
         echo 'git clone ' . s:dein_repo . ' ' . s:dein_repo_dir
         call system('git clone ' . s:dein_repo . ' ' . s:dein_repo_dir)
+        if v:version == 704
+          call system('cd ' . s:dein_repo_dir . ' && git checkout -b 1.5 1.5' )
+        endif
       endif
     else
       let s:dein_enabled = 1
@@ -57,7 +61,10 @@ if s:dein_enabled
     call dein#begin(s:dein_dir)
 
     " dein
-    call dein#add('Shougo/dein.vim')
+    " Do not manage dein at Vim 7.4, as it is not HEAD
+    if v:version != 704
+      call dein#add('Shougo/dein.vim')
+    endif
 
     " Basic tools {{{
     " Sub mode
@@ -225,6 +232,9 @@ if s:dein_enabled
     if has('patch-7.4.786')
       call dein#add('itchyny/vim-parenmatch')
     endif
+
+    " Make the yanked region apparent!
+    call dein#add('machakann/vim-highlightedyank')
 
     " Diff {{{
     " linediff
@@ -1548,6 +1558,14 @@ if s:dein_enabled && dein#tap('vim-indent-guides')
   hi IndentGuidesEven ctermbg=235
 endif
 "}}} vim-indent-guides
+
+" vim-highlightedyank{{{
+if s:dein_enabled && dein#tap('vim-highlightedyank')
+  if !exists('##TextYankPost')
+    map y <Plug>(highlightedyank)
+  endif
+endif
+"}}} vim-highlightedyank
 
 " linediff {{{
 if s:dein_enabled && dein#tap('linediff.vim')
