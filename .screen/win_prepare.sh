@@ -2,11 +2,11 @@
 
 MAX=20
 function debug () {
-  if [ "$DEBUG" = "1" ];then
+  if [[ "$DEBUG" = "1" ]];then
     echo "$*" >> ~/log
   fi
 }
-if [ "$DEBUG" = "1" ];then
+if [[ "$DEBUG" = "1" ]];then
   log=~/log
 else
   log=/dev/null
@@ -17,11 +17,11 @@ n_create=4
 align=1
 w_exist=()
 w_non=()
-if [ $# -gt 0 ];then
+if [[ $# -gt 0 ]];then
   n_windows=$1
-  if [ $# -gt 1 ];then
+  if [[ $# -gt 1 ]];then
     n_create=$2
-    if [ $# -gt 2 ];then
+    if [[ $# -gt 2 ]];then
       align=$3
     fi
   fi
@@ -43,7 +43,7 @@ version=$(screen -v|cut -d' ' -f3)
 v=${version%%.*}
 r=$(echo "$version"|cut -d. -f2)
 
-if [ "$v" -ge 5 ] || [ "$v" -ge 4 -a "$r" -ge 3 ];then
+if [[ "$v" -ge 5 ]] || [[ "$v" -ge 4 && "$r" -ge 3 ]];then
   screen -X collapse
   l_n=${n_windows}
 fi

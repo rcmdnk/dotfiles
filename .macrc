@@ -107,6 +107,9 @@ if [ $ret -eq 0 ];then
   ## wrap brew (brew-wrap in brew-file)
   source_file "$brew_prefix/etc/brew-wrap"
 
+  ## sbin
+  _add_path PATH "$brew_prefix/sbin"
+
   ## No emoji
   export HOMEBREW_NO_EMOJI=1
 
@@ -120,15 +123,15 @@ if [ $ret -eq 0 ];then
   # Use python for python2
   #python2path="$brew_prefix/opt/python@2/libexec/bin"
   #if [ -d "$python2path" ];then
-  #  export PATH="$PATH:$python2path"
+  #  _add_path PATH "$python2path"
   #fi
 
   ## Openssl
   OPENSSL_PATH="$brew_prefix/opt/openssl"
   if [ -d "$OPENSSL_PATH" ];then
-    export PATH=$OPENSSL_PATH/bin:$PATH
-    export LD_LIBRARY_PATH=$OPENSSL_PATH/lib:$LD_LIBRARY_PATH
-    export CPATH=$OPENSSL_PATH/include:$LD_LIBRARY_PATH
+    _add_path PATH "$OPENSSL_PATH/bin"
+    _add_path LD_LIBRARY_PATH "$OPENSSL_PATH/lib"
+    _add_path CPATH "$OPENSSL_PATH/include"
   fi
 
   ## Alias
@@ -140,10 +143,12 @@ fi
 export JAVA_HOME=$(/usr/libexec/java_home)
 if [ -f /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc ];then
   export PATH=$PATH:/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources
+  _add_path PATH "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources" 1
 fi
 
 # For Gem
 if [ -d /usr/local/gems ];then
   export GEM_HOME=/usr/local/gems
   export PATH=$GEM_HOME/bin:$PATH
+  _add_path PATH "$GEM_HOME/bin"
 fi

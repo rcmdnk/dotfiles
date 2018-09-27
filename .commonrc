@@ -145,13 +145,13 @@ _set_env () { # Shell/Environmental variables {{{
   export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 
   # ls color
-  if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
+  if [[ "$OSTYPE" = linux* ]] || [[ "$OSTYPE" = cygwin* ]];then
     # Linux
     if type dircolors >& /dev/null;then
       eval "$(dircolors ~/.colourrc)"
     fi
     _source_file "$HOME/.lscolors"
-  elif [[ "$OSTYPE" =~ darwin ]];then
+  elif [[ "$OSTYPE" = darwin* ]];then
     # Mac (LSCOLORS, instead of LS_COLORS)
     export LSCOLORS=DxgxcxdxCxegedabagacad
   fi
@@ -255,12 +255,12 @@ _emotional_prompt () {
 _set_stty () { # stty, disable terminal lock {{{
   tty -s && stty stop undef
   tty -s && stty start undef
-  [[ "$OSTYPE" =~ darwin ]] && tty -s && stty discard undef
+  [[ "$OSTYPE" = darwin* ]] && tty -s && stty discard undef
 } # }}}
 
 _set_alias () { # Alias {{{
   alias l='/bin/ls'
-  if [[ "$OSTYPE" =~ linux ]] || [[ "$OSTYPE" =~ cygwin ]];then
+  if [[ "$OSTYPE" = linux* ]] || [[ "$OSTYPE" = cygwin* ]];then
     if ls --color=auto --show-control-char >/dev/null 2>&1;then
       alias ls='ls --color=auto --show-control-char'
       alias la='ls -A --color=auto --show-control-char'
@@ -268,7 +268,7 @@ _set_alias () { # Alias {{{
       alias ls='ls --color=auto'
       alias la='ls -A --color=auto'
     fi
-  elif [[ "$OSTYPE" =~ darwin ]];then
+  elif [[ "$OSTYPE" = darwin* ]];then
     alias ls='ls -G'
     alias la='ls -A -G'
   fi
@@ -518,13 +518,13 @@ _source_files () {
   _source_file ~/.screen/setup.sh
 
   # File used in linux
-  [[ "$OSTYPE" =~ linux ]] && _source_file ~/.linuxrc
+  [[ "$OSTYPE" = linux* ]] && _source_file ~/.linuxrc
 
   # File used in mac
-  [[ "$OSTYPE" =~ darwin ]] && _source_file ~/.macrc
+  [[ "$OSTYPE" = darwin* ]] && _source_file ~/.macrc
 
   # File used in windows (cygwin)
-  [[ "$OSTYPE" =~ cygwin ]] && _source_file ~/.winrc
+  [[ "$OSTYPE" = cygwin* ]] && _source_file ~/.winrc
 
   # File for special settings for each machine
   _source_file ~/.localrc
