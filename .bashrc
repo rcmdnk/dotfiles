@@ -2,7 +2,7 @@
 
 # {{{ Initialization
 # Load common functions
-source "$HOME/.commonrc"
+source ~/.commonrc
 
 # First, reset all pathes (PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH)
 _reset_path
