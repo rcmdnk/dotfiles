@@ -38,24 +38,26 @@ l_n=$((MAX-1))
 n=0
 non_exist=()
 
-# version check if > 4.3.0 or not
-version=$(screen -v|cut -d' ' -f3)
-v=${version%%.*}
-r=$(echo "$version"|cut -d. -f2)
-
-if [[ "$v" -ge 5 ]] || [[ "$v" -ge 4 && "$r" -ge 3 ]];then
-  screen -X collapse
-  l_n=${n_windows}
-fi
+## Reordering window numbers
+## version check if > 4.3.0 or not
+#version=$(screen -v|cut -d' ' -f3)
+#v=${version%%.*}
+#r=$(echo "$version"|cut -d. -f2)
+#
+#if [[ "$v" -ge 5 ]] || [[ "$v" -ge 4 && "$r" -ge 3 ]];then
+#  screen -X collapse
+#  l_n=${n_windows}
+#fi
 
 screen -X register . win_test >> $log 2>&1
 mkdir -p ~/.screen/
 test_file=~/.screen/win_test.txt
 rm -f $test_file
 for i in $(seq $f_n $l_n);do
+  debug check "$i"
   #msg=$(screen -p $i -X echo test && screen -Q lastmsg)
   #if [ "$msg" = "test" ];then
-  screen -p $i -X writebuf $test_file >>$log 2>&1
+  screen -p "$i" -X writebuf $test_file >>$log 2>&1
   #usleep 1
   date >/dev/null
   #while [ 1 ];do
@@ -64,49 +66,48 @@ for i in $(seq $f_n $l_n);do
   #  fi
   #  debug writing buffer....
   #done
-  debug check $i
   if [ -f $test_file ];then
     debug "*** found $i"
     rm -f $test_file
-    screen -X setenv win$n $i >>$log 2>&1
-    w_exist=(${w_exist[@]} $i)
+    screen -X setenv win$n "$i" >>$log 2>&1
+    w_exist=("${w_exist[@]}" "$i")
     ((n++))
-    if [ $n -ge $n_windows ];then
+    if [ $n -ge "$n_windows" ];then
       break
     fi
   else
-    non_exist=(${non_exist[@]} $i)
+    non_exist=("${non_exist[@]}" "$i")
   fi
 done
 
 for i in "${non_exist[@]}";do
   debug try non_exist
   debug "i=$i, n=$n, n_windows=$n_windows"
-  if [ $n -ge $n_windows ];then
+  if [ $n -ge "$n_windows" ];then
     break
   fi
-  if [ $n -lt $n_create ];then
+  if [ $n -lt "$n_create" ];then
     debug "create non_exist $i"
     screen -X screen >>$log 2>&1
-    w_exist=(${w_exist[@]} $i)
+    w_exist=("${w_exist[@]}" "$i")
   else
     debug "push non_exist $i"
-    w_non=(${w_non[@]} $i)
+    w_non=("${w_non[@]}" "$i")
   fi
-  screen -X setenv win$n $i >>$log 2>&1
+  screen -X setenv win$n "$i" >>$log 2>&1
   ((n++))
 done
 
-if [ $align -eq 1 ];then
+if [ "$align" -eq 1 ];then
   n=0
-  w_exist=($(for w in ${w_exist[@]};do echo $w;done|sort -n))
-  w_non=($(for w in ${w_non[@]};do echo $w;done|sort -n))
-  for i in ${w_exist[@]};do
-    screen -X setenv win$n $i >>$log 2>&1
+  w_exist=($(for w in "${w_exist[@]}";do echo "$w";done|sort -n))
+  w_non=($(for w in "${w_non[@]}";do echo "$w";done|sort -n))
+  for i in "${w_exist[@]}";do
+    screen -X setenv win$n "$i" >>$log 2>&1
     ((n++))
   done
-  for i in ${w_non[@]};do
-    screen -X setenv win$n $i >>$log 2>&1
+  for i in "${w_non[@]}";do
+    screen -X setenv win$n "$i" >>$log 2>&1
     ((n++))
   done
 fi
