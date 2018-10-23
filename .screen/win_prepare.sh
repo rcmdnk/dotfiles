@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 COLLAPSE=0
-MAX=20
+DEBUG=1
+
 function debug () {
   if [[ "$DEBUG" = "1" ]];then
     echo "$*" >> ~/log
@@ -28,14 +29,6 @@ if [[ $# -gt 0 ]];then
   fi
 fi
 
-# Get first/last windows
-# select doesn't work well in screen's commands...
-# it seems that `screen -Q` makes very high load (at cygwin, screen -Q stops the terminal...)
-#f_n=$(screen -X select - && screen -X next && screen -Q number|cut -d' ' -f1)
-#l_n=$(screen -X select - && screen -X next && screen -X prev && screen -Q number|cut -d' ' -f1)
-f_n=0
-l_n=$((MAX-1))
-
 n=0
 non_exist=()
 
@@ -52,31 +45,26 @@ if [[ $COLLAPSE -eq 1 ]];then
 fi
 
 w_exist=($(screen -Q windows '%n|'|sed 's/|/ /g'))
-n=${#w_exist[@]}
-for i in $(seq "$f_n" "$l_n");do
-  if [[ ! " ${w_exist[*]} " = *\ $i\ * ]];then
-    non_exist=("${non_exist[@]}" "$i")
-  fi
-done
-debug "w_exist: ${w_exist[*]}"
-debug "non_exist: ${non_exist[*]}"
-
-for i in "${non_exist[@]}";do
-  debug try non_exist
-  debug "i=$i, n=$n, n_windows=$n_windows"
-  if [ $n -ge "$n_windows" ];then
-    break
-  fi
-  if [ $n -lt "$n_create" ];then
-    debug "create non_exist $i"
-    screen -X screen >>$log 2>&1
-    w_exist=("${w_exist[@]}" "$i")
-  else
-    debug "push non_exist $i"
-    w_non=("${w_non[@]}" "$i")
-  fi
-  screen -X setenv win$n "$i" >>$log 2>&1
+for w in "${w_exist[@]}";do
+  screen -X setenv win$n "$w" >>$log 2>&1
   ((n++))
+done
+
+i=0
+while [[ $n -lt "$n_windows" ]];do
+  if [[ ! " ${w_exist[*]} " = *\ $i\ * ]];then
+    if [ $n -lt "$n_create" ];then
+      debug "create non_exist $i"
+      screen -X screen >>$log 2>&1
+      w_exist=("${w_exist[@]}" "$i")
+    else
+      debug "push non_exist $i"
+      w_non=("${w_non[@]}" "$i")
+    fi
+    screen -X setenv win$n "$i" >>$log 2>&1
+    ((n++))
+  fi
+  ((i++))
 done
 
 if [ "$align" -eq 1 ];then
