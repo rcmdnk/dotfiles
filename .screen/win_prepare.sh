@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+COLLAPSE=0
 MAX=20
 function debug () {
   if [[ "$DEBUG" = "1" ]];then
@@ -38,47 +39,27 @@ l_n=$((MAX-1))
 n=0
 non_exist=()
 
-## Reordering window numbers
-## version check if > 4.3.0 or not
-#version=$(screen -v|cut -d' ' -f3)
-#v=${version%%.*}
-#r=$(echo "$version"|cut -d. -f2)
-#
-#if [[ "$v" -ge 5 ]] || [[ "$v" -ge 4 && "$r" -ge 3 ]];then
-#  screen -X collapse
-#  l_n=${n_windows}
-#fi
+# Reordering window numbers
+# version check if > 4.3.0 or not
+if [[ $COLLAPSE -eq 1 ]];then
+  version=$(screen -v|cut -d' ' -f3)
+  v=${version%%.*}
+  r=$(echo "$version"|cut -d. -f2)
+  if [[ "$v" -ge 5 ]] || [[ "$v" -ge 4 && "$r" -ge 3 ]];then
+    screen -X collapse
+    l_n=${n_windows}
+  fi
+fi
 
-screen -X register . win_test >> $log 2>&1
-mkdir -p ~/.screen/
-test_file=~/.screen/win_test.txt
-rm -f $test_file
-for i in $(seq $f_n $l_n);do
-  debug check "$i"
-  #msg=$(screen -p $i -X echo test && screen -Q lastmsg)
-  #if [ "$msg" = "test" ];then
-  screen -p "$i" -X writebuf $test_file >>$log 2>&1
-  #usleep 1
-  date >/dev/null
-  #while [ 1 ];do
-  #  if ! ps -u$USER |grep "screen -p $i -X writebuf $test_file";then
-  #    break
-  #  fi
-  #  debug writing buffer....
-  #done
-  if [ -f $test_file ];then
-    debug "*** found $i"
-    rm -f $test_file
-    screen -X setenv win$n "$i" >>$log 2>&1
-    w_exist=("${w_exist[@]}" "$i")
-    ((n++))
-    if [ $n -ge "$n_windows" ];then
-      break
-    fi
-  else
+w_exist=($(screen -Q windows '%n|'|sed 's/|/ /g'))
+n=${#w_exist[@]}
+for i in $(seq "$f_n" "$l_n");do
+  if [[ ! " ${w_exist[*]} " = *\ $i\ * ]];then
     non_exist=("${non_exist[@]}" "$i")
   fi
 done
+debug "w_exist: ${w_exist[*]}"
+debug "non_exist: ${non_exist[*]}"
 
 for i in "${non_exist[@]}";do
   debug try non_exist
