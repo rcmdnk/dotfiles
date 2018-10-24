@@ -16,7 +16,7 @@ fi
 
 n_windows=8
 n_create=4
-align=1
+align=0
 w_exist=()
 w_non=()
 if [[ $# -gt 0 ]];then
