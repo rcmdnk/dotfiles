@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 COLLAPSE=0
-DEBUG=1
+DEBUG=0
 
 function debug () {
   if [[ "$DEBUG" = "1" ]];then
