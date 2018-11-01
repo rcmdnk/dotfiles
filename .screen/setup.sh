@@ -7,7 +7,12 @@ screen () { # Screen wrapper {{{
 
   #touch ~/.hostForScreen
   if [ $# = 0 ] || [ "$1" = "-r" ] || [ "$1" = "-R" ] || [ "$1" = "-x" ] || [ "$1" = "-n" ];then
-    sed -i -e "/^$(hostname).*/d" ~/.hostForScreen
+    if sed --version 2>/dev/null |grep -q GNU;then
+      alias sedi='sed -i"" '
+    else
+      alias sedi='sed -i "" '
+    fi
+    sedi -e "/^$(hostname).*/d" ~/.hostForScreen
     hostname >> ~/.hostForScreen
     # keep 10 histories
     tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
@@ -59,6 +64,19 @@ screen () { # Screen wrapper {{{
   command screen $options
 }
 
+clenaup_hostforscren () {
+  if [ -f ~/.hostForScreen ];then
+    if [ "$(ps -u$USER|grep screen)" = "" ];then
+      if sed --version 2>/dev/null |grep -q GNU;then
+        alias sedi='sed -i"" '
+      else
+        alias sedi='sed -i "" '
+      fi
+      sedi -e "/$(hostname)/d" ~/.hostForScreen
+    fi
+  fi
+}
+
 
 if type scutil >&/dev/null;then
   export SCREENDIR=$HOME/.screen_$(scutil --get ComputerName)
@@ -71,38 +89,38 @@ fi
 chmod 700 "$SCREENDIR"
 # }}}
 
-#screen_check () { # Function to check remaining screen sessions in a cluster{{{
-#  touch .hostForScreen
-#  for h in `cat ~/.hostForScreen`;do
-#    echo "checking $h..."
-#    ping $h -c 2 -w2 >& /dev/null
-#    if [ $? -eq 0 ];then
-#      local checklog="$(ssh -x $h "screen -ls")"
-#      echo $checklog
-#      if ! echo $checklog|grep -q "No Sockets found";then
-#        echo $h >> ~/.hostForScreen.tmp
-#      fi
-#    else
-#      echo $h seems not available
-#    fi
-#  done
-#  touch ~/.hostForScreen.tmp
-#  mv ~/.hostForScreen.tmp ~/.hostForScreen
-## }}}
+screen_check () { # Function to check remaining screen sessions in a cluster{{{
+  touch .hostForScreen
+  for h in `cat ~/.hostForScreen`;do
+    echo "checking $h..."
+    ping $h -c 2 -w2 >& /dev/null
+    if [ $? -eq 0 ];then
+      local checklog="$(ssh -x $h "screen -ls")"
+      echo $checklog
+      if ! echo $checklog|grep -q "No Sockets found";then
+        echo $h >> ~/.hostForScreen.tmp
+      fi
+    else
+      echo $h seems not available
+    fi
+  done
+  touch ~/.hostForScreen.tmp
+  mv ~/.hostForScreen.tmp ~/.hostForScreen
+# }}}
 
-#sc () { # ssh to the host which launched screen previously {{{
-#  touch .hostForScreen
-#  local n=1
-#  if [ $# -ne 0 ];then
-#    n=$1
-#  fi
-#  local schost=`tail -n$n ~/.hostForScreen|head -n1`
-#  if [ "$schost" == "" ];then
-#    echo "no host has remaining screen"
-#  else
-#    ssh $schost
-#  fi
-#} # }}}
+sc () { # ssh to the host which launched screen previously {{{
+  touch .hostForScreen
+  local n=1
+  if [ $# -ne 0 ];then
+    n=$1
+  fi
+  local schost=`tail -n$n ~/.hostForScreen|head -n1`
+  if [ "$schost" == "" ];then
+    echo "no host has remaining screen"
+  else
+    ssh $schost
+  fi
+} # }}}
 
 # screen exchange file
 export SCREENEXCHANGE=$HOME/.screen-exchange

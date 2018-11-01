@@ -239,7 +239,7 @@ bind A eval 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi
 #bind ^A eval 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -x;fi"'
 
 # Term
-#term "screen-256color"
+term "screen-256color"
 
 # not change the window size when it is attached
 termcapinfo xterm* is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
