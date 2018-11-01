@@ -106,6 +106,7 @@ screen_check () { # Function to check remaining screen sessions in a cluster{{{
   done
   touch ~/.hostForScreen.tmp
   mv ~/.hostForScreen.tmp ~/.hostForScreen
+}
 # }}}
 
 sc () { # ssh to the host which launched screen previously {{{
