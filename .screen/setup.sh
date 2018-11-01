@@ -91,19 +91,20 @@ chmod 700 "$SCREENDIR"
 
 screen_check () { # Function to check remaining screen sessions in a cluster{{{
   touch .hostForScreen
-  for h in `cat ~/.hostForScreen`;do
+  while read -r h;do
     echo "checking $h..."
-    ping $h -c 2 -w2 >& /dev/null
-    if [ $? -eq 0 ];then
-      local checklog="$(ssh -x $h "screen -ls")"
-      echo $checklog
-      if ! echo $checklog|grep -q "No Sockets found";then
-        echo $h >> ~/.hostForScreen.tmp
+    ping "$h" -c 2 -w2 >& /dev/null
+    local ret=$?
+    if [ $ret -eq 0 ];then
+      local checklog="$(ssh -x "$h" "screen -ls")"
+      echo "$checklog"
+      if ! echo "$checklog"|grep -q "No Sockets found";then
+        echo "$h" >> ~/.hostForScreen.tmp
       fi
     else
-      echo $h seems not available
+      echo "$h" seems not available
     fi
-  done
+  done < <(cat ~/.hostForScreen)
   touch ~/.hostForScreen.tmp
   mv ~/.hostForScreen.tmp ~/.hostForScreen
 }
@@ -115,11 +116,11 @@ sc () { # ssh to the host which launched screen previously {{{
   if [ $# -ne 0 ];then
     n=$1
   fi
-  local schost=`tail -n$n ~/.hostForScreen|head -n1`
+  local schost="$(tail -n"$n" ~/.hostForScreen|head -n1)"
   if [ "$schost" == "" ];then
     echo "no host has remaining screen"
   else
-    ssh $schost
+    ssh "$schost"
   fi
 } # }}}
 
