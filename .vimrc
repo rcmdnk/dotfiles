@@ -225,16 +225,22 @@ if s:dein_enabled
     " Visual indent guides: make moving slow?
     call dein#add('nathanaelkane/vim-indent-guides')
 
-    " Konfekt/FastFold
+    " Fold
     call dein#add('Konfekt/FastFold')
+    call dein#add('LeafCage/foldCC')
 
     " replacement of matchparen (require OptionSet sutocommand event)
     if has('patch-7.4.786')
       call dein#add('itchyny/vim-parenmatch')
     endif
 
+    " Additional matchparen (such if~endif)
+    call dein#add('andymass/vim-matchup')
+
     " Make the yanked region apparent!
-    call dein#add('machakann/vim-highlightedyank')
+    if !exists('##TextYankPost')
+      call dein#add('machakann/vim-highlightedyank')
+    endif
 
     " Diff {{{
     " linediff
@@ -258,6 +264,10 @@ if s:dein_enabled
     call dein#add('majutsushi/tagbar', {
           \ 'on_cmd': ['TagbarToggle'],
           \ 'lazy': 1})
+
+    " Icon
+    "call dein#add('ryanoasis/vim-devicons')
+
     " }}} IDE like
     " }}} View
 
@@ -299,10 +309,12 @@ if s:dein_enabled
     call dein#add('kana/vim-textobj-line', {'depends': ['vim-textobj-user']})
     " indent: ai, ii
     call dein#add('kana/vim-textobj-indent', {'depends': ['vim-textobj-user']})
-    " function: af, if
+    " function: af, if -> remapped to aF, iF
     call dein#add('kana/vim-textobj-function', {'depends': ['vim-textobj-user']})
     " comment: ac, ic
     call dein#add('thinca/vim-textobj-comment', {'depends': ['vim-textobj-user']})
+    " Between any X: afX, ifX
+    call dein#add('thinca/vim-textobj-between', {'depends': ['vim-textobj-user']})
     " erb object: viE, ciE, daE
     call dein#add('whatyouhide/vim-textobj-erb', {'depends': ['vim-textobj-user']})
     " }}}
@@ -355,6 +367,10 @@ if s:dein_enabled
     call dein#add('daisuzu/translategoogle.vim', {
           \ 'on_cmd': ['TranslateGoogle', 'TranslateGoogleCmd'],
           \ 'lazy': 1})
+    " }}}
+
+    " Others {{{
+    call dein#add('lambdalisue/vim-manpager')
     " }}}
 
     call dein#end()
@@ -1605,10 +1621,17 @@ if s:dein_enabled && dein#tap('vim-indent-guides')
 endif
 "}}} vim-indent-guides
 
+" foldCC {{{
+if s:dein_enabled && dein#tap('foldCC')
+  set foldtext=FoldCCtext()
+endif
+"}}} foldCC
+
 " vim-highlightedyank{{{
 if s:dein_enabled && dein#tap('vim-highlightedyank')
   if !exists('##TextYankPost')
     map y <Plug>(highlightedyank)
+    let g:highlightedyank_highlight_duration = 100
   endif
 endif
 "}}} vim-highlightedyank
@@ -1737,6 +1760,15 @@ endif
 " }}} Search
 
 " Edit {{{
+" textobj {{{
+if s:dein_enabled && dein#tap('vim-textobj-function')
+  omap iF <Plug>(textobj-function-i)
+  omap aF <Plug>(textobj-function-a)
+  vmap iF <Plug>(textobj-function-i)
+  vmap aF <Plug>(textobj-function-a)
+endif
+" }}} textobj
+
 " gundo {{{
 if s:dein_enabled && dein#tap('gundo.vim')
   nnoremap U :GundoToggle<CR>
