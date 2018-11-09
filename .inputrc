@@ -142,3 +142,6 @@ $endif
 # ps
 "\ep": "\C-ups -U $USER\C-m"
 
+# cl
+"\eh": "\C-ucl -H\C-m"
+
