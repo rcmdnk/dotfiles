@@ -13,7 +13,7 @@
 [fetch]
   prune = true
 [merge]
-  tool = vimdiff
+  tool = vi -d
   keepBackup = false
 [diff]
   algorithm = histogram
