@@ -5,7 +5,7 @@
 	user = rcmdnk
 [core]
   autocrlf = false
-  editor = vim
+  editor = vi
   execludesfile = ~/.gitignore_global
   quotepath = false
 [push]
