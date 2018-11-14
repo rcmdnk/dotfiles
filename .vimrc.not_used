@@ -1389,6 +1389,11 @@ call dein#add('mattn/benchvimrc-vim', {
 " Database access
 call dein#add('vim-scripts/dbext.vim')
 " }}}
+
+" vim-manpager{{{
+" Map q to close breaks recording
+call dein#add('lambdalisue/vim-manpager')
+" }}}
 " }}}
 
 " Fun {{{

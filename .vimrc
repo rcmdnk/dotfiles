@@ -369,10 +369,6 @@ if s:dein_enabled
           \ 'lazy': 1})
     " }}}
 
-    " Others {{{
-    call dein#add('lambdalisue/vim-manpager')
-    " }}}
-
     call dein#end()
 
     call dein#save_state()
