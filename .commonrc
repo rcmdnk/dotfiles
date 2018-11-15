@@ -139,7 +139,7 @@ _set_env () { # Shell/Environmental variables {{{
 
   # History
   HISTSIZE=500000
-  HISTFILESIZE=100000
+  HISTFILESIZE=500000
   export HISTCONTROL="erasedups:ignoreboth"
   export HISTIGNORE="cd:cd :cd -:cd ../:ls:sd:cl:pwd:history:exit:bg:fg:git st:git push:git update"
   export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
