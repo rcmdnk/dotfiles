@@ -144,4 +144,5 @@ $endif
 
 # cl
 "\eh": "\C-ucl -H\C-m"
+"\er": "\C-ucl -r\C-m"
 

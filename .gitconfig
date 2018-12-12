@@ -139,8 +139,11 @@
     fi;\
     git tag -a ${tag} -m \"${comment}\";\
     git push --tag;\
-    repo_info=$(git config --get remote.origin.url|sed 's|git@github.com:||'|sed 's|https://github.com/||');\
-    myshasum https://github.com/$repo_info/archive/$tag.tar.gz;\
+    repo_url=$(git config --get remote.origin.url);\
+    if [[ \"$repo_url\" = git@github.com* || \"$repo_url\" = https://github.com* ]];then\
+      repo_info=$(git config --get remote.origin.url|sed 's|git@github.com:||'|sed 's|https://github.com/||');\
+      myshasum https://github.com/$repo_info/archive/$tag.tar.gz;\
+    fi;\
   };f"
   tag-new = "!f () {\
     if [ \"$1\" = \"-v\" ];then \
@@ -236,6 +239,7 @@
   up = update
   u = update
   deleted = log --diff-filter=D --summary
+  changed = whatchanged --no-abbrev
   restore = "!f () {\
     if [ \"$#\" -eq 0 ];then \
       echo 'usage: git restore <file_name> [file_name_2 [file_name_3 [...]]]';\
