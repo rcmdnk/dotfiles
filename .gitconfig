@@ -217,7 +217,7 @@
     if  [ \"$2\" != \"--nocheck\" ] && [ \"$2\" != 0 ];then \
       echo $ git check;\
       git check;\
-    fi \
+    fi;\
     st=$?;\
     if [ $st != 0 ];then echo Failed to git check; return $st;fi;\
     difffiles=$(git status|grep -e 'new file' -e 'modified'|cut -d':' -f2);\
