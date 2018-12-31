@@ -206,7 +206,7 @@ bindkey -m ' ' eval 'stuff \040' 'exec /bin/sh -c "if type multi_clipboard >/dev
 bindkey -m Y eval 'stuff Y' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"'
 #bindkey -m D eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"' # problem at search in copy mode
 #bindkey -m $ eval 'stuff \040' 'stuff $' 'stuff \040' 'exec /bin/sh -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"' # problem at search in copy mode
-bindkey -m W eval 'stuff W' 'writebuf' 'exec /bin/sh  -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"'
+bindkey -m W eval 'stuff W' 'exec /bin/sh  -c "if type multi_clipboard >/dev/null 2>&1;then multi_clipboard -I;fi"'
 bindkey -m ^[ eval ''
 # This affects on search word input, too, so ^h or ^j can't be changed.
 #bindkey -m ^h stuff h

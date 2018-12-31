@@ -111,6 +111,7 @@ _set_path () { # {{{
       _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
     fi
   done
+  _source_file $HOME/.poetry/env
   export GOPATH=$HOME/.go
   if [[ -d "$GOPATH/bin" ]];then
     _add_path PATH "${GOPATH}/bin"
