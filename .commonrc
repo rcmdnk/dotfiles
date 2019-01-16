@@ -389,8 +389,13 @@ _set_function () { # Functions
       done
     }
 
-    alias ghqlist="command ghq list"
-    alias ghqls="command ghq list"
+    ghqlist () {
+      command ghq list
+    }
+
+    ghqls () {
+      ghqlist "$@"
+    }
 
     ghq () {
       if [[ "$1" = "go" ]];then
