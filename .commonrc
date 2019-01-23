@@ -320,7 +320,6 @@ _set_alias () { # Alias {{{
   if type ccat >& /dev/null;then
     alias cat='ccat --bg=dark -G String="fuchsia" -G Keyword="yellow" -G Plaintext="lightgray" -G Decimal="fuchsia" -G Punctuation="lightgray" -G Type="lightgray" -G Comment="turquoise"'
   fi
-  type tree >& /dev/null || alias tree="find . | sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'" # pseudo tree
 } # }}} Alias
 
 _set_function () { # Functions
@@ -339,6 +338,23 @@ _set_function () { # Functions
       return $ret
     fi
   } # }}}
+
+  if ! type tree >& /dev/null;then
+    tree () { # {{{
+      opt=""
+      directory="."
+      while [ $# -gt 0 ];do
+        case $1 in
+          "-L")opt="$opt -d $2";shift;;
+          "-d")opt="$opt -type d";shift;;
+          "-*")echo "$1 is invalid option";exit 1;;
+          "*")directory="$*";break;;
+        esac
+        shift
+      done
+      find "$directory" $opt| sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'
+    }
+  fi
 
   # for ghq {{{
   if type ghq >& /dev/null;then
