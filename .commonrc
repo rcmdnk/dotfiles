@@ -207,6 +207,11 @@ _set_env () { # Shell/Environmental variables {{{
   if [[ -f "$HOME/.pythonstartup.py" ]];then
     export PYTHONSTARTUP="$HOME/.pythonstartup.py"
   fi
+  for pv in 2.7 3.4 3.5 3.6 3.7 3.8;do
+    if [ -d "$HOME/Library/Python/$pv/bin" ];then
+      _add_path PATH "$HOME/Library/Python/$pv/bin"
+    fi
+  done
 
   # Trash
   export TRASHLIST=~/.trashlist # Where trash list is written

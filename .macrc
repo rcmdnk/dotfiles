@@ -117,7 +117,7 @@ if [ $ret -eq 0 ];then
   export HOMEBREW_NO_ANALYTICS=1
 
   ## Always cleanup
-  export HOMEBREW_UPGRADE_CLEANUP=1
+  export HOMEBREW_INSTALL_CLEANUP=1
 
   ## Python2
   # Use python for python2
