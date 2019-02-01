@@ -217,15 +217,15 @@ _set_env () { # Shell/Environmental variables {{{
   if [ -d "$HOME/Library/Python/$python_version/bin" ];then
     _add_path PATH "$HOME/Library/Python/$python_version/bin"
   fi
-  if [ -d "$HOME/Library/Python/$python_version/lib/python/site-packages" ];then
-    _add_path PYTHONPATH "$HOME/Library/Python/$python_version/lib/python/site-packages"
-  fi
+  #if [ -d "$HOME/Library/Python/$python_version/lib/python/site-packages" ];then
+  #  _add_path PYTHONPATH "$HOME/Library/Python/$python_version/lib/python/site-packages"
+  #fi
   if [ -d "$HOME/.local/bin" ];then
     _add_path PATH "$HOME/.local/bin"
   fi
-  if [ -d "$HOME/.local/lib/python$python_version/site-packages" ];then
-    _add_path PYTHONPATH "$HOME/.local/lib/python$python_version/site-packages"
-  fi
+  #if [ -d "$HOME/.local/lib/python$python_version/site-packages" ];then
+  #  _add_path PYTHONPATH "$HOME/.local/lib/python$python_version/site-packages"
+  #fi
 
   # Trash
   export TRASHLIST=~/.trashlist # Where trash list is written
