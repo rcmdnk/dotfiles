@@ -5,7 +5,6 @@ instdir="$HOME"
 
 backup=""
 overwrite=1
-relative=0
 dryrun=0
 copy=0
 newlink=()
@@ -21,22 +20,22 @@ Arguments:
       -b  Set backup postfix, like \"bak\" (default: \"\": no back up is made)
       -e  Set additional exclude file (default: ${exclude[*]})
       -i  Set install directory (default: $instdir)
-      -r  Use relative path (default: absolute path)
       -n  Don't overwrite if file is already exist
       -d  Dry run, don't install anything
       -c  Copy files, instead of making links.
+      -s  Use 'pwd' instead of 'pwd -P' to make a symbolic link
       -h  Print Help (this message) and exit
 "
 
-while getopts b:e:i:rndch OPT;do
+while getopts b:e:i:ndcsh OPT;do
   case $OPT in
     "b" ) backup=$OPTARG ;;
     "e" ) exclude=("${exclude[@]}" "$OPTARG") ;;
     "i" ) instdir="$OPTARG" ;;
-    "r" ) relative=1 ;;
     "n" ) overwrite=0 ;;
     "d" ) dryrun=1 ;;
     "c" ) copy=1 ;;
+    "s" ) curdir=$(pwd) ;;
     "h" ) echo "$HELP" 1>&2; exit;;
     * ) echo "$HELP" 1>&2; exit 1;;
   esac
@@ -106,9 +105,6 @@ myinstall () {
   fi
 }
 
-if [ $relative -eq 1 ];then
-  curdir=$(pwd)
-fi
 echo "**********************************************"
 echo "Install .X to $instdir"
 echo "**********************************************"
