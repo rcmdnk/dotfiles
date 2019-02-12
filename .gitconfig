@@ -283,3 +283,5 @@
   };f"
 [credential]
 	username = rcmdnk
+[hub]
+	protocol = ssh
