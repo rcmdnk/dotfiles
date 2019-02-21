@@ -83,62 +83,6 @@ if [ -z "$SSH_AUTH_SOCK" ];then
   unset sock_tmp
 fi
 
-# Homebrew
-brew_prefix=$(command brew --prefix)
-ret=$?
-if [ $ret -eq 0 ];then
-  ## brew api token
-  source_file ~/.brew_api_token
-
-  ## completion from brew (disabled to faster reading)
-  if [ "$BASH_VERSION" != "" ];then
-    source_file "$brew_prefix/etc/bash_completion"
-  elif [ "$ZSH_VERSION" != "" ];then
-    for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
-      brew_completion="$brew_prefix/$d"
-      if [ -d "$brew_completion" ] && ! echo " ${fpath[*]} " |grep -q " $brew_completion ";then
-        fpath=("$brew_completion" "${fpath[@]}")
-      fi
-    done
-    autoload -Uz compinit
-    compinit
-  fi
-
-  ## wrap brew (brew-wrap in brew-file)
-  source_file "$brew_prefix/etc/brew-wrap"
-
-  ## sbin
-  _add_path PATH "$brew_prefix/sbin"
-
-  ## No emoji
-  export HOMEBREW_NO_EMOJI=1
-
-  ## Disable Analytics
-  export HOMEBREW_NO_ANALYTICS=1
-
-  ## Always cleanup
-  export HOMEBREW_UPGRADE_CLEANUP=1
-
-  ## Python2
-  # Use python for python2
-  #python2path="$brew_prefix/opt/python@2/libexec/bin"
-  #if [ -d "$python2path" ];then
-  #  _add_path PATH "$python2path"
-  #fi
-
-  ## Openssl
-  OPENSSL_PATH="$brew_prefix/opt/openssl"
-  if [ -d "$OPENSSL_PATH" ];then
-    _add_path PATH "$OPENSSL_PATH/bin"
-    _add_path LD_LIBRARY_PATH "$OPENSSL_PATH/lib"
-    _add_path CPATH "$OPENSSL_PATH/include"
-  fi
-
-  ## Alias
-  alias cask='brew cask'
-
-fi
-
 # JAVA_HOME
 export JAVA_HOME=$(/usr/libexec/java_home)
 if [ -f /System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc ];then
