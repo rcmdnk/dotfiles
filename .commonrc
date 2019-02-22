@@ -94,15 +94,21 @@ _set_ghq_path () { # {{{
 } # }}}
 
 _set_homebrew_path () { # {{{
+  if [ -d /home/linuxbrew/bin ];then
+    _add_path PATH /home/linuxbrew/bin
+  fi
+  if [ -d $HOME/.linuxbrew/bin ];then
+    _add_path PATH $HOME/.linuxbrew/bin
+  fi
   brew_prefix=$(command brew --prefix)
   ret=$?
   if [ $ret -eq 0 ];then
     ## brew api token
-    source_file ~/.brew_api_token
+    _source_file ~/.brew_api_token
 
     ## completion from brew (disabled to faster reading)
     if [ "$BASH_VERSION" != "" ];then
-      source_file "$brew_prefix/etc/bash_completion"
+      _source_file "$brew_prefix/etc/bash_completion"
     elif [ "$ZSH_VERSION" != "" ];then
       for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
         brew_completion="$brew_prefix/$d"
@@ -115,7 +121,7 @@ _set_homebrew_path () { # {{{
     fi
 
     ## wrap brew (brew-wrap in brew-file)
-    source_file "$brew_prefix/etc/brew-wrap"
+    _source_file "$brew_prefix/etc/brew-wrap"
 
     ## sbin
     _add_path PATH "$brew_prefix/sbin"
@@ -169,7 +175,7 @@ _set_path () { # {{{
     _add_path PATH "${SSHHOME}/.sshrc"
   fi
   _set_ghq_path
-  _set_linuxbrew_path
+  _set_homebrew_path
 } # }}}
 # }}} PATH
 
