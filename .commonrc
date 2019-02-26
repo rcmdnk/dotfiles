@@ -134,9 +134,6 @@ _set_homebrew_path () { # {{{
   ## Disable Analytics
   export HOMEBREW_NO_ANALYTICS=1
 
-  ## Always cleanup
-  export HOMEBREW_UPGRADE_CLEANUP=1
-
   ## Python2
   # Use python for python2
   #python2path="$brew_prefix/opt/python@2/libexec/bin"
