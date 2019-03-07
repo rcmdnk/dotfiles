@@ -205,7 +205,7 @@ if s:dein_enabled
     call dein#add('vimperator/vimperator.vim')
 
     " Syntax checking
-    if !has('nvim') || (has('job') && has('channel') && has('timers'))
+    if has('nvim') || (has('job') && has('channel') && has('timers'))
       call dein#add('w0rp/ale')
     else
       call dein#add('vim-syntastic/syntastic')

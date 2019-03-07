@@ -140,8 +140,8 @@
     git tag -a ${tag} -m \"${comment}\";\
     git push --tag;\
     repo_url=$(git config --get remote.origin.url);\
-    if [[ \"$repo_url\" = git@github.com* || \"$repo_url\" = https://github.com* ]];then\
-      repo_info=$(git config --get remote.origin.url|sed -e 's|git@github.com:||' -e 's|https://github.com/||' -e 's/.git$//');\
+    if [[ \"$repo_url\" = *git@github.com* || \"$repo_url\" = https://github.com* ]];then\
+      repo_info=$(git config --get remote.origin.url|sed -e 's|ssh://git@github.com/||'|sed -e 's|git@github.com:||' -e 's|https://github.com/||' -e 's/.git$//');\
       myshasum https://github.com/$repo_info/archive/$tag.tar.gz;\
     fi;\
   };f"
@@ -170,8 +170,8 @@
     git tag -a ${tag} -m \"${comment}\";\
     git push --tag;\
     repo_url=$(git config --get remote.origin.url);\
-    if [[ \"$repo_url\" = git@github.com* || \"$repo_url\" = https://github.com* ]];then\
-      repo_info=$(git config --get remote.origin.url|sed -e 's|git@github.com:||' -e 's|https://github.com/||' -e 's/.git$//');\
+    if [[ \"$repo_url\" = *git@github.com* || \"$repo_url\" = https://github.com* ]];then\
+      repo_info=$(git config --get remote.origin.url|sed -e 's|ssh://git@github.com/||'|sed -e 's|git@github.com:||' -e 's|https://github.com/||' -e 's/.git$//');\
       myshasum https://github.com/$repo_info/archive/$tag.tar.gz;\
     fi;\
   };f"
