@@ -75,8 +75,7 @@ if s:dein_enabled
     " }}}
 
     " Completion {{{
-    "if (has('nvim')  || has('timers')) && has('python3')
-    if (has('nvim')) && has('python3')
+    if has('nvim')  || (has('timers') && has('python3'))
       call dein#add('Shougo/deoplete.nvim')
       if !has('nvim')
         call dein#add('roxma/nvim-yarp')
@@ -142,6 +141,8 @@ if s:dein_enabled
     " }}}
 
     " Code syntax, tools for each language {{{
+    call dein#add('prabirshrestha/vim-lsp')
+    call dein#add('prabirshrestha/async.vim')
 
     " Applescript
     call dein#add('vim-scripts/applescript.vim')
@@ -1412,6 +1413,12 @@ if s:dein_enabled && dein#tap('vim-markdown')
   autocmd MyAutoGroup BufRead,BufNewFile *.{txt,text,html} setlocal filetype=markdown
 endif
 " }}} vim-markdown
+
+" vimtex {{{
+if s:dein_enabled && dein#tap('vimtex')
+  "g:vimtex_compiler_progname = 'nvr'
+endif
+" }}} vimtex
 
 " ale/syntastic {{{
 if s:dein_enabled && dein#tap('ale')
