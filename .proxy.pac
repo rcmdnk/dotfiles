@@ -5,5 +5,5 @@ function FindProxyForURL(url, host){
   //   ){
   //  return "SOCKS5 localhost:10080; DIRECT";
   //}
-  return "SOCKS5 localhost:10080; DIRECT";
+  //return "SOCKS5 localhost:10080; DIRECT";
 }
