@@ -94,17 +94,22 @@ _set_ghq_path () { # {{{
 } # }}}
 
 _set_homebrew_path () { # {{{
-  if [ -d /home/linuxbrew/bin ];then
-    _add_path PATH /home/linuxbrew/bin
+  if [ -d /home/linuxbrew/.linuxbrew ];then
+    _add_path PATH /home/linuxbrew/.linuxbrew/bin
+    _add_path PATH /home/linuxbrew/.linuxbrew/sbin
+    #_add_path LD_LIBRARY_PATH "/home/linuxbrew/.linuxbrew/lib"
   fi
-  if [ -d $HOME/.linuxbrew/bin ];then
+  if [ -d $HOME/.linuxbrew ];then
     _add_path PATH $HOME/.linuxbrew/bin
+    _add_path PATH $HOME/.linuxbrew/sbin
+    #_add_path LD_LIBRARY_PATH $HOME/.linuxbrew/lib
   fi
   brew_prefix=$(command brew --prefix 2>/dev/null)
   ret=$?
   if [ $ret -ne 0 ];then
     return
   fi
+
   ## brew api token
   _source_file ~/.brew_api_token
 
@@ -378,7 +383,7 @@ _set_alias () { # Alias {{{
   alias stow="stow --override='share/info/dir'"
   type thefuck >& /dev/null &&  eval "$(thefuck --alias)"
   type hub >& /dev/null && eval "$(hub alias -s)" # Use GitHub wrapper for git
-  alias ssh="ssh -Y"
+  #alias ssh="ssh -Y"
   #type sshrc >& /dev/null && alias ssh="sshrc -Y"
   #type moshrc >& /dev/null && alias mosh="moshrc"
   type colordiff >& /dev/null && alias diff='colordiff'

@@ -121,17 +121,20 @@
   pull-dry-run-s = "!git fetch origin $(git config branch.$(git rev-parse --abbrev-ref HEAD).merge);\
     git diff --stat --summary HEAD...FETCH_HEAD"
   tag-renew = "!f () {\
+    lasttag=$(git tag|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n2|head -n1);\
+    tag=$(git tag|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
     if [ \"$1\" = \"-v\" ];then \
       tag=\"$2\";\
       shift;shift;\
     else \
-      tag=v$(git tag|sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
+      tag=$tag;\
     fi;\
     if [ $# -ne 0 ];then \
       comment=\"$*\";\
     else \
-      comment=\"$(git log -1|tail -n +5)\";\
+      comment=\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|cut -d'-' -f2)\";\
     fi;\
+    echo \"comment: \n$comment\";\
     tagcheck=$(git tag|grep ${tag});\
     if [ \"$tagcheck\" != \"\" ];then \
       git tag -d ${tag};\
@@ -146,21 +149,21 @@
     fi;\
   };f"
   tag-new = "!f () {\
+    lasttag=$(git tag|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
     if [ \"$1\" = \"-v\" ];then \
       tag=\"$2\";\
       shift;shift;\
     else \
-      tag=v$(git tag|sed s/v//g|sort -t . -n -k1,1 -k2,2 -k3,3|tail -n1);\
-      tag_minor=${tag##*.};\
+      tag_minor=${lasttag##*.};\
       ((tag_minor++));\
-      tag=${tag%.*}.${tag_minor};\
+      tag=${lasttag%.*}.${tag_minor};\
     fi;\
     if [ $# -ne 0 ];then \
       comment=\"$*\";\
     else \
-      comment=\"$(git log -1|tail -n +5)\";\
+      comment=\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|cut -d'-' -f2)\";\
     fi;\
-    echo comment: $comment;\
+    echo \"comment: \n$comment\";\
     tagcheck=$(git tag|grep ${tag});\
     if [ \"$tagcheck\" != \"\" ];then \
       echo \"tag: ${tag} exists\"\
