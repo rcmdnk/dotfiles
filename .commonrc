@@ -96,17 +96,17 @@ _set_ghq_path () { # {{{
 _set_homebrew_path () { # {{{
   local prefix=""
   local path=""
-  for path in /home/linuxbrew/.linuxbrew $HOME/.linuxbrew;do
+  for path in /home/linuxbrew/.linuxbrew $HOME/.linuxbrew /usr/local;do
     if [ -d "$path" ];then
       prefix=$path
       break
     fi
   done
-  [ -z "$prefix" ] && return
-
-  _add_path PATH "$prefix/bin"
-  _add_path PATH "$prefix/sbin"
-  #_add_path LD_LIBRARY_PATH "$prefix/lib"
+  if [ -n "$prefix" ];then
+    _add_path PATH "$prefix/bin"
+    _add_path PATH "$prefix/sbin"
+    _add_path LD_LIBRARY_PATH "$prefix/lib"
+  fi
 
   brew_prefix=$(command brew --prefix 2>/dev/null)
   ret=$?
