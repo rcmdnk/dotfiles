@@ -626,6 +626,22 @@ set laststatus=2 " always show
 set statusline=%<%f\ %m%r%h%w
 set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
 set statusline+=%=%l/%L,%c%V%8P
+
+" clipboard
+set clipboard+=unnamedplus
+let g:clipboard = {
+      \   'name': 'myClipboard',
+      \   'copy': {
+      \      '+': 'multi_clipboard -s',
+      \      '*': 'multi_clipboard -s',
+      \    },
+      \   'paste': {
+      \      '+': 'multi_clipboard -g',
+      \      '*': 'multi_clipboard -g',
+      \   },
+      \   'cache_enabled': 1,
+      \ }
+
 " }}} Basic settings
 
 " map (for other than each plugin){{{
