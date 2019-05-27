@@ -285,6 +285,10 @@ _set_env () { # Shell/Environmental variables {{{
     done
   fi
 
+
+  # GitHub
+  export GITHUB_USER=rcmdnk
+
   # Trash
   export TRASHLIST=~/.trashlist # Where trash list is written
   export TRASHBOX=~/.Trash # Where trash will be moved in
