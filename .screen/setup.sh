@@ -110,17 +110,17 @@ screen_check () { # Function to check remaining screen sessions in a cluster{{{
 }
 # }}}
 
-sc () { # ssh to the host which launched screen previously {{{
+screen_last () { # ssh to the host which launched screen previously {{{
   touch .hostForScreen
   local n=1
   if [ $# -ne 0 ];then
     n=$1
   fi
-  local schost="$(tail -n"$n" ~/.hostForScreen|head -n1)"
-  if [ "$schost" == "" ];then
+  local host="$(tail -n"$n" ~/.hostForScreen|head -n1)"
+  if [ "$host" == "" ];then
     echo "no host has remaining screen"
   else
-    ssh "$schost"
+    ssh "$host"
   fi
 } # }}}
 
