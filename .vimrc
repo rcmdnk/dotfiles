@@ -626,6 +626,7 @@ set laststatus=2 " always show
 set statusline=%<%f\ %m%r%h%w
 set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
 set statusline+=%=%l/%L,%c%V%8P
+
 " }}} Basic settings
 
 " map (for other than each plugin){{{
