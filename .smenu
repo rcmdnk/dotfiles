@@ -1,0 +1,3 @@
+[limits]
+  word_length = 2048
+  words = 32767
