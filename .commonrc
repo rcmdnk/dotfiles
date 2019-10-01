@@ -375,7 +375,7 @@ _set_alias () { # Alias {{{
     alias vinon="vim -u NONE"
   fi
   alias put='multi_clipboard -x'
-  alias del="trash -r"
+  alias del="trash -f -r"
   alias histcheck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
   alias histcheckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}'|sort|uniq -c|sort -n"
   alias sort='LC_ALL=C sort'
@@ -655,3 +655,16 @@ _mainrc () {
   _source_files
 }
 # }}}
+
+
+file_detail () {
+  (
+  . sentaku -n
+
+  _sf_get_content () {
+      ls -l "${_s_inputs[$_s_current_n]}"
+    }
+
+  ls | _sf_main -U -L 1
+  )
+}
