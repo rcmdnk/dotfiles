@@ -507,7 +507,7 @@ set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:% " Set words for above
 set ruler          " Show the cursor position all the time
 set showcmd        " Display incomplete commands
 set novisualbell   " No visual bell
-"set cursorline     " Enable highlight on current line:
+set cursorline     " Enable highlight on current line:
 "set cursorcolumn   " Enable highlight on current column:
                    " but make moving cursor slow for heavily highlighted file...
 "set scrolloff=999  " Show cursor at middle
@@ -1182,18 +1182,21 @@ if s:dein_enabled && dein#tap('denite.nvim')
 
   call denite#custom#var('menu', 'menus', s:menus)
 
+  call denite#custom#option('default', {
+      \ 'split': 'floating',
+      \ })
   nnoremap [denite] <Nop>
   nmap <Leader>u [denite]
-  nnoremap <silent> [denite]b :Denite buffer<CR>
-  nnoremap <silent> [denite]c :Denite changes<CR>
-  nnoremap <silent> [denite]f :Denite file<CR>
-  nnoremap <silent> [denite]g :Denite grep<CR>
-  nnoremap <silent> [denite]h :Denite help<CR>
-  nnoremap <silent> [denite]h :Denite help<CR>
-  nnoremap <silent> [denite]l :Denite line<CR>
-  nnoremap <silent> [denite]t :Denite tag<CR>
-  nnoremap <silent> [denite]m :Denite file_mru<CR>
-  nnoremap <silent> [denite]u :Denite menu<CR>
+  nnoremap <silent> [denite]b :<C-u>Denite buffer<CR>
+  nnoremap <silent> [denite]c :<C-u>Denite changes<CR>
+  nnoremap <silent> [denite]f :<C-u>Denite file<CR>
+  nnoremap <silent> [denite]g :<C-u>Denite grep<CR>
+  nnoremap <silent> [denite]h :<C-u>Denite help<CR>
+  nnoremap <silent> [denite]h :<C-u>Denite help<CR>
+  nnoremap <silent> [denite]l :<C-u>Denite line<CR>
+  nnoremap <silent> [denite]t :<C-u>Denite tag<CR>
+  nnoremap <silent> [denite]m :<C-u>Denite file_mru<CR>
+  nnoremap <silent> [denite]u :<C-u>Denite menu<CR>
 
   call denite#custom#map(
         \ 'insert',
@@ -1243,6 +1246,20 @@ if s:dein_enabled && dein#tap('denite.nvim')
         \ '<denite:enter_mode:normal>',
         \ 'noremap'
         \)
+
+"  " Floating window
+"  let s:denite_win_width_percent = 0.85
+"  let s:denite_win_height_percent = 0.7
+"
+"  call denite#custom#option('default', {
+"      \ 'split': 'floating',
+"      \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
+"      \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
+"      \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
+"      \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
+"      \ })
+
+
 " }}}
 " Unite {{{
 elseif s:dein_enabled && dein#tap('unite.vim')
