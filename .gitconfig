@@ -289,3 +289,5 @@
     done;\
     return $ret;\
   };f"
+[credential]
+	username = rcmdnk
