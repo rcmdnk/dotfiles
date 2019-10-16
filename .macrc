@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Suppress warning after Catalina
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 if ! type -a source_file >&/dev/null;then
   source_file() {
     if [ $# -lt 1 ];then
