@@ -41,34 +41,6 @@ while getopts b:e:i:ndcsh OPT;do
   esac
 done
 
-if [[ "$OSTYPE" =~ cygwin ]];then
-  # ln wrapper{{{
-  ln () {
-    opt="/H"
-    if [ "$1" = "-s" ];then
-      opt=""
-      shift
-    fi
-    target="$1"
-    if [ -d "$target" ];then
-      opt="/D $opt"
-    fi
-    if [ $# -eq 2 ];then
-      link="$2"
-    elif [ $# -eq 1 ];then
-      link=$(basename "$target")
-    else
-      echo "usage: ln [-s] <target> [<link>]"
-      echo "       -s for symbolic link, otherwise make hard link"
-      return
-    fi
-    t_winpath=$(cygpath -w -a "$target")
-    t_link=$(cygpath -w -a "$link")
-    cmd /c mklink $opt "$t_link" "$t_winpath" > /dev/null
-  } # }}}
-fi
-
-
 myinstall () {
   origin="$1"
   target="$2"
