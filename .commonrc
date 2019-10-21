@@ -643,6 +643,9 @@ _source_files () {
   # File used in windows (cygwin)
   [[ "$OSTYPE" = cygwin* ]] && _source_file ~/.winrc
 
+  # Private settings
+  _source_file ~/.privaterc
+
   # File for special settings for each machine
   _source_file ~/.localrc
 } # }}} _source_files
