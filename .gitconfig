@@ -3,6 +3,8 @@
 	email = rcmdnk@gmail.com
 [github]
 	user = rcmdnk
+[credential]
+  username = rcmdnk
 [core]
   autocrlf = false
   editor = vi
@@ -289,3 +291,6 @@
     done;\
     return $ret;\
   };f"
+
+[include]
+  path = .gitconfig.private
