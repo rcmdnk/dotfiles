@@ -351,6 +351,10 @@ if s:dein_enabled
     " }}} Edit
 
     " Move {{{
+    " warn no vimer moving
+    "if has('nvim-0.4.0')
+    "  call dein#add('matoruru/vim-hjkl-warning')
+    "end
     " }}} Move
 
     " Check language, web source {{{
@@ -1876,6 +1880,13 @@ endif
 " }}} Edit
 
 " Move {{{
+" vim-hjkl-warning {{{
+if s:dein_enabled && dein#tap('vim-hjkl-warning')
+  let g:hjkl_warning_min_column   = 10
+  let g:hjkl_warning_min_line     = 10
+  let g:hjkl_warning_max_repeat   = 20
+endif
+" }}} vim-hjkl-warning
 " }}} Move
 
 " Check language, web source {{{
