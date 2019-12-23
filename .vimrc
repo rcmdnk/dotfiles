@@ -1462,6 +1462,7 @@ if s:dein_enabled && dein#tap('ale')
     autocmd MyAutoGroup User ALELint call lightline#update()
   endif
 
+  let g:ale_python_flake8_options="--ignore=W503"
   let g:ale_sh_shellcheck_options = '-e SC1090,SC2059,SC2155,SC2164'
 elseif s:dein_enabled && dein#tap('syntastic')
   " Disable automatic check at file open/close
