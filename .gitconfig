@@ -4,7 +4,7 @@
 [github]
 	user = rcmdnk
 [credential]
-  username = rcmdnk
+	username = rcmdnk
 [core]
   autocrlf = false
   editor = vi
