@@ -455,13 +455,13 @@ _set_function () { # Functions
   # for ghq {{{
   if type ghq >& /dev/null;then
     ghqgo () {
-      if [[ $# -gt 0 ]];then
-        local repos="$*"
+      if [[ $# -eq 1 ]];then
+        local repo="$1"
       else
-        local repos=$(command ghq list|sentaku)
+        local repo=$(command ghq list|sort|sentaku)
       fi
-      if [[ -n "$repos" ]];then
-        cd "$(command ghq root)/$repos"
+      if [[ -n "$repo" ]];then
+        cd "$(command ghq root)/$repo"
       fi
     }
 

@@ -102,3 +102,6 @@ fi
 # {{{ Load other files
 _source_files
 # }}}
+
+# exit code 0
+:

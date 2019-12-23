@@ -3,6 +3,8 @@
 	email = rcmdnk@gmail.com
 [github]
 	user = rcmdnk
+[credential]
+  username = rcmdnk
 [core]
   autocrlf = false
   editor = vi
@@ -91,7 +93,7 @@
       exit;\
     fi;\
     git_repo=${1};\
-    repo_name=${git_repo#*/};\
+    repo_name=${git_repo##*/};\
     repo_name=${repo_name%.git};\
     base=$(basename \"${2}\");\
     if [ \"$base\" = \"$repo_name\" ];then \
@@ -289,5 +291,6 @@
     done;\
     return $ret;\
   };f"
-[credential]
-	username = rcmdnk
+
+[include]
+  path = .gitconfig.private
