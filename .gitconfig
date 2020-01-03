@@ -292,5 +292,8 @@
     return $ret;\
   };f"
 
+[ghq]
+  root = ~/.ghq
+
 [include]
   path = .gitconfig.private
