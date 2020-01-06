@@ -141,79 +141,86 @@ if s:dein_enabled
     " }}}
 
     " Code syntax, tools for each language {{{
-    call dein#add('prabirshrestha/vim-lsp')
+"    call dein#add('prabirshrestha/vim-lsp')
+"    call dein#add('prabirshrestha/async.vim')
+"
+"    " Applescript
+"    call dein#add('vim-scripts/applescript.vim')
+"
+"    " CSS3 (Sass)
+"    call dein#add('hail2u/vim-css3-syntax.git')
+"
+"    " c++ {{{
+"    " syntax with c++11 support
+"    call dein#add('vim-jp/cpp-vim')
+"    " c++ completion
+"    call dein#add('osyo-manga/vim-marching')
+"    " c++ formatting
+"    call dein#add('rhysd/vim-clang-format')
+"    " }}}
+"
+"    " Go
+"    " Extra plugins for Go
+"    call dein#add('vim-jp/vim-go-extra')
+"
+"    " Homebrew
+"    call dein#add('xu-cheng/brew.vim')
+"
+"    " HTML
+"    call dein#add('othree/html5.vim')
+"
+"    " Java
+"    call dein#add('koron/java-helper-vim')
+"
+"    " JavaScript
+"    call dein#add('pangloss/vim-javascript')
+"
+"    " Markdown {{{
+"    call dein#add('junegunn/vader.vim')
+"    call dein#add('godlygeek/tabular')
+"    call dein#add('joker1007/vim-markdown-quote-syntax')
+"    call dein#add('rcmdnk/vim-markdown')
+"    " }}}
+"
+"    " Python {{{
+"    " indent
+"    call dein#add('hynek/vim-python-pep8-indent')
+"    " Folding method for python, but makes completion too slow...?
+"    call dein#add('vim-scripts/python_fold')
+"    " }}}
+"
+"    " Powershell
+"    call dein#add('PProvost/vim-ps1')
+"
+"    " Ruby (rails, erb)
+"    call dein#add('vim-ruby/vim-ruby')
+"    call dein#add('tpope/vim-rails')
+"
+"    " LaTex
+"    call dein#add('lervag/vimtex')
+"
+"    " Vim Syntax Checker
+"    call dein#add('dbakker/vim-lint')
+"
+"    " Vimperator
+"    call dein#add('vimperator/vimperator.vim')
+"
+"    " Syntax checking
+"    if has('nvim') || (has('job') && has('channel') && has('timers'))
+"      call dein#add('w0rp/ale')
+"    else
+"      call dein#add('vim-syntastic/syntastic')
+"    endif
+"
+"    " comment
+"    call dein#add('tomtom/tcomment_vim')
+
+    " Language Server
     call dein#add('prabirshrestha/async.vim')
-
-    " Applescript
-    call dein#add('vim-scripts/applescript.vim')
-
-    " CSS3 (Sass)
-    call dein#add('hail2u/vim-css3-syntax.git')
-
-    " c++ {{{
-    " syntax with c++11 support
-    call dein#add('vim-jp/cpp-vim')
-    " c++ completion
-    call dein#add('osyo-manga/vim-marching')
-    " c++ formatting
-    call dein#add('rhysd/vim-clang-format')
-    " }}}
-
-    " Go
-    " Extra plugins for Go
-    call dein#add('vim-jp/vim-go-extra')
-
-    " Homebrew
-    call dein#add('xu-cheng/brew.vim')
-
-    " HTML
-    call dein#add('othree/html5.vim')
-
-    " Java
-    call dein#add('koron/java-helper-vim')
-
-    " JavaScript
-    call dein#add('pangloss/vim-javascript')
-
-    " Markdown {{{
-    call dein#add('junegunn/vader.vim')
-    call dein#add('godlygeek/tabular')
-    call dein#add('joker1007/vim-markdown-quote-syntax')
-    call dein#add('rcmdnk/vim-markdown')
-    " }}}
-
-    " Python {{{
-    " indent
-    call dein#add('hynek/vim-python-pep8-indent')
-    " Folding method for python, but makes completion too slow...?
-    call dein#add('vim-scripts/python_fold')
-    " }}}
-
-    " Powershell
-    call dein#add('PProvost/vim-ps1')
-
-    " Ruby (rails, erb)
-    call dein#add('vim-ruby/vim-ruby')
-    call dein#add('tpope/vim-rails')
-
-    " LaTex
-    call dein#add('lervag/vimtex')
-
-    " Vim Syntax Checker
-    call dein#add('dbakker/vim-lint')
-
-    " Vimperator
-    call dein#add('vimperator/vimperator.vim')
-
-    " Syntax checking
-    if has('nvim') || (has('job') && has('channel') && has('timers'))
-      call dein#add('w0rp/ale')
-    else
-      call dein#add('vim-syntastic/syntastic')
-    endif
-
-    " comment
-    call dein#add('tomtom/tcomment_vim')
+    call dein#add('prabirshrestha/asyncomplete.vim')
+    call dein#add('prabirshrestha/asyncomplete-lsp.vim')
+    call dein#add('prabirshrestha/vim-lsp')
+    call dein#add('mattn/vim-lsp-settings', {'merged': 0})
     " }}}
 
     " View {{{
