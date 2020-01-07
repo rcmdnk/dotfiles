@@ -141,79 +141,76 @@ if s:dein_enabled
     " }}}
 
     " Code syntax, tools for each language {{{
-"    call dein#add('prabirshrestha/vim-lsp')
-"    call dein#add('prabirshrestha/async.vim')
-"
-"    " Applescript
-"    call dein#add('vim-scripts/applescript.vim')
-"
-"    " CSS3 (Sass)
-"    call dein#add('hail2u/vim-css3-syntax.git')
-"
-"    " c++ {{{
-"    " syntax with c++11 support
-"    call dein#add('vim-jp/cpp-vim')
-"    " c++ completion
-"    call dein#add('osyo-manga/vim-marching')
-"    " c++ formatting
-"    call dein#add('rhysd/vim-clang-format')
-"    " }}}
-"
-"    " Go
-"    " Extra plugins for Go
-"    call dein#add('vim-jp/vim-go-extra')
-"
-"    " Homebrew
-"    call dein#add('xu-cheng/brew.vim')
-"
-"    " HTML
-"    call dein#add('othree/html5.vim')
-"
-"    " Java
-"    call dein#add('koron/java-helper-vim')
-"
-"    " JavaScript
-"    call dein#add('pangloss/vim-javascript')
-"
-"    " Markdown {{{
-"    call dein#add('junegunn/vader.vim')
-"    call dein#add('godlygeek/tabular')
-"    call dein#add('joker1007/vim-markdown-quote-syntax')
-"    call dein#add('rcmdnk/vim-markdown')
-"    " }}}
-"
-"    " Python {{{
-"    " indent
-"    call dein#add('hynek/vim-python-pep8-indent')
-"    " Folding method for python, but makes completion too slow...?
-"    call dein#add('vim-scripts/python_fold')
-"    " }}}
-"
-"    " Powershell
-"    call dein#add('PProvost/vim-ps1')
-"
-"    " Ruby (rails, erb)
-"    call dein#add('vim-ruby/vim-ruby')
-"    call dein#add('tpope/vim-rails')
-"
-"    " LaTex
-"    call dein#add('lervag/vimtex')
-"
-"    " Vim Syntax Checker
-"    call dein#add('dbakker/vim-lint')
-"
-"    " Vimperator
-"    call dein#add('vimperator/vimperator.vim')
-"
-"    " Syntax checking
-"    if has('nvim') || (has('job') && has('channel') && has('timers'))
-"      call dein#add('w0rp/ale')
-"    else
-"      call dein#add('vim-syntastic/syntastic')
-"    endif
-"
-"    " comment
-"    call dein#add('tomtom/tcomment_vim')
+    " Applescript
+    call dein#add('vim-scripts/applescript.vim')
+
+    " CSS3 (Sass)
+    call dein#add('hail2u/vim-css3-syntax.git')
+
+    " c++ {{{
+    " syntax with c++11 support
+    call dein#add('vim-jp/cpp-vim')
+    " c++ completion
+    call dein#add('osyo-manga/vim-marching')
+    " c++ formatting
+    call dein#add('rhysd/vim-clang-format')
+    " }}}
+
+    " Go
+    " Extra plugins for Go
+    call dein#add('vim-jp/vim-go-extra')
+
+    " Homebrew
+    call dein#add('xu-cheng/brew.vim')
+
+    " HTML
+    call dein#add('othree/html5.vim')
+
+    " Java
+    call dein#add('koron/java-helper-vim')
+
+    " JavaScript
+    call dein#add('pangloss/vim-javascript')
+
+    " Markdown {{{
+    call dein#add('junegunn/vader.vim')
+    call dein#add('godlygeek/tabular')
+    call dein#add('joker1007/vim-markdown-quote-syntax')
+    call dein#add('rcmdnk/vim-markdown')
+    " }}}
+
+    " Python {{{
+    " indent
+    call dein#add('hynek/vim-python-pep8-indent')
+    " Folding method for python, but makes completion too slow...?
+    call dein#add('vim-scripts/python_fold')
+    " }}}
+
+    " Powershell
+    call dein#add('PProvost/vim-ps1')
+
+    " Ruby (rails, erb)
+    call dein#add('vim-ruby/vim-ruby')
+    call dein#add('tpope/vim-rails')
+
+    " LaTex
+    call dein#add('lervag/vimtex')
+
+    " Vim Syntax Checker
+    call dein#add('dbakker/vim-lint')
+
+    " Vimperator
+    call dein#add('vimperator/vimperator.vim')
+
+    " Syntax checking
+    if has('nvim') || (has('job') && has('channel') && has('timers'))
+      call dein#add('w0rp/ale')
+    else
+      call dein#add('vim-syntastic/syntastic')
+    endif
+
+    " comment
+    call dein#add('tomtom/tcomment_vim')
 
     " Language Server
     call dein#add('prabirshrestha/async.vim')
@@ -359,9 +356,7 @@ if s:dein_enabled
 
     " Move {{{
     " warn no vimer moving
-    "if has('nvim-0.4.0')
-    "  call dein#add('matoruru/vim-hjkl-warning')
-    "end
+    "call dein#add('matoruru/vim-hjkl-warning')
     " }}} Move
 
     " Check language, web source {{{
@@ -1456,16 +1451,18 @@ if s:dein_enabled && dein#tap('ale')
   let g:ale_lint_on_save = 1
   let g:ale_lint_on_text_changed = 'normal'
 
-  nmap <silent> <Subleader>p <Plug>(ale_previous)
-  nmap <silent> <Subleader>n <Plug>(ale_next)
-  nmap <silent> <Subleader>a <Plug>(ale_toggle)
-
   function! s:ale_list()
     let g:ale_open_list = 1
     call ale#Queue(0, 'lint_file')
   endfunction
   command! ALEList call s:ale_list()
-  nnoremap <Subleader>m  :ALEList<CR>
+
+  nnoremap [ale] <Nop>
+  nmap <Leader>a [ale]
+  nmap <silent> [ale]p <Plug>(ale_previous)
+  nmap <silent> [ale]n <Plug>(ale_next)
+  nmap <silent> [ale]a <Plug>(ale_toggle)
+  nmap <silent> [ale]l :ALEList<CR>
   autocmd MyAutoGroup FileType qf nnoremap <silent> <buffer> q :let g:ale_open_list = 0<CR>:q!<CR>
   autocmd MyAutoGroup FileType help,qf,man,ref,markdown let b:ale_enabled = 0
 
@@ -1498,6 +1495,24 @@ endif
 " tomtom/tcomment_vim {{{
 if s:dein_enabled && dein#tap('tcomment_vim')
   "let g:tcomment#options = {'whitespace': 'no'}
+endif
+" }}}
+
+" Language Server {{{
+if s:dein_enabled && dein#tap('vim-lsp')
+  nmap <Leader>l [lsp]
+  nnoremap [lsp] <Nop>
+  nmap <Leader>l [lsp]
+  nnoremap <silent> [lsp]a :LspCodeAction<CR>
+  nnoremap <silent> [lsp]d :LspDefinition<CR>
+  nnoremap <silent> [lsp]D :LspDeclaration<CR>
+  nnoremap <silent> [lsp]c :LspDocumentDiagnostics<CR>
+  nnoremap <silent> [lsp]f :LspDocumentFormat<CR>
+  nnoremap <silent> [lsp]h :LspHover<CR>
+  nnoremap <silent> [lsp]n :LspNextError<CR>
+  nnoremap <silent> [lsp]p :LspPreviousError<CR>
+  nnoremap <silent> [lsp]r :LspRename<CR>
+  nnoremap <silent> [lsp]t :LspTypeDefinition<CR>
 endif
 " }}}
 
@@ -1867,7 +1882,6 @@ if s:dein_enabled && dein#tap('vim-sandwich')
   nmap <Leader>' saiw'
   nmap <Leader>` saiw`
   nmap <Leader>* saiw*
-  nmap <Leader>a saiwa
   nmap <Leader><Leader>* saiwa
   xmap { sa{
   xmap } sa}
@@ -1881,7 +1895,6 @@ if s:dein_enabled && dein#tap('vim-sandwich')
   xmap ' sa'
   xmap ` sa`
   xmap * sa*
-  xmap a saa
   xmap <Leader>* saa
 endif
 " }}} vim-surround.vim
@@ -1893,6 +1906,12 @@ if s:dein_enabled && dein#tap('vim-hjkl-warning')
   let g:hjkl_warning_min_column   = 10
   let g:hjkl_warning_min_line     = 10
   let g:hjkl_warning_max_repeat   = 20
+
+  let g:hjkl_warning_win_width    = 20
+  let g:hjkl_warning_win_height   = 2
+  let g:hjkl_warning_message      = ["Boo!", "You are not Vimmer!"]
+  let g:hjkl_warning_enable_title = v:false
+  let g:hjkl_warning_title        = ""
 endif
 " }}} vim-hjkl-warning
 " }}} Move
