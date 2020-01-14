@@ -1500,6 +1500,7 @@ endif
 
 " Language Server {{{
 if s:dein_enabled && dein#tap('vim-lsp')
+  let g:lsp_virtual_text_enabled = 0
   nmap <Leader>l [lsp]
   nnoremap [lsp] <Nop>
   nmap <Leader>l [lsp]
