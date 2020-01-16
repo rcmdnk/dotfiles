@@ -10,6 +10,12 @@
   editor = vi
   execludesfile = ~/.gitignore_global
   quotepath = false
+[ghq]
+  root = ~/.ghq
+[pull]
+  rebase = merges
+[branch]
+	autosetuprebase = always
 [push]
   default = matching
 [fetch]
@@ -291,9 +297,6 @@
     done;\
     return $ret;\
   };f"
-
-[ghq]
-  root = ~/.ghq
 
 [include]
   path = .gitconfig.private
