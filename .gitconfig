@@ -10,12 +10,10 @@
   editor = vi
   execludesfile = ~/.gitignore_global
   quotepath = false
-[ghq]
-  root = ~/.ghq
-[pull]
-  rebase = merges
-[branch]
-	autosetuprebase = always
+#[pull]
+#  rebase = merges
+#[branch]
+#	autosetuprebase = always
 [push]
   default = matching
 [fetch]
@@ -29,6 +27,8 @@
   tag = false
 [color]
   ui = auto
+[ghq]
+  root = ~/.ghq
 [alias]
   ac = "!f () {\
     git add -A;\
