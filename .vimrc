@@ -213,11 +213,11 @@ if s:dein_enabled
     call dein#add('tomtom/tcomment_vim')
 
     " Language Server
-    call dein#add('prabirshrestha/async.vim')
-    call dein#add('prabirshrestha/asyncomplete.vim')
-    call dein#add('prabirshrestha/asyncomplete-lsp.vim')
-    call dein#add('prabirshrestha/vim-lsp')
-    call dein#add('mattn/vim-lsp-settings', {'merged': 0})
+    "call dein#add('prabirshrestha/async.vim')
+    "call dein#add('prabirshrestha/asyncomplete.vim')
+    "call dein#add('prabirshrestha/asyncomplete-lsp.vim')
+    "call dein#add('prabirshrestha/vim-lsp')
+    "call dein#add('mattn/vim-lsp-settings', {'merged': 0})
     " }}}
 
     " View {{{
@@ -1502,8 +1502,9 @@ endif
 if s:dein_enabled && dein#tap('vim-lsp')
   let g:lsp_virtual_text_enabled = 0
   nmap <Leader>l [lsp]
+  xmap <Leader>l [lsp]
   nnoremap [lsp] <Nop>
-  nmap <Leader>l [lsp]
+  xnoremap [lsp] <Nop>
   nnoremap <silent> [lsp]a :LspCodeAction<CR>
   nnoremap <silent> [lsp]d :LspDefinition<CR>
   nnoremap <silent> [lsp]D :LspDeclaration<CR>
