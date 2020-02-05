@@ -1,3 +1,5 @@
 [BASIC]
 good-names=i,j,k,l,m,n,v,x,y,ret
 
+[MESSAGES CONTROL]
+disable=C0111,C0103
