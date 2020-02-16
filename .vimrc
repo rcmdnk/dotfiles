@@ -329,9 +329,12 @@ if s:dein_enabled
     call dein#add('kana/vim-operator-replace', {'depdens': ['vim-operator-user']})
     " }}}
 
-    " Gundo
-    call dein#add('sjl/gundo.vim', {
-          \ 'on_cmd': ['GundoToggle'],
+    "" Gundo
+    "call dein#add('sjl/gundo.vim', {
+    "      \ 'on_cmd': ['GundoToggle'],
+    "      \ 'lazy': 1})
+    call dein#add('mbbill/undotree', {
+          \ 'on_cmd': ['UndotreeToggle'],
           \ 'lazy': 1})
 
     " Align
@@ -1826,6 +1829,13 @@ if s:dein_enabled && dein#tap('gundo.vim')
   let g:gundo_preview_height = 15
   let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
   let g:gundo_preview_bottom = 1 " Show preview at the bottom
+endif
+" }}} gundo
+
+" undotree {{{
+if s:dein_enabled && dein#tap('undotree')
+  nnoremap U :UndotreeToggle<CR>
+  let g:undotree_WindowLayout = 2
 endif
 " }}} gundo
 
