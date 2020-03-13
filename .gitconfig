@@ -301,3 +301,5 @@
 
 [include]
   path = .gitconfig.private
+[http]
+	sslVerify = true
