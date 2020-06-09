@@ -172,6 +172,10 @@ if s:dein_enabled
     " JavaScript
     call dein#add('pangloss/vim-javascript')
 
+    " Terraform
+    call dein#add('hashivim/vim-terraform')
+    call dein#add('juliosueiras/vim-terraform-completion')
+
     " Markdown {{{
     call dein#add('junegunn/vader.vim')
     call dein#add('godlygeek/tabular')
