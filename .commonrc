@@ -120,6 +120,7 @@ _set_homebrew_path () { # {{{
   ## completion from brew (disabled to faster reading)
   if [ "$BASH_VERSION" != "" ];then
     _source_file "$brew_prefix/etc/bash_completion"
+    _source_file "$brew_prefix/etc/profile.d/bash_completion.sh"
   elif [ "$ZSH_VERSION" != "" ];then
     for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
       brew_completion="$brew_prefix/$d"
