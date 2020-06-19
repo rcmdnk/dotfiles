@@ -192,8 +192,8 @@ _set_path () { # {{{
   if [[ -n "$SSHHOME" ]];then
     _add_path PATH "${SSHHOME}/.sshrc"
   fi
-  _set_ghq_path
   _set_homebrew_path
+  _set_ghq_path
 } # }}}
 # }}} PATH
 
