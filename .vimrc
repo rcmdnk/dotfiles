@@ -342,9 +342,10 @@ if s:dein_enabled
           \ 'lazy': 1})
 
     " Align
-    call dein#add('h1mesuke/vim-alignta', {
-          \ 'on_cmd': ['Alignta'],
-          \ 'lazy': 1})
+    "call dein#add('h1mesuke/vim-alignta', {
+    "      \ 'on_cmd': ['Alignta'],
+    "      \ 'lazy': 1})
+    call dein#add('junegunn/vim-easy-align')
 
     " yank
     "call dein#add('LeafCage/yankround.vim')
@@ -1850,6 +1851,13 @@ if s:dein_enabled && dein#tap('vim-operator-replace')
 endif
 " }}} vim-operator-replace
 " }}} Operator
+
+" vim-easy-align {{{
+if s:dein_enabled && dein#tap('vim-easy-align')
+  xmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
+endif
+" }}} vim-easy-align
 
 " yankround {{{
 if s:dein_enabled && dein#tap('yankround.vim')
