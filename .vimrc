@@ -8,6 +8,20 @@ if 1
 let s:use_dein = 1
 " }}}
 
+" Python Environment {{{
+if !filereadable(expand('~/.vim_no_python'))
+  let s:python3 = system('which python3')
+  if strlen(s:python3) != 0
+    let s:python3_dir = $HOME . '/.vim/python3'
+    if ! isdirectory(s:python3_dir)
+      call system('python3 -m venv ' . s:python3_dir)
+      call system('source ' . s:python3_dir . '/bin/activate && pip install neovim black pep8 flake8 pyflakes jedi')
+    endif
+    let g:python3_host_prog = s:python3_dir . '/bin/python'
+  endif
+endif
+" Python Environment
+
 " Prepare .vim dir {{{
 let s:vimdir = $HOME . '/.vim'
 if has('vim_starting')
@@ -188,6 +202,10 @@ if s:dein_enabled
     call dein#add('hynek/vim-python-pep8-indent')
     " Folding method for python, but makes completion too slow...?
     call dein#add('vim-scripts/python_fold')
+    " Autocompletion
+    call dein#add('davidhalter/jedi-vim', {
+          \ 'on_ft': ['python'],
+          \ 'lazy': 1})
     " }}}
 
     " Powershell
