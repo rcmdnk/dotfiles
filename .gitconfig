@@ -303,3 +303,5 @@
   path = .gitconfig.private
 [http]
 	sslVerify = true
+[pull]
+	rebase = false
