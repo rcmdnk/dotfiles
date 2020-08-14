@@ -184,8 +184,11 @@ _set_path () { # {{{
       _add_path LD_LIBRARY_PATH "${p}/lib64"
       _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
     fi
+    if [[ -d "$HOME/.vim/python3/bin" ]];then
+      _add_path PATH "$HOME/.vim/python3/bin"
+    fi
   done
-  _source_file $HOME/.poetry/env
+  _source_file "$HOME/.poetry/env"
   export GOPATH=$HOME/.go
   if [[ -d "$GOPATH/bin" ]];then
     _add_path PATH "${GOPATH}/bin"

@@ -596,11 +596,18 @@ if s:neobundle_enable && ! empty(neobundle#get("hl_matchit.vim"))
 endif
 " }}} hl_matchit
 
-" undotree {{{
+" Undo {{{
 " Another undo, need vim7.3+patch005
 " Use gundo instead
 NeoBundle "mbbill/undotree"
+call dein#add('mbbill/undotree', {
+      \ 'on_cmd': ['UndotreeToggle'],
+      \ 'lazy': 1})
 
+if s:dein_enabled && dein#tap('undotree')
+  nnoremap U :UndotreeToggle<CR>
+  let g:undotree_WindowLayout = 2
+endif
 if s:neobundle_enable && ! empty(neobundle#get("undotree"))
   nmap <Leader>U :UndotreeToggle<CR>
   let g:undotree_SetFocusWhenToggle = 1
@@ -613,6 +620,19 @@ if s:neobundle_enable && ! empty(neobundle#get("undotree"))
   let g:undotree_HighlightChangedText = 1
   let g:undotree_HighlightSyntax = "UnderLined"
 endif
+
+
+call dein#add('sjl/gundo.vim', {
+      \ 'on_cmd': ['GundoToggle'],
+      \ 'lazy': 1})
+if s:dein_enabled && dein#tap('gundo.vim')
+  nnoremap U :GundoToggle<CR>
+  let g:gundo_width = 30
+  let g:gundo_preview_height = 15
+  let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
+  let g:gundo_preview_bottom = 1 " Show preview at the bottom
+endif
+
 " }}}
 
 " vim-pcompleteowerline {{{
@@ -830,10 +850,15 @@ endif
 " }}} operator
 
 " Align {{{
-" Align codes
+
 " http://www.drchip.org/astronaut/vim/align.html#Examples
 " * Use 'h1mesuke/vim-alignta' instead
 NeoBundle "Align"
+
+" Align codes: Use vim-easy-align, instead
+call dein#add('h1mesuke/vim-alignta', {
+      \ 'on_cmd': ['Alignta'],
+      \ 'lazy': 1})
 " }}} Align
 
 " Table {{{

@@ -15,9 +15,10 @@ if !filereadable(expand('~/.vim_no_python'))
     let s:python3_dir = $HOME . '/.vim/python3'
     if ! isdirectory(s:python3_dir)
       call system('python3 -m venv ' . s:python3_dir)
-      call system('source ' . s:python3_dir . '/bin/activate && pip install neovim black pep8 flake8 pyflakes jedi')
+      call system('source ' . s:python3_dir . '/bin/activate && pip install pynvim black pep8 flake8 pyflakes jedi')
     endif
     let g:python3_host_prog = s:python3_dir . '/bin/python'
+    let $PATH = s:python3_dir . '/bin:' . $PATH
   endif
 endif
 " Python Environment
@@ -351,18 +352,10 @@ if s:dein_enabled
     call dein#add('kana/vim-operator-replace', {'depdens': ['vim-operator-user']})
     " }}}
 
-    "" Gundo
-    "call dein#add('sjl/gundo.vim', {
-    "      \ 'on_cmd': ['GundoToggle'],
-    "      \ 'lazy': 1})
-    call dein#add('mbbill/undotree', {
-          \ 'on_cmd': ['UndotreeToggle'],
-          \ 'lazy': 1})
+    "" Undo
+    call dein#add('simnalamburt/vim-mundo')
 
     " Align
-    "call dein#add('h1mesuke/vim-alignta', {
-    "      \ 'on_cmd': ['Alignta'],
-    "      \ 'lazy': 1})
     call dein#add('junegunn/vim-easy-align')
 
     " yank
@@ -1466,7 +1459,8 @@ endif
 
 " vimtex {{{
 if s:dein_enabled && dein#tap('vimtex')
-  "g:vimtex_compiler_progname = 'nvr'
+  "let g:vimtex_compiler_progname = 'nvr'
+  let g:tex_flavor = 'latex'
 endif
 " }}} vimtex
 
@@ -1845,22 +1839,15 @@ if s:dein_enabled && dein#tap('vim-textobj-function')
 endif
 " }}} textobj
 
-" gundo {{{
-if s:dein_enabled && dein#tap('gundo.vim')
-  nnoremap U :GundoToggle<CR>
-  let g:gundo_width = 30
-  let g:gundo_preview_height = 15
-  let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
-  let g:gundo_preview_bottom = 1 " Show preview at the bottom
+" mundo {{{
+if s:dein_enabled && dein#tap('vim-mundo')
+  nnoremap U :MundoToggle<CR>
+  let g:mundo_width = 30
+  let g:mundo_preview_height = 15
+  let g:mundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
+  let g:mundo_preview_bottom = 1 " Show preview at the bottom
 endif
-" }}} gundo
-
-" undotree {{{
-if s:dein_enabled && dein#tap('undotree')
-  nnoremap U :UndotreeToggle<CR>
-  let g:undotree_WindowLayout = 2
-endif
-" }}} gundo
+" }}} mundo
 
 " Operator {{{
 " vim-operator-replace{{{
