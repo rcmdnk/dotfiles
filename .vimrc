@@ -8,6 +8,15 @@ if 1
 let s:use_dein = 1
 " }}}
 
+" Prepare .vim dir {{{
+let s:vimdir = $HOME . '/.vim'
+if has('vim_starting')
+  if ! isdirectory(s:vimdir)
+    call system('mkdir ' . s:vimdir)
+  endif
+endif
+" }}}
+
 " Python Environment {{{
 if !filereadable(expand('~/.vim_no_python'))
   let s:python3 = system('which python3')
@@ -22,15 +31,6 @@ if !filereadable(expand('~/.vim_no_python'))
   endif
 endif
 " Python Environment
-
-" Prepare .vim dir {{{
-let s:vimdir = $HOME . '/.vim'
-if has('vim_starting')
-  if ! isdirectory(s:vimdir)
-    call system('mkdir ' . s:vimdir)
-  endif
-endif
-" }}}
 
 " dein {{{
 
@@ -99,25 +99,19 @@ if s:dein_enabled
       call dein#add('ujihisa/neco-look')
       call dein#add('Shougo/neco-syntax')
       call dein#add('Shougo/neco-vim')
+      call dein#add('Shougo/neoinclude.vim')
+      call dein#add('deoplete-plugins/deoplete-jedi')
+      call dein#add('carlitux/deoplete-ternjs')
+      call dein#add('SevereOverfl0w/deoplete-github')
+      "call dein#add('lighttiger2505/deoplete-vim-lsp')
       "call dein#add('zchee/deoplete-clang')
       "call dein#add('zchee/deoplete-go')
-      "call dein#add('zchee/deoplete-jedi')
       "call dein#add('zchee/deoplete-zsh')
-    elseif has('lua')
-      call dein#add('Shougo/neocomplete.vim', {
-            \ 'on_i': 1,
-            \ 'lazy': 1})
-      call dein#add('ujihisa/neco-look')
-      call dein#add('Shougo/neco-syntax')
-      call dein#add('Shougo/neco-vim')
     endif
     " }}}
 
     " Snippet {{{
     call dein#add('Shougo/neosnippet')
-    "      \ 'on_map': ['<Plug>(neosnippet_expand_or_jump)',
-    "      \            '<Plug>(neosnippet_expand_target)'],
-    "      \ 'lazy': 1})
     call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
     call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
     call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
@@ -128,30 +122,6 @@ if s:dein_enabled
     if has('python3')
       call dein#add('Shougo/denite.nvim')
       call dein#add('Shougo/neomru.vim')
-    else
-      call dein#add('Shougo/unite.vim', {
-            \ 'on_cmd': ['Unite'],
-            \ 'lazy': 1})
-      " Source for unite: mru
-      call dein#add('Shougo/neomru.vim', {'depdens': ['unite.vim']})
-
-      " Source for unite: mark
-      call dein#add('tacroe/unite-mark', {'depdens': ['unite.vim']})
-
-      " Source for unite: help
-      call dein#add('tsukkee/unite-help', {'depdens': ['unite.vim']})
-
-      " Source for unite: history/command, history/search
-      call dein#add('thinca/vim-unite-history', {'depdens': ['unite.vim']})
-
-      " Source for unite: history/yank
-      call dein#add('Shougo/neoyank.vim', {'depdens': ['unite.vim']})
-
-      " Source for unite: tag
-      call dein#add('tsukkee/unite-tag', {'depdens': ['unite.vim']})
-
-      " Source for unite: outline
-      call dein#add('Shougo/unite-outline', {'depdens': ['unite.vim']})
     endif
     " }}}
 
@@ -192,8 +162,6 @@ if s:dein_enabled
     call dein#add('juliosueiras/vim-terraform-completion')
 
     " Markdown {{{
-    call dein#add('junegunn/vader.vim')
-    call dein#add('godlygeek/tabular')
     call dein#add('joker1007/vim-markdown-quote-syntax')
     call dein#add('rcmdnk/vim-markdown')
     " }}}
@@ -203,10 +171,6 @@ if s:dein_enabled
     call dein#add('hynek/vim-python-pep8-indent')
     " Folding method for python, but makes completion too slow...?
     call dein#add('vim-scripts/python_fold')
-    " Autocompletion
-    call dein#add('davidhalter/jedi-vim', {
-          \ 'on_ft': ['python'],
-          \ 'lazy': 1})
     " }}}
 
     " Powershell
@@ -221,9 +185,6 @@ if s:dein_enabled
 
     " Vim Syntax Checker
     call dein#add('dbakker/vim-lint')
-
-    " Vimperator
-    call dein#add('vimperator/vimperator.vim')
 
     " Syntax checking
     if has('nvim') || (has('job') && has('channel') && has('timers'))
@@ -373,13 +334,9 @@ if s:dein_enabled
 
     " }}} Edit
 
-    " Move {{{
-    " warn no vimer moving
-    "call dein#add('matoruru/vim-hjkl-warning')
-    " }}} Move
-
     " Check language, web source {{{
     " vim-ref
+    " Need lynx (brew install lynx)
     call dein#add('thinca/vim-ref', {
           \ 'on_cmd': ['Ref'],
           \ 'lazy': 1})
@@ -723,19 +680,8 @@ map <Space> <Subleader>
 nnoremap <Subleader>, ,
 xnoremap <Subleader>, ,
 
-" fix meta-keys
-"map <ESC>p <M-p>
-"map <ESC>n <M-n>
-
 " Use semicolon as colong
 noremap ; :
-"noremap : ;
-
-" Require <Leader> before gu*/gU* (Change to lowr/upper case)
-noremap gu <Nop>
-noremap gU <Nop>
-noremap <Leader>gu gu
-noremap <Leader>gU gU
 
 """ Normal mode
 
@@ -794,11 +740,9 @@ nnoremap <silent> <Leader>/ :noh<CR>
 " insert file name
 "nnoremap <silent> ,f i<CR><Esc><BS>:r!echo %<CR>i<BS><Esc>Jx
 
-" save/quit
-"nnoremap <Leader>w :w<CR>
-"nnoremap <Leader>q :q<CR>
-"nnoremap <Leader>wq :wq<CR>
-"nnoremap <Leader>1 :q!<CR>
+" save/quit/buffer
+nnoremap <Leader>q :bdelete<CR>
+nnoremap <Leader>w :w<CR>:bdelete<CR>
 nnoremap <A-w> :w<CR>
 nnoremap <A-q> :q!<CR>
 nnoremap <A-z> :ZZ<CR>
@@ -808,10 +752,6 @@ nnoremap Q :q<CR>
 nnoremap Z ZZ
 nnoremap W :w<CR>
 nnoremap ! :q!<CR>
-
-" Close/Close & Save buffer
-nnoremap <Leader>q :bdelete<CR>
-nnoremap <Leader>w :w<CR>:bdelete<CR>
 
 " Fix Y
 nnoremap Y y$
@@ -1121,37 +1061,6 @@ if s:dein_enabled && dein#tap('deoplete.nvim')
 endif
 " }}} deoplete.nvim
 
-" neocomplete {{{
-if s:dein_enabled && dein#tap('neocomplete.vim')
-  let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#max_list = 20
-  let g:neocomplete#min_keyword_length = 3
-  let g:neocomplete#enable_ignore_case = 1
-  let g:neocomplete#enable_smart_case = 1
-  let g:neocomplete#enable_auto_select = 0
-  let g:neocomplete#lock_buffer_name_pattern = ''
-  let g:neocomplete#enable_fuzzy_completion = 0
-  " text mode is necessary for look
-  " But it is not useful for code writing because it convert like:
-  " NeoBundle to Neobundle.
-  let g:neocomplete#text_mode_filetypes =
-        \ {'hybrid': 1, 'text':1, 'help': 1, 'gitcommit': 1, 'gitrebase':1,
-        \  'vcs-commit': 1, 'markdown':1, 'textile':1, 'creole':1, 'org':1,
-        \  'rdoc':1, 'mediawiki':1, 'rst':1, 'asciidoc':1, 'prod':1,
-        \  'plaintex':1, 'mkd': 1, 'html': 1,
-        \  'vim':0, 'sh':0, 'javascript':0, 'perl':0}
-  let g:neocomplete#same_filetypes = {}
-  let g:neocomplete#same_filetypes._ = '_'
-  "inoremap <expr> <TAB>  pumvisible() ? '\<C-n>' : '\<TAB>'
-  inoremap <expr> <Tab> pumvisible() ? '\<C-n>' : neocomplete#start_manual_complete()
-  "inoremap <expr> <A-y>  neocomplete#close_popup()
-  "inoremap <expr> <A-e>  neocomplete#cancel_popup()
-  "inoremap <expr> <A-l>  neocomplete#complete_common_string()
-  "inoremap <expr> <A-u>  neocomplete#undo_completion()
-
-  autocmd MyAutoGroup FileType python setlocal completeopt-=preview
-endif
-" }}} neocomplete
 " }}} Completion
 
 " Snippet {{{
@@ -1223,170 +1132,40 @@ if s:dein_enabled && dein#tap('denite.nvim')
   nnoremap <silent> [denite]m :<C-u>Denite file_mru<CR>
   nnoremap <silent> [denite]u :<C-u>Denite menu<CR>
 
-  call denite#custom#map(
-        \ 'insert',
-        \ '<Down>',
-        \ '<denite:move_to_next_line>',
-        \ 'noremap'
-        \)
-  call denite#custom#map(
-        \ 'insert',
-        \ '<Up>',
-        \ '<denite:move_to_previous_line>',
-        \ 'noremap'
-        \)
-  call denite#custom#map(
-        \ 'insert',
-        \ '<C-N>',
-        \ '<denite:move_to_next_line>',
-        \ 'noremap'
-        \)
-  call denite#custom#map(
-        \ 'insert',
-        \ '<C-P>',
-        \ '<denite:move_to_previous_line>',
-        \ 'noremap'
-        \)
-  call denite#custom#map(
-        \ 'insert',
-        \ '<C-G>',
-        \ '<denite:assign_next_txt>',
-        \ 'noremap'
-        \)
-  call denite#custom#map(
-        \ 'insert',
-        \ '<C-T>',
-        \ '<denite:assign_previous_line>',
-        \ 'noremap'
-        \)
-  call denite#custom#map(
-        \ 'normal',
-        \ '/',
-        \ '<denite:enter_mode:insert>',
-        \ 'noremap'
-        \)
-  call denite#custom#map(
-        \ 'insert',
-        \ '<Esc>',
-        \ '<denite:enter_mode:normal>',
-        \ 'noremap'
-        \)
-
-"  " Floating window
-"  let s:denite_win_width_percent = 0.85
-"  let s:denite_win_height_percent = 0.7
-"
-"  call denite#custom#option('default', {
-"      \ 'split': 'floating',
-"      \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
-"      \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
-"      \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
-"      \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
-"      \ })
-
-
-" }}}
-" Unite {{{
-elseif s:dein_enabled && dein#tap('unite.vim')
-  function! s:unite_my_settings()
-    nmap <buffer><Esc> <Plug>(unite_exit)
-    imap <buffer> jj      <Plug>(unite_insert_leave)
-    "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-
-    imap <buffer><expr> j unite#smart_map('j', '')
-    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
-    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-    imap <buffer> '     <Plug>(unite_quick_match_default_action)
-    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
-    imap <buffer><expr> x
-          \ unite#smart_map('x', '\<Plug>(unite_quick_match_choose_action)')
-    nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
-    nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
-    nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    nnoremap <silent><buffer><expr> l
-          \ unite#smart_map('l', unite#do_action('default'))
-
-    let l:unite = unite#get_current_unite()
-    if l:unite.buffer_name =~# '^search'
-      nnoremap <silent><buffer><expr> r     unite#do_action('replace')
-    else
-      nnoremap <silent><buffer><expr> r     unite#do_action('rename')
-    endif
-
-    nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
-    nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
-          \ empty(unite#mappings#get_current_filters()) ?
-          \ ['sorter_reverse'] : [])
-
-    " Runs 'split' action by <C-s>.
-    imap <silent><buffer><expr> <C-s>     unite#do_action('split')
+  autocmd FileType denite call s:denite_my_settings()
+  function! s:denite_my_settings() abort
+    nnoremap <silent><buffer><expr> <CR>
+    \ denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> d
+    \ denite#do_map('do_action', 'delete')
+    nnoremap <silent><buffer><expr> p
+    \ denite#do_map('do_action', 'preview')
+    nnoremap <silent><buffer><expr> q
+    \ denite#do_map('quit')
+    nnoremap <silent><buffer><expr> i
+    \ denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <Space>
+    \ denite#do_map('toggle_select').'j'
   endfunction
-  autocmd MyAutoGroup FileType unite call s:unite_my_settings()
-  " start with insert mode (can start narrow result in no time)
-  let g:unite_enable_start_insert=1
-  " window
-  "let g:unite_enable_split_vertically=1
-  let g:unite_split_rule='botright' " default topleft
-  let g:unite_winheight=10          " default 20
-  let g:unite_winwidth=60           " default 90
-  let g:unite_data_directory=s:vimdir . '.cache/unite'
 
-  " Unite prefix
-  nnoremap [unite] <Nop>
-  nmap <Leader>u [unite]
+  autocmd FileType denite-filter call s:denite_filter_my_settings()
+  function! s:denite_filter_my_settings() abort
+    imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+  endfunction
 
-  " show buffer
-  nnoremap <silent> [unite]b :Unite buffer<CR>
-  " show files/directories with full path
-  nnoremap <silent> [unite]f :Unite -buffer-name=files file<CR>
-  " show frecursive file search
-  "nnoremap <silent> [unite]f :<C-u>Unite file_rec/async:!<CR>
-  " show register
-  nnoremap <silent> [unite]r :Unite -buffer-name=register register<CR>
-  " show lines of current file
-  nnoremap <silent> [unite]l :Unite line<CR>
-  " search (like ack.vim/ag.vim)
-  nnoremap <silent> [unite]/ :Unite grep:.<CR>
-  " show opened file history including current buffers
-  if dein#tap('neomru.vim')
-    nnoremap <silent> [unite]m :Unite file_mru<CR>
-  else
-    nnoremap <silent> [unite]m :UniteWithBufferDir -buffer-name=files buffer file_mru<CR>
-  endif
-  " mark
-  if dein#tap('unite-mark')
-    nnoremap <silent> [unite]M :Unite mark<CR>
-  endif
-  " help
-  if dein#tap('unite-help')
-    nnoremap <silent> [unite]h :Unite -start-insert help<CR>
-  endif
-  " history
-  if dein#tap('vim-unite-history')
-    nnoremap <silent> [unite]c :Unite history/command<CR>
-    nnoremap <silent> [unite]S :Unite history/search<CR>
-  endif
-  " tag
-  if dein#tap('unite-tag')
-    nnoremap <silent> [unite]t :Unite tag<CR>
-  endif
-  " yank
-  if dein#tap('neoyank.vim')
-    nnoremap <silent> [unite]y :Unite history/yank<CR>
-  elseif dein#tap('yankround.vim')
-    nnoremap <silent> [unite]y :Unite yankround<CR>
-  endif
-  " snippet
-  if dein#tap('neosnipet')
-    nnoremap <silent> [unite]s :Unite neosnippet<CR>
-  endif
+  " Floating window
+  let s:denite_win_width_percent = 0.85
+  let s:denite_win_height_percent = 0.5
+
+  call denite#custom#option('default', {
+      \ 'split': 'floating',
+      \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
+      \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
+      \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
+      \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
+      \ })
 endif
-" }}} Unite
+" }}} denite
 " }}} Search/Display
 
 " Code syntax, tools for each language {{{
@@ -1842,10 +1621,10 @@ endif
 " mundo {{{
 if s:dein_enabled && dein#tap('vim-mundo')
   nnoremap U :MundoToggle<CR>
-  let g:mundo_width = 30
-  let g:mundo_preview_height = 15
-  let g:mundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
-  let g:mundo_preview_bottom = 1 " Show preview at the bottom
+  let g:gundo_width = 30
+  let g:gundo_preview_height = 15
+  let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
+  let g:gundo_preview_bottom = 1 " Show preview at the bottom
 endif
 " }}} mundo
 
@@ -1859,8 +1638,8 @@ endif
 
 " vim-easy-align {{{
 if s:dein_enabled && dein#tap('vim-easy-align')
-  xmap ga <Plug>(EasyAlign)
-  nmap ga <Plug>(EasyAlign)
+  xmap ga <Plug>(EasyAlign)*
+  nmap ga <Plug>(EasyAlign)*
 endif
 " }}} vim-easy-align
 
@@ -1928,22 +1707,6 @@ if s:dein_enabled && dein#tap('vim-sandwich')
 endif
 " }}} vim-surround.vim
 " }}} Edit
-
-" Move {{{
-" vim-hjkl-warning {{{
-if s:dein_enabled && dein#tap('vim-hjkl-warning')
-  let g:hjkl_warning_min_column   = 10
-  let g:hjkl_warning_min_line     = 10
-  let g:hjkl_warning_max_repeat   = 20
-
-  let g:hjkl_warning_win_width    = 20
-  let g:hjkl_warning_win_height   = 2
-  let g:hjkl_warning_message      = ["Boo!", "You are not Vimmer!"]
-  let g:hjkl_warning_enable_title = v:false
-  let g:hjkl_warning_title        = ""
-endif
-" }}} vim-hjkl-warning
-" }}} Move
 
 " Check language, web source {{{
 " vim-ref {{{

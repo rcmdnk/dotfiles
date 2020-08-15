@@ -36,10 +36,15 @@ call dein#add('tpope/vim-repeat')
 " }}}
 
 " Unite {{{
+" Use denite
+
 " Search and display information from arbitrary sources
-call dein#add('Shougo/unite.vim', {
-      \ 'on_cmd': ['Unite'],
-      \ 'lazy': 1})
+if has('python3')
+...
+else
+  call dein#add('Shougo/unite.vim', {
+        \ 'on_cmd': ['Unite'],
+        \ 'lazy': 1})
 
 " Source for unite: mru
 call dein#add('Shougo/neomru.vim', {'depdens': ['unite.vim']})
@@ -206,6 +211,48 @@ endif
 " }}}
 
 " Completion {{{
+" Use deoplete
+
+" neocomplete {{{
+elseif has('lua')
+  call dein#add('Shougo/neocomplete.vim', {
+        \ 'on_i': 1,
+        \ 'lazy': 1})
+  call dein#add('ujihisa/neco-look')
+  call dein#add('Shougo/neco-syntax')
+  call dein#add('Shougo/neco-vim')
+endif
+if s:dein_enabled && dein#tap('neocomplete.vim')
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#max_list = 20
+  let g:neocomplete#min_keyword_length = 3
+  let g:neocomplete#enable_ignore_case = 1
+  let g:neocomplete#enable_smart_case = 1
+  let g:neocomplete#enable_auto_select = 0
+  let g:neocomplete#lock_buffer_name_pattern = ''
+  let g:neocomplete#enable_fuzzy_completion = 0
+  " text mode is necessary for look
+  " But it is not useful for code writing because it convert like:
+  " NeoBundle to Neobundle.
+  let g:neocomplete#text_mode_filetypes =
+        \ {'hybrid': 1, 'text':1, 'help': 1, 'gitcommit': 1, 'gitrebase':1,
+        \  'vcs-commit': 1, 'markdown':1, 'textile':1, 'creole':1, 'org':1,
+        \  'rdoc':1, 'mediawiki':1, 'rst':1, 'asciidoc':1, 'prod':1,
+        \  'plaintex':1, 'mkd': 1, 'html': 1,
+        \  'vim':0, 'sh':0, 'javascript':0, 'perl':0}
+  let g:neocomplete#same_filetypes = {}
+  let g:neocomplete#same_filetypes._ = '_'
+  "inoremap <expr> <TAB>  pumvisible() ? '\<C-n>' : '\<TAB>'
+  inoremap <expr> <Tab> pumvisible() ? '\<C-n>' : neocomplete#start_manual_complete()
+  "inoremap <expr> <A-y>  neocomplete#close_popup()
+  "inoremap <expr> <A-e>  neocomplete#cancel_popup()
+  "inoremap <expr> <A-l>  neocomplete#complete_common_string()
+  "inoremap <expr> <A-u>  neocomplete#undo_completion()
+
+  autocmd MyAutoGroup FileType python setlocal completeopt-=preview
+endif
+" }}} neocomplete
+
 " neocomplcache {{{
 "let g:completion = "Shougo/neocomplcache.vim"
 if has('lua') && (( v:version == 703 && has('patch885')) || (v:version >= 704))
@@ -387,6 +434,11 @@ call dein#add('jelera/vim-javascript-syntax')
 " use "hynek/vim-python-pep8-indent", instead
 NeoBundle "mitsuhiko/vim-python-combined"
 
+" Autocompletion: use deoplete-jedi
+call dein#add('davidhalter/jedi-vim', {
+      \ 'on_ft': ['python'],
+      \ 'lazy': 1})
+
 " Python syntax
 " Syntastics or watch-dogs is enough.
 NeoBundle "nvie/vim-flake8"
@@ -531,6 +583,16 @@ call dein#add('vim-scripts/autohotkey-ahk')
 " Automatic LaTeX Plugins
 call dein#add('coot/atp_vim')
 " }}}
+
+" Vimperator {{{
+call dein#add('vimperator/vimperator.vim')
+" }}}
+
+" vim-vador {{{
+" Vim script test
+call dein#add('junegunn/vader.vim')
+" }}}
+
 " }}} Code syntax, tools for each language
 
 " View {{{
@@ -850,19 +912,12 @@ endif
 " }}} operator
 
 " Align {{{
-
-" http://www.drchip.org/astronaut/vim/align.html#Examples
-" * Use 'h1mesuke/vim-alignta' instead
+" * Use 'junegunn/vim-easy-align' instead
 NeoBundle "Align"
-
-" Align codes: Use vim-easy-align, instead
 call dein#add('h1mesuke/vim-alignta', {
       \ 'on_cmd': ['Alignta'],
       \ 'lazy': 1})
-" }}} Align
-
-" Table {{{
-" There are tabular and Alignta.
+call dein#add('godlygeek/tabular')
 call dein#add('dhruvasagar/vim-table-mode')
 " }}}
 
@@ -1207,7 +1262,27 @@ endif
 " Can move even to other lines
 " * annoying at making macros...
 NeoBundle "rhysd/clever-f.vim"
+
+" warn no vimer moving
+" Interesting, but not used
+call dein#add('matoruru/vim-hjkl-warning')
+
+" vim-hjkl-warning {{{
+if s:dein_enabled && dein#tap('vim-hjkl-warning')
+  let g:hjkl_warning_min_column   = 10
+  let g:hjkl_warning_min_line     = 10
+  let g:hjkl_warning_max_repeat   = 20
+
+  let g:hjkl_warning_win_width    = 20
+  let g:hjkl_warning_win_height   = 2
+  let g:hjkl_warning_message      = ["Boo!", "You are not Vimmer!"]
+  let g:hjkl_warning_enable_title = v:false
+  let g:hjkl_warning_title        = ""
+endif
+" }}} vim-hjkl-warning
 "}}}
+
+
 " }}}
 
 " Check language, web source {{{
@@ -1500,6 +1575,8 @@ set paste " use 'paste at normal mode' in below, instead
 " Show line numbers
 set number         " Show line numbers
 set relativenumber " Relative line number
+
+
 " }}}
 
 " map (for other than each plugin) {{{
@@ -1526,6 +1603,9 @@ nmap <ESC>h <M-h>
 nmap <ESC>j <M-j>
 nmap <ESC>k <M-k>
 nmap <ESC>l <M-l>
+map <ESC>p <M-p>
+map <ESC>n <M-n>
+
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -1568,6 +1648,16 @@ nnoremap <C-w><C-c> <C-w><C-c>
 " Open vimrc (is <C-u> necessary for command map?
 nnoremap <Leader><Leader> :<C-u>tabedit $MYVIMRC<CR>
 
+" search: very magic mode
+nnoremap / /\v
+" to check patterns:
+" :h pattern-overview
+
+" Require <Leader> before gu*/gU* (Change to lowr/upper case)
+noremap gu <Nop>
+noremap gU <Nop>
+noremap <Leader>gu gu
+noremap <Leader>gU gU
 """ insert mode (inoremap)
 
 " insert file/directory name
@@ -1603,10 +1693,6 @@ xnoremap ( "zdi(<C-R>z)<Esc>
 xnoremap " "zdi"<C-R>z"<Esc>
 xnoremap ' "zdi'<C-R>z'<Esc>
 
-" search: very magic mode
-nnoremap / /\v
-" to check patterns:
-" :h pattern-overview
 " }}}
 
 " open .vimrc when starting w/o argument {{{
