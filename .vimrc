@@ -104,9 +104,6 @@ if s:dein_enabled
       call dein#add('carlitux/deoplete-ternjs')
       call dein#add('SevereOverfl0w/deoplete-github')
       "call dein#add('lighttiger2505/deoplete-vim-lsp')
-      "call dein#add('zchee/deoplete-clang')
-      "call dein#add('zchee/deoplete-go')
-      "call dein#add('zchee/deoplete-zsh')
     endif
     " }}}
 
@@ -192,9 +189,6 @@ if s:dein_enabled
     else
       call dein#add('vim-syntastic/syntastic')
     endif
-
-    " comment
-    call dein#add('tomtom/tcomment_vim')
 
     " Language Server
     "call dein#add('prabirshrestha/async.vim')
@@ -320,7 +314,6 @@ if s:dein_enabled
     call dein#add('junegunn/vim-easy-align')
 
     " yank
-    "call dein#add('LeafCage/yankround.vim')
     call dein#add('rcmdnk/yankround.vim')
 
     " vim-multiple-cursors, like Sublime Text's multiple selection
@@ -333,24 +326,6 @@ if s:dein_enabled
     call dein#add('tpope/vim-endwise')
 
     " }}} Edit
-
-    " Check language, web source {{{
-    " vim-ref
-    " Need lynx (brew install lynx)
-    call dein#add('thinca/vim-ref', {
-          \ 'on_cmd': ['Ref'],
-          \ 'lazy': 1})
-
-    " Grammar check with LanguageTool
-    call dein#add('rhysd/vim-grammarous', {
-          \ 'on_cmd': ['GrammarousCheck'],
-          \ 'lazy': 1})
-
-    " Google Translate
-    call dein#add('daisuzu/translategoogle.vim', {
-          \ 'on_cmd': ['TranslateGoogle', 'TranslateGoogleCmd'],
-          \ 'lazy': 1})
-    " }}}
 
     call dein#end()
 
@@ -1088,6 +1063,9 @@ endif
 " }}} neosnippet
 " }}} Snippet
 
+"set termguicolors    " ターミナルでも True Color を使えるようにする。
+set pumblend=10      " 0 〜 100 が指定できます。ドキュメントによると 5 〜 30 くらいが適当だそうです。
+
 " Search/Display {{{
 " Denite {{{
 if s:dein_enabled && dein#tap('denite.nvim')
@@ -1116,16 +1094,29 @@ if s:dein_enabled && dein#tap('denite.nvim')
 
   call denite#custom#var('menu', 'menus', s:menus)
 
+  let s:denite_win_width_percent = 0.85
+  let s:denite_win_height_percent = 0.5
+
   call denite#custom#option('default', {
       \ 'split': 'floating',
+      \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
+      \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
+      \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
+      \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
+      \ 'vertical_preview': 1,
+      \ 'start_filter': 1,
+      \ 'auto_resize': 1,
+      \ 'source_names': 'short',
+      \ 'highlight_window_background': 'Visual',
+      \ 'highlight_filter_background': 'VertSplit',
       \ })
+
   nnoremap [denite] <Nop>
   nmap <Leader>u [denite]
   nnoremap <silent> [denite]b :<C-u>Denite buffer<CR>
   nnoremap <silent> [denite]c :<C-u>Denite changes<CR>
   nnoremap <silent> [denite]f :<C-u>Denite file<CR>
   nnoremap <silent> [denite]g :<C-u>Denite grep<CR>
-  nnoremap <silent> [denite]h :<C-u>Denite help<CR>
   nnoremap <silent> [denite]h :<C-u>Denite help<CR>
   nnoremap <silent> [denite]l :<C-u>Denite line<CR>
   nnoremap <silent> [denite]t :<C-u>Denite tag<CR>
@@ -1150,20 +1141,13 @@ if s:dein_enabled && dein#tap('denite.nvim')
 
   autocmd FileType denite-filter call s:denite_filter_my_settings()
   function! s:denite_filter_my_settings() abort
-    imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+    imap <silent><buffer> <Esc>       <Plug>(denite_filter_quit)
+    if s:dein_enabled && dein#tap('deoplete.nvim')
+      " disable deoplete on denite-filter
+      call deoplete#custom#buffer_option('auto_complete', v:false)
+    endif
   endfunction
 
-  " Floating window
-  let s:denite_win_width_percent = 0.85
-  let s:denite_win_height_percent = 0.5
-
-  call denite#custom#option('default', {
-      \ 'split': 'floating',
-      \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
-      \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
-      \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
-      \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
-      \ })
 endif
 " }}} denite
 " }}} Search/Display
@@ -1288,12 +1272,6 @@ elseif s:dein_enabled && dein#tap('syntastic')
   let g:syntastic_ruby_checkers = ['rubocop']
   " args for shellcheck
   let g:syntastic_sh_shellcheck_args = '-e SC1090,SC2059,SC2155,SC2164'
-endif
-" }}}
-
-" tomtom/tcomment_vim {{{
-if s:dein_enabled && dein#tap('tcomment_vim')
-  "let g:tcomment#options = {'whitespace': 'no'}
 endif
 " }}}
 
@@ -1707,90 +1685,6 @@ if s:dein_enabled && dein#tap('vim-sandwich')
 endif
 " }}} vim-surround.vim
 " }}} Edit
-
-" Check language, web source {{{
-" vim-ref {{{
-if s:dein_enabled && dein#tap('vim-ref')
-  " Set webdict sources
-  let g:ref_source_webdict_sites = {
-        \   'alc': {
-        \     'url': 'http://eow.alc.co.jp/search?q=%s',
-        \   },
-        \   'je': {
-        \     'url': 'http://dictionary.infoseek.ne.jp/jeword/%s',
-        \   },
-        \   'ej': {
-        \     'url': 'http://dictionary.infoseek.ne.jp/ejword/%s',
-        \   },
-        \   'wikipedia': {
-        \     'url': 'http://ja.wikipedia.org/wiki/%s',
-        \   },
-        \   'wikipedia_en': {
-        \     'url': 'http://wikipedia.org/wiki/%s',
-        \   },
-        \ }
-
-  "" Filter
-  function! g:ref_source_webdict_sites.alc.filter(output)
-    let l:arr = split(a:output, "\n")
-    let l:start = 0
-    let l:end = 0
-    for l:i in range(len(l:arr))
-      if l:arr[l:i] =~# '次へ'
-        if l:start == 0
-          let l:start = l:i + 2
-        elseif l:end == 0
-          let l:end = l:i - 1
-          break
-        endif
-      endif
-    endfor
-    if l:start == 0
-      return 'No result found'
-    endif
-    return join(l:arr[l:start : l:end], "\n")
-  endfunction
-  function! g:ref_source_webdict_sites.je.filter(output)
-    return join(split(a:output, "\n")[15 :], "\n")
-  endfunction
-  function! g:ref_source_webdict_sites.ej.filter(output)
-    return join(split(a:output, "\n")[16 :], "\n")
-  endfunction
-  function! g:ref_source_webdict_sites.wikipedia.filter(output)
-    return join(split(a:output, "\n")[17 :], "\n")
-  endfunction
-  function! g:ref_source_webdict_sites.wikipedia_en.filter(output)
-    return join(split(a:output, "\n")[17 :], "\n")
-  endfunction
-
-  " vim-ref prefix
-  nnoremap [ref] <Nop>
-  xnoremap [ref] <Nop>
-  nmap <Leader>r [ref]
-  xmap <Leader>r [ref]
-  nnoremap [ref]a :Ref webdict alc <Space>
-  nnoremap [ref]j :Ref webdict je<Space>
-  nnoremap [ref]e :Ref webdict ej<Space>
-  nnoremap [ref]w :Ref webdict wikipedia<Space>
-  nnoremap [ref]m :Ref man<Space>
-  xnoremap [ref]a :<C-u>Ref webdict alc <C-R><C-w><CR>
-  xnoremap [ref]j :<C-u>Ref webdict je <C-R><C-w><CR>
-  xnoremap [ref]e :<C-u>Ref webdict ej <C-R><C-w><CR>
-  xnoremap [ref]w :<C-u>Ref webdict wikipedia <C-R><C-w><CR>
-  nnoremap <silent> <Leader>d :Ref webdict alc <C-R><C-w><CR>
-endif
-" }}} vim-ref
-
-" translategoogle {{{
-if s:dein_enabled && dein#tap('translategoogle.vim')
-  let g:translategoogle_language = ['ja', 'en', 'fr']
-  let g:translategoogle_default_sl = 'en'
-  let g:translategoogle_default_tl = 'ja'
-endif
-" }}} translategoogle.vim
-" }}} Check language, web source
-
-" }}} Plugin settings
 
 " source other setting files{{{
 function! s:source_file(file)
