@@ -687,14 +687,14 @@ noremap ; :
 
 " cursor move
 " Left (C-h default: <BS> ~ h)
-nnoremap <C-h> h
+nnoremap <C-h> <C-w>h
 " Down (C-j default: <NL> ~ j)
-nnoremap <C-j> j
-nnoremap <RETURN> j
+nnoremap <C-j> <C-w>j
+nnoremap <RETURN> <C-w>j
 " Up (C-k default: Non)
-nnoremap <C-k> k
+nnoremap <C-k> <C-w>k
 " Right (C-l default: Clear and redraw the screen)
-nnoremap <C-l> l
+nnoremap <C-l> <C-w>l
 " Go to Head (C-a default: Increment)-><C-a> can't be used with vim-speeddating
 "nnoremap <C-a> 0
 nnoremap <M-h> 0
