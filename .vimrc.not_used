@@ -409,7 +409,24 @@ NeoBundle "ctags.vim"
 " }}}
 " }}}
 
+" Applescript
+call dein#add('vim-scripts/applescript.vim')
+
+" CSS3 (Sass)
+call dein#add('hail2u/vim-css3-syntax.git')
+
+" Go
+" Extra plugins for Go
+call dein#add('vim-jp/vim-go-extra')
+
 " c++ {{{
+" syntax with c++11 support
+call dein#add('vim-jp/cpp-vim')
+" c++ completion
+call dein#add('osyo-manga/vim-marching')
+" c++ formatting
+call dein#add('rhysd/vim-clang-format')
+
 " clang_complete{{{
 NeoBundleLazy "Rip-Rip/clang_complete", {
   \"autoload" : { "filetypes" : ["c", "cpp"] }}
@@ -431,6 +448,10 @@ call dein#add('jelera/vim-javascript-syntax')
 
 " Python {{{
 " Python syntax
+
+" included in sheerun/vim-polyglot 
+call dein#add('hynek/vim-python-pep8-indent')
+
 " use "hynek/vim-python-pep8-indent", instead
 NeoBundle "mitsuhiko/vim-python-combined"
 
@@ -793,6 +814,15 @@ NeoBundle "ntpeters/vim-better-whitespace"
 " }}}
 
 " }}} View
+
+" Version Control system {{{
+" {{{ vcscommand: use fugitive (Gdiff)
+" Version control (especially for VCSVimDiff (<Leader>cv)
+call dein#add('vim-scripts/vcscommand.vim', {
+      \ 'on_cmd': ['VCSVimDiff'],
+      \ 'lazy': 1})
+" }}}
+" }}}
 
 " Diff {{{
 " Character base diff " Too much

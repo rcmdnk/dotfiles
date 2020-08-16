@@ -2,11 +2,11 @@
 
 " For vim w/o +eval{{{
 if 1
-" }}}
+" }}} For vim w/o +eval
 
 " Flags {{{
 let s:use_dein = 1
-" }}}
+" }}} Flags
 
 " Prepare .vim dir {{{
 let s:vimdir = $HOME . '/.vim'
@@ -15,7 +15,7 @@ if has('vim_starting')
     call system('mkdir ' . s:vimdir)
   endif
 endif
-" }}}
+" }}} Prepare .vim dir
 
 " Python Environment {{{
 if !filereadable(expand('~/.vim_no_python'))
@@ -30,7 +30,7 @@ if !filereadable(expand('~/.vim_no_python'))
     let $PATH = s:python3_dir . '/bin:' . $PATH
   endif
 endif
-" Python Environment
+" }}} Python Environment
 
 " dein {{{
 
@@ -87,7 +87,7 @@ if s:dein_enabled
 
     " webapi
     call dein#add('mattn/webapi-vim')
-    " }}}
+    " }}} Basic tools
 
     " Completion {{{
     if has('nvim')  || (has('timers') && has('python3'))
@@ -105,14 +105,14 @@ if s:dein_enabled
       call dein#add('SevereOverfl0w/deoplete-github')
       "call dein#add('lighttiger2505/deoplete-vim-lsp')
     endif
-    " }}}
+    " }}} Completion
 
     " Snippet {{{
     call dein#add('Shougo/neosnippet')
     call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
     call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
     call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
-    " }}}
+    " }}} Snippet
 
     " Search/Display {{{
     " Search and display information from arbitrary sources
@@ -120,61 +120,29 @@ if s:dein_enabled
       call dein#add('Shougo/denite.nvim')
       call dein#add('Shougo/neomru.vim')
     endif
-    " }}}
+    " }}} Search/Display
 
     " Code syntax, tools for each language {{{
-    " Applescript
-    call dein#add('vim-scripts/applescript.vim')
-
-    " CSS3 (Sass)
-    call dein#add('hail2u/vim-css3-syntax.git')
-
-    " c++ {{{
-    " syntax with c++11 support
-    call dein#add('vim-jp/cpp-vim')
-    " c++ completion
-    call dein#add('osyo-manga/vim-marching')
-    " c++ formatting
-    call dein#add('rhysd/vim-clang-format')
-    " }}}
-
-    " Go
-    " Extra plugins for Go
-    call dein#add('vim-jp/vim-go-extra')
+    " Language packs
+    "call dein#add('sheerun/vim-polyglot')
 
     " Homebrew
     call dein#add('xu-cheng/brew.vim')
 
-    " HTML
-    call dein#add('othree/html5.vim')
-
     " Java
     call dein#add('koron/java-helper-vim')
 
-    " JavaScript
-    call dein#add('pangloss/vim-javascript')
-
-    " Terraform
-    call dein#add('hashivim/vim-terraform')
-    call dein#add('juliosueiras/vim-terraform-completion')
-
     " Markdown {{{
     call dein#add('joker1007/vim-markdown-quote-syntax')
-    call dein#add('rcmdnk/vim-markdown')
-    " }}}
+    "call dein#add('rcmdnk/vim-markdown')
+    " }}} Markdown
 
     " Python {{{
-    " indent
-    call dein#add('hynek/vim-python-pep8-indent')
     " Folding method for python, but makes completion too slow...?
     call dein#add('vim-scripts/python_fold')
-    " }}}
-
-    " Powershell
-    call dein#add('PProvost/vim-ps1')
+    " }}} Python
 
     " Ruby (rails, erb)
-    call dein#add('vim-ruby/vim-ruby')
     call dein#add('tpope/vim-rails')
 
     " LaTex
@@ -196,7 +164,9 @@ if s:dein_enabled
     "call dein#add('prabirshrestha/asyncomplete-lsp.vim')
     "call dein#add('prabirshrestha/vim-lsp')
     "call dein#add('mattn/vim-lsp-settings', {'merged': 0})
-    " }}}
+
+    "call dein#add('neoclide/coc.nvim')
+    " }}} Code syntax, tools for each language
 
     " View {{{
     " Color scheme
@@ -262,11 +232,6 @@ if s:dein_enabled
           \ 'on_cmd': ['Gitv'],
           \ 'lazy': 1})
 
-    " Version control (especially for VCSVimDiff (<Leader>cv)
-    call dein#add('vim-scripts/vcscommand.vim', {
-          \ 'on_cmd': ['VCSVimDiff'],
-          \ 'lazy': 1})
-
     " Gist
     call dein#add('mattn/gist-vim', {
           \ 'depdens': ['mattn/webapi-vim'],
@@ -282,7 +247,6 @@ if s:dein_enabled
     " Search {{{
     " Count searching objects
     call dein#add('osyo-manga/vim-anzu')
-
     " }}} Search
 
     " Edit {{{
@@ -300,12 +264,12 @@ if s:dein_enabled
     call dein#add('thinca/vim-textobj-between', {'depends': ['vim-textobj-user']})
     " erb object: viE, ciE, daE
     call dein#add('whatyouhide/vim-textobj-erb', {'depends': ['vim-textobj-user']})
-    " }}}
+    " }}} textobj
 
     " Operator {{{
     call dein#add('kana/vim-operator-user')
     call dein#add('kana/vim-operator-replace', {'depdens': ['vim-operator-user']})
-    " }}}
+    " }}} Operator
 
     "" Undo
     call dein#add('simnalamburt/vim-mundo')
@@ -315,6 +279,7 @@ if s:dein_enabled
 
     " yank
     call dein#add('rcmdnk/yankround.vim')
+    call dein#add('rcmdnk/yankshare.vim')
 
     " vim-multiple-cursors, like Sublime Text's multiple selection
     call dein#add('terryma/vim-multiple-cursors')
@@ -337,7 +302,7 @@ if s:dein_enabled
     call dein#install()
   endif
 endif
-" }}}
+" }}} Begin plugin part
 " }}} dein
 
 " Basic settings {{{
@@ -586,6 +551,237 @@ set statusline+=%=%l/%L,%c%V%8P
 
 " }}} Basic settings
 
+" My functions {{{
+" diff mode {{{
+function! SetDiffMode()
+  if &diff
+    setlocal nospell
+    setlocal wrap
+  endif
+endfunction
+autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffMode()
+
+set diffopt=filler,vertical
+
+" Automatic diffoff
+autocmd MyAutoGroup WinEnter * if(winnr('$') == 1) && (getbufvar(winbufnr(0), '&diff')) == 1 | diffoff | endif
+
+" }}} diff mode
+
+" DiffOrig {{{
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(':DiffOrig')
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+        \ | wincmd p | diffthis
+endif
+" }}} DiffOrig
+
+" undo {{{
+if has('persistent_undo')
+  let s:vimundodir=expand(s:vimdir . '/undo')
+  let &undodir = s:vimundodir
+  if ! isdirectory(s:vimundodir)
+    call system('mkdir ' . s:vimundodir)
+  endif
+  set undofile
+  set undoreload=1000
+endif
+set undolevels=1000
+"nnoremap u g-
+"nnoremap <C-r> g+
+" }}} undo
+
+" HELP file writing helper {{{
+function! s:edit_help()
+  let w:edit_help = 1
+  let w:save_list = &list
+  let w:save_expandtab = &expandtab
+  let w:save_modifiable = &modifiable
+  let w:save_readonly = &readonly
+  let w:save_tabstop = &tabstop
+  let w:save_shiftwidth = &shiftwidth
+  let w:save_softtabstop = &softtabstop
+  let w:save_textwidth = &textwidth
+  setlocal list noexpandtab modifiable noreadonly
+  setlocal tabstop=8 shiftwidth=8 softtabstop=8 textwidth=78
+  if exists('+colorcolumn')
+    let w:save_colorcolumn = &colorcolumn
+    setlocal colorcolumn=78
+  endif
+  if has('conceal')
+    let w:save_conceallevel = &conceallevel
+    setlocal conceallevel=0
+    highlight link helpIgnore Conceal
+    highlight link helpBar Conceal
+    highlight link helpStar Conceal
+    highlight link helpBacktick Conceal
+  endif
+endfunction
+
+function! s:no_edit_help()
+  if !exists('w:edit_help')
+    echo "edit_help was not executed, skipping..."
+    return
+  endif
+  if w:save_list
+    setlocal list
+  else
+    setlocal nolist
+  endif
+  if w:save_expandtab
+    setlocal expandtab
+  else
+    setlocal noexpandtab
+  endif
+  if w:save_modifiable
+    setlocal modifiable
+  else
+    setlocal nomodifiable
+  endif
+  if w:save_readonly
+    setlocal readonly
+  else
+    setlocal noreadonly
+  endif
+  let &l:tabstop = w:save_tabstop
+  let &l:shiftwidth = w:save_shiftwidth
+  let &l:softtabstop = w:save_softtabstop
+  let &l:textwidth = w:save_textwidth
+  if exists('+colorcolumn')
+    let &l:colorcolumn = w:save_colorcolumn
+  endif
+  if has('conceal')
+    let &l:conceallevel = w:save_conceallevel
+    highlight link helpIgnore Ignore
+    highlight link helpBar Ignore
+    highlight link helpStar Ignore
+    highlight link helpBacktick Ignore
+  endif
+endfunction
+
+command! EditHelp call s:edit_help()
+command! NoEditHelp call s:no_edit_help()
+" }}}
+
+" matchparen,matchpair, matchit {{{
+" Don't load matchparen (highlight parens actively, make slow)
+" vim-parenmatch fills in it.
+let g:loaded_matchparen = 1
+"matchpairs, default: (:),{:},[:]
+set matchpairs+=<:>
+autocmd MyAutoGroup FileType c,cpp,java set matchpairs+==:;
+source $VIMRUNTIME/macros/matchit.vim
+function! s:set_matchit()
+  "let b:match_words = b:match_words . ',{%.*%}:{% *end.*%}'
+  let b:match_ignorecase = 1
+endfunction
+autocmd MyAutoGroup BufEnter * call s:set_matchit()
+" }}} matchpair, matchit
+
+" paste at normal mode {{{
+
+" if not well work... (though it seems working)
+" need more understanding of vim/screen pasting...
+" can use :a! for temporally paste mode
+" or :set paste ,....., :set nopaste
+" or set noautoindent, ...., : set autoindent
+
+" it seems working in Mac, but not in Windows (putty+XWin)
+
+" This setting change ttimeoutlen behavior:
+" timeoutlen (for mapping delay) is used even for ESC + X key code delay,
+" because it map <ESC> + [200~
+
+"if &term =~? 'screen' || &term =~? 'xterm'
+"  if &term =~? 'screen'
+"    let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
+"    let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
+"    let &pastetoggle = "\e[201~"
+"  else
+"    let &t_SI .= &t_SI . "\e[?2004h"
+"    let &t_EI .= "\e[?2004l" . &t_EI
+"    let &pastetoggle = "\e[201~"
+"  endif
+"  function! XTermPasteBegin(ret)
+"    set paste
+"    return a:ret
+"  endfunction
+"  imap <special> <expr> <Esc>[200~ XTermPasteBegin(""'
+"endif
+" }}} paste
+
+" tag {{{
+if has('path_extra')
+  set tags+=tags;
+endif
+"}}} tag
+
+" cscope {{{
+if has('cscope')
+  set cscopetagorder=0
+  set cscopetag
+  set nocscopeverbose
+  " add any database in current directory
+  if filereadable('cscope.out')
+    cs add cscope.out
+    " else add database pointed to by environment
+  elseif $CSCOPE_DB !=# ''
+    cs add $CSCOPE_DB
+  endif
+  set cscopeverbose
+  set cscopequickfix=s-,c-,d-,i-,t-,e-
+endif
+" }}} cscope
+
+" Remove trail spaces and align {{{
+function! s:indent_all()
+  normal! mxgg=G'x
+  delmarks x
+endfunction
+command! IndentAll call s:indent_all()
+
+function! s:delete_space()
+  normal! mxG$
+  let l:flags = 'w'
+  while search(' $', l:flags) > 0
+    call setline('.', substitute(getline('.'), ' \+$', '', ''))
+    let l:flags = 'W'
+  endwhile
+  'x
+  delmarks x
+endfunction
+command! DeleteSpace call s:delete_space()
+
+function! s:align_code()
+  retab
+  IndentAll
+  DeleteSpace
+endfunction
+command! AlignCode call s:align_code()
+
+function! s:align_all_buf()
+  for l:i in  range(1, bufnr('$'))
+    if buflisted(l:i)
+      execute "buffer" l:i
+      AlignCode
+      update
+      bdelete
+    endif
+  endfor
+  quit
+endfunction
+command! AlignAllBuf call s:align_all_buf()
+
+" remove trail spaces for all
+nnoremap <Leader><Space> :DeleteSpace<CR>
+
+" remove trail spaces at selected region
+xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
+" }}} Remove trail spaces and align
+" }}} My functions
+
 " map (for other than each plugin){{{
 "remapping, tips
 
@@ -663,6 +859,7 @@ noremap ; :
 " cursor move
 " Left (C-h default: <BS> ~ h)
 nnoremap <C-h> <C-w>h
+nnoremap <BS> <C-w>h
 " Down (C-j default: <NL> ~ j)
 nnoremap <C-j> <C-w>j
 nnoremap <RETURN> <C-w>j
@@ -796,209 +993,6 @@ cnoremap <C-a> <C-b>
 cnoremap w!! w !sudo tee > /dev/null %
 " }}} map
 
-" diff mode {{{
-function! SetDiffMode()
-  if &diff
-    setlocal nospell
-    setlocal wrap
-  endif
-endfunction
-autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffMode()
-
-set diffopt=filler,vertical
-
-" Automatic diffoff
-autocmd MyAutoGroup WinEnter * if(winnr('$') == 1) && (getbufvar(winbufnr(0), '&diff')) == 1 | diffoff | endif
-
-" }}} diff mode
-
-" DiffOrig {{{
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(':DiffOrig')
-  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-        \ | wincmd p | diffthis
-endif
-" }}} DiffOrig
-
-" undo {{{
-if has('persistent_undo')
-  let s:vimundodir=expand(s:vimdir . '/undo')
-  let &undodir = s:vimundodir
-  if ! isdirectory(s:vimundodir)
-    call system('mkdir ' . s:vimundodir)
-  endif
-  set undofile
-  set undoreload=1000
-endif
-set undolevels=1000
-"nnoremap u g-
-"nnoremap <C-r> g+
-" }}} undo
-
-" yank share with wviminfo/rviminfo {{{
-"
-" yankshare prefix
-noremap [yshare] <Nop>
-map s [yshare]
-
-let g:yankshare_file = expand('~/.vim/yankshare.txt')
-if !exists('g:yankshare_file')
-  let g:yankshare_file = '/tmp/yankshare.txt'
-endif
-
-function! YSStore() range
-  call writefile([getreg('s')], g:yankshare_file, 'b')
-endfunction
-
-function! YSLoad() range
-  call setreg('s', readfile(g:yankshare_file, 'b')[0])
-endfunction
-
-nnoremap <silent> [yshare]y  "syy:call YSStore()<CR>
-nnoremap <silent> [yshare]yy "syy:call YSStore()<CR>
-nnoremap <silent> [yshare]Y  "sY:call YSStore()<CR>
-nnoremap <silent> [yshare]y$ "sy$:call YSStore()<CR>
-nnoremap <silent> [yshare]y0 "sy0:call YSStore()<CR>
-nnoremap <silent> [yshare]yw "syw:call YSStore()<CR>
-nnoremap <silent> [yshare]cc "scc<ESC>:call YSStore()<CR>i
-nnoremap <silent> [yshare]C  "sC<ESC>:call YSStore()<CR>i
-nnoremap <silent> [yshare]c$ "sc$<ESC>:call YSStore()<CR>i
-nnoremap <silent> [yshare]c0 "sc0<ESC>:call YSStore()<CR>i
-nnoremap <silent> [yshare]cw "scw<ESC>:call YSStore()<CR>i
-nnoremap <silent> [yshare]dd "sdd:call YSStore()<CR>
-nnoremap <silent> [yshare]D  "sD:call YSStore()<CR>
-nnoremap <silent> [yshare]d$ "sd$:call YSStore()<CR>
-nnoremap <silent> [yshare]d0 "sd0:call YSStore()<CR>
-nnoremap <silent> [yshare]dw "sdw:call YSStore()<CR>
-
-xnoremap <silent> [yshare]y "sy:call YSStore()<CR>
-xnoremap <silent> [yshare]c "sc<ESC>:call YSStore()<CR>i
-xnoremap <silent> [yshare]d "sd:call YSStore()<CR>
-
-nnoremap <silent> [yshare]p :call YSLoad()<CR>"sp
-nnoremap <silent> [yshare]P :call YSLoad()<CR>"sP
-nnoremap <silent> [yshare]gp :call YSLoad()<CR>"sgp
-nnoremap <silent> [yshare]gP :call YSLoad()<CR>"sgP
-" }}} yankshare
-
-" matchparen,matchpair, matchit {{{
-" Don't load matchparen (highlight parens actively, make slow)
-" vim-parenmatch fills in it.
-let g:loaded_matchparen = 1
-"matchpairs, default: (:),{:},[:]
-set matchpairs+=<:>
-autocmd MyAutoGroup FileType c,cpp,java set matchpairs+==:;
-source $VIMRUNTIME/macros/matchit.vim
-function! s:set_matchit()
-  "let b:match_words = b:match_words . ',{%.*%}:{% *end.*%}'
-  let b:match_ignorecase = 1
-endfunction
-autocmd MyAutoGroup BufEnter * call s:set_matchit()
-" }}} matchpair, matchit
-
-" paste at normal mode {{{
-
-" if not well work... (though it seems working)
-" need more understanding of vim/screen pasting...
-" can use :a! for temporally paste mode
-" or :set paste ,....., :set nopaste
-" or set noautoindent, ...., : set autoindent
-
-" it seems working in Mac, but not in Windows (putty+XWin)
-
-" This setting change ttimeoutlen behavior:
-" timeoutlen (for mapping delay) is used even for ESC + X key code delay,
-" because it map <ESC> + [200~
-
-"if &term =~? 'screen' || &term =~? 'xterm'
-"  if &term =~? 'screen'
-"    let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
-"    let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
-"    let &pastetoggle = "\e[201~"
-"  else
-"    let &t_SI .= &t_SI . "\e[?2004h"
-"    let &t_EI .= "\e[?2004l" . &t_EI
-"    let &pastetoggle = "\e[201~"
-"  endif
-"  function! XTermPasteBegin(ret)
-"    set paste
-"    return a:ret
-"  endfunction
-"  imap <special> <expr> <Esc>[200~ XTermPasteBegin(""'
-"endif
-" }}} paste
-
-" tag {{{
-if has('path_extra')
-  set tags+=tags;
-endif
-"}}} tag
-
-" cscope {{{
-if has('cscope')
-  set cscopetagorder=0
-  set cscopetag
-  set nocscopeverbose
-  " add any database in current directory
-  if filereadable('cscope.out')
-    cs add cscope.out
-    " else add database pointed to by environment
-  elseif $CSCOPE_DB !=# ''
-    cs add $CSCOPE_DB
-  endif
-  set cscopeverbose
-  set cscopequickfix=s-,c-,d-,i-,t-,e-
-endif
-" }}} cscope
-
-" Remove trail spaces and align {{{
-function! s:indent_all()
-  normal! mxgg=G'x
-  delmarks x
-endfunction
-command! IndentAll call s:indent_all()
-
-function! s:delete_space()
-  normal! mxG$
-  let l:flags = 'w'
-  while search(' $', l:flags) > 0
-    call setline('.', substitute(getline('.'), ' \+$', '', ''))
-    let l:flags = 'W'
-  endwhile
-  'x
-  delmarks x
-endfunction
-command! DeleteSpace call s:delete_space()
-
-function! s:align_code()
-  retab
-  IndentAll
-  DeleteSpace
-endfunction
-command! AlignCode call s:align_code()
-
-function! s:align_all_buf()
-  for l:i in  range(1, bufnr('$'))
-    if buflisted(l:i)
-      execute 'buffer' l:i
-      AlignCode
-      update
-      bdelete
-    endif
-  endfor
-  quit
-endfunction
-command! AlignAllBuf call s:align_all_buf()
-
-" remove trail spaces for all
-nnoremap <Leader><Space> :DeleteSpace<CR>
-
-" remove trail spaces at selected region
-xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
-" }}} Remove trail spaces and align
-
 " Plugin settings {{{
 
 " Basic tools {{{
@@ -1062,9 +1056,6 @@ if s:dein_enabled && dein#tap('neosnippet')
 endif
 " }}} neosnippet
 " }}} Snippet
-
-"set termguicolors    " ターミナルでも True Color を使えるようにする。
-set pumblend=10      " 0 〜 100 が指定できます。ドキュメントによると 5 〜 30 くらいが適当だそうです。
 
 " Search/Display {{{
 " Denite {{{
@@ -1533,11 +1524,6 @@ endif
 " }}}
 
 " Version Control System {{{
-" vcscommand.vim {{{
-  let g:VCSCommandDisableMappings = 1
-  nnoremap <Leader>cv :VCSVimDiff<CR>
-" }}}
-
 " gist-vim {{{
 if s:dein_enabled && dein#tap('gist-vim')
   let g:gist_detect_filetype = 1
@@ -1638,9 +1624,18 @@ if s:dein_enabled && dein#tap('yankround.vim')
 endif
 " }}} yankround
 
+" yankshare {{{
+if s:dein_enabled && dein#tap('yankshare.vim')
+  nmap <silent> <Leader>y <Plug>(yankshare)
+  xmap <silent> <Leader>y <Plug>(yankshare)
+  let g:yankshare_file = '~/.vim/yankshare.txt'
+  let g:yankshare_register = 's'
+endif
+" }}} yankshare
+
 " vim-multiple-cursors {{{
 if s:dein_enabled && dein#tap('vim-multiple-cursors')
-  "let g:multi_cursor_use_default_mapping = 0
+  let g:multi_cursor_use_default_mapping = 0
   let g:multi_cursor_start_key = '<Leader>m'
 endif
 " }}} vim-multiple-cursors
@@ -1683,14 +1678,15 @@ if s:dein_enabled && dein#tap('vim-sandwich')
   xmap * sa*
   xmap <Leader>* saa
 endif
-" }}} vim-surround.vim
+" }}} vim-sandwich
 " }}} Edit
+" }}} Plugin settings
 
-" source other setting files{{{
+" source other setting files {{{
 function! s:source_file(file)
   let l:f = (expand(a:file))
   if filereadable(l:f)
-    execute 'source' l:f
+    execute "source" l:f
   endif
 endfunction
 
@@ -1702,18 +1698,17 @@ elseif has('mac')
 elseif has('unix')
   call s:source_file('~/.vimrc.unix')
 endif
-" }}}
+" }}} OS specific settings
 
 " local settings {{{
 call s:source_file('~/.vimrc.local')
 call s:source_file('~/.vimrc.dir')
-" }}}
-
-" }}}
+" }}} local settings
+" }}} source other setting files
 
 " For vim w/o +eval{{{
 endif
-" }}}
+" }}} For vim w/o +eval
 
 " vim: foldmethod=marker
 " vim: foldmarker={{{,}}}
