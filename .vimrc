@@ -347,6 +347,7 @@ set tabstop=2      " width of <Tab> in view
 set smarttab       " smart tab
 set shiftwidth=2   " width for indent
 set softtabstop=0  " disable softtabstop function
+set expandtab      " do :retab -> tab->space
 set autoindent     " autoindent
 set smartindent    " do indent by checking previous line.
 set cinoptions=g0  " g0: no indent for private/public/protected
@@ -373,8 +374,6 @@ set showbreak=
 "  " necessary even for default(min:20,shift:0)
 "  autocmd MyAutoGroup BufEnter * set breakindentopt=min:20,shift:0
 "endif
-
-set expandtab      " do :retab -> tab->space
 
 set swapfile       " use swap file
 set nobackup       " do not keep a backup file
@@ -411,6 +410,9 @@ set ignorecase     " Ignore case for search
 set smartcase      " Noignorecase, if the pattern include Capital
 set nowrapscan     " Stop search at the edge of the file
 set infercase      " Ignore case for completion
+if exists('&inccommand')
+  set inccommand=split
+endif
 
 set nrformats=hex  " Not use cotal, alpha for increment or decrement
 " Enable 256 colors, this seems still necessary in some environments, in such GNU screen
@@ -856,7 +858,7 @@ noremap ; :
 
 """ Normal mode
 
-" cursor move
+" window move
 " Left (C-h default: <BS> ~ h)
 nnoremap <C-h> <C-w>h
 nnoremap <BS> <C-w>h
@@ -867,6 +869,7 @@ nnoremap <RETURN> <C-w>j
 nnoremap <C-k> <C-w>k
 " Right (C-l default: Clear and redraw the screen)
 nnoremap <C-l> <C-w>l
+" cursor move
 " Go to Head (C-a default: Increment)-><C-a> can't be used with vim-speeddating
 "nnoremap <C-a> 0
 nnoremap <M-h> 0
