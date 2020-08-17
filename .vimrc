@@ -124,7 +124,7 @@ if s:dein_enabled
 
     " Code syntax, tools for each language {{{
     " Language packs
-    "call dein#add('sheerun/vim-polyglot')
+    call dein#add('sheerun/vim-polyglot')
 
     " Homebrew
     call dein#add('xu-cheng/brew.vim')
