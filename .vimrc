@@ -465,6 +465,27 @@ set wildmenu
 set foldnestmax=1
 set foldlevel=100 "open at first
 
+" tag
+if has('path_extra')
+  set tags+=tags;
+endif
+
+" cscope
+if has('cscope')
+  set cscopetagorder=0
+  set cscopetag
+  set nocscopeverbose
+  " add any database in current directory
+  if filereadable('cscope.out')
+    cs add cscope.out
+    " else add database pointed to by environment
+  elseif $CSCOPE_DB !=# ''
+    cs add $CSCOPE_DB
+  endif
+  set cscopeverbose
+  set cscopequickfix=s-,c-,d-,i-,t-,e-
+endif
+
 " When editing a file, always jump to the last known cursor position.
 autocmd MyAutoGroup BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
@@ -488,52 +509,6 @@ let g:sh_noisk=1
 
 " Set nopaste when it comes back to Normal mode
 autocmd MyAutoGroup InsertLeave * setlocal nopaste
-
-" VimShowHlGroup: Show highlight group name under a cursor
-command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
-" VimShowHlItem: Show highlight item name under a cursor
-command! VimShowHlItem echo synIDattr(synID(line('.'), col('.'), 1), 'name')
-
-function! s:get_syn_id(transparent)
-  let l:synid = synID(line('.'), col('.'), 1)
-  if a:transparent
-    return synIDtrans(l:synid)
-  else
-    return l:synid
-  endif
-endfunction
-
-function! s:get_syn_attr(synid)
-  let l:name = synIDattr(a:synid, 'name')
-  let l:ctermfg = synIDattr(a:synid, 'fg', 'cterm')
-  let l:ctermbg = synIDattr(a:synid, 'bg', 'cterm')
-  let l:guifg = synIDattr(a:synid, 'fg', 'gui')
-  let l:guibg = synIDattr(a:synid, 'bg', 'gui')
-  return {
-        \ 'name': l:name,
-        \ 'ctermfg': l:ctermfg,
-        \ 'ctermbg': l:ctermbg,
-        \ 'guifg': l:guifg,
-        \ 'guibg': l:guibg}
-endfunction
-
-function! s:get_syn_info()
-  let l:baseSyn = s:get_syn_attr(s:get_syn_id(0))
-  echo 'name: ' . l:baseSyn.name .
-        \ ' ctermfg: ' . l:baseSyn.ctermfg .
-        \ ' ctermbg: ' . l:baseSyn.ctermbg .
-        \ ' guifg: ' . l:baseSyn.guifg .
-        \ ' guibg: ' . l:baseSyn.guibg
-  let l:linkedSyn = s:get_syn_attr(s:get_syn_id(1))
-  echo 'link to'
-  echo 'name: ' . l:linkedSyn.name .
-        \ ' ctermfg: ' . l:linkedSyn.ctermfg .
-        \ ' ctermbg: ' . l:linkedSyn.ctermbg .
-        \ ' guifg: ' . l:linkedSyn.guifg .
-        \ ' guibg: ' . l:linkedSyn.guibg
-endfunction
-
-command! SyntaxInfo call s:get_syn_info()
 
 " Max columns for syntax search
 " Such XML file has too much syntax which make vim drastically slow
@@ -767,7 +742,7 @@ cnoremap <C-a> <C-b>
 cnoremap w!! w !sudo tee > /dev/null %
 " }}} map
 
-" My functions {{{
+" My functions/commands {{{
 " diff mode {{{
 function! SetDiffMode()
   if &diff
@@ -856,29 +831,6 @@ autocmd MyAutoGroup BufEnter * call s:set_matchit()
 "endif
 " }}} paste
 
-" tag {{{
-if has('path_extra')
-  set tags+=tags;
-endif
-"}}} tag
-
-" cscope {{{
-if has('cscope')
-  set cscopetagorder=0
-  set cscopetag
-  set nocscopeverbose
-  " add any database in current directory
-  if filereadable('cscope.out')
-    cs add cscope.out
-    " else add database pointed to by environment
-  elseif $CSCOPE_DB !=# ''
-    cs add $CSCOPE_DB
-  endif
-  set cscopeverbose
-  set cscopequickfix=s-,c-,d-,i-,t-,e-
-endif
-" }}} cscope
-
 " Remove trail spaces and align {{{
 function! s:indent_all()
   keepjumps normal! mxgg=G'x
@@ -887,14 +839,7 @@ endfunction
 command! IndentAll keepjumps call s:indent_all()
 
 function! s:delete_space()
-  keepjumps normal! mxG$
-  let l:flags = 'w'
-  while search(' $', l:flags) > 0
-    call setline('.', substitute(getline('.'), ' \+$', '', ''))
-    let l:flags = 'W'
-  endwhile
-  'x
-  delmarks x
+  %s/\s\+$//
 endfunction
 command! DeleteSpace call s:delete_space()
 
@@ -922,8 +867,56 @@ command! AlignAllBuf call s:align_all_buf()
 nnoremap <Leader><Space> :DeleteSpace<CR>
 
 " remove trail spaces at selected region
-xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
+xnoremap <Leader><Space> :s/\s\+$//g<CR>
 " }}} Remove trail spaces and align
+
+" {{{ Get syntax information
+" VimShowHlGroup: Show highlight group name under a cursor
+command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
+" VimShowHlItem: Show highlight item name under a cursor
+command! VimShowHlItem echo synIDattr(synID(line('.'), col('.'), 1), 'name')
+
+function! s:get_syn_id(transparent)
+  let l:synid = synID(line('.'), col('.'), 1)
+  if a:transparent
+    return synIDtrans(l:synid)
+  else
+    return l:synid
+  endif
+endfunction
+
+function! s:get_syn_attr(synid)
+  let l:name = synIDattr(a:synid, 'name')
+  let l:ctermfg = synIDattr(a:synid, 'fg', 'cterm')
+  let l:ctermbg = synIDattr(a:synid, 'bg', 'cterm')
+  let l:guifg = synIDattr(a:synid, 'fg', 'gui')
+  let l:guibg = synIDattr(a:synid, 'bg', 'gui')
+  return {
+        \ 'name': l:name,
+        \ 'ctermfg': l:ctermfg,
+        \ 'ctermbg': l:ctermbg,
+        \ 'guifg': l:guifg,
+        \ 'guibg': l:guibg}
+endfunction
+
+function! s:get_syn_info()
+  let l:baseSyn = s:get_syn_attr(s:get_syn_id(0))
+  echo 'name: ' . l:baseSyn.name .
+        \ ' ctermfg: ' . l:baseSyn.ctermfg .
+        \ ' ctermbg: ' . l:baseSyn.ctermbg .
+        \ ' guifg: ' . l:baseSyn.guifg .
+        \ ' guibg: ' . l:baseSyn.guibg
+  let l:linkedSyn = s:get_syn_attr(s:get_syn_id(1))
+  echo 'link to'
+  echo 'name: ' . l:linkedSyn.name .
+        \ ' ctermfg: ' . l:linkedSyn.ctermfg .
+        \ ' ctermbg: ' . l:linkedSyn.ctermbg .
+        \ ' guifg: ' . l:linkedSyn.guifg .
+        \ ' guibg: ' . l:linkedSyn.guibg
+endfunction
+
+command! SyntaxInfo call s:get_syn_info()
+" }}} Get syntax information
 " }}} My functions
 
 " Plugin settings {{{
