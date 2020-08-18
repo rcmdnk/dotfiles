@@ -555,165 +555,6 @@ set statusline+=%=%l/%L,%c%V%8P
 
 " }}} Basic settings
 
-" My functions {{{
-" diff mode {{{
-function! SetDiffMode()
-  if &diff
-    setlocal nospell
-    setlocal wrap
-  endif
-endfunction
-autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffMode()
-
-set diffopt=filler,vertical
-
-" Automatic diffoff
-autocmd MyAutoGroup WinEnter * if(winnr('$') == 1) && (getbufvar(winbufnr(0), '&diff')) == 1 | diffoff | endif
-
-" }}} diff mode
-
-" DiffOrig {{{
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(':DiffOrig')
-  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-        \ | wincmd p | diffthis
-endif
-" }}} DiffOrig
-
-" undo {{{
-if has('persistent_undo')
-  let s:vimundodir=expand(s:vimdir . '/undo')
-  let &undodir = s:vimundodir
-  if ! isdirectory(s:vimundodir)
-    call system('mkdir ' . s:vimundodir)
-  endif
-  set undofile
-  set undoreload=1000
-endif
-set undolevels=1000
-"nnoremap u g-
-"nnoremap <C-r> g+
-" }}} undo
-
-" matchparen,matchpair, matchit {{{
-" Don't load matchparen (highlight parens actively, make slow)
-" vim-parenmatch fills in it.
-let g:loaded_matchparen = 1
-"matchpairs, default: (:),{:},[:]
-set matchpairs+=<:>
-autocmd MyAutoGroup FileType c,cpp,java set matchpairs+==:;
-source $VIMRUNTIME/macros/matchit.vim
-function! s:set_matchit()
-  "let b:match_words = b:match_words . ',{%.*%}:{% *end.*%}'
-  let b:match_ignorecase = 1
-endfunction
-autocmd MyAutoGroup BufEnter * call s:set_matchit()
-" }}} matchpair, matchit
-
-" paste at normal mode {{{
-
-" if not well work... (though it seems working)
-" need more understanding of vim/screen pasting...
-" can use :a! for temporally paste mode
-" or :set paste ,....., :set nopaste
-" or set noautoindent, ...., : set autoindent
-
-" it seems working in Mac, but not in Windows (putty+XWin)
-
-" This setting change ttimeoutlen behavior:
-" timeoutlen (for mapping delay) is used even for ESC + X key code delay,
-" because it map <ESC> + [200~
-
-"if &term =~? 'screen' || &term =~? 'xterm'
-"  if &term =~? 'screen'
-"    let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
-"    let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
-"    let &pastetoggle = "\e[201~"
-"  else
-"    let &t_SI .= &t_SI . "\e[?2004h"
-"    let &t_EI .= "\e[?2004l" . &t_EI
-"    let &pastetoggle = "\e[201~"
-"  endif
-"  function! XTermPasteBegin(ret)
-"    set paste
-"    return a:ret
-"  endfunction
-"  imap <special> <expr> <Esc>[200~ XTermPasteBegin(""'
-"endif
-" }}} paste
-
-" tag {{{
-if has('path_extra')
-  set tags+=tags;
-endif
-"}}} tag
-
-" cscope {{{
-if has('cscope')
-  set cscopetagorder=0
-  set cscopetag
-  set nocscopeverbose
-  " add any database in current directory
-  if filereadable('cscope.out')
-    cs add cscope.out
-    " else add database pointed to by environment
-  elseif $CSCOPE_DB !=# ''
-    cs add $CSCOPE_DB
-  endif
-  set cscopeverbose
-  set cscopequickfix=s-,c-,d-,i-,t-,e-
-endif
-" }}} cscope
-
-" Remove trail spaces and align {{{
-function! s:indent_all()
-  normal! mxgg=G'x
-  delmarks x
-endfunction
-command! IndentAll call s:indent_all()
-
-function! s:delete_space()
-  normal! mxG$
-  let l:flags = 'w'
-  while search(' $', l:flags) > 0
-    call setline('.', substitute(getline('.'), ' \+$', '', ''))
-    let l:flags = 'W'
-  endwhile
-  'x
-  delmarks x
-endfunction
-command! DeleteSpace call s:delete_space()
-
-function! s:align_code()
-  retab
-  IndentAll
-  DeleteSpace
-endfunction
-command! AlignCode call s:align_code()
-
-function! s:align_all_buf()
-  for l:i in  range(1, bufnr('$'))
-    if buflisted(l:i)
-      execute "buffer" l:i
-      AlignCode
-      update
-      bdelete
-    endif
-  endfor
-  quit
-endfunction
-command! AlignAllBuf call s:align_all_buf()
-
-" remove trail spaces for all
-nnoremap <Leader><Space> :DeleteSpace<CR>
-
-" remove trail spaces at selected region
-xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
-" }}} Remove trail spaces and align
-" }}} My functions
-
 " map (for other than each plugin){{{
 "remapping, tips
 
@@ -925,6 +766,165 @@ cnoremap <C-a> <C-b>
 " Write as root
 cnoremap w!! w !sudo tee > /dev/null %
 " }}} map
+
+" My functions {{{
+" diff mode {{{
+function! SetDiffMode()
+  if &diff
+    setlocal nospell
+    setlocal wrap
+  endif
+endfunction
+autocmd MyAutoGroup VimEnter,FilterWritePre * call SetDiffMode()
+
+set diffopt=filler,vertical
+
+" Automatic diffoff
+autocmd MyAutoGroup WinEnter * if(winnr('$') == 1) && (getbufvar(winbufnr(0), '&diff')) == 1 | diffoff | endif
+
+" }}} diff mode
+
+" DiffOrig {{{
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(':DiffOrig')
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+        \ | wincmd p | diffthis
+endif
+" }}} DiffOrig
+
+" undo {{{
+if has('persistent_undo')
+  let s:vimundodir=expand(s:vimdir . '/undo')
+  let &undodir = s:vimundodir
+  if ! isdirectory(s:vimundodir)
+    call system('mkdir ' . s:vimundodir)
+  endif
+  set undofile
+  set undoreload=1000
+endif
+set undolevels=1000
+"nnoremap u g-
+"nnoremap <C-r> g+
+" }}} undo
+
+" matchparen,matchpair, matchit {{{
+" Don't load matchparen (highlight parens actively, make slow)
+" vim-parenmatch fills in it.
+let g:loaded_matchparen = 1
+"matchpairs, default: (:),{:},[:]
+set matchpairs+=<:>
+autocmd MyAutoGroup FileType c,cpp,java set matchpairs+==:;
+source $VIMRUNTIME/macros/matchit.vim
+function! s:set_matchit()
+  "let b:match_words = b:match_words . ',{%.*%}:{% *end.*%}'
+  let b:match_ignorecase = 1
+endfunction
+autocmd MyAutoGroup BufEnter * call s:set_matchit()
+" }}} matchpair, matchit
+
+" paste at normal mode {{{
+
+" if not well work... (though it seems working)
+" need more understanding of vim/screen pasting...
+" can use :a! for temporally paste mode
+" or :set paste ,....., :set nopaste
+" or set noautoindent, ...., : set autoindent
+
+" it seems working in Mac, but not in Windows (putty+XWin)
+
+" This setting change ttimeoutlen behavior:
+" timeoutlen (for mapping delay) is used even for ESC + X key code delay,
+" because it map <ESC> + [200~
+
+"if &term =~? 'screen' || &term =~? 'xterm'
+"  if &term =~? 'screen'
+"    let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
+"    let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
+"    let &pastetoggle = "\e[201~"
+"  else
+"    let &t_SI .= &t_SI . "\e[?2004h"
+"    let &t_EI .= "\e[?2004l" . &t_EI
+"    let &pastetoggle = "\e[201~"
+"  endif
+"  function! XTermPasteBegin(ret)
+"    set paste
+"    return a:ret
+"  endfunction
+"  imap <special> <expr> <Esc>[200~ XTermPasteBegin(""'
+"endif
+" }}} paste
+
+" tag {{{
+if has('path_extra')
+  set tags+=tags;
+endif
+"}}} tag
+
+" cscope {{{
+if has('cscope')
+  set cscopetagorder=0
+  set cscopetag
+  set nocscopeverbose
+  " add any database in current directory
+  if filereadable('cscope.out')
+    cs add cscope.out
+    " else add database pointed to by environment
+  elseif $CSCOPE_DB !=# ''
+    cs add $CSCOPE_DB
+  endif
+  set cscopeverbose
+  set cscopequickfix=s-,c-,d-,i-,t-,e-
+endif
+" }}} cscope
+
+" Remove trail spaces and align {{{
+function! s:indent_all()
+  keepjumps normal! mxgg=G'x
+  delmarks x
+endfunction
+command! IndentAll keepjumps call s:indent_all()
+
+function! s:delete_space()
+  keepjumps normal! mxG$
+  let l:flags = 'w'
+  while search(' $', l:flags) > 0
+    call setline('.', substitute(getline('.'), ' \+$', '', ''))
+    let l:flags = 'W'
+  endwhile
+  'x
+  delmarks x
+endfunction
+command! DeleteSpace call s:delete_space()
+
+function! s:align_code()
+  retab
+  IndentAll
+  DeleteSpace
+endfunction
+command! AlignCode call s:align_code()
+
+function! s:align_all_buf()
+  for l:i in  range(1, bufnr('$'))
+    if buflisted(l:i)
+      execute "buffer" l:i
+      AlignCode
+      update
+      bdelete
+    endif
+  endfor
+  quit
+endfunction
+command! AlignAllBuf call s:align_all_buf()
+
+" remove trail spaces for all
+nnoremap <Leader><Space> :DeleteSpace<CR>
+
+" remove trail spaces at selected region
+xnoremap <Leader><Space> :s/<Space>\+$//g<CR>
+" }}} Remove trail spaces and align
+" }}} My functions
 
 " Plugin settings {{{
 
