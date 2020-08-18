@@ -124,7 +124,7 @@ if s:dein_enabled
 
     " Code syntax, tools for each language {{{
     " Language packs
-    call dein#add('sheerun/vim-polyglot')
+    call dein#add('sheerun/vim-polyglot', {'merged': 0})
 
     " Homebrew
     call dein#add('xu-cheng/brew.vim')
@@ -134,7 +134,7 @@ if s:dein_enabled
 
     " Markdown {{{
     call dein#add('joker1007/vim-markdown-quote-syntax')
-    "call dein#add('rcmdnk/vim-markdown')
+    call dein#add('rcmdnk/vim-markdown')
     " }}} Markdown
 
     " Python {{{
@@ -290,6 +290,8 @@ if s:dein_enabled
     " if...end
     call dein#add('tpope/vim-endwise')
 
+    " To edit help
+    call dein#add('rcmdnk/edit-help.vim')
     " }}} Edit
 
     call dein#end()
@@ -594,78 +596,6 @@ set undolevels=1000
 "nnoremap u g-
 "nnoremap <C-r> g+
 " }}} undo
-
-" HELP file writing helper {{{
-function! s:edit_help()
-  let w:edit_help = 1
-  let w:save_list = &list
-  let w:save_expandtab = &expandtab
-  let w:save_modifiable = &modifiable
-  let w:save_readonly = &readonly
-  let w:save_tabstop = &tabstop
-  let w:save_shiftwidth = &shiftwidth
-  let w:save_softtabstop = &softtabstop
-  let w:save_textwidth = &textwidth
-  setlocal list noexpandtab modifiable noreadonly
-  setlocal tabstop=8 shiftwidth=8 softtabstop=8 textwidth=78
-  if exists('+colorcolumn')
-    let w:save_colorcolumn = &colorcolumn
-    setlocal colorcolumn=78
-  endif
-  if has('conceal')
-    let w:save_conceallevel = &conceallevel
-    setlocal conceallevel=0
-    highlight link helpIgnore Conceal
-    highlight link helpBar Conceal
-    highlight link helpStar Conceal
-    highlight link helpBacktick Conceal
-  endif
-endfunction
-
-function! s:no_edit_help()
-  if !exists('w:edit_help')
-    echo "edit_help was not executed, skipping..."
-    return
-  endif
-  if w:save_list
-    setlocal list
-  else
-    setlocal nolist
-  endif
-  if w:save_expandtab
-    setlocal expandtab
-  else
-    setlocal noexpandtab
-  endif
-  if w:save_modifiable
-    setlocal modifiable
-  else
-    setlocal nomodifiable
-  endif
-  if w:save_readonly
-    setlocal readonly
-  else
-    setlocal noreadonly
-  endif
-  let &l:tabstop = w:save_tabstop
-  let &l:shiftwidth = w:save_shiftwidth
-  let &l:softtabstop = w:save_softtabstop
-  let &l:textwidth = w:save_textwidth
-  if exists('+colorcolumn')
-    let &l:colorcolumn = w:save_colorcolumn
-  endif
-  if has('conceal')
-    let &l:conceallevel = w:save_conceallevel
-    highlight link helpIgnore Ignore
-    highlight link helpBar Ignore
-    highlight link helpStar Ignore
-    highlight link helpBacktick Ignore
-  endif
-endfunction
-
-command! EditHelp call s:edit_help()
-command! NoEditHelp call s:no_edit_help()
-" }}}
 
 " matchparen,matchpair, matchit {{{
 " Don't load matchparen (highlight parens actively, make slow)
@@ -1147,13 +1077,6 @@ endif
 " }}} Search/Display
 
 " Code syntax, tools for each language {{{
-" applescript {{{
-if s:dein_enabled && dein#tap('applescript.vim')
-  autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript setlocal filetype=applescript
-  "autocmd MyAutoGroup FileType applescript inoremap <buffer> <S-CR>  ¬<CR>
-endif
-"}}} applescript
-
 " vim-marching {{{
 if s:dein_enabled && dein#tap('vim-marching')
   if dein#tap('neocomplete.vim')
@@ -1165,23 +1088,6 @@ if s:dein_enabled && dein#tap('vim-marching')
   endif
 endif
 " }}} vim-marching
-
-" vim-clang-format {{{
-if s:dein_enabled && dein#tap('vim-clang-format')
-  let g:clang_format#style_options = {
-              \ 'AccessModifierOffset' : -4,
-              \ 'AllowShortIfStatementsOnASingleLine' : 'true',
-              \ 'AlwaysBreakTemplateDeclarations' : 'true',
-              \ 'Standard' : 'C++11'}
-  " map to <Leader>cf in C++ code
-  autocmd MyAutoGroup FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-  autocmd MyAutoGroup FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
-  " if you install vim-operator-user
-  if dein#tap('vim-operator-user')
-    autocmd MyAutoGroup FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
-  endif
-endif
-" }}} vim-clang-format
 
 " vim-markdown-quote-syntax {{{
 if s:dein_enabled && dein#tap('vim-markdown-quote-syntax')

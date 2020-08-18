@@ -410,13 +410,22 @@ NeoBundle "ctags.vim"
 " }}}
 
 " Applescript
+" applescript {{{
+" included in vim-polyglot
 call dein#add('vim-scripts/applescript.vim')
+if s:dein_enabled && dein#tap('applescript.vim')
+  autocmd MyAutoGroup BufNewFile,BufRead *.scpt,*.applescript setlocal filetype=applescript
+  "autocmd MyAutoGroup FileType applescript inoremap <buffer> <S-CR>  ¬<CR>
+endif
+"}}} applescript
+
 
 " CSS3 (Sass)
 call dein#add('hail2u/vim-css3-syntax.git')
 
 " Go
 " Extra plugins for Go
+" use vim-go
 call dein#add('vim-jp/vim-go-extra')
 
 " c++ {{{
@@ -426,6 +435,23 @@ call dein#add('vim-jp/cpp-vim')
 call dein#add('osyo-manga/vim-marching')
 " c++ formatting
 call dein#add('rhysd/vim-clang-format')
+" vim-clang-format {{{
+if s:dein_enabled && dein#tap('vim-clang-format')
+  let g:clang_format#style_options = {
+              \ 'AccessModifierOffset' : -4,
+              \ 'AllowShortIfStatementsOnASingleLine' : 'true',
+              \ 'AlwaysBreakTemplateDeclarations' : 'true',
+              \ 'Standard' : 'C++11'}
+  " map to <Leader>cf in C++ code
+  autocmd MyAutoGroup FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+  autocmd MyAutoGroup FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
+  " if you install vim-operator-user
+  if dein#tap('vim-operator-user')
+    autocmd MyAutoGroup FileType c,cpp,objc map <buffer><Leader>x <Plug>(operator-clang-format)
+  endif
+endif
+" }}} vim-clang-format
+
 
 " clang_complete{{{
 NeoBundleLazy "Rip-Rip/clang_complete", {
