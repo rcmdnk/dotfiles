@@ -24,7 +24,7 @@ if !filereadable(expand('~/.vim_no_python'))
     let s:python3_dir = $HOME . '/.vim/python3'
     if ! isdirectory(s:python3_dir)
       call system('python3 -m venv ' . s:python3_dir)
-      call system('source ' . s:python3_dir . '/bin/activate && pip install pynvim black pep8 flake8 pyflakes jedi')
+      call system('source ' . s:python3_dir . '/bin/activate && pip install pynvim black pep8 flake8 pyflakes pylint jedi')
     endif
     let g:python3_host_prog = s:python3_dir . '/bin/python'
     let $PATH = s:python3_dir . '/bin:' . $PATH
@@ -89,30 +89,30 @@ if s:dein_enabled
     call dein#add('mattn/webapi-vim')
     " }}} Basic tools
 
-    " Completion {{{
-    if has('nvim')  || (has('timers') && has('python3'))
-      call dein#add('Shougo/deoplete.nvim')
-      if !has('nvim')
-        call dein#add('roxma/nvim-yarp')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-      endif
-      call dein#add('ujihisa/neco-look')
-      call dein#add('Shougo/neco-syntax')
-      call dein#add('Shougo/neco-vim')
-      call dein#add('Shougo/neoinclude.vim')
-      call dein#add('deoplete-plugins/deoplete-jedi')
-      call dein#add('carlitux/deoplete-ternjs')
-      call dein#add('SevereOverfl0w/deoplete-github')
-      "call dein#add('lighttiger2505/deoplete-vim-lsp')
-    endif
-    " }}} Completion
+    "" Completion {{{
+    "if has('nvim')  || (has('timers') && has('python3'))
+    "  call dein#add('Shougo/deoplete.nvim')
+    "  if !has('nvim')
+    "    call dein#add('roxma/nvim-yarp')
+    "    call dein#add('roxma/vim-hug-neovim-rpc')
+    "  endif
+    "  call dein#add('ujihisa/neco-look')
+    "  call dein#add('Shougo/neco-syntax')
+    "  call dein#add('Shougo/neco-vim')
+    "  call dein#add('Shougo/neoinclude.vim')
+    "  call dein#add('deoplete-plugins/deoplete-jedi')
+    "  call dein#add('carlitux/deoplete-ternjs')
+    "  call dein#add('SevereOverfl0w/deoplete-github')
+    "  "call dein#add('lighttiger2505/deoplete-vim-lsp')
+    "endif
+    "" }}} Completion
 
-    " Snippet {{{
-    call dein#add('Shougo/neosnippet')
-    call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
-    call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
-    call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
-    " }}} Snippet
+    "" Snippet {{{
+    "call dein#add('Shougo/neosnippet')
+    "call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
+    "call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
+    "call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
+    "" }}} Snippet
 
     " Search/Display {{{
     " Search and display information from arbitrary sources
@@ -123,6 +123,8 @@ if s:dein_enabled
     " }}} Search/Display
 
     " Code syntax, tools for each language {{{
+    call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
+
     " Language packs
     call dein#add('sheerun/vim-polyglot', {'merged': 0})
 
@@ -165,7 +167,6 @@ if s:dein_enabled
     "call dein#add('prabirshrestha/vim-lsp')
     "call dein#add('mattn/vim-lsp-settings', {'merged': 0})
 
-    "call dein#add('neoclide/coc.nvim')
     " }}} Code syntax, tools for each language
 
     " View {{{
@@ -799,38 +800,6 @@ endfunction
 autocmd MyAutoGroup BufEnter * call s:set_matchit()
 " }}} matchpair, matchit
 
-" paste at normal mode {{{
-
-" if not well work... (though it seems working)
-" need more understanding of vim/screen pasting...
-" can use :a! for temporally paste mode
-" or :set paste ,....., :set nopaste
-" or set noautoindent, ...., : set autoindent
-
-" it seems working in Mac, but not in Windows (putty+XWin)
-
-" This setting change ttimeoutlen behavior:
-" timeoutlen (for mapping delay) is used even for ESC + X key code delay,
-" because it map <ESC> + [200~
-
-"if &term =~? 'screen' || &term =~? 'xterm'
-"  if &term =~? 'screen'
-"    let &t_SI = &t_SI . "\eP\e[?2004h\e\\"
-"    let &t_EI = "\eP\e[?2004l\e\\" . &t_EI
-"    let &pastetoggle = "\e[201~"
-"  else
-"    let &t_SI .= &t_SI . "\e[?2004h"
-"    let &t_EI .= "\e[?2004l" . &t_EI
-"    let &pastetoggle = "\e[201~"
-"  endif
-"  function! XTermPasteBegin(ret)
-"    set paste
-"    return a:ret
-"  endfunction
-"  imap <special> <expr> <Esc>[200~ XTermPasteBegin(""'
-"endif
-" }}} paste
-
 " Remove trail spaces and align {{{
 function! s:indent_all()
   keepjumps normal! mxgg=G'x
@@ -920,10 +889,11 @@ command! SyntaxInfo call s:get_syn_info()
 " }}} My functions
 
 " Plugin settings {{{
+if s:dein_enabled
 
 " Basic tools {{{
 " vim-submode {{{
-if s:dein_enabled && dein#tap('vim-submode')
+if dein#tap('vim-submode')
   call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
   call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
   call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
@@ -951,7 +921,7 @@ endif
 
 " Completion {{{
 " deoplete.nvim {{{
-if s:dein_enabled && dein#tap('deoplete.nvim')
+if dein#tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
 endif
 " }}} deoplete.nvim
@@ -960,7 +930,7 @@ endif
 
 " Snippet {{{
 " neosnippet {{{
-if s:dein_enabled && dein#tap('neosnippet')
+if dein#tap('neosnippet')
   imap <C-s> <Plug>(neosnippet_expand_or_jump)
   smap <C-s> <Plug>(neosnippet_expand_or_jump)
   xmap <C-s> <Plug>(neosnippet_expand_target)
@@ -985,7 +955,7 @@ endif
 
 " Search/Display {{{
 " Denite {{{
-if s:dein_enabled && dein#tap('denite.nvim')
+if dein#tap('denite.nvim')
   " Add custom menus
   let s:menus = {}
   let s:menus.file = {'description': 'File search (buffer, file, file_rec, file_mru'}
@@ -1059,7 +1029,7 @@ if s:dein_enabled && dein#tap('denite.nvim')
   autocmd FileType denite-filter call s:denite_filter_my_settings()
   function! s:denite_filter_my_settings() abort
     imap <silent><buffer> <Esc>       <Plug>(denite_filter_quit)
-    if s:dein_enabled && dein#tap('deoplete.nvim')
+    if dein#tap('deoplete.nvim')
       " disable deoplete on denite-filter
       call deoplete#custom#buffer_option('auto_complete', v:false)
     endif
@@ -1070,20 +1040,14 @@ endif
 " }}} Search/Display
 
 " Code syntax, tools for each language {{{
-" vim-marching {{{
-if s:dein_enabled && dein#tap('vim-marching')
-  if dein#tap('neocomplete.vim')
-    let g:marching_enable_neocomplete = 1
-    let g:neocomplete#force_omni_input_patterns =
-        \ get(g:, 'neocomplete#force_omni_input_patterns', {})
-    let g:neocomplete#force_omni_input_patterns.cpp =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-  endif
+" coc.nvim {{{
+if dein#tap('coc.nvim')
+  autocmd CursorHold * silent call CocActionAsync('highlight')
 endif
-" }}} vim-marching
+" }}} coc.nvim
 
 " vim-markdown-quote-syntax {{{
-if s:dein_enabled && dein#tap('vim-markdown-quote-syntax')
+if dein#tap('vim-markdown-quote-syntax')
   let g:markdown_quote_syntax_on_filetypes = ['txt', 'text']
   let g:markdown_quote_syntax_filetypes = {
         \ 'css' : {
@@ -1100,7 +1064,7 @@ endif
 " }}} vim-markdown-quote-syntax
 
 " markdown {{{
-if s:dein_enabled && dein#tap('vim-markdown')
+if dein#tap('vim-markdown')
   let g:vim_markdown_liquid=1
   let g:vim_markdown_frontmatter=1
   let g:vim_markdown_toml_frontmatter=1
@@ -1114,14 +1078,14 @@ endif
 " }}} vim-markdown
 
 " vimtex {{{
-if s:dein_enabled && dein#tap('vimtex')
+if dein#tap('vimtex')
   "let g:vimtex_compiler_progname = 'nvr'
   let g:tex_flavor = 'latex'
 endif
 " }}} vimtex
 
 " ale/syntastic {{{
-if s:dein_enabled && dein#tap('ale')
+if dein#tap('ale')
   let g:ale_sign_column_always = 0
   let g:ale_lint_on_enter = 0
   let g:ale_lint_on_save = 1
@@ -1148,7 +1112,7 @@ if s:dein_enabled && dein#tap('ale')
 
   let g:ale_python_flake8_options="--ignore=W503,E265"
   let g:ale_sh_shellcheck_options = '-e SC1090,SC2059,SC2155,SC2164'
-elseif s:dein_enabled && dein#tap('syntastic')
+elseif dein#tap('syntastic')
   " Disable automatic check at file open/close
   let g:syntastic_check_on_open=0
   let g:syntastic_check_on_wq=0
@@ -1169,7 +1133,7 @@ endif
 " }}}
 
 " Language Server {{{
-if s:dein_enabled && dein#tap('vim-lsp')
+if dein#tap('vim-lsp')
   let g:lsp_virtual_text_enabled = 0
   nmap <Leader>l [lsp]
   xmap <Leader>l [lsp]
@@ -1193,13 +1157,13 @@ endif
 " View {{{
 
 " rcmdnk-color.vim {{{
-if s:dein_enabled && dein#tap('rcmdnk-color.vim')
+if dein#tap('rcmdnk-color.vim')
   colorscheme rcmdnk
 endif
 " }}}
 
 " lightline.vim {{{
-if s:dein_enabled && dein#tap('lightline.vim')
+if dein#tap('lightline.vim')
   let g:lightline = {
         \'colorscheme': 'jellybeans',
         \'active': {
@@ -1332,7 +1296,7 @@ endif
 "}}} lightline.vim
 
 " vim-indent-guides{{{
-if s:dein_enabled && dein#tap('vim-indent-guides')
+if dein#tap('vim-indent-guides')
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level = 1
   let g:indent_guides_auto_colors = 0
@@ -1342,13 +1306,13 @@ endif
 "}}} vim-indent-guides
 
 " foldCC {{{
-if s:dein_enabled && dein#tap('foldCC')
+if dein#tap('foldCC')
   set foldtext=FoldCCtext()
 endif
 "}}} foldCC
 
 " vim-highlightedyank{{{
-if s:dein_enabled && dein#tap('vim-highlightedyank')
+if dein#tap('vim-highlightedyank')
   if !exists('##TextYankPost')
     map y <Plug>(highlightedyank)
     let g:highlightedyank_highlight_duration = 100
@@ -1357,14 +1321,14 @@ endif
 "}}} vim-highlightedyank
 
 " linediff {{{
-if s:dein_enabled && dein#tap('linediff.vim')
+if dein#tap('linediff.vim')
   let g:linediff_first_buffer_command  = 'leftabove new'
   let g:linediff_second_buffer_command = 'rightbelow vertical new'
 endif
 "}}} linediff
 
 " vim-diff-enhanced {{{
-if s:dein_enabled && dein#tap('vim-diff-enhanced')
+if dein#tap('vim-diff-enhanced')
   let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
 endif
 "}}} vim-diff-enhanced
@@ -1372,13 +1336,13 @@ endif
 " NERDTree+SrcExpl+tagbar {{{
 
 " The NERD Tree  {{{
-if s:dein_enabled && dein#tap('nerdtree')
+if dein#tap('nerdtree')
   nnoremap <Leader>N :NERDTreeToggle<CR>
 endif
 "}}}
 
 " SrcExpl  {{{
-if s:dein_enabled && dein#tap('SrcExpl')
+if dein#tap('SrcExpl')
   " Set refresh time in ms
   let g:SrcExpl_RefreshTime = 1000
   " Is update tags when SrcExpl is opened
@@ -1405,7 +1369,7 @@ endif
 "}}}
 
 " tagbar {{{
-if s:dein_enabled && dein#tap('tagbar')
+if dein#tap('tagbar')
   " Width (default 40)
   let g:tagbar_width = 20
   " Mappings
@@ -1413,7 +1377,7 @@ if s:dein_enabled && dein#tap('tagbar')
 endif
 "}}} tagbar
 
-if s:dein_enabled && dein#tap('nerdtree') && dein#tap('SrcExpl') && dein#tap('tagbar')
+if dein#tap('nerdtree') && dein#tap('SrcExpl') && dein#tap('tagbar')
   function! s:ide()
     SrcExplToggle
     NERDTreeToggle
@@ -1427,7 +1391,7 @@ endif
 
 " Version Control System {{{
 " gist-vim {{{
-if s:dein_enabled && dein#tap('gist-vim')
+if dein#tap('gist-vim')
   let g:gist_detect_filetype = 1
   let g:gist_open_browser_after_post = 1
   " Disable default Gist command
@@ -1438,7 +1402,7 @@ endif
 
 " Selection {{{
 " vim-quickhl {{{
-if s:dein_enabled && dein#tap('vim-quickhl')
+if dein#tap('vim-quickhl')
   nnoremap [quickhl] <Nop>
   xnoremap [quickhl] <Nop>
   nmap <Leader>h [quickhl]
@@ -1458,7 +1422,7 @@ endif
 
 " Search {{{
 " vim-anzu {{{
-if s:dein_enabled && dein#tap('vim-anzu')
+if dein#tap('vim-anzu')
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
   nmap * g*<C-o><Plug>(anzu-update-search-status-with-echo)
@@ -1476,7 +1440,7 @@ endif
 
 " Edit {{{
 " textobj {{{
-if s:dein_enabled && dein#tap('vim-textobj-function')
+if dein#tap('vim-textobj-function')
   omap iF <Plug>(textobj-function-i)
   omap aF <Plug>(textobj-function-a)
   vmap iF <Plug>(textobj-function-i)
@@ -1485,7 +1449,7 @@ endif
 " }}} textobj
 
 " mundo {{{
-if s:dein_enabled && dein#tap('vim-mundo')
+if dein#tap('vim-mundo')
   nnoremap U :MundoToggle<CR>
   let g:gundo_width = 30
   let g:gundo_preview_height = 15
@@ -1496,21 +1460,21 @@ endif
 
 " Operator {{{
 " vim-operator-replace{{{
-if s:dein_enabled && dein#tap('vim-operator-replace')
+if dein#tap('vim-operator-replace')
   map _  <Plug>(operator-replace)
 endif
 " }}} vim-operator-replace
 " }}} Operator
 
 " vim-easy-align {{{
-if s:dein_enabled && dein#tap('vim-easy-align')
+if dein#tap('vim-easy-align')
   xmap ga <Plug>(EasyAlign)*
   nmap ga <Plug>(EasyAlign)*
 endif
 " }}} vim-easy-align
 
 " yankround {{{
-if s:dein_enabled && dein#tap('yankround.vim')
+if dein#tap('yankround.vim')
   nmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
   xmap <expr> p (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-p)'
   nmap <expr> P (col('.') >= col('$') ? '$' : '') . '<Plug>(yankround-P)'
@@ -1527,7 +1491,7 @@ endif
 " }}} yankround
 
 " yankshare {{{
-if s:dein_enabled && dein#tap('yankshare.vim')
+if dein#tap('yankshare.vim')
   nmap <silent> <Leader>y <Plug>(yankshare)
   xmap <silent> <Leader>y <Plug>(yankshare)
   let g:yankshare_file = '~/.vim/yankshare.txt'
@@ -1536,14 +1500,14 @@ endif
 " }}} yankshare
 
 " vim-multiple-cursors {{{
-if s:dein_enabled && dein#tap('vim-multiple-cursors')
+if dein#tap('vim-multiple-cursors')
   let g:multi_cursor_use_default_mapping = 0
   let g:multi_cursor_start_key = '<Leader>m'
 endif
 " }}} vim-multiple-cursors
 
 " vim-sandwich {{{
-if s:dein_enabled && dein#tap('vim-sandwich')
+if dein#tap('vim-sandwich')
   let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
   let g:sandwich#recipes += [
         \   {
@@ -1582,6 +1546,7 @@ if s:dein_enabled && dein#tap('vim-sandwich')
 endif
 " }}} vim-sandwich
 " }}} Edit
+endif " if s:dein_enabled
 " }}} Plugin settings
 
 " source other setting files {{{
