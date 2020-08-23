@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m')
+only_inside=(.vim)
 instdir="$HOME"
 
 backup=""
@@ -99,7 +100,25 @@ for f in .*;do
     continue
   fi
 
-  myinstall "$curdir/$f" "$instdir/$f"
+  for o in "${only_inside[@]}";do
+    flag=0
+    if [ "$f" = "$o" ];then
+      flag=1
+      break
+    fi
+  done
+  files=()
+  if [ $flag = 1 ];then
+    mkdir -p "$instdir/$f"
+    for ff in $(ls "$curdir/$f/");do
+      files=("${files[@]}" "$f/$ff")
+    done
+  else
+    files=("$f")
+  fi
+  for ff in "${files[@]}";do
+    myinstall "$curdir/$ff" "$instdir/$ff"
+  done
 done
 
 # subversion config

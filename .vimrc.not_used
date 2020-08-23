@@ -211,6 +211,40 @@ endif
 " }}}
 
 " Completion {{{
+
+" deoplete {{{ Use coc.nvim (instead of deoplete+vim-lsp
+if has('nvim')  || (has('timers') && has('python3'))
+  call dein#add('Shougo/deoplete.nvim')
+  if !has('nvim')
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+  endif
+  call dein#add('ujihisa/neco-look')
+  call dein#add('Shougo/neco-syntax')
+  call dein#add('Shougo/neco-vim')
+  call dein#add('Shougo/neoinclude.vim')
+  call dein#add('deoplete-plugins/deoplete-jedi')
+  call dein#add('carlitux/deoplete-ternjs')
+  call dein#add('SevereOverfl0w/deoplete-github')
+  " Language Server
+  "call dein#add('lighttiger2505/deoplete-vim-lsp')
+  "call dein#add('prabirshrestha/async.vim')
+  "call dein#add('prabirshrestha/asyncomplete.vim')
+  "call dein#add('prabirshrestha/asyncomplete-lsp.vim')
+  "call dein#add('prabirshrestha/vim-lsp')
+  "call dein#add('mattn/vim-lsp-settings', {'merged': 0})
+endif
+" Completion {{{
+" deoplete.nvim {{{
+if dein#tap('deoplete.nvim')
+  let g:deoplete#enable_at_startup = 1
+endif
+" }}} deoplete.nvim
+
+" }}} Completion
+
+" }}} deoplete
+
 " Use deoplete
 
 " neocomplete {{{
@@ -284,7 +318,107 @@ endif
 
 " Code syntax, tools for each language {{{
 
-" Code Syntax {{{
+" Code Syntax {{{ Use coc.nvim
+" Syntax checking
+if has('nvim') || (has('job') && has('channel') && has('timers'))
+  call dein#add('w0rp/ale')
+else
+  call dein#add('vim-syntastic/syntastic')
+endif
+
+" ale/syntastic {{{
+" function for lightline
+let g:ll_ale = LLGetAle()
+if g:ll_ale !=# ''
+  let l:total_len += strlen(g:ll_ale) + 2
+  if l:ww < l:total_len
+    let g:ll_ale = ''
+    return ''
+  endif
+endif
+if dein#tap('ale')
+  function! LLGetAle()
+    if get(b:, 'ale_enabled', get(g:, 'ale_enabled', 0))
+      let l:count = ale#statusline#Count(bufnr(''))
+      let l:errors = l:count.error + l:count.style_error
+      let l:warnings = l:count.warning + l:count.style_warning
+      return l:count.total == 0 ? 'OK' : 'E:' . l:errors . ' W:' . l:warnings
+    endif
+    return ''
+  endfunction
+else
+  function! LLGetAle()
+    return ''
+  endfunction
+endif
+
+if dein#tap('ale')
+  let g:ale_sign_column_always = 0
+  let g:ale_lint_on_enter = 0
+  let g:ale_lint_on_save = 1
+  let g:ale_lint_on_text_changed = 'normal'
+
+  function! s:ale_list()
+    let g:ale_open_list = 1
+    call ale#Queue(0, 'lint_file')
+  endfunction
+  command! ALEList call s:ale_list()
+
+  nnoremap [ale] <Nop>
+  nmap <Leader>a [ale]
+  nmap <silent> [ale]p <Plug>(ale_previous)
+  nmap <silent> [ale]n <Plug>(ale_next)
+  nmap <silent> [ale]a <Plug>(ale_toggle)
+  nmap <silent> [ale]l :ALEList<CR>
+  autocmd MyAutoGroup FileType qf nnoremap <silent> <buffer> q :let g:ale_open_list = 0<CR>:q!<CR>
+  autocmd MyAutoGroup FileType help,qf,man,ref,markdown let b:ale_enabled = 0
+
+  if dein#tap('lightline.vim')
+    autocmd MyAutoGroup User ALELint call lightline#update()
+  endif
+
+  let g:ale_python_flake8_options="--ignore=W503,E265"
+  let g:ale_sh_shellcheck_options = '-e SC1090,SC2059,SC2155,SC2164'
+elseif dein#tap('syntastic')
+  " Disable automatic check at file open/close
+  let g:syntastic_check_on_open=0
+  let g:syntastic_check_on_wq=0
+  " C
+  let g:syntastic_c_check_header = 1
+  " C++
+  let g:syntastic_cpp_check_header = 1
+  " Java
+  let g:syntastic_java_javac_config_file_enabled = 1
+  let g:syntastic_java_javac_config_file = '$HOME/.syntastic_javac_config'
+  " python
+  let g:syntastic_python_checkers = ['flake8']
+  " ruby
+  let g:syntastic_ruby_checkers = ['rubocop']
+  " args for shellcheck
+  let g:syntastic_sh_shellcheck_args = '-e SC1090,SC2059,SC2155,SC2164'
+endif
+" }}}
+
+" Language Server {{{
+if dein#tap('vim-lsp')
+  let g:lsp_virtual_text_enabled = 0
+  nmap <Leader>l [lsp]
+  xmap <Leader>l [lsp]
+  nnoremap [lsp] <Nop>
+  xnoremap [lsp] <Nop>
+  nnoremap <silent> [lsp]a :LspCodeAction<CR>
+  nnoremap <silent> [lsp]d :LspDefinition<CR>
+  nnoremap <silent> [lsp]D :LspDeclaration<CR>
+  nnoremap <silent> [lsp]c :LspDocumentDiagnostics<CR>
+  nnoremap <silent> [lsp]f :LspDocumentFormat<CR>
+  nnoremap <silent> [lsp]h :LspHover<CR>
+  nnoremap <silent> [lsp]n :LspNextError<CR>
+  nnoremap <silent> [lsp]p :LspPreviousError<CR>
+  nnoremap <silent> [lsp]r :LspRename<CR>
+  nnoremap <silent> [lsp]t :LspTypeDefinition<CR>
+endif
+" }}}
+
 " Use ale
 " syntastic {{{
 " (currently flake8 or other modules are installed independently)

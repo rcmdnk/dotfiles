@@ -24,7 +24,7 @@ if !filereadable(expand('~/.vim_no_python'))
     let s:python3_dir = $HOME . '/.vim/python3'
     if ! isdirectory(s:python3_dir)
       call system('python3 -m venv ' . s:python3_dir)
-      call system('source ' . s:python3_dir . '/bin/activate && pip install pynvim black pep8 flake8 pyflakes pylint jedi')
+      call system('source ' . s:python3_dir . '/bin/activate && pip install pynvim autopep8 black pep8 flake8 pyflakes pylint jedi')
     endif
     let g:python3_host_prog = s:python3_dir . '/bin/python'
     let $PATH = s:python3_dir . '/bin:' . $PATH
@@ -89,30 +89,12 @@ if s:dein_enabled
     call dein#add('mattn/webapi-vim')
     " }}} Basic tools
 
-    "" Completion {{{
-    "if has('nvim')  || (has('timers') && has('python3'))
-    "  call dein#add('Shougo/deoplete.nvim')
-    "  if !has('nvim')
-    "    call dein#add('roxma/nvim-yarp')
-    "    call dein#add('roxma/vim-hug-neovim-rpc')
-    "  endif
-    "  call dein#add('ujihisa/neco-look')
-    "  call dein#add('Shougo/neco-syntax')
-    "  call dein#add('Shougo/neco-vim')
-    "  call dein#add('Shougo/neoinclude.vim')
-    "  call dein#add('deoplete-plugins/deoplete-jedi')
-    "  call dein#add('carlitux/deoplete-ternjs')
-    "  call dein#add('SevereOverfl0w/deoplete-github')
-    "  "call dein#add('lighttiger2505/deoplete-vim-lsp')
-    "endif
-    "" }}} Completion
-
     "" Snippet {{{
-    "call dein#add('Shougo/neosnippet')
-    "call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
-    "call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
-    "call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
-    "" }}} Snippet
+    call dein#add('Shougo/neosnippet')
+    call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
+    call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
+    call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
+    " }}} Snippet
 
     " Search/Display {{{
     " Search and display information from arbitrary sources
@@ -142,6 +124,8 @@ if s:dein_enabled
     " Python {{{
     " Folding method for python, but makes completion too slow...?
     call dein#add('vim-scripts/python_fold')
+    " for coc.nvim
+    call dein#add('relastle/vim-nayvy')
     " }}} Python
 
     " Ruby (rails, erb)
@@ -152,20 +136,6 @@ if s:dein_enabled
 
     " Vim Syntax Checker
     call dein#add('dbakker/vim-lint')
-
-    " Syntax checking
-    if has('nvim') || (has('job') && has('channel') && has('timers'))
-      call dein#add('w0rp/ale')
-    else
-      call dein#add('vim-syntastic/syntastic')
-    endif
-
-    " Language Server
-    "call dein#add('prabirshrestha/async.vim')
-    "call dein#add('prabirshrestha/asyncomplete.vim')
-    "call dein#add('prabirshrestha/asyncomplete-lsp.vim')
-    "call dein#add('prabirshrestha/vim-lsp')
-    "call dein#add('mattn/vim-lsp-settings', {'merged': 0})
 
     " }}} Code syntax, tools for each language
 
@@ -369,7 +339,7 @@ set display=lastline " Show all even if there is many characters in one line.
 set nolinebreak
 "set breakat=\ ^I!@*-+;:,./?()[]{}<>'"`     " break point for linebreak
 set breakat=
-"set showbreak=+\   " set showbreak
+"set showbreak=+\
 set showbreak=
 "if has('patch-7.4.338')
 "  set breakindent    " indent even for wrapped lines
@@ -498,6 +468,12 @@ autocmd MyAutoGroup FileType * setlocal formatoptions-=ro
 
 " Arrow to open new file while current file is not saved
 set hidden
+
+" Used for the CursorHold (ms, default is 4000)
+set updatetime=300
+
+" don't give ins-completion-menu message
+set shortmess+=c
 
 " Jump to the first opened window
 set switchbuf=useopen
@@ -833,10 +809,10 @@ endfunction
 command! AlignAllBuf call s:align_all_buf()
 
 " remove trail spaces for all
-nnoremap <Leader><Space> :DeleteSpace<CR>
+nnoremap <silent> <Leader><Space> :DeleteSpace<CR>
 
 " remove trail spaces at selected region
-xnoremap <Leader><Space> :s/\s\+$//g<CR>
+xnoremap <silent> <Leader><Space> :s/\s\+$//g<CR>
 " }}} Remove trail spaces and align
 
 " {{{ Get syntax information
@@ -918,15 +894,6 @@ if dein#tap('vim-submode')
 endif
 " }}} vim-submode
 " }}} Basic tools
-
-" Completion {{{
-" deoplete.nvim {{{
-if dein#tap('deoplete.nvim')
-  let g:deoplete#enable_at_startup = 1
-endif
-" }}} deoplete.nvim
-
-" }}} Completion
 
 " Snippet {{{
 " neosnippet {{{
@@ -1042,7 +1009,74 @@ endif
 " Code syntax, tools for each language {{{
 " coc.nvim {{{
 if dein#tap('coc.nvim')
+
+  " Use tab for trigger completion with characters ahead and navigate.
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+  inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  " Use <cr> to confirm completion
+  inoremap <expr> <Plug>CustomCocCR pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+  imap <CR> <Plug>CustomCocCR<Plug>DiscretionaryEnd
+
+  " Use `[g` and `]g` to navigate diagnostics
+  " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+  nmap <silent> [g <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]g <Plug>(coc-diagnostic-next)
+  nmap <silent> <M-p> <Plug>(coc-diagnostic-prev)
+  nmap <silent> <M-n> <Plug>(coc-diagnostic-next)
+
+  " GoTo code navigation.
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+
+  " Use K to show documentation in preview window.
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+  " Highlight the symbol and its references when holding the cursor.
   autocmd CursorHold * silent call CocActionAsync('highlight')
+
+  " Symbol renaming.
+  nmap <leader>rn <Plug>(coc-rename)
+
+  " Formatting selected code.
+  xmap <leader>f  <Plug>(coc-format-selected)
+  nmap <leader>f  <Plug>(coc-format-selected)
+
+  augroup mygroup
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  augroup end
+
+  " Applying codeAction to the selected region.
+  " Example: `<leader>aap` for current paragraph
+  xmap <leader>a  <Plug>(coc-codeaction-selected)
+  nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+  " Remap keys for applying codeAction to the current buffer.
+  nmap <leader>ac  <Plug>(coc-codeaction)
+  " Apply AutoFix to problem on the current line.
+  nmap <leader>qf  <Plug>(coc-fix-current)
+
 endif
 " }}} coc.nvim
 
@@ -1084,74 +1118,6 @@ if dein#tap('vimtex')
 endif
 " }}} vimtex
 
-" ale/syntastic {{{
-if dein#tap('ale')
-  let g:ale_sign_column_always = 0
-  let g:ale_lint_on_enter = 0
-  let g:ale_lint_on_save = 1
-  let g:ale_lint_on_text_changed = 'normal'
-
-  function! s:ale_list()
-    let g:ale_open_list = 1
-    call ale#Queue(0, 'lint_file')
-  endfunction
-  command! ALEList call s:ale_list()
-
-  nnoremap [ale] <Nop>
-  nmap <Leader>a [ale]
-  nmap <silent> [ale]p <Plug>(ale_previous)
-  nmap <silent> [ale]n <Plug>(ale_next)
-  nmap <silent> [ale]a <Plug>(ale_toggle)
-  nmap <silent> [ale]l :ALEList<CR>
-  autocmd MyAutoGroup FileType qf nnoremap <silent> <buffer> q :let g:ale_open_list = 0<CR>:q!<CR>
-  autocmd MyAutoGroup FileType help,qf,man,ref,markdown let b:ale_enabled = 0
-
-  if dein#tap('lightline.vim')
-    autocmd MyAutoGroup User ALELint call lightline#update()
-  endif
-
-  let g:ale_python_flake8_options="--ignore=W503,E265"
-  let g:ale_sh_shellcheck_options = '-e SC1090,SC2059,SC2155,SC2164'
-elseif dein#tap('syntastic')
-  " Disable automatic check at file open/close
-  let g:syntastic_check_on_open=0
-  let g:syntastic_check_on_wq=0
-  " C
-  let g:syntastic_c_check_header = 1
-  " C++
-  let g:syntastic_cpp_check_header = 1
-  " Java
-  let g:syntastic_java_javac_config_file_enabled = 1
-  let g:syntastic_java_javac_config_file = '$HOME/.syntastic_javac_config'
-  " python
-  let g:syntastic_python_checkers = ['flake8']
-  " ruby
-  let g:syntastic_ruby_checkers = ['rubocop']
-  " args for shellcheck
-  let g:syntastic_sh_shellcheck_args = '-e SC1090,SC2059,SC2155,SC2164'
-endif
-" }}}
-
-" Language Server {{{
-if dein#tap('vim-lsp')
-  let g:lsp_virtual_text_enabled = 0
-  nmap <Leader>l [lsp]
-  xmap <Leader>l [lsp]
-  nnoremap [lsp] <Nop>
-  xnoremap [lsp] <Nop>
-  nnoremap <silent> [lsp]a :LspCodeAction<CR>
-  nnoremap <silent> [lsp]d :LspDefinition<CR>
-  nnoremap <silent> [lsp]D :LspDeclaration<CR>
-  nnoremap <silent> [lsp]c :LspDocumentDiagnostics<CR>
-  nnoremap <silent> [lsp]f :LspDocumentFormat<CR>
-  nnoremap <silent> [lsp]h :LspHover<CR>
-  nnoremap <silent> [lsp]n :LspNextError<CR>
-  nnoremap <silent> [lsp]p :LspPreviousError<CR>
-  nnoremap <silent> [lsp]r :LspRename<CR>
-  nnoremap <silent> [lsp]t :LspTypeDefinition<CR>
-endif
-" }}}
-
 " }}} Code syntax, tools for each language
 
 " View {{{
@@ -1168,7 +1134,7 @@ if dein#tap('lightline.vim')
         \'colorscheme': 'jellybeans',
         \'active': {
               \'left': [['prepare', 'mode'], ['filename', 'fugitive']],
-              \'right': [['lineinfo'], ['fileinfo'], ['ale']]},
+              \'right': [['lineinfo'], ['fileinfo'], ['coc']]},
         \'component_visible_condition': {
               \'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'},
         \'component_function': {
@@ -1178,7 +1144,7 @@ if dein#tap('lightline.vim')
               \'fugitive': 'LLFugitive',
               \'fileinfo': 'LLFileInfo',
               \'lineinfo': 'LLLineInfo',
-              \'ale': 'LLAle',
+              \'coc': 'LLCoc',
               \},
         \ 'separator': { 'left': '', 'right': '' },
         \ 'subseparator': { 'left': '', 'right': '' }
@@ -1191,7 +1157,7 @@ if dein#tap('lightline.vim')
     let g:ll_fugitive = ''
     let g:ll_fileinfo = ''
     let g:ll_lineinfo = ''
-    let g:ll_ale = ''
+    let g:ll_coc = ''
 
     let l:ww = winwidth('.')
     let l:total_len = 0
@@ -1231,11 +1197,11 @@ if dein#tap('lightline.vim')
       endif
     endif
 
-    let g:ll_ale = LLGetAle()
-    if g:ll_ale !=# ''
-      let l:total_len += strlen(g:ll_ale) + 2
+    let g:ll_coc = LLGetCoc()
+    if g:ll_coc !=# ''
+      let l:total_len += strlen(g:ll_coc) + 2
       if l:ww < l:total_len
-        let g:ll_ale = ''
+        let g:ll_coc = ''
         return ''
       endif
     endif
@@ -1273,22 +1239,27 @@ if dein#tap('lightline.vim')
     return g:ll_lineinfo
   endfunction
 
-  function! LLAle()
-    return g:ll_ale
+  function! LLCoc()
+    return g:ll_coc
   endfunction
 
-  if dein#tap('ale')
-    function! LLGetAle()
-      if get(b:, 'ale_enabled', get(g:, 'ale_enabled', 0))
-        let l:count = ale#statusline#Count(bufnr(''))
-        let l:errors = l:count.error + l:count.style_error
-        let l:warnings = l:count.warning + l:count.style_warning
-        return l:count.total == 0 ? 'OK' : 'E:' . l:errors . ' W:' . l:warnings
+  if dein#tap('coc.nvim')
+    function! LLGetCoc()
+      let info = get(b:, 'coc_diagnostic_info', {})
+      if empty(info) | return '' | endif
+      let msgs = []
+      if get(info, 'error', 0)
+        call add(msgs, 'E' . info['error'])
       endif
-      return ''
+      if get(info, 'warning', 0)
+        call add(msgs, 'W' . info['warning'])
+      endif
+      return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
     endfunction
+
+    autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
   else
-    function! LLGetAle()
+    function! LLGetCoc()
       return ''
     endfunction
   endif
@@ -1505,6 +1476,12 @@ if dein#tap('vim-multiple-cursors')
   let g:multi_cursor_start_key = '<Leader>m'
 endif
 " }}} vim-multiple-cursors
+
+" vim-endwise {{{
+if dein#tap('vim-endwise')
+  let g:endwise_no_mappings = v:true
+endif
+" }}} vim-endwise
 
 " vim-sandwich {{{
 if dein#tap('vim-sandwich')
