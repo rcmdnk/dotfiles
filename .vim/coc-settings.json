@@ -1,5 +1,4 @@
 {
-
   "suggest.floatEnable": false,
   "diagnostic.messageTarget": "echo",
   "signature.target": "echo",
