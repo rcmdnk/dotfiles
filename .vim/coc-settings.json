@@ -1,8 +1,5 @@
 {
-  "suggest.floatEnable": false,
-  "diagnostic.messageTarget": "echo",
-  "signature.target": "echo",
-  "coc.preferences.hoverTarget": "echo",
+  "diagnostic.messageDelay": 2000,
   "python.jediEnabled": false,
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,

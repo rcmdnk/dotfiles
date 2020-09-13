@@ -105,7 +105,9 @@ if s:dein_enabled
     " }}} Search/Display
 
     " Code syntax, tools for each language {{{
-    call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
+    if has('nvim')
+      call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
+    endif
 
     " Language packs
     call dein#add('sheerun/vim-polyglot', {'merged': 0})
@@ -124,7 +126,7 @@ if s:dein_enabled
     " Python {{{
     " Folding method for python, but makes completion too slow...?
     call dein#add('vim-scripts/python_fold')
-    " for coc.nvim
+    " with coc.nvim
     call dein#add('relastle/vim-nayvy')
     " }}} Python
 
@@ -815,7 +817,7 @@ nnoremap <silent> <Leader><Space> :DeleteSpace<CR>
 xnoremap <silent> <Leader><Space> :s/\s\+$//g<CR>
 " }}} Remove trail spaces and align
 
-" {{{ Get syntax information
+" Get syntax information {{{
 " VimShowHlGroup: Show highlight group name under a cursor
 command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
 " VimShowHlItem: Show highlight item name under a cursor
@@ -862,6 +864,21 @@ endfunction
 
 command! SyntaxInfo call s:get_syn_info()
 " }}} Get syntax information
+
+" Toggle sign column {{{
+function! s:toggle_sign_colmn()
+  let l:sc_setting = &signcolumn
+  if l:sc_setting ==# 'no'
+    setlocal signcolumn=auto
+  else
+    setlocal signcolumn=no
+  endif
+endfunction
+command! ToggleSignColmn call s:toggle_sign_colmn()
+nnoremap <silent> <Leader>c :ToggleSignColmn<CR>
+
+" }}} Toggle sign column
+
 " }}} My functions
 
 " Plugin settings {{{
@@ -1078,7 +1095,6 @@ if dein#tap('coc.nvim')
   nmap <leader>ac  <Plug>(coc-codeaction)
   " Apply AutoFix to problem on the current line.
   nmap <leader>qf  <Plug>(coc-fix-current)
-
 endif
 " }}} coc.nvim
 

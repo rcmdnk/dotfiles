@@ -170,6 +170,9 @@ _set_homebrew_path () { # {{{
     _add_path CPATH "$OPENSSL_PATH/include"
   fi
 
+  ## Java
+  _add_path PATH "$brew_prefix/opt/openjdk/bin"
+
   ## Alias
   alias cask='brew cask'
 } # }}}
@@ -415,6 +418,11 @@ _set_alias () { # Alias {{{
 #  elif type ccat >& /dev/null;then
   if type ccat >& /dev/null;then
     alias cat='ccat --bg=dark -G String="fuchsia" -G Keyword="yellow" -G Plaintext="lightgray" -G Decimal="fuchsia" -G Punctuation="lightgray" -G Type="lightgray" -G Comment="turquoise"'
+  fi
+  if type open >& /dev/null;then
+    if type powershell.exe >& /dev/null;then
+      alias open="powershell.exe /c start"
+    fi
   fi
 } # }}} Alias
 
