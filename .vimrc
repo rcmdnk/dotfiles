@@ -111,9 +111,7 @@ if s:dein_enabled
     " }}} Search/Display
 
     " Code syntax, tools for each language {{{
-    if has('nvim')
-      call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
-    endif
+    call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
 
     " Language packs
     call dein#add('sheerun/vim-polyglot', {'merged': 0})
