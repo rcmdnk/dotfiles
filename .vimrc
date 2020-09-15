@@ -9,7 +9,11 @@ let s:use_dein = 1
 " }}} Flags
 
 " Prepare .vim dir {{{
-let s:vimdir = $HOME . '/.vim'
+if has('nvim')
+  let s:vimdir = $HOME . '/.config/nvim'
+else
+  let s:vimdir = $HOME . '/.vim'
+endif
 if has('vim_starting')
   if ! isdirectory(s:vimdir)
     call system('mkdir ' . s:vimdir)
@@ -21,7 +25,7 @@ endif
 if !filereadable(expand('~/.vim_no_python'))
   let s:python3 = system('which python3')
   if strlen(s:python3) != 0
-    let s:python3_dir = $HOME . '/.vim/python3'
+    let s:python3_dir = s:vimdir . '/python3'
     if ! isdirectory(s:python3_dir)
       call system('python3 -m venv ' . s:python3_dir)
       call system('source ' . s:python3_dir . '/bin/activate && pip install pynvim autopep8 black pep8 flake8 pyflakes pylint jedi')
@@ -83,7 +87,9 @@ if s:dein_enabled
 
     " Basic tools {{{
     " Sub mode
-    call dein#add('kana/vim-submode')
+    if !has('nvim') || !has('unix')
+      call dein#add('kana/vim-submode')
+    endif
 
     " webapi
     call dein#add('mattn/webapi-vim')
