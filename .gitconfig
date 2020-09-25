@@ -139,8 +139,8 @@
   pull-dry-run-s = "!git fetch origin $(git config branch.$(git rev-parse --abbrev-ref HEAD).merge);\
     git diff --stat --summary HEAD...FETCH_HEAD"
   tag-renew = "!f () {\
-		lasttag=$(git tag --sort=v:refname|tail -n2|head -n1);\
-		tag=$(git tag --sort=v:refname|tail -n1);\
+    lasttag=$(git tag --sort=v:refname|tail -n2|head -n1);\
+    tag=$(git tag --sort=v:refname|tail -n1);\
     if [ \"$1\" = \"-v\" ];then \
       tag=\"$2\";\
       shift;shift;\
@@ -167,7 +167,7 @@
     fi;\
   };f"
   tag-new = "!f () {\
-		lasttag=$(git tag --sort=v:refname|tail -n1);\
+    lasttag=$(git tag --sort=v:refname|tail -n1);\
     if [ \"$1\" = \"-v\" ];then \
       tag=\"$2\";\
       shift;shift;\
