@@ -131,6 +131,7 @@ done
 
 # neovim
 myinstall "$curdir/.vimrc" "$instdir/.config/nvim/init.vim"
+myinstall "$curdir/.vim/coc-settings.json" "$instdir/.config/nvim/coc-settings.json"
 
 # Summary
 if [ $dryrun -eq 1 ];then
