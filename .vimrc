@@ -1130,6 +1130,13 @@ if dein#tap('vim-markdown-quote-syntax')
 endif
 " }}} vim-markdown-quote-syntax
 
+" vim-polyglot {{{
+if dein#tap('vim-polyglot')
+  " for chrisbra/csv.vim
+  let g:csv_no_conceal = 1
+endif
+" }}} vim-polyglot
+
 " markdown {{{
 if dein#tap('vim-markdown')
   let g:vim_markdown_liquid=1
