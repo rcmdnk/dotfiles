@@ -144,6 +144,11 @@ _set_homebrew_path () { # {{{
   ## Disable Analytics
   export HOMEBREW_NO_ANALYTICS=1
 
+  ## Disable auto update
+  # seems auto_update_secs is not set by default?
+  #export HOMEBREW_AUTO_UPDATE_SECS=300
+  export HOMEBREW_NO_AUTO_UPDATE=1
+
   ## Python2
   # Use python for python2
   #python2path="$brew_prefix/opt/python@2/libexec/bin"
