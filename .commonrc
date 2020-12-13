@@ -187,7 +187,9 @@ _set_path () { # {{{
       _add_path LD_LIBRARY_PATH "${p}/lib64"
       _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
     fi
-    if [[ -d "$HOME/.vim/python3/bin" ]];then
+    if [[ -d "$HOME/.config/nvim/python3/bin" ]];then
+      _add_path PATH "$HOME/.config/nvim/python3/bin"
+    elif [[ -d "$HOME/.vim/python3/bin" ]];then
       _add_path PATH "$HOME/.vim/python3/bin"
     fi
   done
@@ -378,7 +380,7 @@ _set_alias () { # Alias {{{
   alias g='make'
   alias gc="make clean"
   alias gcg="make clean && make"
-  alias bc="bc -l"
+  alias bc="bc -l -q"
   alias svnHeadDiff="svn diff --revision=HEAD"
   if type nvim >& /dev/null;then
     alias svnd="svn diff | nvim -"
