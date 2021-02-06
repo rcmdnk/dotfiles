@@ -2287,7 +2287,7 @@ command! -bar -bang -nargs=? -complete=file GScouter
 ""     [s
 "" * add word under the cursor to good word list file
 ""     zg
-"" * add word under the cursor to good internal-wordlis
+"" * add word under the cursor to good internal-wordlist
 ""     zG
 "" * mark word under the cursor as bad, remove word from good word list file
 ""     zw

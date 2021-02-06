@@ -286,6 +286,7 @@
     done;\
     return $ret;\
   };f"
+  # alias
   al = "!f() {\
     if [ \"$#\" -eq 0 ];then \
       git config --name-only --get-regexp ^alias\\.|cut -d"." -f2|column;\
@@ -302,6 +303,12 @@
     done;\
     return $ret;\
   };f"
+  #history-grep = "!f() {\
+  #  git grep -w \"$@\" $(git rev-list --all); \
+  #};f"
+  history-grep = log -S
+  hg = history-grep
+
 
 [include]
   path = .gitconfig.private

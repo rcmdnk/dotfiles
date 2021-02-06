@@ -149,6 +149,9 @@ _set_homebrew_path () { # {{{
   #export HOMEBREW_AUTO_UPDATE_SECS=300
   export HOMEBREW_NO_AUTO_UPDATE=1
 
+  ## Use bootsnap to speed up brew
+  export HOMEBREW_BOOTSNAP
+
   ## Python2
   # Use python for python2
   #python2path="$brew_prefix/opt/python@2/libexec/bin"
