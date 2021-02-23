@@ -1048,7 +1048,7 @@ if dein#tap('coc.nvim')
     quit
     CocInstall -sync coc-html coc-java coc-tsserver coc-json coc-dictionary coc-word
     quit
-    CocInstall -sync coc-tag coc-lists coc-markdownlint coc-powershell coc-python
+    CocInstall -sync coc-tag coc-lists coc-markdownlint coc-powershell coc-pyright
     quit
     CocInstall -sync coc-sh coc-spell-checker coc-sql coc-texlab coc-vimlsp coc-xml
     quit
