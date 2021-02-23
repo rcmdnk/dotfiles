@@ -195,13 +195,14 @@ _set_path () { # {{{
       _add_path LD_LIBRARY_PATH "${p}/lib64"
       _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
     fi
-    if [[ -d "$HOME/.config/nvim/python3/bin" ]];then
-      _add_path PATH "$HOME/.config/nvim/python3/bin"
-    elif [[ -d "$HOME/.vim/python3/bin" ]];then
-      _add_path PATH "$HOME/.vim/python3/bin"
-    fi
   done
+  _set_homebrew_path
   _source_file "$HOME/.poetry/env"
+  if [[ -d "$HOME/.config/nvim/python3/bin" ]];then
+    _add_path PATH "$HOME/.config/nvim/python3/bin"
+  elif [[ -d "$HOME/.vim/python3/bin" ]];then
+    _add_path PATH "$HOME/.vim/python3/bin"
+  fi
   export GOPATH=$HOME/.go
   if [[ -d "$GOPATH/bin" ]];then
     _add_path PATH "${GOPATH}/bin"
@@ -209,7 +210,6 @@ _set_path () { # {{{
   if [[ -n "$SSHHOME" ]];then
     _add_path PATH "${SSHHOME}/.sshrc"
   fi
-  _set_homebrew_path
   _set_ghq_path
 } # }}}
 # }}} PATH
