@@ -102,7 +102,7 @@ if s:dein_enabled
     call dein#add('mattn/webapi-vim')
     " }}} Basic tools
 
-    "" Snippet {{{
+    " Snippet {{{
     call dein#add('Shougo/neosnippet')
     call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
     call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
@@ -280,6 +280,14 @@ if s:dein_enabled
 
     " To edit help
     call dein#add('rcmdnk/edit-help.vim')
+
+    " Edit browser
+    if has('nvim')
+      call dein#add('subnut/nvim-ghost.nvim')
+    else
+      call dein#add('raghur/vim-ghost')
+    endif
+
     " }}} Edit
 
     call dein#end()
