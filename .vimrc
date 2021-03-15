@@ -286,6 +286,10 @@ if s:dein_enabled
       call dein#add('subnut/nvim-ghost.nvim')
     else
       call dein#add('raghur/vim-ghost')
+      if v:version >= 800 && !has('nvim')
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+      endif
     endif
 
     " }}} Edit
