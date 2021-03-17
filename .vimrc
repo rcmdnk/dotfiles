@@ -281,6 +281,17 @@ if s:dein_enabled
     " To edit help
     call dein#add('rcmdnk/edit-help.vim')
 
+    " Edit browser
+    "if has('nvim')
+    "  call dein#add('subnut/nvim-ghost.nvim')
+    "else
+    "  call dein#add('raghur/vim-ghost')
+    "  if v:version >= 800 && !has('nvim')
+    "    call dein#add('roxma/nvim-yarp')
+    "    call dein#add('roxma/vim-hug-neovim-rpc')
+    "  endif
+    "endif
+
     " }}} Edit
 
     call dein#end()
