@@ -283,9 +283,11 @@ if s:dein_enabled
 
     " Edit browser
     "if has('nvim')
-    "  call dein#add('subnut/nvim-ghost.nvim')
+    "  call dein#add('subnut/nvim-ghost.nvim', {
+    "      \ 'hook_post_update': 'call nvim_ghost#installer#install()'})
     "else
-    "  call dein#add('raghur/vim-ghost')
+    "  call dein#add('raghur/vim-ghost', {
+    "      \ 'hook_post_update': 'GhostInstall'})
     "  if v:version >= 800 && !has('nvim')
     "    call dein#add('roxma/nvim-yarp')
     "    call dein#add('roxma/vim-hug-neovim-rpc')
