@@ -1,10 +1,10 @@
 [user]
-	name = rcmdnk
-	email = rcmdnk@gmail.com
+  name = rcmdnk
+  email = rcmdnk@gmail.com
 [github]
-	user = rcmdnk
+  user = rcmdnk
 [credential]
-	username = rcmdnk
+  username = rcmdnk
 [core]
   autocrlf = false
   editor = vi
@@ -13,9 +13,10 @@
 [pull]
   rebase = false
 #[branch]
-#	autosetuprebase = always
+# autosetuprebase = always
 [push]
   default = matching
+  useForceIfIncludes = true
 [fetch]
   prune = true
 [merge]
