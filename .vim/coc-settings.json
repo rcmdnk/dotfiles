@@ -1,5 +1,9 @@
 {
   "diagnostic.messageDelay": 2000,
+  "diagnostic.errorSign": "E",
+  "diagnostic.warningSign": "W",
+  "diagnostic.infoSign": "I",
+  "diagnostic.hintSign": "H",
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": true,
   "cSpell.enabled": false

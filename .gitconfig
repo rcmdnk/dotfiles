@@ -133,7 +133,7 @@
     echo rm -rf ${sm};\
     rm -rf ${sm};\
   };f"
-  pull-request = "!f (){git fetch origin pull/$1/head:$1; }f"
+  pr-get = "!f () { git fetch origin pull/$1/head:$1; };f"
   pull-dry-run  = "!git fetch origin;\
     b=$(git rev-parse --abbrev-ref HEAD);\
     git diff --stat --summary ${b}..origin/${b}"
