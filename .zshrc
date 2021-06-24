@@ -137,3 +137,6 @@ if [ -f ~/usr/etc/sd_cl ];then
   SD_CL_NOCOMPINIT=1
   source ~/usr/etc/sd_cl
 fi
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
