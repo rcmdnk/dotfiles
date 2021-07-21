@@ -96,7 +96,7 @@ _set_ghq_path () { # {{{
 _set_homebrew_path () { # {{{
   local prefix=""
   local path=""
-  for path in /home/linuxbrew/.linuxbrew $HOME/.linuxbrew /usr/local;do
+  for path in /home/linuxbrew/.linuxbrew $HOME/.linuxbrew /opt/homebrew /usr/local;do
     if [ -d "$path" ];then
       prefix=$path
       break
