@@ -96,7 +96,17 @@ _set_ghq_path () { # {{{
 _set_homebrew_path () { # {{{
   local prefix=""
   local path=""
-  for path in /home/linuxbrew/.linuxbrew $HOME/.linuxbrew /opt/homebrew /usr/local;do
+  local brew_dir_cand=()
+  if [[ "$OSTYPE" = darwin* ]];then
+    if [ "$(uname -m)" = arm64 ];then
+      brew_dir_cand=(/opt/homebrew)
+    else
+      return
+    fi
+  else
+    brew_dir_cand=(/home/linuxbrew/.linuxbrew $HOME/.linuxbrew)
+  fi
+  for path in "${brew_dir_cand[@]}";do
     if [ -d "$path" ];then
       prefix=$path
       break
