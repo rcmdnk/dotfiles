@@ -101,7 +101,7 @@ _set_homebrew_path () { # {{{
     if [ "$(uname -m)" = arm64 ];then
       brew_dir_cand=(/opt/homebrew)
     else
-      return
+      brew_dir_cand=(/usr/local)
     fi
   else
     brew_dir_cand=(/home/linuxbrew/.linuxbrew $HOME/.linuxbrew)
