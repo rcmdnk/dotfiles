@@ -111,15 +111,37 @@ if s:dein_enabled
 
     " Search/Display {{{
     " Search and display information from arbitrary sources
-    if has('python3')
-      call dein#add('Shougo/denite.nvim')
-      call dein#add('Shougo/neomru.vim')
-    endif
+
+    "if has('nvim-0.5.0') || has('patch-8.2.0662')
+    "  call dein#add('Shougo/ddc.vim')
+    "  " need brew install deno
+    "  call dein#add('vim-denops/denops.vim')
+
+    "  " sources
+    "  call dein#add('Shougo/ddc-around')
+    "  "call dein#add('Shougo/deoppet.nvim')
+    "  call dein#add('matsui54/ddc-dictionary')
+    "  "call dein#add('shun/ddc-vim-lsp')
+    "  call dein#add('Shougo/ddc-nvim-lsp')
+
+    "  " filters
+    "  "c"all dein#add('Shougo/ddc-matcher_head')
+    "  "c"all dein#add('Shougo/ddc-sorter_rank')
+    "elseif has('python3')
+    "  call dein#add('Shougo/denite.nvim')
+    "  call dein#add('Shougo/neomru.vim')
+    "endif
     " }}} Search/Display
 
     " Code syntax, tools for each language {{{
     if has('nvim')
-      call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
+      "if has('nvim-0.5.0')
+      "  call dein#add('neovim/nvim-lspconfig')
+      "  call dein#add('kabouzeid/nvim-lspinstall')
+      "else
+        call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
+        call dein#add('relastle/vim-nayvy')
+      "endif
     endif
 
     " Language packs
@@ -139,10 +161,6 @@ if s:dein_enabled
     " Python {{{
     " Folding method for python, but makes completion too slow...?
     call dein#add('vim-scripts/python_fold')
-    " with coc.nvim
-    if has('nvim')
-      call dein#add('relastle/vim-nayvy')
-    endif
     " }}} Python
 
     " Ruby (rails, erb)
@@ -1050,6 +1068,63 @@ if dein#tap('denite.nvim')
 
 endif
 " }}} denite
+" ddc {{{
+if dein#tap('ddc.vim')
+  call ddc#custom#patch_global('sources', ['around'])
+
+  " you neeed to set 'dictionary' option
+  setlocal dictionary+=/usr/share/dict/words
+  " or you can specify dictionary path using sourceParams ('dictPaths' must be list of files)
+  call ddc#custom#patch_global('sourceParams', {
+        \ 'dictionary': {'dictPaths':
+        \ ['/usr/share/dict/german',
+        \ '/usr/share/dict/words',
+        \ '/usr/share/dict/spanish'],
+        \ 'smartCase': v:true,
+        \ }
+        \ })
+
+  call ddc#custom#patch_global('sources', ['dictionary'])
+  call ddc#custom#patch_global('sourceOptions', {
+        \ '_': {'matchers': ['matcher_head']},
+        \ 'dictionary': {'mark': 'D'},
+        \ })
+
+
+  "call ddc#custom#patch_global('sources', ['ddc-vim-lsp'])
+  "call ddc#custom#patch_global('sourceOptions', {
+  "    \ 'ddc-vim-lsp': {
+  "    \   'matchers': ['matcher_head'],
+  "    \   'mark': 'lsp',
+  "    \ },
+  "    \ })
+
+  call ddc#custom#patch_global('sources', ['nvimlsp'])
+  call ddc#custom#patch_global('sourceOptions', {
+        \ '_': { 'matchers': ['matcher_head'] },
+        \ 'nvimlsp': { 'mark': 'lsp', 'forceCompletionPattern': '\.|:|->' },
+        \ })
+
+  " Use Customized labels
+  call ddc#custom#patch_global('sourceParams', {
+        \ 'nvimlsp': { 'kindLabels': { 'Class': 'c' } },
+        \ })
+
+  " Mappings
+
+  " <TAB>: completion.
+  inoremap <silent><expr> <TAB>
+  \ pumvisible() ? '<C-n>' :
+  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+  \ '<TAB>' : ddc#manual_complete()
+
+  " <S-TAB>: completion back.
+  inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+
+  " Use ddc.
+  call ddc#enable()
+endif
+" }}} ddc
 " }}} Search/Display
 
 " Code syntax, tools for each language {{{
