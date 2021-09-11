@@ -4,9 +4,10 @@
   "diagnostic.warningSign": "W",
   "diagnostic.infoSign": "I",
   "diagnostic.hintSign": "H",
-  "python.linting.enabled": true,
+  "python.analysis.typeCheckingMode": "off",
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
-  "python.linting.flake8Path": "/bin/flake8"
+  "python.sortImports.path": "~/.config/nvim/python3/bin/isort",
+  "python.linting.flake8Path": "~/.config/nvim/python3/bin/flake8",
   "cSpell.enabled": false
 }

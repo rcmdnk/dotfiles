@@ -1213,6 +1213,9 @@ if dein#tap('coc.nvim')
   nmap <leader>ac  <Plug>(coc-codeaction)
   " Apply AutoFix to problem on the current line.
   nmap <leader>qf  <Plug>(coc-fix-current)
+
+  " For python
+  nnoremap <leader>i :CocCommand python.sortImports<CR>
 endif
 " }}} coc.nvim
 
