@@ -145,9 +145,6 @@ _set_homebrew_path () { # {{{
   ## wrap brew (brew-wrap in brew-file)
   _source_file "$brew_prefix/etc/brew-wrap"
 
-  ## sbin
-  _add_path PATH "$brew_prefix/sbin"
-
   ## No emoji
   export HOMEBREW_NO_EMOJI=1
 
@@ -161,24 +158,6 @@ _set_homebrew_path () { # {{{
 
   ## Use bootsnap to speed up brew
   export HOMEBREW_BOOTSNAP
-
-  ## Python2
-  # Use python for python2
-  #python2path="$brew_prefix/opt/python@2/libexec/bin"
-  #if [ -d "$python2path" ];then
-  #  _add_path PATH "$python2path"
-  #fi
-  ## Python3
-  local python3=$("$brew_prefix/bin/python3" --version 2>/dev/null)
-  local ret=$?
-  if [ $ret -eq 0 ];then
-    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-    python_version=$(echo "$python3"|cut -d' ' -f2|cut -d '.' -f 1,2)
-    #local d="$brew_prefix/lib/python$python_version/site-packages"
-    #if [ -d "$d" ];then
-    #  export PYTHONPATH="$d"
-    #fi
-  fi
 
   ## Openssl
   OPENSSL_PATH="$brew_prefix/opt/openssl"
@@ -196,22 +175,24 @@ _set_homebrew_path () { # {{{
 } # }}}
 
 _set_path () { # {{{
-  local hardware=$(uname -m)
   for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
     _add_path PATH "${p}/bin"
     _add_path LD_LIBRARY_PATH "${p}/lib"
     _add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig"
-    if [[ "$hardware" == x86_64 ]];then
+    if [[ "$HOSTTYPE" == x86_64 ]];then
       _add_path LD_LIBRARY_PATH "${p}/lib64"
       _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
     fi
   done
   _set_homebrew_path
   _source_file "$HOME/.poetry/env"
-  if [[ -d "$HOME/.config/nvim/python3/bin" ]];then
-    _add_path PATH "$HOME/.config/nvim/python3/bin"
-  elif [[ -d "$HOME/.vim/python3/bin" ]];then
-    _add_path PATH "$HOME/.vim/python3/bin"
+
+  if [[ "$HOSTTYPE" == x86_64 ]];then
+    if [[ -d "$HOME/.config/nvim/python3/bin" ]];then
+      _add_path PATH "$HOME/.config/nvim/python3/bin"
+    elif [[ -d "$HOME/.vim/python3/bin" ]];then
+      _add_path PATH "$HOME/.vim/python3/bin"
+    fi
   fi
   export GOPATH=$HOME/.go
   if [[ -d "$GOPATH/bin" ]];then
@@ -304,16 +285,9 @@ _set_env () { # Shell/Environmental variables {{{
   fi
 
   # Python
-  python_version=${python_version:-2.7}
   if [[ -f "$HOME/.pythonstartup.py" ]];then
     export PYTHONSTARTUP="$HOME/.pythonstartup.py"
   fi
-  _add_path PATH "$HOME/.local/bin"
-  _add_path PATH "$HOME/Library/bin"
-  _add_path PATH "$HOME/Library/Python/$python_version/bin"
-  #_add_path PYTHONPATH "$HOME/Library/Python/$python_version/lib/python/site-packages"
-  _add_path PATH "$HOME/.local/bin"
-  #_add_path PYTHONPATH "$HOME/.local/lib/python$python_version/site-packages"
 
   # Ruby
   _add_path PATH "/usr/local/opt/ruby/bin"
