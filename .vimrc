@@ -94,9 +94,7 @@ if s:dein_enabled
 
     " Basic tools {{{
     " Sub mode
-    if !has('nvim') || has('mac')
-      call dein#add('kana/vim-submode')
-    endif
+    call dein#add('kana/vim-submode')
 
     " webapi
     call dein#add('mattn/webapi-vim')
