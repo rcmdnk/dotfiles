@@ -105,5 +105,3 @@ _source_files
 
 # exit code 0
 :
-
-complete -C /usr/local/bin/terraform terraform
