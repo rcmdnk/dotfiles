@@ -311,7 +311,9 @@ _set_env () { # Shell/Environmental variables {{{
 
   # For my clipboards
   export CLMAXHIST=50
-  export CLX=$(multi_clipboard -C) 2>/dev/null
+  if [ -n "$TERM" ];then
+    export CLX=$(multi_clipboard -C) 2>/dev/null
+  fi
 } # }}} Shell/Environmental variables
 
 _emotional_prompt () {
