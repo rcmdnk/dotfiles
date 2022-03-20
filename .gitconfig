@@ -11,7 +11,7 @@
   execludesfile = ~/.gitignore_global
   quotepath = false
 [pull]
-  rebase = false
+  rebase = true
 #[branch]
 # autosetuprebase = always
 [push]
@@ -309,6 +309,11 @@
   #};f"
   history-grep = log -S
   hg = history-grep
+  rebase-upstream = "!f() {\
+    git fetch upstream;\
+    git rebase upstream/main;\
+  };f"
+  ru = rebase-upstream
 
 
 [include]
@@ -321,3 +326,5 @@
   patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
   patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
   patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
+[hub]
+	protocol = ssh
