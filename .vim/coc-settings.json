@@ -7,6 +7,7 @@
   "python.analysis.typeCheckingMode": "off",
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": ["--ignore", "E203,E501,W503", "--per-file-ignores", "__init__.py:F401"],
   "python.sortImports.path": "~/.config/nvim/python3/bin/isort",
   "python.linting.flake8Path": "~/.config/nvim/python3/bin/flake8",
   "cSpell.enabled": false
