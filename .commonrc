@@ -179,15 +179,13 @@ _set_path () { # {{{
     _add_path PATH "${p}/bin"
     _add_path LD_LIBRARY_PATH "${p}/lib"
     _add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig"
-    if [[ "$HOSTTYPE" == x86_64 ]];then
-      _add_path LD_LIBRARY_PATH "${p}/lib64"
-      _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
-    fi
+    _add_path LD_LIBRARY_PATH "${p}/lib64"
+    _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
   done
   _set_homebrew_path
   _source_file "$HOME/.poetry/env"
 
-  if [[ "$HOSTTYPE" == x86_64 ]];then
+  if [[ "$HOSTTYPE" == arm64 ]] || [[ "$OSTYPE" != darwin* ]];then
     if [[ -d "$HOME/.config/nvim/python3/bin" ]];then
       _add_path PATH "$HOME/.config/nvim/python3/bin"
     elif [[ -d "$HOME/.vim/python3/bin" ]];then
