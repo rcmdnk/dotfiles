@@ -138,7 +138,7 @@ if s:dein_enabled
       "  call dein#add('kabouzeid/nvim-lspinstall')
       "else
         call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
-        call dein#add('relastle/vim-nayvy')
+        "call dein#add('relastle/vim-nayvy')
       "endif
     endif
 
