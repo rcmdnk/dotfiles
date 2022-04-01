@@ -40,6 +40,7 @@
     git commit -a \"$@\";\
   };f"
   ad = add -A
+  am = commit --amend --no-edit
   ba = branch -a
   br = branch
   current-branch = rev-parse --abbrev-ref HEAD
