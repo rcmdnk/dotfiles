@@ -22,6 +22,8 @@
 [merge]
   tool = vi -d
   keepBackup = false
+[rebase]
+  autosquash = true
 [diff]
   algorithm = histogram
 [pager]
@@ -328,4 +330,4 @@
   patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
   patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
 [hub]
-	protocol = ssh
+  protocol = ssh
