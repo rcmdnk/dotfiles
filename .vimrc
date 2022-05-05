@@ -92,14 +92,6 @@ if s:dein_enabled
       call dein#add('Shougo/dein.vim')
     endif
 
-    " Basic tools {{{
-    " Sub mode
-    call dein#add('kana/vim-submode')
-
-    " webapi
-    call dein#add('mattn/webapi-vim')
-    " }}} Basic tools
-
     " Snippet {{{
     call dein#add('Shougo/neosnippet')
     call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
@@ -237,6 +229,7 @@ if s:dein_enabled
           \ 'lazy': 1})
 
     " Gist
+    call dein#add('mattn/webapi-vim')
     call dein#add('mattn/gist-vim', {
           \ 'depdens': ['mattn/webapi-vim'],
           \ 'on_cmd': ['Gist'],
@@ -321,7 +314,7 @@ if s:dein_enabled
   if dein#check_install()
     call dein#install()
   endif
-endif
+endif " s:dein_enabled
 " }}} Begin plugin part
 " }}} dein
 
@@ -727,6 +720,23 @@ if has('virtualedit') && &virtualedit =~# '\<all\>'
   autocmd MyAutoGroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
 endif
 
+" Submode
+nmap gj gj<SID>g
+nmap gk gk<SID>g
+nnoremap <script> <SID>gj gj<SID>g
+nnoremap <script> <SID>gk gk<SID>g
+nnoremap <script> <SID>gl l<SID>g
+nnoremap <script> <SID>gh h<SID>g
+nmap <SID>g <Nop>
+
+nmap <C-w>e <SID>ws
+nmap <C-w><C-e> <SID>ws
+nnoremap <script> <SID>wsk <C-w>+<SID>ws
+nnoremap <script> <SID>wsj <C-w>-<SID>ws
+nnoremap <script> <SID>wsl <C-w>><SID>ws
+nnoremap <script> <SID>wsh <C-w><<SID>ws
+nmap <SID>ws <Nop>
+
 """ insert mode
 
 " emacs (bash) like move in insert mode
@@ -928,34 +938,6 @@ nnoremap <silent> <Leader>c :ToggleSignColmn<CR>
 
 " Plugin settings {{{
 if s:dein_enabled
-
-" Basic tools {{{
-" vim-submode {{{
-if dein#tap('vim-submode')
-  call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-  call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-  call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-  call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
-  call submode#enter_with('winsize', 'n', '', '<C-w>e', '<C-w>><C-w><')
-  call submode#enter_with('winsize', 'n', '', '<C-w><C-e>', '<C-w>><C-w><')
-  call submode#map('winsize', 'n', '', '>', '<C-w>>')
-  call submode#map('winsize', 'n', '', '<', '<C-w><')
-  call submode#map('winsize', 'n', '', '+', '<C-w>-')
-  call submode#map('winsize', 'n', '', '-', '<C-w>+')
-  call submode#map('winsize', 'n', '', 'l', '<C-w>>')
-  call submode#map('winsize', 'n', '', 'h', '<C-w><')
-  call submode#map('winsize', 'n', '', 'j', '<C-w>-')
-  call submode#map('winsize', 'n', '', 'k', '<C-w>+')
-  call submode#map('winsize', 'n', '', '<C-l>', '<C-w>>')
-  call submode#map('winsize', 'n', '', '<C-h>', '<C-w><')
-  call submode#map('winsize', 'n', '', '<C-j>', '<C-w>-')
-  call submode#map('winsize', 'n', '', '<RETURN>', '<C-w>-')
-  call submode#map('winsize', 'n', '', '<C-k>', '<C-w>+')
-  call submode#map('winsize', 'n', '', '=', '<C-w>=')
-  call submode#map('winsize', 'n', '', '<C-=>', '<C-w>=')
-endif
-" }}} vim-submode
-" }}} Basic tools
 
 " Snippet {{{
 " neosnippet {{{

@@ -33,6 +33,38 @@ NeoBundleLazy 'Shougo/vimshell', {
 " All these plugins are not used
 call dein#add('tpope/vim-repeat')
 " }}} vim-repeat
+
+" vim-submode {{{
+" Sub mode
+" Can be replaced by <SID>
+call dein#add('kana/vim-submode')
+" vim-submode {{{
+if dein#tap('vim-submode')
+  "call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+  "call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+  "call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+  "call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+  "call submode#enter_with('winsize', 'n', '', '<C-w>e', '<C-w>><C-w><')
+  "call submode#enter_with('winsize', 'n', '', '<C-w><C-e>', '<C-w>><C-w><')
+  "call submode#map('winsize', 'n', '', '>', '<C-w>>')
+  "call submode#map('winsize', 'n', '', '<', '<C-w><')
+  "call submode#map('winsize', 'n', '', '+', '<C-w>-')
+  "call submode#map('winsize', 'n', '', '-', '<C-w>+')
+  "call submode#map('winsize', 'n', '', 'l', '<C-w>>')
+  "call submode#map('winsize', 'n', '', 'h', '<C-w><')
+  "call submode#map('winsize', 'n', '', 'j', '<C-w>-')
+  "call submode#map('winsize', 'n', '', 'k', '<C-w>+')
+  "call submode#map('winsize', 'n', '', '<C-l>', '<C-w>>')
+  "call submode#map('winsize', 'n', '', '<C-h>', '<C-w><')
+  "call submode#map('winsize', 'n', '', '<C-j>', '<C-w>-')
+  "call submode#map('winsize', 'n', '', '<RETURN>', '<C-w>-')
+  "call submode#map('winsize', 'n', '', '<C-k>', '<C-w>+')
+  "call submode#map('winsize', 'n', '', '=', '<C-w>=')
+  "call submode#map('winsize', 'n', '', '<C-=>', '<C-w>=')
+endif
+" }}} vim-submode
+" }}} vim-submode
+
 " }}}
 
 " Unite {{{
@@ -2159,6 +2191,7 @@ nnoremap <Leader>> bi<<Esc>ea><Esc>
 nnoremap <Leader>" bi"<Esc>ea"<Esc>
 nnoremap <Leader>' bi'<Esc>ea'<Esc>
 nnoremap <Leader>` bi`<Esc>ea`<Esc>
+
 " }}}
 
 " Vim Power {{{
