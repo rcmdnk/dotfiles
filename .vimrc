@@ -99,30 +99,6 @@ if s:dein_enabled
     call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
     " }}} Snippet
 
-    " Search/Display {{{
-    " Search and display information from arbitrary sources
-
-    "if has('nvim-0.5.0') || has('patch-8.2.0662')
-    "  call dein#add('Shougo/ddc.vim')
-    "  " need brew install deno
-    "  call dein#add('vim-denops/denops.vim')
-
-    "  " sources
-    "  call dein#add('Shougo/ddc-around')
-    "  "call dein#add('Shougo/deoppet.nvim')
-    "  call dein#add('matsui54/ddc-dictionary')
-    "  "call dein#add('shun/ddc-vim-lsp')
-    "  call dein#add('Shougo/ddc-nvim-lsp')
-
-    "  " filters
-    "  "c"all dein#add('Shougo/ddc-matcher_head')
-    "  "c"all dein#add('Shougo/ddc-sorter_rank')
-    "elseif has('python3')
-    "  call dein#add('Shougo/denite.nvim')
-    "  call dein#add('Shougo/neomru.vim')
-    "endif
-    " }}} Search/Display
-
     " Code syntax, tools for each language {{{
     if has('nvim')
       "if has('nvim-0.5.0')
@@ -143,15 +119,12 @@ if s:dein_enabled
     " Java
     call dein#add('koron/java-helper-vim')
 
-    " Markdown {{{
+    " Markdown
     call dein#add('joker1007/vim-markdown-quote-syntax')
     call dein#add('rcmdnk/vim-markdown')
-    " }}} Markdown
 
-    " Python {{{
-    " Folding method for python, but makes completion too slow...?
+    " Python
     call dein#add('vim-scripts/python_fold')
-    " }}} Python
 
     " Ruby (rails, erb)
     call dein#add('tpope/vim-rails')
@@ -161,7 +134,6 @@ if s:dein_enabled
 
     " Vim Syntax Checker
     call dein#add('dbakker/vim-lint')
-
     " }}} Code syntax, tools for each language
 
     " View {{{
@@ -191,12 +163,10 @@ if s:dein_enabled
       call dein#add('machakann/vim-highlightedyank')
     endif
 
-    " Diff {{{
-    " linediff
+    " Diff
     call dein#add('AndrewRadev/linediff.vim', {
           \ 'on_cmd': ['Linediff'],
           \ 'lazy': 1})
-    " }}} Diff
 
     " IDE like {{{
     " The NERD Tree: File Explorer
@@ -216,8 +186,8 @@ if s:dein_enabled
 
     " Icon
     "call dein#add('ryanoasis/vim-devicons')
-
     " }}} IDE like
+
     " }}} View
 
     " Version Control System {{{
@@ -236,16 +206,6 @@ if s:dein_enabled
           \ 'lazy': 1})
     " }}} Version Control System
 
-    " Selection {{{
-    " Highlight on the fly
-    call dein#add('t9md/vim-quickhl')
-    " }}} Selection
-
-    " Search {{{
-    " Count searching objects
-    call dein#add('osyo-manga/vim-anzu')
-    " }}} Search
-
     " Edit {{{
     " textobj {{{
     call dein#add('kana/vim-textobj-user')
@@ -263,10 +223,9 @@ if s:dein_enabled
     call dein#add('whatyouhide/vim-textobj-erb', {'depends': ['vim-textobj-user']})
     " }}} textobj
 
-    " Operator {{{
+    " Operator
     call dein#add('kana/vim-operator-user')
     call dein#add('kana/vim-operator-replace', {'depdens': ['vim-operator-user']})
-    " }}} Operator
 
     "" Undo
     call dein#add('simnalamburt/vim-mundo')
@@ -304,6 +263,18 @@ if s:dein_enabled
     "endif
 
     " }}} Edit
+
+    " {{{ Others
+    " Sub mode
+    call dein#add('kana/vim-submode')
+
+    " Highlight on the fly
+    call dein#add('t9md/vim-quickhl')
+
+    " Count searching objects
+    call dein#add('osyo-manga/vim-anzu')
+    " }}}
+
 
     call dein#end()
 
@@ -621,17 +592,6 @@ noremap ; :
 
 """ Normal mode
 
-" window move
-" Left (C-h default: <BS> ~ h)
-nnoremap <C-h> <C-w>h
-nnoremap <BS> <C-w>h
-" Down (C-j default: <NL> ~ j)
-nnoremap <C-j> <C-w>j
-nnoremap <RETURN> <C-w>j
-" Up (C-k default: Non)
-nnoremap <C-k> <C-w>k
-" Right (C-l default: Clear and redraw the screen)
-nnoremap <C-l> <C-w>l
 " cursor move
 " Go to Head (C-a default: Increment)-><C-a> can't be used with vim-speeddating
 "nnoremap <C-a> 0
@@ -719,23 +679,6 @@ if has('virtualedit') && &virtualedit =~# '\<all\>'
   " and "_x to avoid register 1 letter
   autocmd MyAutoGroup FileType * nnoremap <expr> x (col('.') >= col('$') ? '$' : '') . '"_x'
 endif
-
-" Submode
-nmap gj gj<SID>g
-nmap gk gk<SID>g
-nnoremap <script> <SID>gj gj<SID>g
-nnoremap <script> <SID>gk gk<SID>g
-nnoremap <script> <SID>gl l<SID>g
-nnoremap <script> <SID>gh h<SID>g
-nmap <SID>g <Nop>
-
-nmap <C-w>e <SID>ws
-nmap <C-w><C-e> <SID>ws
-nnoremap <script> <SID>wsk <C-w>+<SID>ws
-nnoremap <script> <SID>wsj <C-w>-<SID>ws
-nnoremap <script> <SID>wsl <C-w>><SID>ws
-nnoremap <script> <SID>wsh <C-w><<SID>ws
-nmap <SID>ws <Nop>
 
 """ insert mode
 
@@ -963,149 +906,6 @@ if dein#tap('neosnippet')
 endif
 " }}} neosnippet
 " }}} Snippet
-
-" Search/Display {{{
-" Denite {{{
-if dein#tap('denite.nvim')
-  " Add custom menus
-  let s:menus = {}
-  let s:menus.file = {'description': 'File search (buffer, file, file_rec, file_mru'}
-  let s:menus.line = {'description': 'Line search (change, grep, line, tag'}
-  let s:menus.others = {'description': 'Others (command, command_history, help)'}
-  let s:menus.file.command_candidates = [
-        \ ['buffer', 'Denite buffer'],
-        \ ['file: Files in the current directory', 'Denite file'],
-        \ ['file_rec: Files, recursive list under the current directory', 'Denite file_rec'],
-        \ ['file_mru: Most recently used files', 'Denite file_mru']
-        \ ]
-  let s:menus.line.command_candidates = [
-        \ ['change', 'Denite change'],
-        \ ['grep', 'Denite grep'],
-        \ ['line', 'Denite line'],
-        \ ['tag', 'Denite tag']
-        \ ]
-  let s:menus.others.command_candidates = [
-        \ ['command', 'Denite command'],
-        \ ['command_history', 'Denite command_history'],
-        \ ['help', 'Denite help']
-        \ ]
-
-  call denite#custom#var('menu', 'menus', s:menus)
-
-  let s:denite_win_width_percent = 0.85
-  let s:denite_win_height_percent = 0.5
-
-  call denite#custom#option('default', {
-      \ 'split': 'floating',
-      \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
-      \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
-      \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
-      \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
-      \ 'vertical_preview': 1,
-      \ 'start_filter': 1,
-      \ 'auto_resize': 1,
-      \ 'source_names': 'short',
-      \ 'highlight_window_background': 'Visual',
-      \ 'highlight_filter_background': 'VertSplit',
-      \ })
-
-  nnoremap [denite] <Nop>
-  nmap <Leader>u [denite]
-  nnoremap <silent> [denite]b :<C-u>Denite buffer<CR>
-  nnoremap <silent> [denite]c :<C-u>Denite changes<CR>
-  nnoremap <silent> [denite]f :<C-u>Denite file<CR>
-  nnoremap <silent> [denite]g :<C-u>Denite grep<CR>
-  nnoremap <silent> [denite]h :<C-u>Denite help<CR>
-  nnoremap <silent> [denite]l :<C-u>Denite line<CR>
-  nnoremap <silent> [denite]t :<C-u>Denite tag<CR>
-  nnoremap <silent> [denite]m :<C-u>Denite file_mru<CR>
-  nnoremap <silent> [denite]u :<C-u>Denite menu<CR>
-
-  autocmd FileType denite call s:denite_my_settings()
-  function! s:denite_my_settings() abort
-    nnoremap <silent><buffer><expr> <CR>
-    \ denite#do_map('do_action')
-    nnoremap <silent><buffer><expr> d
-    \ denite#do_map('do_action', 'delete')
-    nnoremap <silent><buffer><expr> p
-    \ denite#do_map('do_action', 'preview')
-    nnoremap <silent><buffer><expr> q
-    \ denite#do_map('quit')
-    nnoremap <silent><buffer><expr> i
-    \ denite#do_map('open_filter_buffer')
-    nnoremap <silent><buffer><expr> <Space>
-    \ denite#do_map('toggle_select').'j'
-  endfunction
-
-  autocmd FileType denite-filter call s:denite_filter_my_settings()
-  function! s:denite_filter_my_settings() abort
-    imap <silent><buffer> <Esc>       <Plug>(denite_filter_quit)
-    if dein#tap('deoplete.nvim')
-      " disable deoplete on denite-filter
-      call deoplete#custom#buffer_option('auto_complete', v:false)
-    endif
-  endfunction
-
-endif
-" }}} denite
-" ddc {{{
-if dein#tap('ddc.vim')
-  call ddc#custom#patch_global('sources', ['around'])
-
-  " you neeed to set 'dictionary' option
-  setlocal dictionary+=/usr/share/dict/words
-  " or you can specify dictionary path using sourceParams ('dictPaths' must be list of files)
-  call ddc#custom#patch_global('sourceParams', {
-        \ 'dictionary': {'dictPaths':
-        \ ['/usr/share/dict/german',
-        \ '/usr/share/dict/words',
-        \ '/usr/share/dict/spanish'],
-        \ 'smartCase': v:true,
-        \ }
-        \ })
-
-  call ddc#custom#patch_global('sources', ['dictionary'])
-  call ddc#custom#patch_global('sourceOptions', {
-        \ '_': {'matchers': ['matcher_head']},
-        \ 'dictionary': {'mark': 'D'},
-        \ })
-
-
-  "call ddc#custom#patch_global('sources', ['ddc-vim-lsp'])
-  "call ddc#custom#patch_global('sourceOptions', {
-  "    \ 'ddc-vim-lsp': {
-  "    \   'matchers': ['matcher_head'],
-  "    \   'mark': 'lsp',
-  "    \ },
-  "    \ })
-
-  call ddc#custom#patch_global('sources', ['nvimlsp'])
-  call ddc#custom#patch_global('sourceOptions', {
-        \ '_': { 'matchers': ['matcher_head'] },
-        \ 'nvimlsp': { 'mark': 'lsp', 'forceCompletionPattern': '\.|:|->' },
-        \ })
-
-  " Use Customized labels
-  call ddc#custom#patch_global('sourceParams', {
-        \ 'nvimlsp': { 'kindLabels': { 'Class': 'c' } },
-        \ })
-
-  " Mappings
-
-  " <TAB>: completion.
-  inoremap <silent><expr> <TAB>
-  \ pumvisible() ? '<C-n>' :
-  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-  \ '<TAB>' : ddc#manual_complete()
-
-  " <S-TAB>: completion back.
-  inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
-
-  " Use ddc.
-  call ddc#enable()
-endif
-" }}} ddc
-" }}} Search/Display
 
 " Code syntax, tools for each language {{{
 " coc.nvim {{{
@@ -1497,44 +1297,6 @@ endif
 " }}} gist-vim
 " }}}
 
-" Selection {{{
-" vim-quickhl {{{
-if dein#tap('vim-quickhl')
-  nnoremap [quickhl] <Nop>
-  xnoremap [quickhl] <Nop>
-  nmap <Leader>h [quickhl]
-  xmap <Leader>h [quickhl]
-  nmap [quickhl]m <Plug>(quickhl-manual-this)
-  xmap [quickhl]m <Plug>(quickhl-manual-this)
-  nmap [quickhl]w <Plug>(quickhl-manual-this-whole-word)
-  xmap [quickhl]w <Plug>(quickhl-manual-this-whole-word)
-  nmap [quickhl]M <Plug>(quickhl-manual-reset)
-  xmap [quickhl]M <Plug>(quickhl-manual-reset)
-  nmap [quickhl]j <Plug>(quickhl-cword-toggle)
-  nmap [quickhl]] <Plug>(quickhl-tag-toggle)
-  map [quickhl]H <Plug>(operator-quickhl-manual-this-motion)
-endif
-" }}} quickhl
-" }}} Selection
-
-" Search {{{
-" vim-anzu {{{
-if dein#tap('vim-anzu')
-  nmap n <Plug>(anzu-n-with-echo)
-  nmap N <Plug>(anzu-N-with-echo)
-  nmap * g*<C-o><Plug>(anzu-update-search-status-with-echo)
-  "nm g* g*<C-o><Plug>(anzu-update-search-status-with-echo)
-  nmap # #<C-o><Plug>(anzu-update-search-status-with-echo)
-  let g:airline#extensions#anzu#enabled=0
-else
-  " swap * and g*, and add <C-o> to stay on current word.
-  nnoremap g* *<C-o>
-  nnoremap * g*<C-o>
-  nnoremap # #<C-o>
-endif
-" }}} vim-anzu
-" }}} Search
-
 " Edit {{{
 " textobj {{{
 if dein#tap('vim-textobj-function')
@@ -1649,6 +1411,97 @@ if dein#tap('vim-sandwich')
 endif
 " }}} vim-sandwich
 " }}} Edit
+
+" Others {{{
+" vim-submode {{{
+if dein#tap('vim-submode')
+  call submode#enter_with('win_size', 'n', '', '<C-w>>', '<C-w>>')
+  call submode#enter_with('win_size', 'n', '', '<C-w><', '<C-w><')
+  call submode#enter_with('win_size', 'n', '', '<C-w>+', '<C-w>+')
+  call submode#enter_with('win_size', 'n', '', '<C-w>-', '<C-w>-')
+  call submode#enter_with('win_size', 'n', '', '<C-w>e', '<C-w>><C-w><')
+  call submode#enter_with('win_size', 'n', '', '<C-w><C-e>', '<C-w>><C-w><')
+  call submode#map('win_size', 'n', '', '>', '<C-w>>')
+  call submode#map('win_size', 'n', '', '<', '<C-w><')
+  call submode#map('win_size', 'n', '', '+', '<C-w>-')
+  call submode#map('win_size', 'n', '', '-', '<C-w>+')
+  call submode#map('win_size', 'n', '', 'l', '<C-w>>')
+  call submode#map('win_size', 'n', '', 'h', '<C-w><')
+  call submode#map('win_size', 'n', '', 'j', '<C-w>-')
+  call submode#map('win_size', 'n', '', 'k', '<C-w>+')
+  call submode#map('win_size', 'n', '', '<C-l>', '<C-w>>')
+  call submode#map('win_size', 'n', '', '<C-h>', '<C-w><')
+  call submode#map('win_size', 'n', '', '<C-j>', '<C-w>-')
+  call submode#map('win_size', 'n', '', '<RETURN>', '<C-w>-')
+  call submode#map('win_size', 'n', '', '<C-k>', '<C-w>+')
+  call submode#map('win_size', 'n', '', '=', '<C-w>=')
+  call submode#map('win_size', 'n', '', '<C-=>', '<C-w>=')
+
+  call submode#enter_with('win_move', 'n', '', '<C-w>h', '<C-w>h')
+  call submode#enter_with('win_move', 'n', '', '<C-w>j', '<C-w>j')
+  call submode#enter_with('win_move', 'n', '', '<C-w>k', '<C-w>k')
+  call submode#enter_with('win_move', 'n', '', '<C-w>l', '<C-w>l')
+  call submode#enter_with('win_move', 'n', '', '<C-h>', '<C-w>h')
+  call submode#enter_with('win_move', 'n', '', '<C-j>', '<C-w>j')
+  call submode#enter_with('win_move', 'n', '', '<C-k>', '<C-w>k')
+  call submode#enter_with('win_move', 'n', '', '<C-l>', '<C-w>l')
+  call submode#map('win_move', 'n', '', 'h', '<C-w>h')
+  call submode#map('win_move', 'n', '', 'j', '<C-w>j')
+  call submode#map('win_move', 'n', '', 'k', '<C-w>k')
+  call submode#map('win_move', 'n', '', 'l', '<C-w>l')
+  call submode#map('win_move', 'n', '', '<C-h>', '<C-w>h')
+  call submode#map('win_move', 'n', '', '<C-j>', '<C-w>j')
+  call submode#map('win_move', 'n', '', '<C-k>', '<C-w>k')
+  call submode#map('win_move', 'n', '', '<C-l>', '<C-w>l')
+
+  call submode#enter_with('display_move', 'n', '', 'gj', 'gj')
+  call submode#enter_with('display_move', 'n', '', 'gk', 'gk')
+  call submode#enter_with('display_move', 'n', '', 'gl', 'l')
+  call submode#enter_with('display_move', 'n', '', 'gh', 'h')
+  call submode#map('display_move', 'n', '', 'j', 'gj')
+  call submode#map('display_move', 'n', '', 'k', 'gk')
+  call submode#map('display_move', 'n', '', 'l', 'l')
+  call submode#map('display_move', 'n', '', 'h', 'h')
+endif
+" }}} vim-submode
+
+" vim-quickhl {{{
+if dein#tap('vim-quickhl')
+  nnoremap [quickhl] <Nop>
+  xnoremap [quickhl] <Nop>
+  nmap <Leader>h [quickhl]
+  xmap <Leader>h [quickhl]
+  nmap [quickhl]m <Plug>(quickhl-manual-this)
+  xmap [quickhl]m <Plug>(quickhl-manual-this)
+  nmap [quickhl]w <Plug>(quickhl-manual-this-whole-word)
+  xmap [quickhl]w <Plug>(quickhl-manual-this-whole-word)
+  nmap [quickhl]M <Plug>(quickhl-manual-reset)
+  xmap [quickhl]M <Plug>(quickhl-manual-reset)
+  nmap [quickhl]j <Plug>(quickhl-cword-toggle)
+  nmap [quickhl]] <Plug>(quickhl-tag-toggle)
+  map [quickhl]H <Plug>(operator-quickhl-manual-this-motion)
+endif
+" }}} quickhl
+
+" vim-anzu {{{
+if dein#tap('vim-anzu')
+  nmap n <Plug>(anzu-n-with-echo)
+  nmap N <Plug>(anzu-N-with-echo)
+  nmap * g*<C-o><Plug>(anzu-update-search-status-with-echo)
+  "nm g* g*<C-o><Plug>(anzu-update-search-status-with-echo)
+  nmap # #<C-o><Plug>(anzu-update-search-status-with-echo)
+  let g:airline#extensions#anzu#enabled=0
+else
+  " swap * and g*, and add <C-o> to stay on current word.
+  nnoremap g* *<C-o>
+  nnoremap * g*<C-o>
+  nnoremap # #<C-o>
+endif
+" }}} vim-anzu
+" }}} Others
+
+
+
 endif " if s:dein_enabled
 " }}} Plugin settings
 
