@@ -266,7 +266,9 @@ if s:dein_enabled
 
     " {{{ Others
     " Sub mode
-    call dein#add('kana/vim-submode')
+    if has('nvim')
+      call dein#add('kana/vim-submode')
+    endif
 
     " Highlight on the fly
     call dein#add('t9md/vim-quickhl')
