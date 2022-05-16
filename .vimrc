@@ -1064,7 +1064,7 @@ if dein#tap('lightline.vim')
               \'left': [['prepare', 'mode'], ['filename', 'fugitive']],
               \'right': [['lineinfo'], ['fileinfo'], ['coc']]},
         \'component_visible_condition': {
-              \'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'},
+              \'fugitive': '(exists("*FugitiveHead") && ""!=FugitiveHead())'},
         \'component_function': {
               \'prepare': 'LLPrepare',
               \'mode': 'LLMode',
@@ -1134,7 +1134,7 @@ if dein#tap('lightline.vim')
       endif
     endif
 
-    let g:ll_fugitive = exists('*fugitive#head') ? fugitive#head() : ''
+    let g:ll_fugitive = exists('*FugitiveHead') ? FugitiveHead() : ''
     if g:ll_fugitive !=# ''
       let g:ll_fugitive = '[' . g:ll_fugitive . ']'
       let l:total_len += strlen(g:ll_fugitive) + 2
