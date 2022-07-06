@@ -671,6 +671,11 @@ _source_files () {
   # For screen
   _source_file ~/.screen/setup.sh
 
+  # aws
+  if ! type aws_completer >& /dev/null;then
+    complete -C "$(which aws_completer)" aws
+  fi
+
   # File used in linux
   [[ "$OSTYPE" = linux* ]] && _source_file ~/.linuxrc
 
