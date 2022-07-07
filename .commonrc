@@ -142,9 +142,6 @@ _set_homebrew_path () { # {{{
     compinit
   fi
 
-  ## wrap brew (brew-wrap in brew-file)
-  _source_file "$brew_prefix/etc/brew-wrap"
-
   ## No emoji
   export HOMEBREW_NO_EMOJI=1
 
@@ -158,6 +155,12 @@ _set_homebrew_path () { # {{{
 
   ## Use bootsnap to speed up brew
   export HOMEBREW_BOOTSNAP
+
+  ## brew-file settings
+  export HOMEBREW_BREWFILE_ON_REQUEST=1
+
+  ## wrap brew (brew-wrap in brew-file)
+  _source_file "$brew_prefix/etc/brew-wrap"
 
   ## Openssl
   OPENSSL_PATH="$brew_prefix/opt/openssl"
