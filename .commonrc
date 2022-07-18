@@ -180,7 +180,7 @@ _set_homebrew_path () { # {{{
 } # }}}
 
 _set_path () { # {{{
-  for p in "" "/usr" "/usr/local" "$HOME" "$HOME/usr" "$HOME/usr/local";do
+  for p in "" "/usr" "/usr/local" "$HOME" "$HOME/.local" "$HOME/usr" "$HOME/usr/local";do
     _add_path PATH "${p}/bin"
     _add_path LD_LIBRARY_PATH "${p}/lib"
     _add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig"
