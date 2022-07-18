@@ -35,17 +35,19 @@ _add_path () { # {{{
   local var="$1"
   local path="$2"
   local last=${3:-0}
-  if [[ ! -d "$path" ]];then
-    return 1
-  fi
   eval local current=":\${$var}:"
-  if [[ "$current" != *:${path}:* ]];then
-    if [[ "$last" = 1 ]];then
-      eval "export ${var}=\"\${$var:+\$$var:}${path}\""
-    else
-      eval "export ${var}=\"${path}\${$var:+:\$$var}\""
-    fi
+  if [ "$current" == "::" ];then
+    eval "export ${var}=\"${path}\""
+    return
   fi
+  current=${current/:${path}:/:}
+  if [[ "$last" = 1 ]];then
+    current=${current}${path}
+  else
+    current=${path}${current}
+  fi
+  current=$(echo "${current}"|sed 's/^://'|sed 's/:$//')
+  eval "export ${var}=\"${current}\""
 } # }}}
 
 check_path () { # {{{
