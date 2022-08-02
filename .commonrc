@@ -126,9 +126,6 @@ _set_homebrew_path () { # {{{
     return
   fi
 
-  ## brew api token
-  _source_file ~/.brew_api_token
-
   ## completion from brew (disabled to faster reading)
   if [ "$BASH_VERSION" != "" ];then
     _source_file "$brew_prefix/etc/bash_completion"
@@ -691,6 +688,10 @@ _source_files () {
 
   # For screen
   _source_file ~/.screen/setup.sh
+
+  # For GitHub
+  _source_file ~/.github_token
+
 
   # aws
   if ! type aws_completer >& /dev/null;then
