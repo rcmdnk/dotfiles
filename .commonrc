@@ -179,15 +179,31 @@ _set_homebrew_path () { # {{{
   alias cask='brew cask'
 } # }}}
 
+_set_path_lib () { # {{{
+  local p=$1
+  local last=$2
+  _add_path PATH "${p}/bin"
+  _add_path LD_LIBRARY_PATH "${p}/lib" $last
+  _add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig" $last
+  _add_path LD_LIBRARY_PATH "${p}/lib64" $last
+  _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig" $last
+}
+
 _set_path () { # {{{
-  for p in "" "/usr" "/usr/local" "$HOME" "$HOME/.local" "$HOME/usr" "$HOME/usr/local";do
-    _add_path PATH "${p}/bin"
-    _add_path LD_LIBRARY_PATH "${p}/lib"
-    _add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig"
-    _add_path LD_LIBRARY_PATH "${p}/lib64"
-    _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig"
+  for p in "" "/usr";do
+    _set_path_lib $p
   done
+
   _set_homebrew_path
+
+  if [[ "$OSTYPE" != darwin* ]];then
+    _set_path_lib "/usr/local"
+  fi
+
+  for p in "$HOME" "$HOME/.local" "$HOME/usr" "$HOME/usr/local";do
+    _set_path_lib "$p"
+  done
+
   _source_file "$HOME/.poetry/env"
 
   if [[ "$HOSTTYPE" == arm64 ]] || [[ "$OSTYPE" != darwin* ]];then
