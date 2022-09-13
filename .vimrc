@@ -112,8 +112,8 @@ if s:dein_enabled
 
     " Language packs
     " polyglot_disabled must be called before loading
-    let g:polyglot_disabled = ['markdown']
-    call dein#add('sheerun/vim-polyglot', {'merged': 0})
+    "let g:polyglot_disabled = ['markdown', 'yaml']
+    "call dein#add('sheerun/vim-polyglot', {'merged': 0})
 
     " Homebrew
     call dein#add('xu-cheng/brew.vim')
