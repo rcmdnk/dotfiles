@@ -60,16 +60,16 @@ if v:version > 704 && s:use_dein && !filereadable(expand('~/.vim_no_dein'))
 
     " Check dein has been installed or not.
     if !isdirectory(s:dein_repo_dir)
-      let s:is_clone = confirm('Prepare dein?', 'Yes\nNo', 2)
-      if s:is_clone == 1
-        let s:dein_enabled = 1
-        echo 'dein is not installed, install now '
-        echo 'git clone ' . s:dein_repo . ' ' . s:dein_repo_dir
-        call system('git clone ' . s:dein_repo . ' ' . s:dein_repo_dir)
-        if v:version == 704
-          call system('cd ' . s:dein_repo_dir . ' && git checkout -b 1.5 1.5' )
-        endif
+      " let s:is_clone = confirm('Prepare dein?', 'Yes\nNo', 2)
+      " if s:is_clone == 1
+      let s:dein_enabled = 1
+      echo 'dein is not installed, install now '
+      echo 'git clone ' . s:dein_repo . ' ' . s:dein_repo_dir
+      call system('git clone ' . s:dein_repo . ' ' . s:dein_repo_dir)
+      if v:version == 704
+        call system('cd ' . s:dein_repo_dir . ' && git checkout -b 1.5 1.5' )
       endif
+      " endif
     else
       let s:dein_enabled = 1
     endif
