@@ -92,6 +92,10 @@ if s:dein_enabled
       call dein#add('Shougo/dein.vim')
     endif
 
+    if has('nvim') || has('patch-9.0.0185')
+      call dein#add('github/copilot.vim')
+    endif
+
     " Snippet {{{
     call dein#add('Shougo/neosnippet')
     call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
