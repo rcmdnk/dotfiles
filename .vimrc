@@ -92,10 +92,6 @@ if s:dein_enabled
       call dein#add('Shougo/dein.vim')
     endif
 
-    if has('nvim') || has('patch-9.0.0185')
-      call dein#add('github/copilot.vim')
-    endif
-
     " Snippet {{{
     call dein#add('Shougo/neosnippet')
     call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
@@ -104,6 +100,10 @@ if s:dein_enabled
     " }}} Snippet
 
     " Code syntax, tools for each language {{{
+    if has('nvim') || has('patch-9.0.0185')
+      call dein#add('github/copilot.vim')
+    endif
+
     if has('nvim')
       "if has('nvim-0.5.0')
       "  call dein#add('neovim/nvim-lspconfig')
@@ -916,6 +916,14 @@ endif
 " }}} Snippet
 
 " Code syntax, tools for each language {{{
+" copilot.vim {{{
+if dein#tap('copilot.vim')
+   let g:copilot_node_command = "~/.nodenv/versions/17.9.1/bin/node"
+   imap <silent> <M-i> <Plug>(copilot-next)
+   imap <silent> <M-o> <Plug>(copilot-previous)
+endif
+" }}} copilot.vim
+
 " coc.nvim {{{
 if dein#tap('coc.nvim')
   function! InstallCocExtentions()
