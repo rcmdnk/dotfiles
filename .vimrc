@@ -918,9 +918,23 @@ endif
 " Code syntax, tools for each language {{{
 " copilot.vim {{{
 if dein#tap('copilot.vim')
-   let g:copilot_node_command = "~/.nodenv/versions/17.9.1/bin/node"
-   imap <silent> <M-i> <Plug>(copilot-next)
-   imap <silent> <M-o> <Plug>(copilot-previous)
+  function! CheckNodeForCopilot(nodev)
+    let l:nodev = split(a:nodev, '\.')[0]
+    if stridx(l:nodev, 'v') == 0
+      let l:nodev = nodev[1:]
+    endif
+    return l:nodev > 11 && l:nodev < 18
+  endfunction
+
+  let s:nodev = system('node --version')
+  if !CheckNodeForCopilot(s:nodev)
+    let s:nodev = system('nodenv whence node|grep -v "^18"|sort -n|tail -n1|tr -d "\n"')
+    if CheckNodeForCopilot(s:nodev)
+      let g:copilot_node_command = "~/.nodenv/versions/" . s:nodev . "/bin/node"
+    endif
+  endif
+  imap <silent> <M-i> <Plug>(copilot-next)
+  imap <silent> <M-o> <Plug>(copilot-previous)
 endif
 " }}} copilot.vim
 
