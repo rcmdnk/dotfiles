@@ -104,14 +104,9 @@ if s:dein_enabled
       call dein#add('github/copilot.vim')
     endif
 
-    if has('nvim')
-      "if has('nvim-0.5.0')
-      "  call dein#add('neovim/nvim-lspconfig')
-      "  call dein#add('kabouzeid/nvim-lspinstall')
-      "else
-        call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
-        "call dein#add('relastle/vim-nayvy')
-      "endif
+    if has('nvim-0.4.0') || has('patch-8.1.1719')
+      call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
+      "call dein#add('relastle/vim-nayvy')
     endif
 
     " Language packs
@@ -1522,7 +1517,7 @@ if dein#tap('vim-submode')
   call submode#enter_with('win_size', 'n', '', '<C-w>+', '<C-w>+')
   call submode#enter_with('win_size', 'n', '', '<C-w>-', '<C-w>-')
   call submode#enter_with('win_size', 'n', '', '<C-w>e', '<C-w>><C-w><')
-  call submode#enter_with('win_size', 'n', '', '<C-w><C-e>', '<C-w>><C-w><')
+  "call submode#enter_with('win_size', 'n', '', '<C-w><C-e>', '<C-w>><C-w><')
   call submode#map('win_size', 'n', '', '>', '<C-w>>')
   call submode#map('win_size', 'n', '', '<', '<C-w><')
   call submode#map('win_size', 'n', '', '+', '<C-w>-')

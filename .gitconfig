@@ -323,7 +323,7 @@
   path = .gitconfig.private
 [init]
   defaultBranch = main
-  templatedir = ~/.git-templates/git-secrets
+#  templatedir = ~/.git-templates/git-secrets
 [secrets]
   providers = git secrets --aws-provider
   patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
