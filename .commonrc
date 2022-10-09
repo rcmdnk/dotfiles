@@ -3,7 +3,8 @@
 
 _reset_path () { # Check if this is first time to read bashrc or not {{{
   local p
-  for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
+  #for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
+  for p in PATH PYTHONPATH PKG_CONFIG_PATH;do
     eval "local ip=\$INIT_$p"
     if [[ -z "$ip" ]];then
       # Set initial values
@@ -117,7 +118,7 @@ _set_homebrew_path () { # {{{
   if [ -n "$prefix" ];then
     _add_path PATH "$prefix/bin"
     _add_path PATH "$prefix/sbin"
-    _add_path LD_LIBRARY_PATH "$prefix/lib"
+    #_add_path LD_LIBRARY_PATH "$prefix/lib"
   fi
 
   brew_prefix=$(command brew --prefix 2>/dev/null)
@@ -165,8 +166,8 @@ _set_homebrew_path () { # {{{
   OPENSSL_PATH="$brew_prefix/opt/openssl"
   if [ -d "$OPENSSL_PATH" ];then
     _add_path PATH "$OPENSSL_PATH/bin"
-    _add_path LD_LIBRARY_PATH "$OPENSSL_PATH/lib"
-    _add_path CPATH "$OPENSSL_PATH/include"
+    #_add_path LD_LIBRARY_PATH "$OPENSSL_PATH/lib"
+    #_add_path CPATH "$OPENSSL_PATH/include"
   fi
 
   ## Java
@@ -180,10 +181,10 @@ _set_path_lib () { # {{{
   local p=$1
   local last=$2
   _add_path PATH "${p}/bin"
-  _add_path LD_LIBRARY_PATH "${p}/lib" $last
-  _add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig" $last
-  _add_path LD_LIBRARY_PATH "${p}/lib64" $last
-  _add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig" $last
+  #_add_path LD_LIBRARY_PATH "${p}/lib" $last
+  #_add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig" $last
+  #_add_path LD_LIBRARY_PATH "${p}/lib64" $last
+  #_add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig" $last
 }
 
 _set_path () { # {{{
