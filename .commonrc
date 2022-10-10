@@ -116,11 +116,8 @@ _set_homebrew_path () { # {{{
     fi
   done
   if [ -n "$prefix" ];then
-    _add_path PATH "$prefix/bin"
-    _add_path PATH "$prefix/sbin"
-    #_add_path LD_LIBRARY_PATH "$prefix/lib"
+    eval "$($prefix/bin/brew shellenv)"
   fi
-
   brew_prefix=$(command brew --prefix 2>/dev/null)
   ret=$?
   if [ $ret -ne 0 ];then
