@@ -970,14 +970,14 @@ if dein#tap('coc.nvim')
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
-  
+
   " Use <c-space> to trigger completion.
   if has('nvim')
     inoremap <silent><expr> <c-space> coc#refresh()
   else
     inoremap <silent><expr> <c-@> coc#refresh()
   endif
-  
+
   " Use `[g` and `]g` to navigate diagnostics
   " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
   nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -1032,7 +1032,7 @@ if dein#tap('coc.nvim')
 
   " Run the Code Lens action on the current line.
   nmap <leader>cl  <Plug>(coc-codelens-action)
-  
+
   " Map function and class text objects
   " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
   xmap if <Plug>(coc-funcobj-i)
@@ -1043,7 +1043,7 @@ if dein#tap('coc.nvim')
   omap ic <Plug>(coc-classobj-i)
   xmap ac <Plug>(coc-classobj-a)
   omap ac <Plug>(coc-classobj-a)
-  
+
   " Remap <C-f> and <C-b> for scroll float windows/popups.
   if has('nvim-0.4.0') || has('patch-8.2.0750')
     nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -1053,18 +1053,18 @@ if dein#tap('coc.nvim')
     vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
     vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
   endif
-  
+
   " Use CTRL-S for selections ranges.
   " Requires 'textDocument/selectionRange' support of language server.
   nmap <silent> <C-s> <Plug>(coc-range-select)
   xmap <silent> <C-s> <Plug>(coc-range-select)
-  
+
   " Add `:Format` command to format current buffer.
   command! -nargs=0 Format :call CocActionAsync('format')
-  
+
   " Add `:Fold` command to fold current buffer.
   command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-  
+
   " Add `:OR` command for organize imports of the current buffer.
   command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
