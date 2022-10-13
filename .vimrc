@@ -950,6 +950,9 @@ if dein#tap('coc.nvim')
     quit
   endfunction
 
+  nnoremap <silent> <Leader>c :ToggleSignColmn<CR>:CocCommand document.toggleInlayHint<CR>
+
+
   let g:coc_config_home = s:vimdir
 
   " Use tab for trigger completion with characters ahead and navigate.
