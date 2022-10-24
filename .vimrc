@@ -913,19 +913,19 @@ endif
 " Code syntax, tools for each language {{{
 " copilot.vim {{{
 if dein#tap('copilot.vim')
-  function! CheckNodeForCopilot(nodev)
-    let l:nodev = split(a:nodev, '\.')[0]
-    if stridx(l:nodev, 'v') == 0
-      let l:nodev = nodev[1:]
+  function! CheckNodeForCopilot(nodenv)
+    let l:nodenv = split(a:nodenv, '\.')[0]
+    if stridx(l:nodenv, 'v') == 0
+      let l:nodenv = nodev[1:]
     endif
-    return l:nodev > 11 && l:nodev < 18
+    return l:nodenv > 11 && l:nodenv < 18
   endfunction
 
-  let s:nodev = system('node --version')
-  if !CheckNodeForCopilot(s:nodev)
-    let s:nodev = system('nodenv whence node|grep -v "^18"|sort -n|tail -n1|tr -d "\n"')
-    if CheckNodeForCopilot(s:nodev)
-      let g:copilot_node_command = "~/.nodenv/versions/" . s:nodev . "/bin/node"
+  let s:nodenv = system('node --version')
+  if !CheckNodeForCopilot(s:nodenv)
+    let s:nodenv = system('nodenv whence node|grep -v "^18"|sort -n|tail -n1|tr -d "\n"')
+    if CheckNodeForCopilot(s:nodenv)
+      let g:copilot_node_command = "~/.nodenv/versions/" . s:nodenv . "/bin/node"
     endif
   endif
   imap <silent> <M-i> <Plug>(copilot-next)
