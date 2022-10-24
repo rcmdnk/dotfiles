@@ -916,7 +916,7 @@ if dein#tap('copilot.vim')
   function! CheckNodeForCopilot(nodenv)
     let l:nodenv = split(a:nodenv, '\.')[0]
     if stridx(l:nodenv, 'v') == 0
-      let l:nodenv = nodev[1:]
+      let l:nodenv = l:nodenv[1:]
     endif
     return l:nodenv > 11 && l:nodenv < 18
   endfunction
