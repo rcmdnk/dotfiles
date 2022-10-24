@@ -90,7 +90,7 @@ _set_ghq_path () { # {{{
     for d in $(command ghq list);do
       local path="${root}/${d}/bin"
       if [[ -d "$path" ]];then
-        _add_path PATH "$path" 1
+        _add_path PATH "$path"
       fi
     done
   fi
