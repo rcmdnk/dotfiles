@@ -937,17 +937,11 @@ endif
 if dein#tap('coc.nvim')
   function! InstallCocExtentions()
     CocInstall -sync coc-actions coc-browser coc-calc coc-clangd coc-cmake coc-css
-    quit
     CocInstall -sync coc-explorer coc-fzf-preview coc-git coc-go coc-highlight
-    quit
     CocInstall -sync coc-html coc-java coc-tsserver coc-json coc-dictionary coc-word
-    quit
     CocInstall -sync coc-tag coc-lists coc-markdownlint coc-powershell coc-pyright
-    quit
     CocInstall -sync coc-sh coc-spell-checker coc-sql coc-texlab coc-vimlsp coc-xml
-    quit
     CocInstall -sync coc-yaml coc-yank coc-diagnostic
-    quit
   endfunction
 
   nnoremap <silent> <Leader>c :ToggleSignColmn<CR>:CocCommand document.toggleInlayHint<CR>
