@@ -866,17 +866,43 @@ endfunction
 command! SyntaxInfo call s:get_syn_info()
 " }}} Get syntax information
 
-" Toggle sign column {{{
-function! s:toggle_sign_colmn()
-  let l:sc_setting = &signcolumn
-  if l:sc_setting ==# 'no'
-    setlocal signcolumn=auto
+" Toggle view {{{
+function! s:toggle_view()
+  if exists('g:default_list') == 0
+    let g:default_list = &list
+    let g:default_wrap = &wrap
+    let g:default_signcolumn = &signcolumn
+    let g:default_nontext_fg = synIDattr(hlID('NonText'), 'fg')
+    let g:default_endofbuffer_fg = synIDattr(hlID('EndOfBuffer'), 'fg')
+    if g:default_endofbuffer_fg == ""
+      let g:default_endofbuffer_fg = g:default_nontext_fg
+    endif
+    let g:ignore_fg = synIDattr(hlID('Ignore'), 'fg')
+  endif
+  if exists('b:current_view') == 0
+    let b:current_view = 1
+  endif
+  if b:current_view == 0
+    let b:current_view = 1
+    let &list = g:default_list
+    let &wrap = g:default_list
+    let &signcolumn = g:default_signcolumn
+    execute "highlight NonText ctermfg=" . g:default_nontext_fg . " guifg=" . g:default_nontext_fg
+    execute "highlight EndOfBuffer ctermfg=" . g:default_endofbuffer_fg . " guifg=" . g:default_endofbuffer_fg
   else
-    setlocal signcolumn=no
+    let b:current_view = 0
+    set nolist
+    set wrap
+    set signcolumn=no
+    execute "highlight NonText ctermfg=" . g:ignore_fg . " guifg=" . g:ignore_fg
+    execute "highlight EndOfBuffer ctermfg=" . g:ignore_fg . " guifg=" . g:ignore_fg
+  endif
+  if dein#tap('coc.nvim')
+    CocCommand document.toggleInlayHint
   endif
 endfunction
-command! ToggleSignColmn call s:toggle_sign_colmn()
-nnoremap <silent> <Leader>c :ToggleSignColmn<CR>
+command! ToggleView call s:toggle_view()
+nnoremap <silent> <Leader>c :ToggleView<CR>
 
 " }}} Toggle sign column
 
@@ -943,9 +969,6 @@ if dein#tap('coc.nvim')
     CocInstall -sync coc-sh coc-spell-checker coc-sql coc-texlab coc-vimlsp coc-xml
     CocInstall -sync coc-yaml coc-yank coc-diagnostic
   endfunction
-
-  nnoremap <silent> <Leader>c :ToggleSignColmn<CR>:CocCommand document.toggleInlayHint<CR>
-
 
   let g:coc_config_home = s:vimdir
 
