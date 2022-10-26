@@ -267,9 +267,7 @@ if s:dein_enabled
 
     " {{{ Others
     " Sub mode
-    if has('nvim')
-      call dein#add('kana/vim-submode')
-    endif
+    call dein#add('kana/vim-submode')
 
     " Highlight on the fly
     call dein#add('t9md/vim-quickhl')
@@ -962,7 +960,10 @@ endif
 " coc.nvim {{{
 if dein#tap('coc.nvim')
   function! InstallCocExtentions()
-    CocInstall -sync coc-actions coc-browser coc-calc coc-clangd coc-cmake coc-css
+    if has('nvim')
+      CocInstall -sync coc-actions
+    endif
+    CocInstall -sync coc-browser coc-calc coc-clangd coc-cmake coc-css
     CocInstall -sync coc-explorer coc-fzf-preview coc-git coc-go coc-highlight
     CocInstall -sync coc-html coc-java coc-tsserver coc-json coc-dictionary coc-word
     CocInstall -sync coc-tag coc-lists coc-markdownlint coc-powershell coc-pyright
@@ -1537,7 +1538,7 @@ if dein#tap('vim-submode')
   call submode#enter_with('win_size', 'n', '', '<C-w>+', '<C-w>+')
   call submode#enter_with('win_size', 'n', '', '<C-w>-', '<C-w>-')
   call submode#enter_with('win_size', 'n', '', '<C-w>e', '<C-w>><C-w><')
-  "call submode#enter_with('win_size', 'n', '', '<C-w><C-e>', '<C-w>><C-w><')
+  call submode#enter_with('win_size', 'n', '', '<C-w><C-e>', '<C-w>><C-w><')
   call submode#map('win_size', 'n', '', '>', '<C-w>>')
   call submode#map('win_size', 'n', '', '<', '<C-w><')
   call submode#map('win_size', 'n', '', '+', '<C-w>-')
