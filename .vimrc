@@ -21,28 +21,6 @@ if has('vim_starting')
 endif
 " }}} Prepare .vim dir
 
-" Python Environment {{{
-let g:python3_dir = s:vimdir . '/python3'
-function! InstallPipPackages()
-  if !filereadable(expand(g:python3_dir . '/bin/activate'))
-    call system('python3 -m venv ' . g:python3_dir)
-  endif
-  let g:python3_host_prog = g:python3_dir . '/bin/python'
-  let $PATH = g:python3_dir . '/bin:' . $PATH
-  call system('source ' . g:python3_dir . '/bin/activate && pip install pynvim autopep8 black pep8 flake8 pyflakes pylint jedi')
-endfunction
-if !filereadable(expand('~/.vim_no_python'))
-  let s:python3 = system('which python3')
-  if strlen(s:python3) != 0
-    if ! isdirectory(g:python3_dir)
-      call InstallPipPackages()
-    endif
-    let g:python3_host_prog = g:python3_dir . '/bin/python'
-    let $PATH = g:python3_dir . '/bin:' . $PATH
-  endif
-endif
-" }}} Python Environment
-
 " dein {{{
 
 " check/prepare dein environment {{{

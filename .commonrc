@@ -102,12 +102,12 @@ _set_homebrew_path () { # {{{
   local brew_dir_cand=()
   if [[ "$OSTYPE" = darwin* ]];then
     if [ "$(uname -m)" = arm64 ];then
-      brew_dir_cand=(/opt/homebrew)
+      brew_dir_cand=(/opt/homebrew/)
     else
-      brew_dir_cand=(/usr/local)
+      brew_dir_cand=(/usr/local/)
     fi
   else
-    brew_dir_cand=(/home/linuxbrew/.linuxbrew $HOME/.linuxbrew)
+    brew_dir_cand=(/home/linuxbrew/.linuxbrew/ $HOME/.linuxbrew/)
   fi
   for path in "${brew_dir_cand[@]}";do
     if [ -d "$path" ];then
@@ -115,22 +115,19 @@ _set_homebrew_path () { # {{{
       break
     fi
   done
-  if [ -n "$prefix" ];then
-    eval "$($prefix/bin/brew shellenv)"
-  fi
-  brew_prefix=$(command brew --prefix 2>/dev/null)
-  ret=$?
-  if [ $ret -ne 0 ];then
+  local brew_cmd="${prefix}/bin/brew"
+  if [ ! -f "${brew_cmd}" ];then
     return
   fi
+  eval "$("$brew_cmd" shellenv)"
 
   ## completion from brew (disabled to faster reading)
   if [ "$BASH_VERSION" != "" ];then
-    _source_file "$brew_prefix/etc/bash_completion"
-    _source_file "$brew_prefix/etc/profile.d/bash_completion.sh"
+    _source_file "$HOMEBREW_PREFIX/etc/bash_completion"
+    _source_file "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
   elif [ "$ZSH_VERSION" != "" ];then
     for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
-      brew_completion="$brew_prefix/$d"
+      brew_completion="$HOMEBREW_PREFIX/$d"
       if [ -d "$brew_completion" ] && ! echo " ${fpath[*]} " |grep -q " $brew_completion ";then
         fpath=("$brew_completion" "${fpath[@]}")
       fi
@@ -157,18 +154,20 @@ _set_homebrew_path () { # {{{
   export HOMEBREW_BREWFILE_ON_REQUEST=1
 
   ## wrap brew (brew-wrap in brew-file)
-  _source_file "$brew_prefix/etc/brew-wrap"
+  _source_file "$HOMEBREW_PREFIX/etc/brew-wrap"
+
+  ## Python3 -> python
+  PYTHON_UNVERSIONED_PATH="$HOMEBREW_PREFIX/opt/python/libexec"
+  _add_path PATH "$PYTHON_UNVERSIONED_PATH/bin"
 
   ## Openssl
-  OPENSSL_PATH="$brew_prefix/opt/openssl"
-  if [ -d "$OPENSSL_PATH" ];then
-    _add_path PATH "$OPENSSL_PATH/bin"
-    #_add_path LD_LIBRARY_PATH "$OPENSSL_PATH/lib"
-    #_add_path CPATH "$OPENSSL_PATH/include"
-  fi
+  OPENSSL_PATH="$HOMEBREW_PREFIX/opt/openssl"
+  _add_path PATH "$OPENSSL_PATH/bin"
+  #_add_path LD_LIBRARY_PATH "$OPENSSL_PATH/lib"
+  #_add_path CPATH "$OPENSSL_PATH/include"
 
   ## Java
-  _add_path PATH "$brew_prefix/opt/openjdk/bin"
+  _add_path PATH "$HOMEBREW_PREFIX/opt/openjdk/bin"
 
   ## Alias
   alias cask='brew cask'
@@ -201,13 +200,6 @@ _set_path () { # {{{
 
   _source_file "$HOME/.poetry/env"
 
-  if [[ "$HOSTTYPE" == arm64 ]] || [[ "$OSTYPE" != darwin* ]];then
-    if [[ -d "$HOME/.config/nvim/python3/bin" ]];then
-      _add_path PATH "$HOME/.config/nvim/python3/bin"
-    elif [[ -d "$HOME/.vim/python3/bin" ]];then
-      _add_path PATH "$HOME/.vim/python3/bin"
-    fi
-  fi
   export GOPATH=$HOME/.go
   if [[ -d "$GOPATH/bin" ]];then
     _add_path PATH "${GOPATH}/bin"
