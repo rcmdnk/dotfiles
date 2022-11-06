@@ -87,11 +87,6 @@ if s:dein_enabled
       "call dein#add('relastle/vim-nayvy')
     endif
 
-    " Language packs
-    " polyglot_disabled must be called before loading
-    "let g:polyglot_disabled = ['markdown', 'yaml']
-    "call dein#add('sheerun/vim-polyglot', {'merged': 0})
-
     " Homebrew
     call dein#add('xu-cheng/brew.vim')
 
@@ -245,7 +240,10 @@ if s:dein_enabled
 
     " {{{ Others
     " Sub mode
-    call dein#add('kana/vim-submode')
+    " Does not work on vim (?)
+    if has('nvim')
+      call dein#add('kana/vim-submode')
+    endif
 
     " Highlight on the fly
     call dein#add('t9md/vim-quickhl')
@@ -843,17 +841,31 @@ command! SyntaxInfo call s:get_syn_info()
 " }}} Get syntax information
 
 " Toggle view {{{
+function! s:get_orig_highlight(group)
+  let l:id = hlID(a:group)->synIDtrans()
+  let l:fg = synIDattr(l:id, 'fg')
+  let l:bg = synIDattr(l:id, 'bg')
+  let l:orig = ''
+  if l:fg != ''
+    let l:orig = l:orig . ' ctermfg=' . l:fg . ' guifg=' . l:fg
+  endif
+  if l:bg != ''
+    let l:orig = l:orig . ' ctermbg=' . l:bg . ' guibg=' . l:bg
+  endif
+  if l:orig == ''
+    return ''
+  endif
+  return 'highlight ' . a:group . l:orig
+endfunction
+
 function! s:toggle_view()
   if exists('g:default_list') == 0
     let g:default_list = &list
     let g:default_wrap = &wrap
     let g:default_signcolumn = &signcolumn
-    let g:default_nontext_fg = synIDattr(hlID('NonText'), 'fg')
-    let g:default_endofbuffer_fg = synIDattr(hlID('EndOfBuffer'), 'fg')
-    if g:default_endofbuffer_fg == ""
-      let g:default_endofbuffer_fg = g:default_nontext_fg
-    endif
-    let g:ignore_fg = synIDattr(hlID('Ignore'), 'fg')
+    let g:default_spell = &spell
+    let g:default_nontext = s:get_orig_highlight('NonText')
+    let g:default_endofbuffer = s:get_orig_highlight('EndOfBuffer')
   endif
   if exists('b:current_view') == 0
     let b:current_view = 1
@@ -861,24 +873,40 @@ function! s:toggle_view()
   if b:current_view == 0
     let b:current_view = 1
     let &list = g:default_list
-    let &wrap = g:default_list
+    let &wrap = g:default_wrap
     let &signcolumn = g:default_signcolumn
-    execute "highlight NonText ctermfg=" . g:default_nontext_fg . " guifg=" . g:default_nontext_fg
-    execute "highlight EndOfBuffer ctermfg=" . g:default_endofbuffer_fg . " guifg=" . g:default_endofbuffer_fg
+    let &spell = g:default_spell
+    execute g:default_nontext
+    execute g:default_endofbuffer
+    if dein#tap('coc.nvim')
+      for name in ['Unused', 'Deprecated', 'Error', 'Warning', 'Info', 'Hint']
+        exe 'highlight clear Coc' . name . 'Highlight'
+      endfor
+      if CocHasProvider('inlayHint') == v:true
+        CocCommand document.toggleInlayHint
+      endif
+    endif
   else
     let b:current_view = 0
     set nolist
     set wrap
     set signcolumn=no
-    execute "highlight NonText ctermfg=" . g:ignore_fg . " guifg=" . g:ignore_fg
-    execute "highlight EndOfBuffer ctermfg=" . g:ignore_fg . " guifg=" . g:ignore_fg
-  endif
-  if dein#tap('coc.nvim')
-    CocCommand document.toggleInlayHint
+    set nospell
+    highlight! link NonText Ignore
+    highlight! link EndOfBuffer Ignore
+    if dein#tap('coc.nvim')
+      for name in ['Unused', 'Deprecated', 'Error', 'Warning', 'Info', 'Hint']
+        exe 'highlight Coc' . name . 'Highlight ctermbg=NONE guibg=NONE cterm=NONE gui=NONE guisp=NONE'
+      endfor
+      if CocHasProvider('inlayHint') == v:true
+        CocCommand document.toggleInlayHint
+      endif
+      call coc#float#close_all()
+    endif
   endif
 endfunction
 command! ToggleView call s:toggle_view()
-nnoremap <silent> <Leader>c :ToggleView<CR>
+nnoremap <silent> <Leader>t :ToggleView<CR>
 
 " }}} Toggle sign column
 
@@ -1111,13 +1139,6 @@ if dein#tap('vim-markdown-quote-syntax')
   \}
 endif
 " }}} vim-markdown-quote-syntax
-
-" vim-polyglot {{{
-if dein#tap('vim-polyglot')
-  " for chrisbra/csv.vim
-  let g:csv_no_conceal = 1
-endif
-" }}} vim-polyglot
 
 " markdown {{{
 if dein#tap('vim-markdown')

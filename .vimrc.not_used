@@ -519,6 +519,22 @@ else
   call dein#add('vim-syntastic/syntastic')
 endif
 
+" vim-polyglot {{{
+" Language packs
+" polyglot_disabled must be called before loading
+" But this does not work correctly
+" this makes troubles on some languages...
+let g:polyglot_disabled = ['markdown', 'yaml']
+call dein#add('sheerun/vim-polyglot', {'merged': 0})
+
+if dein#tap('vim-polyglot')
+  " for chrisbra/csv.vim
+  let g:csv_no_conceal = 1
+endif
+" }}} vim-polyglot
+
+
+
 " ale/syntastic {{{
 " function for lightline
 let g:ll_ale = LLGetAle()
