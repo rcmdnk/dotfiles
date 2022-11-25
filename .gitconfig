@@ -318,7 +318,6 @@
   };f"
   ru = rebase-upstream
 
-
 [include]
   path = .gitconfig.private
 [init]
