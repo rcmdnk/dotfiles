@@ -170,6 +170,10 @@
       myshasum https://github.com/$repo_info/archive/refs/tags/$tag.tar.gz;\
     fi;\
   };f"
+  delete-branch = "!f() {\
+    git branch -D $1;\
+    git push origin --delete $1;\
+  };f"
   tag-new = "!f () {\
     lasttag=$(git tag --sort=v:refname|tail -n1);\
     if [ \"$1\" = \"-v\" ];then \
