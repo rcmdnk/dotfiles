@@ -315,6 +315,9 @@ _set_env () { # Shell/Environmental variables {{{
                               # Used for clean up
   export MAXTRASHSIZE=100 # Trashes larger than MAXTRASHBOXSIZE will be removed by 'rm' directly
 
+  # sentaku
+  export SENTAKU_NOHEADER=1
+
   # For my clipboards
   export CLMAXHIST=50
   if [ -n "$TERM" ];then
@@ -353,7 +356,6 @@ _emotional_prompt () {
     fi;\
     )"
 }
-
 
 _set_stty () { # stty, disable terminal lock {{{
   tty -s && stty stop undef
