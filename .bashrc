@@ -37,7 +37,15 @@ _set_path
 _set_env
 
 # Prompt
-PS1="[\\h \\W]\$ "
+_is_mosh
+if [ $? -eq 0 ];then
+  # Enable only when mosh is used
+  # For screen case (and ssh in screen),
+  # modified prompt in .screen/setup.sh is used
+  _emotional_prompt
+else
+  PS1="[\\h \\W]\$ "
+fi
 # }}}
 
 # shopt {{{
