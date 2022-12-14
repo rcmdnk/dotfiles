@@ -357,6 +357,14 @@ _emotional_prompt () {
     )"
 }
 
+_is_mosh () { # Check mosh {{{
+  local server=$(pstree -ps  $$ | grep mosh-server)
+  if [ -n "$server" ];then
+    return 0
+  fi
+  return 1
+}
+
 _set_stty () { # stty, disable terminal lock {{{
   tty -s && stty stop undef
   tty -s && stty start undef
@@ -711,6 +719,14 @@ _mainrc () {
   _reset_path
   _set_path
   _set_env
+  _is_mosh
+  local ret=$?
+  if [ $ret -eq 0 ];then
+    # Enable only when mosh is used
+    # For screen case (and ssh in screen),
+    # modified prompt in .screen/setup.sh is used
+    _emotional_prompt
+  fi
   _set_stty
   _set_alias
   _set_function
