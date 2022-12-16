@@ -358,6 +358,9 @@ _emotional_prompt () {
 }
 
 _is_mosh () { # Check mosh {{{
+  if ! type pstree >& /dev/null;then
+    return 1
+  fi
   local server=$(pstree -ps  $$ | grep mosh-server)
   if [ -n "$server" ];then
     return 0
