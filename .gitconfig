@@ -321,6 +321,8 @@
     git rebase upstream/main;\
   };f"
   ru = rebase-upstream
+  # Use with useForceIfIncludes = true
+  pushf = push --force-with-lease
 
 [include]
   path = .gitconfig.private
