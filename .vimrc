@@ -241,7 +241,7 @@ if s:dein_enabled
 
     " }}} Edit
 
-    " {{{ Others
+    " Others {{{
     " Sub mode
     " Does not work on vim (?)
     if has('nvim')
