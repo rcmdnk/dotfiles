@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 # Common rc file for Bash/Zsh
 
+_source_file () { # Function for sourcing with precheck of the file {{{
+  if [[ $# -lt 1 ]];then
+    echo "ERROR!!! Usage: _source_file <file>"
+    return
+  fi
+  file="$1"
+  if [[ -r "$file" ]]; then
+    source "$file"
+  fi
+} # }}} Function for sourcing with precheck of the file
+
+## PATH {{{
 _reset_path () { # Check if this is first time to read bashrc or not {{{
   local p
   #for p in PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH;do
@@ -16,18 +28,6 @@ _reset_path () { # Check if this is first time to read bashrc or not {{{
   done
 } # }}} Check if this is first time to read bashrc or not
 
-_source_file () { # Function for sourcing with precheck of the file {{{
-  if [[ $# -lt 1 ]];then
-    echo "ERROR!!! Usage: _source_file <file>"
-    return
-  fi
-  file="$1"
-  if [[ -r "$file" ]]; then
-    source "$file"
-  fi
-} # }}} Function for sourcing with precheck of the file
-
-## PATH {{{
 _add_path () { # {{{
   if [[ $# -lt 2 ]];then
     echo "Usage: _add_path <PATH, LD_LIBRARY_PATH or  etc..> <path> [1 to add in the last]"
@@ -76,10 +76,26 @@ _clean_path () { # {{{
   for p in "${p_orig[@]}";do
     _add_path v_tmp "$p" 1
   done
-  #eval "export ${v}=\"\$${v_tmp}\""
-  eval "echo ${v}=\"\$${v_tmp}\""
+  eval "export ${v}=\"\$${v_tmp}\""
   unset v_tmp
 } # }}}
+
+_remove_path_lib () { # {{{
+  local p=$1
+  export PATH=$(echo $PATH|sed "s|^${p}/bin:*||")
+  export PATH=$(echo $PATH|sed "s|\(:\)${p}/bin:*|\1|")
+} # }}}
+
+_set_path_lib () { # {{{
+  local p=$1
+  local last=$2
+  _add_path PATH "${p}/bin"
+  #_add_path LD_LIBRARY_PATH "${p}/lib" $last
+  #_add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig" $last
+  #_add_path LD_LIBRARY_PATH "${p}/lib64" $last
+  #_add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig" $last
+} # }}}
+
 
 _set_ghq_path () { # {{{
   if type ghq >& /dev/null;then
@@ -173,17 +189,12 @@ _set_homebrew_path () { # {{{
   alias cask='brew cask'
 } # }}}
 
-_set_path_lib () { # {{{
-  local p=$1
-  local last=$2
-  _add_path PATH "${p}/bin"
-  #_add_path LD_LIBRARY_PATH "${p}/lib" $last
-  #_add_path LD_LIBRARY_PATH "${p}/lib/pkgconfig" $last
-  #_add_path LD_LIBRARY_PATH "${p}/lib64" $last
-  #_add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig" $last
-}
-
 _set_path () { # {{{
+  if [[ "$OSTYPE" == darwin* ]];then
+    # Remove /usr/local which is only for Homebrew arm64
+    _remove_path_lib "/usr/local"
+  fi
+
   for p in "" "/usr";do
     _set_path_lib $p
   done
@@ -209,6 +220,7 @@ _set_path () { # {{{
   fi
   _set_ghq_path
 } # }}}
+
 # }}} PATH
 
 _set_env () { # Shell/Environmental variables {{{
@@ -325,7 +337,7 @@ _set_env () { # Shell/Environmental variables {{{
   fi
 } # }}} Shell/Environmental variables
 
-_emotional_prompt () {
+_emotional_prompt () { # {{{
   PS1="\$(\
     ret=\$?;\
     rand=\$((RANDOM%36));\
@@ -355,7 +367,7 @@ _emotional_prompt () {
       fi\
     fi;\
     )"
-}
+} # }}}
 
 _is_mosh () { # Check mosh {{{
   if ! type pstree >& /dev/null;then
@@ -366,7 +378,7 @@ _is_mosh () { # Check mosh {{{
     return 0
   fi
   return 1
-}
+} # }}}
 
 _set_stty () { # stty, disable terminal lock {{{
   tty -s && stty stop undef
