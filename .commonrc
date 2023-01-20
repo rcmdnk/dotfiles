@@ -63,11 +63,11 @@ check_path () { # {{{
 
 _clean_path () { # {{{
   if [[ $# -eq 0 ]];then
-    echo "Usage: _clean_path <PATH, LD_LIBRARY_PATH or  etc..>"
+    echo "Usage: _clean_path <PATH, LD_LIBRARY_PATH or etc..>"
     return 1
   fi
   local path_name=$1
-  eval "local v=\$$path"
+  eval "local v=\$$path_name"
   local orig_ifs=$IFS
   IFS=":"
   local p_orig=($v)
@@ -99,7 +99,8 @@ _set_path_lib () { # {{{
 
 _set_ghq_path () { # {{{
   if type ghq >& /dev/null;then
-    local root=$(command ghq root)
+    local root
+    root=$(command ghq root)
     if [[ -z "$root" ]];then
       root="$HOME/.ghq"
     fi
@@ -123,7 +124,7 @@ _set_homebrew_path () { # {{{
       brew_dir_cand=(/usr/local/)
     fi
   else
-    brew_dir_cand=(/home/linuxbrew/.linuxbrew/ $HOME/.linuxbrew/)
+    brew_dir_cand=(/home/linuxbrew/.linuxbrew/ "$HOME/.linuxbrew/")
   fi
   for path in "${brew_dir_cand[@]}";do
     if [ -d "$path" ];then
@@ -168,6 +169,7 @@ _set_homebrew_path () { # {{{
 
   ## brew-file settings
   export HOMEBREW_BREWFILE_ON_REQUEST=1
+  export HOMEBREW_BREWFILE_LEAVES=1
 
   ## wrap brew (brew-wrap in brew-file)
   _source_file "$HOMEBREW_PREFIX/etc/brew-wrap"
@@ -333,7 +335,8 @@ _set_env () { # Shell/Environmental variables {{{
   # For my clipboards
   export CLMAXHIST=50
   if [ -n "$TERM" ];then
-    export CLX=$(multi_clipboard -C) 2>/dev/null
+    export CLX
+    CLX=$(multi_clipboard -C) 2>/dev/null
   fi
 } # }}} Shell/Environmental variables
 
@@ -373,7 +376,8 @@ _is_mosh () { # Check mosh {{{
   if ! type pstree >& /dev/null;then
     return 1
   fi
-  local server=$(pstree -ps  $$ | grep mosh-server)
+  local server
+  server=$(pstree -ps  $$ | grep mosh-server)
   if [ -n "$server" ];then
     return 0
   fi
@@ -671,7 +675,8 @@ _source_files () {
 
   # completion files in ghq
   if type ghq >& /dev/null;then
-    local root=$(command ghq root)
+    local root
+    root=$(command ghq root)
     if [[ -z "$root" ]];then
       root="$HOME/.ghq"
     fi
