@@ -174,9 +174,17 @@ _set_homebrew_path () { # {{{
   ## wrap brew (brew-wrap in brew-file)
   _source_file "$HOMEBREW_PREFIX/etc/brew-wrap"
 
+  ## binutils
+  _add_path PATH "$HOMEBREW_PREFIX/opt/binutils/bin"
+  #_add_path LD_LIBRARY_PATH "$HOMEBREW_PREFIX/opt/binutils/lib"
+  #_add_path CPATH "$HOMEBREW_PREFIX/opt/binutils/include"
+
   ## Python3 -> python
   PYTHON_UNVERSIONED_PATH="$HOMEBREW_PREFIX/opt/python/libexec"
   _add_path PATH "$PYTHON_UNVERSIONED_PATH/bin"
+
+  ## Ruby 2.7 for octopress
+  _add_path PATH "$HOMEBREW_PREFIX/opt/ruby@2.7/bin"
 
   ## Openssl
   OPENSSL_PATH="$HOMEBREW_PREFIX/opt/openssl"
@@ -459,21 +467,21 @@ _set_alias () { # Alias {{{
 } # }}} Alias
 
 _set_function () { # Functions
-  #man () { # man with vi {{{
-  #  if [[ $# -ne 1 ||  "$1" =~ ^- ]] || ! type vi >&/dev/null;then
-  #    command man "$@"
-  #    return $?
-  #  fi
+  man () { # man with vi {{{
+    if [[ $# -ne 1 ||  "$1" =~ ^- ]] || ! type vi >&/dev/null;then
+      command man "$@"
+      return $?
+    fi
 
-  #  var=$(command man -P cat "$@" 2>&1)
-  #  ret=$?
-  #  if [[ $ret -eq 0 ]];then
-  #    echo "$var"|col -bx|vi -R -c 'set ft=man' -
-  #  else
-  #    echo "$var"
-  #    return $ret
-  #  fi
-  #} # }}}
+    var=$(command man -P cat "$@" 2>&1)
+    ret=$?
+    if [[ $ret -eq 0 ]];then
+      echo "$var"|col -bx|vi -R -c 'set ft=man' -
+    else
+      echo "$var"
+      return $ret
+    fi
+  } # }}}
 
   if ! type tree >& /dev/null;then
     tree () { # {{{
