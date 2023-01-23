@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Common rc file for Bash/Zsh
 
-_source_file () { # Function for sourcing with precheck of the file {{{
+# shellcheck disable=SC1090
+
+_source_file () { # Function for sourcing with pre check of the file {{{
   if [[ $# -lt 1 ]];then
     echo "ERROR!!! Usage: _source_file <file>"
     return
@@ -10,7 +12,7 @@ _source_file () { # Function for sourcing with precheck of the file {{{
   if [[ -r "$file" ]]; then
     source "$file"
   fi
-} # }}} Function for sourcing with precheck of the file
+} # }}} Function for sourcing with pre check of the file
 
 ## PATH {{{
 _reset_path () { # Check if this is first time to read bashrc or not {{{
@@ -228,7 +230,13 @@ _set_path () { # {{{
   if [[ -n "$SSHHOME" ]];then
     _add_path PATH "${SSHHOME}/.sshrc"
   fi
+
   _set_ghq_path
+
+  if [ -d "$HOME/.lima/docker/sock" ];then
+    export DOCKER_HOST=unix://$HOME/.lima/docker/sock/docker.sock
+  fi
+
 } # }}}
 
 # }}} PATH
@@ -654,7 +662,7 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
       # need "function" to avoid error on alias,
       # even if this path is not used.
       function tac () {
-        if [[ ! -f "$1" ]];then
+        if [ ! -f "$1" ];then
           echo "usage: tac <file>"
           return 1
         fi
