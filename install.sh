@@ -43,19 +43,19 @@ while getopts b:e:i:ndcsh OPT;do
 done
 
 myinstall () {
-  origin="$1"
-  target="$2"
+  local origin="$1"
+  local target="$2"
   if [ -z "$origin" ] || [ -z "$target" ];then
     echo "Wrong args for myinstall: origin=$origin, target=$target"
     exit 1
   fi
 
-  install_check=1
+  local install_check=1
   if [ $dryrun -eq 1 ];then
     install_check=0
   fi
   if [ "$(ls "$target" 2>/dev/null)" != "" ];then
-    exist=("${exist[@]}" "$(basename "$target")")
+    exist=("${exist[@]}" "${target/$instdir\//}")
     if [ $dryrun -eq 1 ];then
       echo -n ""
     elif [ $overwrite -eq 0 ];then
@@ -66,7 +66,7 @@ myinstall () {
       rm "$target"
     fi
   else
-    newlink=("${newlink[@]}" "$(basename "$target")")
+    newlink=("${newlink[@]}" "${target/$instdir\//}")
   fi
   if [ $install_check -eq 1 ];then
     mkdir -p "$(dirname "$target")"
@@ -89,6 +89,7 @@ else
 fi
 
 for f in .*;do
+  [[ -e "$f" ]] || continue
   for e in "${exclude[@]}";do
     flag=0
     if [ "$f" = "$e" ];then
@@ -96,7 +97,7 @@ for f in .*;do
       break
     fi
   done
-  if [ $flag = 1 ];then
+  if [ "$flag" = 1 ];then
     continue
   fi
 
@@ -108,9 +109,10 @@ for f in .*;do
     fi
   done
   files=()
-  if [ $flag = 1 ];then
+  if [ "$flag" = 1 ];then
     mkdir -p "$instdir/$f"
-    for ff in $(ls "$curdir/$f/");do
+    for ff in "$curdir/$f"/*;do
+      [[ -e "$ff" ]] || continue
       files=("${files[@]}" "$f/$ff")
     done
   else
@@ -126,6 +128,7 @@ myinstall "$curdir/.subversion.config" "$instdir/.subversion/config"
 
 # w3m
 for f in .w3m/*;do
+  [[ -e "$f" ]] || continue
   myinstall "$curdir/$f" "$instdir/$f"
 done
 
@@ -134,12 +137,18 @@ myinstall "$curdir/.vimrc" "$instdir/.config/nvim/init.vim"
 myinstall "$curdir/.vim/coc-settings.json" "$instdir/.config/nvim/coc-settings.json"
 
 # config
+mkdir -p "$instdir/.config"
 for f in .config/*;do
-  if [ -d "$curdir" ];then
-    for ff in $(ls "$curdir/$f/");do
-      myinstall "$curdir/$f/$ff" "$instdir/$f/$ff"
+  [[ -e "$f" ]] || continue
+  if [ -d "$f" ];then
+    mkdir -p "$instdir/$f"
+    for ff in "$f"/*;do
+      [[ -e "$ff" ]] || continue
+      myinstall "$curdir/$ff" "$instdir/$ff"
     done
-  myinstall "$curdir/$f" "$instdir/$f"
+  else
+    myinstall "$curdir/$f" "$instdir/$f"
+  fi
 done
 
 # Summary
