@@ -135,6 +135,10 @@ myinstall "$curdir/.vim/coc-settings.json" "$instdir/.config/nvim/coc-settings.j
 
 # config
 for f in .config/*;do
+  if [ -d "$curdir" ];then
+    for ff in $(ls "$curdir/$f/");do
+      myinstall "$curdir/$f/$ff" "$instdir/$f/$ff"
+    done
   myinstall "$curdir/$f" "$instdir/$f"
 done
 

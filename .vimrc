@@ -1096,7 +1096,8 @@ if dein#tap('coc.nvim')
 
   " Formatting selected code.
   xmap <leader>f  <Plug>(coc-format-selected)
-  nmap <leader>f  <Plug>(coc-format-selected)
+  "nmap <leader>f  <Plug>(coc-format-selected)
+  nmap <leader>f  :<C-u>call CocActionAsync('format')<cr>
 
   augroup mygroup
     autocmd!
