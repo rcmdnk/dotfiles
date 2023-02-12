@@ -954,13 +954,13 @@ if dein#tap('copilot.vim')
     return l:nodenv > 11 && l:nodenv < 18
   endfunction
 
-  let s:nodenv = system('node --version')
-  if !CheckNodeForCopilot(s:nodenv)
-    let s:nodenv = system('nodenv whence node|grep -v "^18"|sort -n|tail -n1|tr -d "\n"')
-    if CheckNodeForCopilot(s:nodenv)
-      let g:copilot_node_command = "~/.nodenv/versions/" . s:nodenv . "/bin/node"
-    endif
-  endif
+  "let s:nodenv = system('node --version')
+  "if !CheckNodeForCopilot(s:nodenv)
+  "  let s:nodenv = system('nodenv whence node|grep -v "^18"|sort -n|tail -n1|tr -d "\n"')
+  "  if CheckNodeForCopilot(s:nodenv)
+  "    let g:copilot_node_command = "~/.nodenv/versions/" . s:nodenv . "/bin/node"
+  "  endif
+  "endif
   imap <silent> <M-i> <Plug>(copilot-next)
   imap <silent> <M-o> <Plug>(copilot-previous)
 endif

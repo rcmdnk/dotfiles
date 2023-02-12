@@ -167,7 +167,10 @@ _set_homebrew_path () { # {{{
   export HOMEBREW_NO_AUTO_UPDATE=1
 
   ## Use bootsnap to speed up brew
-  export HOMEBREW_BOOTSNAP
+  export HOMEBREW_BOOTSNAP=1
+
+  ## API
+  export HOMEBREW_INSTALL_FROM_API=1
 
   ## brew-file settings
   export HOMEBREW_BREWFILE_ON_REQUEST=1
