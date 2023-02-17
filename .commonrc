@@ -161,17 +161,6 @@ _set_homebrew_path () { # {{{
   ## Disable Analytics
   export HOMEBREW_NO_ANALYTICS=1
 
-  ## Disable auto update
-  # seems auto_update_secs is not set by default?
-  #export HOMEBREW_AUTO_UPDATE_SECS=300
-  export HOMEBREW_NO_AUTO_UPDATE=1
-
-  ## Use bootsnap to speed up brew
-  export HOMEBREW_BOOTSNAP=1
-
-  ## API
-  export HOMEBREW_INSTALL_FROM_API=1
-
   ## brew-file settings
   export HOMEBREW_BREWFILE_ON_REQUEST=1
   export HOMEBREW_BREWFILE_LEAVES=1
