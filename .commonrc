@@ -174,8 +174,7 @@ _set_homebrew_path () { # {{{
   #_add_path CPATH "$HOMEBREW_PREFIX/opt/binutils/include"
 
   ## Python3 -> python
-  PYTHON_UNVERSIONED_PATH="$HOMEBREW_PREFIX/opt/python/libexec"
-  _add_path PATH "$PYTHON_UNVERSIONED_PATH/bin"
+  _add_path PATH $(brew --prefix)/opt/python@3.10/libexec/bin
 
   ## Ruby 2.7 for octopress
   _add_path PATH "$HOMEBREW_PREFIX/opt/ruby@2.7/bin"
