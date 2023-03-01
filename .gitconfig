@@ -154,7 +154,7 @@
     if [ $# -ne 0 ];then \
       comment=\"$*\";\
     else \
-      comment=\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|cut -d'-' -f2)\";\
+      comment=\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|cut -d'-' -f2-)\";\
     fi;\
     echo \"comment: \n$comment\";\
     tagcheck=$(git tag|grep ${tag});\
@@ -187,7 +187,7 @@
     if [ $# -ne 0 ];then \
       comment=\"$*\";\
     else \
-      comment=\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|cut -d'-' -f2)\";\
+      comment=\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|cut -d'-' -f2-)\";\
     fi;\
     echo \"comment: \n$comment\";\
     tagcheck=$(git tag|grep ${tag});\
