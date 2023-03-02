@@ -168,6 +168,9 @@ _set_homebrew_path () { # {{{
   ## wrap brew (brew-wrap in brew-file)
   _source_file "$HOMEBREW_PREFIX/etc/brew-wrap"
 
+  ## command not found
+  _source_file "$("$brew_cmd" --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
+
   ## binutils
   _add_path PATH "$HOMEBREW_PREFIX/opt/binutils/bin"
   #_add_path LD_LIBRARY_PATH "$HOMEBREW_PREFIX/opt/binutils/lib"
