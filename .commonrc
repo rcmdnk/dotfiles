@@ -163,7 +163,6 @@ _set_homebrew_path () { # {{{
 
   ## brew-file settings
   export HOMEBREW_BREWFILE_ON_REQUEST=1
-  export HOMEBREW_BREWFILE_LEAVES=1
 
   ## wrap brew (brew-wrap in brew-file)
   _source_file "$HOMEBREW_PREFIX/etc/brew-wrap"
