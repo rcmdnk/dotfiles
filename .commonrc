@@ -721,6 +721,9 @@ _source_files () {
   # For GitHub
   _source_file ~/.github_token
 
+  # For OpenAI
+  _source_file ~/.openai_api_key
+
 
   # aws
   if ! type aws_completer >& /dev/null;then
