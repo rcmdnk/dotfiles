@@ -347,6 +347,11 @@ _set_env () { # Shell/Environmental variables {{{
     export CLX
     CLX=$(multi_clipboard -C) 2>/dev/null
   fi
+
+  # GitHub Copilot CLI
+  if ! type github-copilot-cli >& /dev/null;then
+    eval "$(github-copilot-cli alias -- "$0")"
+  fi
 } # }}} Shell/Environmental variables
 
 _emotional_prompt () { # {{{
