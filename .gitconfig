@@ -323,6 +323,7 @@
   ru = rebase-upstream
   # Use with useForceIfIncludes = true
   pushf = push --force-with-lease
+  c = gpt-commit
 
 [include]
   path = .gitconfig.private
