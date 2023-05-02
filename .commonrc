@@ -642,11 +642,13 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
   # BSD sed requires suffix for backup file when "-i" option is given
   # (for no backup, need ""),
   # while GNU sed can run w/o suffix and doesn't make backup file
-  if gnu_bsd_check sed;then
-    alias sedi='sed -i"" '
-  else
-    alias sedi='sed -i "" '
-  fi
+  function sedi () {
+    local tmpfile=$(mktemp)
+    local cmd="$1"
+    local file="$2"
+    sed "$cmd" "$file" > "$tmpfile"
+    mv "$tmpfile" "$file"
+  }
   # }}}
 
   # tac (use tail -r at BSD): Revert lines in the file/std input {{{
