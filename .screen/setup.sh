@@ -5,14 +5,10 @@ screen () { # Screen wrapper {{{
   # for a case in the cluster,
   # in which the host can be changed at every login
 
-  #touch ~/.hostForScreen
+  touch ~/.hostForScreen
   if [ $# = 0 ] || [ "$1" = "-r" ] || [ "$1" = "-R" ] || [ "$1" = "-x" ] || [ "$1" = "-n" ];then
-    if sed --version 2>/dev/null |grep -q GNU;then
-      alias sedi='sed -i"" '
-    else
-      alias sedi='sed -i "" '
-    fi
-    sedi -e "/^$(hostname).*/d" ~/.hostForScreen
+    sed -e "/^$(hostname).*/d" ~/.hostForScreen > ~/.hostForScreen.tmp
+    mv ~/.hostForScreen.tmp ~/.hostForScreen
     hostname >> ~/.hostForScreen
     # keep 10 histories
     tail -n10 ~/.hostForScreen > ~/.hostForScreen.tmp
