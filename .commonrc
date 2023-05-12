@@ -319,7 +319,6 @@ _set_env () { # Shell/Environmental variables {{{
   fi
 
   # Ruby
-  _add_path PATH "/usr/local/opt/ruby/bin"
   if type gem >& /dev/null;then
     for d in $(gem environment gempath|sed 's/:/ /g');do
       _add_path PATH "$d/bin"
