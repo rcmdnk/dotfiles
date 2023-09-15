@@ -700,6 +700,24 @@ cnoremap w!! w !sudo tee > /dev/null %
 " }}} map
 
 " My functions/commands {{{
+
+" execute command and back to the original position {{{
+function! ExecCmd(cmd)
+  let l:winview = winsaveview()
+  execute a:cmd
+  call winrestview(l:winview)
+endfunction
+
+" does not work (execute a:mode... does not work in function?)
+function! ExecPlug(cmd, mode)
+  let l:winview = winsaveview()
+  execute "nmap <silent> <buffer> <F12> " . a:cmd
+  execute a:mode . " \<F12>"
+  nunmap <buffer> <F12>
+  call winrestview(l:winview)
+endfunction
+" }}}
+
 " diff mode {{{
 function! SetDiffMode()
   if &diff
@@ -1649,15 +1667,17 @@ endif
 if dein#tap('vim-anzu')
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
-  nmap * g*<C-o><Plug>(anzu-update-search-status-with-echo)
-  "nm g* g*<C-o><Plug>(anzu-update-search-status-with-echo)
-  nmap # #<C-o><Plug>(anzu-update-search-status-with-echo)
+  nmap * <Plug>(anzu-star-with-echo)
+  nmap # <Plug>(anzu-sharp-with-echo)
+  "nmap * :call ExecPlug('<Plug>(anzu-star-with-echo)', 'normal')<CR>
+  "nmap # :call ExecPlug('<Plug>(anzu-sharp-with-echo)', 'normal')<CR>
   let g:airline#extensions#anzu#enabled=0
 else
   " swap * and g*, and add <C-o> to stay on current word.
-  nnoremap g* *<C-o>
-  nnoremap * g*<C-o>
-  nnoremap # #<C-o>
+  nnoremap * :call ExecCmd('normal! g*')<CR>
+  nnoremap g* :call ExecCmd('normal! *')<CR>
+  nnoremap # :call ExecCmd('normal! g#')<CR>
+  nnoremap g# :call ExecCmd('normal! #')<CR>
 endif
 " }}} vim-anzu
 " }}} Others
