@@ -161,10 +161,13 @@ if s:dein_enabled
           \ 'on_cmd': ['TagbarToggle'],
           \ 'lazy': 1})
 
-    " Icon
-    "call dein#add('ryanoasis/vim-devicons')
     " }}} IDE like
 
+    " Telescope
+    if has('nvim-0.9.0')
+      call dein#add('nvim-lua/plenary.nvim')
+      call dein#add('nvim-telescope/telescope.nvim')
+    endif
     " }}} View
 
     " Version Control System {{{
@@ -1464,6 +1467,16 @@ if dein#tap('nerdtree') && dein#tap('SrcExpl') && dein#tap('tagbar')
   nnoremap <silent> <Leader>A :IDE<CR>
 endif
 " }}}
+
+" Telescope {{{
+
+" }}} Telescope
+if dein#tap('telescope.nvim')
+  nnoremap <leader>ff <cmd>Telescope find_files<cr>
+  nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+  nnoremap <leader>fb <cmd>Telescope buffers<cr>
+  nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+endif
 " }}}
 
 " Version Control System {{{
