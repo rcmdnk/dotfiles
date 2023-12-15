@@ -87,6 +87,13 @@ if s:dein_enabled
       "call dein#add('relastle/vim-nayvy')
     endif
 
+    " DAP
+    if has('nvim')
+      call dein#add('mfussenegger/nvim-dap')
+      call dein#add('rcarriga/nvim-dap-ui')
+      call dein#add('mfussenegger/nvim-dap-python')
+    endif
+
     " Cheat.sh
     call dein#add('dbeniamine/cheat.sh-vim')
 
@@ -1188,6 +1195,15 @@ if dein#tap('coc.nvim')
   nnoremap <leader>i :CocCommand python.sortImports<CR>
 endif
 " }}} coc.nvim
+
+" nvim-dap-python {{{
+"if dein#tap('nvim-dap-python')
+"  local venv = os.getenv('VIRTUAL_ENV')
+"  command = string.format('%s/bin/python', venv)
+"  require('dap-python').setup(command)
+"  lua require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
+"endif
+" }}} nvim-dap-python
 
 " vim-markdown-quote-syntax {{{
 if dein#tap('vim-markdown-quote-syntax')
