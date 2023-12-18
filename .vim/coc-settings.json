@@ -4,11 +4,12 @@
   "diagnostic.warningSign": "W",
   "diagnostic.infoSign": "I",
   "diagnostic.hintSign": "H",
-  "python.analysis.typeCheckingMode": "off",
   "python.formatting.provider": "black",
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
   "python.linting.banditEnabled": true,
+  "python.linting.mypyEnabled": true,
+  "python.analysis.typeCheckingMode": "strict",
   "pyright.organizeimports.provider": "isort",
   "pyright.testing.provider": "pytest",
   "cSpell.enabled": false
