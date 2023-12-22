@@ -9,7 +9,7 @@
   "python.linting.flake8Enabled": true,
   "python.linting.banditEnabled": true,
   "python.linting.mypyEnabled": true,
-  "python.analysis.typeCheckingMode": "strict",
+  "python.analysis.typeCheckingMode": "basic",
   "pyright.organizeimports.provider": "isort",
   "pyright.testing.provider": "pytest",
   "cSpell.enabled": false
