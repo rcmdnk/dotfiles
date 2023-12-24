@@ -524,6 +524,10 @@ _set_function () { # Functions
     unset __conda_setup
   }
 
+  lima_setup () {
+    export DOCKER_HOST=unix://$HOME/.lima/amd64/sock/docker.sock
+  }
+
   # for ghq {{{
   if type ghq >& /dev/null;then
     ghqgo () {

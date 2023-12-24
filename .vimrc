@@ -118,6 +118,9 @@ if s:dein_enabled
 
     " Vim Syntax Checker
     call dein#add('dbakker/vim-lint')
+
+    " terraform
+    call dein#add('hashivim/vim-terraform')
     " }}} Code syntax, tools for each language
 
     " View {{{
