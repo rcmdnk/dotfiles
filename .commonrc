@@ -734,6 +734,10 @@ _source_files () {
   # For OpenAI
   _source_file ~/.openai_api_key
 
+  # For Terraform
+  _source_file ~/.pluralith
+  _source_file ~/.infracost
+
 
   # aws
   if ! type aws_completer >& /dev/null;then
