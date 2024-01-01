@@ -66,6 +66,7 @@
   log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
   log-tag = log --decorate=full
   ls = ls-files
+  ls-here = ls-files ':(glob)*'
   mh = "!f () {\
     n=10;\
     if [ $# -gt 0 ];then \
