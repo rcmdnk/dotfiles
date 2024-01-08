@@ -66,7 +66,20 @@
   log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
   log-tag = log --decorate=full
   ls = ls-files
-  ls-here = ls-files ':(glob)*'
+  xxx = "!f () {\
+    cd ./${GIT_PREFIX};\
+    echo $PWD;\
+  };f"
+  ls-here = "!f () {\
+    cd ./${GIT_PREFIX};\
+    files=\"$(git status -s --ignored | while IFS= read -r line;do file=$(echo $line | cut -d ' ' -f2);renamed=$(echo $line | cut -d ' ' -f4);if echo $file | grep -q \"^\\.\\.\" &&  ([ -z \"$renamed\" ] || echo $renamed | grep -q \"^\\.\\.\");then continue;fi;if ! echo $file | grep -q -E \"/.+\";then echo \"$line\";elif [ -n \"$renamed\" ]&& ! echo $renamed | grep -q \"/\";then echo \"$line\";fi;done)\";\
+    files=\"$(echo \"$files\"; git ls-files ':(glob)*' | while read -r line;do if ! echo \"$files\" | awk '{print $2}' | grep -q \"^$line$\" && ! echo \"$files\" | awk '{print $4}' | grep -q \"^$line$\";then echo \"   $line\";fi;done)\";\
+    files=\"$(echo \"$files\"; git ls-files ':(glob)*/**' | cut -d'/' -f1 | uniq | while read -r line;do staged=$(git status $line|grep -q \"Changes to be committed:\" && echo \"M\" || echo \" \");unstaged=$(git status $line|grep -q \"Changes not staged for commit:\" && echo \"M\" || echo \" \");echo \"$staged$unstaged $line/\";done)\";\
+    files=\"$(echo \"$files\"; ls -a | while read -r line;do if [ ! -d \"$line\" ] || [ \"$line\" = \".\" ] || [ \"$line\" = \"..\" ] || [ \"$line\" = \".git\" ];then continue;fi;if ! echo \"$files\" | cut -c 4- | awk '{print $1}' | grep -q \"^$line/$\";then echo \"-- $line/\";fi;done)\";\
+    echo \"$files\" | sort -k1.4;\
+  };f"
+
+
   mh = "!f () {\
     n=10;\
     if [ $# -gt 0 ];then \
