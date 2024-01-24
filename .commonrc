@@ -98,7 +98,6 @@ _set_path_lib () { # {{{
   #_add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig" $last
 } # }}}
 
-
 _set_ghq_path () { # {{{
   if type ghq >& /dev/null;then
     local root
@@ -194,6 +193,15 @@ _set_homebrew_path () { # {{{
   alias cask='brew cask'
 } # }}}
 
+_set_pyenv () { # {{{
+  if ! type pyenv >& /dev/null;then
+    return
+  fi
+  _source_file "$HOME/.pyenvrc"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+} # }}}
+
 _set_path () { # {{{
   if [[ "$OSTYPE" == darwin* ]];then
     # Remove /usr/local which is only for Homebrew arm64
@@ -215,6 +223,7 @@ _set_path () { # {{{
   done
 
   _source_file "$HOME/.poetry/env"
+  _set_pyenv
 
   export GOPATH=$HOME/.go
   if [[ -d "$GOPATH/bin" ]];then
@@ -229,7 +238,6 @@ _set_path () { # {{{
   if [ -d "$HOME/.lima/docker/sock" ];then
     export DOCKER_HOST=unix://$HOME/.lima/docker/sock/docker.sock
   fi
-
 } # }}}
 
 # }}} PATH
@@ -471,7 +479,7 @@ _set_alias () { # Alias {{{
   fi
 } # }}} Alias
 
-_set_function () { # Functions
+_set_function () { # Functions  {{{
   man () { # man with vi {{{
     if [[ $# -ne 1 ||  "$1" =~ ^- ]] || ! type vi >&/dev/null;then
       command man "$@"
@@ -488,8 +496,8 @@ _set_function () { # Functions
     fi
   } # }}}
 
-  if ! type tree >& /dev/null;then
-    tree () { # {{{
+  if ! type tree >& /dev/null;then  # tree {{{
+    tree () {
       opt=""
       directory="."
       while [ $# -gt 0 ];do
@@ -503,10 +511,10 @@ _set_function () { # Functions
       done
       find "$directory" $opt| sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'
     }
-  fi
+  fi   # }}}
 
-  # !! Contents within this block are managed by 'conda init' !!
-  conda_setup () {
+  conda_setup () {  # {{{
+    # !! Contents within this block are managed by 'conda init' !!
     if ! type conda >& /dev/null;then
       if [ -d "$HOME/miniconda3/bin" ];then
         _add_path PATH "$HOME/miniconda3/bin"
@@ -522,11 +530,11 @@ _set_function () { # Functions
         echo "No conda command was found!"
     fi
     unset __conda_setup
-  }
+  }  # }}}
 
-  lima_setup () {
+  lima_setup () {  # {{{
     export DOCKER_HOST=unix://$HOME/.lima/amd64/sock/docker.sock
-  }
+  }  # }}}
 
   # for ghq {{{
   if type ghq >& /dev/null;then
@@ -605,13 +613,13 @@ _set_function () { # Functions
         command ghq "$@"
       fi
     }
-  fi
+  fi   # }}}
 
-  docker_clean () {
+  docker_clean () {   # {{{
     docker system prune -a --volumes --force
     docker container rm -f $(docker container ls -aq)
     docker image rm -f $(docker image ls -q)
-  }
+  }  # }}}
 } # }}} Functions
 
 _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
@@ -642,8 +650,7 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
       done
       command cp "${opt[@]}" "${vars[@]}"
     }
-  fi
-  # }}}
+  fi # }}}
 
   # sedi: Use common function in Mac/Unix for sed -i... w/o backup {{{
   # Unix uses GNU sed
@@ -683,7 +690,7 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
   fi # }}} tac
 } # }}} GNU-BSD compatibility
 
-_source_files () {
+_source_files () {  # {{{
   # completion files
   for d in "$HOME/usr";do
     if [ -n "$ZSH_VERSION" ];then
@@ -778,16 +785,3 @@ _mainrc () {
   _source_files
 }
 # }}}
-
-
-file_detail () {
-  (
-  . sentaku -n
-
-  _sf_get_content () {
-      ls -l "${_s_inputs[$_s_current_n]}"
-    }
-
-  ls | _sf_main -U -L 1
-  )
-}
