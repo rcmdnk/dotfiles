@@ -199,7 +199,6 @@ _set_pyenv () { # {{{
   fi
   _source_file "$HOME/.pyenvrc"
   eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
 } # }}}
 
 _set_path () { # {{{
