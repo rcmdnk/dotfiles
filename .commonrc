@@ -98,6 +98,20 @@ _set_path_lib () { # {{{
   #_add_path LD_LIBRARY_PATH "${p}/lib64/pkgconfig" $last
 } # }}}
 
+_load_completion () { # {{{
+  local d="$1"
+  if [ -n "$ZSH_VERSION" ];then
+    local path="${d}/share/zsh/site-functions"
+  elif [ -n "$BASH_VERSION" ];then
+    local path="${d}/etc/bash_completion.d"
+  else
+    return
+  fi
+  for f in "${path}/"*;do
+    _source_file "$f"
+  done
+} # }}}
+
 _set_ghq_path () { # {{{
   if type ghq >& /dev/null;then
     local root
@@ -141,8 +155,8 @@ _set_homebrew_path () { # {{{
 
   ## completion from brew (disabled to faster reading)
   if [ "$BASH_VERSION" != "" ];then
-    _source_file "$HOMEBREW_PREFIX/etc/bash_completion"
-    _source_file "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+    _source_file "$HOMEBREW_PREFIX/etc/bash_completion"  # for bash-completion
+    _source_file "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"  # for bash-completion@2
   elif [ "$ZSH_VERSION" != "" ];then
     for d in "share/zsh-completions" "share/zsh/zsh-site-functions";do
       brew_completion="$HOMEBREW_PREFIX/$d"
@@ -692,16 +706,7 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
 _source_files () {  # {{{
   # completion files
   for d in "$HOME/usr";do
-    if [ -n "$ZSH_VERSION" ];then
-      local path="${d}/share/zsh/site-functions/"
-    elif [ -n "$BASH_VERSION" ];then
-      local path="${d}/etc/bash_completion.d/"
-    else
-      continue
-    fi
-    for f in "$path"/*;do
-      _source_file "$f"
-    done
+    _load_completion "$d"
   done
 
   # completion files in ghq
@@ -712,16 +717,7 @@ _source_files () {  # {{{
       root="$HOME/.ghq"
     fi
     for d in $(command ghq list);do
-      if [ -n "$ZSH_VERSION" ];then
-        local path="${root}/${d}/share/zsh/site-functions/"
-      elif [ -n "$BASH_VERSION" ];then
-        local path="${root}/${d}/etc/bash_completion.d/"
-      else
-        continue
-      fi
-      for f in "$path"/*;do
-        _source_file "$f"
-      done
+      _load_completion "$d"
     done
   fi
 
