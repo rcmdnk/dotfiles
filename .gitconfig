@@ -168,7 +168,9 @@
     if [ $# -ne 0 ];then \
       comment=\"$*\";\
     else \
-      comment=\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|cut -d '-' -f2-|grep -v '\\[bot\\])$')\";\
+      comment=\"Tag $tag\"$'\n'\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|grep -v '\\[bot\\]|grep -v chore:)$')\";\
+      url=$(git config --get remote.origin.url|sed 's|ssh://git@|https://|');\
+      comment=\"$comment\"$'\n'$'\n'\"Full Changelog: $url/compare/$lasttag...$tag\";\
     fi;\
     echo \"comment: \n$comment\";\
     tagcheck=$(git tag|grep ${tag});\
@@ -201,7 +203,9 @@
     if [ $# -ne 0 ];then \
       comment=\"$*\";\
     else \
-      comment=\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|cut -d '-' -f2-|grep -v '\\[bot\\])$')\";\
+      comment=\"Tag $tag\"$'\n'\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|grep -v '\\[bot\\]|grep -v chore:)$')\";\
+      url=$(git config --get remote.origin.url|sed 's|ssh://git@|https://|');\
+      comment=\"$comment\"$'\n'$'\n'\"Full Changelog: $url/compare/$lasttag...$tag\";\
     fi;\
     echo \"comment: \n$comment\";\
     tagcheck=$(git tag|grep ${tag});\
