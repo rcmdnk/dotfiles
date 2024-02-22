@@ -2,6 +2,7 @@
 # This is the default value that is written into new pyproject.toml
 # files for the `project.requires-python` key
 #requires-python = ">= 3.8"
+requires-python = ">= 3.9"
 
 # This is the default toolchain that is used
 #toolchain = "cpython@3.11.1"

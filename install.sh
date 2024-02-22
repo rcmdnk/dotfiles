@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m' '.config')
+exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m' '.config' '.rye')
 only_inside=(.vim)
 instdir="$HOME"
 
@@ -135,6 +135,9 @@ done
 # neovim
 myinstall "$curdir/.vimrc" "$instdir/.config/nvim/init.vim"
 myinstall "$curdir/.vim/coc-settings.json" "$instdir/.config/nvim/coc-settings.json"
+
+# rye
+myinstall "$curdir/.rye/config.toml" "$instdir/.rye/config.toml"
 
 # config
 mkdir -p "$instdir/.config"
