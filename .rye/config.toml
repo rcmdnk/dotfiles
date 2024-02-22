@@ -18,6 +18,7 @@ license = "Apache-2.0"
 # format here is "Name <email>".
 #author = "Full Name <email@address.invalid>"
 author = "rcmdnk <rcmdnk@gmail.com>"
+authors = "rcmdnk <rcmdnk@gmail.com>"
 
 # The dependency operator to use by default for dependencies.  The options are
 # '>=', '~=', and '=='.  The default currently is '>='.  This affects the behavior
