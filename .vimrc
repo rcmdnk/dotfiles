@@ -72,14 +72,15 @@ if s:dein_enabled
 
     " Snippet {{{
     call dein#add('Shougo/neosnippet')
-    call dein#add('Shougo/neosnippet-snippets', {'depdens': ['neosnippet']})
-    call dein#add('honza/vim-snippets', {'depdens': ['neosnippet']})
-    call dein#add('rcmdnk/vim-octopress-snippets', {'depdens': ['neosnippet']})
+    call dein#add('Shougo/neosnippet-snippets', {'depends': ['neosnippet']})
+    call dein#add('honza/vim-snippets', {'depends': ['neosnippet']})
+    call dein#add('rcmdnk/vim-octopress-snippets', {'depends': ['neosnippet']})
     " }}} Snippet
 
     " Code syntax, tools for each language {{{
     if has('nvim') || has('patch-9.0.0185')
       call dein#add('github/copilot.vim')
+      call dein#add("CopilotC-Nvim/CopilotChat.nvim", {'depends': ['copilot.vim', 'plenary.nvim'], 'rev': 'canary'})
     endif
 
     if has('nvim-0.4.0') || has('patch-8.1.1719')
@@ -184,14 +185,14 @@ if s:dein_enabled
     " Git
     call dein#add('tpope/vim-fugitive')
     call dein#add('gregsexton/gitv', {
-          \ 'depdens': ['tpope/vim-fugitive'],
+          \ 'depends': ['tpope/vim-fugitive'],
           \ 'on_cmd': ['Gitv'],
           \ 'lazy': 1})
 
     " Gist
     call dein#add('mattn/webapi-vim')
     call dein#add('mattn/gist-vim', {
-          \ 'depdens': ['mattn/webapi-vim'],
+          \ 'depends': ['mattn/webapi-vim'],
           \ 'on_cmd': ['Gist'],
           \ 'lazy': 1})
     " }}} Version Control System
@@ -215,7 +216,7 @@ if s:dein_enabled
 
     " Operator
     call dein#add('kana/vim-operator-user')
-    call dein#add('kana/vim-operator-replace', {'depdens': ['vim-operator-user']})
+    call dein#add('kana/vim-operator-replace', {'depends': ['vim-operator-user']})
 
     "" Undo
     call dein#add('simnalamburt/vim-mundo')
@@ -982,7 +983,17 @@ if dein#tap('copilot.vim')
 endif
 " }}} copilot.vim
 
-" copilot.vim {{{
+" CopilotChat {{{
+if dein#tap('CopilotChat.nvim')
+  lua << EOF
+    require("CopilotChat").setup {
+      debug = true, -- Enable debugging
+    }
+EOF
+endif
+" }}} CopilotChat
+
+" cheat.sh-vim {{{
 if dein#tap('cheat.sh-vim')
   " Vim command used to open new buffer
   let g:CheatSheetReaderCmd='new"'
