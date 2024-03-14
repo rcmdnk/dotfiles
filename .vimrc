@@ -80,7 +80,9 @@ if s:dein_enabled
     " Code syntax, tools for each language {{{
     if has('nvim') || has('patch-9.0.0185')
       call dein#add('github/copilot.vim')
-      call dein#add("CopilotC-Nvim/CopilotChat.nvim", {'depends': ['copilot.vim', 'plenary.nvim'], 'rev': 'canary'})
+      if has('nvim')
+        call dein#add("CopilotC-Nvim/CopilotChat.nvim", {'depends': ['copilot.vim', 'plenary.nvim'], 'rev': 'canary'})
+      endif
     endif
 
     if has('nvim-0.4.0') || has('patch-8.1.1719')
