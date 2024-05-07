@@ -269,8 +269,12 @@ if s:dein_enabled
 
     " Count searching objects
     call dein#add('osyo-manga/vim-anzu')
-    " }}}
 
+    " Obsidian
+    if has('nvim-0.8.0')
+      call dein#add('epwalsh/obsidian.nvim')
+    endif
+    " }}}
 
     call dein#end()
 
