@@ -773,6 +773,7 @@ if has('persistent_undo')
   endif
   set undofile
   set undoreload=1000
+  let g:gundo_prefer_python3 = 1
 endif
 set undolevels=1000
 "nnoremap u g-
