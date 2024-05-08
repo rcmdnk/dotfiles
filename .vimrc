@@ -221,7 +221,8 @@ if s:dein_enabled
     call dein#add('kana/vim-operator-replace', {'depends': ['vim-operator-user']})
 
     "" Undo
-    call dein#add('simnalamburt/vim-mundo')
+    "call dein#add('simnalamburt/vim-mundo')
+    call dein#add('mbbill/undotree')
 
     " Align
     call dein#add('junegunn/vim-easy-align')
@@ -1544,6 +1545,12 @@ if dein#tap('vim-mundo')
   let g:gundo_preview_height = 15
   let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
   let g:gundo_preview_bottom = 1 " Show preview at the bottom
+endif
+" }}} mundo
+
+" undotree {{{
+if dein#tap('undotree')
+  nnoremap U :UndotreeToggle<CR>
 endif
 " }}} mundo
 
