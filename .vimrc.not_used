@@ -1661,6 +1661,18 @@ else
 endif
 " }}}
 
+" mundo {{{
+" Use undotree, more frequent update
+call dein#add('simnalamburt/vim-mundo')
+if dein#tap('vim-mundo')
+  nnoremap U :MundoToggle<CR>
+  let g:gundo_width = 30
+  let g:gundo_preview_height = 15
+  let g:gundo_auto_preview = 0 " Don't show preview by moving history. Use r to see differences
+  let g:gundo_preview_bottom = 1 " Show preview at the bottom
+endif
+" }}} mundo
+
 
 " }}}
 
