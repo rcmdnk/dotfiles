@@ -1272,6 +1272,9 @@ endif
 if dein#tap('rcmdnk-color.vim')
   colorscheme rcmdnk
 endif
+"set termguicolors
+"colorscheme vim
+
 " }}}
 
 " lightline.vim {{{

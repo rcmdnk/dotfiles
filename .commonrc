@@ -256,6 +256,11 @@ _set_path () { # {{{
   if [ -d "$HOME/.lima/docker/sock" ];then
     export DOCKER_HOST=unix://$HOME/.lima/docker/sock/docker.sock
   fi
+
+  # temporary path for nvim 0.9.5 (instead of 0.10.0, which breaks color scheme)
+  if [ -d ~/Documents/nvim-macos/bin ];then
+    _add_path PATH ~/Documents/nvim-macos/bin
+  fi
 } # }}}
 
 # }}} PATH
