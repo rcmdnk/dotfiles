@@ -991,6 +991,11 @@ endif
 " }}} copilot.vim
 
 " CopilotChat {{{
+autocmd FileType vim lua vim.treesitter.start()
+lua << EOF
+vim.g.ts_highlight_lua = true
+EOF
+
 if dein#tap('CopilotChat.nvim')
   lua << EOF
     require("CopilotChat").setup {
