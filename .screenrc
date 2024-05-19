@@ -38,7 +38,7 @@ defflow off
 maptimeout 1
 
 # Remove background color
-#defbce "on"
+defbce "on"
 
 # True color
 truecolor on

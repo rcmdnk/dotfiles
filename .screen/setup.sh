@@ -56,6 +56,9 @@ screen () { # Screen wrapper {{{
   fi
   options="$* $options"
 
+  # Disable true color
+  export COLORTERM=
+
   # launch screen
   command screen $options
 }
