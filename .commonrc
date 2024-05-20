@@ -294,7 +294,13 @@ _set_env () { # Shell/Environmental variables {{{
   fi
 
   # Editors
-  if type vi >& /dev/null;then
+  if type nvim >& /dev/null;then
+    export VISUAL=nvim
+    export EDITOR=nvim
+  elif type vim >& /dev/null;then
+    export VISUAL=vim
+    export EDITOR=vim
+  elif type vi >& /dev/null;then
     export VISUAL=vi
     export EDITOR=vi
   fi
@@ -499,7 +505,16 @@ _set_alias () { # Alias {{{
 
 _set_function () { # Functions  {{{
   man () { # man with vi {{{
-    if [[ $# -ne 1 ||  "$1" =~ ^- ]] || ! type vi >&/dev/null;then
+    if type nvim >& /dev/null;then
+      vi_cmd=nvim
+    elif type vim >& /dev/null;then
+      vi_cmd=vim
+    elif type vi >& /dev/null;then
+      vi_cmd=vi
+    else
+      vi_cmd=""
+    fi
+    if [[ $# -ne 1 ||  "$1" =~ ^- ]] || [ -z "$vi_cmd" ];then
       command man "$@"
       return $?
     fi
@@ -507,7 +522,7 @@ _set_function () { # Functions  {{{
     var=$(command man -P cat "$@" 2>&1)
     ret=$?
     if [[ $ret -eq 0 ]];then
-      echo "$var"|col -bx|vi -R -c 'set ft=man' -
+      echo "$var"|col -bx|$vi_cmd -R -c 'set ft=man' -
     else
       echo "$var"
       return $ret
