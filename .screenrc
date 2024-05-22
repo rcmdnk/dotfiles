@@ -38,6 +38,7 @@ defflow off
 maptimeout 1
 
 # Remove background color
+# do not enable, otherwise cursor would not move back at the command line.
 #defbce "on"
 
 # True color
