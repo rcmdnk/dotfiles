@@ -516,8 +516,6 @@ set statusline=%<%f\ %m%r%h%w
 set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&fileformat.']'}
 set statusline+=%=%l/%L,%c%V%8P
 
-
-
 " Fix heredoc highlight in vim file
 " [Error in syntax highlighting function call (regression) · Issue #20456 · neovim/neovim](https://github.com/neovim/neovim/issues/20456)
 " [groups names after `contains=TOP,` are ignored in included syntax file · Issue #11277 · vim/vim](https://github.com/vim/vim/issues/11277)
@@ -529,6 +527,9 @@ if has('nvim')
 vim.g.ts_highlight_lua = true
 EOF
 endif
+
+" disable truecolors which does not work in gnu screen
+set notermguicolors
 
 " }}} Basic settings
 
@@ -1286,7 +1287,6 @@ endif
 if dein#tap('rcmdnk-color.vim')
   colorscheme rcmdnk
 endif
-"set termguicolors
 "colorscheme vim
 
 " }}}
