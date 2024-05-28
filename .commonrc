@@ -357,7 +357,6 @@ _set_env () { # Shell/Environmental variables {{{
     done
   fi
 
-
   # GitHub
   export GITHUB_USER=rcmdnk
 
@@ -747,11 +746,11 @@ _source_files () {  # {{{
   # Shell logger
   _source_file ~/usr/etc/shell-logger
 
-  # added by travis gem
-  _source_file ~/.travis/travis.sh
-
   # Load RVM into a shell session *as a function*
   _source_file ~/.rvm/scripts/rvm
+
+  # Rust
+  _source_file ~/.cargo/env
 
   # For screen
   _source_file ~/.screen/setup.sh
