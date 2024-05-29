@@ -41,7 +41,7 @@ maptimeout 1
 # do not enable, otherwise cursor would not move back at the command line after ssh
 #defbce on
 
-# True color
+# True color # This doesn't work at version 4
 truecolor on
 
 # kill
