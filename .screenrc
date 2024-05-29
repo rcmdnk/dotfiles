@@ -42,7 +42,7 @@ maptimeout 1
 #defbce on
 
 # True color # This doesn't work at version 4
-truecolor on
+#truecolor on
 
 # kill
 bind K kill
