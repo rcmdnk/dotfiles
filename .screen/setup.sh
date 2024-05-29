@@ -59,7 +59,7 @@ screen () { # Screen wrapper {{{
   # In screen, if COLORTERM is not set, vim shows escape sequences:
   # [DECRQSS +q5463;524742;73657472676266;73657472676262$qm appears in terminal · Issue #28776 · neovim/neovim](https://github.com/neovim/neovim/issues/28776)
   # COLORTERM & set notermguicolors in vimrc are necessary to avoid this problem
-  set COLORTERM=truecolor
+  export COLORTERM=truecolor
 
   # launch screen
   command screen $options
