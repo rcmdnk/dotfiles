@@ -113,4 +113,3 @@ _source_files
 
 # exit code 0
 :
-. "$HOME/.cargo/env"
