@@ -336,7 +336,8 @@
   hg = history-grep
   rebase-upstream = "!f() {\
     git fetch upstream;\
-    git rebase upstream/main;\
+    br=$(git branch --show-current);\
+    git rebase upstream/$br;\
   };f"
   ru = rebase-upstream
   # Use with useForceIfIncludes = true
