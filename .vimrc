@@ -298,7 +298,7 @@ augroup END
 
 " Enable plugin, indent again
 filetype plugin indent on
-
+"
 " Switch syntax highlighting on, when the terminal has colors
 syntax on
 
