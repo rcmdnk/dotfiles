@@ -1012,6 +1012,19 @@ if dein#tap('CopilotChat.nvim')
       debug = true, -- Enable debugging
     }
 EOF
+  nnoremap <leader>ccb <cmd>CopilotChatBuffer<cr>
+  nnoremap <leader>cce <cmd>CopilotChatExplain<cr>
+  nnoremap <leader>ccr <cmd>CopilotChatReview<cr>
+  nnoremap <leader>ccf <cmd>CopilotChatFix<cr>
+  nnoremap <leader>cco <cmd>CopilotChatOptimize<cr>
+  nnoremap <leader>ccd <cmd>CopilotChatDocs<cr>
+  nnoremap <leader>cct <cmd>CopilotChatTests<cr>
+  nnoremap <leader>ccF <cmd>CopilotChatFixDiagnostic<cr>
+  nnoremap <leader>ccc <cmd>CopilotChatCommit<cr>
+  nnoremap <leader>ccC <cmd>CopilotChatCommitStaged<cr>
+  nnoremap <leader>ccR <cmd>CopilotChatRefactor<cr>
+  xnoremap <leader>ccv :CopilotChatVisual<cr>
+  xnoremap <leader>ccx :CopilotChatInPlace<cr>
 endif
 " }}} CopilotChat
 
