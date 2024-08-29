@@ -42,7 +42,7 @@ maptimeout 1
 #defbce on
 
 # True color # This doesn't work at version 4
-#truecolor on
+truecolor on
 
 # kill
 bind K kill
@@ -259,12 +259,12 @@ termcapinfo xterm* 'ti@:te@'
 # Caption for each window
 setenv a ""
 setenv a "$a%?%F"     # if the window has the focus
-setenv a "$a%{=d Wk}" #   set attribute = {dim, black(k) on bright Write(W)}
+setenv a "$a%{=d 0;255}" #   set attribute = {dim, black on white}
 setenv a "$a%:"       # else
-setenv a "$a%{=d Kk}" #   set attribute = {dim, black(k) on bright Black(K)}
+setenv a "$a%{=d 0;240}" #   set attribute = {dim, black on gray}
 setenv a "$a%?"       # end if
 setenv a "$a%?%P"     # if copy/paste mode
-setenv a "$a%{=d Bk}" #   set attribute = {dim, black(k) on bright Blue(B)}
+setenv a "$a%{=d 0;012}" #   set attribute = {dim, black on bright blue}
 setenv a "$a%?"       # end if
 setenv a "$a%n"       # window number
 setenv a "$a "        # space
@@ -287,13 +287,14 @@ setenv a "$a%-0="     # pad the string to the display's width. "-0" means
 caption always "$a"
 unsetenv a
 
+
 # hardstatus
 setenv a ""
-setenv a "$a%{= Kk}" # set attribute = {black(k) on bright Black(K)}
+setenv a "$a%{= 0;240}" # set attribute = {black(k) on bright Black(K)}
 setenv a "$a%-w"     # windows' list up to the current window (shown as "%n %t")
 setenv a "$a%40>"    # Mark here as a point to move when truncation
                      # Try to move this point to the 40% point
-setenv a "$a%{= Wk}" # set attribute = {black(k) on bright Write(W)}
+setenv a "$a%{= 0;255}" # set attribute = {black(k) on bright Write(W)}
 setenv a "$a%n"      # current window number
 setenv a "$a "       # space
 setenv a "$a%t"      # current window title
