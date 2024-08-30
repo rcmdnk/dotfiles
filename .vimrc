@@ -128,7 +128,10 @@ if s:dein_enabled
 
     " View {{{
     " Color scheme
-    call dein#add('rcmdnk/rcmdnk-color.vim')
+    "call dein#add('rcmdnk/rcmdnk-color.vim')
+    call dein#add('folke/tokyonight.nvim')
+    "call dein#add('catppuccin/nvim', {'name': 'catppuccin'})
+
 
     " Status line
     call dein#add('itchyny/lightline.vim')
@@ -400,7 +403,7 @@ endif
 
 set nrformats=hex  " Not use cotal, alpha for increment or decrement
 " Enable 256 colors, this seems still necessary in some environments, in such GNU screen
-set t_Co=256
+"set t_Co=256
 " Set 24 bit colors, this makes wrong if the terminal does not support true color (need some terminal env check...)
 "if has('patch-7.4.1788')
 "  set termguicolors
@@ -410,6 +413,9 @@ set t_Co=256
 "if has('nvim')
 "  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 "endif
+" disable truecolors which does not work in gnu screen
+"set notermguicolors
+
 set list           " Show tab, end, trail empty
 set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:% " Set words for above
 set ruler          " Show the cursor position all the time
@@ -527,9 +533,6 @@ if has('nvim')
 vim.g.ts_highlight_lua = true
 EOF
 endif
-
-" disable truecolors which does not work in gnu screen
-set notermguicolors
 
 " }}} Basic settings
 
@@ -1296,9 +1299,24 @@ endif
 
 " View {{{
 
-" rcmdnk-color.vim {{{
+" color scheme {{{
 if dein#tap('rcmdnk-color.vim')
   colorscheme rcmdnk
+endif
+if dein#tap('tokyonight.nvim')
+  "colorscheme tokyonight
+  colorscheme tokyonight-night
+  "colorscheme tokyonight-storm
+  "colorscheme tokyonight-day
+  "colorscheme tokyonight-moon
+  hi link TwoByteSpace Error
+  autocmd VimEnter,WinEnter * 2match TwoByteSpace '　'
+endif
+if dein#tap('cappuccin')
+  colorscheme catppuccin " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+  hi link TwoByteSpace Error
+  autocmd VimEnter,WinEnter * 2match TwoByteSpace '　'
+  hi ColorColumn ctermbg=017 guibg=#00005f
 endif
 "colorscheme vim
 
@@ -1306,8 +1324,12 @@ endif
 
 " lightline.vim {{{
 if dein#tap('lightline.vim')
+  let s:lcs = 'jellybeans'
+  if dein#tap('tokyonight.nvim')
+    let s:lcs = 'tokyonight'
+  endif
   let g:lightline = {
-        \'colorscheme': 'jellybeans',
+        \'colorscheme': s:lcs,
         \'active': {
               \'left': [['prepare', 'mode'], ['filename', 'fugitive']],
               \'right': [['lineinfo'], ['fileinfo'], ['coc']]},
