@@ -720,6 +720,19 @@ endif
 
 " }}}
 
+" vim-indent-guides{{{
+" use indent-blankline.nvim, instead
+" vim-indent-guides does not work with tokyonight colorscheme
+call dein#add('nathanaelkane/vim-indent-guides')
+if dein#tap('vim-indent-guides')
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_start_level = 1
+  let g:indent_guides_auto_colors = 0
+  hi IndentGuidesOdd  ctermbg=239
+  hi IndentGuidesEven ctermbg=235
+endif
+"}}} vim-indent-guides
+
 " vim-hier{{{
 if s:dein_enabled && dein#tap("vim-hier")
   highlight qf_error ctermfg=255 ctermbg=1

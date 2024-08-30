@@ -137,7 +137,7 @@ if s:dein_enabled
     call dein#add('itchyny/lightline.vim')
 
     " Visual indent guides: make moving slow?
-    call dein#add('nathanaelkane/vim-indent-guides')
+    call dein#add('lukas-reineke/indent-blankline.nvim')
 
     " Fold
     call dein#add('Konfekt/FastFold')
@@ -1300,23 +1300,34 @@ endif
 " View {{{
 
 " color scheme {{{
+function! s:set_highlight()
+  augroup MyAutoGroup
+    autocmd ColorScheme * highlight default TwoByteSpace ctermfg=9 ctermbg=9 guifg=Red guibg=Red
+    autocmd VimEnter,WinEnter * 2match TwoByteSpace '　'
+  augroup END
+endfunction
+command! SetHighlight call s:set_highlight()
+
 if dein#tap('rcmdnk-color.vim')
   colorscheme rcmdnk
 endif
 if dein#tap('tokyonight.nvim')
-  "colorscheme tokyonight
-  colorscheme tokyonight-night
-  "colorscheme tokyonight-storm
-  "colorscheme tokyonight-day
-  "colorscheme tokyonight-moon
-  hi link TwoByteSpace Error
-  autocmd VimEnter,WinEnter * 2match TwoByteSpace '　'
+  SetHighlight
+  lua << EOF
+  require('tokyonight').setup({
+    style = "night",
+    light_style = "day",
+    plugins = {
+      all = package.loaded.lazy == nil,
+      auto = true,
+    }
+  })
+EOF
+  colorscheme tokyonight
 endif
 if dein#tap('cappuccin')
+  SetHighlight
   colorscheme catppuccin " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-  hi link TwoByteSpace Error
-  autocmd VimEnter,WinEnter * 2match TwoByteSpace '　'
-  hi ColorColumn ctermbg=017 guibg=#00005f
 endif
 "colorscheme vim
 
@@ -1464,15 +1475,24 @@ if dein#tap('lightline.vim')
 endif
 "}}} lightline.vim
 
-" vim-indent-guides{{{
-if dein#tap('vim-indent-guides')
-  let g:indent_guides_enable_on_vim_startup = 1
-  let g:indent_guides_start_level = 1
-  let g:indent_guides_auto_colors = 0
-  hi IndentGuidesOdd  ctermbg=239
-  hi IndentGuidesEven ctermbg=235
+" indent-blankline.nvim{{{
+if dein#tap('indent-blankline.nvim')
+  lua << EOF
+  local highlight = {
+    "CursorColumn",
+    "Folded",
+  }
+  require("ibl").setup {
+    indent = { highlight = highlight, char = "" },
+    whitespace = {
+      highlight = highlight,
+      remove_blankline_trail = false,
+    },
+    scope = { enabled = false },
+  }
+EOF
 endif
-"}}} vim-indent-guides
+"}}} -innkline.nvimdent-guides
 
 " foldCC {{{
 if dein#tap('foldCC')
