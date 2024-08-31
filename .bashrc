@@ -67,6 +67,7 @@ _set_stty
 _set_alias
 _set_function
 _gnu_bsd_compatibility
+_emotional_prompt
 
 # Suffix aliases/auto cd {{{
 if [[ "${BASH_VERSINFO[0]}" -ge 4 ]];then
