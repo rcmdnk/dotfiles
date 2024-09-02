@@ -128,16 +128,19 @@ if s:dein_enabled
 
     " View {{{
     " Color scheme
-    "call dein#add('rcmdnk/rcmdnk-color.vim')
-    call dein#add('folke/tokyonight.nvim')
+    " Visual indent guides
+    if has('nvim-0.8.0')
+      call dein#add('folke/tokyonight.nvim')
+      " vim-indent-guides does not work with tokyonight colorscheme
+      call dein#add('lukas-reineke/indent-blankline.nvim')
+    else
+      call dein#add('rcmdnk/rcmdnk-color.vim')
+      call dein#add('nathanaelkane/vim-indent-guides')
+    endif
     "call dein#add('catppuccin/nvim', {'name': 'catppuccin'})
-
 
     " Status line
     call dein#add('itchyny/lightline.vim')
-
-    " Visual indent guides: make moving slow?
-    call dein#add('lukas-reineke/indent-blankline.nvim')
 
     " Fold
     call dein#add('Konfekt/FastFold')
@@ -1317,10 +1320,12 @@ if dein#tap('tokyonight.nvim')
   require('tokyonight').setup({
     style = "night",
     light_style = "day",
-    plugins = {
-      all = package.loaded.lazy == nil,
-      auto = true,
-    }
+    dim_inactive = true,
+    on_colors = function(colors)
+      colors.bg = "#000000"
+      colors.border = colors.blue7
+    end,
+    on_highlights = function(highlights, colors) end,
   })
 EOF
   colorscheme tokyonight
@@ -1474,6 +1479,16 @@ if dein#tap('lightline.vim')
   endif
 endif
 "}}} lightline.vim
+
+" vim-indent-guides{{{
+if dein#tap('vim-indent-guides')
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_start_level = 1
+  let g:indent_guides_auto_colors = 0
+  hi IndentGuidesOdd  ctermbg=239
+  hi IndentGuidesEven ctermbg=235
+endif
+"}}} vim-indent-guides
 
 " indent-blankline.nvim{{{
 if dein#tap('indent-blankline.nvim')
