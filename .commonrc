@@ -331,7 +331,9 @@ _set_env () { # Shell/Environmental variables {{{
   # COLORTERM
   # To avoid nvim issue
   # [DECRQSS +q5463;524742;73657472676266;73657472676262$qm appears in terminal · Issue #28776 · neovim/neovim](https://github.com/neovim/neovim/issues/28776)
-  export COLORTERM=truecolor
+  if [ "$COLORTERM" = "" ];then
+    export COLORTERM=truecolor
+  fi
 
   # TMPDIR fix, especially for Cygwin
   if [[ ! "$TMPDIR" ]];then
