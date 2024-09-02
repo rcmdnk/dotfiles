@@ -537,6 +537,10 @@ vim.g.ts_highlight_lua = true
 EOF
 endif
 
+" To fix this issue, need COLORTERM=truecolor in bash env and this setting in nvim
+" [DECRQSS +q5463;524742;73657472676266;73657472676262$qm appears in terminal · Issue #28776 · neovim/neovim](https://github.com/neovim/neovim/issues/28776)
+let g:clipboard = v:false
+
 " }}} Basic settings
 
 " map (for other than each plugin){{{
