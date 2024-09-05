@@ -867,14 +867,14 @@ command! VimShowHlItem echo synIDattr(synID(line('.'), col('.'), 1), 'name')
 
 function! s:get_syn_id(transparent)
   let l:synid = synID(line('.'), col('.'), 1)
-  if a:transparent
-    let l:synid = synIDtrans(l:synid)
-  endif
   if l:synid == 0 && has('nvim-0.9.0')
     let l:insp = luaeval('vim.inspect_pos and vim.inspect_pos( nil, ' .. (line('.')-1) .. ', ' .. (col('.')-1) .. ' ) or { treesitter = {} }')
     if !empty(l:insp.treesitter)
       let l:synid = hlID(l:insp.treesitter[0].hl_group_link)
     endif
+  endif
+  if a:transparent
+    let l:synid = synIDtrans(l:synid)
   endif
   return l:synid
 endfunction
