@@ -914,10 +914,18 @@ function! s:get_orig_highlight(group)
   let l:bg = synIDattr(l:id, 'bg')
   let l:orig = ''
   if l:fg != ''
-    let l:orig = l:orig . ' ctermfg=' . l:fg . ' guifg=' . l:fg
+    if has('termguicolors') && &termguicolors
+      let l:orig = l:orig . ' guifg=' . l:fg
+    else
+      let l:orig = l:orig . ' ctermfg=' . l:fg
+    endif
   endif
   if l:bg != ''
-    let l:orig = l:orig . ' ctermbg=' . l:bg . ' guibg=' . l:bg
+    if has('termguicolors') && &termguicolors
+      let l:orig = l:orig . ' guibg=' . l:bg
+    else
+      let l:orig = l:orig . ' ctermbg=' . l:bg
+    endif
   endif
   if l:orig == ''
     return ''
@@ -1309,8 +1317,8 @@ endif
 " color scheme {{{
 function! s:set_highlight()
   augroup MyAutoGroup
-    autocmd ColorScheme * highlight default TwoByteSpace ctermfg=9 ctermbg=9 guifg=Red guibg=Red
-    autocmd VimEnter,WinEnter * 2match TwoByteSpace '　'
+    autocmd ColorScheme * highlight default TwoByteSpace ctermfg=9 ctermbg=9 guibg=#c53b53
+    autocmd VimEnter,WinEnter * 2 match TwoByteSpace '　'
   augroup END
 endfunction
 command! SetHighlight call s:set_highlight()
@@ -1324,12 +1332,42 @@ if dein#tap('tokyonight.nvim')
   require('tokyonight').setup({
     style = "night",
     light_style = "day",
-    dim_inactive = true,
+    dim_inactive = false,
     on_colors = function(colors)
       colors.bg = "#000000"
       colors.border = colors.blue7
     end,
-    on_highlights = function(highlights, colors) end,
+    on_highlights = function(highlights, colors)
+      highlights.DiffAdd = {
+        bg = "#c53b53",
+        fg = "NONE"
+      }
+      highlights.DiffChange = {
+        bg = "#3b4261",
+        fg = "NONE"
+      }
+      highlights.DiffDelete = {
+        bg = "#4c2a2a",
+        fg = "NONE"
+      }
+      highlights.DiffText = {
+        bg = "#c53b53",
+        fg = "None",
+      }
+      highlights.SignColumn = {
+        bg = "#3b4261",
+        fg = "#a9b1d6",
+      }
+      highlights.CocGitAddedSign = {
+        bg = "#20303b",
+        fg = "None",
+      }
+    end,
+    plugins = {
+      auto = true,
+      all = false,
+      ['indent-blankline.nvim'] = true,
+    }
   })
 EOF
   colorscheme tokyonight
