@@ -156,6 +156,7 @@
     git diff --stat --summary ${b}..origin/${b}"
   pull-dry-run-s = "!git fetch origin $(git config branch.$(git rev-parse --abbrev-ref HEAD).merge);\
     git diff --stat --summary HEAD...FETCH_HEAD"
+  pull-submodules = "!f () { git pull --recurse-submodules && git submodule update --recursive --init; };f"
   tag-renew = "!f () {\
     lasttag=$(git tag --sort=v:refname|tail -n2|head -n1);\
     tag=$(git tag --sort=v:refname|tail -n1);\
