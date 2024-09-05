@@ -868,18 +868,35 @@ command! VimShowHlItem echo synIDattr(synID(line('.'), col('.'), 1), 'name')
 function! s:get_syn_id(transparent)
   let l:synid = synID(line('.'), col('.'), 1)
   if a:transparent
-    return synIDtrans(l:synid)
-  else
-    return l:synid
+    let l:synid = synIDtrans(l:synid)
   endif
+  if l:synid == 0 && has('nvim-0.9.0')
+    let l:insp = luaeval('vim.inspect_pos and vim.inspect_pos( nil, ' .. (line('.')-1) .. ', ' .. (col('.')-1) .. ' ) or { treesitter = {} }')
+    if !empty(l:insp.treesitter)
+      let l:synid = hlID(l:insp.treesitter[0].hl_group_link)
+    endif
+  endif
+  return l:synid
 endfunction
 
 function! s:get_syn_attr(synid)
   let l:name = synIDattr(a:synid, 'name')
   let l:ctermfg = synIDattr(a:synid, 'fg', 'cterm')
+  if l:ctermfg ==# ''
+    let l:ctermfg = 'None'
+  endif
   let l:ctermbg = synIDattr(a:synid, 'bg', 'cterm')
+  if l:ctermbg ==# ''
+    let l:ctermbg = 'None'
+  endif
   let l:guifg = synIDattr(a:synid, 'fg', 'gui')
+  if l:guifg ==# ''
+    let l:guifg = 'None'
+  endif
   let l:guibg = synIDattr(a:synid, 'bg', 'gui')
+  if l:guibg ==# ''
+    let l:guibg = 'None'
+  endif
   return {
         \ 'name': l:name,
         \ 'ctermfg': l:ctermfg,
@@ -909,27 +926,9 @@ command! SyntaxInfo call s:get_syn_info()
 
 " Toggle view {{{
 function! s:get_orig_highlight(group)
-  let l:id = hlID(a:group)->synIDtrans()
-  let l:fg = synIDattr(l:id, 'fg')
-  let l:bg = synIDattr(l:id, 'bg')
-  let l:orig = ''
-  if l:fg != ''
-    if has('termguicolors') && &termguicolors
-      let l:orig = l:orig . ' guifg=' . l:fg
-    else
-      let l:orig = l:orig . ' ctermfg=' . l:fg
-    endif
-  endif
-  if l:bg != ''
-    if has('termguicolors') && &termguicolors
-      let l:orig = l:orig . ' guibg=' . l:bg
-    else
-      let l:orig = l:orig . ' ctermbg=' . l:bg
-    endif
-  endif
-  if l:orig == ''
-    return ''
-  endif
+  let l:id = synIDtrans(hlID(a:group))
+  let l:syn = s:get_syn_attr(l:id)
+  let l:orig = ' ctermfg=' . l:syn.ctermfg . ' ctermbg=' . l:syn.ctermbg . ' guifg=' . l:syn.guifg . ' guibg=' . l:syn.guibg
   return 'highlight ' . a:group . l:orig
 endfunction
 
