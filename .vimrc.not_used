@@ -1191,6 +1191,29 @@ NeoBundle "mru.vim"
 NeoBundle "ntpeters/vim-better-whitespace"
 " }}}
 
+" indent-blankline.nvim{{{
+" vim-indent-guides does not work with tokyonight colorscheme
+" -> indent-guides works if guibg is correctly set
+" blankline does not care about number of indent, just show the indent line
+call dein#add('lukas-reineke/indent-blankline.nvim')
+if dein#tap('indent-blankline.nvim')
+  lua << EOF
+  local highlight = {
+    "CursorColumn",
+    "Folded",
+  }
+  require("ibl").setup {
+    indent = { highlight = highlight, char = "" },
+    whitespace = {
+      highlight = highlight,
+      remove_blankline_trail = false,
+    },
+    scope = { enabled = false },
+  }
+EOF
+endif
+"}}} -innkline.nvimdent-guides
+
 " }}} View
 
 " Version Control system {{{

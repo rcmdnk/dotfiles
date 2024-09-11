@@ -128,16 +128,15 @@ if s:dein_enabled
 
     " View {{{
     " Color scheme
-    " Visual indent guides
     if has('nvim-0.8.0')
       call dein#add('folke/tokyonight.nvim')
-      " vim-indent-guides does not work with tokyonight colorscheme
-      call dein#add('lukas-reineke/indent-blankline.nvim')
     else
       call dein#add('rcmdnk/rcmdnk-color.vim')
-      call dein#add('nathanaelkane/vim-indent-guides')
     endif
     "call dein#add('catppuccin/nvim', {'name': 'catppuccin'})
+
+    " Visual indent guides
+    call dein#add('nathanaelkane/vim-indent-guides')
 
     " Status line
     call dein#add('itchyny/lightline.vim')
@@ -1354,11 +1353,11 @@ if dein#tap('tokyonight.nvim')
         fg = "None",
       }
       highlights.SignColumn = {
-        bg = "#3b4261",
+        bg = "#1f2335",
         fg = "#a9b1d6",
       }
       highlights.CocGitAddedSign = {
-        bg = "#20303b",
+        bg = "#1f2335",
         fg = "None",
       }
     end,
@@ -1526,29 +1525,10 @@ if dein#tap('vim-indent-guides')
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_start_level = 1
   let g:indent_guides_auto_colors = 0
-  hi IndentGuidesOdd  ctermbg=239
-  hi IndentGuidesEven ctermbg=235
+  hi IndentGuidesOdd  ctermbg=239, guibg=#3b4261
+  hi IndentGuidesEven ctermbg=235, guibg=#2b303b
 endif
 "}}} vim-indent-guides
-
-" indent-blankline.nvim{{{
-if dein#tap('indent-blankline.nvim')
-  lua << EOF
-  local highlight = {
-    "CursorColumn",
-    "Folded",
-  }
-  require("ibl").setup {
-    indent = { highlight = highlight, char = "" },
-    whitespace = {
-      highlight = highlight,
-      remove_blankline_trail = false,
-    },
-    scope = { enabled = false },
-  }
-EOF
-endif
-"}}} -innkline.nvimdent-guides
 
 " foldCC {{{
 if dein#tap('foldCC')
