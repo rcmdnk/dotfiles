@@ -502,7 +502,8 @@ _set_alias () { # Alias {{{
   if type ccat >& /dev/null;then
     alias cat='ccat --bg=dark -G String="fuchsia" -G Keyword="yellow" -G Plaintext="lightgray" -G Decimal="fuchsia" -G Punctuation="lightgray" -G Type="lightgray" -G Comment="turquoise"'
   fi
-  if type open >& /dev/null;then
+  if ! type open >& /dev/null;then
+    # For WSL
     if type powershell.exe >& /dev/null;then
       alias open="powershell.exe /c start"
     fi
