@@ -362,6 +362,18 @@ _set_env () { # Shell/Environmental variables {{{
     export PYTHONSTARTUP="$HOME/.pythonstartup.py"
   fi
 
+  # uv
+  if type uv >& /dev/null;then
+    if [ "$BASH_VERSION" != "" ];then
+      eval "$(uv generate-shell-completion bash)"
+      eval "$(uvx --generate-shell-completion bash)"
+    elif [ "$ZSH_VERSION" != "" ];then
+      eval "$(uv generate-shell-completion zsh)"
+      eval "$(uvx --generate-shell-completion zsh)"
+    fi
+  fi
+
+
   # Ruby
   if type gem >& /dev/null;then
     for d in $(gem environment gempath|sed 's/:/ /g');do
