@@ -783,6 +783,9 @@ _source_files () {  # {{{
   # For GitHub
   _source_file ~/.github_token
 
+  # For PyPI (poetry/uv)
+  _source_file ~/.pypi
+
   # For OpenAI
   _source_file ~/.openai_api_key
 
