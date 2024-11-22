@@ -35,17 +35,6 @@ _set_path
 
 # Shell/Environmental variables {{{
 _set_env
-
-# Prompt
-_is_mosh
-if [ $? -eq 0 ];then
-  # Enable only when mosh is used
-  # For screen case (and ssh in screen),
-  # modified prompt in .screen/setup.sh is used
-  _emotional_prompt
-else
-  PS1="[\\h \\W]\$ "
-fi
 # }}}
 
 # shopt {{{
@@ -67,7 +56,62 @@ _set_stty
 _set_alias
 _set_function
 _gnu_bsd_compatibility
-_emotional_prompt
+_set_prompt
+
+_set_mise () { # {{{
+  export MISE_SHELL=bash
+  export __MISE_ORIG_PATH="$PATH"
+
+  mise() {
+    local command
+    command="${1:-}"
+    if [ "$#" = 0 ]; then
+      command /opt/homebrew/bin/mise
+      return
+    fi
+    shift
+
+    case "$command" in
+    deactivate|shell|sh)
+      # if argv doesn't contains -h,--help
+      if [[ ! " $@ " =~ " --help " ]] && [[ ! " $@ " =~ " -h " ]]; then
+        eval "$(command /opt/homebrew/bin/mise "$command" "$@")"
+        return $?
+      fi
+      ;;
+    esac
+    command /opt/homebrew/bin/mise "$command" "$@"
+  }
+
+  _mise_hook() {
+    local previous_exit_status=$?;
+    eval "$(mise hook-env -s bash)";
+    return $previous_exit_status;
+  };
+  if [[ ";${PROMPT_COMMAND:-};" != *";_mise_hook;"* ]]; then
+    PROMPT_COMMAND="_mise_hook${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+  fi
+  if [ -z "${_mise_cmd_not_found:-}" ]; then
+      _mise_cmd_not_found=1
+      if [ -n "$(declare -f command_not_found_handle)" ]; then
+          _mise_cmd_not_found_handle=$(declare -f command_not_found_handle)
+          eval "${_mise_cmd_not_found_handle/command_not_found_handle/_command_not_found_handle}"
+      fi
+
+      command_not_found_handle() {
+          if /opt/homebrew/bin/mise hook-not-found -s bash -- "$1"; then
+            _mise_hook
+            "$@"
+          elif [ -n "$(declare -f _command_not_found_handle)" ]; then
+              _command_not_found_handle "$@"
+          else
+              echo "bash: command not found: $1" >&2
+              return 127
+          fi
+      }
+  fi
+} # }}}
+_set_mise
 
 # Suffix aliases/auto cd {{{
 if [[ "${BASH_VERSINFO[0]}" -ge 4 ]];then
