@@ -440,7 +440,12 @@ _emotional () {
 
 _venv_prompt () {
   if [ -z "$VIRTUAL_ENV_PROMPT" ] && [ -n "$VIRTUAL_ENV" ];then
-    printf '(%s) ' "$(basename "$(dirname "$VIRTUAL_ENV")")"
+    local prompt=$(grep "^prompt *=" "$VIRTUAL_ENV/.pyvenv.cfg" 2>/dev/null|cut -d "=" -f 2|sed 's/^ *//')
+    if [ -n "$prompt" ];then
+      printf '(%s) ' "$prompt"
+    else
+      printf '(%s) ' "$(basename "$VIRTUAL_ENV")"
+    fi
   fi
 }
 

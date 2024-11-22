@@ -133,8 +133,6 @@ export SCREENEXCHANGE=$HOME/.screen-exchange
 if [[ "$TERM" =~ screen ]]; then
 
   # {{{
-
-  # PS1 emotion
   # "\\" doesn't work well, use \134 instead
 
   # \ek ~ \e\134 : Screen's window title (`\t` in caption/hardstatus)
