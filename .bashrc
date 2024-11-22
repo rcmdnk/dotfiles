@@ -59,6 +59,9 @@ _gnu_bsd_compatibility
 _set_prompt
 
 _set_mise () { # {{{
+  if ! type mise >& /dev/null;then
+    return
+  fi
   export MISE_SHELL=bash
   export __MISE_ORIG_PATH="$PATH"
 
@@ -66,7 +69,7 @@ _set_mise () { # {{{
     local command
     command="${1:-}"
     if [ "$#" = 0 ]; then
-      command /opt/homebrew/bin/mise
+      command mise
       return
     fi
     shift
