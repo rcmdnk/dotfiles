@@ -151,7 +151,6 @@ if [[ "$TERM" =~ screen ]]; then
     printf "\e]0;%s %s%s\a" "$(hostname -s)" "$(_venv_prompt)" "$dir"
   }
 
-  PS1="\$(_emotional \$?)"
   PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}_screen_prompt"
 
   # }}}
