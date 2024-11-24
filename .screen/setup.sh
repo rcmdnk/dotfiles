@@ -146,8 +146,9 @@ if [[ "$TERM" =~ screen ]]; then
   _screen_prompt () {
     touch ~/.screen_update
     source ~/.screen_update
-    printf "\e]0;%s %s%s\a" "$(hostname -s)" "$(_venv_prompt)" "${PWD/#$HOME/\~}"
-    printf "\ek%s %s\e\134" "$(hostname -s)" "${PWD/#$HOME/\~}"
+    local dir=${PWD/#$HOME/\~}
+    printf "\ek%s %s\e\134" "$(hostname -s)" "$dir"
+    printf "\e]0;%s %s%s\a" "$(hostname -s)" "$(_venv_prompt)" "$dir"
   }
 
   PS1="\$(_emotional \$?)"

@@ -259,12 +259,12 @@ termcapinfo xterm* 'ti@:te@'
 # Caption for each window
 setenv a ""
 setenv a "$a%?%F"     # if the window has the focus
-setenv a "$a%{=d 0;255}" #   set attribute = {dim, black on white}
+setenv a "$a%{= 0;255}" #   set attribute = {dim, black on white}
 setenv a "$a%:"       # else
 setenv a "$a%{=d 0;240}" #   set attribute = {dim, black on gray}
 setenv a "$a%?"       # end if
 setenv a "$a%?%P"     # if copy/paste mode
-setenv a "$a%{=d 0;012}" #   set attribute = {dim, black on bright blue}
+setenv a "$a%{+ 0;012}" #   set attribute = {on bright blue}
 setenv a "$a%?"       # end if
 setenv a "$a%n"       # window number
 setenv a "$a "        # space
@@ -275,7 +275,7 @@ setenv a "$a%="       # With the last %-0=, it makes right alignment for followi
 setenv a "$a%?%P"     # if copy/paste mode
 setenv a "$a  *copy/paste*" # draw this sentence
 setenv a "$a%?"       # end if
-setenv a "$a%?%E"     # if copy/paste mode
+setenv a "$a%?%E"     # if the escape character has  been pressed
 setenv a "$a  ***command**" # draw this sentence
 setenv a "$a%?"       # end if
 setenv a "$a%-0="     # pad the string to the display's width. "-0" means
@@ -290,7 +290,7 @@ unsetenv a
 
 # hardstatus
 setenv a ""
-setenv a "$a%{= 0;240}" # set attribute = {black(k) on bright Black(K)}
+setenv a "$a%{=d 0;240}" # set attribute = {black(k) on bright Black(K)}
 setenv a "$a%-w"     # windows' list up to the current window (shown as "%n %t")
 setenv a "$a%40>"    # Mark here as a point to move when truncation
                      # Try to move this point to the 40% point
