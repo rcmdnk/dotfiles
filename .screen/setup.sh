@@ -139,9 +139,20 @@ if [[ "$TERM" =~ screen ]]; then
   # \e]0; ~ \a   : Screen's hardstatus, instead of terminal's title bar (`\h` in caption/hardstatus)
   # If you want to change terminal's title bar, use
   # \eP\e]0; ~ \a\e\134 (\eP ~ \e\134 will send the words out)
-  PS1="\\[\\ek\\h \\W\\e\\134\\e]0;\\h \\w\\a\\]\$(_prompt \$?)"
 
-  PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}touch ~/.screen_update;. ~/.screen_update"
+  #PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}touch ~/.screen_update;. ~/.screen_update"
+  #PS1="\\[\\ek\\h \\W\\e\\134\\e]0;\\h \\w\\a\\]\$(_prompt \$?)"
+
+  _screen_prompt () {
+    touch ~/.screen_update
+    source ~/.screen_update
+    printf "\e]0;%s %s%s\a" "$(hostname -s)" "$(_venv_prompt)" "${PWD/#$HOME/\~}"
+    printf "\ek%s %s\e\134" "$(hostname -s)" "${PWD/#$HOME/\~}"
+  }
+
+  PS1="\$(_emotional \$?)"
+  PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND};}_screen_prompt"
+
   # }}}
 
   # Set display if screen is attached in other host than previous host {{{
