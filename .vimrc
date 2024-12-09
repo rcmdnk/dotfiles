@@ -81,7 +81,7 @@ if s:dein_enabled
     if has('nvim') || has('patch-9.0.0185')
       call dein#add('github/copilot.vim')
       if has('nvim')
-        call dein#add("CopilotC-Nvim/CopilotChat.nvim", {'depends': ['copilot.vim', 'plenary.nvim'], 'rev': 'canary'})
+        call dein#add("CopilotC-Nvim/CopilotChat.nvim", {'depends': ['copilot.vim', 'plenary.nvim'], 'rev': 'main'})
       endif
     endif
 
