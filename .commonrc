@@ -797,14 +797,9 @@ _source_files () {  # {{{
   # For screen
   _source_file ~/.screen/setup.sh
 
-  # For GitHub
-  _source_file ~/.github_token
+  # For API/Token/Keys
+  _source_file ~/.keys
 
-  # For PyPI (poetry/uv)
-  _source_file ~/.pypi
-
-  # For OpenAI
-  _source_file ~/.openai_api_key
 
   # For Terraform
   _source_file ~/.pluralith
