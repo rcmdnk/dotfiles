@@ -1,1 +1,2 @@
-MODEL='deepseek-chat'
+MODEL='gpt-4o'
+#MODEL='deepseek-chat'
