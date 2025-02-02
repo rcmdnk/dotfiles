@@ -1,15 +1,26 @@
 [user]
-	name = rcmdnk
-	email = rcmdnk@gmail.com
+  name = rcmdnk
+  email = rcmdnk@gmail.com
 [github]
-	user = rcmdnk
+  user = rcmdnk
 [credential]
-	username = rcmdnk
+  username = rcmdnk
+[credential "https://github.com"]
+  helper = 
+  helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+  helper = 
+  helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
+[init]
+  defaultBranch = main
+#  templatedir = ~/.git-templates/git-secrets
 [core]
   autocrlf = false
   editor = vi
   execludesfile = ~/.gitignore_global
   quotepath = false
+[commit]
+  template = ~/.gitmessage
 [pull]
   rebase = true
 #[branch]
@@ -345,22 +356,20 @@
   pushf = push --force-with-lease
   c = gpt-commit
 
-[include]
-  path = .gitconfig.private
-[init]
-  defaultBranch = main
-#  templatedir = ~/.git-templates/git-secrets
 [secrets]
   providers = git secrets --aws-provider
   patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
   patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
   patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
+
 [hub]
   protocol = ssh
-[commit]
-  template = ~/.gitmessage
+
 [filter "lfs"]
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+
+[include]
+  path = .gitconfig.private
