@@ -186,6 +186,7 @@ _set_homebrew_path () { # {{{
   export HOMEBREW_BREWFILE_ON_REQUEST=1
   export HOMEBREW_BREWFILE_WHALEBREW=1
   export HOMEBREW_BREWFILE_VSCODE=1
+  export HOMEBREW_BREWFILE_CURSOR=1
 
   ## wrap brew (brew-wrap in brew-file)
   _source_file "$HOMEBREW_PREFIX/etc/brew-wrap"
