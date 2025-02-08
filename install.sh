@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m' '.config' '.rye')
+exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m' '.config' '.rye' '.cursor')
 only_inside=(.vim)
 instdir="$HOME"
 
@@ -138,6 +138,19 @@ myinstall "$curdir/.vim/coc-settings.json" "$instdir/.config/nvim/coc-settings.j
 
 # rye
 myinstall "$curdir/.rye/config.toml" "$instdir/.rye/config.toml"
+
+# cursor
+if [[ "$OSTYPE" =~ darwin ]];then
+  cursor_dir="$instdir/Library/Application Support/Cursor/User"
+elif type cmd.exe  >& /dev/null;then
+  winuser="$(cmd.exe /c echo %USERNAME% 2>/dev/null|tr -d '\r')"
+  cursor_dir="/mnt/c/Users/$winuser/AppData/Roaming/Cursor/User"
+else
+  cursor_dir="$instdir/.config/Cursor/User"
+fi
+if [ -d "$cursor_dir" ];then
+  myinstall "$curdir/.cursor/settings.json" "$cursor_dir/settings.json"
+fi
 
 # config
 mkdir -p "$instdir/.config"

@@ -1,0 +1,26 @@
+{
+    "window.commandCenter": 1,
+    "http.proxyStrictSSL": false,
+    "http.noProxy": [
+        "repo42.cursor.sh"
+    ],
+    "cursor.diffs.useCharacterLevelDiffs": true,
+    "http.experimental.systemCertificatesV2": true,
+    "cursor.composer.renderPillsInsteadOfBlocks": true,
+    "cursor.composer.collapsePaneInputBoxPills": true,
+    "editor.tabSize": 2,
+    "explorer.excludeGitIgnore": true,
+    "cursor.aipreview.enabled": true,
+    "cursor.preferNotificationsSameAsChat": true,
+    "cursor.terminal.usePreviewBox": true,
+    "diffEditor.codeLens": true,
+    "editor.formatOnType": true,
+    "files.autoGuessEncoding": true,
+    "files.refactoring.autoSave": false,
+    "files.trimTrailingWhitespaceInRegexAndStrings": false,
+    "scm.alwaysShowRepositories": true,
+    "scm.alwaysShowActions": true,
+    "terminal.external.osxExec": "iTerm.app",
+    "remote.SSH.defaultForwardedPorts": [],
+    "cursor.cmdk.useThemedDiffBackground": true
+}
