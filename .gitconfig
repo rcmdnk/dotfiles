@@ -6,10 +6,10 @@
 [credential]
 	username = rcmdnk
 [credential "https://github.com"]
-  helper = 
+  helper =
   helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-  helper = 
+  helper =
   helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
 [init]
   defaultBranch = main
