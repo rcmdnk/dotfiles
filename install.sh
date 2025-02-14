@@ -132,10 +132,6 @@ for f in .w3m/*;do
   myinstall "$curdir/$f" "$instdir/$f"
 done
 
-# neovim
-myinstall "$curdir/.vimrc" "$instdir/.config/nvim/init.vim"
-myinstall "$curdir/.vim/coc-settings.json" "$instdir/.config/nvim/coc-settings.json"
-
 # rye
 myinstall "$curdir/.rye/config.toml" "$instdir/.rye/config.toml"
 
