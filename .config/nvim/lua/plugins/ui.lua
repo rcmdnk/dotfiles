@@ -68,13 +68,26 @@ return {
     'nathanaelkane/vim-indent-guides',
     event = 'BufReadPre',
     config = function()
+      -- Enable by default
       vim.g.indent_guides_enable_on_vim_startup = 1
-      vim.g.indent_guides_start_level = 1
+      vim.g.indent_guides_start_level = 2
+      vim.g.indent_guides_guide_size = 1
+      vim.g.indent_guides_exclude_filetypes = {'help', 'nerdtree', 'tagbar'}
       vim.g.indent_guides_auto_colors = 0
-      vim.cmd([[
-        hi IndentGuidesOdd  ctermbg=239 guibg=#3b4261
-        hi IndentGuidesEven ctermbg=235 guibg=#2b303b
-      ]])
+
+      -- Set custom colors and ensure they're applied after colorscheme
+      vim.api.nvim_create_autocmd({"VimEnter", "Colorscheme"}, {
+        callback = function()
+          -- Use more visible colors that work with tokyonight
+          vim.cmd([[
+            highlight IndentGuidesOdd  guibg=#232433 ctermbg=236
+            highlight IndentGuidesEven guibg=#2c2e43 ctermbg=238
+          ]])
+        end,
+      })
+
+      -- Force enable for the first time
+      vim.cmd('IndentGuidesEnable')
     end,
   },
 

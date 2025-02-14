@@ -4,6 +4,25 @@ local function augroup(name)
   return vim.api.nvim_create_augroup('lazyvim_' .. name, { clear = true })
 end
 
+-- Create required directories
+vim.api.nvim_create_autocmd('VimEnter', {
+  group = augroup('ensure_dirs'),
+  callback = function()
+    local required_dirs = {
+      vim.fn.stdpath('data') .. '/backup',
+      vim.fn.stdpath('data') .. '/swap',
+      vim.fn.stdpath('data') .. '/undo',
+      vim.fn.stdpath('data') .. '/yankround'
+    }
+    
+    for _, dir in ipairs(required_dirs) do
+      if vim.fn.isdirectory(dir) == 0 then
+        vim.fn.mkdir(dir, 'p')
+      end
+    end
+  end,
+})
+
 -- Jump to last known position
 vim.api.nvim_create_autocmd('BufReadPost', {
   group = augroup('last_loc'),

@@ -2,11 +2,38 @@ return {
   -- GitHub Copilot
   {
     'github/copilot.vim',
-    event = 'InsertEnter',
+    lazy = false,  -- Ensure Copilot loads at startup
+    priority = 1000,  -- High priority to load early
     config = function()
-      vim.keymap.set('i', '<M-i>', '<Plug>(copilot-next)', { silent = true })
-      vim.keymap.set('i', '<M-o>', '<Plug>(copilot-previous)', { silent = true })
+      -- SSL certificate settings
+      vim.g.copilot_proxy = ''  -- Clear any proxy settings
+      vim.g.copilot_proxy_strict_ssl = false  -- Disable strict SSL checking
+      
+      -- Basic settings
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+      vim.g.copilot_tab_fallback = ""
+      
+      -- Custom keymaps
+      vim.keymap.set('i', '<Tab>', 'copilot#Accept("<Tab>")', {
+        expr = true,
+        replace_keycodes = false
+      })
+      vim.keymap.set('i', '<M-]>', '<Plug>(copilot-next)', { silent = true })
+      vim.keymap.set('i', '<M-[>', '<Plug>(copilot-previous)', { silent = true })
+      vim.keymap.set('i', '<M-\\>', '<Plug>(copilot-dismiss)', { silent = true })
+      vim.keymap.set('i', '<M-CR>', '<Plug>(copilot-suggest)', { silent = true })
     end,
+  },
+
+  -- LineDiff
+  {
+    'AndrewRadev/linediff.vim',
+    cmd = 'Linediff',
+    keys = {
+      { '<leader>ld', ':Linediff<CR>', mode = 'x', desc = 'Line Diff' },
+      { '<leader>lr', ':LinediffReset<CR>', desc = 'Line Diff Reset' },
+    },
   },
 
   -- CopilotChat
@@ -48,8 +75,14 @@ return {
       { '<leader>ccx', ':CopilotChatInPlace<cr>', mode = 'x', desc = 'CopilotChat - In Place' },
     },
     config = function()
+      -- SSL certificate settings
+      vim.g.copilot_chat_proxy = ''  -- Clear any proxy settings
+      vim.g.copilot_chat_proxy_strict_ssl = false  -- Disable strict SSL checking
+      
       require('CopilotChat').setup({
         debug = true,
+        proxy = '',  -- Clear proxy settings
+        proxy_strict_ssl = false,  -- Disable strict SSL
       })
     end,
   },
@@ -80,184 +113,336 @@ return {
 
   -- LSP and completion
   {
-    'neoclide/coc.nvim',
-    branch = 'release',
+    'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/nvim-cmp',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+      'j-hui/fidget.nvim',
+    },
     config = function()
-      -- Some servers have issues with backup files
-      vim.opt.backup = false
-      vim.opt.writebackup = false
+      -- Mason setup
+      require('mason').setup()
+      require('mason-lspconfig').setup({
+        ensure_installed = {
+          'lua_ls',
+          'ruff',
+          'ts_ls',
+          'rust_analyzer',
+          'marksman',      -- Markdown
+          'solargraph',    -- Ruby
+          'texlab',        -- LaTeX
+          'terraformls',   -- Terraform
+        },
+        automatic_installation = true,
+      })
 
-      -- Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
-      -- delays and poor user experience
-      vim.opt.updatetime = 300
+      -- Completion setup
+      local cmp = require('cmp')
+      local luasnip = require('luasnip')
 
-      -- Always show the signcolumn
-      vim.opt.signcolumn = "yes"
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            else
+              fallback()
+            end
+          end, { 'i', 's' }),
+          ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { 'i', 's' }),
+        }),
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+        }, {
+          { name = 'buffer' },
+          { name = 'path' },
+        }),
+      })
 
-      local keyset = vim.keymap.set
+      -- LSP setup
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local lspconfig = require('lspconfig')
 
-      -- Autocomplete
-      function _G.check_back_space()
-        local col = vim.fn.col('.') - 1
-        return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-      end
+      -- Diagnostic configuration for real-time feedback
+      local diagnostic_enabled = true  -- Track diagnostic state
+      local saved_signcolumn = vim.opt.signcolumn:get()  -- Store original signcolumn value
+      local saved_spell = vim.opt.spell:get()  -- Store original spell check state
+      local saved_list = vim.opt.list:get()  -- Store original list state
+      local saved_colorcolumn = vim.opt.colorcolumn:get()  -- Store original colorcolumn value
 
-      -- Use Tab for trigger completion with characters ahead and navigate
-      local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
-      keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
-      keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-
-      -- Make <CR> to accept selected completion item or notify coc.nvim to format
-      keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-
-      -- Use <c-space> to trigger completion
-      keyset("i", "<c-space>", "coc#refresh()", {silent = true, expr = true})
-
-      -- Use `[g` and `]g` to navigate diagnostics
-      keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", {silent = true})
-      keyset("n", "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
-      keyset("n", "<M-p>", "<Plug>(coc-diagnostic-prev)", {silent = true})
-      keyset("n", "<M-n>", "<Plug>(coc-diagnostic-next)", {silent = true})
-
-      -- GoTo code navigation
-      keyset("n", "gd", "<Plug>(coc-definition)", {silent = true})
-      keyset("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
-      keyset("n", "gi", "<Plug>(coc-implementation)", {silent = true})
-      keyset("n", "gr", "<Plug>(coc-references)", {silent = true})
-
-      -- Use K to show documentation in preview window
-      function _G.show_docs()
-        local cw = vim.fn.expand('<cword>')
-        if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
-          vim.api.nvim_command('h ' .. cw)
-        elseif vim.api.nvim_eval('coc#rpc#ready()') then
-          vim.fn.CocActionAsync('doHover')
+      -- Function to toggle diagnostics
+      local function toggle_diagnostics()
+        diagnostic_enabled = not diagnostic_enabled
+        if diagnostic_enabled then
+          vim.diagnostic.show()
+          vim.opt.signcolumn = saved_signcolumn  -- Restore original signcolumn
+          vim.opt.spell = saved_spell  -- Restore original spell check
+          vim.opt.list = saved_list  -- Restore original list state
+          vim.opt.colorcolumn = saved_colorcolumn  -- Restore original colorcolumn
+          vim.cmd('IndentGuidesEnable')  -- Enable indent guides
+          -- Re-enable diagnostic features
+          vim.diagnostic.config({
+            virtual_text = false,
+            signs = true,
+            underline = true,
+            float = {
+              border = 'rounded',
+              source = 'always',
+              header = '',
+              prefix = '',
+            },
+          })
         else
-          vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
+          vim.diagnostic.hide()
+          saved_signcolumn = vim.opt.signcolumn:get()  -- Save current signcolumn value
+          saved_spell = vim.opt.spell:get()  -- Save current spell check state
+          saved_list = vim.opt.list:get()  -- Save current list state
+          saved_colorcolumn = vim.opt.colorcolumn:get()  -- Save current colorcolumn value
+          vim.opt.signcolumn = "no"  -- Hide signcolumn
+          vim.opt.spell = false  -- Disable spell check
+          vim.opt.list = false  -- Disable list
+          vim.opt.colorcolumn = ""  -- Hide colorcolumn
+          vim.cmd('IndentGuidesDisable')  -- Disable indent guides
+          -- Disable all diagnostic features
+          vim.diagnostic.config({
+            virtual_text = false,
+            signs = false,
+            underline = false,
+            float = false,
+          })
+          -- Close any open float windows
+          vim.diagnostic.hide()
         end
       end
-      keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
 
-      -- Symbol renaming
-      keyset("n", "<leader>rn", "<Plug>(coc-rename)", {silent = true})
+      -- Add keymap to toggle diagnostics
+      vim.keymap.set('n', '<leader>t', toggle_diagnostics, { noremap = true, silent = true, desc = 'Toggle Diagnostics' })
 
-      -- Formatting selected code
-      keyset("x", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
-      keyset("n", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
+      -- Create diagnostic popup on cursor hold
+      local diagnostic_group = vim.api.nvim_create_augroup('diagnostic_popup', { clear = true })
+      vim.api.nvim_create_autocmd("CursorHold", {
+        group = diagnostic_group,
+        callback = function()
+          if diagnostic_enabled then
+            local opts = {
+              focusable = false,
+              close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+              border = 'rounded',
+              source = 'always',
+              prefix = ' ',
+              scope = 'cursor',
+            }
+            vim.diagnostic.open_float(nil, opts)
+          end
+        end
+      })
 
-      -- Apply codeAction to the selected region
-      keyset("n", "<leader>a", "<Plug>(coc-codeaction-selected)", {silent = true})
-      keyset("x", "<leader>a", "<Plug>(coc-codeaction-selected)", {silent = true})
+      vim.diagnostic.config({
+        virtual_text = false,        -- Disable virtual text by default
+        signs = true,               -- Always show signs in the gutter
+        underline = true,           -- Underline problems
+        update_in_insert = true,    -- Update diagnostics in insert mode
+        severity_sort = true,       -- Sort diagnostics by severity
+        float = {                   -- Configure diagnostic float window
+          border = 'rounded',
+          source = 'always',
+          header = '',
+          prefix = '',
+        },
+      })
 
-      -- Remap keys for apply code actions at the cursor position.
-      keyset("n", "<leader>ac", "<Plug>(coc-codeaction-cursor)", {silent = true})
-      -- Remap keys for apply code actions affect whole buffer.
-      keyset("n", "<leader>as", "<Plug>(coc-codeaction-source)", {silent = true})
-      -- Apply the most preferred quickfix action to fix diagnostic on the current line.
-      keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", {silent = true})
+      -- Diagnostic signs with more visible icons
+      local signs = {
+        Error = "E",  -- Error sign
+        Warn  = "W",  -- Warning sign
+        Hint  = "H",  -- Hint sign
+        Info  = "I",  -- Info sign
+      }
+      for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      end
 
-      -- Remap keys for apply refactor code actions.
-      keyset("n", "<leader>re", "<Plug>(coc-codeaction-refactor)", { silent = true })
-      keyset("x", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-      keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+      -- LSP keymaps
+      local on_attach = function(client, bufnr)
+        local opts = { noremap = true, silent = true, buffer = bufnr }
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+        vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+        vim.keymap.set('n', '<leader>wl', function()
+          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, opts)
+        vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+        vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        vim.keymap.set('n', '<leader>f', function()
+          vim.lsp.buf.format { async = true }
+        end, opts)
+      end
 
-      -- Run the Code Lens action on the current line
-      keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", {silent = true})
+      -- Configure LSP servers
+      local servers = {
+        lua_ls = {
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = { 'vim' },
+              },
+              workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
+              },
+              telemetry = {
+                enable = false,
+              },
+            },
+          },
+        },
+        ruff = {
+          settings = {
+            args = {},
+            settings = {
+              -- Ruff settings
+              lint = {
+                args = {
+                  "--select=ALL",  -- Enable all rules
+                  "--ignore=D,ERA,UP,ANN", -- Ignore specific rules
+                },
+              },
+              organizeImports = {
+                enabled = true,
+              },
+              fixAll = {
+                enabled = true,
+              },
+            },
+          },
+        },
+        ts_ls = {},  -- TypeScript LSP
+        rust_analyzer = {},
+        
+        -- Markdown
+        marksman = {},
+        
+        -- Ruby
+        solargraph = {
+          settings = {
+            solargraph = {
+              diagnostics = true,
+              completion = true,
+              formatting = true,
+            },
+          },
+        },
+        
+        -- LaTeX
+        texlab = {
+          settings = {
+            texlab = {
+              build = {
+                onSave = true,
+              },
+              chktex = {
+                onEdit = true,
+                onOpenAndSave = true,
+              },
+              formatterLineLength = 80,
+            },
+          },
+        },
+        
+        -- Terraform
+        terraformls = {
+          filetypes = { "terraform", "tf", "terraform-vars" },
+        },
+      }
 
-      -- Map function and class text objects
-      -- NOTE: Requires 'textDocument.documentSymbol' support from the language server
-      keyset("x", "if", "<Plug>(coc-funcobj-i)", {silent = true})
-      keyset("o", "if", "<Plug>(coc-funcobj-i)", {silent = true})
-      keyset("x", "af", "<Plug>(coc-funcobj-a)", {silent = true})
-      keyset("o", "af", "<Plug>(coc-funcobj-a)", {silent = true})
-      keyset("x", "ic", "<Plug>(coc-classobj-i)", {silent = true})
-      keyset("o", "ic", "<Plug>(coc-classobj-i)", {silent = true})
-      keyset("x", "ac", "<Plug>(coc-classobj-a)", {silent = true})
-      keyset("o", "ac", "<Plug>(coc-classobj-a)", {silent = true})
+      -- Setup all servers
+      for server, config in pairs(servers) do
+        config.on_attach = on_attach
+        config.capabilities = capabilities
+        lspconfig[server].setup(config)
+      end
 
-      -- Remap <C-f> and <C-b> to scroll float windows/popups
-      ---@diagnostic disable-next-line: redefined-local
-      local opts = {silent = true, nowait = true, expr = true}
-      keyset("n", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-      keyset("n", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-      keyset("i", "<C-f>",
-             'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', opts)
-      keyset("i", "<C-b>",
-             'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', opts)
-      keyset("v", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-      keyset("v", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-
-      -- Use CTRL-S for selections ranges
-      -- Requires 'textDocument/selectionRange' support of language server
-      keyset("n", "<C-s>", "<Plug>(coc-range-select)", {silent = true})
-      keyset("x", "<C-s>", "<Plug>(coc-range-select)", {silent = true})
-
-      -- Add `:Format` command to format current buffer
-      vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
-
-      -- " Add `:Fold` command to fold current buffer
-      vim.api.nvim_create_user_command("Fold", "call CocAction('fold', <f-args>)", {nargs = '?'})
-
-      -- Add `:OR` command for organize imports of the current buffer
-      vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
-
-      -- Add (Neo)Vim's native statusline support
-      -- NOTE: Please see `:h coc-status` for integrations with external plugins that
-      -- provide custom statusline: lightline.vim, vim-airline
-      vim.opt.statusline:prepend("%{coc#status()}%{get(b:,'coc_current_function','')}")
-
-      -- Mappings for CoCList
-      -- code actions and coc stuff
-      ---@diagnostic disable-next-line: redefined-local
-      local opts = {silent = true, nowait = true}
-      -- Show all diagnostics
-      keyset("n", "<space>a", ":<C-u>CocList diagnostics<cr>", opts)
-      -- Manage extensions
-      keyset("n", "<space>e", ":<C-u>CocList extensions<cr>", opts)
-      -- Show commands
-      keyset("n", "<space>c", ":<C-u>CocList commands<cr>", opts)
-      -- Find symbol of current document
-      keyset("n", "<space>o", ":<C-u>CocList outline<cr>", opts)
-      -- Search workspace symbols
-      keyset("n", "<space>s", ":<C-u>CocList -I symbols<cr>", opts)
-      -- Do default action for next item
-      keyset("n", "<space>j", ":<C-u>CocNext<cr>", opts)
-      -- Do default action for previous item
-      keyset("n", "<space>k", ":<C-u>CocPrev<cr>", opts)
-      -- Resume latest coc list
-      keyset("n", "<space>p", ":<C-u>CocListResume<cr>", opts)
-
-      -- Python specific
-      keyset("n", "<leader>i", ":CocCommand python.sortImports<CR>", opts)
+      -- Setup fidget for LSP progress
+      require('fidget').setup()
     end,
   },
 
-  -- DAP (Debug Adapter Protocol)
+  -- Additional diagnostics with null-ls
   {
-    'mfussenegger/nvim-dap',
+    'jose-elias-alvarez/null-ls.nvim',
     dependencies = {
-      'rcarriga/nvim-dap-ui',
-      'mfussenegger/nvim-dap-python',
+      'nvim-lua/plenary.nvim',  -- required dependency
+      'williamboman/mason.nvim',
+      'jay-babu/mason-null-ls.nvim',
     },
+    event = { 'BufReadPre', 'BufNewFile' },
     config = function()
-      local dap = require('dap')
-      local dapui = require('dapui')
-      dapui.setup()
+      local null_ls = require('null-ls')
+      local mason_null_ls = require('mason-null-ls')
 
-      -- Python setup
-      require('dap-python').setup('python')
+      mason_null_ls.setup({
+        ensure_installed = {
+          'mypy',  -- Python type checker
+          'shellcheck',  -- Shell script checker
+        },
+        automatic_installation = true,
+      })
 
-      -- Automatically open UI
-      dap.listeners.after.event_initialized['dapui_config'] = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated['dapui_config'] = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited['dapui_config'] = function()
-        dapui.close()
-      end
+      -- Configure null-ls sources
+      null_ls.setup({
+        sources = {
+          -- Python
+          null_ls.builtins.diagnostics.mypy.with({
+            extra_args = {
+              "--ignore-missing-imports",
+              "--disallow-untyped-defs",
+              "--check-untyped-defs",
+            },
+          }),
+          -- Shell
+          null_ls.builtins.diagnostics.shellcheck.with({
+            diagnostics_format = "[#{c}] #{m} (#{s})",  -- Show code and severity
+            extra_args = { "--severity", "warning" },   -- Show warnings and errors
+          }),
+          null_ls.builtins.code_actions.shellcheck,    -- Enable code actions
+        },
+      })
     end,
   },
 
