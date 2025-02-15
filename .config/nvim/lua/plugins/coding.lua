@@ -137,7 +137,6 @@ return {
           'ts_ls',
           'rust_analyzer',
           'marksman',      -- Markdown
-          'solargraph',    -- Ruby
           'texlab',        -- LaTeX
           'terraformls',   -- Terraform
         },
@@ -160,24 +159,8 @@ return {
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<C-e>'] = cmp.mapping.abort(),
           ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-          ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
+          ['<C-n>'] = cmp.mapping.select_next_item(),
+          ['<C-p>'] = cmp.mapping.select_prev_item(),
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
@@ -186,6 +169,10 @@ return {
           { name = 'buffer' },
           { name = 'path' },
         }),
+        preselect = cmp.PreselectMode.None,  -- Disable preselection
+        completion = {
+          completeopt = 'menu,menuone,noinsert,noselect'  -- Prevent automatic selection
+        },
       })
 
       -- LSP setup
@@ -312,6 +299,18 @@ return {
         vim.keymap.set('n', '<leader>f', function()
           vim.lsp.buf.format { async = true }
         end, opts)
+
+        -- Diagnostic navigation
+        vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
+        vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
+        vim.keymap.set('n', '[e', function()
+          vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+        end, { desc = 'Go to previous error' })
+        vim.keymap.set('n', ']e', function()
+          vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+        end, { desc = 'Go to next error' })
+        vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic in float window' })
+        vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Add diagnostics to location list' })
       end
 
       -- Configure LSP servers
@@ -358,17 +357,6 @@ return {
         -- Markdown
         marksman = {},
         
-        -- Ruby
-        solargraph = {
-          settings = {
-            solargraph = {
-              diagnostics = true,
-              completion = true,
-              formatting = true,
-            },
-          },
-        },
-        
         -- LaTeX
         texlab = {
           settings = {
@@ -400,6 +388,42 @@ return {
 
       -- Setup fidget for LSP progress
       require('fidget').setup()
+
+      -- Copilot setup
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+      vim.g.copilot_tab_fallback = ""
+
+      -- Custom function to handle Tab key
+      local function tab_complete()
+        if vim.fn['copilot#GetDisplayedSuggestion']()['text'] ~= '' then
+          return vim.fn['copilot#Accept']()
+        elseif cmp.visible() then
+          cmp.select_next_item()
+        elseif luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        else
+          -- Get the current shiftwidth value
+          local sw = vim.bo.shiftwidth
+          -- Create a string with that many spaces
+          local spaces = string.rep(' ', sw)
+          -- Return the spaces
+          return spaces
+        end
+      end
+
+      -- Map Tab key
+      vim.keymap.set('i', '<Tab>', tab_complete, {
+        expr = true,
+        replace_keycodes = false
+      })
+      vim.keymap.set('i', '<S-Tab>', function()
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        end
+      end, { silent = true })
     end,
   },
 

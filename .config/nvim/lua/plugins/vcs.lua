@@ -6,7 +6,7 @@ return {
       'Git',
       'Gwrite',
       'Gread',
-      'Gdiff',
+      'Gdiffsplit',
       'Gvdiff',
       'Gstatus',
       'Gcommit',
@@ -15,6 +15,11 @@ return {
       'Gpull',
       'Gpush',
       'Gfetch',
+    },
+    keys = {
+      { '<leader>gs', ':Git<CR>', desc = 'Git Status' },
+      { '<leader>gd', ':Gdiffsplit<CR>', desc = 'Git Diff Split' },
+      { '<leader>gb', ':Git blame<CR>', desc = 'Git Blame' },
     },
   },
 
