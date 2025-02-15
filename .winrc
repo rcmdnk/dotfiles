@@ -56,3 +56,8 @@ export CYGWIN="winsymlinks:nativestrict"
 #  }
 #fi
 #}}}
+
+# PATH for app {{{
+winuser="$(cmd.exe /c echo %USERNAME% 2>/dev/null|tr -d '\r')"
+PATH="/mnt/c/Users/$winuser/AppData/Local/Programs/cursor/resources/app/bin/:$PATH"
+# }}}
