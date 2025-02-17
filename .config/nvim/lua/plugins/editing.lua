@@ -122,19 +122,13 @@ return {
       })
 
       local function map_sandwich(mode, lhs, rhs)
-        vim.keymap.set(mode, lhs, rhs, { silent = true })
+        vim.keymap.set(mode, lhs, rhs, { remap = true, silent = true })
       end
 
-      -- Normal mode mappings
-      local pairs = {
-        { '{', '}' }, { '[', ']' }, { '(', ')' },
-        { '<', '>' }, { '"', '"' }, { "'", "'" },
-        { '`', '`' }, { '*', '*' },
-      }
-
-      for _, pair in ipairs(pairs) do
-        map_sandwich('n', '<Leader>' .. pair[1], 'saiw' .. pair[1])
-        map_sandwich('x', pair[1], 'sa' .. pair[1])
+      local keys = {'{', '}', '[', ']', '(', ')', '<', '>', '"', "'", '`', '*'}
+      for _, key in ipairs(keys) do
+        map_sandwich('n', '<Leader>' .. key, 'saiw' .. key)
+        map_sandwich('x', key, 'sa' .. key)
       end
 
       map_sandwich('n', '<Leader><Leader>*', 'saiwa')
