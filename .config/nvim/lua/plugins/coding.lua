@@ -442,7 +442,7 @@ return {
 
       mason_null_ls.setup({
         ensure_installed = {
-          'mypy',  -- Python type checker
+          -- 'mypy',  -- Python type checker
           'shellcheck',  -- Shell script checker
         },
         automatic_installation = true,
@@ -452,13 +452,13 @@ return {
       null_ls.setup({
         sources = {
           -- Python
-          null_ls.builtins.diagnostics.mypy.with({
-            extra_args = {
-              "--ignore-missing-imports",
-              "--disallow-untyped-defs",
-              "--check-untyped-defs",
-            },
-          }),
+          -- null_ls.builtins.diagnostics.mypy.with({
+          --   extra_args = {
+          --     "--ignore-missing-imports",
+          --     "--disallow-untyped-defs",
+          --     "--check-untyped-defs",
+          --   },
+          -- }),
           -- Shell
           null_ls.builtins.diagnostics.shellcheck.with({
             diagnostics_format = "[#{c}] #{m} (#{s})",  -- Show code and severity
