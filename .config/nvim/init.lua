@@ -1,5 +1,7 @@
 -- init.lua
 
+-- Following global variables must be set before loading lazy
+
 -- Set <space> as the leader key
 vim.g.mapleader = ','
 vim.g.maplocalleader = ' '

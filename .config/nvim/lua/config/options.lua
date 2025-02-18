@@ -12,6 +12,10 @@ opt.ttimeoutlen = 50
 opt.ttyfast = true
 opt.termguicolors = true
 
+-- Split
+opt.splitright = true
+opt.splitbelow = true
+
 -- Search
 opt.hlsearch = true
 opt.ignorecase = true
