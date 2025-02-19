@@ -22,5 +22,6 @@
     "scm.alwaysShowActions": true,
     "terminal.external.osxExec": "iTerm.app",
     "remote.SSH.defaultForwardedPorts": [],
-    "cursor.cmdk.useThemedDiffBackground": true
+    "cursor.cmdk.useThemedDiffBackground": true,
+    "remote.SSH.configFile": "~/.cursor/ssh_config"
 }
