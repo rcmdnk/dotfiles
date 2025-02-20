@@ -146,6 +146,7 @@ else
 fi
 if [ -d "$cursor_dir" ];then
   myinstall "$curdir/.cursor/settings.json" "$cursor_dir/settings.json"
+  myinstall "$curdir/.cursor/keybindings.json" "$cursor_dir/keybindings.json"
 fi
 
 # config
