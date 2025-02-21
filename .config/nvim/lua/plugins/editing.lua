@@ -69,32 +69,54 @@ return {
 
   -- Yank
   {
-    'rcmdnk/yankround.vim',
+    'gbprod/yanky.nvim',
     event = 'VeryLazy',
-    config = function()
-      vim.keymap.set('n', 'p', '<Plug>(yankround-p)')
-      vim.keymap.set('x', 'p', '<Plug>(yankround-p)')
-      vim.keymap.set('n', 'P', '<Plug>(yankround-P)')
-      vim.keymap.set('n', 'gp', '<Plug>(yankround-gp)')
-      vim.keymap.set('x', 'gp', '<Plug>(yankround-gp)')
-      vim.keymap.set('n', 'gP', '<Plug>(yankround-gP)')
-      vim.keymap.set('n', '<C-p>', '<Plug>(yankround-prev)')
-      vim.keymap.set('n', '<C-n>', '<Plug>(yankround-next)')
-      vim.g.yankround_max_history = 30
-      vim.g.yankround_dir = vim.fn.stdpath('data') .. '/yankround'
-      vim.g.yankround_max_element_length = 0
-      vim.g.yankround_use_region_hl = 1
-    end,
-  },
-  {
-    'rcmdnk/yankshare.vim',
-    keys = {
-      { '<Leader>y', '<Plug>(yankshare)', mode = { 'n', 'x' }, desc = 'Share Yank' },
+    dependencies = {
+      { 'nvim-telescope/telescope.nvim' },
+      { 'kkharji/sqlite.lua' },
     },
-    config = function()
-      vim.g.yankshare_file = '~/.vim/yankshare.txt'
-      vim.g.yankshare_register = 's'
-    end,
+    opts = {
+      ring = {
+        history_length = 100,
+        storage = "sqlite",
+        storage_path = vim.fn.stdpath("data") .. "/databases/yanky.db",
+        sync_with_numbered_registers = true,
+        cancel_event = "update",
+      },
+      picker = {
+        telescope = {
+          use_default_mappings = true,
+          mappings = nil,
+        },
+      },
+      system_clipboard = {
+        sync_with_ring = true,
+      },
+      highlight = {
+        on_put = true,
+        on_yank = true,
+        timer = 200,
+      },
+      preserve_cursor_position = {
+        enabled = true,
+      },
+    },
+    keys = {
+      -- Normal mode
+      { "p", "<Plug>(YankyPutAfter)", mode = { "n" }, desc = "Put yanked text after cursor" },
+      { "P", "<Plug>(YankyPutBefore)", mode = { "n" }, desc = "Put yanked text before cursor" },
+      { "gp", "<Plug>(YankyGPutAfter)", mode = { "n" }, desc = "Put yanked text after cursor and leave cursor after" },
+      { "gP", "<Plug>(YankyGPutBefore)", mode = { "n" }, desc = "Put yanked text before cursor and leave cursor after" },
+      { "<c-n>", "<Plug>(YankyCycleForward)", desc = "Cycle forward through yank history" },
+      { "<c-p>", "<Plug>(YankyCycleBackward)", desc = "Cycle backward through yank history" },
+      -- Visual mode
+      { "p", "<Plug>(YankyPutAfter)", mode = { "x" }, desc = "Put yanked text after cursor" },
+      { "P", "<Plug>(YankyPutBefore)", mode = { "x" }, desc = "Put yanked text before cursor" },
+      { "gp", "<Plug>(YankyGPutAfter)", mode = { "x" }, desc = "Put yanked text after cursor and leave cursor after" },
+      { "gP", "<Plug>(YankyGPutBefore)", mode = { "x" }, desc = "Put yanked text before cursor and leave cursor after" },
+      -- Telescope integration
+      { "<leader>fy", "<cmd>Telescope yank_history<cr>", desc = "Open yank history in Telescope" },
+    },
   },
 
   -- Multiple cursors

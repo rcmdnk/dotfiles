@@ -22,6 +22,35 @@ require("lazy").setup({
     { import = "plugins" },
   },
   -- automatically check for plugin updates
-  checker = { enabled = true },
+  checker = {
+    enabled = true,        -- Enable the update checker
+    notify = true,         -- Show notification when updates are available
+    frequency = 86400,     -- Check for updates once a day (in seconds)
+    auto_update = true,    -- Automatically update plugins when updates are available
+  },
+  -- automatically install and update plugins
+  install = {
+    missing = true,        -- Install missing plugins on startup
+    colorscheme = { "tokyonight" },  -- Try to load this colorscheme when installing plugins
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+  -- automatically run :Lazy sync when plugins.lua is updated
+  change_detection = {
+    enabled = true,        -- Enable automatic detection of config changes
+    notify = true,         -- Show notification when changes are detected
+  },
 })
 

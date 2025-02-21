@@ -12,7 +12,6 @@ vim.api.nvim_create_autocmd('VimEnter', {
       vim.fn.stdpath('data') .. '/backup',
       vim.fn.stdpath('data') .. '/swap',
       vim.fn.stdpath('data') .. '/undo',
-      vim.fn.stdpath('data') .. '/yankround'
     }
     
     for _, dir in ipairs(required_dirs) do
