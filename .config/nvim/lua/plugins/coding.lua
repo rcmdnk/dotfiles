@@ -1,28 +1,38 @@
 return {
   -- GitHub Copilot
   {
-    'github/copilot.vim',
-    lazy = false,  -- Ensure Copilot loads at startup
-    priority = 1000,  -- High priority to load early
+    'zbirenbaum/copilot.lua',
+    cmd = 'Copilot',
+    event = 'InsertEnter',
     config = function()
-      -- SSL certificate settings
-      vim.g.copilot_proxy = ''  -- Clear any proxy settings
-      vim.g.copilot_proxy_strict_ssl = false  -- Disable strict SSL checking
-      
-      -- Basic settings
-      vim.g.copilot_no_tab_map = true
-      vim.g.copilot_assume_mapped = true
-      vim.g.copilot_tab_fallback = ""
-      
-      -- Custom keymaps
-      vim.keymap.set('i', '<Tab>', 'copilot#Accept("<Tab>")', {
-        expr = true,
-        replace_keycodes = false
+      require('copilot').setup({
+        panel = {
+          enabled = true,
+          auto_refresh = true,
+        },
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          keymap = {
+            accept = '<Tab>',
+            next = '<M-]>',
+            prev = '<M-[>',
+            dismiss = '<M-\\>',
+          },
+        },
+        filetypes = {
+          markdown = true,
+          help = true,
+        },
       })
-      vim.keymap.set('i', '<M-]>', '<Plug>(copilot-next)', { silent = true })
-      vim.keymap.set('i', '<M-[>', '<Plug>(copilot-previous)', { silent = true })
-      vim.keymap.set('i', '<M-\\>', '<Plug>(copilot-dismiss)', { silent = true })
-      vim.keymap.set('i', '<M-CR>', '<Plug>(copilot-suggest)', { silent = true })
+    end,
+  },
+
+  {
+    'zbirenbaum/copilot-cmp',
+    dependencies = { 'zbirenbaum/copilot.lua' },
+    config = function()
+      require('copilot_cmp').setup()
     end,
   },
 
@@ -427,45 +437,40 @@ return {
     end,
   },
 
-  -- Additional diagnostics with null-ls
+  -- Shell script linting with nvim-lint
   {
-    'jose-elias-alvarez/null-ls.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',  -- required dependency
-      'williamboman/mason.nvim',
-      'jay-babu/mason-null-ls.nvim',
-    },
+    'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
-      local null_ls = require('null-ls')
-      local mason_null_ls = require('mason-null-ls')
-
-      mason_null_ls.setup({
-        ensure_installed = {
-          -- 'mypy',  -- Python type checker
-          'shellcheck',  -- Shell script checker
+      -- Configure diagnostic signs
+      vim.diagnostic.config({
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = "E",
+            [vim.diagnostic.severity.WARN] = "W",
+            [vim.diagnostic.severity.INFO] = "I",
+            [vim.diagnostic.severity.HINT] = "H",
+          },
         },
-        automatic_installation = true,
+        virtual_text = false,        -- Disable virtual text
+        signs = true,               -- Show signs
+        underline = true,           -- Show underlines
+        update_in_insert = false,   -- Don't update diagnostics in insert mode
+        severity_sort = true,       -- Sort diagnostics by severity
       })
 
-      -- Configure null-ls sources
-      null_ls.setup({
-        sources = {
-          -- Python
-          -- null_ls.builtins.diagnostics.mypy.with({
-          --   extra_args = {
-          --     "--ignore-missing-imports",
-          --     "--disallow-untyped-defs",
-          --     "--check-untyped-defs",
-          --   },
-          -- }),
-          -- Shell
-          null_ls.builtins.diagnostics.shellcheck.with({
-            diagnostics_format = "[#{c}] #{m} (#{s})",  -- Show code and severity
-            extra_args = { "--severity", "warning" },   -- Show warnings and errors
-          }),
-          null_ls.builtins.code_actions.shellcheck,    -- Enable code actions
-        },
+      -- Configure linters by filetype
+      require('lint').linters_by_ft = {
+        sh = {'shellcheck'},
+        bash = {'shellcheck'},
+        zsh = {'shellcheck'},
+      }
+
+      -- Automatically lint on certain events
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+        callback = function()
+          require("lint").try_lint()
+        end,
       })
     end,
   },
