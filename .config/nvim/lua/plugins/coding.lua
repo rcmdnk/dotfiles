@@ -406,8 +406,9 @@ return {
 
       -- Custom function to handle Tab key
       local function tab_complete()
-        if vim.fn['copilot#GetDisplayedSuggestion']()['text'] ~= '' then
-          return vim.fn['copilot#Accept']()
+        local copilot_suggestion = require("copilot.suggestion")
+        if copilot_suggestion.is_visible() then
+          copilot_suggestion.accept()
         elseif cmp.visible() then
           cmp.select_next_item()
         elseif luasnip.expand_or_jumpable() then
