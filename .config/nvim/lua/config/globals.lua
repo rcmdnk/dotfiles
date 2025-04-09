@@ -9,5 +9,6 @@ vim.g.clipboard = false
 
 -- Fix python indentation
 vim.g.python_indent = {
+  closed_paren_align_last_line = false,
   open_paren = 'shiftwidth()',
 }
