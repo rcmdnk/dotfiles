@@ -13,5 +13,9 @@
   {
     "key": "ctrl+q",
     "command": "-workbench.action.quickOpenView"
+  },
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
   }
 ]

@@ -8,6 +8,6 @@ require("config.lazy")
 
 -- Load configurations
 require('config.options')
-require('config.keymaps')
 require('config.autocmds')
 require('config.format')
+require('config.keymaps')

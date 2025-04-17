@@ -90,4 +90,4 @@ if vim.o.virtualedit == 'all' then
   map('n', 'R', "col('.') >= col('$') ? '$R' : 'R'", { expr = true })
   map('n', '.', "col('.') >= col('$') ? '$.' : '.'", { expr = true })
   map('n', 'x', "col('.') >= col('$') ? '$\"_x' : '\"_x'", { expr = true })
-end 
+end
