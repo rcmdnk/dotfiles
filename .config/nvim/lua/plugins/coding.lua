@@ -264,7 +264,7 @@ return {
       })
 
       vim.diagnostic.config({
-        virtual_text = false,        -- Disable virtual text by default
+        virtual_text = false,       -- Disable virtual text by default
         signs = true,               -- Always show signs in the gutter
         underline = true,           -- Underline problems
         update_in_insert = true,    -- Update diagnostics in insert mode
