@@ -179,9 +179,9 @@
     if [ $# -ne 0 ];then \
       comment=\"$*\";\
     else \
-      comment=\"Tag $tag\"$'\n'\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|grep -v '\\[bot\\]'|grep -v -- '- chore'|grep -v lock-file-maintenance|grep -v dependabot)\";\
+      comment=\"Tag $tag\"'\n'\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|grep -v '\\[bot\\]'|grep -v -- '- chore'|grep -v lock-file-maintenance|grep -v dependabot)\";\
       url=$(git config --get remote.origin.url|sed 's|ssh://git@|https://|'|sed 's|git@github.com:|https://github.com|');\
-      comment=\"$comment\"$'\n'$'\n'\"Full Changelog: $url/compare/$lasttag...$tag\";\
+      comment=\"$comment\"'\n''\n'\"Full Changelog: $url/compare/$lasttag...$tag\";\
     fi;\
     echo \"comment: \n$comment\";\
     tagcheck=$(git tag|grep ${tag});\
@@ -214,9 +214,9 @@
     if [ $# -ne 0 ];then \
       comment=\"$*\";\
     else \
-      comment=\"Tag $tag\"$'\n'\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|grep -v '\\[bot\\]'|grep -v -- '- chore'|grep -v lock-file-maintenance|grep -v dependabot)\";\
+      comment=\"Tag $tag\"'\n'\"$(git log --pretty='%h - %s (%an)' $lasttag..HEAD|grep -v '\\[bot\\]'|grep -v -- '- chore'|grep -v lock-file-maintenance|grep -v dependabot)\";\
       url=$(git config --get remote.origin.url|sed 's|ssh://git@|https://|'|sed 's|git@github.com:|https://github.com|');\
-      comment=\"$comment\"$'\n'$'\n'\"Full Changelog: $url/compare/$lasttag...$tag\";\
+      comment=\"$comment\"'\n''\n'\"Full Changelog: $url/compare/$lasttag...$tag\";\
     fi;\
     echo \"comment: \n$comment\";\
     tagcheck=$(git tag|grep ${tag});\
