@@ -1,2 +1,9 @@
+# Rules are not linked in cursor settings. It is saved in server side.
+# Sync this document with Cursor's Cursor Settings -> Rules.
+
 Do not use tab, insert spaces instead.
 Use English for comments in codes.
+
+For Python codes:
+* Add annotations tor return and arguments of the function for Python codes.
+* Do not use such as `Option[X]`, `List` or `Tuple` from typing, they can be written as `X | None`, `list`, `tuple`
