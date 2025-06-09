@@ -220,7 +220,11 @@ _set_homebrew_path () { # {{{
 } # }}}
 
 _set_pyenv () { # {{{
-  if ! type pyenv >& /dev/null;then
+  cmd="$(type pyenv 2>&1)"
+  if [ $? -ne 0 ];then
+    return
+  fi
+  if echo "$cmd" | grep -q 'is a function';then
     return
   fi
   _source_file "$HOME/.pyenvrc"
