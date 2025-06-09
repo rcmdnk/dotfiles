@@ -76,10 +76,6 @@
   log-graph = log --all --graph --date=short --color --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s %Cred%d'
   log-tag = log --decorate=full
   ls = ls-files
-  xxx = "!f () {\
-    cd ./${GIT_PREFIX};\
-    echo $PWD;\
-  };f"
   ls-here = "!f () {\
     cd ./${GIT_PREFIX};\
     files=\"$(git status -s --ignored | while IFS= read -r line;do file=$(echo $line | cut -d ' ' -f2);renamed=$(echo $line | cut -d ' ' -f4);if echo $file | grep -q \"^\\.\\.\" &&  ([ -z \"$renamed\" ] || echo $renamed | grep -q \"^\\.\\.\");then continue;fi;if ! echo $file | grep -q -E \"/.+\";then echo \"$line\";elif [ -n \"$renamed\" ]&& ! echo $renamed | grep -q \"/\";then echo \"$line\";fi;done)\";\
@@ -354,6 +350,10 @@
   # Use with useForceIfIncludes = true
   pushf = push --force-with-lease
   c = gpt-commit
+  # worktree
+  wl = worktree list
+  wa = worktree add
+  wr = worktree remove
 
 [secrets]
   providers = git secrets --aws-provider

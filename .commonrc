@@ -622,6 +622,25 @@ _set_function () { # Functions  {{{
     export DOCKER_HOST=unix://$HOME/.lima/amd64/sock/docker.sock
   }  # }}}
 
+  # for git {{{
+  gitwc () { # worktree change
+    selected=$(git worktree list|sentaku -s $'\n')
+    ret=$?
+    if [ $ret -ne 0 ];then
+      return $ret
+    fi
+    if [[ ! -n "$selected" ]];then
+      return
+    fi
+    local dir=$(echo "$selected"|cut -d ' ' -f 1);
+    if [[ -d "$dir" ]];then
+      cd "$dir"
+    else
+      echo "Directory $dir does not exist."
+    fi
+  }
+  # }}}
+
   # for ghq {{{
   if type ghq >& /dev/null;then
     ghqgo () {
@@ -699,13 +718,15 @@ _set_function () { # Functions  {{{
         command ghq "$@"
       fi
     }
-  fi   # }}}
+  fi
+  # }}}
 
-  docker_clean () {   # {{{
+  docker_clean () { # for docker # {{{
     docker system prune -a --volumes --force
     docker container rm -f $(docker container ls -aq)
     docker image rm -f $(docker image ls -q)
-  }  # }}}
+  } # }}}
+
 } # }}} Functions
 
 _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
