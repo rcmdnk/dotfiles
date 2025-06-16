@@ -228,7 +228,7 @@ _set_pyenv () { # {{{
     return
   fi
   _source_file "$HOME/.pyenvrc"
-  eval "$(pyenv init -)"
+  eval "$(command pyenv init -)"
 } # }}}
 
 _set_path () { # {{{
@@ -627,23 +627,34 @@ _set_function () { # Functions  {{{
   }  # }}}
 
   # for git {{{
-  gitwc () { # worktree change
-    selected=$(git worktree list|sentaku -s $'\n')
-    ret=$?
-    if [ $ret -ne 0 ];then
-      return $ret
-    fi
-    if [[ ! -n "$selected" ]];then
-      return
-    fi
-    local dir=$(echo "$selected"|cut -d ' ' -f 1);
-    if [[ -d "$dir" ]];then
-      cd "$dir"
-    else
-      echo "Directory $dir does not exist."
-    fi
-  }
-  # }}}
+  gitcmd="$(type git 2>&1)"
+  ret=$?
+  if [ $ret -eq 0 ] && ! echo "$gitcmd" | grep -q 'is a function';then
+    git-wc () { # worktree change
+      selected=$(command git worktree list|sentaku -s $'\n')
+      ret=$?
+      if [ $ret -ne 0 ];then
+        return $ret
+      fi
+      if [[ ! -n "$selected" ]];then
+        return
+      fi
+      local dir=$(echo "$selected"|cut -d ' ' -f 1);
+      if [[ -d "$dir" ]];then
+        cd "$dir"
+      else
+        echo "Directory $dir does not exist."
+      fi
+    }
+
+    git () {
+      if [ "$1" != "wc" ];then
+        command git "$@"
+        return $?
+      fi
+      git-wc
+    }
+  fi # }}}
 
   # for ghq {{{
   if type ghq >& /dev/null;then
