@@ -83,6 +83,10 @@ $endif
 #"\eh" : backward-kill-word
 #"\ed" : kill-word
 
+# Search (Especially C-s is not set by default)
+"\C-r": reverse-search-history
+"\C-s": forward-search-history
+
 # default to re-read .inputrc
 "\C-x\C-r": re-read-init-file
 "\C-xr": re-read-init-file
