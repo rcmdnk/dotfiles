@@ -31,8 +31,8 @@ map('n', '<Leader>s', ':setlocal spell!<CR>', opts)
 map('n', '<Leader>/', ':noh<CR>', opts)
 
 -- Buffer operations
-map('n', '<Leader>q', ':bdelete<CR>', opts)
-map('n', '<Leader>w', ':w<CR>:bdelete<CR>', opts)
+map('n', '<Leader>q', '<cmd>bdelete<CR>', opts)
+map('n', '<Leader>w', '<cmd>w<CR><cmd>bdelete<CR>', opts)
 map('n', '<A-w>', ':w<CR>', opts)
 map('n', '<A-q>', ':q!<CR>', opts)
 map('n', '<A-z>', ':ZZ<CR>', opts)
