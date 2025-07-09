@@ -49,52 +49,36 @@ return {
   -- CopilotChat
   {
     'CopilotC-Nvim/CopilotChat.nvim',
-    branch = 'main',
     dependencies = {
       'github/copilot.vim',
       'nvim-lua/plenary.nvim',
     },
-    cmd = {
-      'CopilotChatBuffer',
-      'CopilotChatExplain',
-      'CopilotChatReview',
-      'CopilotChatFix',
-      'CopilotChatOptimize',
-      'CopilotChatDocs',
-      'CopilotChatTests',
-      'CopilotChatFixDiagnostic',
-      'CopilotChatCommit',
-      'CopilotChatCommitStaged',
-      'CopilotChatRefactor',
-      'CopilotChatVisual',
-      'CopilotChatInPlace',
-    },
-    keys = {
-      { '<leader>ccb', '<cmd>CopilotChatBuffer<cr>', desc = 'CopilotChat - Buffer' },
-      { '<leader>cce', '<cmd>CopilotChatExplain<cr>', desc = 'CopilotChat - Explain' },
-      { '<leader>ccr', '<cmd>CopilotChatReview<cr>', desc = 'CopilotChat - Review' },
-      { '<leader>ccf', '<cmd>CopilotChatFix<cr>', desc = 'CopilotChat - Fix' },
-      { '<leader>cco', '<cmd>CopilotChatOptimize<cr>', desc = 'CopilotChat - Optimize' },
-      { '<leader>ccd', '<cmd>CopilotChatDocs<cr>', desc = 'CopilotChat - Docs' },
-      { '<leader>cct', '<cmd>CopilotChatTests<cr>', desc = 'CopilotChat - Tests' },
-      { '<leader>ccF', '<cmd>CopilotChatFixDiagnostic<cr>', desc = 'CopilotChat - Fix Diagnostic' },
-      { '<leader>ccc', '<cmd>CopilotChatCommit<cr>', desc = 'CopilotChat - Commit' },
-      { '<leader>ccC', '<cmd>CopilotChatCommitStaged<cr>', desc = 'CopilotChat - Commit Staged' },
-      { '<leader>ccR', '<cmd>CopilotChatRefactor<cr>', desc = 'CopilotChat - Refactor' },
-      { '<leader>ccv', ':CopilotChatVisual<cr>', mode = 'x', desc = 'CopilotChat - Visual' },
-      { '<leader>ccx', ':CopilotChatInPlace<cr>', mode = 'x', desc = 'CopilotChat - In Place' },
-    },
-    config = function()
-      -- SSL certificate settings
-      vim.g.copilot_chat_proxy = ''  -- Clear any proxy settings
-      vim.g.copilot_chat_proxy_strict_ssl = false  -- Disable strict SSL checking
-      
-      require('CopilotChat').setup({
-        debug = true,
-        proxy = '',  -- Clear proxy settings
-        proxy_strict_ssl = false,  -- Disable strict SSL
-      })
-    end,
+    -- keys = {
+    --   { '<leader>ccb', '<cmd>CopilotChatBuffer<cr>', desc = 'CopilotChat - Buffer' },
+    --   { '<leader>cce', '<cmd>CopilotChatExplain<cr>', desc = 'CopilotChat - Explain' },
+    --   { '<leader>ccr', '<cmd>CopilotChatReview<cr>', desc = 'CopilotChat - Review' },
+    --   { '<leader>ccf', '<cmd>CopilotChatFix<cr>', desc = 'CopilotChat - Fix' },
+    --   { '<leader>cco', '<cmd>CopilotChatOptimize<cr>', desc = 'CopilotChat - Optimize' },
+    --   { '<leader>ccd', '<cmd>CopilotChatDocs<cr>', desc = 'CopilotChat - Docs' },
+    --   { '<leader>cct', '<cmd>CopilotChatTests<cr>', desc = 'CopilotChat - Tests' },
+    --   { '<leader>ccF', '<cmd>CopilotChatFixDiagnostic<cr>', desc = 'CopilotChat - Fix Diagnostic' },
+    --   { '<leader>ccc', '<cmd>CopilotChatCommit<cr>', desc = 'CopilotChat - Commit' },
+    --   { '<leader>ccC', '<cmd>CopilotChatCommitStaged<cr>', desc = 'CopilotChat - Commit Staged' },
+    --   { '<leader>ccR', '<cmd>CopilotChatRefactor<cr>', desc = 'CopilotChat - Refactor' },
+    --   { '<leader>ccv', ':CopilotChatVisual<cr>', mode = 'x', desc = 'CopilotChat - Visual' },
+    --   { '<leader>ccx', ':CopilotChatInPlace<cr>', mode = 'x', desc = 'CopilotChat - In Place' },
+    -- },
+    -- config = function()
+    --   -- SSL certificate settings
+    --   vim.g.copilot_chat_proxy = ''  -- Clear any proxy settings
+    --   vim.g.copilot_chat_proxy_strict_ssl = false  -- Disable strict SSL checking
+
+    --   require('CopilotChat').setup({
+    --     debug = true,
+    --     proxy = '',  -- Clear proxy settings
+    --     proxy_strict_ssl = false,  -- Disable strict SSL
+    --   })
+    -- end,
   },
 
   -- Snippets
@@ -363,10 +347,10 @@ return {
         },
         ts_ls = {},  -- TypeScript LSP
         rust_analyzer = {},
-        
+
         -- Markdown
         marksman = {},
-        
+
         -- LaTeX
         texlab = {
           settings = {
@@ -382,7 +366,7 @@ return {
             },
           },
         },
-        
+
         -- Terraform
         terraformls = {
           filetypes = { "terraform", "tf", "terraform-vars" },
@@ -513,4 +497,4 @@ return {
       })
     end,
   },
-} 
+}
