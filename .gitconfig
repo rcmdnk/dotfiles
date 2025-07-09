@@ -353,7 +353,9 @@
   # worktree
   wt = worktree
   wl = worktree list
-  wa = worktree add
+  wa = "!f () {\
+    worktree add .worktree/$1 $1; \
+  };f"
   wr = "!f() {\
     if [ $# -ne 0 ];then \
       git worktree remove \"$@\";\
