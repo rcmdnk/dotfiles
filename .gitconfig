@@ -354,14 +354,18 @@
   wt = worktree
   wl = worktree list
   wa = "!f () {\
-    worktree add .worktree/$1 $1; \
+    if [ $# -eq 0 ];then \
+      echo 'Usage: git wa <worktree_name>';\
+      return 1;\
+    fi;\
+    git worktree add .worktree/$1; \
   };f"
   wr = "!f() {\
-    if [ $# -ne 0 ];then \
+    if [ $# -eq 1 ] && [ \"$1\" != \"--force\" ] && [ \"$1\" != \"-f\" ];then \
       git worktree remove \"$@\";\
-      return;\
+      return 1;\
     fi;\
-    wt=$(git worktree list|sentaku -s $'\n'|cut -d ' ' -f1);\
+    wt=$(git worktree list|grep -v '\\[main\\]$'|grep -v '\\[mater\\]$'|sentaku -s $'\n'|cut -d ' ' -f1);\
     if [ -z \"$wt\" ];then \
       return;\
     fi;\
