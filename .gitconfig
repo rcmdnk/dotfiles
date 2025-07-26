@@ -13,7 +13,7 @@
   helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
 [init]
   defaultBranch = main
-#  templatedir = ~/.git-templates/git-secrets
+  #templateDir = ~/.config/git-templates
 [core]
   autocrlf = false
   editor = vi
@@ -61,7 +61,42 @@
   checkout-empty = checkout --orphan # checkout empty(orphan) branch
   ce = checkout-empty
   ci = commit -a
-  cl = clone --recursive
+  cl = "!f () {\
+    git clone \"$@\";\
+    ret=$?;\
+    if [ \"$ret\" != 0 ];then \
+      return $ret;\
+    fi;\
+    for last_arg; do :; done; \
+    if [ -d \"$last_arg\" ];then \
+      d=\"$last_arg\";\
+    else \
+      d=\"$(basename \"$last_arg\" .git)\";\
+    fi;\
+    cd \"$d\"; \
+    if [ $? -ne 0 ];then \
+      echo \"Failed to change directory to $d\";\
+      return 1;\
+    fi;\
+    pwd; \
+    if type mise > /dev/null 2>&1 && [ -f .mise.toml ];then \
+      github_user=$(git remote get-url origin | awk -F'[:/]' '{printf \"%s\\n\", $(NF-1)}');\
+      echo mise_trust_repo = \" $MISE_TRUST_REPO \";\
+      if [ -n \"$github_user\" ] && echo \" $MISE_TRUST_REPO \" | grep -q \"$github_user\";then \
+        mise trust;\
+      fi ;\
+    fi;\
+    if type uv > /dev/null 2>&1 && [ -f uv.lock ];then \
+      uv sync;\
+    fi;\
+    if [ -f .pre-commit-config.yaml ];then \
+      if uv run which pre-commit > /dev/null 2>&1;then \
+        uv run pre-commit install;\
+      elif type pre-commit > /dev/null 2>&1;then \
+        pre-commit install;\
+      fi;\
+    fi; \
+  };f"
   co = "!f () {\
     if [ $# -gt 0 ];then \
       git checkout \"$@\";\
@@ -358,6 +393,8 @@
       echo 'Usage: git wa <worktree_name>';\
       return 1;\
     fi;\
+    pwd;\
+    echo git worktree add .worktree/$1; \
     git worktree add .worktree/$1; \
   };f"
   wr = "!f() {\
