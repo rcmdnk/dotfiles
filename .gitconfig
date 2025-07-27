@@ -56,6 +56,21 @@
   am = commit --amend --no-edit
   ba = branch -a
   br = branch
+  bd = "!f () {\
+    flag=\"-d\";\
+    if [ \"$1\" = \"-D\" ];then \
+      flag=\"-D\";\
+    fi;\
+    branch=$(git branch|grep -v \"^..main$\"|grep -v \"^..master$\"|sentaku -s $'\n'|cut -c3-);\
+    if [ -n \"$branch\" ];then \
+      IFS_ORIG=$IFS;\
+      IFS=$'\n';\
+      for b in $branch;do \
+        git branch -$flag $b;\
+      done;\
+    IFS=$IFS_ORIG;\
+    fi;\
+  };f"
   current-branch = rev-parse --abbrev-ref HEAD
   cb = current-branch
   checkout-empty = checkout --orphan # checkout empty(orphan) branch
@@ -67,7 +82,7 @@
     if [ \"$ret\" != 0 ];then \
       return $ret;\
     fi;\
-    for last_arg; do :; done; \
+    for last_arg;do :; done; \
     if [ -d \"$last_arg\" ];then \
       d=\"$last_arg\";\
     else \
@@ -102,8 +117,6 @@
     files=\"$(echo \"$files\"; ls -a | while read -r line;do if [ ! -d \"$line\" ] || [ \"$line\" = \".\" ] || [ \"$line\" = \"..\" ] || [ \"$line\" = \".git\" ];then continue;fi;if ! echo \"$files\" | cut -c 4- | awk '{print $1}' | grep -q \"^$line/$\";then echo \"-- $line/\";fi;done)\";\
     echo \"$files\" | sort -k1.4;\
   };f"
-
-
   mh = "!f () {\
     n=10;\
     if [ $# -gt 0 ];then \
@@ -371,25 +384,29 @@
   # worktree
   wt = worktree
   wl = worktree list
-  wa = "!f () {\
-    if [ $# -eq 0 ];then \
-      echo 'Usage: git wa <worktree_name>';\
-      return 1;\
-    fi;\
-    pwd;\
-    echo git worktree add .worktree/$1; \
-    git worktree add .worktree/$1; \
-  };f"
   wr = "!f() {\
     if [ $# -eq 1 ] && [ \"$1\" != \"--force\" ] && [ \"$1\" != \"-f\" ];then \
       git worktree remove \"$@\";\
       return 1;\
     fi;\
-    wt=$(git worktree list|grep '\\.worktree/'|sentaku -s $'\n'|cut -d ' ' -f1);\
+    wt=$(git worktree list|grep '\\.worktree/'|sentaku -s $'\n');\
     if [ -z \"$wt\" ];then \
       return;\
     fi;\
-    git worktree remove \"$wt\";\
+    IFS_ORIG=$IFS;\
+    IFS=$'\n';\
+    for w in $wt;do \
+      d=\"$(echo $w|cut -d' ' -f1)\";\
+      b=\"$(echo $w|sed -n 's/.*\\[\\(.*\\)\\]$/\\1/p')\";\
+      if [ -d \"$d\" ];then \
+        echo \"Removing worktree: $d\";\
+        git worktree remove \"$d\";\
+        git branch -d \"$b\";\
+      else \
+        echo \"Worktree $d does not exist, skipping.\";\
+      fi;\
+    done;\
+    IFS=$IFS_ORIG;\
   };f"
 
 [secrets]

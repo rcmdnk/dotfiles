@@ -635,11 +635,26 @@ _set_function () { # Functions  {{{
   gitcmd="$(type git 2>&1)"
   ret=$?
   if [ $ret -eq 0 ] && ! echo "$gitcmd" | grep -q 'is a function';then
+    git-wa () { # worktree add
+      if [ $# -eq 0 ];then
+        echo 'Usage: git wa <worktree_name>'
+        return 1
+      fi
+      d="$(git rev-parse --git-common-dir)/../.worktree/$1"
+      git worktree add "$d"
+      ret=$?
+      if [ "$ret" -ne 0 ];then
+        echo "Failed to add worktree: $1"
+        return "$ret"
+      fi
+      cd "$d" || return $?
+      git-repo-init
+    }
     git-wc () { # worktree change
       selected=$(command git worktree list|sentaku -s $'\n')
       ret=$?
-      if [ $ret -ne 0 ];then
-        return $ret
+      if [ "$ret" -ne 0 ];then
+        return "$ret"
       fi
       if [[ -z "$selected" ]];then
         return
@@ -653,11 +668,13 @@ _set_function () { # Functions  {{{
     }
 
     git () {
-      if [ "$1" != "wc" ];then
+      if ! echo " wc wa " | grep -q " $1 " ;then
         command git "$@"
         return $?
       fi
-      git-wc
+      subcmd="$1"
+      shift
+      "git-$subcmd" "$@"
     }
   fi # }}}
 
