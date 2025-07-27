@@ -78,24 +78,7 @@
       echo \"Failed to change directory to $d\";\
       return 1;\
     fi;\
-    pwd; \
-    if type mise > /dev/null 2>&1 && [ -f .mise.toml ];then \
-      github_user=$(git remote get-url origin | awk -F'[:/]' '{printf \"%s\\n\", $(NF-1)}');\
-      echo mise_trust_repo = \" $MISE_TRUST_REPO \";\
-      if [ -n \"$github_user\" ] && echo \" $MISE_TRUST_REPO \" | grep -q \"$github_user\";then \
-        mise trust;\
-      fi ;\
-    fi;\
-    if type uv > /dev/null 2>&1 && [ -f uv.lock ];then \
-      uv sync;\
-    fi;\
-    if [ -f .pre-commit-config.yaml ];then \
-      if uv run which pre-commit > /dev/null 2>&1;then \
-        uv run pre-commit install;\
-      elif type pre-commit > /dev/null 2>&1;then \
-        pre-commit install;\
-      fi;\
-    fi; \
+    git-repo-init;\
   };f"
   co = "!f () {\
     if [ $# -gt 0 ];then \
@@ -402,7 +385,7 @@
       git worktree remove \"$@\";\
       return 1;\
     fi;\
-    wt=$(git worktree list|grep -v '\\[main\\]$'|grep -v '\\[mater\\]$'|sentaku -s $'\n'|cut -d ' ' -f1);\
+    wt=$(git worktree list|grep '\\.worktree/'|sentaku -s $'\n'|cut -d ' ' -f1);\
     if [ -z \"$wt\" ];then \
       return;\
     fi;\

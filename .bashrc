@@ -1,7 +1,9 @@
+# shellcheck shell=bash
 # .bashrc
 
 # {{{ Initialization
 # Load common functions
+# shellcheck disable=SC1091
 source "$HOME/.commonrc"
 
 # First, reset all pathes (PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH)
@@ -77,7 +79,7 @@ _set_mise () { # {{{
     case "$command" in
     deactivate|shell|sh)
       # if argv doesn't contains -h,--help
-      if [[ ! " $@ " =~ " --help " ]] && [[ ! " $@ " =~ " -h " ]]; then
+      if [[ ! " $* " =~ " --help " ]] && [[ ! " $* " =~ " -h " ]]; then
         eval "$(command mise "$command" "$@")"
         return $?
       fi
@@ -113,6 +115,8 @@ _set_mise () { # {{{
           fi
       }
   fi
+
+  export MISE_TRUST_REPO="rcmdnk"
 } # }}}
 _set_mise
 

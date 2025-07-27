@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2155,SC2001,SC2181,SC2206,SC2154,SC2317
 # Common rc file for Bash/Zsh
 
-# shellcheck disable=SC1090
 
 _source_file () { # Function for sourcing with pre check of the file {{{
   if [[ $# -lt 1 ]];then
@@ -84,8 +84,8 @@ _clean_path () { # {{{
 
 _remove_path_lib () { # {{{
   local p=$1
-  export PATH=$(echo $PATH|sed "s|^${p}/bin:*||")
-  export PATH=$(echo $PATH|sed "s|\(:\)${p}/bin:*|\1|")
+  export PATH=$(echo "$PATH"|sed "s|^${p}/bin:*||")
+  export PATH=$(echo "$PATH"|sed "s|\(:\)${p}/bin:*|\1|")
 } # }}}
 
 _set_path_lib () { # {{{
@@ -201,7 +201,7 @@ _set_homebrew_path () { # {{{
   #_add_path CPATH "$HOMEBREW_PREFIX/opt/binutils/include"
 
   ## Python3 -> python
-  _add_path PATH $(brew --prefix)/opt/python/libexec/bin
+  _add_path PATH "$(brew --prefix)/opt/python/libexec/bin"
 
   ## Ruby 2.7 for octopress
   _add_path PATH "$HOMEBREW_PREFIX/opt/ruby@2.7/bin"
@@ -491,6 +491,7 @@ _set_stty () { # stty, disable terminal lock {{{
   [[ "$OSTYPE" = darwin* ]] && tty -s && stty discard undef
 } # }}}
 
+# shellcheck disable=SC2120
 _set_alias () { # Alias {{{
   alias l='/bin/ls'
   if [[ "$OSTYPE" = linux* ]] || [[ "$OSTYPE" = cygwin* ]];then
@@ -531,7 +532,9 @@ _set_alias () { # Alias {{{
   fi
   alias put='multi_clipboard -x'
   alias del="trash -f -r"
+  # shellcheck disable=SC2142
   alias histcheck="history|awk '{print \$4}'|sort|uniq -c|sort -n"
+  # shellcheck disable=SC2142
   alias histcheckarg="history|awk '{print \$4\" \"\$5\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}'|sort|uniq -c|sort -n"
   alias sort='LC_ALL=C sort'
   alias uniq='LC_ALL=C uniq'
@@ -567,6 +570,7 @@ _set_function () { # Functions  {{{
     elif type vim >& /dev/null;then
       vi_cmd=vim
     elif type vi >& /dev/null;then
+      # shellcheck disable=SC2209
       vi_cmd=vi
     else
       vi_cmd=""
@@ -582,7 +586,7 @@ _set_function () { # Functions  {{{
       echo "$var"|col -bx|$vi_cmd -R -c 'set ft=man' -
     else
       echo "$var"
-      return $ret
+      return "$ret"
     fi
   } # }}}
 
@@ -599,6 +603,7 @@ _set_function () { # Functions  {{{
         esac
         shift
       done
+      # shellcheck disable=SC2086
       find "$directory" $opt| sort | sed '1d;s,[^/]*/,|    ,g;s/..//;s/[^ ]*$/|-- &/'
     }
   fi   # }}}
@@ -636,12 +641,12 @@ _set_function () { # Functions  {{{
       if [ $ret -ne 0 ];then
         return $ret
       fi
-      if [[ ! -n "$selected" ]];then
+      if [[ -z "$selected" ]];then
         return
       fi
       local dir=$(echo "$selected"|cut -d ' ' -f 1);
       if [[ -d "$dir" ]];then
-        cd "$dir"
+        cd "$dir" || return $?
       else
         echo "Directory $dir does not exist."
       fi
@@ -665,7 +670,7 @@ _set_function () { # Functions  {{{
         local repo=$(command ghq list|sort|sentaku)
       fi
       if [[ -n "$repo" ]];then
-        cd "$(command ghq root)/$repo"
+        cd "$(command ghq root)/$repo" || return $?
       fi
     }
 
@@ -686,6 +691,7 @@ _set_function () { # Functions  {{{
       if [[ $# -gt 0 ]];then
         local repos=("$@")
       else
+        # shellcheck disable=SC2207
         local repos=($(command ghq list|sentaku))
       fi
       for r in "${repos[@]}";do
@@ -738,7 +744,9 @@ _set_function () { # Functions  {{{
 
   docker_clean () { # for docker # {{{
     docker system prune -a --volumes --force
+    # shellcheck disable=SC2046
     docker container rm -f $(docker container ls -aq)
+    # shellcheck disable=SC2046
     docker image rm -f $(docker image ls -q)
   } # }}}
 
@@ -814,6 +822,7 @@ _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
 
 _source_files () {  # {{{
   # completion files
+  # shellcheck disable=SC2066
   for d in "$HOME/usr";do
     _load_completion "$d"
   done

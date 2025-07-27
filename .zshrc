@@ -1,7 +1,9 @@
+# shellcheck shell=bash
 # .zshrc
 
 # Load local machine's zshrc
 if [ -f /etc/zshrc ];then
+  # shellcheck disable=SC1091
   source /etc/zshrc
 fi
 
@@ -105,6 +107,7 @@ setopt SHARE_HISTORY
 setopt NO_BEEP
 
 # automatically decide when to page a list of completions
+# shellcheck disable=SC2034
 LISTMAX=0
 
 # disable mail checking
@@ -134,7 +137,9 @@ fi
 
 # sd_cl
 if [ -f ~/usr/etc/sd_cl ];then
+  # shellcheck disable=SC2034
   SD_CL_NOCOMPINIT=1
+  # shellcheck disable=SC1090
   source ~/usr/etc/sd_cl
 fi
 
