@@ -45,6 +45,8 @@
   sslVerify = true
 [tag]
   sort = version:refname
+[protocol "file"]
+	allow = always
 [ghq]
   root = ~/.ghq
 [alias]
