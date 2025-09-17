@@ -1,0 +1,10 @@
+[settings]
+
+[settings.npm]
+bun = true
+
+[tools]
+bun = "1.2.22"
+"npm:@google/gemini-cli" = "0.4.1"
+"npm:@marp-team/marp-cli" = "4.2.3"
+"npm:@openai/codex" = "0.36.0"
