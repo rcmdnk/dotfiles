@@ -96,6 +96,10 @@ _set_mise () { # {{{
   if [[ ";${PROMPT_COMMAND:-};" != *";_mise_hook;"* ]]; then
     PROMPT_COMMAND="_mise_hook${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
   fi
+
+  # Execute _mise_hook once to set the environment for the current shell
+  _mise_hook
+
   if [ -z "${_mise_cmd_not_found:-}" ]; then
       _mise_cmd_not_found=1
       if [ -n "$(declare -f command_not_found_handle)" ]; then
@@ -117,6 +121,7 @@ _set_mise () { # {{{
   fi
 
   export MISE_TRUST_REPO="rcmdnk"
+
 
   mise install > /dev/null 2>&1 || true
   mise update --bump > /dev/null 2>&1 || true
