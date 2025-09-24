@@ -121,10 +121,6 @@ _set_mise () { # {{{
   fi
 
   export MISE_TRUST_REPO="rcmdnk"
-
-
-  mise install > /dev/null 2>&1 || true
-  mise upgrade --bump > /dev/null 2>&1 || true
 } # }}}
 _set_mise
 
