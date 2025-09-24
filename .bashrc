@@ -124,7 +124,7 @@ _set_mise () { # {{{
 
 
   mise install > /dev/null 2>&1 || true
-  mise update --bump > /dev/null 2>&1 || true
+  mise upgrade --bump > /dev/null 2>&1 || true
 } # }}}
 _set_mise
 
