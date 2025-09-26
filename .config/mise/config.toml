@@ -6,7 +6,7 @@ bun = true
 [tools]
 bun = "1.2.22"
 go = "1.25.1"
-node = "24.8.0"
+node = "24.9.0"
 "npm:@google/gemini-cli" = "0.6.1"
 "npm:@marp-team/marp-cli" = "4.2.3"
 "npm:@openai/codex" = "0.41.0"
