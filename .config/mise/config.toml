@@ -15,7 +15,7 @@ uv = "0.8.22"
 "npm:@marp-team/marp-cli" = "4.2.3"
 "npm:@openai/codex" = "0.42.0"
 "npm:@upstash/context7-mcp" = "1.0.20"
-"npm:@github/copilot" = "0.0.328"
+"npm:@github/copilot" = "0.0.330"
 "npm:@playwright/mcp" = "0.0.40"
 
 "pipx:oraios/serena" = "v0.1.4"
