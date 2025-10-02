@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m' '.config' '.rye' '.cursor')
+exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m' '.config' '.rye' '.cursor' '.codex')
 only_inside=(.vim)
 instdir="$HOME"
 
@@ -148,6 +148,9 @@ if [ -d "$cursor_dir" ];then
   myinstall "$curdir/.cursor/settings.json" "$cursor_dir/settings.json"
   myinstall "$curdir/.cursor/keybindings.json" "$cursor_dir/keybindings.json"
 fi
+
+# codex
+myinstall "$curdir/.codex/config.toml" "$instdir/.codex/config.toml"
 
 # config
 mkdir -p "$instdir/.config"
