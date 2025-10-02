@@ -35,3 +35,15 @@ args = []
 [mcp_servers.chrome-devtools]
 command = "chrome-devtools-mcp"
 args = []
+
+#[mcp_servers.github]
+# environmental value for token does not work
+#command = "mcp-proxy"
+#args = [
+#  "--transport",
+#  "streamablehttp",
+#  "-H",
+#  "Authorization",
+#  "Bearer ${GITHUB_MCP_API_TOKEN}",
+#  "https://api.githubcopilot.com/mcp/",
+#]
