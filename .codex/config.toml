@@ -1,0 +1,37 @@
+# https://github.com/openai/codex/blob/main/codex-rs/config.md
+
+#model ="gpt-5"
+approval_policy = "never"
+#sandbox_mode    = "workspace-write"
+sandbox_mode    = "danger-full-access"
+#model_reasoning_effort = "high"
+model_reasoning_effort = "medium"
+network_access = true
+
+# notify = ["bash", "-c", "..."]
+
+[shell_environment_policy]
+inherit = "all"
+#ignore_defualt_excludes = false
+#exclude = ["AWS_*", "AZURE_*"]
+#set = { CI = "1" }
+#include_only = ["PATH", "HOME"]
+
+[tools]
+web_search = true
+
+[mcp_servers.context7]
+command = "context7-mcp"
+args = ["--api-key", "${CONTEXT7_API_KEY}"]
+
+[mcp_servers.serena]
+command = "serena"
+args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]
+
+[mcp_servers.playwright]
+command = "mcp-server-playwright"
+args = []
+
+[mcp_servers.chrome-devtools]
+command = "chrome-devtools-mcp"
+args = []
