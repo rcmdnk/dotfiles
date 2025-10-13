@@ -37,6 +37,10 @@ args = []
 command = "chrome-devtools-mcp"
 args = []
 
+[mcp_servers.aws-knowledge-mcp-server]
+command = "fastmcp"
+args = ["run", "https://knowledge-mcp.global.api.aws"]
+
 #[mcp_servers.github]
 # environmental value for token does not work
 #command = "mcp-proxy"
