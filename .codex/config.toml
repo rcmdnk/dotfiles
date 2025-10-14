@@ -3,8 +3,12 @@
 #model ="gpt-5"
 approval_policy = "on-request"
 #approval_policy = "never"
+
+# Need danger-full-access to run git commands automatically
+# https://github.com/openai/codex/issues/5034
 sandbox_mode    = "workspace-write"
 #sandbox_mode    = "danger-full-access"
+
 #model_reasoning_effort = "high"
 model_reasoning_effort = "medium"
 network_access = true
