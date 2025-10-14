@@ -1,6 +1,7 @@
 # https://github.com/openai/codex/blob/main/codex-rs/config.md
 
 #model ="gpt-5"
+
 approval_policy = "on-request"
 #approval_policy = "never"
 
