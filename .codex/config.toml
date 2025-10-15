@@ -26,6 +26,13 @@ inherit = "all"
 [tools]
 web_search = true
 
+# does not work?
+#[mcp_servers.codex]
+#type = "stdio"
+#command = "codex"
+#args = ["mcp"]
+#description = "Codex MCP: Codex MCP is a framework that allows the Codex CLI to connect with external tools, services, and AI models in a standardized way."
+
 [mcp_servers.context7]
 command = "context7-mcp"
 args = ["--api-key", "${CONTEXT7_API_KEY}"]
@@ -46,6 +53,7 @@ args = []
 command = "fastmcp"
 args = ["run", "https://knowledge-mcp.global.api.aws"]
 
+# Need to run git command with workspace-write, as .git directory is not writable in workspace-write mode (https://github.com/openai/codex/issues/5034)
 [mcp_servers.mcp-server-git]
 command = "mcp-server-git"
 args = []

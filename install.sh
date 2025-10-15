@@ -151,6 +151,7 @@ fi
 
 # codex
 myinstall "$curdir/.codex/config.toml" "$instdir/.codex/config.toml"
+myinstall "$curdir/.codex/AGENTS.md" "$instdir/.codex/AGENTS.md"
 
 # config
 mkdir -p "$instdir/.config"
