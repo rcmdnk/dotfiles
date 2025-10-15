@@ -159,18 +159,7 @@ _set_homebrew_path () { # {{{
   if [ ! -f "${brew_cmd}" ];then
     return
   fi
-  if [ -n "$CODEX_AGENT" ]; then
-    eval "$("$brew_cmd" shellenv)"
-  else
-    # brew shellenv calls `/bin/ps -p "${PPID}" -c -o comm=` and it is not allowed by codex's workspace-write policy
-    # Set paths directly
-    export HOMEBREW_PREFIX="$prefix";
-    export HOMEBREW_CELLAR="$prefix/Cellar";
-    export HOMEBREW_REPOSITORY="$prefix";
-    eval "$(/usr/bin/env PATH_HELPER_ROOT="$prefix" /usr/libexec/path_helper -s)"
-    [ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}";
-    export INFOPATH="$prefix/share/info:${INFOPATH:-}";
-  fi
+  eval "$("$brew_cmd" shellenv)"
 
   ## completion from brew (disabled to faster reading)
   if [ "$BASH_VERSION" != "" ];then
@@ -880,9 +869,7 @@ _source_files () {  # {{{
   _source_file ~/.cargo/env
 
   # For screen
-  if [ -n "$CODEX_AGENT" ]; then
-    _source_file ~/.screen/setup.sh
-  fi
+  _source_file ~/.screen/setup.sh
 
   # For API/Token/Keys
   _source_file ~/.keys

@@ -46,6 +46,11 @@ args = []
 command = "fastmcp"
 args = ["run", "https://knowledge-mcp.global.api.aws"]
 
+[mcp_servers.mcp-server-git]
+command = "mcp-server-git"
+args = []
+
+
 #[mcp_servers.github]
 # environmental value for token does not work
 #command = "mcp-proxy"
