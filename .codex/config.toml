@@ -5,7 +5,7 @@
 approval_policy = "on-request"
 #approval_policy = "never"
 
-# Need danger-full-access to run git commands automatically
+# Need danger-full-access to run git commands automatically (though mcp allow to use git with workspace-write mode)
 # https://github.com/openai/codex/issues/5034
 sandbox_mode    = "workspace-write"
 #sandbox_mode    = "danger-full-access"
@@ -16,6 +16,8 @@ network_access = true
 
 # notify = ["bash", "-c", "..."]
 
+experimental_use_rmcp_client = true
+
 [shell_environment_policy]
 inherit = "all"
 #ignore_defualt_excludes = false
@@ -25,13 +27,6 @@ inherit = "all"
 
 [tools]
 web_search = true
-
-# does not work?
-#[mcp_servers.codex]
-#type = "stdio"
-#command = "codex"
-#args = ["mcp"]
-#description = "Codex MCP: Codex MCP is a framework that allows the Codex CLI to connect with external tools, services, and AI models in a standardized way."
 
 [mcp_servers.context7]
 command = "context7-mcp"
@@ -53,20 +48,11 @@ args = []
 command = "fastmcp"
 args = ["run", "https://knowledge-mcp.global.api.aws"]
 
-# Need to run git command with workspace-write, as .git directory is not writable in workspace-write mode (https://github.com/openai/codex/issues/5034)
+# Need to run git command automatically with workspace-write, as .git directory is not writable in workspace-write mode (https://github.com/openai/codex/issues/5034)
 [mcp_servers.mcp-server-git]
 command = "mcp-server-git"
 args = []
 
-
-#[mcp_servers.github]
-# environmental value for token does not work
-#command = "mcp-proxy"
-#args = [
-#  "--transport",
-#  "streamablehttp",
-#  "-H",
-#  "Authorization",
-#  "Bearer ${GITHUB_MCP_API_TOKEN}",
-#  "https://api.githubcopilot.com/mcp/",
-#]
+[mcp_servers.github-mcp-server]
+url = "https://api.githubcopilot.com/mcp"
+bearer_token_env_var = "GITHUB_MCP_API_TOKEN" # Need to write environmental variable name instead of token value directly
