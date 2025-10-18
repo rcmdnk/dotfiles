@@ -39,14 +39,17 @@ args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "fal
 [mcp_servers.playwright]
 command = "mcp-server-playwright"
 args = []
+enabled = false
 
 [mcp_servers.chrome-devtools]
 command = "chrome-devtools-mcp"
 args = []
+enabled = false
 
 [mcp_servers.aws-knowledge-mcp-server]
 command = "fastmcp"
 args = ["run", "https://knowledge-mcp.global.api.aws"]
+enabled = false
 
 # Need to run git command automatically with workspace-write, as .git directory is not writable in workspace-write mode (https://github.com/openai/codex/issues/5034)
 [mcp_servers.mcp-server-git]
@@ -56,3 +59,4 @@ args = []
 [mcp_servers.github-mcp-server]
 url = "https://api.githubcopilot.com/mcp"
 bearer_token_env_var = "GITHUB_MCP_API_TOKEN" # Need to write environmental variable name instead of token value directly
+enabled = false
