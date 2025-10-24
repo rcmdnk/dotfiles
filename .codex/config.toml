@@ -39,7 +39,7 @@ args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "fal
 [mcp_servers.playwright]
 command = "mcp-server-playwright"
 args = []
-enabled = false
+enabled = true
 
 [mcp_servers.chrome-devtools]
 command = "chrome-devtools-mcp"
