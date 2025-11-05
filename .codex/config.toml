@@ -16,7 +16,8 @@ network_access = true
 
 # notify = ["bash", "-c", "..."]
 
-experimental_use_rmcp_client = true
+rcmp_client = true
+web_search_request = true
 
 [shell_environment_policy]
 inherit = "all"
@@ -25,8 +26,6 @@ inherit = "all"
 #set = { CI = "1" }
 #include_only = ["PATH", "HOME"]
 
-[tools]
-web_search = true
 
 [mcp_servers.context7]
 command = "context7-mcp"
