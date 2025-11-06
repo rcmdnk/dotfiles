@@ -5,18 +5,18 @@ bun = true
 
 [tools]
 bun = "1.3.1"
-go = "1.25.3"
+go = "1.25.4"
 node = "25.1.0"
 python = "3.14.0"
 rust = "1.91.0"
 uv = "0.9.7"
 
-"npm:chrome-devtools-mcp" = "0.9.0"
-"npm:@google/gemini-cli" = "0.11.3"
+"npm:chrome-devtools-mcp" = "0.10.0"
+"npm:@google/gemini-cli" = "0.12.0"
 "npm:@marp-team/marp-cli" = "4.2.3"
-"npm:@openai/codex" = "0.53.0"
+"npm:@openai/codex" = "0.55.0"
 "npm:@upstash/context7-mcp" = "1.0.26"
-"npm:@github/copilot" = "0.0.353"
+"npm:@github/copilot" = "0.0.354"
 "npm:@playwright/mcp" = "0.0.45"
 
 "pipx:oraios/serena" = "latest"
