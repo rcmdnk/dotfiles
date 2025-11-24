@@ -1,4 +1,6 @@
-#MODEL='gpt-4o'
+#MODEL='gpt-5-nano'
+#MODEL='gpt-5-mini'
+#MODEL='gpt-5.1'
 #MODEL='deepseek-chat'
 #MODEL='gemini-2.0-flash'
 #MODEL='gemini-2.0-flash-lite'
