@@ -692,7 +692,7 @@ _set_function () { # Functions  {{{
     }
 
     git () {
-      if ! echo " wc wa " | grep -q " $1 " ;then
+      if ! echo " wc wa wd " | grep -q " $1 " ;then
         command git "$@"
         return $?
       fi
