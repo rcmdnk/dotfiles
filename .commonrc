@@ -679,7 +679,7 @@ _set_function () { # Functions  {{{
     }
     git-wd () { # renew dev worktree
       local br=${1:-dev}
-      local dir=$(command git worktree|grep "\[${br}\]$"|cut -d ' ' -f 1)
+      local dir=$(command git worktree list|grep "\[${br}\]$"|cut -d ' ' -f 1)
       if [[ -z "$dir" ]];then
         echo "Worktree $br does not exist."
         return 1
