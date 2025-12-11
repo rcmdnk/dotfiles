@@ -651,8 +651,8 @@ _set_function () { # Functions  {{{
         echo 'Usage: git wa <worktree_name>'
         return 1
       fi
-      d="$(git rev-parse --git-common-dir)/../.worktree/$1"
-      git worktree add "$d"
+      d="$(command git rev-parse --git-common-dir)/../.worktree/$1"
+      command git worktree add "$d"
       ret=$?
       if [ "$ret" -ne 0 ];then
         echo "Failed to add worktree: $1"
@@ -676,6 +676,19 @@ _set_function () { # Functions  {{{
       else
         echo "Directory $dir does not exist."
       fi
+    }
+    git-wd () { # renew dev worktree
+      local br=${1:-dev}
+      local dir=$(command git worktree|grep "\[${br}\]$"|cut -d ' ' -f 1)
+      if [[ -z "$dir" ]];then
+        echo "Worktree $br does not exist."
+        return 1
+      fi
+      cd "$dir" || return $?
+      local main_br=$(command git symbolic-ref --short refs/remotes/origin/HEAD|cut -d '/' -f 2)
+      command git checkout -B "${br}_new" "$main_br"
+      command git branch -D "$br"
+      command git branch -m "$br"
     }
 
     git () {
