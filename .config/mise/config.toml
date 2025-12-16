@@ -20,7 +20,7 @@ uv = "0.9.17"
 "npm:@playwright/mcp" = "0.0.52"
 
 "pipx:oraios/serena" = "latest"
-"pipx:fastmcp" = "2.14.0"
+"pipx:fastmcp" = "2.14.1"
 "pipx:mcp-proxy" = "0.10.0"
 "pipx:mcp-server-git" = "2025.11.25"
 "pipx:poetry" = "2.2.1"
