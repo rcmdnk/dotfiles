@@ -34,6 +34,7 @@ args = ["--api-key", "${CONTEXT7_API_KEY}"]
 [mcp_servers.serena]
 command = "serena"
 args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]
+startup_timeout_sec = 60
 
 [mcp_servers.playwright]
 command = "mcp-server-playwright"
