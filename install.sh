@@ -158,6 +158,15 @@ mkdir -p "$instdir/.config"
 for f in .config/*;do
   [[ -e "$f" ]] || continue
   if [ -d "$f" ];then
+    if [ "$f" = ".config/wezterm" ];then
+      if type cmd.exe  >& /dev/null;then
+        winuser="$(cmd.exe /c echo %USERNAME% 2>/dev/null|tr -d '\r')"
+        wezterm_dir="/mnt/c/Users/$winuser/.config/wezterm"
+        mkdir -p "$wezterm_dir"
+        cp "$curdir/$f/wezterm.lua" "$wezterm_dir/wezterm.lua"
+        continue
+      fi
+    fi
     mkdir -p "$instdir/$f"
     for ff in "$f"/*;do
       [[ -e "$ff" ]] || continue
