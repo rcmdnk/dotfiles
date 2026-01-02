@@ -1,5 +1,7 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
+local act = wezterm.action
+
 
 -- This table will hold the configuration.
 local config = {}
@@ -35,6 +37,11 @@ config.window_padding = {
   right = 0,
   top = 0,
   bottom = 0,
+}
+
+config.keys = {
+  { key = 'v', mods = 'ALT', action = act.PasteFrom 'Clipboard' },
+  { key = 'v', mods = 'CMD', action = act.PasteFrom 'Clipboard' },
 }
 
 -- and finally, return the configuration to wezterm
