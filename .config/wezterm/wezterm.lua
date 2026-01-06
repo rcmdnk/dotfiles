@@ -20,6 +20,7 @@ end
 -- config.color_scheme = 'Tokyo Night'
 config.initial_cols = 120
 config.initial_rows = 28
+config.harfbuzz_features = {'calt=0', 'clig=0', 'liga=0'}
 config.font_size = 12
 config.font = wezterm.font_with_fallback {
    'Monaco',
