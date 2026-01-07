@@ -681,8 +681,8 @@ _set_function () { # Functions  {{{
       local br=${1:-dev}
       local dir=$(command git worktree list|grep "\[${br}\]$"|cut -d ' ' -f 1)
       if [[ -z "$dir" ]];then
-        echo "Worktree $br does not exist."
-        return 1
+        git-wa "$br"
+        return
       fi
       cd "$dir" || return $?
       local main_br=$(command git symbolic-ref --short refs/remotes/origin/HEAD|cut -d '/' -f 2)
