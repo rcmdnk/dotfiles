@@ -17,7 +17,7 @@ uv = "0.9.26"
 "npm:@openai/codex" = "0.87.0"
 "npm:@upstash/context7-mcp" = "2.1.0"
 "npm:@github/copilot" = "0.0.384"
-"npm:@playwright/mcp" = "0.0.55"
+"npm:@playwright/mcp" = "0.0.56"
 "npm:happy-coder" = "0.13.0"
 
 "pipx:oraios/serena" = "latest"
