@@ -12,7 +12,7 @@ rust = "1.92.0"
 uv = "0.9.26"
 
 "npm:chrome-devtools-mcp" = "0.13.0"
-"npm:@google/gemini-cli" = "0.24.5"
+"npm:@google/gemini-cli" = "0.25.0"
 "npm:@marp-team/marp-cli" = "4.2.3"
 "npm:@openai/codex" = "0.87.0"
 "npm:@upstash/context7-mcp" = "2.1.0"
