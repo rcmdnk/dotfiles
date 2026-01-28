@@ -45,6 +45,7 @@ done
 myinstall () {
   local origin="$1"
   local target="$2"
+  local copy_mode="${3:-$copy}"
   if [ -z "$origin" ] || [ -z "$target" ];then
     echo "Wrong args for myinstall: origin=$origin, target=$target"
     exit 1
@@ -70,10 +71,15 @@ myinstall () {
   fi
   if [ $install_check -eq 1 ];then
     mkdir -p "$(dirname "$target")"
-    if [ $copy -eq 1 ];then
-      cp -r  "$origin" "$target"
-    else
+    if [ "$copy_mode" -eq 0 ];then
       ln -s  "$origin" "$target"
+    elif [ "$copy_mode" -eq 1 ];then
+      cp -r  "$origin" "$target"
+    elif [ "$copy_mode" -eq 2 ];then
+      ln "$origin" "$target"
+    else
+      echo "Wrong copy_mode: $copy_mode"
+      exit 1
     fi
   fi
 }
@@ -152,7 +158,7 @@ fi
 # codex
 myinstall "$curdir/.codex/config.toml" "$instdir/.codex/config.toml"
 myinstall "$curdir/.codex/AGENTS.md" "$instdir/.codex/AGENTS.md"
-myinstall "$curdir/.codex/rules/my.rules" "$instdir/.codex/rules/my.rules"
+myinstall "$curdir/.codex/rules/my.rules" "$instdir/.codex/rules/my.rules" 1
 
 # config
 mkdir -p "$instdir/.config"
