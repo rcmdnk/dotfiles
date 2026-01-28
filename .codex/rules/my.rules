@@ -1,0 +1,29 @@
+prefix_rule(
+    pattern=["git", "add"],
+    decision="allow",
+)
+
+prefix_rule(
+    pattern=["git", "commit"],
+    decision="allow",
+)
+
+prefix_rule(
+    pattern=["git", "diff"],
+    decision="allow",
+)
+
+prefix_rule(
+    pattern=["git", "diff"],
+    decision="allow",
+)
+
+prefix_rule(
+    pattern=["pre-commit"],
+    decision="allow",
+)
+
+prefix_rule(
+    pattern=["uv", "run"],
+    decision="allow",
+)

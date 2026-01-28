@@ -31,11 +31,11 @@ include_only = ["PATH", "HOME"]
 #command = "context7-mcp"
 #args = ["--api-key", "${CONTEXT7_API_KEY}"]
 #
-#[mcp_servers.serena]
-#command = "serena"
-#args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]
-#startup_timeout_sec = 60
-#
+[mcp_servers.serena]
+command = "serena"
+args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]
+startup_timeout_sec = 60
+
 #[mcp_servers.playwright]
 #command = "mcp-server-playwright"
 #args = []
@@ -52,9 +52,9 @@ include_only = ["PATH", "HOME"]
 #enabled = false
 
 # Need to run git command automatically with workspace-write, as .git directory is not writable in workspace-write mode (https://github.com/openai/codex/issues/5034)
-[mcp_servers.mcp-server-git]
-command = "mcp-server-git"
-args = []
+#[mcp_servers.mcp-server-git]
+#command = "mcp-server-git"
+#args = []
 #
 #[mcp_servers.github-mcp-server]
 #url = "https://api.githubcopilot.com/mcp"
