@@ -3,7 +3,14 @@
 ## Git repository
 
 ## Commit & Pull Request Guidelines
-- Write commit subjects in the imperative mood with concise scopes (e.g., `feat: add pane drag overlay`).
+- Write commit subjects in the imperative mood with concise scopes (e.g., `feat: add pane drag overlay`). Scopes are:
+  - feat: (new feature for the user, not a new feature for build script)
+  - fix: (bug fix for the user, not a fix to a build script)
+  - docs: (changes to the documentation)
+  - style: (formatting, missing semi colons, etc; no production code change)
+  - refactor: (refactoring production code, eg. renaming a variable)
+  - test: (adding missing tests, refactoring tests; no production code change)
+  - chore: (updating grunt tasks etc; no production code change)
 - Group related changes together and avoid mixing formatting with feature work.
 - When commits are warranted, proceed without waiting for explicit approval; communicate intent briefly when doing so.
 - Describe user-facing impact in pull requests, referencing issue numbers when applicable.
