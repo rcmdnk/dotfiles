@@ -37,11 +37,7 @@ args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "fal
 startup_timeout_sec = 60
 
 [features]
-unified_exec = true
 apps = true
-shell_snapshot = true
-steer = true
-personality = true
 
 #[mcp_servers.playwright]
 #command = "mcp-server-playwright"
