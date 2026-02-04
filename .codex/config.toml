@@ -18,6 +18,7 @@ network_access = true
 
 rcmp_client = true
 web_search_request = true
+personality = "pragmatic"
 
 [shell_environment_policy]
 inherit = "all"
