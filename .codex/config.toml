@@ -19,6 +19,7 @@ network_access = true
 rcmp_client = true
 web_search_request = true
 personality = "pragmatic"
+model = "gpt-5.3-codex"
 
 [shell_environment_policy]
 inherit = "all"
@@ -39,6 +40,9 @@ startup_timeout_sec = 60
 
 [features]
 apps = true
+
+[notice.model_migrations]
+"gpt-5.2-codex" = "gpt-5.3-codex"
 
 #[mcp_servers.playwright]
 #command = "mcp-server-playwright"
