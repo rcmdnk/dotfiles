@@ -1,6 +1,9 @@
 # https://github.com/openai/codex/blob/main/codex-rs/config.md
 
+model = "gpt-5.3-codex"
 #model ="gpt-5"
+
+personality = "pragmatic"
 
 approval_policy = "on-request"
 #approval_policy = "never"
@@ -18,8 +21,7 @@ network_access = true
 
 rcmp_client = true
 web_search_request = true
-personality = "pragmatic"
-model = "gpt-5.3-codex"
+suppress_unstable_features_warning = true
 
 [shell_environment_policy]
 inherit = "all"
@@ -28,22 +30,22 @@ inherit = "all"
 #set = { CI = "1" }
 include_only = ["PATH", "HOME"]
 
-
-#[mcp_servers.context7]
-#command = "context7-mcp"
-#args = ["--api-key", "${CONTEXT7_API_KEY}"]
-#
-[mcp_servers.serena]
-command = "serena"
-args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]
-startup_timeout_sec = 60
-
 [features]
 apps = true
+collaboration_modes = true
+collab = true
+undo = true
 
-[notice.model_migrations]
-"gpt-5.2-codex" = "gpt-5.3-codex"
+[mcp_servers.context7]
+command = "context7-mcp"
+args = ["--api-key", "${CONTEXT7_API_KEY}"]
+startup_timeout_sec = 60
 
+#[mcp_servers.serena]
+#command = "serena"
+#args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]
+#startup_timeout_sec = 60
+#
 #[mcp_servers.playwright]
 #command = "mcp-server-playwright"
 #args = []
@@ -58,11 +60,6 @@ apps = true
 #command = "fastmcp"
 #args = ["run", "https://knowledge-mcp.global.api.aws"]
 #enabled = false
-
-# Need to run git command automatically with workspace-write, as .git directory is not writable in workspace-write mode (https://github.com/openai/codex/issues/5034)
-#[mcp_servers.mcp-server-git]
-#command = "mcp-server-git"
-#args = []
 #
 #[mcp_servers.github-mcp-server]
 #url = "https://api.githubcopilot.com/mcp"

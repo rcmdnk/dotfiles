@@ -1,5 +1,8 @@
 # Global Agent Configuration
 
+## Code editing
+- When editing code that depends on external libraries, use Context7 to check the latest official library documentation before implementing changes.
+
 ## Git repository
 
 ### Commit & Pull Request Guidelines
@@ -19,6 +22,3 @@
 - If your project uses Git for version control, commit your changes to a Git repository after making changes.
 - If pre-commit is installed in your environment, it will automatically run checks on your code before committing.
 - If pre-commit fails, address the issues it raises before attempting to commit again.
-
-## Code editing
-- When editing code that depends on external libraries, use Context7 to check the latest official library documentation before implementing changes.
