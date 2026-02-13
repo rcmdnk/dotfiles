@@ -7,7 +7,13 @@ prefix_rule(
   pattern=["uv", "run"],
   decision="allow",
 )
+
 prefix_rule(
   pattern=["pre-commit"],
+  decision="allow",
+)
+
+prefix_rule(
+  pattern=["prek"],
   decision="allow",
 )
