@@ -1,4 +1,4 @@
-METHOD='codex'
+#METHOD='codex'
 #MODEL='gpt-5-nano'
 #MODEL='gpt-5-mini'
 #MODEL='gpt-5.1'

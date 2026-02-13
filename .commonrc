@@ -620,6 +620,27 @@ _set_function () { # Functions  {{{
     }
   fi   # }}}
 
+  pt () { # top like ps tree {{{
+    usage="Usag: pt [-u <user>] [-t <sleep_time>] [-h]"
+    user=$USER
+    sleep_time=1
+    while getopts ut:h OPT;do
+      case $OPT in
+        u ) user=$OPTARG;;
+        t ) sleep_time="$OPTARG";;
+        h ) echo "$usage";exit 0;;
+        \? ) echo "$usage"; exit 1;;
+      esac
+    done
+    shift $((OPTIND - 1))
+
+    while :;do
+      clear
+      ps f -u "$user"
+      sleep "$sleep_time"
+    done
+  } # }}}
+
   conda_setup () {  # {{{
     # !! Contents within this block are managed by 'conda init' !!
     if ! type conda >& /dev/null;then
