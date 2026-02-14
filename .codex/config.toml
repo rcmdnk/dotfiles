@@ -36,11 +36,11 @@ collaboration_modes = true
 collab = true
 undo = true
 
-#[mcp_servers.context7]
-#command = "context7-mcp"
-#args = ["--api-key", "${CONTEXT7_API_KEY}"]
-#startup_timeout_sec = 60
-#
+[mcp_servers.context7]
+command = "context7-mcp"
+args = ["--api-key", "${CONTEXT7_API_KEY}"]
+startup_timeout_sec = 60
+
 #[mcp_servers.serena]
 #command = "serena"
 #args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]

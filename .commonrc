@@ -813,6 +813,20 @@ _set_function () { # Functions  {{{
     docker image rm -f $(docker image ls -q)
   } # }}}
 
+  _set_mise () { # {{{
+  # mise setup, must be before sd/cl, as mise wraps cd
+    if type -P mise >& /dev/null;then
+      if [ -n "$ZSH_VERSION" ];then
+        eval "$(mise activate zsh)"
+      elif [ -n "$BASH_VERSION" ];then
+        eval "$(mise activate bash)"
+      fi
+    fi
+  }
+  _set_mise
+  # }}}
+
+
 } # }}} Functions
 
 _gnu_bsd_compatibility () { # GNU-BSD compatibility {{{
@@ -902,7 +916,7 @@ _source_files () {  # {{{
     done
   fi
 
-  ## sd/cl: Directory save/move in different terminal
+  # sd/cl: Directory save/move in different terminal
   _source_file ~/usr/etc/sd_cl
 
   # Shell logger
