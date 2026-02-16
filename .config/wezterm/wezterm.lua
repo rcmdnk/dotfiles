@@ -13,20 +13,37 @@ end
 
 -- This is where you actually apply your config choices
 
+local wsl_domains = wezterm.default_wsl_domains()
+local is_wsl = wsl_domains ~= nil and #wsl_domains > 0
+local is_macos = wezterm.target_triple:find("darwin") ~= nil
+
 -- For example, changing the color scheme:
-if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-  config.default_domain = 'WSL:Ubuntu-24.04-D'
+if is_wsl then
+  for _, dom in ipairs(wsl_domains) do
+    if dom.name == 'WSL:Ubuntu-24.04-D' then
+      config.default_domain = dom.name
+    end
+  end
+  if config.default_domain == nil then
+    wezterm.log_info('WSL domain not found, using default shell')
+  end
 end
 -- config.color_scheme = 'Tokyo Night'
 config.initial_cols = 120
 config.initial_rows = 28
 config.harfbuzz_features = {'calt=0', 'clig=0', 'liga=0'}
 config.font_size = 12
-config.font = wezterm.font_with_fallback {
-   'Monaco',
-   'JetBrains Mono',
-   'Cascade Mono',
-}
+
+if is_wsl then
+  config.font = wezterm.font_with_fallback {
+     'Cascadia Mono',
+  }
+elseif is_macos then
+  config.font = wezterm.font_with_fallback {
+     'Monaco',
+  }
+end
+
 config.colors = {
   cursor_bg = 'silver',
   cursor_border = 'silver',
@@ -41,6 +58,8 @@ config.window_padding = {
   top = 0,
   bottom = 0,
 }
+
+config.window_close_confirmation = 'NeverPrompt'
 
 config.keys = {
   { key = 'v', mods = 'ALT', action = wezterm.action.PasteFrom 'Clipboard' },
