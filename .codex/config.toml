@@ -33,7 +33,7 @@ include_only = ["PATH", "HOME"]
 [features]
 apps = true
 collaboration_modes = true
-collab = true
+multi_agent = true
 undo = true
 
 [mcp_servers.context7]
