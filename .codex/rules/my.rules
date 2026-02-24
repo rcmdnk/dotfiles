@@ -17,3 +17,8 @@ prefix_rule(
   pattern=["prek"],
   decision="allow",
 )
+
+prefix_rule(
+  pattern=["terraform", ["init", "plan", "validate"]],
+  decision="allow",
+)
