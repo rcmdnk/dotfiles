@@ -22,3 +22,8 @@ prefix_rule(
   pattern=["terraform", ["init", "plan", "validate"]],
   decision="allow",
 )
+
+prefix_rule(
+  pattern=["uvx"],
+  decision="allow",
+)
