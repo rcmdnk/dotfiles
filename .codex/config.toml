@@ -46,6 +46,21 @@ command = "docker"
 args = ["run", "-i", "--rm", "hashicorp/terraform-mcp-server:latest"]
 enabled = false
 
+[mcp_servers.aws-knowledge-mcp-server]
+command = "fastmcp"
+args = ["run",  "https://knowledge-mcp.global.api.aws"]
+enabled = false
+
+[mcp_servers.aws-diagram-mcp-server]
+command = "awslabs.aws-diagram-mcp-server"
+args = []
+enabled = false
+
+[mcp_servers.aws-pricing-mcp-server]
+command = "awslabs.aws-pricing-mcp-server"
+args = []
+enabled = false
+
 #[mcp_servers.serena]
 #command = "serena"
 #args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]
