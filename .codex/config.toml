@@ -59,7 +59,7 @@ args = []
 startup_timeout_sec = 60
 enabled = false
 
-[mcp_servers.aws-diagram-mcp-server]
+[mcp_servers.aws-pricing-mcp-server]
 command = "awslabs.aws-pricing-mcp-server"
 args = []
 startup_timeout_sec = 60
