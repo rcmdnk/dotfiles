@@ -44,21 +44,25 @@ startup_timeout_sec = 60
 [mcp_servers.terraform]
 command = "docker"
 args = ["run", "-i", "--rm", "hashicorp/terraform-mcp-server:latest"]
+startup_timeout_sec = 60
 enabled = false
 
 [mcp_servers.aws-knowledge-mcp-server]
 command = "fastmcp"
 args = ["run",  "https://knowledge-mcp.global.api.aws"]
+startup_timeout_sec = 60
 enabled = false
 
 [mcp_servers.aws-diagram-mcp-server]
 command = "awslabs.aws-diagram-mcp-server"
 args = []
+startup_timeout_sec = 60
 enabled = false
 
 [mcp_servers.aws-diagram-mcp-server]
 command = "awslabs.aws-pricing-mcp-server"
 args = []
+startup_timeout_sec = 60
 enabled = false
 
 #[mcp_servers.serena]
