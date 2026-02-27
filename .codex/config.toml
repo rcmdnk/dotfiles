@@ -56,7 +56,7 @@ command = "awslabs.aws-diagram-mcp-server"
 args = []
 enabled = false
 
-[mcp_servers.aws-pricing-mcp-server]
+[mcp_servers.aws-diagram-mcp-server]
 command = "awslabs.aws-pricing-mcp-server"
 args = []
 enabled = false

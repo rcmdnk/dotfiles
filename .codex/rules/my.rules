@@ -28,11 +28,16 @@ prefix_rule(
 )
 
 prefix_rule(
-  pattern=["terraform", ["init", "plan", "validate"]],
+  pattern=["terraform", ["init", "plan", "validate", "import"]],
   decision="allow",
 )
 
 prefix_rule(
   pattern=["uvx"],
+  decision="allow",
+)
+
+prefix_rule(
+  pattern=["aws"],
   decision="allow",
 )
