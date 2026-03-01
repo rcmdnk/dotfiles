@@ -94,11 +94,6 @@ command = "chrome-devtools-mcp"
 args = []
 enabled = false
 
-[mcp_servers.aws-knowledge-mcp-server]
-command = "fastmcp"
-args = ["run", "https://knowledge-mcp.global.api.aws"]
-enabled = false
-
 [mcp_servers.github-mcp-server]
 url = "https://api.githubcopilot.com/mcp"
 bearer_token_env_var = "GITHUB_MCP_API_TOKEN" # Need to write environmental variable name instead of token value directly
