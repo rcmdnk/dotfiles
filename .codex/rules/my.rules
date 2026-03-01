@@ -28,7 +28,7 @@ prefix_rule(
 )
 
 prefix_rule(
-  pattern=["terraform", ["init", "plan", "validate", "import"]],
+  pattern=["terraform", ["init", "plan", "validate", "import", "state"]],
   decision="allow",
 )
 
