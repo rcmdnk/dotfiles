@@ -23,6 +23,12 @@ rcmp_client = true
 web_search_request = true
 suppress_unstable_features_warning = true
 
+[features]
+apps = true
+collaboration_modes = true
+multi_agent = true
+undo = true
+
 [shell_environment_policy]
 inherit = "all"
 #ignore_defualt_excludes = false
@@ -30,11 +36,18 @@ inherit = "all"
 #set = { CI = "1" }
 include_only = ["PATH", "HOME"]
 
-[features]
-apps = true
-collaboration_modes = true
-multi_agent = true
-undo = true
+[agents]
+
+[agents.default]
+
+[agents.awaiter]
+config_file = "agents/awaiter.toml"
+
+[agents.explorer]
+config_file = "agents/explorer.toml"
+
+[agents.worker]
+config_file = "agents/worker.toml"
 
 [mcp_servers.context7]
 command = "context7-mcp"
@@ -65,27 +78,28 @@ args = []
 startup_timeout_sec = 60
 enabled = false
 
-#[mcp_servers.serena]
-#command = "serena"
-#args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]
-#startup_timeout_sec = 60
-#
-#[mcp_servers.playwright]
-#command = "mcp-server-playwright"
-#args = []
-#enabled = true
-#
-#[mcp_servers.chrome-devtools]
-#command = "chrome-devtools-mcp"
-#args = []
-#enabled = false
-#
-#[mcp_servers.aws-knowledge-mcp-server]
-#command = "fastmcp"
-#args = ["run", "https://knowledge-mcp.global.api.aws"]
-#enabled = false
-#
-#[mcp_servers.github-mcp-server]
-#url = "https://api.githubcopilot.com/mcp"
-#bearer_token_env_var = "GITHUB_MCP_API_TOKEN" # Need to write environmental variable name instead of token value directly
-#enabled = false
+[mcp_servers.serena]
+command = "serena"
+args = ["start-mcp-server", "--context", "codex", "--enable-web-dashboard", "false"]
+startup_timeout_sec = 60
+enabled = false
+
+[mcp_servers.playwright]
+command = "mcp-server-playwright"
+args = []
+enabled = false
+
+[mcp_servers.chrome-devtools]
+command = "chrome-devtools-mcp"
+args = []
+enabled = false
+
+[mcp_servers.aws-knowledge-mcp-server]
+command = "fastmcp"
+args = ["run", "https://knowledge-mcp.global.api.aws"]
+enabled = false
+
+[mcp_servers.github-mcp-server]
+url = "https://api.githubcopilot.com/mcp"
+bearer_token_env_var = "GITHUB_MCP_API_TOKEN" # Need to write environmental variable name instead of token value directly
+enabled = false
