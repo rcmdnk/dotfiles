@@ -42,12 +42,15 @@ include_only = ["PATH", "HOME"]
 
 [agents.awaiter]
 config_file = "agents/awaiter.toml"
+description = "Long-running tasks only (tests, watches, wait-heavy monitoring). Use long waits and close the agent after completion."
 
 [agents.explorer]
 config_file = "agents/explorer.toml"
+description = "Codebase Q&A and targeted investigation. Optimize for speed and reliability; trust prior exploration results and avoid redundant re-scans."
 
 [agents.worker]
 config_file = "agents/worker.toml"
+description = "Implementation and fixes. Assign explicit file/ownership scope and deliver concrete code changes."
 
 [mcp_servers.context7]
 command = "context7-mcp"
