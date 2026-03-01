@@ -20,5 +20,5 @@
 
 ### Using pre-commit
 - If your project uses Git for version control, commit your changes to a Git repository after making changes.
-- If pre-commit is installed in your environment, it will automatically run checks on your code before committing.
-- If pre-commit fails, address the issues it raises before attempting to commit again.
+- If pre-commit/prek is installed in your environment, it will automatically run checks on your code before committing.
+- If pre-commit/prek fails, address the issues it raises before attempting to commit again.
