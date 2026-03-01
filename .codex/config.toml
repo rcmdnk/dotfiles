@@ -52,6 +52,10 @@ description = "Codebase Q&A and targeted investigation. Optimize for speed and r
 config_file = "agents/worker.toml"
 description = "Implementation and fixes. Assign explicit file/ownership scope and deliver concrete code changes."
 
+[agents.quick]
+config_file = "agents/quick.toml"
+description = "Lightweight/simple tasks only. Prefer fast execution with spark+low reasoning; hand off to worker when scope grows."
+
 [mcp_servers.context7]
 command = "context7-mcp"
 args = ["--api-key", "${CONTEXT7_API_KEY}"]

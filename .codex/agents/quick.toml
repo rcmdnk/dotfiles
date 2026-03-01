@@ -1,0 +1,11 @@
+model = "gpt-5.3-codex-spark"
+model_reasoning_effort = "low"
+sandbox_mode = "workspace-write"
+developer_instructions = """
+Role: quick
+
+Use this agent for lightweight, simple tasks with small scope.
+Prioritize fast turnaround over deep exploration.
+Keep changes minimal and localized; avoid broad refactors.
+If complexity or ambiguity increases, stop and hand off to worker.
+"""
