@@ -36,6 +36,9 @@ inherit = "all"
 #set = { CI = "1" }
 include_only = ["PATH", "HOME"]
 
+[tui]
+status_line = ["model-with-reasoning", "context-remaining", "current-dir", "five-hour-limit", "weekly-limit"]
+
 [agents]
 
 [agents.default]
