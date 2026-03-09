@@ -1,10 +1,11 @@
 # https://github.com/openai/codex/blob/main/codex-rs/config.md
 
-model = "gpt-5.3-codex"
+model = "gpt-5.4-codex"
 #model ="gpt-5"
 #model_reasoning_effort = "medium"
 #model_reasoning_effort = "high"
-model_reasoning_effort = "xhigh"
+model_reasoning_effort = "medium"
+plan_mode_reasoning_effort = "xhigh"
 
 personality = "pragmatic"
 
@@ -29,6 +30,9 @@ apps = true
 collaboration_modes = true
 multi_agent = true
 undo = true
+voice_transcription = true
+
+
 
 [shell_environment_policy]
 inherit = "all"

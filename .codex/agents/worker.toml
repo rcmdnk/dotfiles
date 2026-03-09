@@ -1,5 +1,5 @@
-model = "gpt-5.3-codex"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.4-codex"
+model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
 developer_instructions = """
 Role: worker
