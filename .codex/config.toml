@@ -1,11 +1,11 @@
 # https://github.com/openai/codex/blob/main/codex-rs/config.md
 
-model = "gpt-5.4-codex"
+model = "gpt-5.4"
 #model ="gpt-5"
 #model_reasoning_effort = "medium"
 #model_reasoning_effort = "high"
 model_reasoning_effort = "medium"
-plan_mode_reasoning_effort = "xhigh"
+#plan_mode_reasoning_effort = "xhigh"
 
 personality = "pragmatic"
 
@@ -24,6 +24,7 @@ network_access = true
 rcmp_client = true
 web_search_request = true
 suppress_unstable_features_warning = true
+#service_tier = "fast"
 
 [features]
 apps = true
@@ -31,8 +32,7 @@ collaboration_modes = true
 multi_agent = true
 undo = true
 voice_transcription = true
-
-
+fast_mode = true
 
 [shell_environment_policy]
 inherit = "all"
@@ -117,3 +117,6 @@ enabled = false
 url = "https://api.githubcopilot.com/mcp"
 bearer_token_env_var = "GITHUB_MCP_API_TOKEN" # Need to write environmental variable name instead of token value directly
 enabled = false
+
+[projects."/mnt/efs/fs1/accelstars/apaf-x"]
+trust_level = "trusted"
