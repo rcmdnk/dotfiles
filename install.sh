@@ -161,6 +161,9 @@ myinstall "$curdir/.codex/AGENTS.md" "$instdir/.codex/AGENTS.md"
 myinstall "$curdir/.codex/agents" "$instdir/.codex/agents"
 myinstall "$curdir/.codex/rules/my.rules" "$instdir/.codex/rules/my.rules" 1
 
+# copilot
+myinstall "$curdir/.codex/AGENTS.md" "$instdir/.copilot/copilot-instructions.md"
+
 # config
 mkdir -p "$instdir/.config"
 for f in .config/*;do
