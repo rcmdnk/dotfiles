@@ -274,6 +274,10 @@ _set_path () { # {{{
     _add_path PATH "${SSHHOME}/.sshrc"
   fi
 
+  if [[ "$OSTYPE" == darwin* ]];then
+    _add_path PATH "/Applications/Obsidian.app/Contents/MacOS" 1
+  fi
+
   _set_ghq_path
 
   if [ -d "$HOME/.lima/docker/sock" ];then

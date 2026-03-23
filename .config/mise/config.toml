@@ -27,6 +27,7 @@ uv = "0.10.11"
 
 "pipx:awslabs.aws-diagram-mcp-server" = "1.0.23"
 "pipx:awslabs.aws-pricing-mcp-server" = "1.0.26"
+"pipx:browser-use" = "0.12.2"
 "pipx:checkov" = "3.2.509"
 "pipx:fastmcp" = "3.1.1"
 "pipx:mcp-proxy" = "0.11.0"

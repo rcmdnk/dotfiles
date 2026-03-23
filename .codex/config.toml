@@ -1,19 +1,15 @@
 # https://github.com/openai/codex/blob/main/codex-rs/config.md
 
 model = "gpt-5.4"
-#model ="gpt-5"
 #model_reasoning_effort = "medium"
-#model_reasoning_effort = "high"
-model_reasoning_effort = "medium"
-#plan_mode_reasoning_effort = "xhigh"
+model_reasoning_effort = "high"
+plan_mode_reasoning_effort = "high"
 
 personality = "pragmatic"
 
 approval_policy = "on-request"
 #approval_policy = "never"
 
-# Need danger-full-access to run git commands automatically (though mcp allow to use git with workspace-write mode)
-# https://github.com/openai/codex/issues/5034
 sandbox_mode    = "workspace-write"
 #sandbox_mode    = "danger-full-access"
 
@@ -21,18 +17,21 @@ network_access = true
 
 # notify = ["bash", "-c", "..."]
 
+check_for_update_on_startup = false
+cli_auth_credentials_store = 'file'
 rcmp_client = true
 web_search_request = true
 suppress_unstable_features_warning = true
+approvals_reviewer = "user"
 #service_tier = "fast"
 
 [features]
-apps = true
 collaboration_modes = true
 multi_agent = true
 undo = true
 voice_transcription = true
 fast_mode = true
+runtime_metrics = true
 
 [shell_environment_policy]
 inherit = "all"
@@ -44,13 +43,13 @@ include_only = ["PATH", "HOME"]
 [tui]
 status_line = ["model-with-reasoning", "context-remaining", "current-dir", "five-hour-limit", "weekly-limit"]
 
+[analytics]
+enabled = false
+
 [agents]
-agents.job_max_runtime_seconds = 3600
-agents.max_depth = 2
-agents.max_threads = 20
-
-
-[agents.default]
+job_max_runtime_seconds = 3600
+max_depth = 2
+max_threads = 20
 
 [agents.awaiter]
 config_file = "agents/awaiter.toml"
@@ -117,6 +116,3 @@ enabled = false
 url = "https://api.githubcopilot.com/mcp"
 bearer_token_env_var = "GITHUB_MCP_API_TOKEN" # Need to write environmental variable name instead of token value directly
 enabled = false
-
-[projects."/mnt/efs/fs1/accelstars/apaf-x"]
-trust_level = "trusted"
