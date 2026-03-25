@@ -278,11 +278,15 @@ _set_path () { # {{{
     _add_path PATH "/Applications/Obsidian.app/Contents/MacOS" 1
   fi
 
-  _set_ghq_path
+  if [ -d "$HOME/.antigravity/antigravity/bin" ];then
+    export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+  fi
 
   if [ -d "$HOME/.lima/docker/sock" ];then
     export DOCKER_HOST=unix://$HOME/.lima/docker/sock/docker.sock
   fi
+
+  _set_ghq_path
 } # }}}
 
 # }}} PATH
@@ -311,7 +315,7 @@ _set_env () { # Shell/Environmental variables {{{
   # ls color
   if [[ "$OSTYPE" = linux* ]] || [[ "$OSTYPE" = cygwin* ]];then
     # Linux
-    if type dircolors >& /dev/null;then
+    if [[ $- == *i* ]] && type dircolors >/dev/null 2>&1; then
       eval "$(dircolors ~/.colourrc)"
     fi
     _source_file "$HOME/.lscolors"
@@ -819,12 +823,17 @@ _set_function () { # Functions  {{{
 
   _set_mise () { # {{{
   # mise setup, must be before sd/cl, as mise wraps cd
-    if type -P mise >& /dev/null;then
-      if [ -n "$ZSH_VERSION" ];then
-        eval "$(mise activate zsh)"
-      elif [ -n "$BASH_VERSION" ];then
-        eval "$(mise activate bash)"
-      fi
+    if ! type -P mise >& /dev/null;then
+      return
+    fi
+    if [[ $- != *i* ]];then
+      eval "$(mise activate --no-hook-env)"
+      return
+    fi
+    if [ -n "$ZSH_VERSION" ];then
+      eval "$(mise activate zsh)"
+    elif [ -n "$BASH_VERSION" ];then
+      eval "$(mise activate bash)"
     fi
   }
   _set_mise

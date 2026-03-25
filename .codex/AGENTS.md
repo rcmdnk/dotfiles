@@ -10,6 +10,7 @@ Show time stamp at the start and end of each agent's response to track how long 
 ## Git repository
 
 ### Commit & Pull Request Guidelines
+- Write commit messages by English.
 - Write commit subjects in the imperative mood with concise scopes (e.g., `feat: add pane drag overlay`). Scopes are:
   - feat: (new feature for the user, not a new feature for build script)
   - fix: (bug fix for the user, not a fix to a build script)
