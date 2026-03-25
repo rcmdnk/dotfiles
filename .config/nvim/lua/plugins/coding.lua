@@ -1,3 +1,25 @@
+local function resolve_command_name(cmd)
+  if type(cmd) == 'string' then
+    return cmd
+  end
+
+  if type(cmd) == 'table' then
+    return cmd[1]
+  end
+
+  return nil
+end
+
+local function command_is_available(cmd)
+  local executable = resolve_command_name(cmd)
+
+  if type(executable) ~= 'string' or executable == '' then
+    return true
+  end
+
+  return vim.fn.executable(executable) == 1
+end
+
 return {
   -- GitHub Copilot
   {
@@ -172,6 +194,19 @@ return {
       -- LSP setup
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require('lspconfig')
+
+      local function lsp_server_is_available(server, config)
+        local cmd = config.cmd
+
+        if not cmd then
+          local ok, server_config = pcall(require, 'lspconfig.configs.' .. server)
+          if ok and server_config and server_config.default_config then
+            cmd = server_config.default_config.cmd
+          end
+        end
+
+        return command_is_available(cmd)
+      end
 
       -- Diagnostic configuration for real-time feedback
       local diagnostic_enabled = true  -- Track diagnostic state
@@ -375,9 +410,11 @@ return {
 
       -- Setup all servers
       for server, config in pairs(servers) do
-        config.on_attach = on_attach
-        config.capabilities = capabilities
-        lspconfig[server].setup(config)
+        if lsp_server_is_available(server, config) then
+          config.on_attach = on_attach
+          config.capabilities = capabilities
+          lspconfig[server].setup(config)
+        end
       end
 
       -- Setup fidget for LSP progress
@@ -427,6 +464,47 @@ return {
     'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
+      local lint = require('lint')
+
+      local function linter_is_available(name)
+        local linter = lint.linters[name]
+
+        if type(linter) == 'function' then
+          linter = linter()
+        end
+
+        if not linter then
+          return false
+        end
+
+        local cmd = linter.cmd
+        if type(cmd) == 'function' then
+          local ok, resolved_cmd = pcall(cmd)
+          if not ok then
+            return false
+          end
+          cmd = resolved_cmd
+        end
+
+        return command_is_available(cmd)
+      end
+
+      local function try_lint_available()
+        local names = lint.linters_by_ft[vim.bo.filetype]
+
+        if not names or vim.tbl_isempty(names) then
+          return
+        end
+
+        local available = vim.tbl_filter(linter_is_available, names)
+
+        if vim.tbl_isempty(available) then
+          return
+        end
+
+        lint.try_lint(available)
+      end
+
       -- Configure diagnostic signs
       vim.diagnostic.config({
         signs = {
@@ -445,7 +523,7 @@ return {
       })
 
       -- Configure linters by filetype
-      require('lint').linters_by_ft = {
+      lint.linters_by_ft = {
         sh = {'shellcheck'},
         bash = {'shellcheck'},
         zsh = {'shellcheck'},
@@ -454,7 +532,7 @@ return {
       -- Automatically lint on certain events
       vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
         callback = function()
-          require("lint").try_lint()
+          try_lint_available()
         end,
       })
     end,
