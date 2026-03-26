@@ -193,17 +193,10 @@ return {
 
       -- LSP setup
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      local lspconfig = require('lspconfig')
 
       local function lsp_server_is_available(server, config)
-        local cmd = config.cmd
-
-        if not cmd then
-          local ok, server_config = pcall(require, 'lspconfig.configs.' .. server)
-          if ok and server_config and server_config.default_config then
-            cmd = server_config.default_config.cmd
-          end
-        end
+        local resolved_config = vim.lsp.config[server]
+        local cmd = resolved_config and resolved_config.cmd or config.cmd
 
         return command_is_available(cmd)
       end
@@ -410,10 +403,15 @@ return {
 
       -- Setup all servers
       for server, config in pairs(servers) do
-        if lsp_server_is_available(server, config) then
-          config.on_attach = on_attach
-          config.capabilities = capabilities
-          lspconfig[server].setup(config)
+        local server_config = vim.tbl_deep_extend('force', {
+          on_attach = on_attach,
+          capabilities = capabilities,
+        }, config)
+
+        vim.lsp.config(server, server_config)
+
+        if lsp_server_is_available(server, server_config) then
+          vim.lsp.enable(server)
         end
       end
 
