@@ -822,12 +822,14 @@ _set_function () { # Functions  {{{
   } # }}}
 
   _set_mise () { # {{{
-  # mise setup, must be before sd/cl, as mise wraps cd
+    # mise setup, must be before sd/cl, as mise wraps cd
     if ! type -P mise >& /dev/null;then
       return
     fi
     if [[ $- != *i* ]];then
+      # For non in interactive shell, do not set hook and set PATH only at first.
       eval "$(mise activate --no-hook-env)"
+      _mise_hook
       return
     fi
     if [ -n "$ZSH_VERSION" ];then

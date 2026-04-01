@@ -43,6 +43,9 @@ include_only = ["PATH", "HOME"]
 [tui]
 status_line = ["model-with-reasoning", "context-remaining", "current-dir", "five-hour-limit", "weekly-limit"]
 
+[notice]
+hide_full_access_warning = true
+
 [analytics]
 enabled = false
 
