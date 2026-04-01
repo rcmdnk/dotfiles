@@ -126,12 +126,6 @@ _set_ghq_path () { # {{{
       if [[ -d "$path" ]];then
         _add_path PATH "$path"
       fi
-      for f in "${root}/${d}/etc/bash_completion.d/"*;do
-        _source_file "$f"
-      done
-      if [ "$d" = "github.com/rcmdnk/homebrew-file" ];then
-        _source_file "${root}/${d}/etc/brew-wrap"
-      fi
     done
   fi
 } # }}}
@@ -231,18 +225,6 @@ _set_homebrew_path () { # {{{
   alias cask='brew cask'
 } # }}}
 
-_set_pyenv () { # {{{
-  cmd="$(type pyenv 2>&1)"
-  if [ $? -ne 0 ];then
-    return
-  fi
-  if echo "$cmd" | grep -q 'is a function';then
-    return
-  fi
-  _source_file "$HOME/.pyenvrc"
-  eval "$(command pyenv init -)"
-} # }}}
-
 _set_path () { # {{{
   if [[ "$OSTYPE" == darwin* ]];then
     # Remove /usr/local which is only for Homebrew arm64
@@ -263,13 +245,11 @@ _set_path () { # {{{
     _set_path_lib "$p"
   done
 
-  _source_file "$HOME/.poetry/env"
-  _set_pyenv
-
   export GOPATH=$HOME/.go
   if [[ -d "$GOPATH/bin" ]];then
     _add_path PATH "${GOPATH}/bin"
   fi
+
   if [[ -n "$SSHHOME" ]];then
     _add_path PATH "${SSHHOME}/.sshrc"
   fi
@@ -919,6 +899,12 @@ _source_files () {  # {{{
     _load_completion "$d"
   done
 
+  for f in brew-warp sd_cl shell-logger;do
+    if [ -f "$HOME/usr/etc/$f" ];then
+      _source_file "$HOME/usr/etc/$f"
+    fi
+  done
+
   # completion files in ghq
   if type ghq >& /dev/null;then
     local root
@@ -931,12 +917,6 @@ _source_files () {  # {{{
     done
   fi
 
-  # sd/cl: Directory save/move in different terminal
-  _source_file ~/usr/etc/sd_cl
-
-  # Shell logger
-  _source_file ~/usr/etc/shell-logger
-
   # Load RVM into a shell session *as a function*
   _source_file ~/.rvm/scripts/rvm
 
@@ -948,14 +928,9 @@ _source_files () {  # {{{
     _source_file ~/.screen/setup.sh
   fi
 
-  # For API/Token/Keys
-  _source_file ~/.keys
-
-
   # For Terraform
   _source_file ~/.pluralith
   _source_file ~/.infracost
-
 
   # aws
   if ! type aws_completer >& /dev/null;then
@@ -970,6 +945,9 @@ _source_files () {  # {{{
 
   # File used in windows (cygwin)
   [[ "$OSTYPE" = cygwin* ]] && _source_file ~/.winrc
+
+  # For API/Token/Keys
+  _source_file ~/.keys
 
   # Private settings
   _source_file ~/.privaterc
