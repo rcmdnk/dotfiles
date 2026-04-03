@@ -1,6 +1,7 @@
 [settings]
 trusted_config_paths = [
     "~/.ghq",
+    "~/usr/share/settings",
 ]
 
 [settings.npm]
