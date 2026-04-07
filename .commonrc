@@ -806,12 +806,12 @@ _set_function () { # Functions  {{{
     if ! type -P mise >& /dev/null;then
       return
     fi
-    if [[ $- != *i* ]];then
-      # For non in interactive shell, do not set hook and set PATH only at first.
-      eval "$(mise activate --no-hook-env)"
-      _mise_hook
+
+    # Skip mise setup if the shell is running in codex's workspace, to avoid error due to codex's workspace-write policy (PATH is inherited by shell_environment_policy
+    if [[ -n "${INIT_PATH:-}" && "${INIT_PATH}" == *"/.codex/tmp/"* ]];then
       return
     fi
+
     if [ -n "$ZSH_VERSION" ];then
       eval "$(mise activate zsh)"
     elif [ -n "$BASH_VERSION" ];then

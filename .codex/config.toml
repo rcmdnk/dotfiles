@@ -7,8 +7,8 @@ plan_mode_reasoning_effort = "high"
 
 personality = "pragmatic"
 
-approval_policy = "on-request"
-#approval_policy = "never"
+#approval_policy = "on-request"
+approval_policy = "never"
 
 sandbox_mode    = "workspace-write"
 #sandbox_mode    = "danger-full-access"
@@ -35,10 +35,6 @@ runtime_metrics = true
 
 [shell_environment_policy]
 inherit = "all"
-#ignore_defualt_excludes = false
-#exclude = ["AWS_*", "AZURE_*"]
-#set = { CI = "1" }
-include_only = ["PATH", "HOME"]
 
 [tui]
 status_line = ["model-with-reasoning", "context-remaining", "current-dir", "five-hour-limit", "weekly-limit"]
@@ -74,6 +70,7 @@ description = "Lightweight/simple tasks only. Prefer fast execution with spark+l
 command = "context7-mcp"
 args = ["--api-key", "${CONTEXT7_API_KEY}"]
 startup_timeout_sec = 60
+enabled = false
 
 [mcp_servers.terraform]
 command = "docker"

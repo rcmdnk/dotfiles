@@ -1,11 +1,8 @@
 # Global Agent Configuration
 
 ## Time stamp
-Show time stamp at the start and end of each session to track how long it takes for each agent to complete its tasks.
+Show time stamp by using `date` command at the start and end of each session to track how long it takes for each agent to complete its tasks.
 Show time stamp at the start and end of each agent's response to track how long it takes for each agent to complete its tasks.
-
-## Code editing
-- When editing code that depends on external libraries, use Context7 to check the latest official library documentation before implementing changes.
 
 ## Git repository
 
