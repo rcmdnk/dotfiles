@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "autoUpdates": true,
+  "permissions": {
+    "allow": [
+      "Bash(uv run python:*)",
+      "Bash(uv run pytest:*)",
+      "Bash(uv run prek:*)",
+      "Bash(uv run pre-commit:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Read(~/.bashrc)"
+    ],
+    "deny": [
+      "Bash(curl *)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)"
+    ]
+  },
+  "env": {
+  },
+  "prefersReducedMotion": true
+}

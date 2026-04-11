@@ -70,4 +70,5 @@ Session.vim
 tmp
 *.tmp
 *.old
+.nfs*
 

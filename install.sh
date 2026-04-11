@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m' '.config' '.rye' '.cursor' '.codex')
+exclude=('.' '..' '.DS_Store' '.svn' '.git' 'LICENSE' 'README.md' '.gitignore' '.vimrc.not_used' '.vimrc.dein' '.vimrc.neobundle' '.subversion.config' '.dein.toml' '.dein_lazy.toml' '.w3m' '.config' '.rye' '.cursor' '.codex' '.claude')
 only_inside=(.vim)
 instdir="$HOME"
 
@@ -163,6 +163,10 @@ myinstall "$curdir/.codex/rules/my.rules" "$instdir/.codex/rules/my.rules" 1
 
 # copilot
 myinstall "$curdir/.codex/AGENTS.md" "$instdir/.copilot/copilot-instructions.md"
+
+# claude
+myinstall "$curdir/.claude/settings.json" "$instdir/.claude/settings.json"
+myinstall "$curdir/.claude/CLAUDE.md" "$instdir/.claude/CLAUDE.md"
 
 # config
 mkdir -p "$instdir/.config"
