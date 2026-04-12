@@ -16,13 +16,17 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(gh:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh issue:*)",
+      "Bash(gh api:*)",
       "Read(~/.bashrc)"
     ],
     "deny": [
       "Bash(curl *)",
       "Read(./.env)",
       "Read(./.env.*)",
-      "Read(./secrets/**)"
+      "Read(./secrets/**)",
+      "Bash(git reset --hard)"
     ]
   },
   "env": {
