@@ -9,6 +9,13 @@
       "Bash(uv run pre-commit:*)",
       "Bash(ls:*)",
       "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(gh:*)",
       "Read(~/.bashrc)"
     ],
     "deny": [
@@ -20,5 +27,7 @@
   },
   "env": {
   },
-  "prefersReducedMotion": true
+  "prefersReducedMotion": true,
+  "terminalProgressBarEnabled": false,
+  "cleanupPeriodDays": 30
 }
