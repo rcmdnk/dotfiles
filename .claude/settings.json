@@ -1,5 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "autoUpdates": true,
   "cleanupPeriodDays": 30,
   "env": {},
   "permissions": {
@@ -31,6 +32,5 @@
     ]
   },
   "prefersReducedMotion": true,
-  "autoUpdates": true,
   "terminalProgressBarEnabled": false
 }
