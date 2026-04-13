@@ -1,6 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "autoUpdates": true,
+  "cleanupPeriodDays": 30,
+  "env": {},
   "permissions": {
     "allow": [
       "Bash(uv run python:*)",
@@ -29,9 +30,7 @@
       "Bash(git reset --hard)"
     ]
   },
-  "env": {
-  },
   "prefersReducedMotion": true,
-  "terminalProgressBarEnabled": false,
-  "cleanupPeriodDays": 30
+  "autoUpdates": true,
+  "terminalProgressBarEnabled": false
 }
