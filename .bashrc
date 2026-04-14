@@ -1,6 +1,12 @@
 # shellcheck shell=bash
 # .bashrc
 
+# {{{ Skip for AI agent
+if [ "$CLAUDECODE" = 1 ] || [ "$CODEX_CI" = 1 ] || [ "$COPILOT_CLI" = 1 ];then
+  return
+fi
+# }}
+
 # {{{ Initialization
 # Load common functions
 # shellcheck disable=SC1091

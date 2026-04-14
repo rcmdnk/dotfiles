@@ -1,6 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "autoUpdates": true,
   "cleanupPeriodDays": 30,
   "env": {},
   "permissions": {
@@ -24,13 +23,15 @@
       "Read(~/.bashrc)"
     ],
     "deny": [
-      "Bash(curl *)",
       "Read(./.env)",
       "Read(./.env.*)",
       "Read(./secrets/**)",
       "Bash(git reset --hard)"
-    ]
+    ],
+    "defaultMode": "auto"
   },
   "prefersReducedMotion": true,
-  "terminalProgressBarEnabled": false
+  "autoUpdates": true,
+  "terminalProgressBarEnabled": false,
+  "skipAutoPermissionPrompt": true
 }
