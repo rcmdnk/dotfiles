@@ -28,3 +28,10 @@ Show time stamp at the start and end of each agent's response to track how long 
 ### Use gh to check GitHub status
 
 - Use the `gh` command-line tool to check the status of your GitHub repository, including open pull requests and issues.
+
+### Use worktree to manage branches
+
+- worktree must be created in .worktree/ directory, and the branch name must be the same as the worktree name.
+- If multiple agents are working on the same repository, each agent should create a separate worktree to avoid conflicts.
+
+@RTK.md
