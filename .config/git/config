@@ -17,10 +17,9 @@
 [core]
   autocrlf = false
   editor = vi
-  execludesfile = ~/.gitignore_global
   quotepath = false
 [commit]
-  template = ~/.gitmessage
+  template = ~/.config/git/message
 [pull]
   rebase = true
 #[branch]
@@ -427,4 +426,4 @@
   clean = git-lfs clean -- %f
 
 [include]
-  path = .gitconfig.private
+  path = ~/.gitconfig.private

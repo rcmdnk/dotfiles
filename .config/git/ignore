@@ -62,6 +62,7 @@ Session.vim
 .claude
 .codex
 .copilot
+.serena
 
 ###########
 # Others
@@ -71,4 +72,4 @@ tmp
 *.tmp
 *.old
 .nfs*
-
+.worktree
