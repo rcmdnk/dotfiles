@@ -110,4 +110,4 @@ vim.api.nvim_create_autocmd('FileType', {
       vim.cmd('lua vim.treesitter.start()')
     end
   end,
-}) 
+})
