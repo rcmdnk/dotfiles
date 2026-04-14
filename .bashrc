@@ -2,7 +2,7 @@
 # .bashrc
 
 # {{{ Skip for AI agent
-if [ "$CLAUDECODE" = 1 ] || [ "$CODEX_CI" = 1 ] || [ "$COPILOT_CLI" = 1 ];then
+if [ "$CLAUDECODE" = 1 ] || [ "$CODEX_CI" = 1 ] || [ "$COPILOT_CLI" = 1 ] || [ "$GEMINI_CLI" = 1 ] || [ "$CURSOR_AGENT" = 1 ] || [ "$CLINE_ACTIVE" = 1 ];then
   return
 fi
 # }}
