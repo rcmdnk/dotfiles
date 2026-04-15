@@ -144,316 +144,316 @@ return {
       'j-hui/fidget.nvim',
     },
     config = function()
-      -- Mason setup
-      require('mason').setup()
-      require('mason-lspconfig').setup({
-        ensure_installed = {
-          'lua_ls',
-          'ruff',
-          'ts_ls',
-          'rust_analyzer',
-          'marksman',      -- Markdown
-          'texlab',        -- LaTeX
-          'terraformls',   -- Terraform
-        },
-        automatic_installation = true,
-      })
+    -- Mason setup
+    require('mason').setup()
+    -- require('mason-lspconfig').setup({
+    --   ensure_installed = {
+    --     -- 'lua_ls',
+    --     -- 'ruff',
+    --     -- 'ts_ls',
+    --     -- 'rust_analyzer',
+    --     -- 'marksman',      -- Markdown
+    --     -- 'texlab',        -- LaTeX
+    --     -- 'terraformls',   -- Terraform
+    --   },
+    --   automatic_installation = true,
+    -- })
+      -- 
+      -- -- Completion setup
+      -- local cmp = require('cmp')
+      -- local luasnip = require('luasnip')
 
-      -- Completion setup
-      local cmp = require('cmp')
-      local luasnip = require('luasnip')
+      -- cmp.setup({
+      --   snippet = {
+      --     expand = function(args)
+      --       luasnip.lsp_expand(args.body)
+      --     end,
+      --   },
+      --   mapping = cmp.mapping.preset.insert({
+      --     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      --     ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      --     ['<C-Space>'] = cmp.mapping.complete(),
+      --     ['<C-e>'] = cmp.mapping.abort(),
+      --     ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      --     ['<C-n>'] = cmp.mapping.select_next_item(),
+      --     ['<C-p>'] = cmp.mapping.select_prev_item(),
+      --   }),
+      --   sources = cmp.config.sources({
+      --     { name = 'nvim_lsp' },
+      --     { name = 'luasnip' },
+      --   }, {
+      --     { name = 'buffer' },
+      --     { name = 'path' },
+      --   }),
+      --   preselect = cmp.PreselectMode.None,  -- Disable preselection
+      --   completion = {
+      --     completeopt = 'menu,menuone,noinsert,noselect'  -- Prevent automatic selection
+      --   },
+      -- })
 
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
-        }),
-        sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' },
-        }, {
-          { name = 'buffer' },
-          { name = 'path' },
-        }),
-        preselect = cmp.PreselectMode.None,  -- Disable preselection
-        completion = {
-          completeopt = 'menu,menuone,noinsert,noselect'  -- Prevent automatic selection
-        },
-      })
+      -- -- LSP setup
+      -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      -- LSP setup
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      -- local function lsp_server_is_available(server, config)
+      --   local resolved_config = vim.lsp.config[server]
+      --   local cmd = resolved_config and resolved_config.cmd or config.cmd
 
-      local function lsp_server_is_available(server, config)
-        local resolved_config = vim.lsp.config[server]
-        local cmd = resolved_config and resolved_config.cmd or config.cmd
+      --   return command_is_available(cmd)
+      -- end
 
-        return command_is_available(cmd)
-      end
+      -- -- Diagnostic configuration for real-time feedback
+      -- local diagnostic_enabled = true  -- Track diagnostic state
+      -- local saved_signcolumn = vim.opt.signcolumn:get()  -- Store original signcolumn value
+      -- local saved_spell = vim.opt.spell:get()  -- Store original spell check state
+      -- local saved_list = vim.opt.list:get()  -- Store original list state
+      -- local saved_colorcolumn = vim.opt.colorcolumn:get()  -- Store original colorcolumn value
 
-      -- Diagnostic configuration for real-time feedback
-      local diagnostic_enabled = true  -- Track diagnostic state
-      local saved_signcolumn = vim.opt.signcolumn:get()  -- Store original signcolumn value
-      local saved_spell = vim.opt.spell:get()  -- Store original spell check state
-      local saved_list = vim.opt.list:get()  -- Store original list state
-      local saved_colorcolumn = vim.opt.colorcolumn:get()  -- Store original colorcolumn value
+      -- -- Function to toggle diagnostics
+      -- local function toggle_diagnostics()
+      --   diagnostic_enabled = not diagnostic_enabled
+      --   if diagnostic_enabled then
+      --     vim.diagnostic.show()
+      --     vim.opt.signcolumn = saved_signcolumn  -- Restore original signcolumn
+      --     vim.opt.spell = saved_spell  -- Restore original spell check
+      --     vim.opt.list = saved_list  -- Restore original list state
+      --     vim.opt.colorcolumn = saved_colorcolumn  -- Restore original colorcolumn
+      --     vim.cmd('IndentGuidesEnable')  -- Enable indent guides
+      --     -- Re-enable diagnostic features
+      --     vim.diagnostic.config({
+      --       virtual_text = false,
+      --       signs = true,
+      --       underline = true,
+      --       float = {
+      --         border = 'rounded',
+      --         source = 'always',
+      --         header = '',
+      --         prefix = '',
+      --       },
+      --     })
+      --   else
+      --     vim.diagnostic.hide()
+      --     saved_signcolumn = vim.opt.signcolumn:get()  -- Save current signcolumn value
+      --     saved_spell = vim.opt.spell:get()  -- Save current spell check state
+      --     saved_list = vim.opt.list:get()  -- Save current list state
+      --     saved_colorcolumn = vim.opt.colorcolumn:get()  -- Save current colorcolumn value
+      --     vim.opt.signcolumn = "no"  -- Hide signcolumn
+      --     vim.opt.spell = false  -- Disable spell check
+      --     vim.opt.list = false  -- Disable list
+      --     vim.opt.colorcolumn = ""  -- Hide colorcolumn
+      --     vim.cmd('IndentGuidesDisable')  -- Disable indent guides
+      --     -- Disable all diagnostic features
+      --     vim.diagnostic.config({
+      --       virtual_text = false,
+      --       signs = false,
+      --       underline = false,
+      --       float = false,
+      --     })
+      --     -- Close any open float windows
+      --     vim.diagnostic.hide()
+      --   end
+      -- end
 
-      -- Function to toggle diagnostics
-      local function toggle_diagnostics()
-        diagnostic_enabled = not diagnostic_enabled
-        if diagnostic_enabled then
-          vim.diagnostic.show()
-          vim.opt.signcolumn = saved_signcolumn  -- Restore original signcolumn
-          vim.opt.spell = saved_spell  -- Restore original spell check
-          vim.opt.list = saved_list  -- Restore original list state
-          vim.opt.colorcolumn = saved_colorcolumn  -- Restore original colorcolumn
-          vim.cmd('IndentGuidesEnable')  -- Enable indent guides
-          -- Re-enable diagnostic features
-          vim.diagnostic.config({
-            virtual_text = false,
-            signs = true,
-            underline = true,
-            float = {
-              border = 'rounded',
-              source = 'always',
-              header = '',
-              prefix = '',
-            },
-          })
-        else
-          vim.diagnostic.hide()
-          saved_signcolumn = vim.opt.signcolumn:get()  -- Save current signcolumn value
-          saved_spell = vim.opt.spell:get()  -- Save current spell check state
-          saved_list = vim.opt.list:get()  -- Save current list state
-          saved_colorcolumn = vim.opt.colorcolumn:get()  -- Save current colorcolumn value
-          vim.opt.signcolumn = "no"  -- Hide signcolumn
-          vim.opt.spell = false  -- Disable spell check
-          vim.opt.list = false  -- Disable list
-          vim.opt.colorcolumn = ""  -- Hide colorcolumn
-          vim.cmd('IndentGuidesDisable')  -- Disable indent guides
-          -- Disable all diagnostic features
-          vim.diagnostic.config({
-            virtual_text = false,
-            signs = false,
-            underline = false,
-            float = false,
-          })
-          -- Close any open float windows
-          vim.diagnostic.hide()
-        end
-      end
+      -- -- Add keymap to toggle diagnostics
+      -- vim.keymap.set('n', '<leader>t', toggle_diagnostics, { noremap = true, silent = true, desc = 'Toggle Diagnostics' })
 
-      -- Add keymap to toggle diagnostics
-      vim.keymap.set('n', '<leader>t', toggle_diagnostics, { noremap = true, silent = true, desc = 'Toggle Diagnostics' })
+      -- -- Create diagnostic popup on cursor hold
+      -- local diagnostic_group = vim.api.nvim_create_augroup('diagnostic_popup', { clear = true })
+      -- vim.api.nvim_create_autocmd("CursorHold", {
+      --   group = diagnostic_group,
+      --   callback = function()
+      --     if diagnostic_enabled then
+      --       local opts = {
+      --         focusable = false,
+      --         close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+      --         border = 'rounded',
+      --         source = 'always',
+      --         prefix = ' ',
+      --         scope = 'cursor',
+      --       }
+      --       vim.diagnostic.open_float(nil, opts)
+      --     end
+      --   end
+      -- })
 
-      -- Create diagnostic popup on cursor hold
-      local diagnostic_group = vim.api.nvim_create_augroup('diagnostic_popup', { clear = true })
-      vim.api.nvim_create_autocmd("CursorHold", {
-        group = diagnostic_group,
-        callback = function()
-          if diagnostic_enabled then
-            local opts = {
-              focusable = false,
-              close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-              border = 'rounded',
-              source = 'always',
-              prefix = ' ',
-              scope = 'cursor',
-            }
-            vim.diagnostic.open_float(nil, opts)
-          end
-        end
-      })
+      -- vim.diagnostic.config({
+      --   virtual_text = false,       -- Disable virtual text by default
+      --   signs = true,               -- Always show signs in the gutter
+      --   underline = true,           -- Underline problems
+      --   update_in_insert = true,    -- Update diagnostics in insert mode
+      --   severity_sort = true,       -- Sort diagnostics by severity
+      --   float = {                   -- Configure diagnostic float window
+      --     border = 'rounded',
+      --     source = 'always',
+      --     header = '',
+      --     prefix = '',
+      --   },
+      -- })
 
-      vim.diagnostic.config({
-        virtual_text = false,       -- Disable virtual text by default
-        signs = true,               -- Always show signs in the gutter
-        underline = true,           -- Underline problems
-        update_in_insert = true,    -- Update diagnostics in insert mode
-        severity_sort = true,       -- Sort diagnostics by severity
-        float = {                   -- Configure diagnostic float window
-          border = 'rounded',
-          source = 'always',
-          header = '',
-          prefix = '',
-        },
-      })
+      -- -- Diagnostic signs with more visible icons
+      -- local signs = {
+      --   Error = "E",  -- Error sign
+      --   Warn  = "W",  -- Warning sign
+      --   Hint  = "H",  -- Hint sign
+      --   Info  = "I",  -- Info sign
+      -- }
+      -- for type, icon in pairs(signs) do
+      --   local hl = "DiagnosticSign" .. type
+      --   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      -- end
 
-      -- Diagnostic signs with more visible icons
-      local signs = {
-        Error = "E",  -- Error sign
-        Warn  = "W",  -- Warning sign
-        Hint  = "H",  -- Hint sign
-        Info  = "I",  -- Info sign
-      }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
+      -- -- LSP keymaps
+      -- local on_attach = function(client, bufnr)
+      --   local opts = { noremap = true, silent = true, buffer = bufnr }
+      --   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+      --   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+      --   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+      --   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+      --   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+      --   vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+      --   vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+      --   vim.keymap.set('n', '<leader>wl', function()
+      --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      --   end, opts)
+      --   vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+      --   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+      --   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+      --   vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+      --   vim.keymap.set('n', '<leader>f', function()
+      --     vim.lsp.buf.format { async = true }
+      --   end, opts)
 
-      -- LSP keymaps
-      local on_attach = function(client, bufnr)
-        local opts = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-        vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
-        vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
-        vim.keymap.set('n', '<leader>wl', function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, opts)
-        vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-        vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-        vim.keymap.set('n', '<leader>f', function()
-          vim.lsp.buf.format { async = true }
-        end, opts)
+      --   -- Diagnostic navigation
+      --   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
+      --   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
+      --   vim.keymap.set('n', '[e', function()
+      --     vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+      --   end, { desc = 'Go to previous error' })
+      --   vim.keymap.set('n', ']e', function()
+      --     vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+      --   end, { desc = 'Go to next error' })
+      --   vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic in float window' })
+      --   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Add diagnostics to location list' })
+      -- end
 
-        -- Diagnostic navigation
-        vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
-        vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
-        vim.keymap.set('n', '[e', function()
-          vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-        end, { desc = 'Go to previous error' })
-        vim.keymap.set('n', ']e', function()
-          vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-        end, { desc = 'Go to next error' })
-        vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic in float window' })
-        vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Add diagnostics to location list' })
-      end
+      -- -- Configure LSP servers
+      -- local servers = {
+      --   lua_ls = {
+      --     settings = {
+      --       Lua = {
+      --         diagnostics = {
+      --           globals = { 'vim' },
+      --         },
+      --         workspace = {
+      --           library = vim.api.nvim_get_runtime_file("", true),
+      --           checkThirdParty = false,
+      --         },
+      --         telemetry = {
+      --           enable = false,
+      --         },
+      --       },
+      --     },
+      --   },
+      --   ruff = {
+      --     settings = {
+      --       args = {},
+      --       settings = {
+      --         -- Ruff settings
+      --         lint = {
+      --           args = {
+      --             "--select=ALL",  -- Enable all rules
+      --             "--ignore=D,ERA,UP,ANN", -- Ignore specific rules
+      --           },
+      --         },
+      --         organizeImports = {
+      --           enabled = true,
+      --         },
+      --         fixAll = {
+      --           enabled = true,
+      --         },
+      --       },
+      --     },
+      --   },
+      --   ts_ls = {},  -- TypeScript LSP
+      --   rust_analyzer = {},
 
-      -- Configure LSP servers
-      local servers = {
-        lua_ls = {
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = { 'vim' },
-              },
-              workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
-                checkThirdParty = false,
-              },
-              telemetry = {
-                enable = false,
-              },
-            },
-          },
-        },
-        ruff = {
-          settings = {
-            args = {},
-            settings = {
-              -- Ruff settings
-              lint = {
-                args = {
-                  "--select=ALL",  -- Enable all rules
-                  "--ignore=D,ERA,UP,ANN", -- Ignore specific rules
-                },
-              },
-              organizeImports = {
-                enabled = true,
-              },
-              fixAll = {
-                enabled = true,
-              },
-            },
-          },
-        },
-        ts_ls = {},  -- TypeScript LSP
-        rust_analyzer = {},
+      --   -- Markdown
+      --   marksman = {},
 
-        -- Markdown
-        marksman = {},
+      --   -- LaTeX
+      --   texlab = {
+      --     settings = {
+      --       texlab = {
+      --         build = {
+      --           onSave = true,
+      --         },
+      --         chktex = {
+      --           onEdit = true,
+      --           onOpenAndSave = true,
+      --         },
+      --         formatterLineLength = 80,
+      --       },
+      --     },
+      --   },
 
-        -- LaTeX
-        texlab = {
-          settings = {
-            texlab = {
-              build = {
-                onSave = true,
-              },
-              chktex = {
-                onEdit = true,
-                onOpenAndSave = true,
-              },
-              formatterLineLength = 80,
-            },
-          },
-        },
+      --   -- Terraform
+      --   terraformls = {
+      --     filetypes = { "terraform", "tf", "terraform-vars" },
+      --   },
+      -- }
 
-        -- Terraform
-        terraformls = {
-          filetypes = { "terraform", "tf", "terraform-vars" },
-        },
-      }
+      -- -- Setup all servers
+      -- for server, config in pairs(servers) do
+      --   local server_config = vim.tbl_deep_extend('force', {
+      --     on_attach = on_attach,
+      --     capabilities = capabilities,
+      --   }, config)
 
-      -- Setup all servers
-      for server, config in pairs(servers) do
-        local server_config = vim.tbl_deep_extend('force', {
-          on_attach = on_attach,
-          capabilities = capabilities,
-        }, config)
+      --   vim.lsp.config(server, server_config)
 
-        vim.lsp.config(server, server_config)
+      --   if lsp_server_is_available(server, server_config) then
+      --     vim.lsp.enable(server)
+      --   end
+      -- end
 
-        if lsp_server_is_available(server, server_config) then
-          vim.lsp.enable(server)
-        end
-      end
+      -- -- Setup fidget for LSP progress
+      -- require('fidget').setup()
 
-      -- Setup fidget for LSP progress
-      require('fidget').setup()
+      -- -- Copilot setup
+      -- vim.g.copilot_no_tab_map = true
+      -- vim.g.copilot_assume_mapped = true
+      -- vim.g.copilot_tab_fallback = ""
 
-      -- Copilot setup
-      vim.g.copilot_no_tab_map = true
-      vim.g.copilot_assume_mapped = true
-      vim.g.copilot_tab_fallback = ""
+      -- -- Custom function to handle Tab key
+      -- local function tab_complete()
+      --   local copilot_suggestion = require("copilot.suggestion")
+      --   if copilot_suggestion.is_visible() then
+      --     copilot_suggestion.accept()
+      --   elseif cmp.visible() then
+      --     cmp.select_next_item()
+      --   elseif luasnip.expand_or_jumpable() then
+      --     luasnip.expand_or_jump()
+      --   else
+      --     -- Get the current shiftwidth value
+      --     local sw = vim.bo.shiftwidth
+      --     -- Create a string with that many spaces
+      --     local spaces = string.rep(' ', sw)
+      --     -- Return the spaces
+      --     return spaces
+      --   end
+      -- end
 
-      -- Custom function to handle Tab key
-      local function tab_complete()
-        local copilot_suggestion = require("copilot.suggestion")
-        if copilot_suggestion.is_visible() then
-          copilot_suggestion.accept()
-        elseif cmp.visible() then
-          cmp.select_next_item()
-        elseif luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        else
-          -- Get the current shiftwidth value
-          local sw = vim.bo.shiftwidth
-          -- Create a string with that many spaces
-          local spaces = string.rep(' ', sw)
-          -- Return the spaces
-          return spaces
-        end
-      end
-
-      -- Map Tab key
-      vim.keymap.set('i', '<Tab>', tab_complete, {
-        expr = true,
-        replace_keycodes = false
-      })
-      vim.keymap.set('i', '<S-Tab>', function()
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        end
-      end, { silent = true })
+      -- -- Map Tab key
+      -- vim.keymap.set('i', '<Tab>', tab_complete, {
+      --   expr = true,
+      --   replace_keycodes = false
+      -- })
+      -- vim.keymap.set('i', '<S-Tab>', function()
+      --   if cmp.visible() then
+      --     cmp.select_prev_item()
+      --   elseif luasnip.jumpable(-1) then
+      --     luasnip.jump(-1)
+      --   end
+      -- end, { silent = true })
     end,
   },
 
