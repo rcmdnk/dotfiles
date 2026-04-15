@@ -154,7 +154,8 @@ return {
         'rust_analyzer',
         'marksman',
         'texlab',
-        'terraformls',
+        -- https://github.com/hashicorp/terraform-ls/issues/2108
+        -- 'terraformls', 
       },
       automatic_installation = true,
     })
