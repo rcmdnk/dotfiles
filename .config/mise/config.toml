@@ -34,3 +34,6 @@ uv = "0.11.2"
 "pipx:mcp-server-git" = "2026.1.14"
 "pipx:oraios/serena" = "v0.1.4"
 "pipx:poetry" = "2.3.3"
+"pipx:prek" = "0.3.9"
+"pipx:pre-commit" = "4.5.1"
+
