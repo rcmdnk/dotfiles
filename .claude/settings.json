@@ -2,6 +2,10 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "cleanupPeriodDays": 30,
   "env": {},
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "permissions": {
     "allow": [
       "Bash(uv run python:*)",
@@ -30,8 +34,21 @@
     ],
     "defaultMode": "auto"
   },
+  "model": "claude-opus-4-7",
+  "enabledPlugins": {
+    "codex@openai-codex": true
+  },
+  "extraKnownMarketplaces": {
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    }
+  },
   "prefersReducedMotion": true,
+  "skipAutoPermissionPrompt": true,
   "autoUpdates": true,
   "terminalProgressBarEnabled": false,
-  "skipAutoPermissionPrompt": true
+  "effortLevel": "xhigh"
 }
