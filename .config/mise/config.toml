@@ -25,6 +25,7 @@ uv = "0.11.2"
 "npm:happy-coder" = "0.13.0"
 "npm:skills" = "1.4.7"
 
+"pipx:apm-cli" = "0.8.12"
 "pipx:awslabs.aws-diagram-mcp-server" = "1.0.23"
 "pipx:awslabs.aws-pricing-mcp-server" = "1.0.27"
 "pipx:browser-use" = "0.12.5"
