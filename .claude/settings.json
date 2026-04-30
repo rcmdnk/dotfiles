@@ -29,12 +29,13 @@
     "deny": [
       "Read(./.env)",
       "Read(./.env.*)",
+      "Read(./.keys)",
+      "Read(~/.keys)",
       "Read(./secrets/**)",
       "Bash(git reset --hard)"
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-opus-4-7",
   "enabledPlugins": {
     "codex@openai-codex": true
   },
@@ -46,9 +47,9 @@
       }
     }
   },
+  "effortLevel": "xhigh",
   "prefersReducedMotion": true,
-  "skipAutoPermissionPrompt": true,
-  "autoUpdates": true,
   "terminalProgressBarEnabled": false,
-  "effortLevel": "xhigh"
+  "skipAutoPermissionPrompt": true,
+  "autoUpdates": true
 }
