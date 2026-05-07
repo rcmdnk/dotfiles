@@ -7,10 +7,10 @@
 	username = rcmdnk
 [credential "https://github.com"]
   helper =
-  helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
+  helper = !gh auth git-credential
 [credential "https://gist.github.com"]
   helper =
-  helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
+  helper = !gh auth git-credential
 [init]
   defaultBranch = main
   #templateDir = ~/.config/git-templates
