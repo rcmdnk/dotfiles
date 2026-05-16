@@ -119,7 +119,7 @@ for f in .*;do
     mkdir -p "$instdir/$f"
     for ff in "$curdir/$f"/*;do
       [[ -e "$ff" ]] || continue
-      files=("${files[@]}" "$f/$ff")
+      files=("${files[@]}" "$f/$(basename $ff)")
     done
   else
     files=("$f")
