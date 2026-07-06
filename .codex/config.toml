@@ -1,8 +1,8 @@
 # https://github.com/openai/codex/blob/main/codex-rs/config.md
 
-model = "gpt-5.4"
+model = "gpt-5.5"
 #model_reasoning_effort = "medium"
-model_reasoning_effort = "high"
+model_reasoning_effort = "medium"
 plan_mode_reasoning_effort = "high"
 
 personality = "pragmatic"
@@ -38,6 +38,9 @@ inherit = "all"
 
 [tui]
 status_line = ["model-with-reasoning", "context-remaining", "current-dir", "five-hour-limit", "weekly-limit"]
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
 
 [notice]
 hide_full_access_warning = true
@@ -112,10 +115,10 @@ command = "chrome-devtools-mcp"
 args = []
 enabled = false
 
-[mcp_servers.github-mcp-server]
-url = "https://api.githubcopilot.com/mcp"
-bearer_token_env_var = "GITHUB_MCP_API_TOKEN" # Need to write environmental variable name instead of token value directly
-enabled = false
+#[mcp_servers.github-mcp-server]
+#url = "https://api.githubcopilot.com/mcp"
+#bearer_token_env_var = "GITHUB_MCP_API_TOKEN" # Need to write environmental variable name instead of token value directly
+#enabled = false
 
 [plugins."google-calendar@openai-curated"]
 enabled = true

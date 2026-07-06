@@ -36,8 +36,26 @@
     ],
     "defaultMode": "auto"
   },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/home/ec2-user/.claude/hooks/context-mode-cache-heal.mjs\""
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "context-mode statusline"
+  },
   "enabledPlugins": {
-    "codex@openai-codex": true
+    "codex@openai-codex": true,
+    "security-guidance@claude-plugins-official": true,
+    "context-mode@context-mode": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
@@ -45,11 +63,24 @@
         "source": "github",
         "repo": "openai/codex-plugin-cc"
       }
+    },
+    "context-mode": {
+      "source": {
+        "source": "github",
+        "repo": "mksglu/context-mode"
+      }
     }
   },
+  "spinnerTipsEnabled": false,
+  "terminalTitleFromRename": false,
   "effortLevel": "xhigh",
   "prefersReducedMotion": true,
   "terminalProgressBarEnabled": false,
+  "remoteControlAtStartup": true,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
-  "autoUpdates": true
+  "useTerminalTitle": false,
+  "autoUpdates": true,
+  "tui": "fullscreen"
 }

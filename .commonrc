@@ -379,7 +379,6 @@ _set_env () { # Shell/Environmental variables {{{
     fi
   fi
 
-
   # Ruby
   if type gem >& /dev/null;then
     for d in $(gem environment gempath|sed 's/:/ /g');do
@@ -413,14 +412,8 @@ _set_env () { # Shell/Environmental variables {{{
     eval "$(github-copilot-cli alias -- "$0")"
   fi
 
-  # aider
-  if type aider >& /dev/null;then
-    export AIDER_MODEL="gemini/gemini-2.0-flash"
-    export AIDER_ATTRIBUTE_COMMIT_MESSAGE_AUTHOR=true
-    export AIDER_ATTRIBUTE_COMMIT_MESSAGE_COMMITTER=true
-    #export AIDER_GIT_COMMIT_VERIFY=false
-    export AIDER_CHECK_UPDATE=false
-  fi
+  # claude
+  export CLAUDE_CODE_DISABLE_TERMINAL_TITLE=1
 
 } # }}} Shell/Environmental variables
 
