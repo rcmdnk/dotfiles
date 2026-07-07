@@ -74,6 +74,7 @@
   "spinnerTipsEnabled": false,
   "terminalTitleFromRename": false,
   "effortLevel": "xhigh",
+  "tui": "fullscreen",
   "prefersReducedMotion": true,
   "terminalProgressBarEnabled": false,
   "remoteControlAtStartup": true,
@@ -81,6 +82,5 @@
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "useTerminalTitle": false,
-  "autoUpdates": true,
-  "tui": "fullscreen"
+  "autoUpdates": true
 }

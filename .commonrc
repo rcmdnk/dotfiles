@@ -292,6 +292,11 @@ _set_env () { # Shell/Environmental variables {{{
   export HISTIGNORE="cd:cd :cd -:cd ../:ls:sd:cl:pwd:history:exit:bg:fg:git st:git push:git update"
   export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 
+  # SSH
+  if [ -S "$HOME/.ssh/ssh_auth_sock" ]; then
+      export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
+  fi
+
   # ls color
   if [[ "$OSTYPE" = linux* ]] || [[ "$OSTYPE" = cygwin* ]];then
     # Linux
