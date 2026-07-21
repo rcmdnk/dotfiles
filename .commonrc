@@ -241,9 +241,9 @@ _set_path () { # {{{
     _set_path_lib "/usr/local"
   fi
 
-  for p in "$HOME" "$HOME/.local" "$HOME/usr" "$HOME/usr/local";do
-    _set_path_lib "$p"
-  done
+  #for p in "$HOME" "$HOME/.local" "$HOME/usr" "$HOME/usr/local";do
+  #  _set_path_lib "$p"
+  #done
 
   export GOPATH=$HOME/.go
   if [[ -d "$GOPATH/bin" ]];then
