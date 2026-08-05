@@ -815,7 +815,6 @@ _set_function () { # Functions  {{{
     elif [ -n "$BASH_VERSION" ];then
       eval "$(mise activate bash)"
     fi
-    _add_path PATH "$HOME/.local/share/mise/shims"
   }
   _set_mise
   # }}}

@@ -72,9 +72,9 @@ return {
   {
     'CopilotC-Nvim/CopilotChat.nvim',
     dependencies = {
-      'github/copilot.vim',
       'nvim-lua/plenary.nvim',
     },
+    cmd = 'CopilotChat',
     -- keys = {
     --   { '<leader>ccb', '<cmd>CopilotChatBuffer<cr>', desc = 'CopilotChat - Buffer' },
     --   { '<leader>cce', '<cmd>CopilotChatExplain<cr>', desc = 'CopilotChat - Explain' },
