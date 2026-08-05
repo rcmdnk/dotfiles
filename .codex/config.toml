@@ -1,6 +1,8 @@
 # https://github.com/openai/codex/blob/main/codex-rs/config.md
 
-model = "gpt-5.5"
+model = "gpt-5.6-luna"
+#model = "gpt-5.6-terra"
+#model = "gpt-5.6-sol"
 #model_reasoning_effort = "medium"
 model_reasoning_effort = "medium"
 plan_mode_reasoning_effort = "high"

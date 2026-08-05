@@ -1,7 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "cleanupPeriodDays": 30,
-  "env": {},
+  "env": {
+    "CLAUDE_CODE_STOP_HOOK_BLOCK_CAP": "3"
+  },
   "attribution": {
     "commit": "",
     "pr": ""
@@ -51,12 +53,13 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "context-mode statusline"
+    "command": "input=$(cat); line=$(printf \"%s\" \"$input\" | jq -r \"[(.model.display_name // \\\"?\\\"), (.rate_limits.five_hour.used_percentage // \\\"\\\" | tostring), (.rate_limits.five_hour.resets_at // \\\"\\\" | tostring), (.rate_limits.seven_day.used_percentage // \\\"\\\" | tostring), (.rate_limits.seven_day.resets_at // \\\"\\\" | tostring)] | @tsv\"); IFS=$(printf \"\\t\") read -r model f_pct f_rst w_pct w_rst <<EOF\n$line\nEOF\nout=\"$model\"; if [ -n \"$f_pct\" ] && [ \"$f_pct\" != \"null\" ]; then out=\"$out  |  5h ${f_pct}%\"; if [ -n \"$f_rst\" ] && [ \"$f_rst\" != \"null\" ]; then out=\"$out (resets $(date -d @\"$f_rst\" \"+%-H:%M\"))\"; fi; fi; if [ -n \"$w_pct\" ] && [ \"$w_pct\" != \"null\" ]; then out=\"$out  |  7d ${w_pct}%\"; if [ -n \"$w_rst\" ] && [ \"$w_rst\" != \"null\" ]; then out=\"$out (resets $(date -d @\"$w_rst\" \"+%a %-d %b\"))\"; fi; fi; printf \"\\033[2m%s\\033[0m\" \"$out\""
   },
   "enabledPlugins": {
     "codex@openai-codex": true,
     "security-guidance@claude-plugins-official": true,
-    "context-mode@context-mode": true
+    "context-mode@context-mode": true,
+    "python-conventions@claude-python-conventions": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
@@ -70,6 +73,12 @@
         "source": "github",
         "repo": "mksglu/context-mode"
       }
+    },
+    "claude-python-conventions": {
+      "source": {
+        "source": "github",
+        "repo": "rcmdnk/claude-python-conventions"
+      }
     }
   },
   "spinnerTipsEnabled": false,
@@ -77,6 +86,7 @@
   "effortLevel": "xhigh",
   "tui": "fullscreen",
   "prefersReducedMotion": true,
+  "skipWorkflowUsageWarning": true,
   "terminalProgressBarEnabled": false,
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
