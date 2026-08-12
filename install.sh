@@ -167,6 +167,7 @@ myinstall "$curdir/.codex/AGENTS.md" "$instdir/.copilot/copilot-instructions.md"
 # claude
 myinstall "$curdir/.claude/settings.json" "$instdir/.claude/settings.json"
 myinstall "$curdir/.claude/CLAUDE.md" "$instdir/.claude/CLAUDE.md"
+myinstall "$curdir/.claude/agents" "$instdir/.claude/agents"
 
 # config
 mkdir -p "$instdir/.config"
