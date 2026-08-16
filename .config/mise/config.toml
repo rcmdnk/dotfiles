@@ -23,6 +23,7 @@ uv = "0.12.1"
 "npm:@upstash/context7-mcp" = "3.2.5"
 "npm:chrome-devtools-mcp" = "1.6.0"
 "npm:skills" = "1.5.21"
+'npm:context-mode' = "1.0.169"
 
 "pipx:apm-cli" = "0.27.0"
 "pipx:awslabs.aws-diagram-mcp-server" = "1.0.23"

@@ -1,5 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "effortLevel": "xhigh",
   "cleanupPeriodDays": 30,
   "env": {
     "CLAUDE_CODE_STOP_HOOK_BLOCK_CAP": "3"
@@ -38,14 +39,20 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "skillOverrides": {
+    "docx": "name-only",
+    "pptx": "name-only",
+    "pdf": "name-only",
+    "skill-creator": "name-only",
+    "browser-use": "name-only"
+  },
   "hooks": {
     "SessionStart": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "\"/home/ec2-user/.claude/hooks/context-mode-cache-heal.mjs\""
+            "command": "\"~/.claude/hooks/context-mode-cache-heal.mjs\""
           }
         ]
       }
@@ -58,8 +65,7 @@
   "enabledPlugins": {
     "codex@openai-codex": true,
     "security-guidance@claude-plugins-official": true,
-    "context-mode@context-mode": true,
-    "python-conventions@claude-python-conventions": true
+    "context-mode@context-mode": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
@@ -73,17 +79,10 @@
         "source": "github",
         "repo": "mksglu/context-mode"
       }
-    },
-    "claude-python-conventions": {
-      "source": {
-        "source": "github",
-        "repo": "rcmdnk/claude-python-conventions"
-      }
     }
   },
   "spinnerTipsEnabled": false,
   "terminalTitleFromRename": false,
-  "effortLevel": "xhigh",
   "tui": "fullscreen",
   "prefersReducedMotion": true,
   "skipWorkflowUsageWarning": true,

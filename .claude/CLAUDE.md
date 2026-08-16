@@ -44,29 +44,6 @@
 
 ## Review Procedure for Substantial Work
 
-When you finish a substantial unit of work (a feature, a non-trivial bug fix, a refactor that spans multiple files, changes to security-sensitive code, etc.), the following steps MUST be performed before declaring the task complete or committing. They do not apply to trivial edits such as typo fixes, single-line tweaks, or minor wording adjustments.
+When you finish a substantial unit of work (a feature, a non-trivial bug fix, a multi-file refactor, a security-sensitive change), and whenever you produce a plan or design, you MUST invoke the `codex-review` skill and follow it before declaring the task complete or committing. This does not apply to trivial edits such as typo fixes, single-line tweaks, or minor wording adjustments.
 
-1. **Run the Codex review**
-   - After completing the work, invoke the Codex companion script directly via Bash from inside the relevant git repository:
-     ```bash
-     node ~/.claude/plugins/cache/openai-codex/codex/*/scripts/codex-companion.mjs review ""
-     ```
-     (The `*` resolves to whatever plugin version is currently installed. The script must be run from inside a git repo; `cd` there first if needed.)
-   - Do not ignore the feedback returned. Each item must be handled in one of two ways:
-     - Valid feedback → update the code/work to reflect it.
-     - Feedback you choose not to apply → briefly tell the user why before moving on.
-   - If you made fixes in response to the review, re-run the same command to confirm the issues are resolved.
-
-2. **Run the Codex adversarial review**
-   - **Always** run the adversarial review whenever a plan or design is produced — for example, after preparing an implementation plan, an architecture proposal, a migration strategy, or any other forward-looking design (including output from plan mode or planning agents). Treat the plan itself as the review target before any code is written.
-   - Also run it after the work is complete if the change can affect security, permissions, authentication/authorization, data integrity, external-facing APIs, agent automation scope, or other high-impact surfaces.
-   - Invoke it the same way:
-     ```bash
-     node ~/.claude/plugins/cache/openai-codex/codex/*/scripts/codex-companion.mjs adversarial-review ""
-     ```
-   - For each surfaced risk (misuse, abuse vectors, rule conflicts, runaway behavior, edge-case failures, etc.), either reflect a mitigation in the plan/code (input validation, guard clauses, narrowed scope, revised approach, etc.) or, if you do not address it, explain the reasoning to the user.
-
-3. **Confirm before committing**
-   - Commit only after the review feedback has been handled. Use the appropriate Conventional Commits scope (`feat:`, `fix:`, `refactor:`, etc.).
-
-Note: if the codex-companion script is not present (the codex plugin is not installed in this environment), tell the user and skip the step rather than fabricating results.
+This gate fails closed. If the `codex-review` skill is not available, run the companion script directly from inside the git repo instead — `node ~/.claude/plugins/cache/openai-codex/codex/*/scripts/codex-companion.mjs review ""`, plus `adversarial-review ""` for plans/designs and for changes touching security, permissions, data integrity, external APIs, or agent automation scope. Handle every item returned: apply it, or tell the user why you did not. If the script is missing too, say so and skip the step — never fabricate review results.
