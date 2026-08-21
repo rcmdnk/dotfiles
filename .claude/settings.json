@@ -1,6 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "effortLevel": "xhigh",
   "cleanupPeriodDays": 30,
   "env": {
     "CLAUDE_CODE_STOP_HOOK_BLOCK_CAP": "3"
@@ -46,21 +45,9 @@
     "skill-creator": "name-only",
     "browser-use": "name-only"
   },
-  "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"~/.claude/hooks/context-mode-cache-heal.mjs\""
-          }
-        ]
-      }
-    ]
-  },
   "statusLine": {
     "type": "command",
-    "command": "input=$(cat); line=$(printf \"%s\" \"$input\" | jq -r \"[(.model.display_name // \\\"?\\\"), (.rate_limits.five_hour.used_percentage // \\\"\\\" | tostring), (.rate_limits.five_hour.resets_at // \\\"\\\" | tostring), (.rate_limits.seven_day.used_percentage // \\\"\\\" | tostring), (.rate_limits.seven_day.resets_at // \\\"\\\" | tostring)] | @tsv\"); IFS=$(printf \"\\t\") read -r model f_pct f_rst w_pct w_rst <<EOF\n$line\nEOF\nout=\"$model\"; if [ -n \"$f_pct\" ] && [ \"$f_pct\" != \"null\" ]; then out=\"$out  |  5h ${f_pct}%\"; if [ -n \"$f_rst\" ] && [ \"$f_rst\" != \"null\" ]; then out=\"$out (resets $(date -d @\"$f_rst\" \"+%-H:%M\"))\"; fi; fi; if [ -n \"$w_pct\" ] && [ \"$w_pct\" != \"null\" ]; then out=\"$out  |  7d ${w_pct}%\"; if [ -n \"$w_rst\" ] && [ \"$w_rst\" != \"null\" ]; then out=\"$out (resets $(date -d @\"$w_rst\" \"+%a %-d %b\"))\"; fi; fi; printf \"\\033[2m%s\\033[0m\" \"$out\""
+    "command": "input=$(cat); cwd=$(printf \"%s\" \"$input\" | jq -r '.workspace.current_dir // .cwd'); dir=\"${cwd/#$HOME/\\~}\"; prompt=\"[$(whoami)@$(hostname -s) $dir]\"; line=$(printf \"%s\" \"$input\" | jq -r \"[(.model.display_name // \\\"?\\\"), (.rate_limits.five_hour.used_percentage // \\\"\\\" | tostring), (.rate_limits.five_hour.resets_at // \\\"\\\" | tostring), (.rate_limits.seven_day.used_percentage // \\\"\\\" | tostring), (.rate_limits.seven_day.resets_at // \\\"\\\" | tostring)] | @tsv\"); IFS=$(printf \"\\t\") read -r model f_pct f_rst w_pct w_rst <<EOF\n$line\nEOF\nout=\"$model\"; if [ -n \"$f_pct\" ] && [ \"$f_pct\" != \"null\" ]; then out=\"$out  |  5h ${f_pct}%\"; if [ -n \"$f_rst\" ] && [ \"$f_rst\" != \"null\" ]; then out=\"$out (resets $(date -d @\"$f_rst\" \"+%-H:%M\"))\"; fi; fi; if [ -n \"$w_pct\" ] && [ \"$w_pct\" != \"null\" ]; then out=\"$out  |  7d ${w_pct}%\"; if [ -n \"$w_rst\" ] && [ \"$w_rst\" != \"null\" ]; then out=\"$out (resets $(date -d @\"$w_rst\" \"+%a %-d %b\"))\"; fi; fi; printf \"%s  |  \\033[2m%s\\033[0m\" \"$prompt\" \"$out\""
   },
   "enabledPlugins": {
     "codex@openai-codex": true,
@@ -83,6 +70,7 @@
   },
   "spinnerTipsEnabled": false,
   "terminalTitleFromRename": false,
+  "effortLevel": "xhigh",
   "tui": "fullscreen",
   "prefersReducedMotion": true,
   "skipWorkflowUsageWarning": true,

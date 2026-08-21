@@ -11,7 +11,7 @@ Approach:
 1. Before writing code, check git status: if files you need to change already have unrelated uncommitted modifications, stop and report instead of overwriting them. Keep edits within the files implied by the spec.
 2. Read the related code and match existing conventions: naming, structure, error handling, and test style.
 3. For minor gaps in the spec, make the most conservative choice and state the reasoning in your report. If the ambiguity affects user-visible behavior or data, or you find facts contradicting the spec, stop and report the options instead of deciding.
-4. After implementing, run the tests the project's way (e.g. uv run pytest). If lint/format tooling is available (prek, pre-commit, etc.), run it and make it pass.
+4. After implementing, run the tests the project's way (e.g. uv run pytest). If lint/format tooling is available (prek, pre-commit, etc.), run it and make it pass. Keep this to the targeted tests plus lint, which belong locally. If verifying the change needs a full-dataset run, a sweep, a model fit, or a suite already known to be slow, do not run it on the local box - submit it (`ec2 submit -t <type>` with a wrapper script) or report that it needs submitting, and say which you did.
 5. Never commit. The caller reviews and commits.
 
 Report format (your final message is the ONLY output returned to the caller):
