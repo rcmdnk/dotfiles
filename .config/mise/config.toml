@@ -36,4 +36,4 @@ uv = "0.12.5"
 "pipx:poetry" = "2.4.1"
 "pipx:prek" = "0.4.14"
 "pipx:pre-commit" = "4.6.2"
-
+"github:agavra/tuicr" = "latest"
