@@ -55,7 +55,7 @@ myinstall () {
   if [ $dryrun -eq 1 ];then
     install_check=0
   fi
-  if [ "$(ls "$target" 2>/dev/null)" != "" ];then
+  if [ -e "$target" ] || [ -L "$target" ];then
     exist=("${exist[@]}" "${target/$instdir\//}")
     if [ $dryrun -eq 1 ];then
       echo -n ""
