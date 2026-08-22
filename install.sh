@@ -72,7 +72,7 @@ myinstall () {
   if [ $install_check -eq 1 ];then
     mkdir -p "$(dirname "$target")"
     if [ "$copy_mode" -eq 0 ];then
-      ln -s  "$origin" "$target"
+      ln -sfn  "$origin" "$target"
     elif [ "$copy_mode" -eq 1 ];then
       cp -r  "$origin" "$target"
     elif [ "$copy_mode" -eq 2 ];then
