@@ -800,13 +800,35 @@ _set_function () { # Functions  {{{
   } # }}}
 
   _set_mise () { # {{{
-    # mise setup, must be before sd/cl, as mise wraps cd
-    if ! type -P mise >& /dev/null;then
+    # Skip mise setup if the shell is running in codex's workspace, to avoid error due to codex's workspace-write policy (PATH is inherited by shell_environment_policy
+    if [[ -n "${INIT_PATH:-}" && "${INIT_PATH}" == *"/.codex/tmp/"* ]];then
       return
     fi
 
-    # Skip mise setup if the shell is running in codex's workspace, to avoid error due to codex's workspace-write policy (PATH is inherited by shell_environment_policy
-    if [[ -n "${INIT_PATH:-}" && "${INIT_PATH}" == *"/.codex/tmp/"* ]];then
+    # `mise activate` puts versioned install dirs on PATH. Those disappear when a
+    # tool is upgraded, stranding long-lived children that inherited the old PATH
+    # (e.g. a Claude Code SessionEnd hook whose `node` was pruned mid-session).
+    # Append the shims dir as a stable fallback so tools still resolve.
+    #
+    # Done before the `mise` lookup below on purpose: the shims are plain files,
+    # so this recovery must not depend on `mise` itself still being resolvable.
+    #
+    # Appended, not prepended, also on purpose: `mise activate` uses real install
+    # paths to avoid per-call shim overhead, and keeping them first also keeps a
+    # running shell on one tool version. So this only rescues lookups that would
+    # otherwise fail -- it does not re-point an already-resolved version at the
+    # newest install. Agent shells want the opposite (always current, no
+    # inherited state), so .bashrc prepends the shims dir instead.
+    local _mise_shims="${MISE_DATA_DIR:-$HOME/.local/share/mise}/shims"
+    if [ -d "$_mise_shims" ];then
+      case ":$PATH:" in
+        *":$_mise_shims:"*) ;;
+        *) PATH="$PATH:$_mise_shims"; export PATH ;;
+      esac
+    fi
+
+    # mise setup, must be before sd/cl, as mise wraps cd
+    if ! type -P mise >& /dev/null;then
       return
     fi
 

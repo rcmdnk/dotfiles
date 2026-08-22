@@ -3,6 +3,27 @@
 
 # {{{ Skip for AI agent
 if [ "$CLAUDECODE" = 1 ] || [ "$CODEX_CI" = 1 ] || [ "$COPILOT_CLI" = 1 ] || [ "$GEMINI_CLI" = 1 ] || [ "$CURSOR_AGENT" = 1 ] || [ "$CLINE_ACTIVE" = 1 ];then
+  # Agents skip the interactive setup below, but still need the mise-managed
+  # toolchain on PATH. Use the shims dir rather than `mise activate`: it is a
+  # stable path, so it keeps resolving after mise replaces a versioned install.
+  #
+  # Force it to the front rather than just ensuring it is present: the inherited
+  # PATH usually already carries the shims dir (appended by _set_mise) behind
+  # versioned install dirs, and a stale one of those must not win. So drop every
+  # inherited occurrence first, then prepend exactly one.
+  _mise_shims="${MISE_DATA_DIR:-$HOME/.local/share/mise}/shims"
+  if [ -d "$_mise_shims" ];then
+    _mise_path=":$PATH:"
+    while [ "${_mise_path#*":$_mise_shims:"}" != "$_mise_path" ];do
+      _mise_path="${_mise_path%%":$_mise_shims:"*}:${_mise_path#*":$_mise_shims:"}"
+    done
+    _mise_path="${_mise_path#:}"
+    _mise_path="${_mise_path%:}"
+    PATH="$_mise_shims${_mise_path:+:$_mise_path}"
+    export PATH
+    unset _mise_path
+  fi
+  unset _mise_shims
   return
 fi
 # }}
