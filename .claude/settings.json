@@ -80,5 +80,17 @@
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "useTerminalTitle": false,
-  "autoUpdates": true
+  "autoUpdates": true,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$USERPROFILE/.claude/hooks/context-mode-cache-heal.mjs\""
+          }
+        ]
+      }
+    ]
+  }
 }
