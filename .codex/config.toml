@@ -12,8 +12,7 @@ personality = "pragmatic"
 #approval_policy = "on-request"
 approval_policy = "never"
 
-sandbox_mode    = "workspace-write"
-#sandbox_mode    = "danger-full-access"
+default_permissions = "repo-write"
 
 network_access = true
 
@@ -26,6 +25,12 @@ web_search_request = true
 suppress_unstable_features_warning = true
 approvals_reviewer = "user"
 #service_tier = "fast"
+
+[permissions.repo-write]
+extends = ":workspace"
+
+[permissions.repo-write.filesystem.":workspace_roots"]
+".git" = "write"
 
 [features]
 collaboration_modes = true
