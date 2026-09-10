@@ -1,8 +1,8 @@
 # https://github.com/openai/codex/blob/main/codex-rs/config.md
 
-model = "gpt-5.6-luna"
+#model = "gpt-5.6-luna"
 #model = "gpt-5.6-terra"
-#model = "gpt-5.6-sol"
+model = "gpt-5.6-sol"
 #model_reasoning_effort = "medium"
 model_reasoning_effort = "medium"
 plan_mode_reasoning_effort = "high"
@@ -41,9 +41,6 @@ inherit = "all"
 
 [tui]
 status_line = ["model-with-reasoning", "context-remaining", "current-dir", "five-hour-limit", "weekly-limit"]
-
-[tui.model_availability_nux]
-"gpt-5.5" = 4
 
 [notice]
 hide_full_access_warning = true
