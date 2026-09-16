@@ -8,12 +8,8 @@ model_reasoning_effort = "medium"
 plan_mode_reasoning_effort = "high"
 
 personality = "pragmatic"
-
-#approval_policy = "on-request"
-approval_policy = "never"
-
+approval_policy = "on-request"
 default_permissions = "repo-write"
-
 network_access = true
 
 # notify = ["bash", "-c", "..."]
