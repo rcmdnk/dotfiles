@@ -75,5 +75,5 @@
   "terminalProgressBarEnabled": false,
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true,
+  "agentPushNotifEnabled": true
 }
