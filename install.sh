@@ -208,7 +208,6 @@ else
 fi
 echo "  ${newlink[*]}"
 echo
-echo -n "Following files existed"
 if [ $dryrun -eq 1 ];then
   echo "Following files exist:"
 elif [ $overwrite -eq 0 ];then
