@@ -409,7 +409,7 @@ _set_env () { # Shell/Environmental variables {{{
   export CLMAXHIST=50
   if [ -n "$TERM" ];then
     export CLX
-    CLX=$(multi_clipboard -C) 2>/dev/null
+    CLX=$(multi_clipboard -C 2>/dev/null)
   fi
 
   # GitHub Copilot CLI
