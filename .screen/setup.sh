@@ -92,7 +92,7 @@ chmod 700 "$SCREENDIR"
 # }}}
 
 screen_check () { # Function to check remaining screen sessions in a cluster{{{
-  touch .hostForScreen
+  touch ~/.hostForScreen
   while read -r h;do
     echo "checking $h..."
     ping "$h" -c 2 -w2 >& /dev/null
@@ -113,7 +113,7 @@ screen_check () { # Function to check remaining screen sessions in a cluster{{{
 # }}}
 
 screen_last () { # ssh to the host which launched screen previously {{{
-  touch .hostForScreen
+  touch ~/.hostForScreen
   local n=1
   if [ $# -ne 0 ];then
     n=$1
