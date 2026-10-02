@@ -98,7 +98,7 @@ screen_check () { # Function to check remaining screen sessions in a cluster{{{
     ping "$h" -c 2 -w2 >& /dev/null
     local ret=$?
     if [ $ret -eq 0 ];then
-      local checklog="$(ssh -x "$h" "screen -ls")"
+      local checklog="$(ssh -n -x "$h" "screen -ls")"
       echo "$checklog"
       if ! echo "$checklog"|grep -q "No Sockets found";then
         echo "$h" >> ~/.hostForScreen.tmp
