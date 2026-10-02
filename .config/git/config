@@ -249,8 +249,8 @@
     echo \"comment: \n$comment\";\
     tagcheck=$(git tag|grep ${tag});\
     if [ \"$tagcheck\" != \"\" ];then \
-      echo \"tag: ${tag} exists\"\
-      echo \"Please check tag or use tag-renew.\"\
+      echo \"tag: ${tag} exists\";\
+      echo \"Please check tag or use tag-renew.\";\
       return 1;\
     fi;\
     git tag -a ${tag} -m \"${comment}\";\
