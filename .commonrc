@@ -412,11 +412,6 @@ _set_env () { # Shell/Environmental variables {{{
     CLX=$(multi_clipboard -C 2>/dev/null)
   fi
 
-  # GitHub Copilot CLI
-  if type github-copilot-cli >& /dev/null;then
-    eval "$(github-copilot-cli alias -- "$0")"
-  fi
-
   # claude
   export CLAUDE_CODE_DISABLE_TERMINAL_TITLE=1
 
