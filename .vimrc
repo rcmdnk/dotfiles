@@ -712,7 +712,7 @@ inoremap <C-e> <End>
 inoremap <C-d> <Delete>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
-inoremap <C-k> <Leader><C-o>D
+inoremap <expr> <C-k> col('.') >= col('$') ? '' : "\<C-o>D"
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
