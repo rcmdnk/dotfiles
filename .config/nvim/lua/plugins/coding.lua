@@ -324,13 +324,27 @@ return {
       end, opts)
 
       -- Diagnostic navigation
-      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
-      vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
+      -- Open the float after jumping, as the removed goto_prev/goto_next did
+      local function jump_diagnostic(count, severity)
+        vim.diagnostic.jump({
+          count = count,
+          severity = severity,
+          on_jump = function(_, jump_bufnr)
+            vim.diagnostic.open_float({ bufnr = jump_bufnr, scope = 'cursor', focus = false })
+          end,
+        })
+      end
+      vim.keymap.set('n', '[d', function()
+        jump_diagnostic(-1)
+      end, { desc = 'Go to previous diagnostic' })
+      vim.keymap.set('n', ']d', function()
+        jump_diagnostic(1)
+      end, { desc = 'Go to next diagnostic' })
       vim.keymap.set('n', '[e', function()
-        vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+        jump_diagnostic(-1, vim.diagnostic.severity.ERROR)
       end, { desc = 'Go to previous error' })
       vim.keymap.set('n', ']e', function()
-        vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+        jump_diagnostic(1, vim.diagnostic.severity.ERROR)
       end, { desc = 'Go to next error' })
       vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic in float window' })
       vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Add diagnostics to location list' })
