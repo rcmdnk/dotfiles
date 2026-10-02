@@ -1,4 +1,5 @@
 {
+    "terminal.integrated.enableImages": true,
     "window.commandCenter": 1,
     "http.proxyStrictSSL": false,
     "http.noProxy": [

@@ -1,10 +1,10 @@
 # https://github.com/openai/codex/blob/main/codex-rs/config.md
 
-model = "gpt-5.6-luna"
+model = "gpt-6.1-sol"
 #model = "gpt-5.6-terra"
 #model = "gpt-5.6-sol"
 #model_reasoning_effort = "medium"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
 plan_mode_reasoning_effort = "high"
 
 personality = "pragmatic"
@@ -20,6 +20,7 @@ rcmp_client = true
 web_search_request = true
 suppress_unstable_features_warning = true
 approvals_reviewer = "user"
+service_tier = "fast"
 #service_tier = "fast"
 
 [permissions.repo-write]
@@ -42,6 +43,10 @@ inherit = "all"
 
 [tui]
 status_line = ["model-with-reasoning", "context-remaining", "current-dir", "five-hour-limit", "weekly-limit"]
+screen_reader_detection_done = true
+
+[tui.model_availability_nux]
+"gpt-6.1-sol" = 3
 
 [notice]
 hide_full_access_warning = true
@@ -82,6 +87,9 @@ approval_mode = "approve"
 [mcp_servers.context-mode.tools.ctx_execute_file]
 approval_mode = "approve"
 
+[mcp_servers.context-mode.tools.ctx_batch_execute]
+approval_mode = "approve"
+
 [mcp_servers.context7]
 command = "context7-mcp"
 args = ["--api-key", "${CONTEXT7_API_KEY}"]
@@ -97,12 +105,6 @@ enabled = false
 [mcp_servers.aws-knowledge-mcp-server]
 command = "fastmcp"
 args = ["run",  "https://knowledge-mcp.global.api.aws"]
-startup_timeout_sec = 60
-enabled = false
-
-[mcp_servers.aws-diagram-mcp-server]
-command = "awslabs.aws-diagram-mcp-server"
-args = []
 startup_timeout_sec = 60
 enabled = false
 

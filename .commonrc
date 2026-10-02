@@ -791,6 +791,45 @@ _set_function () { # Functions  {{{
   fi
   # }}}
 
+
+  # for rclone {{{
+  if type rclone >& /dev/null;then
+    gdrive () {
+      if [[ $# -lt 2 ]];then
+        echo "Usage: gdrive <ls|copy> <id> [dest] [options]"
+        return
+      fi
+      cmd="$1"
+      id="$2"
+      dest="${3:-./}"
+      shift 3
+      out=$(rclone backend copyid gdrive: "$id" "$dest" "$@" 2>&1) && { printf '%s\n' "$out"; return 0; }
+      ret=$?
+      if [[ $ret -ne 0 ]];then
+        ftype='file'
+      elif [[ $out == *"can't copyid directory"* ]]; then
+        ftype='directory'
+      else
+        echo "$out" 1>&2
+        exit $ret
+      fi
+
+      if [[ "$cmd" = "ls" ]];then
+        if [[ "$ftype" = "file" ]];then
+          rclone backend copyid gdrive: "$id" ./ --dry-run
+        else
+          rclone ls gdrive,root_folder_id="$id":
+        fi
+      elif [[ "$1" = "copy" ]];then
+        if [[ "$ftype" = "file" ]];then
+          rclone backend copyid gdrive: "$id"  "$dest" "$@"
+        else
+          rclone copy "gdrive,root_folder_id=$id:" "$dest" "$@"
+        fi
+      fi
+    }
+  fi
+
   docker_clean () { # for docker # {{{
     docker system prune -a --volumes --force
     # shellcheck disable=SC2046
