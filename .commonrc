@@ -537,7 +537,6 @@ _set_alias () { # Alias {{{
   alias pip_upgrade="pip list --outdated --format=legacy|cut -d' ' -f1|xargs pip install -U"
   alias stow="stow --override='share/info/dir'"
   #type thefuck >& /dev/null &&  eval "$(thefuck --alias)"
-  type hub >& /dev/null && eval "$(hub alias -s)" # Use GitHub wrapper for git
   #alias ssh="ssh -Y"
   #type sshrc >& /dev/null && alias ssh="sshrc -Y"
   #type moshrc >& /dev/null && alias mosh="moshrc"
