@@ -594,10 +594,10 @@ _set_function () { # Functions  {{{
       directory="."
       while [ $# -gt 0 ];do
         case $1 in
-          "-L")opt="$opt -d $2";shift;;
-          "-d")opt="$opt -type d";shift;;
-          "-*")echo "$1 is invalid option";return 1;;
-          "*")directory="$*";break;;
+          "-L")opt="$opt -maxdepth $2";shift;;
+          "-d")opt="$opt -type d";;
+          -*)echo "$1 is invalid option";return 1;;
+          *)directory="$*";break;;
         esac
         shift
       done
