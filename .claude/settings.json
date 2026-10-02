@@ -75,5 +75,17 @@
   "terminalProgressBarEnabled": false,
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -x \"$HOME/.claude/hooks/context-mode-cache-heal.mjs\" ] && \"$HOME/.claude/hooks/context-mode-cache-heal.mjs\" || true"
+          }
+        ]
+      }
+    ]
+  }
 }
