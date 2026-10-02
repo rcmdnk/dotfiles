@@ -220,9 +220,6 @@ _set_homebrew_path () { # {{{
 
   ## Java
   _add_path PATH "$HOMEBREW_PREFIX/opt/openjdk/bin"
-
-  ## Alias
-  alias cask='brew cask'
 } # }}}
 
 _set_path () { # {{{
