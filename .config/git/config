@@ -328,9 +328,9 @@
   u = update
   deleted = log --diff-filter=D --summary
   changed = whatchanged --no-abbrev
-  restore = "!f () {\
+  undelete = "!f () {\
     if [ \"$#\" -eq 0 ];then \
-      echo 'usage: git restore <file_name> [file_name_2 [file_name_3 [...]]]';\
+      echo 'usage: git undelete <file_name> [file_name_2 [file_name_3 [...]]]';\
       return 1;\
     fi;\
     ret=0;\
