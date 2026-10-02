@@ -157,7 +157,6 @@ return {
         -- https://github.com/hashicorp/terraform-ls/issues/2108
         -- 'terraformls', 
       },
-      automatic_installation = true,
     })
 
     -- Completion setup
