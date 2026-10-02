@@ -515,7 +515,6 @@ return {
           },
         },
         virtual_text = false,        -- Disable virtual text
-        signs = true,               -- Show signs
         underline = true,           -- Show underlines
         update_in_insert = false,   -- Don't update diagnostics in insert mode
         severity_sort = true,       -- Sort diagnostics by severity
