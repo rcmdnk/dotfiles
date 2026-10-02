@@ -30,7 +30,8 @@
 [fetch]
   prune = true
 [merge]
-  tool = vi -d
+  tool = vimdiff
+[mergetool]
   keepBackup = false
 [rebase]
   autosquash = true
