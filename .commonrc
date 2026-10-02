@@ -610,7 +610,8 @@ _set_function () { # Functions  {{{
     usage="Usag: pt [-u <user>] [-t <sleep_time>] [-h]"
     user=$USER
     sleep_time=1
-    while getopts ut:h OPT;do
+    local OPT OPTARG OPTIND=1
+    while getopts u:t:h OPT;do
       case $OPT in
         u ) user=$OPTARG;;
         t ) sleep_time="$OPTARG";;
