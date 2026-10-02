@@ -795,32 +795,35 @@ _set_function () { # Functions  {{{
   # for rclone {{{
   if type rclone >& /dev/null;then
     gdrive () {
-      if [[ $# -lt 2 ]];then
+      if [[ $# -lt 2 ]] || [[ "$1" != "ls" && "$1" != "copy" ]];then
         echo "Usage: gdrive <ls|copy> <id> [dest] [options]"
-        return
+        return 1
       fi
-      cmd="$1"
-      id="$2"
-      dest="${3:-./}"
-      shift 3
-      out=$(rclone backend copyid gdrive: "$id" "$dest" "$@" 2>&1) && { printf '%s\n' "$out"; return 0; }
-      ret=$?
-      if [[ $ret -ne 0 ]];then
+      local cmd="$1"
+      local id="$2"
+      local dest="${3:-./}"
+      local out ret ftype
+      shift $(( $# < 3 ? $# : 3 ))
+      # Probe with the caller's options and a trailing --dry-run so that ls never downloads
+      if out=$(rclone backend copyid gdrive: "$id" ./ "$@" --dry-run 2>&1);then
         ftype='file'
-      elif [[ $out == *"can't copyid directory"* ]]; then
-        ftype='directory'
       else
-        echo "$out" 1>&2
-        exit $ret
+        ret=$?
+        if [[ $out == *"can't copyid directory"* ]]; then
+          ftype='directory'
+        else
+          echo "$out" 1>&2
+          return $ret
+        fi
       fi
 
       if [[ "$cmd" = "ls" ]];then
         if [[ "$ftype" = "file" ]];then
-          rclone backend copyid gdrive: "$id" ./ --dry-run
+          printf '%s\n' "$out"
         else
-          rclone ls gdrive,root_folder_id="$id":
+          rclone ls gdrive,root_folder_id="$id": "$@"
         fi
-      elif [[ "$1" = "copy" ]];then
+      elif [[ "$cmd" = "copy" ]];then
         if [[ "$ftype" = "file" ]];then
           rclone backend copyid gdrive: "$id"  "$dest" "$@"
         else
