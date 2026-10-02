@@ -212,7 +212,7 @@
       comment=\"$comment\"'\n''\n'\"Full Changelog: $url/compare/$lasttag...$tag\";\
     fi;\
     echo \"comment: \n$comment\";\
-    tagcheck=$(git tag|grep ${tag});\
+    tagcheck=$(git tag -l \"${tag}\");\
     if [ \"$tagcheck\" != \"\" ];then \
       git tag -d ${tag};\
       git push origin :${tag};\
@@ -247,7 +247,7 @@
       comment=\"$comment\"'\n''\n'\"Full Changelog: $url/compare/$lasttag...$tag\";\
     fi;\
     echo \"comment: \n$comment\";\
-    tagcheck=$(git tag|grep ${tag});\
+    tagcheck=$(git tag -l \"${tag}\");\
     if [ \"$tagcheck\" != \"\" ];then \
       echo \"tag: ${tag} exists\";\
       echo \"Please check tag or use tag-renew.\";\
