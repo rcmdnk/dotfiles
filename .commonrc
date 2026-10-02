@@ -996,7 +996,7 @@ _source_files () {  # {{{
   _source_file ~/.infracost
 
   # aws
-  if ! type aws_completer >& /dev/null;then
+  if type aws_completer >& /dev/null;then
     complete -C "$(which aws_completer)" aws
   fi
 
