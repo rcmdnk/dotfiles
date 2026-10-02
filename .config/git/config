@@ -134,7 +134,7 @@
   p = push origin HEAD
   dns = diff --name-status
   dm = diff master
-  dw = diff --color-words
+  dcw = diff --color-words
   dc = diff --cached
   ds = diff --staged
   dd = diff --diff-algorithm=default
