@@ -596,7 +596,7 @@ _set_function () { # Functions  {{{
         case $1 in
           "-L")opt="$opt -d $2";shift;;
           "-d")opt="$opt -type d";shift;;
-          "-*")echo "$1 is invalid option";exit 1;;
+          "-*")echo "$1 is invalid option";return 1;;
           "*")directory="$*";break;;
         esac
         shift
@@ -614,8 +614,8 @@ _set_function () { # Functions  {{{
       case $OPT in
         u ) user=$OPTARG;;
         t ) sleep_time="$OPTARG";;
-        h ) echo "$usage";exit 0;;
-        \? ) echo "$usage"; exit 1;;
+        h ) echo "$usage";return 0;;
+        \? ) echo "$usage"; return 1;;
       esac
     done
     shift $((OPTIND - 1))
