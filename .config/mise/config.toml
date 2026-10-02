@@ -26,7 +26,6 @@ uv = "0.12.21"
 'npm:context-mode' = "1.0.169"
 
 "pipx:apm-cli" = "0.32.0"
-"pipx:awslabs.aws-diagram-mcp-server" = "1.0.23"
 "pipx:awslabs.aws-pricing-mcp-server" = "1.1.1"
 "pipx:browser-use" = "0.13.10"
 "pipx:checkov" = "3.3.21"
