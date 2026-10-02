@@ -131,7 +131,7 @@
   su = stash -u # stash also untracked
   top = rev-parse --show-toplevel
   root = top
-  p = push origin $(git rev-parse --abbrev-ref HEAD)
+  p = push origin HEAD
   dns = diff --name-status
   dm = diff master
   dw = diff --color-words
