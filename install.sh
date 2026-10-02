@@ -10,6 +10,7 @@ dryrun=0
 copy=0
 newlink=()
 exist=()
+skipped=()
 curdir=$(pwd -P)
 
 # help
@@ -63,6 +64,12 @@ myinstall () {
       install_check=0
     elif [ "$backup" != "" ];then
       mv "$target" "${target}.$backup"
+    elif [ -d "$target" ] && [ ! -L "$target" ];then
+      # rm can not remove a directory, and ln -sfn would then make the link inside it
+      echo "$target is a directory, skipped (use -b <postfix> to back it up)" 1>&2
+      unset 'exist[${#exist[@]}-1]'
+      skipped=("${skipped[@]}" "${target/$instdir\//}")
+      install_check=0
     else
       rm "$target"
     fi
@@ -213,3 +220,8 @@ else
 fi
 echo "  ${exist[*]}"
 echo
+if [ ${#skipped[@]} -gt 0 ];then
+  echo "Following directories existed and were skipped:"
+  echo "  ${skipped[*]}"
+  echo
+fi
