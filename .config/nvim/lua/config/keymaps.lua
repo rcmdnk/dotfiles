@@ -58,7 +58,7 @@ map('i', '<C-e>', '<End>', opts)
 map('i', '<C-d>', '<Delete>', opts)
 map('i', '<C-b>', '<Left>', opts)
 map('i', '<C-f>', '<Right>', opts)
-map('i', '<C-k>', '<Leader><C-o>D', opts)
+map('i', '<C-k>', "col('.') >= col('$') ? '' : '<C-o>D'", { expr = true, silent = true })
 map('i', '<C-u>', '<C-g>u<C-u>', opts)
 
 -- Visual mode mappings
