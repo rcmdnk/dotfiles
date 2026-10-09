@@ -558,7 +558,9 @@ _set_function () { # Functions  {{{
   _select () { # Select from list {{{
     local input=("$@")
     local tool
+    local -a opts
     local t
+    opts=()
     for t in $(echo "${SELECTION_TOOL:-sentaku,peco,fzy,fzf}"|tr , ' ');do
       if type "$t" >& /dev/null ;then
         tool=$t
@@ -566,10 +568,10 @@ _set_function () { # Functions  {{{
       fi
     done
     if [[ "$tool" = "sentaku" ]];then
-      tool="sentaku -s line"
+      opts=(-s line)
     fi
     if [ -n "$tool" ];then
-      echo "${input[*]}"|$tool
+      echo "${input[*]}"|"$tool" "${opts[@]}"
     else
       while IFS=$'\n' read -r line; do values+=("$line"); done < <(echo "${input[*]}")
       select value in "${values[@]}";do
