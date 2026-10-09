@@ -876,6 +876,47 @@ _set_function () { # Functions  {{{
   _set_mise
   # }}}
 
+  CS_MAX_SESSIONS=20
+  CS_CWD_MAX_LENGTH=20
+  CS_MESSAGE_MAX_LENGTH=30
+  cs () { # {{{ claude with session selection
+    local sessions ids dirs numbers n list ts f d cwd dir first id selected
+    sessions=$(find ~/.claude/projects/ -maxdepth 2 -name '*.jsonl' -printf '%T@ %p\n' \
+      | sort -rn | head -${CS_MAX_SESSIONS})
+    ids=()
+    dirs=()
+    numbers=()
+    n=0
+    list=""
+    while read -r ts f; do
+      d=$(date -d @"${ts%.*}" '+%m-%d %H:%M')
+      cwd=$(grep -m1 '"cwd"' "$f" | jq -r '.cwd')
+      dir=$cwd
+      if [ ${#cwd} -gt ${CS_CWD_MAX_LENGTH} ]; then
+        cwd="...${cwd: -17}"
+      fi
+      first=$(grep -m1 '"type":"user"' "$f" \
+        | jq -r '.message.content | if type=="string" then . else (.[0].text // "") end' \
+        | tr '\n' ' ' | cut -c1-${CS_MESSAGE_MAX_LENGTH})
+      id=$(grep -m1 '"sessionId"' "$f" | jq -r '.sessionId')
+      ids+=("$id")
+      dirs+=("$dir")
+      numbers+=("$n")
+      list="$list$(printf "%2d" $n)\t$d\t$cwd\t$first\n"
+      n=$((n + 1))
+    done <<< "$sessions"
+    list=$(echo -e "$list" | column -t -s $'\t')
+    printf "$list"
+    selected=$(echo "$list" | sentaku -N -s line)
+    if [ ! -n "$selected" ]; then
+      exit
+    fi
+    n=$(echo "$selected" | awk '{print $1}')
+    cd "${dirs[n]}"
+    eval $PROMPT_COMMAND
+    claude --resume "${ids[n]}"
+  } # }}}
+
 
 } # }}} Functions
 

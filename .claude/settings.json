@@ -43,6 +43,18 @@
     "skill-creator": "name-only",
     "browser-use": "name-only"
   },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -x \"$HOME/.claude/hooks/context-mode-cache-heal.mjs\" ] && \"$HOME/.claude/hooks/context-mode-cache-heal.mjs\" || true"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "fmt_ts() { date -r \"$1\" \"$2\" 2>/dev/null || date -d \"@$1\" \"$2\"; }; input=$(cat); line=$(printf \"%s\" \"$input\" | jq -r '[((.session_name // \"\") as $n | (.session_id // \"\") as $s | (if ($n|length) > 0 then $n elif ($s|length) > 0 then $s[0:8] else \"-\" end) as $x | if ($x|length) > 40 then $x[0:39] + \"...\" else $x end), (.model.display_name // \"?\"), (.rate_limits.five_hour.used_percentage // null | if . == null then \"\" else (round|tostring) end), (.rate_limits.five_hour.resets_at // \"\" | tostring), (.rate_limits.seven_day.used_percentage // null | if . == null then \"\" else (round|tostring) end), (.rate_limits.seven_day.resets_at // \"\" | tostring)] | join(\"\\u001f\")'); IFS=$(printf \"\\037\") read -r name model f_pct f_rst w_pct w_rst <<EOF\n$line\nEOF\nout=\"$model\"; if [ -n \"$f_pct\" ] && [ \"$f_pct\" != \"null\" ]; then out=\"$out  |  5h ${f_pct}%\"; if [ -n \"$f_rst\" ] && [ \"$f_rst\" != \"null\" ]; then out=\"$out (resets $(fmt_ts \"$f_rst\" \"+%-H:%M\"))\"; fi; fi; if [ -n \"$w_pct\" ] && [ \"$w_pct\" != \"null\" ]; then out=\"$out  |  7d ${w_pct}%\"; if [ -n \"$w_rst\" ] && [ \"$w_rst\" != \"null\" ]; then out=\"$out (resets $(fmt_ts \"$w_rst\" \"+%a %-d %b\"))\"; fi; fi; printf \"%s  |  \\033[2m%s\\033[0m\" \"$name\" \"$out\""
@@ -71,21 +83,11 @@
   "effortLevel": "xhigh",
   "tui": "fullscreen",
   "prefersReducedMotion": true,
+  "skipWorkflowUsageWarning": true,
   "theme": "dark",
   "terminalProgressBarEnabled": false,
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
-  "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ -x \"$HOME/.claude/hooks/context-mode-cache-heal.mjs\" ] && \"$HOME/.claude/hooks/context-mode-cache-heal.mjs\" || true"
-          }
-        ]
-      }
-    ]
-  }
+  "model": "claude-fable-5-1[1m]"
 }
