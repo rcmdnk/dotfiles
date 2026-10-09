@@ -906,22 +906,36 @@ _set_function () { # Functions  {{{
   CS_MESSAGE_MAX_LENGTH=30
   cs () { # {{{ claude with session selection
     local sessions ids dirs n list ts f d cwd dir first id selected
-    sessions=$(find ~/.claude/projects/ -maxdepth 2 -name '*.jsonl' -printf '%T@ %p\n' \
+    local -a stat_fmt
+    local gnu_date
+    # find -printf is GNU only: get mtime with stat (GNU: -c, BSD: -f)
+    if gnu_bsd_check stat;then
+      stat_fmt=(-c '%Y %n')
+    else
+      stat_fmt=(-f '%m %N')
+    fi
+    gnu_date=0
+    gnu_bsd_check date && gnu_date=1
+    sessions=$(find ~/.claude/projects/ -maxdepth 2 -name '*.jsonl' -exec stat "${stat_fmt[@]}" {} + \
       | sort -rn | head -${CS_MAX_SESSIONS})
     ids=()
     dirs=()
     n=0
     list=""
     while read -r ts f; do
-      d=$(date -d @"${ts%.*}" '+%m-%d %H:%M')
+      if [ "$gnu_date" = 1 ];then
+        d=$(date -d @"${ts%.*}" '+%m-%d %H:%M')
+      else
+        d=$(date -r "${ts%.*}" '+%m-%d %H:%M')
+      fi
       cwd=$(grep -m1 '"cwd"' "$f" | jq -r '.cwd')
       dir=$cwd
-      if [ ${#cwd} -gt ${CS_CWD_MAX_LENGTH} ]; then
+      if [ ${#cwd} -gt "${CS_CWD_MAX_LENGTH}" ]; then
         cwd="...${cwd: -17}"
       fi
       first=$(grep -m1 '"type":"user"' "$f" \
         | jq -r '.message.content | if type=="string" then . else (.[0].text // "") end' \
-        | tr '\n' ' ' | cut -c1-${CS_MESSAGE_MAX_LENGTH})
+        | tr '\n' ' ' | cut -c1-"${CS_MESSAGE_MAX_LENGTH}")
       id=$(grep -m1 '"sessionId"' "$f" | jq -r '.sessionId')
       ids+=("$id")
       dirs+=("$dir")
@@ -929,15 +943,17 @@ _set_function () { # Functions  {{{
       n=$((n + 1))
     done <<< "$sessions"
     list=$(echo -e "$list" | column -t -s $'\t')
-    printf "$list"
     selected=$(_select "$list")
-    if [ ! -n "$selected" ]; then
-      exit
+    if [ -z "$selected" ]; then
+      return
     fi
-    n=$(echo "$list" | grep -n "$selected" | cut -d: -f1)
-    cd "${dirs[n-1]}"
-    eval $PROMPT_COMMAND
-    claude --resume "${ids[n-1]}"
+    n=$(echo "$list" | grep -nxF -- "$selected" | head -1 | cut -d: -f1)
+    if [ -z "$ZSH_VERSION" ] || setopt | grep -q ksharrays;then
+      n=$((n - 1))
+    fi
+    cd "${dirs[n]}" || return $?
+    eval "$PROMPT_COMMAND"
+    claude --resume "${ids[n]}"
   } # }}}
 
 
