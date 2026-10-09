@@ -554,6 +554,31 @@ _set_alias () { # Alias {{{
 } # }}} Alias
 
 _set_function () { # Functions  {{{
+
+  _select () { # Select from list {{{
+    local input=("$@")
+    local tool
+    local t
+    for t in $(echo "${SELECTION_TOOL:-sentaku,peco,fzy,fzf}"|tr , ' ');do
+      if type "$t" >& /dev/null ;then
+        tool=$t
+        break
+      fi
+    done
+    if [[ "$tool" = "sentaku" ]];then
+      tool="sentaku -s line"
+    fi
+    if [ -n "$tool" ];then
+      echo "${input[*]}"|$tool
+    else
+      while IFS=$'\n' read -r line; do values+=("$line"); done < <(echo "${input[*]}")
+      select value in "${values[@]}";do
+        echo $value
+        break
+      done
+    fi
+  } # }}}
+
   man () { # man with vi {{{
     if type nvim >& /dev/null;then
       vi_cmd=nvim
@@ -663,7 +688,7 @@ _set_function () { # Functions  {{{
       git-repo-init
     }
     git-wc () { # worktree change
-      selected=$(command git worktree list|sentaku -s $'\n')
+      selected=$(_select "$(command git worktree list)")
       ret=$?
       if [ "$ret" -ne 0 ];then
         return "$ret"
@@ -709,7 +734,7 @@ _set_function () { # Functions  {{{
       if [[ $# -eq 1 ]];then
         local repo="$1"
       else
-        local repo=$(command ghq list|sort|sentaku)
+        local repo=$(_select "$(command ghq list|sort)")
       fi
       if [[ -n "$repo" ]];then
         cd "$(command ghq root)/$repo" || return $?
@@ -734,7 +759,7 @@ _set_function () { # Functions  {{{
         local repos=("$@")
       else
         # shellcheck disable=SC2207
-        local repos=($(command ghq list|sentaku))
+        local repos=(_select "$(command ghq list)")
       fi
       for r in "${repos[@]}";do
         local n="$(echo "$r"|awk '{print split($0, tmp, "/")}')"
@@ -880,12 +905,11 @@ _set_function () { # Functions  {{{
   CS_CWD_MAX_LENGTH=20
   CS_MESSAGE_MAX_LENGTH=30
   cs () { # {{{ claude with session selection
-    local sessions ids dirs numbers n list ts f d cwd dir first id selected
+    local sessions ids dirs n list ts f d cwd dir first id selected
     sessions=$(find ~/.claude/projects/ -maxdepth 2 -name '*.jsonl' -printf '%T@ %p\n' \
       | sort -rn | head -${CS_MAX_SESSIONS})
     ids=()
     dirs=()
-    numbers=()
     n=0
     list=""
     while read -r ts f; do
@@ -901,20 +925,19 @@ _set_function () { # Functions  {{{
       id=$(grep -m1 '"sessionId"' "$f" | jq -r '.sessionId')
       ids+=("$id")
       dirs+=("$dir")
-      numbers+=("$n")
-      list="$list$(printf "%2d" $n)\t$d\t$cwd\t$first\n"
+      list="$list$d\t$cwd\t$first\n"
       n=$((n + 1))
     done <<< "$sessions"
     list=$(echo -e "$list" | column -t -s $'\t')
     printf "$list"
-    selected=$(echo "$list" | sentaku -N -s line)
+    selected=$(_select "$list")
     if [ ! -n "$selected" ]; then
       exit
     fi
-    n=$(echo "$selected" | awk '{print $1}')
-    cd "${dirs[n]}"
+    n=$(echo "$list" | grep -n "$selected" | cut -d: -f1)
+    cd "${dirs[n-1]}"
     eval $PROMPT_COMMAND
-    claude --resume "${ids[n]}"
+    claude --resume "${ids[n-1]}"
   } # }}}
 
 
