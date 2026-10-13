@@ -980,7 +980,7 @@ _source_files () {  # {{{
     _load_completion "$d"
   done
 
-  for f in brew-warp sd_cl shell-logger;do
+  for f in brew-warp sd_cl shell-logger cs;do
     if [ -f "$HOME/usr/etc/$f" ];then
       _source_file "$HOME/usr/etc/$f"
     fi
