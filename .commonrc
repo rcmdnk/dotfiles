@@ -906,6 +906,7 @@ _set_function () { # Functions  {{{
   CS_MAX_SESSIONS=20
   CS_CWD_MAX_LENGTH=20
   CS_MESSAGE_MAX_LENGTH=30
+  CS_ENTRYPOINT=cli # list only sessions started from the terminal (sdk-py etc. are subagent runs)
   cs () { # {{{ claude with session selection
     local sessions ids dirs n list ts f d cwd dir first id selected
     local -a stat_fmt
@@ -918,8 +919,14 @@ _set_function () { # Functions  {{{
     fi
     gnu_date=0
     gnu_bsd_check date && gnu_date=1
-    sessions=$(find ~/.claude/projects/ -maxdepth 2 -name '*.jsonl' -exec stat "${stat_fmt[@]}" {} + \
+    sessions=$(find ~/.claude/projects/ -maxdepth 2 -name '*.jsonl' \
+      -exec grep -q -- "\"entrypoint\":\"${CS_ENTRYPOINT}\"" {} \; \
+      -exec stat "${stat_fmt[@]}" {} + \
       | sort -rn | head -${CS_MAX_SESSIONS})
+    if [ -z "$sessions" ];then
+      echo "No claude session found (CS_ENTRYPOINT=${CS_ENTRYPOINT})" >&2
+      return 1
+    fi
     ids=()
     dirs=()
     n=0
