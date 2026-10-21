@@ -90,6 +90,9 @@ approval_mode = "approve"
 [mcp_servers.context-mode.tools.ctx_batch_execute]
 approval_mode = "approve"
 
+[mcp_servers.context-mode.tools.ctx_fetch_and_index]
+approval_mode = "approve"
+
 [mcp_servers.context7]
 command = "context7-mcp"
 args = ["--api-key", "${CONTEXT7_API_KEY}"]
