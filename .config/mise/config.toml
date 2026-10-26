@@ -20,7 +20,7 @@ checkov = "3.3.29"
 codex = "0.163.0"
 copilot = "1.0.100"
 marp-cli = "4.5.1"
-opencode = { version = "2.0.32", allow_builds = ["@opencode/cli"] }
+opencode = { version = "2.0.32", allow_builds = ["@opencode/cli"], bun_args = "--trust" }
 pre-commit = "4.7.0"
 prek = "0.5.6"
 
