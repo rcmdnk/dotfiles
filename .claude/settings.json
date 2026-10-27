@@ -10,7 +10,6 @@
     "sessionUrl": false
   },
   "permissions": {
-    "skipAutoPermissionPrompt": true,
     "allow": [
       "Bash(uv run python:*)",
       "Bash(uv run pytest:*)",
@@ -35,7 +34,8 @@
       "Read(./secrets/**)",
       "Bash(git reset --hard*)"
     ],
-    "defaultMode": "auto"
+    "defaultMode": "auto",
+    "skipAutoPermissionPrompt": true
   },
   "skillOverrides": {
     "docx": "name-only",
@@ -89,6 +89,5 @@
   "terminalProgressBarEnabled": false,
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true,
-  "model": "claude-fable-5-1[1m]"
+  "agentPushNotifEnabled": true
 }
