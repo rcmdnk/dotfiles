@@ -4,6 +4,7 @@ description: Log and output analysis specialist. Use for digesting long test out
 tools: Bash, Read, Grep, Glob
 model: haiku
 effort: low
+omitClaudeMd: true
 ---
 You are a log analyst. Extract the important information from long logs, test output, or build output.
 
