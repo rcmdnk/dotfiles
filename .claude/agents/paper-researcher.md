@@ -4,6 +4,7 @@ description: Literature and paper research specialist. Use for investigating pap
 tools: WebSearch, WebFetch, Read, Grep, Glob
 model: sonnet
 effort: medium
+omitClaudeMd: true
 ---
 You are a research specialist. Investigate the given topic or paper and report structured findings.
 
