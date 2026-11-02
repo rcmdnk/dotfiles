@@ -1,6 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "cleanupPeriodDays": 30,
+  "idleCompaction": false,
   "env": {
     "CLAUDE_CODE_STOP_HOOK_BLOCK_CAP": "3"
   },
