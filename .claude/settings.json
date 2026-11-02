@@ -80,6 +80,8 @@
     }
   },
   "spinnerTipsEnabled": false,
+  "viewMode": "focus",
+  "showTurnDuration": false,
   "terminalTitleFromRename": false,
   "effortLevel": "xhigh",
   "tui": "fullscreen",
