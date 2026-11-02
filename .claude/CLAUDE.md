@@ -23,7 +23,7 @@
     - refactor: (refactoring production code, e.g., renaming a variable)
     - test: (adding missing tests, refactoring tests; no production code change)
     - chore: (updating grunt tasks, etc.; no production code change)
-- Do not add claude session IDs or cluade related metadata to commit messages.
+- Do not add claude session IDs or Claude-related metadata to commit messages.
 - Group related changes together and avoid mixing formatting with feature work.
 - When commits are warranted, proceed without waiting for explicit approval; communicate intent briefly when doing so.
 - Describe user-facing impact in pull requests, referencing issue numbers when applicable.
