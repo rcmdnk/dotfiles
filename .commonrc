@@ -291,9 +291,25 @@ _set_env () { # Shell/Environmental variables {{{
   export HISTTIMEFORMAT='%y/%m/%d %H:%M:%S  ' # add time to history
 
   # SSH
-  if [ -S "$HOME/.ssh/ssh_auth_sock/${HOSTNAME}" ]; then
-      export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock/${HOSTNAME}"
+  _ssh_sock_link="$HOME/.ssh/ssh_auth_sock/${HOSTNAME}"
+  if [ -n "$SSH_AUTH_SOCK" ] && [ -S "$SSH_AUTH_SOCK" ] \
+     && [ "$SSH_AUTH_SOCK" != "$_ssh_sock_link" ]; then
+    _ssh_sock_alive=1
+    if command -v timeout >/dev/null 2>&1; then
+      timeout 2 ssh-add -l >/dev/null 2>&1
+      _rc=$?
+      [ "$_rc" -eq 0 ] || [ "$_rc" -eq 1 ] || _ssh_sock_alive=0
+    fi
+    if [ "$_ssh_sock_alive" -eq 1 ]; then
+      mkdir -p "$HOME/.ssh/ssh_auth_sock"
+      ln -sfn "$SSH_AUTH_SOCK" "$_ssh_sock_link"
+    fi
   fi
+  if [ -S "$_ssh_sock_link" ]; then
+    export SSH_AUTH_SOCK="$_ssh_sock_link"
+  fi
+  unset _ssh_sock_link _ssh_sock_alive _rc
+
 
   # ls color
   if [[ "$OSTYPE" = linux* ]] || [[ "$OSTYPE" = cygwin* ]];then
