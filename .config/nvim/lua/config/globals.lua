@@ -29,6 +29,14 @@ if vim.fn.has('nvim-0.12') == 1 then
   end
 end
 
+-- Disable remote-plugin providers that are not installed.
+-- Without this, has('python3') in runtime ftplugin/python.vim probes every
+-- python on PATH for the pynvim module, which blocks for 0.4-0.6 s each time
+-- a Python file is opened. Remove a line if the host package gets installed.
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+
 -- Fix python indentation
 vim.g.python_indent = {
   closed_paren_align_last_line = false,
