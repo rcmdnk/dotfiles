@@ -16,8 +16,8 @@
   #templateDir = ~/.config/git-templates
 [core]
   autocrlf = false
-  editor = vi
   quotepath = false
+	editor = nvim
 [commit]
   template = ~/.config/git/message
 [pull]
