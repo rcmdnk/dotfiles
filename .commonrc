@@ -299,6 +299,13 @@ _set_env () { # Shell/Environmental variables {{{
       timeout 2 ssh-add -l >/dev/null 2>&1
       _rc=$?
       [ "$_rc" -eq 0 ] || [ "$_rc" -eq 1 ] || _ssh_sock_alive=0
+      # Keep the current link while its agent still answers with keys, so a
+      # short-lived forwarded session cannot replace it with a socket that
+      # disappears as soon as that session ends.
+      if [ "$_ssh_sock_alive" -eq 1 ] && [ -S "$_ssh_sock_link" ] \
+         && SSH_AUTH_SOCK="$_ssh_sock_link" timeout 2 ssh-add -l >/dev/null 2>&1; then
+        _ssh_sock_alive=0
+      fi
     fi
     if [ "$_ssh_sock_alive" -eq 1 ]; then
       mkdir -p "$HOME/.ssh/ssh_auth_sock"
